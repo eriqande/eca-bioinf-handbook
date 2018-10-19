@@ -1,0 +1,46 @@
+# High Performamce Computing (HPC) Environments
+
+This is going to be a chapter on using High Performance Computing clusters.
+
+There is a lot to convey here about using queues and things.
+
+I know SGE pretty well at this point, but others might use slurm. 
+
+Here is a good page with a comparison:  [https://confluence.csiro.au/display/SC/Reference+Guide%3A+Migrating+from+SGE+to+SLURM](https://confluence.csiro.au/display/SC/Reference+Guide%3A+Migrating+from+SGE+to+SLURM)
+
+And here is a good primer on SGE stuff: [https://confluence.si.edu/display/HPC/Monitoring+your+Jobs](https://confluence.si.edu/display/HPC/Monitoring+your+Jobs)
+
+I guess I'll have to see what the CSU students have access to.
+
+Here is some nice stuff for summarizing all the information from the different runs from the chinook-wgs project:
+```sh
+qacct -o eriq -b 09271925 -j ml | tidy-qacct
+```
+
+Explain scratch space and how clusters are configured with respect to storage, etc.
+
+Strategies---break names up with consistent characters:
+
+- dashes within population names
+- underscores for different groups of chromosomes
+- periods for catenating pairs of pops
+
+etc.  Basically, it just makes it much easier to split things up
+when the time comes.
+
+
+
+## Job arrays
+
+Definitely mention the `eval` keyword in bash for when you want to print 
+command lines with redirects.  
+
+Show the routine for it, and develop a good approach to efficiently
+orchestrating redos.  If you know the taskIDs of the ones that failed
+then it is pretty easy to write an awk script that picks out the
+commands and puts them in a new file.  
+
+Also use short names for the jobs and have a system for naming the
+redos (append numbers so you know which round it is, too) 
+possibly base the name on the ways things failed the first time.  Like,
+`fsttf1` = "Fst run for things that failed due to time limits, 1". 

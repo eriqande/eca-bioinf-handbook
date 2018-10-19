@@ -1,0 +1,61 @@
+# Topics in pop gen
+
+## Coalescent
+
+Gotta have a lecture on the coalescent.  It would be nice to try to motivate
+all the topics from this backward in time perspective.
+
+Get far enough to discuss $\pi$ and the expected site frequency spectrum.
+
+
+## Measures of genetic diversity and such
+
+It would really be good for me to write a chapter / give a few lectures
+on different measures like $d_{xy}$, $F_\mathrm{ST}$.  
+
+From Ash's paper:  However, population genomic analyses (outlined below) use FST only, as dxy was highly correlated to nucleotide diversity (π) (for early stage diverging populations the correlation between dxy and π is > 0.91, Pearson correlation). As such variation in dxy across the genome reflects variation in diversity, not differentiation (Riesch et al., 2017).
+
+Tajima's $D$ and such.  The influence of selection on such measures.
+
+## Demographic inference with $\partial a \partial i$ and _moments_
+
+
+
+## Balls in Boxes
+
+Would be worthwhile to have a review of all these sorts of variants of 
+population assignment, structure, admixture, etc.
+
+Population structure and PCAs.
+
+finestructure and fineRADstructure.
+
+## Some landscape genetics
+
+After talking with Amanda about her dissertation I realized it would be good
+to talk about some landscape genetics stuff.  For sure I want to talk about
+EEMS and maybe CircuitScape, just so I know well what is going on with the
+latter.  
+
+
+## Relationship Inference
+
+Maybe do a lecture on this...
+
+
+## Tests for Selection
+
+A look at a selection of the methods that are out there.  $F_\mathrm{ST}$ outliers, _Bayescan_, _Lositan_, _PCAdapt_, and friends.  It would be good to get a nice succinct explanation/understanding of all of these.
+
+
+## Multivariate Associations, GEA, etc.
+
+It really is time for me to wrap my head around this stuff.
+
+
+## Estimating heritability in the wild
+
+Another from Amanda.  It would be good to do some light Quant Genet so that
+we all understand how we might be able to use NGS data to estimate heritability
+in wild populations.
+

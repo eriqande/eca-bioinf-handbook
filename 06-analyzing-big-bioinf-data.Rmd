@@ -1,0 +1,9 @@
+# Basic analysis of next generation data
+
+Standard analyses like computing Fst and linkage disequilibrium, etc., from
+data, typically in a VCF file.
+
+Basically, we want to get comfortable with plink 2.0, bedtools, vcftools, etc.
+
+The key in all of this is to motivate every single thing we do here in terms of an
+application in conservation genomics.  That is going to be key.  

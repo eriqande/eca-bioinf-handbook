@@ -1,0 +1,47 @@
+# Eric's Notes of what he might do
+
+This is where I am going to just throw out ideas and start to organize them.  My thought
+was that while I am actually doing bioinformatics, etc. in my normal day-to-day work
+I will analyze what I am doing and figure out all the different tools that I am using
+and organize that or pedagogy.  
+
+* Note: I am going to make a companion repository called `mega-bioinf-pop-gen-examples`
+that will house all of the data sets and things for exercises.
+
+
+
+## Table of topics
+
+Man! There is going to be a lot to get through.  My current idea
+is to meet three times a week.  The basic gist of those three sessions
+will be like this:
+
+1. **Fundamental Tools / Environments**: I am thinking 5 weeks on Unix, 1 Week on HPC, 6 Weeks on R/Rstudio, and 3 on Python from within Rstudio (so that students know enough to run python modules like moments.)
+
+2. **Theory and Background**:  Population-genetic and bioinformatic theory. Alignment and BW transforms, the coalescent, Fst, etc.  Basically things that are needed to understand (to some degree) what various programs/analyses are doing under the hood.
+
+3. **Application and Practice**: Getting the students to get their feet wet and their fingers dirty actually doing it.  This time should be entirely practical, with students doing an exercise (in pairs or groups, possibly) with me (or someone else, maybe CH) overseeing.
+
+
+| Week | Fundamental Tools   | Theory and Background | Application and Practice |
+| ---- | -------- | ----------- | ----------- |
+| 1    | *Unix Intro*: filesystem; absolute and relative paths, everything is a file; readable, writable, executable; PATH; .bashrc --- hack everyone's to get the time and directory; TAB-completion; `cd`, `ls` (colored output), `cat`, `head`, `less`; stdout and stderr and file redirection of either with `>` and `2>`;  the `;` vs `&`. Using TextWrangler with `edit` and we need a PC equivalent... | *Data Formats*: fasta, fastq, SAM, BAM, VCF, BCF | Command line drills |
+| 2    | Programs, binaries, compiling, installing, package management; software distribution; GitHub and sourceforge; admin privileges and sudo, and how you probably won't have that on a cluster. |  Fundamental programming concepts; Scripts vs binaries (i.e. compiled vs interpreted languages); dependencies: headers and libraries;   Modularization; Essential algorithms; compression;   |  samtools, vcftools, bcftools.  hands on, doing stuff with them, reading the man pages, exercises. 
+| 3   | *Programming on the shell*: variables and variable substitution; Globbing and path expansion; variable modifications; loops; conditionals; 
+| 4   |  *sed, awk, and regular expressions*
+| 5   |  *HPC*: clusters; nodes; cores; threads.  SGE and/or SLURM; `qsub`; `qdel`; `qacct`; `myjobs`; job arrays.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

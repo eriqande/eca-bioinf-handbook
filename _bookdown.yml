@@ -1,0 +1,5 @@
+book_filename: "mega-bioinf-pop-gen"
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Chapter "
