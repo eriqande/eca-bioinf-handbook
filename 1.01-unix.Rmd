@@ -1,0 +1,272 @@
+# Essential Unix/Linux Terminal Knowledge
+
+If you are doing bioinformatics, you have to be comfortable in
+a Unix or Linux environment.
+
+## Getting a bash shell on your system
+
+For windows, it looks like windows 10 might be able to do pretty well with it:  
+[https://www.howtogeek.com/265900/everything-you-can-do-with-windows-10s-new-bash-shell/](https://www.howtogeek.com/265900/everything-you-can-do-with-windows-10s-new-bash-shell/)
+
+But maybe I should get a windows box and use Rstudio and see how the terminal in R studio is.
+
+For now, I will punt on this and get just assume POSIX available on the system.
+
+However, we will want to start everyone off by having them type `bash` to 
+make sure they have a bash shell.
+
+Also, I am going to have to talk a little bit about what a shell is here....
+
+## Navigating the Unix filesystem
+
+Most computer users will be familiar with the idea of saving documents into "folders."
+These folders are typically navigated using a "point-and-click" interface
+like that of the Finder in Mac OS X or the File Explorer in a Windows system.
+When working at a Unix terminal, such a point-and-click interface is not available,
+and the first hurdle that new Unix users must surmount is learning to quickly navigate in
+the Unix filesystem from a terminal prompt. So,
+we begin our foray into Unix and its command prompt with this essential skill.
+
+
+When you start a Unix command-line session in a terminal window you get a _command prompt_
+that might look something like this:
+```sh
+my-laptop:~ me$
+```
+or, perhaps something as simple as:
+```sh
+$
+```
+or maybe something like:
+```sh
+/~/--%
+```
+We will adopt the convention in this book that, unless we are intentionally doing something
+fancier, the Unix command prompt is given
+by a percent sign, and this will be used when displaying text typed at a command
+prompt, followed by output from the command.  For example
+```sh
+% pwd
+/Users/eriq
+```
+shows that I issued the Unix command `pwd`, which instructs the computer to 
+**p**rint **w**orking **d**irectory, and the computer responded by printing 
+`/Users/eriq`, which, on my Mac OS X system is my _home directory_.
+In Unix parlance, rather than speaking of "folders," we call
+them "directories;" however, the two are essentially the same thing.
+Every user
+on a Unix system has a home directory.  It is the domain on a shared computer
+in which the user typically has privileges to create and delete files and do work.
+It is where most of your work will happen. A point we will come back to is
+that when you are working in the Unix terminal there is a notion of a 
+_current working directory_---that is to say, a place within the hierarchy of
+directories where you are "currently working."  This will become more concrete
+after we have encountered a few more concepts.
+
+
+The specification `/Users/eriq` is what is known as an _absolute path_, as it provides the
+"address" of my home directory, `eriq`, on my laptop, starting from the _root_
+of the filesystem.  Every Unix computer system has a root directory (you can
+think of it as the "top-most" directory in a hierarchy), and on every Unix system
+this root directory always has the special name, `/`.   The address
+of a directory relative to the root is specified by starting with the root (`/`) 
+and then naming each subsequent directory that you must go inside of to 
+get to the destination, each separated by a `/`.  For example, `/Users/eriq`
+tells us that we start at the root (`/`) and then we go through the `Users` directory
+(`Users/`) and then into the `eriq` directory. Figure \@ref(fig:file-hierarchy) shows
+an example hierarchy of some of the directories that are found on the author's
+laptop.
+```{r file-hierarchy, echo=FALSE, fig.align='center', fig.cap="A partial view of the directories on the author's laptop."}
+knitr::include_graphics("figs/file-hierarchy.png")
+```
+From this perspective it is obvious that the directory `eriq` lives inside `Users`, and also that, for example,
+the  absolute path of the directory `git-repos` would be `/Users/eriq/Documents/git-repos`.
+
+Absolute paths give the precise location of a directory relative to the root of the filesystem,
+but it is not always convenient, nor appropriate, to work entirely with absolute paths.
+For one thing, directories that are deeply nested within many others can have long and unwieldy
+absolute path names that are hard to type and can be difficult to remember.  Furthermore, as we will
+see later in this book, absolute paths are typically not _reproducible_ from one computer's
+filesystem to another.  Accordingly, it is more common to give the address of directories using
+_relative paths_.  Relative paths work much like absolute paths; however, they do not start with 
+a leading `/`, and hence they do not take as their
+starting point the root directory. Rather, their starting point is implicitly taken
+to be the current working directory. Thus, if the current working directory is 
+`/Users/eriq`, then the path `Documents/pers` is a relative path to the 
+`pers` directory, as can again be seen in Figure \@ref(fig:file-hierarchy).  
+
+The special relative path `..` means "the directory that is one level higher up
+in the hierarchy." So, if the current working directory were `/Users/eriq/Documents/git-repos`,
+then the path `..` would mean `/Users/eriq/Documents`, the path 
+`../Desktop` gives the directory `/Users/eriq/Desktop`, and, by catenating the `..` symbols we
+can even go up multiple levels in the hierarchy: `../../../zoe` is a relative path for
+`/Users/zoe`.
+
+When naming paths, another 
+useful Unix shorthand is `~` which denotes the user's home directory.  This is particularly
+useful since most of your time in a Unix filesystem will be spent in a directory within your
+home directory.  Accordingly, `~/Documents/work` is a quick shorthand for 
+`/Users/eriq/Documents/work`.  This is essential practice if you are working on a large shared computing 
+resource in which the absolute path to your home directory might be changed by the 
+system administrator when restructuring the filesystem.
+
+```{block2, note-text, type='rmdnote'}
+**A useful piece of terminology:** in any path, the "final" directory
+name is called the _basename_ of the path.  Hence the basename of `/Users/eriq/Documents/git-repos`
+is `git-repos`. And the basename of `../../Users` is `Users`.
+```
+
+
+### Changing the working directory with `cd`
+
+When you begin a Unix terminal session, by default the current working
+directory is set to your home directory.  However, when you are doing
+bioinformatics or otherwise hacking on the command line, you will typically
+want to be "in another directory" (meaning you will want the current working
+directory set to some other directory).  Unix provides the `cd` command (which
+stands for **c**hange **d**irectory.) The syntax is super simple:
+
+cd _path_
+
+where _path_ is an absolute or a relative path.  For example, to 
+get to the `git-repos` directory from my home directory would require
+a simple command `cd Documents/git-repos`.  Once there, I could change to
+my `Desktop` directory with `cd ../../Desktop`.  Witness:
+```sh
+% pwd
+/Users/eriq
+% cd Documents/git-repos/
+% pwd
+/Users/eriq/Documents/git-repos
+% cd ../../Desktop
+% pwd
+/Users/eriq/Desktop
+```
+
+Once you have used `cd`, the working directory of your current shell will 
+remain the same no matter how many other commands you issue, 
+until you invoke the `cd` command another time and change
+to a different directory.
+
+If you give the `cd` command with no path specified, your working directory
+will be set to your home directory.  This is super-handy if you have been
+exploring the levels of a Unix filesystem above your home directory and cannot
+remember how to get back to your home directory.  Just remember that
+```sh
+% cd
+```
+will get you back home.
+
+Another useful shortcut is to pass `-` (a hyphen) as the path to `cd`.  This will
+change directories back to where you were prior to any immediately prior invocation
+of `cd`, and it will tell you which directory you have returned to.  For example, if you start in `/Users/eriq/Documents/git-repos` and then
+`cd` to `/bin`, you can get back to `git-repos` with `cd -` like so:
+```sh
+% pwd
+/Users/eriq/Documents/git-repos
+% cd /bin/
+% pwd
+/bin
+% cd -
+/Users/eriq/Documents/git-repos
+% pwd
+/Users/eriq/Documents/git-repos
+```
+Note the output of `cd -` is the newly-returned to current working directory.
+
+### Updating your command prompt
+
+When you are buzzing around in your filesystem, it is often difficult to remember
+which directory you are in.  You can always type `pwd` to figure that out,
+but the bash shell also provides a way to print the current working directory
+_within your command prompt`
+
+For example, the command:
+```sh
+PS1='[\W]--% '
+```
+redefines the command prompt to be the basename of the current directory surrounded
+by brackets and followed by `--%`:
+```sh
+% pwd
+/Users/eriq/Documents/git-repos
+% PS1='[\W]--% '
+[git-repos]--% cd ../
+[Documents]--% cd ../
+[~]--% cd ../
+[Users]--% 
+```
+This can make it considerably easier to keep track of where you are in your file system.
+
+We will discuss later how to invoke this change automatically in every terminal session
+when we talk about customizing environments in section \@ref(unix-env).
+
+
+### Listing the contents of a directory with `ls`
+
+
+
+
+ 
+
+commands:  `pwd` and `cd`  and special characters `.` and `..` and `-` with `cd`.
+
+Introduce TAB-completion for filenames.   Show how it would work relative to the figures that I 
+have made.  Note it will have Downloads, Desktop, and Documents, which will not tab complete with one click on
+just a D.
+
+Discuss symbolic links --- a special kind of file.  Maybe do this when discussing file types.
+
+Then introduce `open` and a PC bash equivalent if available.
+
+
+
+### Exercises 
+
+```{exercise, name="Some exercise", label=some}
+We can't make a fenced block.  But we coul say, Consider the following  
+`ls all*.txt ball*.txt ala*.txt`  
+And then see how that comes out.
+```
+
+
+
+```{exercise, name="Some other exercise", label=some-other}
+Here is another.
+```
+
+
+
+## Everything is a file.  Some are executable.
+
+Everything is a file, some of them are executuble (programs) and they
+typically do things to other files.
+
+Unix philosophy of spitting text out so that stuff can be done to it (chaining/piping) or
+redirecting.
+
+
+`stdin`, `stdout`, `stderr`.
+
+
+### Environment {#unix-env}
+
+Gotta start off by talking about PATHs and things when you talk about
+
+## Basic maneuvers
+
+### cd and ls
+
+### Globbing
+
+## I/O: redirection and pipes
+
+In here, let's also talk about compression with gzip (and using `stuff | gzip -c > this.gz` to gzip and send to stdout.)
+## Variables
+
+## looping
+
+## Further reading
+
+An excellent chapter on the development of Unix [@RaymondArtUNIXProgramming2003]
+

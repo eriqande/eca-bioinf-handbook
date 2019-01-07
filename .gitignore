@@ -5,3 +5,7 @@
 mega-bioinf-pop-gen.tex
 mega-bioinf-pop-gen.pdf
 preamble.tex
+.DS_Store
+_book
+_bookdown_files
+libs

@@ -1,0 +1,30 @@
+# Next Generation Sequencing Data Acquisition
+
+## Sequencing platforms
+Basically talk a little about how the technologies work.
+
+Go into paired-end vs single end reads, etc.
+
+Strand direction.  There is a good overview on a blog at:
+[http://www.cureffi.org/2012/12/19/forward-and-reverse-reads-in-paired-end-sequencing/](http://www.cureffi.org/2012/12/19/forward-and-reverse-reads-in-paired-end-sequencing/),
+to start getting one's head around it.  It ends up being super 
+important if you are looking for inversion
+breakpoints, etc [@Corbett-DetigSequenceBasedDetectionBreakpoint2012].
+
+
+
+
+
+## Library Prep Protocols
+
+Gotta mention here about how barcodes work.
+
+How you prepare your libraries dictates what type of data you get.
+
+### WGS
+
+### RAD-Seq methods
+
+### Amplicon Sequencing
+
+### Capture arrays, RAPTURE, etc.

@@ -1,0 +1,17 @@
+# (PART) Part III: Bioinformatic Analyses {-}
+
+# Overview of Bioinformatic Analyses
+
+This is going to be sequence based stuff and getting
+to variants.
+
+Part IV will be "bioinformaticky" analyses that you might encounter once
+you have your variants.
+
+I think now that I will insert QC relevant to each step in that section.
+
+
+Hey Eric! Find a place to put a section about bedtools in there.  It is pretty 
+cool what you can do with it, even on VCF files, like coverage of a VCF file in
+windows to get a sliding window of variant density.
+

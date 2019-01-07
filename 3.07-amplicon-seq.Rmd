@@ -1,0 +1,8 @@
+# Processing amplicon sequencing data
+
+Super high read depths can cause problems for some pipelines.
+
+I am going to mostly focus on short amplicons that are less than the
+number of sequencing cycles, and how we create microhaps out of those, and 
+the great methods we have for visualizing and curating those.
+

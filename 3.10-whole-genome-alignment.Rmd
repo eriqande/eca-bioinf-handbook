@@ -1,29 +1,16 @@
-# Topics in WGS
+# Whole genome alignment strategies
 
-Currently very incomplete.  Mostly throwing down things that are a little
-more obscure that I want to learn about at some point, so would be good
-to teach them.
-
-## Assembly
-
-## Mapping
-
-## QC
-
-Note that this happens at multiple steps in the process.  I think it would
-be good to address all this once the main steps of the workflow have been 
-explained.  (i.e. a separate section of all the different QC steps that go
-on in between the main steps.)
-
-It will behoove us to talk about the pitfalls of each of the main steps,
-of course, so that it will be clear why we are doing these QC steps.
-
+Basically want to talk about situations 
 
 ## Mapping of scaffolds to a closely related genome
 
 I basically want to get my head fully around how SatsumaSynteny works.
 
 After that, we might as well talk about how to get in and modify a VCF file to reflect the new positions and such.  (It seems we could even add something to the INFO field that listed its position in the old scaffold system.  awk + vcftools sort seems like it might be the hot ticket.)
+
+
+
+
 
 ## Obtaining Ancestral States from an Outgroup Genome
 
@@ -126,7 +113,7 @@ for i in {1..10}; do time lastz chinook-1.fna coho-${i}.fna --notransition --ste
 ```
 
 Nothing looked good until I got to coho LG10:  
-```{r}
+```{r, eval=FALSE}
 dots <- readr::read_tsv("inputs/chinook1_vs_coho10.rdp.gz")
 
 plot(dots,type="l")
@@ -188,7 +175,7 @@ real	0m28.704s
 ```
 
 So, that is greatly improved:
-```{r}
+```{r, eval=FALSE}
 dots <- readr::read_tsv("inputs/chain-chinook1_vs_coho10.rdp.gz")
 
 plot(dots,type="l")
@@ -204,7 +191,7 @@ sys	0m6.207s
 
 ```
 
-```{r}
+```{r, eval=FALSE}
 dots <- readr::read_tsv("inputs/chin_nc_vs_coho1-chain.rdp.gz")
 
 plot(dots,type="l")
@@ -228,7 +215,7 @@ do it with our single chromosome first.
 i=10; time lastz chinook-1.fna coho-${i}.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain  > chinook1_vs_coho${i}.rdp;
 ```
 
-```{r}
+```{r, eval=FALSE}
 dots <- readr::read_tsv("/tmp/chinook1_vs_coho10-ident95.rdp")
 
 plot(dots,type="l")
@@ -245,7 +232,7 @@ sys	0m0.936s
 
 ```
 
-```{r}
+```{r, eval=FALSE}
 dots <- readr::read_tsv("/tmp/chinook1_vs_coho10-ident95-gapped.rdp")
 plot(dots,type="l")
 
@@ -259,7 +246,7 @@ Check what 97% identity looks like:
 i=10; time lastz chinook-1.fna coho-${i}.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain --identity=97  > chinook1_vs_coho${i}-ident97-gapped.rdp;
 ```
 
-```{r}
+```{r, eval=FALSE}
 dots <- readr::read_tsv("/tmp/chinook1_vs_coho10-ident97-gapped.rdp")
 plot(dots,type="l")
 
@@ -280,7 +267,7 @@ sys	0m0.413s
 i=1; time lastz chinook-1.fna coho-${i}.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain --identity=95 > chinook1_vs_coho${i}-gapped-ident95.rdp;
 ```
 
-```{r}
+```{r, eval=FALSE}
 dots <- readr::read_tsv("/tmp/chinook1_vs_coho1-gapped.rdp")
 plot(dots,type="l")
 
@@ -288,7 +275,7 @@ plot(dots,type="l")
 OK, it finds something nice and crappy there.
 
 What about if we require 95% identity?
-```{r}
+```{r, eval=FALSE}
 dots <- readr::read_tsv("/tmp/chinook1_vs_coho1-gapped-ident95.rdp")
 plot(dots,type="l")
 
@@ -306,7 +293,7 @@ sys	0m1.478s
 ```
 
 That took an extra minute, but was not so bad.
-```{r}
+```{r, eval=FALSE}
 dots <- readr::read_tsv("/tmp/chinook1_vs_coho10-ident95-gapped-inner1000.rdp")
 plot(dots,type="l")
 
@@ -393,4 +380,5 @@ into a fasta.
 
 Note that Figure 1 in christensen actually gives me a lot to go on in terms of which
 chromosomes in coho to map against which ones in chinook.
+
 

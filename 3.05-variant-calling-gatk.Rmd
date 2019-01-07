@@ -1,0 +1,6 @@
+# Variant calling with GATK
+
+Standard stuff here.
+
+Big focus on parallelizing.
+

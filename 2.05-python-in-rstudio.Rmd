@@ -1,0 +1,18 @@
+# Using python
+
+Many people live and breathe python.  Most conservation geneticists and most
+biologists in general are probably more familiar and comfortable with R.  Nonetheless,
+there are some pieces of software that are available in python and it behooves us
+to know at least enough to crack those open and start using them.
+
+Happily, the makers of RStudio have made it very easy to use python within the
+RStudio IDE.  This makes the transition considerably easier.  
+
+Topics:
+
+- conda and installing and setting up python environments.  (What are they under
+the hood?)
+- the reticulate package
+- step-by-step instructions.
+- An example: 2Dsfs and the moments package.
+

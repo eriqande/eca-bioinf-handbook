@@ -1,0 +1,29 @@
+---
+output:
+  word_document: default
+  html_document: default
+---
+# Authoring reproducibly with Rmarkdown
+
+## Notebooks
+
+## References
+
+### citr and Zotero
+
+Pretty cool, but there are some things that are sort of painful---namely
+the Title vs. Sentence casing.  Fortunately, citr just adds things to your references.bib, it doesn't re-overwrote references.bib each time,
+so you can edit references.bib to put titles in sentence case.  Probably want to export without braces protecting capitals.  Then it should all work.  See [this discussion](https://forums.zotero.org/discussion/61715/prevent-extra-braces-in-bibtex-export).  Just be sure to version control references.bib and commit it often.
+
+
+[@BarsonSexdependentdominancesingle2015]
+
+## Bookdown
+
+## Google Docs
+
+This ain't reproducible research, but I really like the integration with Zotero.  Perhaps
+I need a chapter which is separate from this chapter that is about disseminating results and
+submitting stuff, etc.
+
+

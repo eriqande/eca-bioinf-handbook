@@ -1,0 +1,25 @@
+# Bioinformatic file formats and associated tools
+
+Go over these, and for each, pay special attention to compressed and indexed
+forms and explain why that is so important.
+
+
+
+## Sequences
+
+FASTA, FASTQ
+
+## Alignments
+
+BAM.  Talk about them being sorted or not.  Note that the headers between these
+and VCF are similar. 
+
+## Variants
+
+VCF
+
+## Segments
+
+BED
+
+## Conversion/Extractions between different formats

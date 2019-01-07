@@ -1,0 +1,12 @@
+# Version control
+
+## Why use version control?
+
+## How git works
+
+## git workflow patterns
+
+## using git with Rstudio
+
+## git on the command line
+

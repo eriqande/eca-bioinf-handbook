@@ -1,4 +1,14 @@
+# (PART) Part V: Population Genomics  {-}
+
+
 # Topics in pop gen
+
+This is just a bunch of ideas.  But basically, I want to have some topics here that
+everyone should know about.  Slanted toward things that are relevant for inference
+or simulation.
+
+
+
 
 ## Coalescent
 
@@ -29,6 +39,15 @@ population assignment, structure, admixture, etc.
 Population structure and PCAs.
 
 finestructure and fineRADstructure.
+
+Might want to insert @BradburdInferringContinuousDiscrete2018.
+
+Might also want to discuss @PickrellInferencePopulationSplits2012.
+
+Also: @PritchardInferencePopulationStructure2000
+
+What if we go and try to put the same one in?  Like Pritch 2000 again: [@PritchardInferencePopulationStructure2000]
+
 
 ## Some landscape genetics
 

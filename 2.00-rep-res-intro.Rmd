@@ -1,0 +1,9 @@
+# (PART) Part II: Reproducible Research Strategies {-}
+
+# Introduction to Reproducible Research
+
+[@PritchardInferencePopulationStructure2000]
+
+And let's again try to pitch it in there: [@PritchardInferencePopulationStructure2000].
+
+Let's try chucking it in without parens: @PritchardInferencePopulationStructure2000

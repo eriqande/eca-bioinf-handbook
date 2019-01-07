@@ -1,4 +1,6 @@
-# High Performamce Computing (HPC) Environments
+# High Performance Computing (HPC) Environments
+
+
 
 This is going to be a chapter on using High Performance Computing clusters.
 
@@ -11,6 +13,17 @@ Here is a good page with a comparison:  [https://confluence.csiro.au/display/SC/
 And here is a good primer on SGE stuff: [https://confluence.si.edu/display/HPC/Monitoring+your+Jobs](https://confluence.si.edu/display/HPC/Monitoring+your+Jobs)
 
 I guess I'll have to see what the CSU students have access to.
+
+## Accessing remote computers
+
+Start off with some stuff about ssh and scp.
+
+Maybe have a section on public and private keys so you don't have to put
+your password in every time (I would like to get better with that,
+as well).
+
+
+
 
 Here is some nice stuff for summarizing all the information from the different runs from the chinook-wgs project:
 ```sh
@@ -29,6 +42,9 @@ etc.  Basically, it just makes it much easier to split things up
 when the time comes.
 
 
+## Modules package
+
+## Compiling programs without admin privileges
 
 ## Job arrays
 

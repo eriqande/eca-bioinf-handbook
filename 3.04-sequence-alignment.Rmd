@@ -1,0 +1,10 @@
+# Alignment of sequence data to a reference genome
+
+A light treatment of how bwa works.  I think I will focus solely on bwa, unless
+someone can convince me that there are cases where something like bowtie works better.
+
+## Preprocess ?
+Will have a bit about sequence pre-processing (with WGS data it already
+comes demultiplexed, so maybe we can hold off on this until we get to
+RAD data).
+

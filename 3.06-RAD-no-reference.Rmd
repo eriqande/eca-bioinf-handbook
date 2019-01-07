@@ -1,0 +1,12 @@
+# Bioinformatics for RAD seq data with no reference genome
+
+We've gotta get our hands dirty with RAD and STACKS.  
+
+For some applications (like massive salamander genomes) this is the only 
+way forward, at the moment.  Can be useful, but is also
+fraught with peril.
+
+Discuss all the problems, and strategies for dealing with them.
+
+
+

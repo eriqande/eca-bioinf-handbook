@@ -1,0 +1,32 @@
+graph {
+	"/" [shape=folder];
+	"Applications" [shape=folder];
+	"Library" [shape=folder];
+	"Users" [shape=folder];
+	"bin" [shape=folder];
+	"var" [shape=folder];
+	"eriq" [shape=folder];
+	"zoe" [shape=folder];
+	"Desktop" [shape=folder];
+	"Downloads" [shape=folder];
+	"Documents" [shape=folder];
+	"Maps" [shape=folder];
+	"work" [shape=folder];
+	"pers" [shape=folder];
+	"git-repos" [shape=folder];
+	"/" -- "Applications";
+	"/" -- "var";
+	"/" -- "bin";
+	"/" -- "Library";
+	"/" -- "Users";
+	"Users" -- "eriq";
+	"Users" -- "zoe";
+	"eriq" -- "Documents";
+	"eriq" -- "Downloads";
+	"eriq" -- "Desktop";
+	"eriq" -- "Maps";
+	"Documents" -- "work";
+	"Documents" -- "pers";
+	"Documents" -- "git-repos";
+}
+

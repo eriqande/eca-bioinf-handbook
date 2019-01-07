@@ -1,0 +1,5 @@
+# Genome Assembly
+
+This is going to be a pretty light coverage of how it works.  Maybe I could get Rachael
+Bay or CH to write it.
+

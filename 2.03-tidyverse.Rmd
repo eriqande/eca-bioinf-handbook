@@ -1,0 +1,17 @@
+# A fast, furious overview of the tidyverse
+
+Basically want to highlight why it can be so useful for bioinformatic
+data (and also some of the limitations with really large data sets).
+
+A really key concept here is going to be the relational data model
+(e.g. tidy data) and how it is so much better for handling data.
+
+A superpowerful example of this is provided by [tidytree](https://cran.r-project.org/web/packages/tidytree/vignettes/tidytree.html)
+which allows one to convert from phylo objects to a tidy object:  Shoot! that
+is so much easier to look at!  This is a great example of how a single approach
+to manipulating data works so well for other things that have traditionally not been 
+manipulated that way (and as a conseqence have been completely opaque for
+a long time to most people.)
+
+Cool.  I should definitely have a chapter on tidy trees and ggtree.
+
