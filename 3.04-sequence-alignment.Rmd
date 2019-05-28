@@ -6,5 +6,36 @@ someone can convince me that there are cases where something like bowtie works b
 ## Preprocess ?
 Will have a bit about sequence pre-processing (with WGS data it already
 comes demultiplexed, so maybe we can hold off on this until we get to
-RAD data).
+RAD data). No, we need to talk about trimming and maybe slicing.  Perhaps 
+put that in a separate chapter of "preliminaries"
+
+## Read Groups
+
+Gotta talk about this and make it relevant to conservation.  i.e. maybe one individual was sampled with blood and also with tissue and each of those were included in four different library preps, etc.  Give an example that makes it
+clear how it works.
+
+
+## Merging BAM files
+
+There is a lot of discussion on biostars about how samtools does not reconstruct the
+`@RG` dictionary.  But I think that this must be a problem with an older version.  The
+newer version works just fine.  That said,  Picard's MergeSamFiles seems to be just about
+as fast (in fact, faster.  For a comparably sized file it took 25 minutes, and gives informative
+output telling you where it is at). And samtools merge is at well over 30 and only about
+3/4 of the way through. Ultimately it took 37 minutes.  Might have been on a slower machine...
+
+However, if you have sliced your fastqs and mapped each separately, then
+samtools let's you not alter duplicate read group IDs, and so you can merge
+those all together faithfully, as I did in the impute project. Cool.
+
+
+
+## Divide and Conquer Strategies
+
+At the end of each of these chapters, I think I will
+have a special section talking about ways that things can be divided 
+up so that you can do it quickly, or at least, within time limits
+on your cluster.
+
+
 

@@ -14,6 +14,9 @@ description: "A book example for a Chapman & Hall book."
 github-repo: yihui/bookdown-crc
 graphics: yes
 #cover-image: images/cover.jpg
+header-includes: 
+  - \usepackage{booktabs}
+fig-retina: 2
 ---
 
 ```{r setup, include=FALSE}
@@ -25,6 +28,7 @@ options(
 lapply(c('xfun'), function(pkg) {
   if (system.file(package = pkg) == '') install.packages(pkg)
 })
+library(tidyverse)
 ```
 
 # Preface {-}

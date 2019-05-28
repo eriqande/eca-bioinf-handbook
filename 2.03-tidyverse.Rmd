@@ -3,6 +3,9 @@
 Basically want to highlight why it can be so useful for bioinformatic
 data (and also some of the limitations with really large data sets).
 
+(But, once you have whittled bams and vcfs down to things like GWAS results
+and tables of theta values, they dplyr is totally up for the job.)
+
 A really key concept here is going to be the relational data model
 (e.g. tidy data) and how it is so much better for handling data.
 
@@ -14,4 +17,7 @@ manipulated that way (and as a conseqence have been completely opaque for
 a long time to most people.)
 
 Cool.  I should definitely have a chapter on tidy trees and ggtree.
+
+What I really want to stress is that the syntax of the tidyverse is such
+that it makes programming a relaxing and enjoying experience.
 

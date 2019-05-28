@@ -7,18 +7,41 @@ output:
 
 ## Notebooks
 
+Here is a pro-tip.  First, number your notebooks and have outputs and intermediates directories 
+associated with them.  And second, always save the R object that is a ggplot in the outputs so that if
+you want to tweak it without re-generating all the underlying data, you can do that easily.
+
+
+
+
+
+
 ## References
 
 ### citr and Zotero
 
 Pretty cool, but there are some things that are sort of painful---namely
 the Title vs. Sentence casing.  Fortunately, citr just adds things to your references.bib, it doesn't re-overwrote references.bib each time,
-so you can edit references.bib to put titles in sentence case.  Probably want to export without braces protecting capitals.  Then it should all work.  See [this discussion](https://forums.zotero.org/discussion/61715/prevent-extra-braces-in-bibtex-export).  Just be sure to version control references.bib and commit it often.
+so you can edit references.bib to put titles in sentence case.  Probably want to export without braces protecting capitals.  Then it should all work.  See [this discussion](https://forums.zotero.org/discussion/61715/prevent-extra-braces-in-bibtex-export).  Just be sure to version control references.bib and commit it often.  Though, you might want to go back and edit stuff in your Zotero library.
+
 
 
 [@BarsonSexdependentdominancesingle2015]
 
 ## Bookdown
+
+Whoa!  Bookdown has figured out how to do references to sections and tables and things in a reasonable
+way that just isn't there for the vanilla Rmarkdown.  But you can use the bookdown syntax for a non-book
+too.  Just put something like this in the YAML:
+```yaml
+output:
+  bookdown::word_document2: default
+  bookdown::pdf_document2:
+    number_sections: yes
+  bookdown::html_document2:
+    df_print: paged
+
+```
 
 ## Google Docs
 

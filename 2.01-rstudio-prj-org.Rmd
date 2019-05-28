@@ -1,3 +1,52 @@
 # Rstudio and Project-centered Organization
 
 Somewhere talk about here::here():  https://github.com/jennybc/here_here
+
+
+## Organizing big projects 
+
+By "big" I mean something like the chinook project, or your typical thing this is
+a chapter in a dissertation or a paper.
+
+I think it is useful for number things in order on a three-digit system, and
+at the top of each make directories `outputs` and `intermediates`, like this:
+```r
+dir.create(file.path(c("outputs", "intermediates"), "203"), recursive = TRUE, showWarnings = FALSE)
+```
+
+I had previously used two variables `output_dir` and `interm_dir` to specify these in each
+notebook, but now I think it would be better to just hardwire those, for a few reasons:
+
+- Sometimes you are working on two notebooks at once in the same environment and you
+don't want to get confused about where things should get written.
+- You can't use those variables in shell blocks of code, where you will just have
+to write the paths out anyway.
+- Hard-wiring the paths forces you to think about the fact that once you establish 
+the name for something, you should not change it, ever.
+- Hard-wiring the paths makes it easy to identify access to those different files.  In particular
+you can write an R script that rips through all the lines of code in the Rmds (and R files) in your
+project and records all the instances of writing and reading of files from the outputs and intermediates
+directories.  If you do this, you can make a pretty cool dependency graph so that you can visualize
+what you need to keep to clean things up for a final reproducible project.  _Note: I should
+write a little R package that can analyze such dependencies in a project.  Unless there is 
+already something like that. (Note that these are not package dependencies, but, rather, internal
+project dependencies.  Note that if one is consistent with using readr functions it would be 
+pretty easy to find all those instances of `read_*` and `write_*` and that makes it clear
+why standardized syntax like that is so useful._  Hey! Notice that this type of analysis
+would be made simple if we just focused on dependencies between different Rmds.  That is
+probably the level we want to keep it at as well.  Ideally you can make a graph of all files
+that are output from one Rmd and read into another.  That would be a fun graph to make of the 
+Chinook project.
+- Note.  You should keep 900-999 as 100 slots for Rnotebooks for the final reproducible project
+to go with a publication.  So, you can pare down all the previous notebooks and things.
+- Hey! Sometimes you are going to want to write or read files that have been auto-produced.
+For example, if you are cycling over chromosomes, you might have output files that start
+something like: `outputs/302/chromo_output_`.  So, when generating those names,
+make sure that the full prefix is in there, and has a trailing underscore.  Then
+you can still find it with a regex search, and also recognize it as a
+signifying a class of output files.
+
+
+
+
+

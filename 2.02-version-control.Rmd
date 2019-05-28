@@ -2,7 +2,7 @@
 
 ## Why use version control?
 
-## How git works
+## How git works {#git-workings}
 
 ## git workflow patterns
 

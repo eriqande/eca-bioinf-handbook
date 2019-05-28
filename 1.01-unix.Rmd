@@ -1,9 +1,43 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Essential Unix/Linux Terminal Knowledge
 
-If you are doing bioinformatics, you have to be comfortable in
-a Unix or Linux environment.
+Unix was developed at AT&T Bell Labs in the 1960s.  Formally "UNIX" is a
+trademarked operating system,
+but when most people talk about "Unix"
+they are talking about the _shell_, which is the text-command-driven interface
+by which Unix users interact with the computer.
+
+The Unix shell has been around, largely unchanged, for many decades because it is _awesome_.
+When you learn it, you aren't learning a fad, but, rather, a mode of interacting 
+with your computer that has been time tested and will likely 
+continue to be the lingua franca of large computer systems
+for many decades to come.  
+
+For bioinformatics, Unix is the tool of choice for a number of reasons: 1) complex analyses
+of data can be undertaken with a minimum of words; 2) Unix allows automation of tasks,
+especially ones that are repeated many times;  3) the standard set of Unix commands includes
+a number of tools for managing large files and for inspecting and manipulating text files; 4) multiple,
+successive analyses upon a single stream of data can be expressed and executed efficiently,
+typically without the need to write intermediate results to the disk;
+5) Unix was developed when computers were extremely limited in terms of memory and speed. Accordingly,
+many Unix tools have been well optimized and are appropriate to the massive genomic data sets 
+that can be taxing even for today's large, high performance computing systems;  6) virtually all state-of-the-art
+bioinformatc tools are tailored to run in a Unix environment; and finally, 7) essentially
+every high-performance computer cluster runs some variant of Unix, so if you are going to be
+using a cluster for your analyses (which is highly likely), then you have gotta know Unix!
+
+_A paragraph about what kinds of computers run Unix. (Often big servers, but also some
+flavors of personal laptops).  The difference (similarities) between 
+Unix and Linux.  You might have Unix on your system (if you have a Mac).  Or not.  All this
+will effect what you need to do to get a Unix shell on your computer_
 
 ## Getting a bash shell on your system
+
+Talk about what a shell is.
 
 For windows, it looks like windows 10 might be able to do pretty well with it:  
 [https://www.howtogeek.com/265900/everything-you-can-do-with-windows-10s-new-bash-shell/](https://www.howtogeek.com/265900/everything-you-can-do-with-windows-10s-new-bash-shell/)
@@ -22,13 +56,13 @@ Also, I am going to have to talk a little bit about what a shell is here....
 Most computer users will be familiar with the idea of saving documents into "folders."
 These folders are typically navigated using a "point-and-click" interface
 like that of the Finder in Mac OS X or the File Explorer in a Windows system.
-When working at a Unix terminal, such a point-and-click interface is not available,
+When working in a Unix shell, such a point-and-click interface is typically not available,
 and the first hurdle that new Unix users must surmount is learning to quickly navigate in
 the Unix filesystem from a terminal prompt. So,
 we begin our foray into Unix and its command prompt with this essential skill.
 
 
-When you start a Unix command-line session in a terminal window you get a _command prompt_
+When you start a Unix shell in a terminal window you get a _command prompt_
 that might look something like this:
 ```sh
 my-laptop:~ me$
@@ -56,9 +90,9 @@ In Unix parlance, rather than speaking of "folders," we call
 them "directories;" however, the two are essentially the same thing.
 Every user
 on a Unix system has a home directory.  It is the domain on a shared computer
-in which the user typically has privileges to create and delete files and do work.
-It is where most of your work will happen. A point we will come back to is
-that when you are working in the Unix terminal there is a notion of a 
+in which the user has privileges to create and delete files and do work.
+It is where most of your work will happen. When you are working in the Unix
+shell there is a notion of a 
 _current working directory_---that is to say, a place within the hierarchy of
 directories where you are "currently working."  This will become more concrete
 after we have encountered a few more concepts.
@@ -70,13 +104,16 @@ of the filesystem.  Every Unix computer system has a root directory (you can
 think of it as the "top-most" directory in a hierarchy), and on every Unix system
 this root directory always has the special name, `/`.   The address
 of a directory relative to the root is specified by starting with the root (`/`) 
-and then naming each subsequent directory that you must go inside of to 
+and then naming each subsequent directory that you must go inside of in order to 
 get to the destination, each separated by a `/`.  For example, `/Users/eriq`
-tells us that we start at the root (`/`) and then we go through the `Users` directory
-(`Users/`) and then into the `eriq` directory. Figure \@ref(fig:file-hierarchy) shows
+tells us that we start at the root (`/`) and then we go into the `Users` directory
+(`Users`) and then, from there, into the `eriq` directory. Note that `/` is used to mean the root 
+directory when at the beginning of an absolute path, but in the remainder of the path
+its meaning is different: it is used merely as a separator
+between directories nested within one another. Figure&nbsp;\@ref(fig:file-hierarchy) shows
 an example hierarchy of some of the directories that are found on the author's
 laptop.
-```{r file-hierarchy, echo=FALSE, fig.align='center', fig.cap="A partial view of the directories on the author's laptop."}
+```{r file-hierarchy, echo=FALSE, fig.align='center', dpi=50, fig.cap="A partial view of the directories on the author's laptop."}
 knitr::include_graphics("figs/file-hierarchy.png")
 ```
 From this perspective it is obvious that the directory `eriq` lives inside `Users`, and also that, for example,
@@ -93,24 +130,25 @@ a leading `/`, and hence they do not take as their
 starting point the root directory. Rather, their starting point is implicitly taken
 to be the current working directory. Thus, if the current working directory is 
 `/Users/eriq`, then the path `Documents/pers` is a relative path to the 
-`pers` directory, as can again be seen in Figure \@ref(fig:file-hierarchy).  
+`pers` directory, as can again be seen in Figure&nbsp;\@ref(fig:file-hierarchy).  
 
-The special relative path `..` means "the directory that is one level higher up
+The special relative path symbol `..` means "the directory that is one level higher up
 in the hierarchy." So, if the current working directory were `/Users/eriq/Documents/git-repos`,
 then the path `..` would mean `/Users/eriq/Documents`, the path 
-`../Desktop` gives the directory `/Users/eriq/Desktop`, and, by catenating the `..` symbols we
+`../work` gives the directory `/Users/eriq/Documents/work`, and, by using two or more `..` symbols
+separated by forward slashes, we
 can even go up multiple levels in the hierarchy: `../../../zoe` is a relative path for
-`/Users/zoe`.
+`/Users/zoe`, when the current working directory is `/Users/eriq/Documents/git-repos`.
 
 When naming paths, another 
-useful Unix shorthand is `~` which denotes the user's home directory.  This is particularly
+useful Unix shorthand is `~` (a tilde) which denotes the user's home directory.  This is particularly
 useful since most of your time in a Unix filesystem will be spent in a directory within your
 home directory.  Accordingly, `~/Documents/work` is a quick shorthand for 
 `/Users/eriq/Documents/work`.  This is essential practice if you are working on a large shared computing 
 resource in which the absolute path to your home directory might be changed by the 
 system administrator when restructuring the filesystem.
 
-```{block2, note-text, type='rmdnote'}
+```{block2, note-text, type='rmdtip'}
 **A useful piece of terminology:** in any path, the "final" directory
 name is called the _basename_ of the path.  Hence the basename of `/Users/eriq/Documents/git-repos`
 is `git-repos`. And the basename of `../../Users` is `Users`.
@@ -119,12 +157,12 @@ is `git-repos`. And the basename of `../../Users` is `Users`.
 
 ### Changing the working directory with `cd`
 
-When you begin a Unix terminal session, by default the current working
-directory is set to your home directory.  However, when you are doing
+When you begin a Unix terminal session, the current working
+directory is set, by default, to your home directory.  However, when you are doing
 bioinformatics or otherwise hacking on the command line, you will typically
 want to be "in another directory" (meaning you will want the current working
-directory set to some other directory).  Unix provides the `cd` command (which
-stands for **c**hange **d**irectory.) The syntax is super simple:
+directory set to some other directory).  For this, Unix provides the `cd` command, which
+stands for **c**hange **d**irectory. The syntax is super simple:
 
 cd _path_
 
@@ -157,8 +195,8 @@ remember how to get back to your home directory.  Just remember that
 ```
 will get you back home.
 
-Another useful shortcut is to pass `-` (a hyphen) as the path to `cd`.  This will
-change directories back to where you were prior to any immediately prior invocation
+Another useful shortcut is to supply `-` (a hyphen) as the path to `cd`.  This will
+change the working directory back to where you were before your last invocation
 of `cd`, and it will tell you which directory you have returned to.  For example, if you start in `/Users/eriq/Documents/git-repos` and then
 `cd` to `/bin`, you can get back to `git-repos` with `cd -` like so:
 ```sh
@@ -172,14 +210,14 @@ of `cd`, and it will tell you which directory you have returned to.  For example
 % pwd
 /Users/eriq/Documents/git-repos
 ```
-Note the output of `cd -` is the newly-returned to current working directory.
+Note the output of `cd -` is the newly-returned-to current working directory.
 
 ### Updating your command prompt
 
 When you are buzzing around in your filesystem, it is often difficult to remember
 which directory you are in.  You can always type `pwd` to figure that out,
 but the bash shell also provides a way to print the current working directory
-_within your command prompt`
+_within your command prompt_.
 
 For example, the command:
 ```sh
@@ -199,21 +237,288 @@ by brackets and followed by `--%`:
 This can make it considerably easier to keep track of where you are in your file system.
 
 We will discuss later how to invoke this change automatically in every terminal session
-when we talk about customizing environments in section \@ref(unix-env).
+when we talk about customizing environments in Section&nbsp;\@ref(unix-env).
+
+### TAB-completion for paths
+
+Let's be frank...typing path names in order to change from one directory to another can feel
+awfully tedious, especially when your every neuron is screaming, "Why can't I just have a friggin' Finder
+window to navigate in!"  Do not despair. This is a normal reaction when you first start using Unix.
+Fortunately, Unix file-system navigation can be made much less painful (or even enjoyable)
+for you by becoming a master of _TAB-completion_.  Imagine the Unix shell is watching
+your every keystroke and trying to guess what you are about to type.  If you type the first part
+of a directory name after a command like `cd` and then hit the TAB key, the shell will respond
+with its best guess of how you want to complete what you are typing.
+
+Take the file hierarchy of Figure&nbsp;\@ref(fig:file-hierarchy), and imagine that we are in the root
+directory.  At that point, if we type `cd A`, the shell will think "Ooh! I'll bet they want to 
+change into the directory `Applications` because that is the only directory that starts with `A`.  Sure enough,
+if you hit TAB, the shell adds to the command line so that `cd A` becomes `cd Applications/`
+and the cursor is still waiting for further input at the end of the command.
+Boom!  That was way easier (and more accurate) than typing all those letters after `A`.  
+
+Developing a lightning-fast TAB-completion trigger finger is, quite seriously, essential to surviving and
+thriving in Unix. Use your left pinky to hit TAB. Hone your skills.  Make sure you can hit TAB with your eyes
+closed. TAB early and TAB often!  
+
+Once you can hit TAB instantly from within the middle of any phrase, you 
+will also want to understand a few simple rules of TAB completion:
+
+1. If you try TAB-completing a word on the command line that is not at the beginning
+of the command line (i.e., you are typing a word after a command like `cd`), then the shell
+tries to complete the word with a _directory name_ or a _file name_.  
+
+1. The shell will only complete an _entire_ directory or file name if the name _uniquely_ matches the first part of the 
+path that has been entered.  In our example, there were no other directories than `Applications` in `/` that start
+with `A`, so the shell was certain that we must have been going for `Applications`.  
+
+1. If there is more than one directory or file name that matches what you have already typed, then, the first
+time you hit TAB, nothing happens, but the _second_ time you hit TAB, the shell will print a list of 
+names that match what you have written so far.  For example, in our Figure&nbsp;\@ref(fig:file-hierarchy) example,
+hitting TAB after typing `cd ~/D` does nothing.  But the second time we hit TAB we get a list of
+matching names:
+    ```{sh, eval=FALSE}
+    % cd ~/D
+    Desktop/  Documents/  Downloads/
+    ```
+So, if we are heading to `Documents` we can see that adding `oc` to our command line, to create  `cd Doc` would be sufficient to allow the shell to
+uniquely and correctly guess where we are heading.  `cd Doc` will TAB-complete into `cd Documents/`
+
+1. If there are multiple directory or file names that match the current command line, and they share 
+more letters than those currently on the command line, TAB-completion will complete
+the name to the end of the shared portion of the name.  An example helps: let's say 
+I have the following two directories with hideously long names in my `Downloads` folder:
+    ```{sh, eval=FALSE}
+    WIFL.rep_indiv_est.mixture_collection.count.gr8-results
+    WIFL.rep_indiv_est.mixture_collection.count-results
+    ```
+Then, TAB completing on `~/Downloads/WIFL.rep` will partially complete so that the prompt and command look like:
+    ```{sh, eval=FALSE}
+    % cd ~/Downloads/WIFL.rep_indiv_est.mixture_collection.count
+    ```
+and hitting TAB twice gives:
+    ```{sh, eval=FALSE}
+    % cd ~/Downloads/WIFL.rep_indiv_est.mixture_collection.count
+    WIFL.rep_indiv_est.mixture_collection.count-results
+    WIFL.rep_indiv_est.mixture_collection.count.gr8-results
+    ```
+At this point, adding `-` and TAB completing will give the first of those directories.  
+
+
+The last example shows just how much typing TAB completion can save you.  So, don't be
+shy about hitting that TAB key.  When navigating your filesystem (or writing longer command
+lines that require paths of files) you should consider hitting TAB after every 1 or 2 letters.
+In routine work on the command line, probably somewhere around 25% or more of my keystrokes
+are TABs.  Furthermore, a TAB is never going to execute a command, and it typically won't 
+complete to a path that you don't want (unless you got the first part of its name wrong), so there
+isn't any risk to hitting TAB all the time.
 
 
 ### Listing the contents of a directory with `ls`
+
+So far we have been focusing mostly on directories.  However, directories themselves
+are not particularly interesting---they are merely containers.  It is the _files_ inside of directories
+that we typically work on.  The command `ls` lists the contents---typically files or
+other directories---within a directory. 
+
+Invoking the `ls` command without any other arguments (without anything after it)
+returns the contents of the current working directory.  In our example,
+if we are in `/Users` then we get:
+```sh
+% ls
+eriq  zoe
+```
+By default, `ls` gives output in several columns of text, with the directory contents
+sorted lexicographically. For example, the following is output from the `ls` command
+in a directory on a remote Unix machine:
+```sh
+% ls
+bam                      map-sliced-fastqs-etc.sh
+bam-slices               play
+bwa-run-list.txt         REDOS-map-sliced-fastqs-etc.sh
+fastq-file-prefixes.txt  sliced
+fqslice-22.error         slice-fastqs.sh
+fqslice-22.log           slicer-lines.txt
+map-etc.sh               Slicer-Logs-summary.txt
+```
+The first line shows the command prompt and the command: `% ls`, and the remainder is
+the output of the command.  
+
+Invoked without any further arguments, the `ls`
+command simply lists the contents of the current working directory.  However,
+you can also direct `ls` to list the contents of another directory by simply
+adding the path (absolute or relative) of that directory on the command line.  For example, continuing with
+the example in Figure&nbsp;\@ref(fig:file-hierarchy), when we are in the home directory (`eriq`) 
+we can see the directories/files
+contained within `Documents` like so:
+```sh
+[~]--% ls Documents
+git-repos/   pers/   work/
+```
+If you give paths to more than one directory as arguments to `ls`, then 
+the contents of each directory are listed after a heading line that gives
+the directory's path (as given as an argument to `ls`), followed by a colon.  For example:
+```sh
+[~]--% ls Documents/git-repos Documents/work
+Documents/git-repos:
+ARCHIVED_mega-bioinf-pop-gen.zip  lowergranite_0.0.1.tar.gz
+AssignmentAdustment/              mega-bioinf-pop-gen-examples/
+CKMRsim/                          microhaps_np/
+
+Documents/work:
+assist/          maps/            oxford/          uw_days/
+courses_audited/ misc/            personnel/
+```
+You might also note in the above example, that some of the paths listed within
+each of the two directories are followed by a slash, `/`.  This `ls` customization denotes that
+they are directories themselves. Much like your command prompt, `ls` can be customized in ways
+that make its output more informative.  We will return to that in Section&nbsp;\@ref(unix-env).
+
+If you pass the path of a file to `ls`, and that file exists in your filesystem,
+then `ls` will respond by printing the file's path:
+```sh
+% ls Documents/git-repos/lowergranite_0.0.1.tar.gz 
+Documents/git-repos/lowergranite_0.0.1.tar.gz
+```
+If the file does not exist you get an error message to that effect:
+```sh
+% ls Documents/try-this-name
+ls: Documents/try-this-name: No such file or directory
+```
+
+
+The multi-column, default output of `ls` is useful when you want
+to scan the contents of a directory, and quickly see as many files
+as possible in the fewest lines of output. 
+However, this output format is not well
+structured. For example, you don't know how many columns are going to be used in
+the default output of `ls` (that 
+depends on the length of the filenames and the width of your terminal), and it
+offers little information beyond the names of the files.  
+
+You can tell the `ls` command to provide more information, by using it with the `-l` 
+option.  Appropriately, with the `-l` option, the `ls` command will return
+output in _long_ format:
+```sh
+2019-02-08 21:09 /osu-chinook/--% ls -l
+total 108
+drwxr-xr-x  2 eriq kruegg  4096 Feb  7 08:26 bam
+drwxr-xr-x 14 eriq kruegg  4096 Feb  8 15:56 bam-slices
+-rw-r--r--  1 eriq kruegg 17114 Feb  7 20:16 bwa-run-list.txt
+-rw-r--r--  1 eriq kruegg   824 Feb  6 14:14 fastq-file-prefixes.txt
+-rw-r--r--  1 eriq kruegg     0 Feb  7 20:14 fqslice-22.error
+-rw-r--r--  1 eriq kruegg     0 Feb  7 20:14 fqslice-22.log
+-rwxr--r--  1 eriq kruegg  1012 Feb  7 07:59 map-etc.sh
+-rwxr--r--  1 eriq kruegg  1138 Feb  7 20:56 map-sliced-fastqs-etc.sh
+drwxr-xr-x  3 eriq kruegg  4096 Feb  7 13:01 play
+-rwxr--r--  1 eriq kruegg  1157 Feb  8 15:08 REDOS-map-sliced-fastqs-etc.sh
+drwxr-xr-x 14 eriq kruegg  4096 Feb  8 15:49 sliced
+-rwxr--r--  1 eriq kruegg   826 Feb  7 20:09 slice-fastqs.sh
+-rw-r--r--  1 eriq kruegg  1729 Feb  7 16:11 slicer-lines.txt
+```
+Each row contains information about only a single file.
+The first column indicates what kind of file
+each entry is, and also tells us which users have permission to
+do certain things with the file (more on this in a few sections).
+The third and fourth columns show that the owner of
+each file is `eriq`, who is a user in the group called `kruegg`. After that
+is the size of the file (in bytes) and the date and time it was last modified.
+
+There are a few options to `ls` that are particularly useful.  One is `-a`, which causes
+`ls` to include in its listing all files, even _hidden_ ones. In a Unix file system,
+any file whose name starts with a `.` is considered a _hidden_ file.  Commonly, such
+files are configuration files or other files used by programs that you typically 
+don't interact with directly. (We will see an example of this when we start working with `git` for version control, Section&nbsp;\@ref(git-workings).) The `-d` option for `ls` is also'
+quite handy.  Recall that when you provide the name of a directory as an argument to `ls`,
+the default behavior is to list the contents of the directory.  This can be troublesome
+when you are listing the contents of a subdirectory: `ls ~/Documents/git-repos/*` lists the
+contents (which can be substantial) of each of the directories in my  directory, but
+I might only want to know the name of each of those directories, rather than their full contents.
+`ls -d ~/Documents/git-repos` will 
+
+Gotta talk about the `-d` option.  
+
+### Globbing
+
+If you have ever had to move a large number of files of a certain type from
+one folder to another in a Finder window, you know that individually clicking and
+selecting each one and then dragging them can be a tedious task (not to mention the disaster
+that ensues if you slip on your mouse and end up dropping all the files some place
+you did not intend).  Unix provides a wonderful system called _filename expansion_ or 
+"globbing" for quickly providing the names of a large number of files and paths which let's
+you operate on multiple files quickly and efficiently. In short, globbing allows for
+_wildcard matching_ in path names.  This means that you can 
+specify multiple files that have names that share a common part, but differ in other parts.
+
+The most widely used (and the most permissive) wildcard is the asterisk, `*`.  It matches
+anything in a file name.  So, for example:
+
+- `*.vcf` will expand to any files in the current directory with the suffix `.vcf`.
+- `D*s` will expand to any files that start with an uppercase `D` and end with an `s`.
+- `*output-*.txt` will expand to any files that include the phrase `output-` somewhere
+in their name and also end with `.txt`.
+- `*` will expand to all files in the current working directory.
+- `/usr/local/*/*.sh` will expand to any files ending in `.sh` that reside within any directory that
+is within the `/usr/local` directory.
+
+```{block2, note-dot-files, type='rmdnote'}
+**Actually, there is some arcana here:** Names of files or directories that start with a
+dot (a period) will not expand unless the
+dot is included explicitly.  Files with names starting with a dot are 
+"hidden" files in Unix. You also will not see them in the results of `ls`, unless you
+use the `-a` option:  `ls -a`.
+``` 
+
+After the asterisk, the next most commonly-used wildcard is the question mark, `?`.
+
+Should make it clear that this is not something unique only to ls. 
+All that ls is doing is listing its arguments.  The expansion happens
+on the command line.
+
+
+
+
+Gonna have to talk about `-l` and `-a` options.  Maybe talk about -d, which is useful.  
+
+
+### What makes a good file-name?
+
+If the foregoing discussion suggests to you that it might not be good to use an
+actual `*`, `?`, `[`, or `{` in names that you give to files and directories
+on your Unix system, then congratulations on your intuition!  Although you can use
+such characters in your filenames, they have to be preceded by a backslash, and it
+gets to be a huge hassle.  So don't use them in your file names. Additionally,
+characters such as `#`, `|`, and `:` do not play well for file names.  Don't use them!
+
+Another pet peeve of mine (and anyone who uses Unix) are file names that have spaces in them.
+In Windows and on a Mac it is easy to create file names that have spaces in them.  In fact, the
+standard Windows system comes with such space-containing directory names as `My Documents` or `My
+Pictures`.  Yikes!  Please _don't ever do that in your Unix life!_  One can deal with spaces in file
+names, but there is really no reason to include spaces in your file names, and having spaces in file
+names will typically break a good many scripts.  Rather than a space, use an underscore, `_`, or a 
+dash, `-`.  You've gotta admit that, not only does `My-Documents` work better, but it actually
+looks better too!
+
+So, to make your life easier, the bottom line is that you should name your files 
+on a Unix system using only upper- and lowercase letters (Unix file systems are
+case-sensitive), numerals, and the following three punctuation characters: `.`, `-`, and `_`.
+Though you can use other punctuation characters, they often require special treatment, and it
+is better to avoid them altogether.
 
 
 
 
  
 
-commands:  `pwd` and `cd`  and special characters `.` and `..` and `-` with `cd`.
 
-Introduce TAB-completion for filenames.   Show how it would work relative to the figures that I 
-have made.  Note it will have Downloads, Desktop, and Documents, which will not tab complete with one click on
-just a D.
+
+## The anatomy of a Unix command
+
+In general things look like this:
+
+`command` _options_ _arguments_
+
+Talk about --help and man pages.
 
 Discuss symbolic links --- a special kind of file.  Maybe do this when discussing file types.
 
@@ -237,7 +542,35 @@ Here is another.
 
 
 
-## Everything is a file.  Some are executable.
+
+
+## Handling, Manipulating, and Viewing files and streams
+
+### Fundamental file-handling commands
+
+`cp`, `mv`, `rm'
+
+Note the difference between cp and mv and how they behave with directories
+too.  Maybe talk a little about links.
+
+### Everytyhing is a file. I/O: redirection and pipes
+
+Three major types of files: regular files, directories, and symbolic links.
+
+Executable files.
+
+
+Somewhere, at some point I will have to talk about chmod and about what the
+hell 600 is, for example (u+rw).  So, a whole little session on permissions,
+and I should also explain the nomenclature like 755.  An exercise where 
+students touch a file in /tmp and then use the numbers of u+x type commands
+to get an end result (like `-rw- --- ---`).  For example: 
+_use chmod to get a result like this_: `-rwxrw-r--`.  
+```
+chmod 764
+```
+Note that the first position denotes whether it is a directory or not.
+
 
 Everything is a file, some of them are executuble (programs) and they
 typically do things to other files.
@@ -249,24 +582,33 @@ redirecting.
 `stdin`, `stdout`, `stderr`.
 
 
-### Environment {#unix-env}
+## Customizing your Environment {#unix-env}
 
-Gotta start off by talking about PATHs and things when you talk about
+Gotta start off by talking about PATHs and things when you talk about.
+Then maybe some good tips for customization.
 
-## Basic maneuvers
 
-### cd and ls
+## A short list of useful commands.
 
-### Globbing
+cat, head (good for binary files too with -c), less, sort, paste, cut, tar, gzip, du, wc, date
 
-## I/O: redirection and pipes
 
-In here, let's also talk about compression with gzip (and using `stuff | gzip -c > this.gz` to gzip and send to stdout.)
-## Variables
+## Unix: Quick Study Guide
 
-## looping
+This is just a table with quick topics/commands/words in it.  You should
+understand each and be able to tell a friend a lot about each one.  Cite it
+as \@ref(tab:unix-chap-review)
 
-## Further reading
+```{r unix-chap-review, echo=FALSE}
+lines <- read_lines("chapter_review_inputs/unix-chapter-review-terms.txt")
+tab <- matrix(lines, byrow = TRUE, ncol = 3) %>%
+  as_tibble() %>%
+  setNames(NULL)
+pander::pander(
+  tab,
+  booktabs = TRUE,
+  caption = '(\\#tab:unix-chap-review) Terms/ideas/etc. to know forward and backward',
+  justify = "left")
 
-An excellent chapter on the development of Unix [@RaymondArtUNIXProgramming2003]
+```
 

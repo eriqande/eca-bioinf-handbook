@@ -23,7 +23,7 @@ Get far enough to discuss $\pi$ and the expected site frequency spectrum.
 It would really be good for me to write a chapter / give a few lectures
 on different measures like $d_{xy}$, $F_\mathrm{ST}$.  
 
-From Ash's paper:  However, population genomic analyses (outlined below) use FST only, as dxy was highly correlated to nucleotide diversity (π) (for early stage diverging populations the correlation between dxy and π is > 0.91, Pearson correlation). As such variation in dxy across the genome reflects variation in diversity, not differentiation (Riesch et al., 2017).
+From Ash's paper:  However, population genomic analyses (outlined below) use FST only, as dxy was highly correlated to nucleotide diversity (π) (for early stage diverging populations the correlation between dxy and $\pi$ is > 0.91, Pearson correlation). As such variation in dxy across the genome reflects variation in diversity, not differentiation (Riesch et al., 2017).
 
 Tajima's $D$ and such.  The influence of selection on such measures.
 
@@ -64,7 +64,7 @@ Maybe do a lecture on this...
 
 ## Tests for Selection
 
-A look at a selection of the methods that are out there.  $F_\mathrm{ST}$ outliers, _Bayescan_, _Lositan_, _PCAdapt_, and friends.  It would be good to get a nice succinct explanation/understanding of all of these.
+A look at a selection of the methods that are out there.  FST outliers, _Bayescan_, _Lositan_, _PCAdapt_, and friends.  It would be good to get a nice succinct explanation/understanding of all of these.
 
 
 ## Multivariate Associations, GEA, etc.

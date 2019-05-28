@@ -1,7 +1,8 @@
 # Bioinformatic file formats and associated tools
 
 Go over these, and for each, pay special attention to compressed and indexed
-forms and explain why that is so important.
+forms and explain why that is so important.  And I think that I should probably
+talk about the programs that are available for manipulating each of these.
 
 
 
@@ -14,12 +15,30 @@ FASTA, FASTQ
 BAM.  Talk about them being sorted or not.  Note that the headers between these
 and VCF are similar. 
 
+Have a discussion here about naming positions within the genome
+and talk about 0-based vs 1-based coordinates.
+
+
 ## Variants
 
-VCF
+In terms of the format/standard, is going to be well worth explaining the early
+part of section 5 of the standard so that people know how insertions and deletions 
+are coded.  I hadn't really digested that until just today.  Basically, the position
+in the VCF file correponds to the first character in either the REF or the ALT field.  
+When you remember that, it all falls into place.
+
+VCF.  I've mostly used vcftools until now, but I've gotta admit that the interface
+is awful with all the --recode BS.  Also, it is viciously slow.  So, let's just 
+skip it all together and learn how to use bcftools.  One nice thing about 
+bcftools is that it works a whole lot like samtools, syntactically.  
+
+Note that for a lot of the commands you need to have an indexed vcf.gz.
+
 
 ## Segments
 
 BED
 
 ## Conversion/Extractions between different formats
+
+* vcflib's vcf2fasta takes a phased VCF file and a fasta file and spits out sequence.  

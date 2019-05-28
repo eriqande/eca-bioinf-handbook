@@ -1,0 +1,47 @@
+
+# Shell programming
+
+Discuss the programming interface, and also maybe discuss & and ;
+and how to put things into scripts.
+
+In here, let's also talk about compression with gzip (and using `stuff | gzip -c > this.gz` to gzip and send to stdout.)
+
+## Advanced repitition
+
+I want to get constructs like `{1..20}` and `{csv,pdf,jpg}` in here too.
+
+## Variables
+
+## looping
+
+
+## Further reading
+
+An excellent chapter on the development of Unix [@RaymondArtUNIXProgramming2003]
+
+## reading files line by line
+
+This is handy.  Note the line can be broken into a shell array:
+```sh
+cat bwa-run-list.txt straggler-bwa-run-list.txt | while read -r line; do 
+  A=($line); 
+  file=${A[1]}; 
+  num=${A[2]}; 
+  du -h bam-slices/$file/${num}-sorted.bam;  
+done
+
+2.3G	bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0001-sorted.bam
+2.2G	bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0002-sorted.bam
+2.2G	bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0003-sorted.bam
+2.3G	bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0004-sorted.bam
+2.2G	bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0005-sorted.bam
+2.2G	bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0006-sorted.bam
+```
+Note that this is not how you want to rip through files, typically, because it is slow and awk is a much
+better bet. But, if you want to do a system call for each line, it ends up being a decent way forward.
+
+## Difference between double and single quotes
+
+This becomes important when writing awk scripts and using bcftools expressions.
+
+

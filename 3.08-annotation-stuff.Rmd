@@ -1,0 +1,22 @@
+# Genome Annotation
+
+I don't intend this to be a treatise on how to actually annotate a genome.
+Presumably, that is a task that involves feeding a genome and a lot of mRNA 
+transcripts into a pipeline that then makes gene models, etc.  I guess I could
+talk a little about that process, 'cuz it would be fun to learn more about it.
+
+However, I will be more interested in understanding what annotation data look like
+(i.e. in a GFF file) and how to associate it with SNP data (i.e. using snpEff).
+
+The GFF format is a distinctly hierarchical format, but it is still tabular,
+it is not in XML, thank god! 'cuz it is much easier to parse in tabular format.
+
+You can fiddle it with bedtools.  
+
+Here is an idea for a fun thing for me to do:  Take a big chunk of chinook GFF
+(and maybe a few other species), and then figure out who the parents are of each of the
+rows, and then make a graph (with dot) showing all the different links (i.e. gene -> mRNA -> exon -> CDS)
+etc, and count up the number of occurrences of each, in order to get a sense of what
+sorts of hierarchies a typical GFF file contains.
+
+

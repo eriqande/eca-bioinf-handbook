@@ -6,6 +6,19 @@
 .rmdnote {
   background-image: url("../images/note.png");
 }
+.rmdtip {
+  background-image: url("../images/tip.png");
+}
+.rmdcaution {
+  background-image: url("../images/caution.png");
+}
+.rmdimportant{
+  background-image: url("../images/important.png");
+}
+.rmdwarning{
+  background-image: url("../images/warning.png");
+}
+
 
 p.caption {
   color: #777;

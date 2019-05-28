@@ -1,5 +1,18 @@
 # Next Generation Sequencing Data Acquisition
 
+## DNA Stuff
+
+We are primarily going to be interested in representing DNA molecules
+in text format as series of nucleotide bases (A, C, G, T).  But, in order
+to do this in a consistent fashion that lets us correctly and precisely compare
+one sequence of DNA to another we need to know how DNA "works" and we require some
+conventions.  
+
+Talk about the fact that it is double-stranded, and hence there is a reverse complement.
+
+Genome references and forward vs reverse strand stuff.
+
+
 ## Sequencing platforms
 Basically talk a little about how the technologies work.
 
