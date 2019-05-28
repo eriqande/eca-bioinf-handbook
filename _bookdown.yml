@@ -1,4 +1,4 @@
-book_filename: "pc-and-b-for-con-evo-genomics"
+book_filename: "eca-bioinf-handbook"
 clean: [packages.bib, bookdown.bbl]
 delete_merged_file: true
 output_dir: "docs"
