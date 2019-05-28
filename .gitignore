@@ -8,5 +8,4 @@ preamble.tex
 .DS_Store
 _book
 _bookdown_files
-libs
 eca-bioinf-handbook.log
