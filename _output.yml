@@ -8,7 +8,8 @@ bookdown::gitbook:
       after: |
         <li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
     download: [pdf, epub]
-    edit: https://github.com/yihui/bookdown-crc/edit/master/%s
+    edit: https://github.com/eriqande/eca-bioinf-handbook/edit/master/%s
+    history: https://github.com/eriqande/eca-bioinf-handbook/commits/master/%s
     sharing:
       github: true
       facebook: false
