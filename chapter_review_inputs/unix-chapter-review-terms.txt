@@ -1,0 +1,12 @@
+absolute path
+relative path
+`/` at beginning of path
+`/` between directories
+home directory
+`~`
+current working directory
+**pwd**
+`cd`
+`.`
+`..`
+`cd -`
