@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 23 Whole genome alignment strategies | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
+  <meta name="description" content="A book example for a Chapman &amp; Hall book." />
+  <meta name="generator" content="bookdown 0.10 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 23 Whole genome alignment strategies | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A book example for a Chapman &amp; Hall book." />
+  <meta name="github-repo" content="yihui/bookdown-crc" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 23 Whole genome alignment strategies | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
+  
+  <meta name="twitter:description" content="A book example for a Chapman &amp; Hall book." />
+  
+
+<meta name="author" content="Eric C. Anderson" />
+
+
+<meta name="date" content="2019-05-28" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="genome-annotation.html">
+<link rel="next" href="bioinformatic-analysis-on-variant-data.html">
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-read-this-book"><i class="fa fa-check"></i>Why read this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i>Structure of the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-information-and-conventions"><i class="fa fa-check"></i>Software information and conventions</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgments"><i class="fa fa-check"></i>Acknowledgments</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="erics-notes-of-what-he-might-do.html"><a href="erics-notes-of-what-he-might-do.html"><i class="fa fa-check"></i><b>2</b> Eric’s Notes of what he might do</a><ul>
+<li class="chapter" data-level="2.1" data-path="erics-notes-of-what-he-might-do.html"><a href="erics-notes-of-what-he-might-do.html#table-of-topics"><i class="fa fa-check"></i><b>2.1</b> Table of topics</a></li>
+</ul></li>
+<li class="part"><span><b>I Part I: Essential Computing Skills</b></span></li>
+<li class="chapter" data-level="3" data-path="overview-of-essential-computing-skills.html"><a href="overview-of-essential-computing-skills.html"><i class="fa fa-check"></i><b>3</b> Overview of Essential Computing Skills</a></li>
+<li class="chapter" data-level="4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html"><i class="fa fa-check"></i><b>4</b> Essential Unix/Linux Terminal Knowledge</a><ul>
+<li class="chapter" data-level="4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#getting-a-bash-shell-on-your-system"><i class="fa fa-check"></i><b>4.1</b> Getting a bash shell on your system</a></li>
+<li class="chapter" data-level="4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#navigating-the-unix-filesystem"><i class="fa fa-check"></i><b>4.2</b> Navigating the Unix filesystem</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#changing-the-working-directory-with-cd"><i class="fa fa-check"></i><b>4.2.1</b> Changing the working directory with <code>cd</code></a></li>
+<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#updating-your-command-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
+<li class="chapter" data-level="4.2.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#tab-completion-for-paths"><i class="fa fa-check"></i><b>4.2.3</b> TAB-completion for paths</a></li>
+<li class="chapter" data-level="4.2.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#listing-the-contents-of-a-directory-with-ls"><i class="fa fa-check"></i><b>4.2.4</b> Listing the contents of a directory with <code>ls</code></a></li>
+<li class="chapter" data-level="4.2.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#globbing"><i class="fa fa-check"></i><b>4.2.5</b> Globbing</a></li>
+<li class="chapter" data-level="4.2.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#what-makes-a-good-file-name"><i class="fa fa-check"></i><b>4.2.6</b> What makes a good file-name?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#the-anatomy-of-a-unix-command"><i class="fa fa-check"></i><b>4.3</b> The anatomy of a Unix command</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#exercises"><i class="fa fa-check"></i><b>4.3.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#handling-manipulating-and-viewing-files-and-streams"><i class="fa fa-check"></i><b>4.4</b> Handling, Manipulating, and Viewing files and streams</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#fundamental-file-handling-commands"><i class="fa fa-check"></i><b>4.4.1</b> Fundamental file-handling commands</a></li>
+<li class="chapter" data-level="4.4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#everytyhing-is-a-file.-io-redirection-and-pipes"><i class="fa fa-check"></i><b>4.4.2</b> Everytyhing is a file. I/O: redirection and pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-env"><i class="fa fa-check"></i><b>4.5</b> Customizing your Environment</a></li>
+<li class="chapter" data-level="4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#a-short-list-of-useful-commands."><i class="fa fa-check"></i><b>4.6</b> A short list of useful commands.</a></li>
+<li class="chapter" data-level="4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-quick-study-guide"><i class="fa fa-check"></i><b>4.7</b> Unix: Quick Study Guide</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="shell-programming.html"><a href="shell-programming.html"><i class="fa fa-check"></i><b>5</b> Shell programming</a><ul>
+<li class="chapter" data-level="5.1" data-path="shell-programming.html"><a href="shell-programming.html#advanced-repitition"><i class="fa fa-check"></i><b>5.1</b> Advanced repitition</a></li>
+<li class="chapter" data-level="5.2" data-path="shell-programming.html"><a href="shell-programming.html#variables"><i class="fa fa-check"></i><b>5.2</b> Variables</a></li>
+<li class="chapter" data-level="5.3" data-path="shell-programming.html"><a href="shell-programming.html#looping"><i class="fa fa-check"></i><b>5.3</b> looping</a></li>
+<li class="chapter" data-level="5.4" data-path="shell-programming.html"><a href="shell-programming.html#further-reading"><i class="fa fa-check"></i><b>5.4</b> Further reading</a></li>
+<li class="chapter" data-level="5.5" data-path="shell-programming.html"><a href="shell-programming.html#reading-files-line-by-line"><i class="fa fa-check"></i><b>5.5</b> reading files line by line</a></li>
+<li class="chapter" data-level="5.6" data-path="shell-programming.html"><a href="shell-programming.html#difference-between-double-and-single-quotes"><i class="fa fa-check"></i><b>5.6</b> Difference between double and single quotes</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Sed, awk, and regular expressions</a></li>
+<li class="chapter" data-level="7" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html"><i class="fa fa-check"></i><b>7</b> High Performance Computing (HPC) Environments</a><ul>
+<li class="chapter" data-level="7.1" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#accessing-remote-computers"><i class="fa fa-check"></i><b>7.1</b> Accessing remote computers</a></li>
+<li class="chapter" data-level="7.2" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#transferring-files-to-remote-computers"><i class="fa fa-check"></i><b>7.2</b> Transferring files to remote computers</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#scp"><i class="fa fa-check"></i><b>7.2.1</b> scp</a></li>
+<li class="chapter" data-level="7.2.2" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#globus"><i class="fa fa-check"></i><b>7.2.2</b> Globus</a></li>
+<li class="chapter" data-level="7.2.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#interfacing-with-the-cloud"><i class="fa fa-check"></i><b>7.2.3</b> Interfacing with “The Cloud”</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#boneyard"><i class="fa fa-check"></i><b>7.3</b> Boneyard</a></li>
+<li class="chapter" data-level="7.4" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#the-queue-slurmsgeuge"><i class="fa fa-check"></i><b>7.4</b> The Queue (SLURM/SGE/UGE)</a></li>
+<li class="chapter" data-level="7.5" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#modules-package"><i class="fa fa-check"></i><b>7.5</b> Modules package</a></li>
+<li class="chapter" data-level="7.6" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#compiling-programs-without-admin-privileges"><i class="fa fa-check"></i><b>7.6</b> Compiling programs without admin privileges</a></li>
+<li class="chapter" data-level="7.7" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#job-arrays"><i class="fa fa-check"></i><b>7.7</b> Job arrays</a></li>
+<li class="chapter" data-level="7.8" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#writing-stdout-and-stderr-to-files"><i class="fa fa-check"></i><b>7.8</b> Writing stdout and stderr to files</a></li>
+<li class="chapter" data-level="7.9" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#breaking-stuff-down"><i class="fa fa-check"></i><b>7.9</b> Breaking stuff down</a></li>
+</ul></li>
+<li class="part"><span><b>II Part II: Reproducible Research Strategies</b></span></li>
+<li class="chapter" data-level="8" data-path="introduction-to-reproducible-research.html"><a href="introduction-to-reproducible-research.html"><i class="fa fa-check"></i><b>8</b> Introduction to Reproducible Research</a></li>
+<li class="chapter" data-level="9" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html"><i class="fa fa-check"></i><b>9</b> Rstudio and Project-centered Organization</a><ul>
+<li class="chapter" data-level="9.1" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#organizing-big-projects"><i class="fa fa-check"></i><b>9.1</b> Organizing big projects</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="version-control.html"><a href="version-control.html"><i class="fa fa-check"></i><b>10</b> Version control</a><ul>
+<li class="chapter" data-level="10.1" data-path="version-control.html"><a href="version-control.html#why-use-version-control"><i class="fa fa-check"></i><b>10.1</b> Why use version control?</a></li>
+<li class="chapter" data-level="10.2" data-path="version-control.html"><a href="version-control.html#git-workings"><i class="fa fa-check"></i><b>10.2</b> How git works</a></li>
+<li class="chapter" data-level="10.3" data-path="version-control.html"><a href="version-control.html#git-workflow-patterns"><i class="fa fa-check"></i><b>10.3</b> git workflow patterns</a></li>
+<li class="chapter" data-level="10.4" data-path="version-control.html"><a href="version-control.html#using-git-with-rstudio"><i class="fa fa-check"></i><b>10.4</b> using git with Rstudio</a></li>
+<li class="chapter" data-level="10.5" data-path="version-control.html"><a href="version-control.html#git-on-the-command-line"><i class="fa fa-check"></i><b>10.5</b> git on the command line</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="a-fast-furious-overview-of-the-tidyverse.html"><a href="a-fast-furious-overview-of-the-tidyverse.html"><i class="fa fa-check"></i><b>11</b> A fast, furious overview of the tidyverse</a></li>
+<li class="chapter" data-level="12" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html"><i class="fa fa-check"></i><b>12</b> Authoring reproducibly with Rmarkdown</a><ul>
+<li class="chapter" data-level="12.1" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#notebooks"><i class="fa fa-check"></i><b>12.1</b> Notebooks</a></li>
+<li class="chapter" data-level="12.2" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#references"><i class="fa fa-check"></i><b>12.2</b> References</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#citr-and-zotero"><i class="fa fa-check"></i><b>12.2.1</b> citr and Zotero</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#bookdown"><i class="fa fa-check"></i><b>12.3</b> Bookdown</a></li>
+<li class="chapter" data-level="12.4" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#google-docs"><i class="fa fa-check"></i><b>12.4</b> Google Docs</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="using-python.html"><a href="using-python.html"><i class="fa fa-check"></i><b>13</b> Using python</a></li>
+<li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
+<li class="chapter" data-level="14" data-path="overview-of-bioinformatic-analyses.html"><a href="overview-of-bioinformatic-analyses.html"><i class="fa fa-check"></i><b>14</b> Overview of Bioinformatic Analyses</a></li>
+<li class="chapter" data-level="15" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html"><i class="fa fa-check"></i><b>15</b> Next Generation Sequencing Data Acquisition</a><ul>
+<li class="chapter" data-level="15.1" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#dna-stuff"><i class="fa fa-check"></i><b>15.1</b> DNA Stuff</a></li>
+<li class="chapter" data-level="15.2" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#sequencing-platforms"><i class="fa fa-check"></i><b>15.2</b> Sequencing platforms</a></li>
+<li class="chapter" data-level="15.3" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#library-prep-protocols"><i class="fa fa-check"></i><b>15.3</b> Library Prep Protocols</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#wgs"><i class="fa fa-check"></i><b>15.3.1</b> WGS</a></li>
+<li class="chapter" data-level="15.3.2" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#rad-seq-methods"><i class="fa fa-check"></i><b>15.3.2</b> RAD-Seq methods</a></li>
+<li class="chapter" data-level="15.3.3" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#amplicon-sequencing"><i class="fa fa-check"></i><b>15.3.3</b> Amplicon Sequencing</a></li>
+<li class="chapter" data-level="15.3.4" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#capture-arrays-rapture-etc."><i class="fa fa-check"></i><b>15.3.4</b> Capture arrays, RAPTURE, etc.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html"><i class="fa fa-check"></i><b>16</b> Bioinformatic file formats and associated tools</a><ul>
+<li class="chapter" data-level="16.1" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#sequences"><i class="fa fa-check"></i><b>16.1</b> Sequences</a></li>
+<li class="chapter" data-level="16.2" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#alignments"><i class="fa fa-check"></i><b>16.2</b> Alignments</a></li>
+<li class="chapter" data-level="16.3" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#variants"><i class="fa fa-check"></i><b>16.3</b> Variants</a></li>
+<li class="chapter" data-level="16.4" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#segments"><i class="fa fa-check"></i><b>16.4</b> Segments</a></li>
+<li class="chapter" data-level="16.5" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#conversionextractions-between-different-formats"><i class="fa fa-check"></i><b>16.5</b> Conversion/Extractions between different formats</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="genome-assembly.html"><a href="genome-assembly.html"><i class="fa fa-check"></i><b>17</b> Genome Assembly</a></li>
+<li class="chapter" data-level="18" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html"><i class="fa fa-check"></i><b>18</b> Alignment of sequence data to a reference genome</a><ul>
+<li class="chapter" data-level="18.1" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html#preprocess"><i class="fa fa-check"></i><b>18.1</b> Preprocess ?</a></li>
+<li class="chapter" data-level="18.2" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html#read-groups"><i class="fa fa-check"></i><b>18.2</b> Read Groups</a></li>
+<li class="chapter" data-level="18.3" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html#merging-bam-files"><i class="fa fa-check"></i><b>18.3</b> Merging BAM files</a></li>
+<li class="chapter" data-level="18.4" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html#divide-and-conquer-strategies"><i class="fa fa-check"></i><b>18.4</b> Divide and Conquer Strategies</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="variant-calling-with-gatk.html"><a href="variant-calling-with-gatk.html"><i class="fa fa-check"></i><b>19</b> Variant calling with GATK</a></li>
+<li class="chapter" data-level="20" data-path="bioinformatics-for-rad-seq-data-with-no-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-no-reference-genome.html"><i class="fa fa-check"></i><b>20</b> Bioinformatics for RAD seq data with no reference genome</a></li>
+<li class="chapter" data-level="21" data-path="processing-amplicon-sequencing-data.html"><a href="processing-amplicon-sequencing-data.html"><i class="fa fa-check"></i><b>21</b> Processing amplicon sequencing data</a></li>
+<li class="chapter" data-level="22" data-path="genome-annotation.html"><a href="genome-annotation.html"><i class="fa fa-check"></i><b>22</b> Genome Annotation</a></li>
+<li class="chapter" data-level="23" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html"><i class="fa fa-check"></i><b>23</b> Whole genome alignment strategies</a><ul>
+<li class="chapter" data-level="23.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#mapping-of-scaffolds-to-a-closely-related-genome"><i class="fa fa-check"></i><b>23.1</b> Mapping of scaffolds to a closely related genome</a></li>
+<li class="chapter" data-level="23.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#obtaining-ancestral-states-from-an-outgroup-genome"><i class="fa fa-check"></i><b>23.2</b> Obtaining Ancestral States from an Outgroup Genome</a><ul>
+<li class="chapter" data-level="23.2.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#using-lastz-to-align-coho-to-the-chinook-genome"><i class="fa fa-check"></i><b>23.2.1</b> Using LASTZ to align coho to the chinook genome</a></li>
+<li class="chapter" data-level="23.2.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#try-on-the-chinook-chromosomes"><i class="fa fa-check"></i><b>23.2.2</b> Try on the chinook chromosomes</a></li>
+<li class="chapter" data-level="23.2.3" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#explore-the-other-parameters-more"><i class="fa fa-check"></i><b>23.2.3</b> Explore the other parameters more</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Part IV: Analysis of Big Variant Data</b></span></li>
+<li class="chapter" data-level="24" data-path="bioinformatic-analysis-on-variant-data.html"><a href="bioinformatic-analysis-on-variant-data.html"><i class="fa fa-check"></i><b>24</b> Bioinformatic analysis on variant data</a></li>
+<li class="part"><span><b>V Part V: Population Genomics</b></span></li>
+<li class="chapter" data-level="25" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html"><i class="fa fa-check"></i><b>25</b> Topics in pop gen</a><ul>
+<li class="chapter" data-level="25.1" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#coalescent"><i class="fa fa-check"></i><b>25.1</b> Coalescent</a></li>
+<li class="chapter" data-level="25.2" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#measures-of-genetic-diversity-and-such"><i class="fa fa-check"></i><b>25.2</b> Measures of genetic diversity and such</a></li>
+<li class="chapter" data-level="25.3" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#demographic-inference-with-partial-a-partial-i-and-moments"><i class="fa fa-check"></i><b>25.3</b> Demographic inference with <span class="math inline">\(\partial a \partial i\)</span> and <em>moments</em></a></li>
+<li class="chapter" data-level="25.4" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#balls-in-boxes"><i class="fa fa-check"></i><b>25.4</b> Balls in Boxes</a></li>
+<li class="chapter" data-level="25.5" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#some-landscape-genetics"><i class="fa fa-check"></i><b>25.5</b> Some landscape genetics</a></li>
+<li class="chapter" data-level="25.6" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#relationship-inference"><i class="fa fa-check"></i><b>25.6</b> Relationship Inference</a></li>
+<li class="chapter" data-level="25.7" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#tests-for-selection"><i class="fa fa-check"></i><b>25.7</b> Tests for Selection</a></li>
+<li class="chapter" data-level="25.8" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#multivariate-associations-gea-etc."><i class="fa fa-check"></i><b>25.8</b> Multivariate Associations, GEA, etc.</a></li>
+<li class="chapter" data-level="25.9" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#estimating-heritability-in-the-wild"><i class="fa fa-check"></i><b>25.9</b> Estimating heritability in the wild</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="whole-genome-alignment-strategies" class="section level1">
+<h1><span class="header-section-number">Chapter 23</span> Whole genome alignment strategies</h1>
+<p>Basically want to talk about situations</p>
+<div id="mapping-of-scaffolds-to-a-closely-related-genome" class="section level2">
+<h2><span class="header-section-number">23.1</span> Mapping of scaffolds to a closely related genome</h2>
+<p>I basically want to get my head fully around how SatsumaSynteny works.</p>
+<p>After that, we might as well talk about how to get in and modify a VCF file to reflect the new positions and such. (It seems we could even add something to the INFO field that listed its position in the old scaffold system. awk + vcftools sort seems like it might be the hot ticket.)</p>
+</div>
+<div id="obtaining-ancestral-states-from-an-outgroup-genome" class="section level2">
+<h2><span class="header-section-number">23.2</span> Obtaining Ancestral States from an Outgroup Genome</h2>
+<p>For many analyses it is helpful (or even necessary) to have a guess at the ancestral
+state of each DNA base in a sequence. These ancestral states are often guessed to be the
+state of a closely related (but outgroup) species. The idea there is that it is rare for
+the same nucleotide to experience a substitution (or mutation) in each species, so the
+base carried by the outgroup is assumed to be the ancestral sequence.</p>
+<p>So, that is pretty straightforward conceptually, but there is plenty of hardship
+along the way to do this. There are two main problems:</p>
+<ol style="list-style-type: decimal">
+<li><p>Aligning the outgroup genome (as a query) to the target genome. This typically
+produces a multiple alignment format (MAF) file. So, we have to understand that
+file format. (read about it <a href="http://genome.ucsc.edu/FAQ/FAQformat#format5">here</a>, on the
+UCSC genome browser site.) A decent program to do this alignment exercise appears to
+be <a href="http://www.bx.psu.edu/miller_lab/dist/README.lastz-1.02.00/README.lastz-1.02.00a.html">LASTZ</a></p></li>
+<li><p>Then, you might have to convert the MAF file to a fasta file to feed into something
+like ANGSD. It seems that Dent Earl has some tools that might to do this <a href="https://github.com/dentearl/mafTools">hhttps://github.com/dentearl/mafTools</a>. Also, the ANGSD github site has a <a href="https://github.com/ANGSD/maf2fasta">maf2fasta</a> program, though no
+documentation to speak of. Or you might just go ahead and write an awk script to do it.
+Galaxy has a website that will do it: <a href="http://mendel.gene.cwru.edu:8080/tool_runner?tool_id=MAF_To_Fasta1">http://mendel.gene.cwru.edu:8080/tool_runner?tool_id=MAF_To_Fasta1</a>, and there is an alignment too called mugsy
+that has a perl script associated with it that will do it: <a href="ftp://188.44.46.157/mugsy_x86-64-v1r2.3/maf2fasta.pl">ftp://188.44.46.157/mugsy_x86-64-v1r2.3/maf2fasta.pl</a>
+Note that the fasta file for ancestral sequence used by ANGSD just seems to have Ns in the places that don’t have alignments.</p></li>
+</ol>
+<p>It will be good to introduce people to those “dotplots” that show alignments.</p>
+<p>Definitely some discussion of seeding and gap extensions, etc. The LASTZ web page has a
+really nice explanation of these things.</p>
+<p>The main take home from my explorations here is that there is no way to just toss two
+genomes into the blender with default setting and expect that you are going to get
+something reasonable out of that. There is a lot of experimentation, it seems to me, and
+you really need to know what all the options are (this might be true of just about
+everything in NGS analysis, but in many cases people just use the defaults….)</p>
+<div id="using-lastz-to-align-coho-to-the-chinook-genome" class="section level3">
+<h3><span class="header-section-number">23.2.1</span> Using LASTZ to align coho to the chinook genome</h3>
+<p>First, compile it:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="co"># in: /Users/eriq/Documents/others_code/lastz-1.04.00</span>
+<span class="fu">make</span>
+<span class="fu">make</span> install
+
+<span class="co"># then I linked those (in bin) to myaliases</span></code></pre>
+<p>Refreshingly, this has almost no dependencies, and the compilation is super easy.</p>
+<p>Now, let’s find the coho chromomsome that corresponds to omy28 on NCBI. We can get this
+with curl:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="co"># in: /tmp</span>
+<span class="ex">curl</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/021/735/GCA_002021735.1_Okis_V1/GCA_002021735.1_Okis_V1_assembly_structure/Primary_Assembly/assembled_chromosomes/FASTA/chrLG28.fna.gz -o coho-28.fna.gz
+<span class="fu">gunzip</span> coho-28.fna.gz</code></pre>
+<p>Then, let’s also pull that chromosome out of the chinook genome we have:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="co"># in /tmp</span>
+<span class="ex">samtools</span> faidx  ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna NC_037124.1 <span class="op">&gt;</span> chinook-28.fna </code></pre>
+<p>Cool, now we should be able to run that:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="bu">time</span> lastz chinook-28.fna coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=maf <span class="op">&gt;</span> chin28_vs_coho28.maf
+
+<span class="ex">real</span>    0m14.449s
+<span class="ex">user</span>    0m14.198s
+<span class="ex">sys</span> 0m0.193s</code></pre>
+<p>OK, that is ridiculously fast. How about we make a file that we can plot in R?</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="bu">time</span> lastz chinook-28.fna coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chin28_vs_coho28.rdp</code></pre>
+<p>I copied that to <code>inputs</code> so we can plot it:</p>
+<pre class="sourceCode r"><code class="sourceCode r">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chin28_vs_coho28.rdp.gz&quot;</span>)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   NC_037124.1 = col_double(),
+##   CM007745.1 = col_double()
+## )</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</code></pre>
+<p><img src="pc-and-b-for-con-evo-genomics_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.</p>
+<p>So, let’s put LG28 in coho against the whole chinook genome. Note the use of the
+bracketed “multiple” in there to let it know that there are multiple sequences in there
+that should get catenated together.</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="bu">time</span> lastz ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna[multiple]  coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=maf <span class="op">&gt;</span> chin_vs_coho28.maf
+
+<span class="ex">FAILURE</span>: in load_fasta_sequence for /Users/eriq/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna, sequence length 2,147,437,804+64,310 exceeds maximum (2,147,483,637)</code></pre>
+<p>No love there. But that chinook genome has a lot of short scaffolds in there too, I think.</p>
+<p>Maybe we could just try LG1. Nope. How about we toss every coho LG against LG1 from chinook…</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="co"># let&#39;s get the first 10 linkage groups from coho:</span>
+<span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..10}</span><span class="kw">;</span> <span class="kw">do</span> <span class="ex">curl</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/021/735/GCA_002021735.1_Okis_V1/GCA_002021735.1_Okis_V1_assembly_structure/Primary_Assembly/assembled_chromosomes/FASTA/chrLG<span class="va">${i}</span>.fna.gz -o coho-<span class="va">${i}</span>.fna.gz<span class="kw">;</span> <span class="fu">gunzip</span> coho-<span class="va">${i}</span>.fna.gz<span class="kw">;</span> <span class="bu">echo</span> <span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span> 
+
+<span class="co"># now lets try aligning those to the chinook</span>
+<span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..10}</span><span class="kw">;</span> <span class="kw">do</span> <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;Done with </span><span class="va">$i</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">done</span></code></pre>
+<p>Nothing looked good until I got to coho LG10:</p>
+<pre class="sourceCode r"><code class="sourceCode r">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chinook1_vs_coho10.rdp.gz&quot;</span>)
+
+<span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</code></pre>
+<p>There is clearly a big section that aligns there. But, we clearly are going to need to
+clean up all the repetive crap, etc on these alignments.</p>
+</div>
+<div id="try-on-the-chinook-chromosomes" class="section level3">
+<h3><span class="header-section-number">23.2.2</span> Try on the chinook chromosomes</h3>
+<p>So, it crapped out on the full Chinook fasta. Note that I could modify the code (or compile it with a <code>-D</code>): check this out in sequences.h:</p>
+<pre class="sourceCode c"><code class="sourceCode c"><span class="co">//  Sequence lengths are normally assumed to be small enough to fit into a</span>
+<span class="co">//  31-bit integer.  This gives a maximum length of about 2.1 billion bp, which</span>
+<span class="co">//  is half the length of a (hypothetical) monoploid human genome.  The</span>
+<span class="co">//  programmer can override this at compile time by defining max_sequence_index</span>
+<span class="co">//  as 32 or 63.</span></code></pre>
+<p>But, for now, I think I will just go for the assembled chromosomes only:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="co"># just get the well assembled chromosomes (about 1.7 Gb)</span>
+<span class="co"># in /tmp</span>
+<span class="ex">samtools</span> faidx ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna <span class="va">$(</span><span class="fu">awk</span> <span class="st">&#39;/^NC/ {printf(&quot;%s &quot;, $1)}&#39;</span>  ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna.fai<span class="va">)</span> <span class="op">&gt;</span> chinook_nc_chroms.fna
+
+<span class="co"># then try tossing coho 1 against that:</span>
+<span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chin_nc_vs_coho1.rdp
+
+<span class="co"># that took about 7 minutes</span>
+<span class="ex">real</span>    6m33.411s
+<span class="ex">user</span>    6m28.391s
+<span class="ex">sys</span> 0m4.121s</code></pre>
+<p>Here is what the figure looks like. It is clear that the bulk of Chromosome 1
+in coho aligns for long distances to two different chromosomes in Chinoook (likely
+paralogs?). This is complex!</p>
+<div class="figure">
+<img src="figs/quickie.jpg" alt="Coho Chromo 1 on catenated chinook chromos" />
+<p class="caption">Coho Chromo 1 on catenated chinook chromos</p>
+</div>
+</div>
+<div id="explore-the-other-parameters-more" class="section level3">
+<h3><span class="header-section-number">23.2.3</span> Explore the other parameters more</h3>
+<p>I am going to use the chinook chromosome 1 and coho 10 to explore things that will
+clean up the results a little bit.</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="co"># in /tmp</span>
+ <span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span>
+<span class="ex">real</span>    0m29.055s
+<span class="ex">user</span>    0m28.497s
+<span class="ex">sys</span> 0m0.413s</code></pre>
+<p>That is quick enough to explore a few things. Note that we are already doing gap-free extension, because
+“By default seeds are extended to HSPs using x-drop extension, with entropy adjustment.” However, by
+default, chaining is not done, and that is the key step in which a path is found through the
+high-scoring pairs (HSPs). That doesn’t take much (any) extra time and totally cleans things up.</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span>
+
+<span class="ex">real</span>    0m28.704s</code></pre>
+<p>So, that is greatly improved:</p>
+<pre class="sourceCode r"><code class="sourceCode r">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chain-chinook1_vs_coho10.rdp.gz&quot;</span>)
+
+<span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</code></pre>
+<p>So, it would be worth seeing if chaining also cleans up the multi-chrom alignment:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain <span class="op">&gt;</span> chin_nc_vs_coho1.rdp
+
+<span class="ex">real</span>    6m42.835s
+<span class="ex">user</span>    6m35.042s
+<span class="ex">sys</span> 0m6.207s</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chin_nc_vs_coho1-chain.rdp.gz&quot;</span>)
+
+<span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</code></pre>
+<p>OK, that shows that it will find crappy chains if given the chance. But if you
+zoom in on that stuff you see that some of the spots are pretty short, and some are super
+robust. So, we will want some further filtering
+to make this work. So, we need to check out the “back-end filtering.” that is possible.
+Back-end filtering does not happen by default.</p>
+<p>Let’s say that we want 70 Kb alignment blocks. That is .001 of the total input sequence.</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain --coverage=0.1 <span class="op">&gt;</span> chin_nc_vs_coho1-cov-0.1.rdp</code></pre>
+<p>That took 6.5 minutes again. But, it also produced no output whatsoever. We probably
+want to filter on identity first anyway. Because that takes so long, maybe we could
+do it with our single chromosome first.</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95.rdp&quot;</span>)
+
+<span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</code></pre>
+<p>That keeps things very clean, but the alignment blocks are all pretty short (like 50 to 300
+bp long). So perhaps we need to do gapped extension here to make these things better. This
+turns out to take a good deal longer.</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=maf --chain --identity=95  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped.maf<span class="kw">;</span>
+
+<span class="ex">real</span>    3m15.575s
+<span class="ex">user</span>    3m14.048s
+<span class="ex">sys</span> 0m0.936s</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95-gapped.rdp&quot;</span>)
+<span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</code></pre>
+<p>That is pretty clean and slick.</p>
+<p>Now, this has got me to thinking that maybe I <em>can</em> do this on a chromosome by chromosome basis.</p>
+<p>Check what 97% identity looks like:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain --identity=97  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident97-gapped.rdp<span class="kw">;</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident97-gapped.rdp&quot;</span>)
+<span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</code></pre>
+<p>That looks to have a few more holes in it.</p>
+<p>Final test. Let’s see what happens when we chain it on a chromosome that doesn’t have
+any homology:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="co"># first with no backend filtering</span>
+<span class="va">i=</span>1; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-gapped.rdp<span class="kw">;</span>
+
+<span class="ex">real</span>    0m35.130s
+<span class="ex">user</span>    0m34.642s
+<span class="ex">sys</span> 0m0.413s
+
+<span class="co"># Hey! That is cool.  When there are no HSPs to chain, this doesn&#39;t take very long</span>
+<span class="va">i=</span>1; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain --identity=95 <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-gapped-ident95.rdp<span class="kw">;</span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho1-gapped.rdp&quot;</span>)
+<span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</code></pre>
+<p>OK, it finds something nice and crappy there.</p>
+<p>What about if we require 95% identity?</p>
+<pre class="sourceCode r"><code class="sourceCode r">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho1-gapped-ident95.rdp&quot;</span>)
+<span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</code></pre>
+<p>That leaves us with very little.</p>
+<p>Let’s also try interpolation at the end to see how that does. Note that here we also produce the
+rdotplot at the same time as the maf.</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=maf --rdotplot=chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped-inner1000.rdp --chain --identity=95 --inner=1000 <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped-inner1000.maf<span class="kw">;</span>
+
+<span class="ex">real</span>    4m25.625s
+<span class="ex">user</span>    4m22.957s
+<span class="ex">sys</span> 0m1.478s</code></pre>
+<p>That took an extra minute, but was not so bad.</p>
+<pre class="sourceCode r"><code class="sourceCode r">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95-gapped-inner1000.rdp&quot;</span>)
+<span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</code></pre>
+<div id="repeat-masking-the-coho-genome" class="section level4">
+<h4><span class="header-section-number">23.2.3.1</span> Repeat Masking the Coho genome</h4>
+<p>Turns out that NCBI site has the repeat masker output in GCF_002021735.1_Okis_V1_rm.out.gz.
+I save that to a shorter name. Now I will make a bed file of the repeat regions. Then I use bedtools maskfasta to softmask that fasta file.</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="co"># in: /Users/eriq/Documents/UnsyncedData/Okis_v1</span>
+<span class="ex">gzcat</span> Okis_V1_rm.out.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;NR&gt;3 {printf(&quot;%s\t%s\t%s\n&quot;, $5, $6, $7)}&#39;</span> <span class="op">&gt;</span> repeat-regions.bed 
+
+<span class="ex">bedtools</span> maskfasta -fi Okis_V1.fna -bed repeat-regions.bed  -fo Okis_V1-soft-masked.fna  -soft</code></pre>
+<p>That works great. But it turns out that the coho genome is already softmasked.</p>
+<p>But, it is good to now that I can use a repeat mask output file to toss repeat
+sites if I want to for ANGSD analyses, etc.</p>
+</div>
+<div id="multiz-maf2fasta" class="section level4">
+<h4><span class="header-section-number">23.2.3.2</span> multiz maf2fasta</h4>
+<p>So, it looks like you can use single_cov2 from multiz to retain only a single
+alignment block covering each area. Then you can maf2fasta that and send it off in
+fasta format. Line2 holds the reference (target) sequence, but it has dashes added where
+the query has stuff not appearing in the target. So, what you have to do is run through that sequence and drop all the positions in the query that correspond to dashes in the
+target. That will get us what we want.</p>
+<p>But maybe I can just use megablast like Christensen and company. They have some of their
+scripts, but it is not clear to me that it will be easy to get that back to a fasta
+for later analysis in ANGSD.</p>
+<p>Not only that, but then there is the whole paralog issue. I am exploring that a little
+bit right now. It looks like when you crank the identity requirement up, the paralogs
+get pretty spotty so they can be easily recognized. For example setting the identity
+at 99.5 makes it clear which is the paralog:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain --identity=99.5 <span class="op">&gt;</span> chin_nc_vs_coho1-chain-ident-99.5.rdp
+<span class="co"># takes about 6 minutes</span></code></pre>
+<p>And the figure is here.</p>
+<div class="figure">
+<img src="figs/quickie.jpg" alt="Coho Chromo 1 on catenated chinook chromos. Ident=99.5" />
+<p class="caption">Coho Chromo 1 on catenated chinook chromos. Ident=99.5</p>
+</div>
+<p>So, I think this is going to be a decent workflow:</p>
+<ol style="list-style-type: decimal">
+<li>run lastz on each coho linkage group against each chinook chromosome separately. Do this at identity=92 and identity=95 and identity=99.9. For each run, produce a .maf file and
+at the same time a .rdotplot output.</li>
+<li>Combine all the .rdotplot files together into something that can be faceted over
+chromosomes and make a massive facet grid showing the results for all chromosomes.
+Do this at different identity levels so that the paralogs can be distinguished.</li>
+<li>Visually look up each columns of those plots and determine which coho chromosomes
+carry homologous material for each chinook chromosome. For each such chromosome pair,
+run single_cov2 on them (maybe on the ident=92 version).</li>
+<li>Then merge those MAFs. Probably can just cat them together, but there might be some
+sorting that needs to be done on them.</li>
+<li>Run maf2fasta on those merged mafs to get a fasta for each chinook chromosome.</li>
+<li>Write a C-program that uses uthash to efficiently read the fasta for each chinook
+chromosome and then write out a version in which the positions that are dashes in the
+chinook reference are removed from both the chinook reference and the aligned coho
+sequence. _Actually, one can just pump each sequence out to a separate file in which
+each site occupies one line. Then paste those and do the comparison…</li>
+</ol>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">2018-10-18</span> 11:15 /tmp/--% time (awk <span class="st">&#39;NR==2&#39;</span> splud <span class="kw">|</span> <span class="ex">fold</span> -w1 <span class="op">&gt;</span> spp1.text)
+
+<span class="ex">real</span>    0m23.244s
+<span class="ex">user</span>    0m22.537s
+<span class="ex">sys</span> 0m0.685s
+
+<span class="co"># then you can use awk easily like this:</span>
+<span class="ex">paste</span> spp1.text spp2.text <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;BEGIN {SUBSEP = &quot; &quot;} {n[$1,$2]++} END {for(i in n) print i, n[i]}&#39;</span> </code></pre>
+<ol start="7" style="list-style-type: decimal">
+<li>The coho sequence thus obtained will have dashes anywhere there isn’t coho aligned
+to the chinook. So, first, for each chromosome I can count the number of dashes, which
+will tell me the fraction of sites on the chinook genome that were aligned (sort of—there is an issue with N’s in the coho genome.) Then those dashes can be converted to N’s.</li>
+<li>It would be good to count the number of sites that are not N’s in chinook that are also
+not Ns in coho, to know how much of it we have aligned.</li>
+</ol>
+<p>Note, the last thing that really remains here is making sure that I can run two or more different query sequences against one chinook genome and then process that out correctly
+into a fasta.</p>
+<p>Note that Figure 1 in christensen actually gives me a lot to go on in terms of which
+chromosomes in coho to map against which ones in chinook.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="genome-annotation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bioinformatic-analysis-on-variant-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/yihui/bookdown-crc/edit/master/3.10-whole-genome-alignment.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["pc-and-b-for-con-evo-genomics.pdf", "pc-and-b-for-con-evo-genomics.epub"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

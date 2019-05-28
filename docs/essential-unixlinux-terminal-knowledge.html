@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Essential Unix/Linux Terminal Knowledge | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
+  <meta name="description" content="A book example for a Chapman &amp; Hall book." />
+  <meta name="generator" content="bookdown 0.10 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Essential Unix/Linux Terminal Knowledge | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A book example for a Chapman &amp; Hall book." />
+  <meta name="github-repo" content="yihui/bookdown-crc" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Essential Unix/Linux Terminal Knowledge | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
+  
+  <meta name="twitter:description" content="A book example for a Chapman &amp; Hall book." />
+  
+
+<meta name="author" content="Eric C. Anderson" />
+
+
+<meta name="date" content="2019-05-28" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="overview-of-essential-computing-skills.html">
+<link rel="next" href="shell-programming.html">
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">A Book Example</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-read-this-book"><i class="fa fa-check"></i>Why read this book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i>Structure of the book</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-information-and-conventions"><i class="fa fa-check"></i>Software information and conventions</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgments"><i class="fa fa-check"></i>Acknowledgments</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="erics-notes-of-what-he-might-do.html"><a href="erics-notes-of-what-he-might-do.html"><i class="fa fa-check"></i><b>2</b> Eric’s Notes of what he might do</a><ul>
+<li class="chapter" data-level="2.1" data-path="erics-notes-of-what-he-might-do.html"><a href="erics-notes-of-what-he-might-do.html#table-of-topics"><i class="fa fa-check"></i><b>2.1</b> Table of topics</a></li>
+</ul></li>
+<li class="part"><span><b>I Part I: Essential Computing Skills</b></span></li>
+<li class="chapter" data-level="3" data-path="overview-of-essential-computing-skills.html"><a href="overview-of-essential-computing-skills.html"><i class="fa fa-check"></i><b>3</b> Overview of Essential Computing Skills</a></li>
+<li class="chapter" data-level="4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html"><i class="fa fa-check"></i><b>4</b> Essential Unix/Linux Terminal Knowledge</a><ul>
+<li class="chapter" data-level="4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#getting-a-bash-shell-on-your-system"><i class="fa fa-check"></i><b>4.1</b> Getting a bash shell on your system</a></li>
+<li class="chapter" data-level="4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#navigating-the-unix-filesystem"><i class="fa fa-check"></i><b>4.2</b> Navigating the Unix filesystem</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#changing-the-working-directory-with-cd"><i class="fa fa-check"></i><b>4.2.1</b> Changing the working directory with <code>cd</code></a></li>
+<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#updating-your-command-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
+<li class="chapter" data-level="4.2.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#tab-completion-for-paths"><i class="fa fa-check"></i><b>4.2.3</b> TAB-completion for paths</a></li>
+<li class="chapter" data-level="4.2.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#listing-the-contents-of-a-directory-with-ls"><i class="fa fa-check"></i><b>4.2.4</b> Listing the contents of a directory with <code>ls</code></a></li>
+<li class="chapter" data-level="4.2.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#globbing"><i class="fa fa-check"></i><b>4.2.5</b> Globbing</a></li>
+<li class="chapter" data-level="4.2.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#what-makes-a-good-file-name"><i class="fa fa-check"></i><b>4.2.6</b> What makes a good file-name?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#the-anatomy-of-a-unix-command"><i class="fa fa-check"></i><b>4.3</b> The anatomy of a Unix command</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#exercises"><i class="fa fa-check"></i><b>4.3.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#handling-manipulating-and-viewing-files-and-streams"><i class="fa fa-check"></i><b>4.4</b> Handling, Manipulating, and Viewing files and streams</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#fundamental-file-handling-commands"><i class="fa fa-check"></i><b>4.4.1</b> Fundamental file-handling commands</a></li>
+<li class="chapter" data-level="4.4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#everytyhing-is-a-file.-io-redirection-and-pipes"><i class="fa fa-check"></i><b>4.4.2</b> Everytyhing is a file. I/O: redirection and pipes</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-env"><i class="fa fa-check"></i><b>4.5</b> Customizing your Environment</a></li>
+<li class="chapter" data-level="4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#a-short-list-of-useful-commands."><i class="fa fa-check"></i><b>4.6</b> A short list of useful commands.</a></li>
+<li class="chapter" data-level="4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-quick-study-guide"><i class="fa fa-check"></i><b>4.7</b> Unix: Quick Study Guide</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="shell-programming.html"><a href="shell-programming.html"><i class="fa fa-check"></i><b>5</b> Shell programming</a><ul>
+<li class="chapter" data-level="5.1" data-path="shell-programming.html"><a href="shell-programming.html#advanced-repitition"><i class="fa fa-check"></i><b>5.1</b> Advanced repitition</a></li>
+<li class="chapter" data-level="5.2" data-path="shell-programming.html"><a href="shell-programming.html#variables"><i class="fa fa-check"></i><b>5.2</b> Variables</a></li>
+<li class="chapter" data-level="5.3" data-path="shell-programming.html"><a href="shell-programming.html#looping"><i class="fa fa-check"></i><b>5.3</b> looping</a></li>
+<li class="chapter" data-level="5.4" data-path="shell-programming.html"><a href="shell-programming.html#further-reading"><i class="fa fa-check"></i><b>5.4</b> Further reading</a></li>
+<li class="chapter" data-level="5.5" data-path="shell-programming.html"><a href="shell-programming.html#reading-files-line-by-line"><i class="fa fa-check"></i><b>5.5</b> reading files line by line</a></li>
+<li class="chapter" data-level="5.6" data-path="shell-programming.html"><a href="shell-programming.html#difference-between-double-and-single-quotes"><i class="fa fa-check"></i><b>5.6</b> Difference between double and single quotes</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Sed, awk, and regular expressions</a></li>
+<li class="chapter" data-level="7" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html"><i class="fa fa-check"></i><b>7</b> High Performance Computing (HPC) Environments</a><ul>
+<li class="chapter" data-level="7.1" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#accessing-remote-computers"><i class="fa fa-check"></i><b>7.1</b> Accessing remote computers</a></li>
+<li class="chapter" data-level="7.2" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#transferring-files-to-remote-computers"><i class="fa fa-check"></i><b>7.2</b> Transferring files to remote computers</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#scp"><i class="fa fa-check"></i><b>7.2.1</b> scp</a></li>
+<li class="chapter" data-level="7.2.2" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#globus"><i class="fa fa-check"></i><b>7.2.2</b> Globus</a></li>
+<li class="chapter" data-level="7.2.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#interfacing-with-the-cloud"><i class="fa fa-check"></i><b>7.2.3</b> Interfacing with “The Cloud”</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#boneyard"><i class="fa fa-check"></i><b>7.3</b> Boneyard</a></li>
+<li class="chapter" data-level="7.4" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#the-queue-slurmsgeuge"><i class="fa fa-check"></i><b>7.4</b> The Queue (SLURM/SGE/UGE)</a></li>
+<li class="chapter" data-level="7.5" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#modules-package"><i class="fa fa-check"></i><b>7.5</b> Modules package</a></li>
+<li class="chapter" data-level="7.6" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#compiling-programs-without-admin-privileges"><i class="fa fa-check"></i><b>7.6</b> Compiling programs without admin privileges</a></li>
+<li class="chapter" data-level="7.7" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#job-arrays"><i class="fa fa-check"></i><b>7.7</b> Job arrays</a></li>
+<li class="chapter" data-level="7.8" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#writing-stdout-and-stderr-to-files"><i class="fa fa-check"></i><b>7.8</b> Writing stdout and stderr to files</a></li>
+<li class="chapter" data-level="7.9" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#breaking-stuff-down"><i class="fa fa-check"></i><b>7.9</b> Breaking stuff down</a></li>
+</ul></li>
+<li class="part"><span><b>II Part II: Reproducible Research Strategies</b></span></li>
+<li class="chapter" data-level="8" data-path="introduction-to-reproducible-research.html"><a href="introduction-to-reproducible-research.html"><i class="fa fa-check"></i><b>8</b> Introduction to Reproducible Research</a></li>
+<li class="chapter" data-level="9" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html"><i class="fa fa-check"></i><b>9</b> Rstudio and Project-centered Organization</a><ul>
+<li class="chapter" data-level="9.1" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#organizing-big-projects"><i class="fa fa-check"></i><b>9.1</b> Organizing big projects</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="version-control.html"><a href="version-control.html"><i class="fa fa-check"></i><b>10</b> Version control</a><ul>
+<li class="chapter" data-level="10.1" data-path="version-control.html"><a href="version-control.html#why-use-version-control"><i class="fa fa-check"></i><b>10.1</b> Why use version control?</a></li>
+<li class="chapter" data-level="10.2" data-path="version-control.html"><a href="version-control.html#git-workings"><i class="fa fa-check"></i><b>10.2</b> How git works</a></li>
+<li class="chapter" data-level="10.3" data-path="version-control.html"><a href="version-control.html#git-workflow-patterns"><i class="fa fa-check"></i><b>10.3</b> git workflow patterns</a></li>
+<li class="chapter" data-level="10.4" data-path="version-control.html"><a href="version-control.html#using-git-with-rstudio"><i class="fa fa-check"></i><b>10.4</b> using git with Rstudio</a></li>
+<li class="chapter" data-level="10.5" data-path="version-control.html"><a href="version-control.html#git-on-the-command-line"><i class="fa fa-check"></i><b>10.5</b> git on the command line</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="a-fast-furious-overview-of-the-tidyverse.html"><a href="a-fast-furious-overview-of-the-tidyverse.html"><i class="fa fa-check"></i><b>11</b> A fast, furious overview of the tidyverse</a></li>
+<li class="chapter" data-level="12" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html"><i class="fa fa-check"></i><b>12</b> Authoring reproducibly with Rmarkdown</a><ul>
+<li class="chapter" data-level="12.1" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#notebooks"><i class="fa fa-check"></i><b>12.1</b> Notebooks</a></li>
+<li class="chapter" data-level="12.2" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#references"><i class="fa fa-check"></i><b>12.2</b> References</a><ul>
+<li class="chapter" data-level="12.2.1" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#citr-and-zotero"><i class="fa fa-check"></i><b>12.2.1</b> citr and Zotero</a></li>
+</ul></li>
+<li class="chapter" data-level="12.3" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#bookdown"><i class="fa fa-check"></i><b>12.3</b> Bookdown</a></li>
+<li class="chapter" data-level="12.4" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#google-docs"><i class="fa fa-check"></i><b>12.4</b> Google Docs</a></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="using-python.html"><a href="using-python.html"><i class="fa fa-check"></i><b>13</b> Using python</a></li>
+<li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
+<li class="chapter" data-level="14" data-path="overview-of-bioinformatic-analyses.html"><a href="overview-of-bioinformatic-analyses.html"><i class="fa fa-check"></i><b>14</b> Overview of Bioinformatic Analyses</a></li>
+<li class="chapter" data-level="15" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html"><i class="fa fa-check"></i><b>15</b> Next Generation Sequencing Data Acquisition</a><ul>
+<li class="chapter" data-level="15.1" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#dna-stuff"><i class="fa fa-check"></i><b>15.1</b> DNA Stuff</a></li>
+<li class="chapter" data-level="15.2" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#sequencing-platforms"><i class="fa fa-check"></i><b>15.2</b> Sequencing platforms</a></li>
+<li class="chapter" data-level="15.3" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#library-prep-protocols"><i class="fa fa-check"></i><b>15.3</b> Library Prep Protocols</a><ul>
+<li class="chapter" data-level="15.3.1" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#wgs"><i class="fa fa-check"></i><b>15.3.1</b> WGS</a></li>
+<li class="chapter" data-level="15.3.2" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#rad-seq-methods"><i class="fa fa-check"></i><b>15.3.2</b> RAD-Seq methods</a></li>
+<li class="chapter" data-level="15.3.3" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#amplicon-sequencing"><i class="fa fa-check"></i><b>15.3.3</b> Amplicon Sequencing</a></li>
+<li class="chapter" data-level="15.3.4" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#capture-arrays-rapture-etc."><i class="fa fa-check"></i><b>15.3.4</b> Capture arrays, RAPTURE, etc.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="16" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html"><i class="fa fa-check"></i><b>16</b> Bioinformatic file formats and associated tools</a><ul>
+<li class="chapter" data-level="16.1" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#sequences"><i class="fa fa-check"></i><b>16.1</b> Sequences</a></li>
+<li class="chapter" data-level="16.2" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#alignments"><i class="fa fa-check"></i><b>16.2</b> Alignments</a></li>
+<li class="chapter" data-level="16.3" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#variants"><i class="fa fa-check"></i><b>16.3</b> Variants</a></li>
+<li class="chapter" data-level="16.4" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#segments"><i class="fa fa-check"></i><b>16.4</b> Segments</a></li>
+<li class="chapter" data-level="16.5" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#conversionextractions-between-different-formats"><i class="fa fa-check"></i><b>16.5</b> Conversion/Extractions between different formats</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="genome-assembly.html"><a href="genome-assembly.html"><i class="fa fa-check"></i><b>17</b> Genome Assembly</a></li>
+<li class="chapter" data-level="18" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html"><i class="fa fa-check"></i><b>18</b> Alignment of sequence data to a reference genome</a><ul>
+<li class="chapter" data-level="18.1" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html#preprocess"><i class="fa fa-check"></i><b>18.1</b> Preprocess ?</a></li>
+<li class="chapter" data-level="18.2" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html#read-groups"><i class="fa fa-check"></i><b>18.2</b> Read Groups</a></li>
+<li class="chapter" data-level="18.3" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html#merging-bam-files"><i class="fa fa-check"></i><b>18.3</b> Merging BAM files</a></li>
+<li class="chapter" data-level="18.4" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html#divide-and-conquer-strategies"><i class="fa fa-check"></i><b>18.4</b> Divide and Conquer Strategies</a></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="variant-calling-with-gatk.html"><a href="variant-calling-with-gatk.html"><i class="fa fa-check"></i><b>19</b> Variant calling with GATK</a></li>
+<li class="chapter" data-level="20" data-path="bioinformatics-for-rad-seq-data-with-no-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-no-reference-genome.html"><i class="fa fa-check"></i><b>20</b> Bioinformatics for RAD seq data with no reference genome</a></li>
+<li class="chapter" data-level="21" data-path="processing-amplicon-sequencing-data.html"><a href="processing-amplicon-sequencing-data.html"><i class="fa fa-check"></i><b>21</b> Processing amplicon sequencing data</a></li>
+<li class="chapter" data-level="22" data-path="genome-annotation.html"><a href="genome-annotation.html"><i class="fa fa-check"></i><b>22</b> Genome Annotation</a></li>
+<li class="chapter" data-level="23" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html"><i class="fa fa-check"></i><b>23</b> Whole genome alignment strategies</a><ul>
+<li class="chapter" data-level="23.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#mapping-of-scaffolds-to-a-closely-related-genome"><i class="fa fa-check"></i><b>23.1</b> Mapping of scaffolds to a closely related genome</a></li>
+<li class="chapter" data-level="23.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#obtaining-ancestral-states-from-an-outgroup-genome"><i class="fa fa-check"></i><b>23.2</b> Obtaining Ancestral States from an Outgroup Genome</a><ul>
+<li class="chapter" data-level="23.2.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#using-lastz-to-align-coho-to-the-chinook-genome"><i class="fa fa-check"></i><b>23.2.1</b> Using LASTZ to align coho to the chinook genome</a></li>
+<li class="chapter" data-level="23.2.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#try-on-the-chinook-chromosomes"><i class="fa fa-check"></i><b>23.2.2</b> Try on the chinook chromosomes</a></li>
+<li class="chapter" data-level="23.2.3" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#explore-the-other-parameters-more"><i class="fa fa-check"></i><b>23.2.3</b> Explore the other parameters more</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Part IV: Analysis of Big Variant Data</b></span></li>
+<li class="chapter" data-level="24" data-path="bioinformatic-analysis-on-variant-data.html"><a href="bioinformatic-analysis-on-variant-data.html"><i class="fa fa-check"></i><b>24</b> Bioinformatic analysis on variant data</a></li>
+<li class="part"><span><b>V Part V: Population Genomics</b></span></li>
+<li class="chapter" data-level="25" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html"><i class="fa fa-check"></i><b>25</b> Topics in pop gen</a><ul>
+<li class="chapter" data-level="25.1" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#coalescent"><i class="fa fa-check"></i><b>25.1</b> Coalescent</a></li>
+<li class="chapter" data-level="25.2" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#measures-of-genetic-diversity-and-such"><i class="fa fa-check"></i><b>25.2</b> Measures of genetic diversity and such</a></li>
+<li class="chapter" data-level="25.3" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#demographic-inference-with-partial-a-partial-i-and-moments"><i class="fa fa-check"></i><b>25.3</b> Demographic inference with <span class="math inline">\(\partial a \partial i\)</span> and <em>moments</em></a></li>
+<li class="chapter" data-level="25.4" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#balls-in-boxes"><i class="fa fa-check"></i><b>25.4</b> Balls in Boxes</a></li>
+<li class="chapter" data-level="25.5" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#some-landscape-genetics"><i class="fa fa-check"></i><b>25.5</b> Some landscape genetics</a></li>
+<li class="chapter" data-level="25.6" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#relationship-inference"><i class="fa fa-check"></i><b>25.6</b> Relationship Inference</a></li>
+<li class="chapter" data-level="25.7" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#tests-for-selection"><i class="fa fa-check"></i><b>25.7</b> Tests for Selection</a></li>
+<li class="chapter" data-level="25.8" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#multivariate-associations-gea-etc."><i class="fa fa-check"></i><b>25.8</b> Multivariate Associations, GEA, etc.</a></li>
+<li class="chapter" data-level="25.9" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#estimating-heritability-in-the-wild"><i class="fa fa-check"></i><b>25.9</b> Estimating heritability in the wild</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="essential-unixlinux-terminal-knowledge" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Essential Unix/Linux Terminal Knowledge</h1>
+<p>Unix was developed at AT&amp;T Bell Labs in the 1960s. Formally “UNIX” is a
+trademarked operating system,
+but when most people talk about “Unix”
+they are talking about the <em>shell</em>, which is the text-command-driven interface
+by which Unix users interact with the computer.</p>
+<p>The Unix shell has been around, largely unchanged, for many decades because it is <em>awesome</em>.
+When you learn it, you aren’t learning a fad, but, rather, a mode of interacting
+with your computer that has been time tested and will likely
+continue to be the lingua franca of large computer systems
+for many decades to come.</p>
+<p>For bioinformatics, Unix is the tool of choice for a number of reasons: 1) complex analyses
+of data can be undertaken with a minimum of words; 2) Unix allows automation of tasks,
+especially ones that are repeated many times; 3) the standard set of Unix commands includes
+a number of tools for managing large files and for inspecting and manipulating text files; 4) multiple,
+successive analyses upon a single stream of data can be expressed and executed efficiently,
+typically without the need to write intermediate results to the disk;
+5) Unix was developed when computers were extremely limited in terms of memory and speed. Accordingly,
+many Unix tools have been well optimized and are appropriate to the massive genomic data sets
+that can be taxing even for today’s large, high performance computing systems; 6) virtually all state-of-the-art
+bioinformatc tools are tailored to run in a Unix environment; and finally, 7) essentially
+every high-performance computer cluster runs some variant of Unix, so if you are going to be
+using a cluster for your analyses (which is highly likely), then you have gotta know Unix!</p>
+<p><em>A paragraph about what kinds of computers run Unix. (Often big servers, but also some
+flavors of personal laptops). The difference (similarities) between
+Unix and Linux. You might have Unix on your system (if you have a Mac). Or not. All this
+will effect what you need to do to get a Unix shell on your computer</em></p>
+<div id="getting-a-bash-shell-on-your-system" class="section level2">
+<h2><span class="header-section-number">4.1</span> Getting a bash shell on your system</h2>
+<p>Talk about what a shell is.</p>
+<p>For windows, it looks like windows 10 might be able to do pretty well with it:<br />
+<a href="https://www.howtogeek.com/265900/everything-you-can-do-with-windows-10s-new-bash-shell/">https://www.howtogeek.com/265900/everything-you-can-do-with-windows-10s-new-bash-shell/</a></p>
+<p>But maybe I should get a windows box and use Rstudio and see how the terminal in R studio is.</p>
+<p>For now, I will punt on this and get just assume POSIX available on the system.</p>
+<p>However, we will want to start everyone off by having them type <code>bash</code> to
+make sure they have a bash shell.</p>
+<p>Also, I am going to have to talk a little bit about what a shell is here….</p>
+</div>
+<div id="navigating-the-unix-filesystem" class="section level2">
+<h2><span class="header-section-number">4.2</span> Navigating the Unix filesystem</h2>
+<p>Most computer users will be familiar with the idea of saving documents into “folders.”
+These folders are typically navigated using a “point-and-click” interface
+like that of the Finder in Mac OS X or the File Explorer in a Windows system.
+When working in a Unix shell, such a point-and-click interface is typically not available,
+and the first hurdle that new Unix users must surmount is learning to quickly navigate in
+the Unix filesystem from a terminal prompt. So,
+we begin our foray into Unix and its command prompt with this essential skill.</p>
+<p>When you start a Unix shell in a terminal window you get a <em>command prompt</em>
+that might look something like this:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">my-laptop</span>:~ me$</code></pre>
+<p>or, perhaps something as simple as:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash">$</code></pre>
+<p>or maybe something like:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash">/<span class="ex">~/--%</span></code></pre>
+<p>We will adopt the convention in this book that, unless we are intentionally doing something
+fancier, the Unix command prompt is given
+by a percent sign, and this will be used when displaying text typed at a command
+prompt, followed by output from the command. For example</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> pwd
+<span class="ex">/Users/eriq</span></code></pre>
+<p>shows that I issued the Unix command <code>pwd</code>, which instructs the computer to
+<strong>p</strong>rint <strong>w</strong>orking <strong>d</strong>irectory, and the computer responded by printing
+<code>/Users/eriq</code>, which, on my Mac OS X system is my <em>home directory</em>.
+In Unix parlance, rather than speaking of “folders,” we call
+them “directories;” however, the two are essentially the same thing.
+Every user
+on a Unix system has a home directory. It is the domain on a shared computer
+in which the user has privileges to create and delete files and do work.
+It is where most of your work will happen. When you are working in the Unix
+shell there is a notion of a
+<em>current working directory</em>—that is to say, a place within the hierarchy of
+directories where you are “currently working.” This will become more concrete
+after we have encountered a few more concepts.</p>
+The specification <code>/Users/eriq</code> is what is known as an <em>absolute path</em>, as it provides the
+“address” of my home directory, <code>eriq</code>, on my laptop, starting from the <em>root</em>
+of the filesystem. Every Unix computer system has a root directory (you can
+think of it as the “top-most” directory in a hierarchy), and on every Unix system
+this root directory always has the special name, <code>/</code>. The address
+of a directory relative to the root is specified by starting with the root (<code>/</code>)
+and then naming each subsequent directory that you must go inside of in order to
+get to the destination, each separated by a <code>/</code>. For example, <code>/Users/eriq</code>
+tells us that we start at the root (<code>/</code>) and then we go into the <code>Users</code> directory
+(<code>Users</code>) and then, from there, into the <code>eriq</code> directory. Note that <code>/</code> is used to mean the root
+directory when at the beginning of an absolute path, but in the remainder of the path
+its meaning is different: it is used merely as a separator
+between directories nested within one another. Figure <a href="essential-unixlinux-terminal-knowledge.html#fig:file-hierarchy">4.1</a> shows
+an example hierarchy of some of the directories that are found on the author’s
+laptop.
+<div class="figure" style="text-align: center"><span id="fig:file-hierarchy"></span>
+<img src="figs/file-hierarchy.png" alt="A partial view of the directories on the author's laptop."  />
+<p class="caption">
+FIGURE 4.1: A partial view of the directories on the author’s laptop.
+</p>
+</div>
+<p>From this perspective it is obvious that the directory <code>eriq</code> lives inside <code>Users</code>, and also that, for example,
+the absolute path of the directory <code>git-repos</code> would be <code>/Users/eriq/Documents/git-repos</code>.</p>
+<p>Absolute paths give the precise location of a directory relative to the root of the filesystem,
+but it is not always convenient, nor appropriate, to work entirely with absolute paths.
+For one thing, directories that are deeply nested within many others can have long and unwieldy
+absolute path names that are hard to type and can be difficult to remember. Furthermore, as we will
+see later in this book, absolute paths are typically not <em>reproducible</em> from one computer’s
+filesystem to another. Accordingly, it is more common to give the address of directories using
+<em>relative paths</em>. Relative paths work much like absolute paths; however, they do not start with
+a leading <code>/</code>, and hence they do not take as their
+starting point the root directory. Rather, their starting point is implicitly taken
+to be the current working directory. Thus, if the current working directory is
+<code>/Users/eriq</code>, then the path <code>Documents/pers</code> is a relative path to the
+<code>pers</code> directory, as can again be seen in Figure <a href="essential-unixlinux-terminal-knowledge.html#fig:file-hierarchy">4.1</a>.</p>
+<p>The special relative path symbol <code>..</code> means “the directory that is one level higher up
+in the hierarchy.” So, if the current working directory were <code>/Users/eriq/Documents/git-repos</code>,
+then the path <code>..</code> would mean <code>/Users/eriq/Documents</code>, the path
+<code>../work</code> gives the directory <code>/Users/eriq/Documents/work</code>, and, by using two or more <code>..</code> symbols
+separated by forward slashes, we
+can even go up multiple levels in the hierarchy: <code>../../../zoe</code> is a relative path for
+<code>/Users/zoe</code>, when the current working directory is <code>/Users/eriq/Documents/git-repos</code>.</p>
+<p>When naming paths, another
+useful Unix shorthand is <code>~</code> (a tilde) which denotes the user’s home directory. This is particularly
+useful since most of your time in a Unix filesystem will be spent in a directory within your
+home directory. Accordingly, <code>~/Documents/work</code> is a quick shorthand for
+<code>/Users/eriq/Documents/work</code>. This is essential practice if you are working on a large shared computing
+resource in which the absolute path to your home directory might be changed by the
+system administrator when restructuring the filesystem.</p>
+
+<div class="rmdtip">
+<strong>A useful piece of terminology:</strong> in any path, the “final” directory
+name is called the <em>basename</em> of the path. Hence the basename of <code>/Users/eriq/Documents/git-repos</code>
+is <code>git-repos</code>. And the basename of <code>../../Users</code> is <code>Users</code>.
+</div>
+
+<div id="changing-the-working-directory-with-cd" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Changing the working directory with <code>cd</code></h3>
+<p>When you begin a Unix terminal session, the current working
+directory is set, by default, to your home directory. However, when you are doing
+bioinformatics or otherwise hacking on the command line, you will typically
+want to be “in another directory” (meaning you will want the current working
+directory set to some other directory). For this, Unix provides the <code>cd</code> command, which
+stands for <strong>c</strong>hange <strong>d</strong>irectory. The syntax is super simple:</p>
+<p>cd <em>path</em></p>
+<p>where <em>path</em> is an absolute or a relative path. For example, to
+get to the <code>git-repos</code> directory from my home directory would require
+a simple command <code>cd Documents/git-repos</code>. Once there, I could change to
+my <code>Desktop</code> directory with <code>cd ../../Desktop</code>. Witness:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> pwd
+<span class="ex">/Users/eriq</span>
+<span class="ex">%</span> cd Documents/git-repos/
+<span class="ex">%</span> pwd
+<span class="ex">/Users/eriq/Documents/git-repos</span>
+<span class="ex">%</span> cd ../../Desktop
+<span class="ex">%</span> pwd
+<span class="ex">/Users/eriq/Desktop</span></code></pre>
+<p>Once you have used <code>cd</code>, the working directory of your current shell will
+remain the same no matter how many other commands you issue,
+until you invoke the <code>cd</code> command another time and change
+to a different directory.</p>
+<p>If you give the <code>cd</code> command with no path specified, your working directory
+will be set to your home directory. This is super-handy if you have been
+exploring the levels of a Unix filesystem above your home directory and cannot
+remember how to get back to your home directory. Just remember that</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> cd</code></pre>
+<p>will get you back home.</p>
+<p>Another useful shortcut is to supply <code>-</code> (a hyphen) as the path to <code>cd</code>. This will
+change the working directory back to where you were before your last invocation
+of <code>cd</code>, and it will tell you which directory you have returned to. For example, if you start in <code>/Users/eriq/Documents/git-repos</code> and then
+<code>cd</code> to <code>/bin</code>, you can get back to <code>git-repos</code> with <code>cd -</code> like so:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> pwd
+<span class="ex">/Users/eriq/Documents/git-repos</span>
+<span class="ex">%</span> cd /bin/
+<span class="ex">%</span> pwd
+<span class="ex">/bin</span>
+<span class="ex">%</span> cd -
+<span class="ex">/Users/eriq/Documents/git-repos</span>
+<span class="ex">%</span> pwd
+<span class="ex">/Users/eriq/Documents/git-repos</span></code></pre>
+<p>Note the output of <code>cd -</code> is the newly-returned-to current working directory.</p>
+</div>
+<div id="updating-your-command-prompt" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Updating your command prompt</h3>
+<p>When you are buzzing around in your filesystem, it is often difficult to remember
+which directory you are in. You can always type <code>pwd</code> to figure that out,
+but the bash shell also provides a way to print the current working directory
+<em>within your command prompt</em>.</p>
+<p>For example, the command:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="va">PS1=</span><span class="st">&#39;[\W]--% &#39;</span></code></pre>
+<p>redefines the command prompt to be the basename of the current directory surrounded
+by brackets and followed by <code>--%</code>:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> pwd
+<span class="ex">/Users/eriq/Documents/git-repos</span>
+<span class="ex">%</span> PS1=<span class="st">&#39;[\W]--% &#39;</span>
+[<span class="ex">git-repos</span>]--% cd ../
+[<span class="ex">Documents</span>]--% cd ../
+[<span class="ex">~</span>]<span class="ex">--%</span> cd ../
+[<span class="ex">Users</span>]--% </code></pre>
+<p>This can make it considerably easier to keep track of where you are in your file system.</p>
+<p>We will discuss later how to invoke this change automatically in every terminal session
+when we talk about customizing environments in Section <a href="essential-unixlinux-terminal-knowledge.html#unix-env">4.5</a>.</p>
+</div>
+<div id="tab-completion-for-paths" class="section level3">
+<h3><span class="header-section-number">4.2.3</span> TAB-completion for paths</h3>
+<p>Let’s be frank…typing path names in order to change from one directory to another can feel
+awfully tedious, especially when your every neuron is screaming, “Why can’t I just have a friggin’ Finder
+window to navigate in!” Do not despair. This is a normal reaction when you first start using Unix.
+Fortunately, Unix file-system navigation can be made much less painful (or even enjoyable)
+for you by becoming a master of <em>TAB-completion</em>. Imagine the Unix shell is watching
+your every keystroke and trying to guess what you are about to type. If you type the first part
+of a directory name after a command like <code>cd</code> and then hit the TAB key, the shell will respond
+with its best guess of how you want to complete what you are typing.</p>
+<p>Take the file hierarchy of Figure <a href="essential-unixlinux-terminal-knowledge.html#fig:file-hierarchy">4.1</a>, and imagine that we are in the root
+directory. At that point, if we type <code>cd A</code>, the shell will think &quot;Ooh! I’ll bet they want to
+change into the directory <code>Applications</code> because that is the only directory that starts with <code>A</code>. Sure enough,
+if you hit TAB, the shell adds to the command line so that <code>cd A</code> becomes <code>cd Applications/</code>
+and the cursor is still waiting for further input at the end of the command.
+Boom! That was way easier (and more accurate) than typing all those letters after <code>A</code>.</p>
+<p>Developing a lightning-fast TAB-completion trigger finger is, quite seriously, essential to surviving and
+thriving in Unix. Use your left pinky to hit TAB. Hone your skills. Make sure you can hit TAB with your eyes
+closed. TAB early and TAB often!</p>
+<p>Once you can hit TAB instantly from within the middle of any phrase, you
+will also want to understand a few simple rules of TAB completion:</p>
+<ol style="list-style-type: decimal">
+<li><p>If you try TAB-completing a word on the command line that is not at the beginning
+of the command line (i.e., you are typing a word after a command like <code>cd</code>), then the shell
+tries to complete the word with a <em>directory name</em> or a <em>file name</em>.</p></li>
+<li><p>The shell will only complete an <em>entire</em> directory or file name if the name <em>uniquely</em> matches the first part of the
+path that has been entered. In our example, there were no other directories than <code>Applications</code> in <code>/</code> that start
+with <code>A</code>, so the shell was certain that we must have been going for <code>Applications</code>.</p></li>
+<li><p>If there is more than one directory or file name that matches what you have already typed, then, the first
+time you hit TAB, nothing happens, but the <em>second</em> time you hit TAB, the shell will print a list of
+names that match what you have written so far. For example, in our Figure <a href="essential-unixlinux-terminal-knowledge.html#fig:file-hierarchy">4.1</a> example,
+hitting TAB after typing <code>cd ~/D</code> does nothing. But the second time we hit TAB we get a list of
+matching names:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> cd ~/D
+<span class="ex">Desktop/</span>  Documents/  Downloads/</code></pre>
+<p>So, if we are heading to <code>Documents</code> we can see that adding <code>oc</code> to our command line, to create <code>cd Doc</code> would be sufficient to allow the shell to
+uniquely and correctly guess where we are heading. <code>cd Doc</code> will TAB-complete into <code>cd Documents/</code></p></li>
+<li><p>If there are multiple directory or file names that match the current command line, and they share
+more letters than those currently on the command line, TAB-completion will complete
+the name to the end of the shared portion of the name. An example helps: let’s say
+I have the following two directories with hideously long names in my <code>Downloads</code> folder:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">WIFL.rep_indiv_est.mixture_collection.count.gr8-results</span>
+<span class="ex">WIFL.rep_indiv_est.mixture_collection.count-results</span></code></pre>
+<p>Then, TAB completing on <code>~/Downloads/WIFL.rep</code> will partially complete so that the prompt and command look like:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> cd ~/Downloads/WIFL.rep_indiv_est.mixture_collection.count</code></pre>
+<p>and hitting TAB twice gives:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> cd ~/Downloads/WIFL.rep_indiv_est.mixture_collection.count
+<span class="ex">WIFL.rep_indiv_est.mixture_collection.count-results</span>
+<span class="ex">WIFL.rep_indiv_est.mixture_collection.count.gr8-results</span></code></pre>
+<p>At this point, adding <code>-</code> and TAB completing will give the first of those directories.</p></li>
+</ol>
+<p>The last example shows just how much typing TAB completion can save you. So, don’t be
+shy about hitting that TAB key. When navigating your filesystem (or writing longer command
+lines that require paths of files) you should consider hitting TAB after every 1 or 2 letters.
+In routine work on the command line, probably somewhere around 25% or more of my keystrokes
+are TABs. Furthermore, a TAB is never going to execute a command, and it typically won’t
+complete to a path that you don’t want (unless you got the first part of its name wrong), so there
+isn’t any risk to hitting TAB all the time.</p>
+</div>
+<div id="listing-the-contents-of-a-directory-with-ls" class="section level3">
+<h3><span class="header-section-number">4.2.4</span> Listing the contents of a directory with <code>ls</code></h3>
+<p>So far we have been focusing mostly on directories. However, directories themselves
+are not particularly interesting—they are merely containers. It is the <em>files</em> inside of directories
+that we typically work on. The command <code>ls</code> lists the contents—typically files or
+other directories—within a directory.</p>
+<p>Invoking the <code>ls</code> command without any other arguments (without anything after it)
+returns the contents of the current working directory. In our example,
+if we are in <code>/Users</code> then we get:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> ls
+<span class="ex">eriq</span>  zoe</code></pre>
+<p>By default, <code>ls</code> gives output in several columns of text, with the directory contents
+sorted lexicographically. For example, the following is output from the <code>ls</code> command
+in a directory on a remote Unix machine:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> ls
+<span class="ex">bam</span>                      map-sliced-fastqs-etc.sh
+<span class="ex">bam-slices</span>               play
+<span class="ex">bwa-run-list.txt</span>         REDOS-map-sliced-fastqs-etc.sh
+<span class="ex">fastq-file-prefixes.txt</span>  sliced
+<span class="ex">fqslice-22.error</span>         slice-fastqs.sh
+<span class="ex">fqslice-22.log</span>           slicer-lines.txt
+<span class="ex">map-etc.sh</span>               Slicer-Logs-summary.txt</code></pre>
+<p>The first line shows the command prompt and the command: <code>% ls</code>, and the remainder is
+the output of the command.</p>
+<p>Invoked without any further arguments, the <code>ls</code>
+command simply lists the contents of the current working directory. However,
+you can also direct <code>ls</code> to list the contents of another directory by simply
+adding the path (absolute or relative) of that directory on the command line. For example, continuing with
+the example in Figure <a href="essential-unixlinux-terminal-knowledge.html#fig:file-hierarchy">4.1</a>, when we are in the home directory (<code>eriq</code>)
+we can see the directories/files
+contained within <code>Documents</code> like so:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash">[<span class="ex">~</span>]<span class="ex">--%</span> ls Documents
+<span class="ex">git-repos/</span>   pers/   work/</code></pre>
+<p>If you give paths to more than one directory as arguments to <code>ls</code>, then
+the contents of each directory are listed after a heading line that gives
+the directory’s path (as given as an argument to <code>ls</code>), followed by a colon. For example:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash">[<span class="ex">~</span>]<span class="ex">--%</span> ls Documents/git-repos Documents/work
+<span class="ex">Documents</span>/git-repos:
+<span class="ex">ARCHIVED_mega-bioinf-pop-gen.zip</span>  lowergranite_0.0.1.tar.gz
+<span class="ex">AssignmentAdustment/</span>              mega-bioinf-pop-gen-examples/
+<span class="ex">CKMRsim/</span>                          microhaps_np/
+
+<span class="ex">Documents</span>/work:
+<span class="ex">assist/</span>          maps/            oxford/          uw_days/
+<span class="ex">courses_audited/</span> misc/            personnel/</code></pre>
+<p>You might also note in the above example, that some of the paths listed within
+each of the two directories are followed by a slash, <code>/</code>. This <code>ls</code> customization denotes that
+they are directories themselves. Much like your command prompt, <code>ls</code> can be customized in ways
+that make its output more informative. We will return to that in Section <a href="essential-unixlinux-terminal-knowledge.html#unix-env">4.5</a>.</p>
+<p>If you pass the path of a file to <code>ls</code>, and that file exists in your filesystem,
+then <code>ls</code> will respond by printing the file’s path:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> ls Documents/git-repos/lowergranite_0.0.1.tar.gz 
+<span class="ex">Documents/git-repos/lowergranite_0.0.1.tar.gz</span></code></pre>
+<p>If the file does not exist you get an error message to that effect:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> ls Documents/try-this-name
+<span class="ex">ls</span>: Documents/try-this-name: No such file or directory</code></pre>
+<p>The multi-column, default output of <code>ls</code> is useful when you want
+to scan the contents of a directory, and quickly see as many files
+as possible in the fewest lines of output.
+However, this output format is not well
+structured. For example, you don’t know how many columns are going to be used in
+the default output of <code>ls</code> (that
+depends on the length of the filenames and the width of your terminal), and it
+offers little information beyond the names of the files.</p>
+<p>You can tell the <code>ls</code> command to provide more information, by using it with the <code>-l</code>
+option. Appropriately, with the <code>-l</code> option, the <code>ls</code> command will return
+output in <em>long</em> format:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">2019-02-08</span> 21:09 /osu-chinook/--% ls -l
+<span class="ex">total</span> 108
+<span class="ex">drwxr-xr-x</span>  2 eriq kruegg  4096 Feb  7 08:26 bam
+<span class="ex">drwxr-xr-x</span> 14 eriq kruegg  4096 Feb  8 15:56 bam-slices
+<span class="ex">-rw-r--r--</span>  1 eriq kruegg 17114 Feb  7 20:16 bwa-run-list.txt
+<span class="ex">-rw-r--r--</span>  1 eriq kruegg   824 Feb  6 14:14 fastq-file-prefixes.txt
+<span class="ex">-rw-r--r--</span>  1 eriq kruegg     0 Feb  7 20:14 fqslice-22.error
+<span class="ex">-rw-r--r--</span>  1 eriq kruegg     0 Feb  7 20:14 fqslice-22.log
+<span class="ex">-rwxr--r--</span>  1 eriq kruegg  1012 Feb  7 07:59 map-etc.sh
+<span class="ex">-rwxr--r--</span>  1 eriq kruegg  1138 Feb  7 20:56 map-sliced-fastqs-etc.sh
+<span class="ex">drwxr-xr-x</span>  3 eriq kruegg  4096 Feb  7 13:01 play
+<span class="ex">-rwxr--r--</span>  1 eriq kruegg  1157 Feb  8 15:08 REDOS-map-sliced-fastqs-etc.sh
+<span class="ex">drwxr-xr-x</span> 14 eriq kruegg  4096 Feb  8 15:49 sliced
+<span class="ex">-rwxr--r--</span>  1 eriq kruegg   826 Feb  7 20:09 slice-fastqs.sh
+<span class="ex">-rw-r--r--</span>  1 eriq kruegg  1729 Feb  7 16:11 slicer-lines.txt</code></pre>
+<p>Each row contains information about only a single file.
+The first column indicates what kind of file
+each entry is, and also tells us which users have permission to
+do certain things with the file (more on this in a few sections).
+The third and fourth columns show that the owner of
+each file is <code>eriq</code>, who is a user in the group called <code>kruegg</code>. After that
+is the size of the file (in bytes) and the date and time it was last modified.</p>
+<p>There are a few options to <code>ls</code> that are particularly useful. One is <code>-a</code>, which causes
+<code>ls</code> to include in its listing all files, even <em>hidden</em> ones. In a Unix file system,
+any file whose name starts with a <code>.</code> is considered a <em>hidden</em> file. Commonly, such
+files are configuration files or other files used by programs that you typically
+don’t interact with directly. (We will see an example of this when we start working with <code>git</code> for version control, Section <a href="version-control.html#git-workings">10.2</a>.) The <code>-d</code> option for <code>ls</code> is also’
+quite handy. Recall that when you provide the name of a directory as an argument to <code>ls</code>,
+the default behavior is to list the contents of the directory. This can be troublesome
+when you are listing the contents of a subdirectory: <code>ls ~/Documents/git-repos/*</code> lists the
+contents (which can be substantial) of each of the directories in my directory, but
+I might only want to know the name of each of those directories, rather than their full contents.
+<code>ls -d ~/Documents/git-repos</code> will</p>
+<p>Gotta talk about the <code>-d</code> option.</p>
+</div>
+<div id="globbing" class="section level3">
+<h3><span class="header-section-number">4.2.5</span> Globbing</h3>
+<p>If you have ever had to move a large number of files of a certain type from
+one folder to another in a Finder window, you know that individually clicking and
+selecting each one and then dragging them can be a tedious task (not to mention the disaster
+that ensues if you slip on your mouse and end up dropping all the files some place
+you did not intend). Unix provides a wonderful system called <em>filename expansion</em> or
+“globbing” for quickly providing the names of a large number of files and paths which let’s
+you operate on multiple files quickly and efficiently. In short, globbing allows for
+<em>wildcard matching</em> in path names. This means that you can
+specify multiple files that have names that share a common part, but differ in other parts.</p>
+<p>The most widely used (and the most permissive) wildcard is the asterisk, <code>*</code>. It matches
+anything in a file name. So, for example:</p>
+<ul>
+<li><code>*.vcf</code> will expand to any files in the current directory with the suffix <code>.vcf</code>.</li>
+<li><code>D*s</code> will expand to any files that start with an uppercase <code>D</code> and end with an <code>s</code>.</li>
+<li><code>*output-*.txt</code> will expand to any files that include the phrase <code>output-</code> somewhere
+in their name and also end with <code>.txt</code>.</li>
+<li><code>*</code> will expand to all files in the current working directory.</li>
+<li><code>/usr/local/*/*.sh</code> will expand to any files ending in <code>.sh</code> that reside within any directory that
+is within the <code>/usr/local</code> directory.</li>
+</ul>
+
+<div class="rmdnote">
+<strong>Actually, there is some arcana here:</strong> Names of files or directories that start with a
+dot (a period) will not expand unless the
+dot is included explicitly. Files with names starting with a dot are
+“hidden” files in Unix. You also will not see them in the results of <code>ls</code>, unless you
+use the <code>-a</code> option: <code>ls -a</code>.
+</div>
+
+<p>After the asterisk, the next most commonly-used wildcard is the question mark, <code>?</code>.</p>
+<p>Should make it clear that this is not something unique only to ls.
+All that ls is doing is listing its arguments. The expansion happens
+on the command line.</p>
+<p>Gonna have to talk about <code>-l</code> and <code>-a</code> options. Maybe talk about -d, which is useful.</p>
+</div>
+<div id="what-makes-a-good-file-name" class="section level3">
+<h3><span class="header-section-number">4.2.6</span> What makes a good file-name?</h3>
+<p>If the foregoing discussion suggests to you that it might not be good to use an
+actual <code>*</code>, <code>?</code>, <code>[</code>, or <code>{</code> in names that you give to files and directories
+on your Unix system, then congratulations on your intuition! Although you can use
+such characters in your filenames, they have to be preceded by a backslash, and it
+gets to be a huge hassle. So don’t use them in your file names. Additionally,
+characters such as <code>#</code>, <code>|</code>, and <code>:</code> do not play well for file names. Don’t use them!</p>
+<p>Another pet peeve of mine (and anyone who uses Unix) are file names that have spaces in them.
+In Windows and on a Mac it is easy to create file names that have spaces in them. In fact, the
+standard Windows system comes with such space-containing directory names as <code>My Documents</code> or <code>My Pictures</code>. Yikes! Please <em>don’t ever do that in your Unix life!</em> One can deal with spaces in file
+names, but there is really no reason to include spaces in your file names, and having spaces in file
+names will typically break a good many scripts. Rather than a space, use an underscore, <code>_</code>, or a
+dash, <code>-</code>. You’ve gotta admit that, not only does <code>My-Documents</code> work better, but it actually
+looks better too!</p>
+<p>So, to make your life easier, the bottom line is that you should name your files
+on a Unix system using only upper- and lowercase letters (Unix file systems are
+case-sensitive), numerals, and the following three punctuation characters: <code>.</code>, <code>-</code>, and <code>_</code>.
+Though you can use other punctuation characters, they often require special treatment, and it
+is better to avoid them altogether.</p>
+</div>
+</div>
+<div id="the-anatomy-of-a-unix-command" class="section level2">
+<h2><span class="header-section-number">4.3</span> The anatomy of a Unix command</h2>
+<p>In general things look like this:</p>
+<p><code>command</code> <em>options</em> <em>arguments</em></p>
+<p>Talk about –help and man pages.</p>
+<p>Discuss symbolic links — a special kind of file. Maybe do this when discussing file types.</p>
+<p>Then introduce <code>open</code> and a PC bash equivalent if available.</p>
+<div id="exercises" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> Exercises</h3>
+
+<div class="exercise">
+<span id="exr:some" class="exercise"><strong>Exercise 4.1  (Some exercise)  </strong></span>We can’t make a fenced block. But we coul say, Consider the following<br />
+<code>ls all*.txt ball*.txt ala*.txt</code><br />
+And then see how that comes out.
+</div>
+
+
+<div class="exercise">
+<span id="exr:some-other" class="exercise"><strong>Exercise 4.2  (Some other exercise)  </strong></span>Here is another.
+</div>
+
+</div>
+</div>
+<div id="handling-manipulating-and-viewing-files-and-streams" class="section level2">
+<h2><span class="header-section-number">4.4</span> Handling, Manipulating, and Viewing files and streams</h2>
+<div id="fundamental-file-handling-commands" class="section level3">
+<h3><span class="header-section-number">4.4.1</span> Fundamental file-handling commands</h3>
+<p><code>cp</code>, <code>mv</code>, `rm’</p>
+<p>Note the difference between cp and mv and how they behave with directories
+too. Maybe talk a little about links.</p>
+</div>
+<div id="everytyhing-is-a-file.-io-redirection-and-pipes" class="section level3">
+<h3><span class="header-section-number">4.4.2</span> Everytyhing is a file. I/O: redirection and pipes</h3>
+<p>Three major types of files: regular files, directories, and symbolic links.</p>
+<p>Executable files.</p>
+<p>Somewhere, at some point I will have to talk about chmod and about what the
+hell 600 is, for example (u+rw). So, a whole little session on permissions,
+and I should also explain the nomenclature like 755. An exercise where
+students touch a file in /tmp and then use the numbers of u+x type commands
+to get an end result (like <code>-rw- --- ---</code>). For example:
+<em>use chmod to get a result like this</em>: <code>-rwxrw-r--</code>.</p>
+<pre><code>chmod 764</code></pre>
+<p>Note that the first position denotes whether it is a directory or not.</p>
+<p>Everything is a file, some of them are executuble (programs) and they
+typically do things to other files.</p>
+<p>Unix philosophy of spitting text out so that stuff can be done to it (chaining/piping) or
+redirecting.</p>
+<p><code>stdin</code>, <code>stdout</code>, <code>stderr</code>.</p>
+</div>
+</div>
+<div id="unix-env" class="section level2">
+<h2><span class="header-section-number">4.5</span> Customizing your Environment</h2>
+<p>Gotta start off by talking about PATHs and things when you talk about.
+Then maybe some good tips for customization.</p>
+</div>
+<div id="a-short-list-of-useful-commands." class="section level2">
+<h2><span class="header-section-number">4.6</span> A short list of useful commands.</h2>
+<p>cat, head (good for binary files too with -c), less, sort, paste, cut, tar, gzip, du, wc, date</p>
+</div>
+<div id="unix-quick-study-guide" class="section level2">
+<h2><span class="header-section-number">4.7</span> Unix: Quick Study Guide</h2>
+<p>This is just a table with quick topics/commands/words in it. You should
+understand each and be able to tell a friend a lot about each one. Cite it
+as <a href="essential-unixlinux-terminal-knowledge.html#tab:unix-chap-review">4.1</a></p>
+<pre><code>## Warning: `as_tibble.matrix()` requires a matrix with column names or a `.name_repair` argument. Using compatibility `.name_repair`.
+## This warning is displayed once per session.</code></pre>
+<table>
+<caption><span id="tab:unix-chap-review">TABLE 4.1: </span> Terms/ideas/etc. to know forward and backward</caption>
+<colgroup>
+<col width="38%" />
+<col width="23%" />
+<col width="37%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="left">absolute path</td>
+<td align="left">relative path</td>
+<td align="left"><code>/</code> at beginning of path</td>
+</tr>
+<tr class="even">
+<td align="left"><code>/</code> between directories</td>
+<td align="left">home directory</td>
+<td align="left"><code>~</code></td>
+</tr>
+<tr class="odd">
+<td align="left">current working directory</td>
+<td align="left"><strong>pwd</strong></td>
+<td align="left"><code>cd</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>.</code></td>
+<td align="left"><code>..</code></td>
+<td align="left"><code>cd -</code></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="overview-of-essential-computing-skills.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="shell-programming.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/yihui/bookdown-crc/edit/master/1.01-unix.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["pc-and-b-for-con-evo-genomics.pdf", "pc-and-b-for-con-evo-genomics.epub"],
+"toc": {
+"collapse": "none"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
