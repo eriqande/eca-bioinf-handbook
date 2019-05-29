@@ -518,13 +518,36 @@ In general things look like this:
 
 `command` _options_ _arguments_
 
-Talk about --help and man pages.
+Now break it down
+
+### The `command` {#anatomy-command}
+When you type a command at the Unix prompt, whether it is a command like `ls` or
+one like `samtools` (Chapter ?), the Unix system has to search through its "catalog"
+of possible commands.  (Talk about PATHs and the which command)
+
+### The _options_
+
+Sometimes these are called flags.
+
+`-` vs `--` (more of a convention).  And bunging the `-` options together.
+
+Some options might take parameters, e.g. `-t 1.0`
+
+### Arguments 
+
+These are often filenames, or other things that are not preceded by an option flag.
+
+
+
+Things 
 
 Discuss symbolic links --- a special kind of file.  Maybe do this when discussing file types.
 
 Then introduce `open` and a PC bash equivalent if available.
 
+### Getting information about Unix commands
 
+Talk about --help and man pages.
 
 ### Exercises 
 
@@ -581,11 +604,86 @@ redirecting.
 
 `stdin`, `stdout`, `stderr`.
 
+### Editing text files at the terminal
+
+Gonna introduce new users to nano, cuz it is easy.   Say that emacs and vim are
+other more fully-featured options.  For mac users, get TextWrangler and use the edit command.
+
 
 ## Customizing your Environment {#unix-env}
 
-Gotta start off by talking about PATHs and things when you talk about.
-Then maybe some good tips for customization.
+Previously we saw how to modify your command prompt to tell you what the current
+working directory is (remember `PS1='[\W]--% '`).  The limitation of giving that
+command on the command line is that if you logout and then log back in again, or open
+a new Terminal window, you will have to reissue that command in order to achieve
+the desired look of your command prompt.  Quite often a Unix user would like to make
+a number of customizations to the look, feel, and behavior of their Unix shell.
+The bash shell allows these customizations to be specified in two different files that
+are read by the system so as to invoke the customizations.  The two files are hidden files
+in the home directory: `~/.bashrc` and `~/.bash_profile`.  They are used by the Unix system
+in two slightly different contexts, but for most purposes, you, the user, will not need or
+even want to distinguish between the different contexts.  Managing two separate files
+of customizations is unnecessary and duplicative of your efforts, and can lead to inconsistent
+and confusing results, so here is what we will do: 
+
+1. Keep all of our customizations in `~/.bashrc`.
+2. Insert commands in `~/.bash_profile` that say, "Hey computer! If you are looking
+for customizations in here, don't bother, just get them straight out of `~/.bashrc`.
+
+We take care of #2, by creating the file `~/.bash_profile` to have the following
+lines in it:
+```sh
+
+if [ -f ~/.bashrc ]; then
+    source ~/.bashrc
+fi
+
+```
+
+Taking care of #1 is now just a matter of writing commands into `~/.bashrc`. In the following
+are some recommended customizations.
+
+### Appearances matter
+
+Some customizations just change the way your shell looks or what type of output
+is given from different commands.  Here are some lines to add to your `~/.bashrc`
+along with some discussion of each.
+
+```sh
+export PS1='[\W]--% '
+```
+This gives a tidier and more informative command prompt.  The `export` command before
+it tells the system to pass the value of this _environment variable_, `PS1`, along
+to any other shells that get spawned by the current one.
+
+```sh
+alias ls='ls -GFh'
+```
+This makes it so that each time you invoke the `ls` command, you do so with the
+options `-G`, `-F`, and `-h`.  To find out on your own what those options do, you can
+type `man ls` at the command line and read the output, but briefly: `-G` causes directories and
+different file types to be printed in different colors, `-F` causes a `/` to be printed after
+directory names, and other characters to be printed at the end of the names of different
+file types, and `-h` causes file sizes to be printed in an easily human-readable form when
+using the `-l` option.
+
+### Where are my programs/commands at?!
+
+We saw in Section \@ref(anatomy-command) that bash searches the directories listed in the
+`PATH` variable to find commands and executables.  You can modify the PATH variable to include
+directories where you have installed different programs.  In doing so, you want to make sure
+that you don't lose any of the other directories in `PATH`, so there is a certain way to
+go about redefining `PATH`.
+
+Example use case.  You write a short script and put it in `~/bin`.  Maybe even have an 
+exercise where students put `abspath` and `fp` into '~/bin` and then make sure it is in 
+their PATH.
+
+### And more...
+
+Just going to say that much more can be done, and we will see entries throughout the
+book about other customizations that are helpful in `~/.bashrc`.
+
 
 
 ## A short list of useful commands.

@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2019-05-28" />
+<meta name="date" content="2019-05-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -152,13 +152,22 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#what-makes-a-good-file-name"><i class="fa fa-check"></i><b>4.2.6</b> What makes a good file-name?</a></li>
 </ul></li>
 <li class="chapter" data-level="4.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#the-anatomy-of-a-unix-command"><i class="fa fa-check"></i><b>4.3</b> The anatomy of a Unix command</a><ul>
-<li class="chapter" data-level="4.3.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#exercises"><i class="fa fa-check"></i><b>4.3.1</b> Exercises</a></li>
+<li class="chapter" data-level="4.3.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#anatomy-command"><i class="fa fa-check"></i><b>4.3.1</b> The <code>command</code></a></li>
+<li class="chapter" data-level="4.3.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#the-options"><i class="fa fa-check"></i><b>4.3.2</b> The <em>options</em></a></li>
+<li class="chapter" data-level="4.3.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#arguments"><i class="fa fa-check"></i><b>4.3.3</b> Arguments</a></li>
+<li class="chapter" data-level="4.3.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#getting-information-about-unix-commands"><i class="fa fa-check"></i><b>4.3.4</b> Getting information about Unix commands</a></li>
+<li class="chapter" data-level="4.3.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#exercises"><i class="fa fa-check"></i><b>4.3.5</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#handling-manipulating-and-viewing-files-and-streams"><i class="fa fa-check"></i><b>4.4</b> Handling, Manipulating, and Viewing files and streams</a><ul>
 <li class="chapter" data-level="4.4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#fundamental-file-handling-commands"><i class="fa fa-check"></i><b>4.4.1</b> Fundamental file-handling commands</a></li>
 <li class="chapter" data-level="4.4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#everytyhing-is-a-file.-io-redirection-and-pipes"><i class="fa fa-check"></i><b>4.4.2</b> Everytyhing is a file. I/O: redirection and pipes</a></li>
+<li class="chapter" data-level="4.4.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#editing-text-files-at-the-terminal"><i class="fa fa-check"></i><b>4.4.3</b> Editing text files at the terminal</a></li>
 </ul></li>
-<li class="chapter" data-level="4.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-env"><i class="fa fa-check"></i><b>4.5</b> Customizing your Environment</a></li>
+<li class="chapter" data-level="4.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-env"><i class="fa fa-check"></i><b>4.5</b> Customizing your Environment</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#appearances-matter"><i class="fa fa-check"></i><b>4.5.1</b> Appearances matter</a></li>
+<li class="chapter" data-level="4.5.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#where-are-my-programscommands-at"><i class="fa fa-check"></i><b>4.5.2</b> Where are my programs/commands at?!</a></li>
+<li class="chapter" data-level="4.5.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#and-more"><i class="fa fa-check"></i><b>4.5.3</b> And more…</a></li>
+</ul></li>
 <li class="chapter" data-level="4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#a-short-list-of-useful-commands."><i class="fa fa-check"></i><b>4.6</b> A short list of useful commands.</a></li>
 <li class="chapter" data-level="4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-quick-study-guide"><i class="fa fa-check"></i><b>4.7</b> Unix: Quick Study Guide</a></li>
 </ul></li>
@@ -702,11 +711,32 @@ is better to avoid them altogether.</p>
 <h2><span class="header-section-number">4.3</span> The anatomy of a Unix command</h2>
 <p>In general things look like this:</p>
 <p><code>command</code> <em>options</em> <em>arguments</em></p>
-<p>Talk about –help and man pages.</p>
+<p>Now break it down</p>
+<div id="anatomy-command" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> The <code>command</code></h3>
+<p>When you type a command at the Unix prompt, whether it is a command like <code>ls</code> or
+one like <code>samtools</code> (Chapter ?), the Unix system has to search through its “catalog”
+of possible commands. (Talk about PATHs and the which command)</p>
+</div>
+<div id="the-options" class="section level3">
+<h3><span class="header-section-number">4.3.2</span> The <em>options</em></h3>
+<p>Sometimes these are called flags.</p>
+<p><code>-</code> vs <code>--</code> (more of a convention). And bunging the <code>-</code> options together.</p>
+<p>Some options might take parameters, e.g. <code>-t 1.0</code></p>
+</div>
+<div id="arguments" class="section level3">
+<h3><span class="header-section-number">4.3.3</span> Arguments</h3>
+<p>These are often filenames, or other things that are not preceded by an option flag.</p>
+<p>Things</p>
 <p>Discuss symbolic links — a special kind of file. Maybe do this when discussing file types.</p>
 <p>Then introduce <code>open</code> and a PC bash equivalent if available.</p>
+</div>
+<div id="getting-information-about-unix-commands" class="section level3">
+<h3><span class="header-section-number">4.3.4</span> Getting information about Unix commands</h3>
+<p>Talk about –help and man pages.</p>
+</div>
 <div id="exercises" class="section level3">
-<h3><span class="header-section-number">4.3.1</span> Exercises</h3>
+<h3><span class="header-section-number">4.3.5</span> Exercises</h3>
 
 <div class="exercise">
 <span id="exr:some" class="exercise"><strong>Exercise 4.1  (Some exercise)  </strong></span>We can’t make a fenced block. But we coul say, Consider the following<br />
@@ -747,11 +777,74 @@ typically do things to other files.</p>
 redirecting.</p>
 <p><code>stdin</code>, <code>stdout</code>, <code>stderr</code>.</p>
 </div>
+<div id="editing-text-files-at-the-terminal" class="section level3">
+<h3><span class="header-section-number">4.4.3</span> Editing text files at the terminal</h3>
+<p>Gonna introduce new users to nano, cuz it is easy. Say that emacs and vim are
+other more fully-featured options. For mac users, get TextWrangler and use the edit command.</p>
+</div>
 </div>
 <div id="unix-env" class="section level2">
 <h2><span class="header-section-number">4.5</span> Customizing your Environment</h2>
-<p>Gotta start off by talking about PATHs and things when you talk about.
-Then maybe some good tips for customization.</p>
+<p>Previously we saw how to modify your command prompt to tell you what the current
+working directory is (remember <code>PS1='[\W]--% '</code>). The limitation of giving that
+command on the command line is that if you logout and then log back in again, or open
+a new Terminal window, you will have to reissue that command in order to achieve
+the desired look of your command prompt. Quite often a Unix user would like to make
+a number of customizations to the look, feel, and behavior of their Unix shell.
+The bash shell allows these customizations to be specified in two different files that
+are read by the system so as to invoke the customizations. The two files are hidden files
+in the home directory: <code>~/.bashrc</code> and <code>~/.bash_profile</code>. They are used by the Unix system
+in two slightly different contexts, but for most purposes, you, the user, will not need or
+even want to distinguish between the different contexts. Managing two separate files
+of customizations is unnecessary and duplicative of your efforts, and can lead to inconsistent
+and confusing results, so here is what we will do:</p>
+<ol style="list-style-type: decimal">
+<li>Keep all of our customizations in <code>~/.bashrc</code>.</li>
+<li>Insert commands in <code>~/.bash_profile</code> that say, &quot;Hey computer! If you are looking
+for customizations in here, don’t bother, just get them straight out of <code>~/.bashrc</code>.</li>
+</ol>
+<p>We take care of #2, by creating the file <code>~/.bash_profile</code> to have the following
+lines in it:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash">
+<span class="kw">if</span><span class="bu"> [</span> <span class="ot">-f</span> ~/.bashrc<span class="bu"> ]</span>; <span class="kw">then</span>
+    <span class="bu">source</span> ~/.bashrc
+<span class="kw">fi</span></code></pre>
+<p>Taking care of #1 is now just a matter of writing commands into <code>~/.bashrc</code>. In the following
+are some recommended customizations.</p>
+<div id="appearances-matter" class="section level3">
+<h3><span class="header-section-number">4.5.1</span> Appearances matter</h3>
+<p>Some customizations just change the way your shell looks or what type of output
+is given from different commands. Here are some lines to add to your <code>~/.bashrc</code>
+along with some discussion of each.</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="bu">export</span> <span class="va">PS1=</span><span class="st">&#39;[\W]--% &#39;</span></code></pre>
+<p>This gives a tidier and more informative command prompt. The <code>export</code> command before
+it tells the system to pass the value of this <em>environment variable</em>, <code>PS1</code>, along
+to any other shells that get spawned by the current one.</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="bu">alias</span> ls=<span class="st">&#39;ls -GFh&#39;</span></code></pre>
+<p>This makes it so that each time you invoke the <code>ls</code> command, you do so with the
+options <code>-G</code>, <code>-F</code>, and <code>-h</code>. To find out on your own what those options do, you can
+type <code>man ls</code> at the command line and read the output, but briefly: <code>-G</code> causes directories and
+different file types to be printed in different colors, <code>-F</code> causes a <code>/</code> to be printed after
+directory names, and other characters to be printed at the end of the names of different
+file types, and <code>-h</code> causes file sizes to be printed in an easily human-readable form when
+using the <code>-l</code> option.</p>
+</div>
+<div id="where-are-my-programscommands-at" class="section level3">
+<h3><span class="header-section-number">4.5.2</span> Where are my programs/commands at?!</h3>
+<p>We saw in Section <a href="essential-unixlinux-terminal-knowledge.html#anatomy-command">4.3.1</a> that bash searches the directories listed in the
+<code>PATH</code> variable to find commands and executables. You can modify the PATH variable to include
+directories where you have installed different programs. In doing so, you want to make sure
+that you don’t lose any of the other directories in <code>PATH</code>, so there is a certain way to
+go about redefining <code>PATH</code>.</p>
+<p>Example use case. You write a short script and put it in <code>~/bin</code>. Maybe even have an
+exercise where students put <code>abspath</code> and <code>fp</code> into ’~/bin` and then make sure it is in
+their PATH.</p>
+</div>
+<div id="and-more" class="section level3">
+<h3><span class="header-section-number">4.5.3</span> And more…</h3>
+<p>Just going to say that much more can be done, and we will see entries throughout the
+book about other customizations that are helpful in <code>~/.bashrc</code>.</p>
+</div>
 </div>
 <div id="a-short-list-of-useful-commands." class="section level2">
 <h2><span class="header-section-number">4.6</span> A short list of useful commands.</h2>
