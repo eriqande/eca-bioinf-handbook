@@ -18,7 +18,83 @@ you want to tweak it without re-generating all the underlying data, you can do t
 
 ## References
 
-### citr and Zotero
+Science, as an enterprise, has proceeded with each new generation of researchers building
+upon the discoveries and achievements of the previous. Scientific publication honors this
+tradition with the stringent requirement of diligent citation of previous work. Not only
+that, but it is incumbent upon every researcher to identify all current work by others that
+is related to their own, and discuss its similarities and differences. As recently as the early
+90s, literature searches involved using an annual index _printed on paper!_  And, if you found
+a relevant paper you had to locate it in a bound volume in the library stacks and copy it page by page
+at a Xerox machine (or send an undergraduate intern to do that...)
+
+Today, of course, the Internet, search services like Google Scholar, and even Twitter, 
+have made it far easier to identify related work and to keep abreast of the latest
+developments in your field. But, this profusion of new literature leads to new challenges
+with managing all this information in a way that makes it easy for you to access, read, and
+cite papers while writing your own publications. There are many reference management
+systems available today, to help you with this task.  Some of these are proprietary and paid
+products like EndNote. Many institutions (like Colorado State University) have licenses that provide 
+their students a no-cost way to obtain EndNote, but the license will not extend to updates to
+the program, once the student has graduated. (CHECK THIS!!!).
+
+An alternative citation manager is Zotero. It is an open source project that has been funded
+not by publishing companies (like its non-open-source competitors, Mendeley and ReadCube) but
+by the non-profit Corporation for Digital Scholarship. As an open-source project, outside 
+contributors have been enabled to develop workflows for integrating Zotero with reproducible
+research authoring modalities like Rmarkdown, including RStudio integration that lets you 
+drop citations from Zotero directly into your Rmarkdown document where they will be cited
+and included in the references list in the format of just about any journal you might
+want to choose from. Accordingly, I will describe how to use Zotero as a citation manager
+while writing Rmarkdown documents.
+
+_Install Zotero and be sure to install the connector for Chrome, Firefox, or Safari_
+
+
+### Zotero and Rmarkdown
+
+Zotero has to be customized slightly to integrate with Rmarkdown and Rstudio, you must
+install the R package `citr`, and you should make some configurations:
+
+1. First, you have to get a Zotero add-on that can translate your Zotero
+library into a different format called BibTeX format (which is used with the
+TeX typesetting engine and the LaTeX document preparation system). Do this by
+following the directions at [https://retorque.re/zotero-better-bibtex/installation/](https://retorque.re/zotero-better-bibtex/installation/). 
+2. When you restart Zotero, you can choose all the default configurations 
+in the BetterBibTeX start-up wizard.
+3. Then, configure the BetterBibTex preferences by going to the Zotero preferences,
+choosing BetterBibTex, and then selecting "Export" button.  That yields a page
+that gives you a place to omit certain reference fields.  You life will be easier
+if you omit fields that are often long, or which are not needed for citation. I recommend
+filling that field with:
+    ```{r, eval=FALSE}
+    abstract,copyright,file,pmid
+    ```
+And, you probably should restart Zotero after doing that.
+4. Install the R package `citr`.  It is on CRAN, but it is probably best
+to first try the latest development version. Install it from within R using:
+    ```{r, eval=FALSE}
+    devtools::install_github("crsh/citr")
+    ```
+For more information about this package check out [https://github.com/crsh/citr](https://github.com/crsh/citr).
+5. Once that package is installed. Quit and re-open RStudio.  Now, if you go to the
+"Addins" menu (right under the name panel at the top of the RStudio window) you will
+see the option to "Insert citations."  Choosing that brings up a dialog box.  You can choose
+the Zotero libraries to connect to.  It might take a while to load your Zotero library if it
+is large.  Once it is loaded though, you just start typing the name of the author or part
+of an article title, and _boom!_ if that article is in your library it appears as an option.
+If you select it, you get a markdown citation in your text.
+6. To avoid having to go to the "Addins" menu, you can set a keyboard shortcut for 
+"Insert citations" by choosing the "Code" section of RStudio's preferences and, under the
+"Editing" tab, clicking the "Modify Keyboard Shortcuts" command, searching for
+"Insert citations" and then selecting the keyboard shortcut area of the row and 
+keying in which keys you would like to give you the shortcut (for example,
+Shift-CMD-I).
+
+After those steps, you are set up to draw from your Zotero library or libraries
+to insert citations into your R markdown document.
+
+
+
 
 Pretty cool, but there are some things that are sort of painful---namely
 the Title vs. Sentence casing.  Fortunately, citr just adds things to your references.bib, it doesn't re-overwrote references.bib each time,

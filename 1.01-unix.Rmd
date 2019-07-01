@@ -514,16 +514,59 @@ is better to avoid them altogether.
 
 ## The anatomy of a Unix command
 
-In general things look like this:
+Nearly every Unix command that you might invoke follows a certain pattern.  First comes
+the `command` itself.  This is the word that tells the system the name of the command
+that you are actually trying to do.  After that, often, you will provide a series
+of _options_ that will modify the behavior of the command (for example, as we have seen, `-l` 
+is an option to the `ls` command).  Finally, you might then provide some _arguments_ to the 
+functions.  These are typically paths to files or directories that you would like the
+command to operate on.  So, in short, a typical Unix command invocation will look
+like this:
 
 `command` _options_ _arguments_
 
-Now break it down
+Of course, there are exceptions.  For example, when invoking Java-based programs from your
+shell, arguments might be supplied in ways that make them look like options, etc. But, for
+the most part, the above is a useful way of thinking about Unix commands.
+
+We will now break down each element in "`command` _options_ _arguments_".
 
 ### The `command` {#anatomy-command}
+
 When you type a command at the Unix prompt, whether it is a command like `ls` or
-one like `samtools` (Chapter ?), the Unix system has to search through its "catalog"
-of possible commands.  (Talk about PATHs and the which command)
+one like `samtools` (Section \@ref(samtools)), the Unix system has to search around
+the filesystem for a file that matches the command name and which provides the actual 
+instructions (the computer code, if you will) for what the command will actually do.
+It cannot be stressed enough how important it is to 
+understand where and how the bash shell searches for these command files. Understanding this
+well, and knowing how to add directories that the shell searches for executable
+commands will alleviate a lot of frustration that often arises with Unix.
+
+In brief, all Unix shells (and the bash shell specifically) maintain what is called
+an _environent variable_ called `PATH` that is a colon-separated list of pathnames
+where the shell searches for commands.  You can print the `PATH` variable using
+the `echo` command:
+```sh
+echo $PATH
+```
+On a freshly installed system without many customizations the `PATH` might look like:
+```sh
+/usr/bin:/bin:/usr/sbin:/sbin
+```
+which is telling us that, when bash is searching for a command, it searches for a file
+of the same name as the command first in the directory `/usr/bin`.  If it finds it there, then 
+it uses the contents of that file to invoke the command.  If it doesn't find it there,
+then it next searches for the file in directory `/bin`.  If it's not there, it searches
+in `/usr/sbin`, and finally in `/sbin`.  If it does not find the command in any of those directories
+then it returns the error `command not found`.  
+
+When you install programs on your own computer system, quite often the installer will modify
+a system file that specifies the `PATH` variable upon startup.  Thus after installing some
+programs that use the command line on a Mac system, the "default" `PATH` might look like:
+```sh
+/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/TeX/texbin
+```
+
 
 ### The _options_
 
@@ -689,6 +732,14 @@ book about other customizations that are helpful in `~/.bashrc`.
 ## A short list of useful commands.
 
 cat, head (good for binary files too with -c), less, sort, paste, cut, tar, gzip, du, wc, date
+
+
+## Several computing fundamentals
+
+I want to give some explanations of a few things here.  
+### Compression
+
+### Hashing
 
 
 ## Unix: Quick Study Guide

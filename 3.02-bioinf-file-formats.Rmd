@@ -12,11 +12,13 @@ FASTA, FASTQ
 
 ## Alignments
 
-BAM.  Talk about them being sorted or not.  Note that the headers between these
+SAM/BAM.  Talk about them being sorted or not.  Note that the headers between these
 and VCF are similar. 
 
 Have a discussion here about naming positions within the genome
 and talk about 0-based vs 1-based coordinates.
+
+### Samtools {#samtools}
 
 
 ## Variants

@@ -183,7 +183,7 @@ world-wide web, is a natural choice for cloud services that most people will acc
 using a web browser; however, Unix does not traditionally come with a utility or command
 to easily process the types of HTTPS transactions needed to network with
 cloud storage.  Furthermore, there must be some security when it comes to accessing
-your cloud-based storage---you don't want anyone to be able to access your files, so
+your cloud-based storage---you don't want everyone to be able to access your files, so
 your cloud service needs to have some way of authenticating people
 (you and your labmates for example) that are authorized to access your data.
 
@@ -368,6 +368,11 @@ is easy to find with rclone config.
 This makes sense, and it easy: with `rclone config` encryption is one of
 the options.  When it is encrypted, use `rclone config show` to see what
 it looks like in clear text.
+
+#### Some other usage tips
+
+Following an email exchange with Ren, I should mention how to do an md5 
+checksum on the remote server to make sure that everything is correctly there.
 
 
 
