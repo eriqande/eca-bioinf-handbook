@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2019-06-25" />
+<meta name="date" content="2019-07-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -189,6 +189,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.1" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#scp"><i class="fa fa-check"></i><b>7.2.1</b> scp</a></li>
 <li class="chapter" data-level="7.2.2" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#globus"><i class="fa fa-check"></i><b>7.2.2</b> Globus</a></li>
 <li class="chapter" data-level="7.2.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#interfacing-with-the-cloud"><i class="fa fa-check"></i><b>7.2.3</b> Interfacing with “The Cloud”</a></li>
+<li class="chapter" data-level="7.2.4" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#getting-files-from-a-sequencing-center"><i class="fa fa-check"></i><b>7.2.4</b> Getting files from a sequencing center</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#boneyard"><i class="fa fa-check"></i><b>7.3</b> Boneyard</a></li>
 <li class="chapter" data-level="7.4" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#the-queue-slurmsgeuge"><i class="fa fa-check"></i><b>7.4</b> The Queue (SLURM/SGE/UGE)</a></li>
@@ -586,6 +587,122 @@ is easy to find with rclone config.</p>
 the options. When it is encrypted, use <code>rclone config show</code> to see what
 it looks like in clear text.</p>
 </div>
+<div id="some-other-usage-tips" class="section level4">
+<h4><span class="header-section-number">7.2.3.6</span> Some other usage tips</h4>
+<p>Following an email exchange with Ren, I should mention how to do an md5
+checksum on the remote server to make sure that everything is correctly there.</p>
+</div>
+</div>
+<div id="getting-files-from-a-sequencing-center" class="section level3">
+<h3><span class="header-section-number">7.2.4</span> Getting files from a sequencing center</h3>
+<p>Very often sequencing centers will post all the data from a single
+run of a machine at a secured (or unsecured) http address. You will
+need to download those files to operate on them on your cluster or
+local machine. However some of the files available on the server
+will likely belong to other researchers and you don’t want to waste time
+downloading them.</p>
+<p>Let’s take an example. Suppose you are sent an email from the sequencing
+center that says something like:</p>
+<blockquote>
+<p>Your samples are AW_F1 (female) and AW_M1 (male).
+You should be able to access the data from this link provided by YCGA:
+<a href="http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/" class="uri">http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/</a></p>
+</blockquote>
+<p>You can easily access this web address using <code>rclone</code>. You could set up a new
+remote in your rclone config to point to <code>http://sysg1.cs.yale.edu</code>,
+but, since you will only be using this once, to get your data, it makes
+more sense to just specify the remote on the command line. This can be
+done by passing <code>rclone</code> the URL address via the <code>--http-url</code> option, and
+then, after that, telling it what protocol to use by adding <code>:http:</code> to
+the command. Here is what you would use to list the directories available
+at the sequencing center URL:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="co"># here is the command</span>
+<span class="ex">%</span> rclone lsd --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:
+
+<span class="co"># and here is the output</span>
+          <span class="ex">-1</span> 1969-12-31 16:00:00        -1 sjg73_fqs
+          <span class="ex">-1</span> 1969-12-31 16:00:00        -1 sjg73_supernova_fqs</code></pre>
+<p>Aha! There are two directories that might hold our sequencing data.
+I wonder what is in those diretories? The <code>rclone tree</code> command is the
+perfect way to drill down into those diretories and look at their contents:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> rclone tree --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:
+<span class="ex">/</span>
+├── <span class="ex">sjg73_fqs</span>
+│   ├── <span class="ex">AW_F1</span>
+│   │   ├── <span class="ex">AW_F1_S2_L001_I1_001.fastq.gz</span>
+│   │   ├── <span class="ex">AW_F1_S2_L001_R1_001.fastq.gz</span>
+│   │   └── <span class="ex">AW_F1_S2_L001_R2_001.fastq.gz</span>
+│   ├── <span class="ex">AW_M1</span>
+│   │   ├── <span class="ex">AW_M1_S3_L001_I1_001.fastq.gz</span>
+│   │   ├── <span class="ex">AW_M1_S3_L001_R1_001.fastq.gz</span>
+│   │   └── <span class="ex">AW_M1_S3_L001_R2_001.fastq.gz</span>
+│   └── <span class="ex">ESP_A1</span>
+│       ├── <span class="ex">ESP_A1_S1_L001_I1_001.fastq.gz</span>
+│       ├── <span class="ex">ESP_A1_S1_L001_R1_001.fastq.gz</span>
+│       └── <span class="ex">ESP_A1_S1_L001_R2_001.fastq.gz</span>
+└── <span class="ex">sjg73_supernova_fqs</span>
+    ├── <span class="ex">AW_F1</span>
+    │   ├── <span class="ex">AW_F1_S2_L001_I1_001.fastq.gz</span>
+    │   ├── <span class="ex">AW_F1_S2_L001_R1_001.fastq.gz</span>
+    │   └── <span class="ex">AW_F1_S2_L001_R2_001.fastq.gz</span>
+    ├── <span class="ex">AW_M1</span>
+    │   ├── <span class="ex">AW_M1_S3_L001_I1_001.fastq.gz</span>
+    │   ├── <span class="ex">AW_M1_S3_L001_R1_001.fastq.gz</span>
+    │   └── <span class="ex">AW_M1_S3_L001_R2_001.fastq.gz</span>
+    └── <span class="ex">ESP_A1</span>
+        ├── <span class="ex">ESP_A1_S1_L001_I1_001.fastq.gz</span>
+        ├── <span class="ex">ESP_A1_S1_L001_R1_001.fastq.gz</span>
+        └── <span class="ex">ESP_A1_S1_L001_R2_001.fastq.gz</span>
+
+<span class="ex">8</span> directories, 18 files</code></pre>
+<p>Whoa! That is pretty cool!. From this output we see that there are
+subdirectories named <code>AW_F1</code> and <code>AW_M1</code> that hold the files that
+we want. And, of course, the <code>ESP_A1</code> samples must belong to someone
+else. It would be great if we could just download the files we wanted,
+excluding the ones in the <code>ESP_A1</code> directories. It turns out that there is!
+<code>rclone</code> has an <code>--exclude</code> option to exclude paths that match certain
+patterns. You can read about that at
+<a href="https://rclone.org/filtering/">https://rclone.org/filtering/</a>. We can
+experiment by giving <code>rclone copy</code> the <code>--dry-run</code> command to see which
+files will be transferred. If we don’t do any filtering, we see this
+when we try to dry-run copy the directories to our local directory <code>Alewife/fastqs</code>:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> rclone copy --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</code></pre>
+<p>Since we do not want to copy the <code>ESP_A1</code> files we see if we can exclude
+them:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> rclone copy --exclude */ESP_A1/* --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/
+<span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run
+<span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</code></pre>
+<p>Booyah! That gets us just what we want. So, then we remove the <code>--dry-run</code> option,
+and maybe add <code>-v -P</code> to give us verbose output and progress information, and copy all of our files:</p>
+<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> rclone copy --exclude */ESP_A1/* -v -P  --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</code></pre>
 </div>
 </div>
 <div id="boneyard" class="section level2">

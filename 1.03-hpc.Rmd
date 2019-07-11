@@ -380,6 +380,131 @@ checksum on the remote server to make sure that everything is correctly there.
 
 
 
+
+### Getting files from a sequencing center
+
+Very often sequencing centers will post all the data from a single
+run of a machine at a secured (or unsecured) http address. You will
+need to download those files to operate on them on your cluster or
+local machine.  However some of the files available on the server
+will likely belong to other researchers and you don't want to waste time
+downloading them.
+
+Let's take an example.  Suppose you are sent an email from the sequencing
+center that says something like:
+
+>Your samples are AW_F1 (female) and AW_M1 (male).
+>You should be able to access the data from this link provided by YCGA:
+>http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/
+
+You can easily access this web address using `rclone`.  You could set up a new
+remote in your rclone config to point to `http://sysg1.cs.yale.edu`,
+but, since you will only be using this once, to get your data, it makes
+more sense to just specify the remote on the command line.  This can be 
+done by passing `rclone` the URL address via the `--http-url` option, and
+then, after that, telling it what protocol to use by adding `:http:` to
+the command.  Here is what you would use to list the directories available
+at the sequencing center URL:
+```sh
+# here is the command
+% rclone lsd --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:
+
+# and here is the output
+          -1 1969-12-31 16:00:00        -1 sjg73_fqs
+          -1 1969-12-31 16:00:00        -1 sjg73_supernova_fqs
+```
+Aha! There are two directories that might hold our sequencing data.
+I wonder what is in those diretories?  The `rclone tree` command is the 
+perfect way to drill down into those diretories and look at their contents:
+```sh
+% rclone tree --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:
+/
+├── sjg73_fqs
+│   ├── AW_F1
+│   │   ├── AW_F1_S2_L001_I1_001.fastq.gz
+│   │   ├── AW_F1_S2_L001_R1_001.fastq.gz
+│   │   └── AW_F1_S2_L001_R2_001.fastq.gz
+│   ├── AW_M1
+│   │   ├── AW_M1_S3_L001_I1_001.fastq.gz
+│   │   ├── AW_M1_S3_L001_R1_001.fastq.gz
+│   │   └── AW_M1_S3_L001_R2_001.fastq.gz
+│   └── ESP_A1
+│       ├── ESP_A1_S1_L001_I1_001.fastq.gz
+│       ├── ESP_A1_S1_L001_R1_001.fastq.gz
+│       └── ESP_A1_S1_L001_R2_001.fastq.gz
+└── sjg73_supernova_fqs
+    ├── AW_F1
+    │   ├── AW_F1_S2_L001_I1_001.fastq.gz
+    │   ├── AW_F1_S2_L001_R1_001.fastq.gz
+    │   └── AW_F1_S2_L001_R2_001.fastq.gz
+    ├── AW_M1
+    │   ├── AW_M1_S3_L001_I1_001.fastq.gz
+    │   ├── AW_M1_S3_L001_R1_001.fastq.gz
+    │   └── AW_M1_S3_L001_R2_001.fastq.gz
+    └── ESP_A1
+        ├── ESP_A1_S1_L001_I1_001.fastq.gz
+        ├── ESP_A1_S1_L001_R1_001.fastq.gz
+        └── ESP_A1_S1_L001_R2_001.fastq.gz
+
+8 directories, 18 files
+```
+Whoa! That is pretty cool!.  From this output we see that there are 
+subdirectories named `AW_F1` and `AW_M1` that hold the files that
+we want.  And, of course, the `ESP_A1` samples must belong to someone
+else.  It would be great if we could just download the files we wanted,
+excluding the ones in the `ESP_A1` directories.  It turns out that there is!
+`rclone` has an `--exclude` option to exclude paths that match certain
+patterns.  You can read about that at
+[https://rclone.org/filtering/](https://rclone.org/filtering/).  We can
+experiment by giving `rclone copy` the `--dry-run` command to see which
+files will be transferred. If we don't do any filtering, we see this
+when we try to dry-run copy the directories to our local directory `Alewife/fastqs`:
+```sh
+% rclone copy --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run
+```
+Since we do not want to copy the `ESP_A1` files we see if we can exclude
+them:
+```sh
+% rclone copy --exclude */ESP_A1/* --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/
+2019/07/11 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run
+```
+Booyah!  That gets us just what we want.  So, then we remove the `--dry-run` option,
+and maybe add `-v -P` to give us verbose output and progress information, and copy all of our files:
+```sh
+% rclone copy --exclude */ESP_A1/* -v -P  --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/
+```
+
+
+
 ## Boneyard
 
 
