@@ -845,7 +845,7 @@ Unix shell behave in the same way regarding their output: they write their
 output to _stdout_.  We have already seen this with `ls`: its output just
 gets written to the screen, which is where _stdout_ goes by default. 
 
-### Redirecting standard output: `>`
+### Redirecting standard output: `>` and `>>`
 
 Unix starts to get really fun when you realize that you can "redirect" the
 contents of _stdout_ from any command (or group of commands...see the next chapter!)
@@ -871,6 +871,16 @@ cat /tmp/file1
 # and the second file:
 cat /tmp/file2
 ```
+
+It is important to realize that when you redirect output into a file
+with `>`, any contents that previously existed in that file will
+be deleted (wiped out!).  So be careful about redirecting.  Don't
+accidentally redirect output into a file that has valuable data in it.
+
+The `>>` redirection operator does not delete the destination file before
+it redirects output into it.  Rather, `>> file` means "append _stdout_ to the contents that already exist in `file`." This can be very useful
+sometimes.
+
 
 ### stdin, `<` and `|`
 

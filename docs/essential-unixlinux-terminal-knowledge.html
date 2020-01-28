@@ -158,7 +158,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#creating-new-directories"><i class="fa fa-check"></i><b>4.4.1</b> Creating new directories</a></li>
 <li class="chapter" data-level="4.4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#fundamental-file-handling-commands"><i class="fa fa-check"></i><b>4.4.2</b> Fundamental file-handling commands</a></li>
 <li class="chapter" data-level="4.4.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#viewing-files"><i class="fa fa-check"></i><b>4.4.3</b> “Viewing” Files</a></li>
-<li class="chapter" data-level="4.4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#redirecting-standard-output"><i class="fa fa-check"></i><b>4.4.4</b> Redirecting standard output: <code>&gt;</code></a></li>
+<li class="chapter" data-level="4.4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#redirecting-standard-output-and"><i class="fa fa-check"></i><b>4.4.4</b> Redirecting standard output: <code>&gt;</code> and <code>&gt;&gt;</code></a></li>
 <li class="chapter" data-level="4.4.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#stdin-and"><i class="fa fa-check"></i><b>4.4.5</b> stdin, <code>&lt;</code> and <code>|</code></a></li>
 <li class="chapter" data-level="4.4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#stderr"><i class="fa fa-check"></i><b>4.4.6</b> stderr</a></li>
 <li class="chapter" data-level="4.4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#symbolic-links"><i class="fa fa-check"></i><b>4.4.7</b> Symbolic links</a></li>
@@ -991,8 +991,8 @@ Unix shell behave in the same way regarding their output: they write their
 output to <em>stdout</em>. We have already seen this with <code>ls</code>: its output just
 gets written to the screen, which is where <em>stdout</em> goes by default.</p>
 </div>
-<div id="redirecting-standard-output" class="section level3">
-<h3><span class="header-section-number">4.4.4</span> Redirecting standard output: <code>&gt;</code></h3>
+<div id="redirecting-standard-output-and" class="section level3">
+<h3><span class="header-section-number">4.4.4</span> Redirecting standard output: <code>&gt;</code> and <code>&gt;&gt;</code></h3>
 <p>Unix starts to get really fun when you realize that you can “redirect” the
 contents of <em>stdout</em> from any command (or group of commands…see the next chapter!)
 to a file. To do that, you merely follow the command (and all its options and arguments)
@@ -1014,6 +1014,13 @@ wish to redirect <em>stdout</em>.</p>
 <a class="sourceLine" id="cb38-13" data-line-number="13"></a>
 <a class="sourceLine" id="cb38-14" data-line-number="14"><span class="co"># and the second file:</span></a>
 <a class="sourceLine" id="cb38-15" data-line-number="15"><span class="fu">cat</span> /tmp/file2</a></code></pre></div>
+<p>It is important to realize that when you redirect output into a file
+with <code>&gt;</code>, any contents that previously existed in that file will
+be deleted (wiped out!). So be careful about redirecting. Don’t
+accidentally redirect output into a file that has valuable data in it.</p>
+<p>The <code>&gt;&gt;</code> redirection operator does not delete the destination file before
+it redirects output into it. Rather, <code>&gt;&gt; file</code> means “append <em>stdout</em> to the contents that already exist in <code>file</code>.” This can be very useful
+sometimes.</p>
 </div>
 <div id="stdin-and" class="section level3">
 <h3><span class="header-section-number">4.4.5</span> stdin, <code>&lt;</code> and <code>|</code></h3>
