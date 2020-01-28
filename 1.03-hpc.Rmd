@@ -303,6 +303,40 @@ For example, try something like:
 rclone --drive-shared-with-me lsd gdrive-rclone:
 ```
 
+#### filtering: Be particular about the files you transfer {#rclone-filter}
+
+`rclone` works a little differently than the Unix utility `cp`.  In particular,
+`rclone` is not set up very well to copy individual files.  While there is a
+an `rclone` command known as `copyto` that will allow you copy a single file,
+you cannot (apparently) specify multiple, individual files that you wish to copy.
+
+In other words, you can't do:
+```sh
+rclone copyto this_file.txt that_file.txt another_file.bam gdrive-rclone:dest_dir
+```
+
+In general, you will be better off using `rclone` to copy the *contents* of a directory
+to the inside of the destination directory.  However, there are options in `rclone` that
+can keep you from being totally indiscriminate about the files you transfer.  In other words,
+you can *filter* the files that get transferred.  You can read about that at
+[https://rclone.org/filtering/](https://rclone.org/filtering/).
+
+For a quick example, imagine that you have a directory called `Data` on you Google Drive
+that contains both VCF and BAM files.  You want to get only the VCF files (ending with `.vcf.gz`, say)
+onto the current working directory on your cluster.  Then something like this works:
+```sh
+rclone copy --include *.vcf.gz gdrive-rclone:Data ./
+```
+Note that, if you are issuing this command on a Unix system in a directory
+where the pattern `*.vcf.gz` will expand (by globbing) to multiple files, you will
+get an error.  In that case, wrap the pattern in a pair of single quotes to keep
+the shell from expanding it, like this:
+```sh
+rclone copy --include '*.vcf.gz' gdrive-rclone:Data ./
+```
+
+
+
 #### Feel free to make lots of configurations
 
 You might want to configure a remote for each directory-specific project.
@@ -361,7 +395,10 @@ You won't get manual pages on your system, but you can always find the docs on t
 #### Setting up configurations on the remote machine...
 
 Is as easy as copying your config file to where it should go, which
-is easy to find with rclone config.
+is easy to find using the command:
+```sh
+rclone config file
+```
 
 #### Encrypting your config file
 
@@ -454,8 +491,7 @@ we want.  And, of course, the `ESP_A1` samples must belong to someone
 else.  It would be great if we could just download the files we wanted,
 excluding the ones in the `ESP_A1` directories.  It turns out that there is!
 `rclone` has an `--exclude` option to exclude paths that match certain
-patterns.  You can read about that at
-[https://rclone.org/filtering/](https://rclone.org/filtering/).  We can
+patterns (see Section \@ref(rclone-filter), above).  We can
 experiment by giving `rclone copy` the `--dry-run` command to see which
 files will be transferred. If we don't do any filtering, we see this
 when we try to dry-run copy the directories to our local directory `Alewife/fastqs`:
@@ -504,6 +540,183 @@ and maybe add `-v -P` to give us verbose output and progress information, and co
 ```
 
 
+## Activating/Installing software
+
+### Modules 
+
+This is if your sys admin has made it easy.
+
+### Miniconda
+
+This is how one will probably want to do it
+
+#### Testing this on Summit
+
+I just want to quickly try this:
+```sh
+ssh eriq@colostate.edu@login.rc.colorado.edu
+
+# get on compile nodes
+ssh scompile
+
+# I checked modules and found no samtools, bcftools, etc.
+
+# Now install miniconda
+mkdir conda_install
+cd conda_install/
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+chmod u+x Miniconda3-latest-Linux-x86_64.sh 
+./Miniconda3-latest-Linux-x86_64.sh 
+
+# then you follow the prompts and agree to the license and the 
+# default install location.
+
+## NOTE: Might want to install to a different location if there
+## are serious caps on hard disk usage in home directory..
+
+source ~/.bashrc
+
+# after that I have it!
+(base) [eriq@colostate.edu@shas0136 conda_install]$
+```
+
+Now, let's see if we can get samtools.  Just google "samtools conda" to
+get an idea of how to do it:
+```sh
+conda install -c bioconda samtools
+```
+AFter that, it just works! Cool!
+```sh
+(base) [eriq@colostate.edu@shas0136 ~]$ samtools
+
+Program: samtools (Tools for alignments in the SAM format)
+Version: 1.9 (using htslib 1.9)
+
+Usage:   samtools <command> [options]
+
+Commands:
+  -- Indexing
+     dict           create a sequence dictionary file
+     faidx          index/extract FASTA
+     fqidx          index/extract FASTQ
+     index          index alignment
+
+...
+```
+
+All right! That is amazing.  Next steps:
+
+1. Tell students about establishing different environments.
+2. Learn about how to make a minimal environment for a project and how to 
+record that and be able to distribute/propagate it.
+
+Along those lines, I want to see if, when I install samtools into a new environment,
+it re-downloads it or not...
+```sh
+conda create --name quick-test
+conda activate quick-test
+
+# i also made an environment in a specified directory (you
+# could put these within a project directory)
+conda create --prefix ./test-envs-dir 
+conda activate ./test-envs-dir
+
+# now, let's install bcftools there
+conda install -c bioconda bcftools
+
+# note that it doesn't re-download the dependencies, as far as I can tell.
+conda activate base
+bcftools # not found in environment base
+
+conda activate ./test-envs-dir
+bcftools  # it is found in this environment.  Cool.
+
+conda activate quick-test
+bcftools  # it ain't here
+```
+Now, after that, bcftools is in ./test-envs-dir/bcftools
+
+So, what if we install it into another environment.  Does it symlink it?
+```sh
+conda activate base
+conda install -c bioconda bcftools
+bcftools
+
+# whoa! That errored out!
+bcftools: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory
+
+# that is a serious problem.  
+
+# Can I get it in my other environment?
+conda activate quick-test
+conda install -c bioconda bcftools
+bcftools
+
+# that totally works, but it still doesn't in base...
+
+# so, what if we add samtools to our other environments?
+# that works fine.
+```
+
+But, samtools/bcftools dependency issues are a known problem:  https://github.com/sunbeam-labs/sunbeam/issues/181
+Basically they rely on different versions of some ssh libs.  
+
+Note that installing bcftools first things work.  But what if we make another environment
+and install samtools first again?
+```sh
+conda create --name samtools-first
+conda activate samtools-first
+conda install -c bioconda samtools  # this didn't download anything new
+conda install -c bioconda bcftools
+
+# BOOM! THIS CREATES A FAIL.  SO, YOU GOTTA INSTALL BCFTOOLS
+# FIRST.  FAR OUT.
+```
+
+### Exporting environments
+
+Looks like we should be able to do this.  Let's do the one that works:
+```sh
+(quick-test) [~]--% conda env export > quick-test-env.yml
+
+(quick-test) [~]--% cat quick-test-env.yml 
+name: quick-test
+channels:
+  - bioconda
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - bcftools=1.9=ha228f0b_4
+  - bzip2=1.0.8=h7b6447c_0
+  - ca-certificates=2019.5.15=1
+  - curl=7.65.3=hbc83047_0
+  - htslib=1.9=ha228f0b_7
+  - krb5=1.16.1=h173b8e3_7
+  - libcurl=7.65.3=h20c2e04_0
+  - libdeflate=1.0=h14c3975_1
+  - libedit=3.1.20181209=hc058e9b_0
+  - libgcc-ng=9.1.0=hdf63c60_0
+  - libssh2=1.8.2=h1ba5d50_0
+  - libstdcxx-ng=9.1.0=hdf63c60_0
+  - ncurses=6.1=he6710b0_1
+  - openssl=1.1.1c=h7b6447c_1
+  - samtools=1.9=h10a08f8_12
+  - tk=8.6.8=hbc83047_0
+  - xz=5.2.4=h14c3975_4
+  - zlib=1.2.11=h7b6447c_3
+prefix: /home/eriq@colostate.edu/miniconda3/envs/quick-test
+
+
+# OK, that is cool.  Now, if we wanted to email that to someone,
+# we could, and then they could do this:
+conda env create --name dupie-quick -f quick-test-env.yml 
+
+# that environment then has samtools and bcftools
+
+# note that it probably would try to name it quick-test if we didn't
+# pass in the name there...
+
+```
 
 ## Boneyard
 

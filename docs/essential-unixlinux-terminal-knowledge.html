@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Essential Unix/Linux Terminal Knowledge | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
   <meta name="description" content="A book example for a Chapman &amp; Hall book." />
-  <meta name="generator" content="bookdown 0.10 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Essential Unix/Linux Terminal Knowledge | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   <meta property="og:type" content="book" />
@@ -24,15 +24,15 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2019-07-11" />
+<meta name="date" content="2020-01-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="overview-of-essential-computing-skills.html">
-<link rel="next" href="shell-programming.html">
+<link rel="prev" href="overview-of-essential-computing-skills.html"/>
+<link rel="next" href="shell-programming.html"/>
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -40,6 +40,9 @@
 <link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -55,7 +58,6 @@ a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -129,12 +131,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">ECA's Bioinformatics Handbook</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-read-this-book"><i class="fa fa-check"></i>Why read this book</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i>Structure of the book</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-information-and-conventions"><i class="fa fa-check"></i>Software information and conventions</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgments"><i class="fa fa-check"></i>Acknowledgments</a></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="erics-notes-of-what-he-might-do.html"><a href="erics-notes-of-what-he-might-do.html"><i class="fa fa-check"></i><b>2</b> Eric’s Notes of what he might do</a><ul>
 <li class="chapter" data-level="2.1" data-path="erics-notes-of-what-he-might-do.html"><a href="erics-notes-of-what-he-might-do.html#table-of-topics"><i class="fa fa-check"></i><b>2.1</b> Table of topics</a></li>
@@ -156,23 +153,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.3.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#the-options"><i class="fa fa-check"></i><b>4.3.2</b> The <em>options</em></a></li>
 <li class="chapter" data-level="4.3.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#arguments"><i class="fa fa-check"></i><b>4.3.3</b> Arguments</a></li>
 <li class="chapter" data-level="4.3.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#getting-information-about-unix-commands"><i class="fa fa-check"></i><b>4.3.4</b> Getting information about Unix commands</a></li>
-<li class="chapter" data-level="4.3.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#exercises"><i class="fa fa-check"></i><b>4.3.5</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#handling-manipulating-and-viewing-files-and-streams"><i class="fa fa-check"></i><b>4.4</b> Handling, Manipulating, and Viewing files and streams</a><ul>
-<li class="chapter" data-level="4.4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#fundamental-file-handling-commands"><i class="fa fa-check"></i><b>4.4.1</b> Fundamental file-handling commands</a></li>
-<li class="chapter" data-level="4.4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#everytyhing-is-a-file.-io-redirection-and-pipes"><i class="fa fa-check"></i><b>4.4.2</b> Everytyhing is a file. I/O: redirection and pipes</a></li>
-<li class="chapter" data-level="4.4.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#editing-text-files-at-the-terminal"><i class="fa fa-check"></i><b>4.4.3</b> Editing text files at the terminal</a></li>
+<li class="chapter" data-level="4.4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#creating-new-directories"><i class="fa fa-check"></i><b>4.4.1</b> Creating new directories</a></li>
+<li class="chapter" data-level="4.4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#fundamental-file-handling-commands"><i class="fa fa-check"></i><b>4.4.2</b> Fundamental file-handling commands</a></li>
+<li class="chapter" data-level="4.4.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#viewing-files"><i class="fa fa-check"></i><b>4.4.3</b> “Viewing” Files</a></li>
+<li class="chapter" data-level="4.4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#redirecting-standard-output"><i class="fa fa-check"></i><b>4.4.4</b> Redirecting standard output: <code>&gt;</code></a></li>
+<li class="chapter" data-level="4.4.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#stdin-and"><i class="fa fa-check"></i><b>4.4.5</b> stdin, <code>&lt;</code> and <code>|</code></a></li>
+<li class="chapter" data-level="4.4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#stderr"><i class="fa fa-check"></i><b>4.4.6</b> stderr</a></li>
+<li class="chapter" data-level="4.4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#symbolic-links"><i class="fa fa-check"></i><b>4.4.7</b> Symbolic links</a></li>
+<li class="chapter" data-level="4.4.8" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#file-permissions"><i class="fa fa-check"></i><b>4.4.8</b> File Permissions</a></li>
+<li class="chapter" data-level="4.4.9" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#editing-text-files-at-the-terminal"><i class="fa fa-check"></i><b>4.4.9</b> Editing text files at the terminal</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-env"><i class="fa fa-check"></i><b>4.5</b> Customizing your Environment</a><ul>
 <li class="chapter" data-level="4.5.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#appearances-matter"><i class="fa fa-check"></i><b>4.5.1</b> Appearances matter</a></li>
 <li class="chapter" data-level="4.5.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#where-are-my-programscommands-at"><i class="fa fa-check"></i><b>4.5.2</b> Where are my programs/commands at?!</a></li>
-<li class="chapter" data-level="4.5.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#and-more"><i class="fa fa-check"></i><b>4.5.3</b> And more…</a></li>
 </ul></li>
-<li class="chapter" data-level="4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#a-short-list-of-useful-commands."><i class="fa fa-check"></i><b>4.6</b> A short list of useful commands.</a></li>
-<li class="chapter" data-level="4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#several-computing-fundamentals"><i class="fa fa-check"></i><b>4.7</b> Several computing fundamentals</a><ul>
-<li class="chapter" data-level="4.7.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#hashing"><i class="fa fa-check"></i><b>4.7.1</b> Hashing</a></li>
+<li class="chapter" data-level="4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#a-few-more-important-keystrokes"><i class="fa fa-check"></i><b>4.6</b> A Few More Important Keystrokes</a></li>
+<li class="chapter" data-level="4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#a-short-list-of-additional-useful-commands."><i class="fa fa-check"></i><b>4.7</b> A short list of additional useful commands.</a></li>
+<li class="chapter" data-level="4.8" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#two-important-computing-concepts"><i class="fa fa-check"></i><b>4.8</b> Two important computing concepts</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#compression"><i class="fa fa-check"></i><b>4.8.1</b> Compression</a></li>
+<li class="chapter" data-level="4.8.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#hashing"><i class="fa fa-check"></i><b>4.8.2</b> Hashing</a></li>
 </ul></li>
-<li class="chapter" data-level="4.8" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-quick-study-guide"><i class="fa fa-check"></i><b>4.8</b> Unix: Quick Study Guide</a></li>
+<li class="chapter" data-level="4.9" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-quick-study-guide"><i class="fa fa-check"></i><b>4.9</b> Unix: Quick Study Guide</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="shell-programming.html"><a href="shell-programming.html"><i class="fa fa-check"></i><b>5</b> Shell programming</a><ul>
 <li class="chapter" data-level="5.1" data-path="shell-programming.html"><a href="shell-programming.html#advanced-repitition"><i class="fa fa-check"></i><b>5.1</b> Advanced repitition</a></li>
@@ -191,13 +194,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#interfacing-with-the-cloud"><i class="fa fa-check"></i><b>7.2.3</b> Interfacing with “The Cloud”</a></li>
 <li class="chapter" data-level="7.2.4" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#getting-files-from-a-sequencing-center"><i class="fa fa-check"></i><b>7.2.4</b> Getting files from a sequencing center</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#boneyard"><i class="fa fa-check"></i><b>7.3</b> Boneyard</a></li>
-<li class="chapter" data-level="7.4" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#the-queue-slurmsgeuge"><i class="fa fa-check"></i><b>7.4</b> The Queue (SLURM/SGE/UGE)</a></li>
-<li class="chapter" data-level="7.5" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#modules-package"><i class="fa fa-check"></i><b>7.5</b> Modules package</a></li>
-<li class="chapter" data-level="7.6" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#compiling-programs-without-admin-privileges"><i class="fa fa-check"></i><b>7.6</b> Compiling programs without admin privileges</a></li>
-<li class="chapter" data-level="7.7" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#job-arrays"><i class="fa fa-check"></i><b>7.7</b> Job arrays</a></li>
-<li class="chapter" data-level="7.8" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#writing-stdout-and-stderr-to-files"><i class="fa fa-check"></i><b>7.8</b> Writing stdout and stderr to files</a></li>
-<li class="chapter" data-level="7.9" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#breaking-stuff-down"><i class="fa fa-check"></i><b>7.9</b> Breaking stuff down</a></li>
+<li class="chapter" data-level="7.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#activatinginstalling-software"><i class="fa fa-check"></i><b>7.3</b> Activating/Installing software</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#modules"><i class="fa fa-check"></i><b>7.3.1</b> Modules</a></li>
+<li class="chapter" data-level="7.3.2" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#miniconda"><i class="fa fa-check"></i><b>7.3.2</b> Miniconda</a></li>
+<li class="chapter" data-level="7.3.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#exporting-environments"><i class="fa fa-check"></i><b>7.3.3</b> Exporting environments</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#boneyard"><i class="fa fa-check"></i><b>7.4</b> Boneyard</a></li>
+<li class="chapter" data-level="7.5" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#the-queue-slurmsgeuge"><i class="fa fa-check"></i><b>7.5</b> The Queue (SLURM/SGE/UGE)</a></li>
+<li class="chapter" data-level="7.6" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#modules-package"><i class="fa fa-check"></i><b>7.6</b> Modules package</a></li>
+<li class="chapter" data-level="7.7" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#compiling-programs-without-admin-privileges"><i class="fa fa-check"></i><b>7.7</b> Compiling programs without admin privileges</a></li>
+<li class="chapter" data-level="7.8" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#job-arrays"><i class="fa fa-check"></i><b>7.8</b> Job arrays</a></li>
+<li class="chapter" data-level="7.9" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#writing-stdout-and-stderr-to-files"><i class="fa fa-check"></i><b>7.9</b> Writing stdout and stderr to files</a></li>
+<li class="chapter" data-level="7.10" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#breaking-stuff-down"><i class="fa fa-check"></i><b>7.10</b> Breaking stuff down</a></li>
 </ul></li>
 <li class="part"><span><b>II Part II: Reproducible Research Strategies</b></span></li>
 <li class="chapter" data-level="8" data-path="introduction-to-reproducible-research.html"><a href="introduction-to-reproducible-research.html"><i class="fa fa-check"></i><b>8</b> Introduction to Reproducible Research</a></li>
@@ -250,7 +258,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="18.4" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html#divide-and-conquer-strategies"><i class="fa fa-check"></i><b>18.4</b> Divide and Conquer Strategies</a></li>
 </ul></li>
 <li class="chapter" data-level="19" data-path="variant-calling-with-gatk.html"><a href="variant-calling-with-gatk.html"><i class="fa fa-check"></i><b>19</b> Variant calling with GATK</a></li>
-<li class="chapter" data-level="20" data-path="bioinformatics-for-rad-seq-data-with-no-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-no-reference-genome.html"><i class="fa fa-check"></i><b>20</b> Bioinformatics for RAD seq data with no reference genome</a></li>
+<li class="chapter" data-level="20" data-path="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><i class="fa fa-check"></i><b>20</b> Bioinformatics for RAD seq data with and without a reference genome</a></li>
 <li class="chapter" data-level="21" data-path="processing-amplicon-sequencing-data.html"><a href="processing-amplicon-sequencing-data.html"><i class="fa fa-check"></i><b>21</b> Processing amplicon sequencing data</a></li>
 <li class="chapter" data-level="22" data-path="genome-annotation.html"><a href="genome-annotation.html"><i class="fa fa-check"></i><b>22</b> Genome Annotation</a></li>
 <li class="chapter" data-level="23" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html"><i class="fa fa-check"></i><b>23</b> Whole genome alignment strategies</a><ul>
@@ -317,23 +325,36 @@ typically without the need to write intermediate results to the disk;
 5) Unix was developed when computers were extremely limited in terms of memory and speed. Accordingly,
 many Unix tools have been well optimized and are appropriate to the massive genomic data sets
 that can be taxing even for today’s large, high performance computing systems; 6) virtually all state-of-the-art
-bioinformatc tools are tailored to run in a Unix environment; and finally, 7) essentially
+bioinformatic tools are tailored to run in a Unix environment; and finally, 7) essentially
 every high-performance computer cluster runs some variant of Unix, so if you are going to be
 using a cluster for your analyses (which is highly likely), then you have gotta know Unix!</p>
-<p><em>A paragraph about what kinds of computers run Unix. (Often big servers, but also some
-flavors of personal laptops). The difference (similarities) between
-Unix and Linux. You might have Unix on your system (if you have a Mac). Or not. All this
-will effect what you need to do to get a Unix shell on your computer</em></p>
 <div id="getting-a-bash-shell-on-your-system" class="section level2">
 <h2><span class="header-section-number">4.1</span> Getting a bash shell on your system</h2>
-<p>Talk about what a shell is.</p>
-<p>For windows, it looks like windows 10 might be able to do pretty well with it:<br />
-<a href="https://www.howtogeek.com/265900/everything-you-can-do-with-windows-10s-new-bash-shell/">https://www.howtogeek.com/265900/everything-you-can-do-with-windows-10s-new-bash-shell/</a></p>
-<p>But maybe I should get a windows box and use Rstudio and see how the terminal in R studio is.</p>
-<p>For now, I will punt on this and get just assume POSIX available on the system.</p>
-<p>However, we will want to start everyone off by having them type <code>bash</code> to
-make sure they have a bash shell.</p>
-<p>Also, I am going to have to talk a little bit about what a shell is here….</p>
+<p>A special part of the Unix operating system is the “shell.” This is the system that
+interprets commands from the user. At times it behaves like an interpreted programming
+language, and it also has a number of features that help to minimize the amount of
+typing the user must do to complete any particular tasks. There are a number of
+different “shells” that people use. We will focus on one called “bash,” which stands
+for the “Bourne again shell.” Many of the shells share a number of features.</p>
+<p>Many common operating systems are built upon a Unix or upon Linux—an open-source flavor of
+Unix that is, in many scenarios, indistinguishable. Hereafter we will refer
+to both Unix and Linux as “Unix” systems). For example all Apple Macintosh computers are
+built on top of the Berkeley Standard Distribution of Unix and bash is the default
+shell. Many people these days
+use laptops that run a flavor of Linux like Ubuntu, Debian, or RedHat. Linux
+users should ensure that they are running the bash shell. This can be done
+by typing “bash” at the command line, or inserting that into their profile.
+To know what shell is currently running you can type:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$0</span></a></code></pre></div>
+<p>at the Unix command line. If you are running <code>bash</code> the result should
+be</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="ex">-bash</span></a></code></pre></div>
+<p>PCs running Microsoft Windows are something of the exception in the computer world, in that
+they are not running an operating system built on Unix. However, Windows 10 now allows for
+a Linux Subsystem to be run. For Windows, it is also possible to install a lightweight
+implementation of bash (like Git Bash). This is helpful for learning how to use Unix,
+but it should be noted that most bioinformatic tools are still difficult to install
+on Windows.</p>
 </div>
 <div id="navigating-the-unix-filesystem" class="section level2">
 <h2><span class="header-section-number">4.2</span> Navigating the Unix filesystem</h2>
@@ -346,17 +367,17 @@ the Unix filesystem from a terminal prompt. So,
 we begin our foray into Unix and its command prompt with this essential skill.</p>
 <p>When you start a Unix shell in a terminal window you get a <em>command prompt</em>
 that might look something like this:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">my-laptop</span>:~ me$</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ex">my-laptop</span>:~ me$</a></code></pre></div>
 <p>or, perhaps something as simple as:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash">$</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1">$</a></code></pre></div>
 <p>or maybe something like:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash">/<span class="ex">~/--%</span></code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1">/<span class="ex">~/--%</span></a></code></pre></div>
 <p>We will adopt the convention in this book that, unless we are intentionally doing something
 fancier, the Unix command prompt is given
 by a percent sign, and this will be used when displaying text typed at a command
 prompt, followed by output from the command. For example</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> pwd
-<span class="ex">/Users/eriq</span></code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="ex">%</span> pwd</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="ex">/Users/eriq</span></a></code></pre></div>
 <p>shows that I issued the Unix command <code>pwd</code>, which instructs the computer to
 <strong>p</strong>rint <strong>w</strong>orking <strong>d</strong>irectory, and the computer responded by printing
 <code>/Users/eriq</code>, which, on my Mac OS X system is my <em>home directory</em>.
@@ -439,14 +460,14 @@ stands for <strong>c</strong>hange <strong>d</strong>irectory. The syntax is sup
 get to the <code>git-repos</code> directory from my home directory would require
 a simple command <code>cd Documents/git-repos</code>. Once there, I could change to
 my <code>Desktop</code> directory with <code>cd ../../Desktop</code>. Witness:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> pwd
-<span class="ex">/Users/eriq</span>
-<span class="ex">%</span> cd Documents/git-repos/
-<span class="ex">%</span> pwd
-<span class="ex">/Users/eriq/Documents/git-repos</span>
-<span class="ex">%</span> cd ../../Desktop
-<span class="ex">%</span> pwd
-<span class="ex">/Users/eriq/Desktop</span></code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="ex">%</span> pwd</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="ex">/Users/eriq</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="ex">%</span> cd Documents/git-repos/</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="ex">%</span> pwd</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="ex">/Users/eriq/Documents/git-repos</span></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="ex">%</span> cd ../../Desktop</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="ex">%</span> pwd</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="ex">/Users/eriq/Desktop</span></a></code></pre></div>
 <p>Once you have used <code>cd</code>, the working directory of your current shell will
 remain the same no matter how many other commands you issue,
 until you invoke the <code>cd</code> command another time and change
@@ -455,21 +476,21 @@ to a different directory.</p>
 will be set to your home directory. This is super-handy if you have been
 exploring the levels of a Unix filesystem above your home directory and cannot
 remember how to get back to your home directory. Just remember that</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> cd</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="ex">%</span> cd</a></code></pre></div>
 <p>will get you back home.</p>
 <p>Another useful shortcut is to supply <code>-</code> (a hyphen) as the path to <code>cd</code>. This will
 change the working directory back to where you were before your last invocation
 of <code>cd</code>, and it will tell you which directory you have returned to. For example, if you start in <code>/Users/eriq/Documents/git-repos</code> and then
 <code>cd</code> to <code>/bin</code>, you can get back to <code>git-repos</code> with <code>cd -</code> like so:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> pwd
-<span class="ex">/Users/eriq/Documents/git-repos</span>
-<span class="ex">%</span> cd /bin/
-<span class="ex">%</span> pwd
-<span class="ex">/bin</span>
-<span class="ex">%</span> cd -
-<span class="ex">/Users/eriq/Documents/git-repos</span>
-<span class="ex">%</span> pwd
-<span class="ex">/Users/eriq/Documents/git-repos</span></code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="ex">%</span> pwd</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="ex">/Users/eriq/Documents/git-repos</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="ex">%</span> cd /bin/</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="ex">%</span> pwd</a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="ex">/bin</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="ex">%</span> cd -</a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="ex">/Users/eriq/Documents/git-repos</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="ex">%</span> pwd</a>
+<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="ex">/Users/eriq/Documents/git-repos</span></a></code></pre></div>
 <p>Note the output of <code>cd -</code> is the newly-returned-to current working directory.</p>
 </div>
 <div id="updating-your-command-prompt" class="section level3">
@@ -479,16 +500,16 @@ which directory you are in. You can always type <code>pwd</code> to figure that 
 but the bash shell also provides a way to print the current working directory
 <em>within your command prompt</em>.</p>
 <p>For example, the command:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="va">PS1=</span><span class="st">&#39;[\W]--% &#39;</span></code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="va">PS1=</span><span class="st">&#39;[\W]--% &#39;</span></a></code></pre></div>
 <p>redefines the command prompt to be the basename of the current directory surrounded
 by brackets and followed by <code>--%</code>:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> pwd
-<span class="ex">/Users/eriq/Documents/git-repos</span>
-<span class="ex">%</span> PS1=<span class="st">&#39;[\W]--% &#39;</span>
-[<span class="ex">git-repos</span>]--% cd ../
-[<span class="ex">Documents</span>]--% cd ../
-[<span class="ex">~</span>]<span class="ex">--%</span> cd ../
-[<span class="ex">Users</span>]--% </code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="ex">%</span> pwd</a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="ex">/Users/eriq/Documents/git-repos</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="ex">%</span> PS1=<span class="st">&#39;[\W]--% &#39;</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4">[<span class="ex">git-repos</span>]--% cd ../</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">[<span class="ex">Documents</span>]--% cd ../</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6">[<span class="ex">~</span>]<span class="ex">--%</span> cd ../</a>
+<a class="sourceLine" id="cb11-7" data-line-number="7">[<span class="ex">Users</span>]--% </a></code></pre></div>
 <p>This can make it considerably easier to keep track of where you are in your file system.</p>
 <p>We will discuss later how to invoke this change automatically in every terminal session
 when we talk about customizing environments in Section <a href="essential-unixlinux-terminal-knowledge.html#unix-env">4.5</a>.</p>
@@ -526,22 +547,22 @@ time you hit TAB, nothing happens, but the <em>second</em> time you hit TAB, the
 names that match what you have written so far. For example, in our Figure <a href="essential-unixlinux-terminal-knowledge.html#fig:file-hierarchy">4.1</a> example,
 hitting TAB after typing <code>cd ~/D</code> does nothing. But the second time we hit TAB we get a list of
 matching names:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> cd ~/D
-<span class="ex">Desktop/</span>  Documents/  Downloads/</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="ex">%</span> cd ~/D</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="ex">Desktop/</span>  Documents/  Downloads/</a></code></pre></div>
 <p>So, if we are heading to <code>Documents</code> we can see that adding <code>oc</code> to our command line, to create <code>cd Doc</code> would be sufficient to allow the shell to
 uniquely and correctly guess where we are heading. <code>cd Doc</code> will TAB-complete into <code>cd Documents/</code></p></li>
 <li><p>If there are multiple directory or file names that match the current command line, and they share
 more letters than those currently on the command line, TAB-completion will complete
 the name to the end of the shared portion of the name. An example helps: let’s say
 I have the following two directories with hideously long names in my <code>Downloads</code> folder:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">WIFL.rep_indiv_est.mixture_collection.count.gr8-results</span>
-<span class="ex">WIFL.rep_indiv_est.mixture_collection.count-results</span></code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="ex">WIFL.rep_indiv_est.mixture_collection.count.gr8-results</span></a>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="ex">WIFL.rep_indiv_est.mixture_collection.count-results</span></a></code></pre></div>
 <p>Then, TAB completing on <code>~/Downloads/WIFL.rep</code> will partially complete so that the prompt and command look like:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> cd ~/Downloads/WIFL.rep_indiv_est.mixture_collection.count</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="ex">%</span> cd ~/Downloads/WIFL.rep_indiv_est.mixture_collection.count</a></code></pre></div>
 <p>and hitting TAB twice gives:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> cd ~/Downloads/WIFL.rep_indiv_est.mixture_collection.count
-<span class="ex">WIFL.rep_indiv_est.mixture_collection.count-results</span>
-<span class="ex">WIFL.rep_indiv_est.mixture_collection.count.gr8-results</span></code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="ex">%</span> cd ~/Downloads/WIFL.rep_indiv_est.mixture_collection.count</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="ex">WIFL.rep_indiv_est.mixture_collection.count-results</span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="ex">WIFL.rep_indiv_est.mixture_collection.count.gr8-results</span></a></code></pre></div>
 <p>At this point, adding <code>-</code> and TAB completing will give the first of those directories.</p></li>
 </ol>
 <p>The last example shows just how much typing TAB completion can save you. So, don’t be
@@ -561,19 +582,19 @@ other directories—within a directory.</p>
 <p>Invoking the <code>ls</code> command without any other arguments (without anything after it)
 returns the contents of the current working directory. In our example,
 if we are in <code>/Users</code> then we get:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> ls
-<span class="ex">eriq</span>  zoe</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="ex">%</span> ls</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="ex">eriq</span>  zoe</a></code></pre></div>
 <p>By default, <code>ls</code> gives output in several columns of text, with the directory contents
 sorted lexicographically. For example, the following is output from the <code>ls</code> command
 in a directory on a remote Unix machine:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> ls
-<span class="ex">bam</span>                      map-sliced-fastqs-etc.sh
-<span class="ex">bam-slices</span>               play
-<span class="ex">bwa-run-list.txt</span>         REDOS-map-sliced-fastqs-etc.sh
-<span class="ex">fastq-file-prefixes.txt</span>  sliced
-<span class="ex">fqslice-22.error</span>         slice-fastqs.sh
-<span class="ex">fqslice-22.log</span>           slicer-lines.txt
-<span class="ex">map-etc.sh</span>               Slicer-Logs-summary.txt</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="ex">%</span> ls</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="ex">bam</span>                      map-sliced-fastqs-etc.sh</a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="ex">bam-slices</span>               play</a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="ex">bwa-run-list.txt</span>         REDOS-map-sliced-fastqs-etc.sh</a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="ex">fastq-file-prefixes.txt</span>  sliced</a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="ex">fqslice-22.error</span>         slice-fastqs.sh</a>
+<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="ex">fqslice-22.log</span>           slicer-lines.txt</a>
+<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="ex">map-etc.sh</span>               Slicer-Logs-summary.txt</a></code></pre></div>
 <p>The first line shows the command prompt and the command: <code>% ls</code>, and the remainder is
 the output of the command.</p>
 <p>Invoked without any further arguments, the <code>ls</code>
@@ -583,31 +604,31 @@ adding the path (absolute or relative) of that directory on the command line. Fo
 the example in Figure <a href="essential-unixlinux-terminal-knowledge.html#fig:file-hierarchy">4.1</a>, when we are in the home directory (<code>eriq</code>)
 we can see the directories/files
 contained within <code>Documents</code> like so:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash">[<span class="ex">~</span>]<span class="ex">--%</span> ls Documents
-<span class="ex">git-repos/</span>   pers/   work/</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ls Documents</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="ex">git-repos/</span>   pers/   work/</a></code></pre></div>
 <p>If you give paths to more than one directory as arguments to <code>ls</code>, then
 the contents of each directory are listed after a heading line that gives
 the directory’s path (as given as an argument to <code>ls</code>), followed by a colon. For example:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash">[<span class="ex">~</span>]<span class="ex">--%</span> ls Documents/git-repos Documents/work
-<span class="ex">Documents</span>/git-repos:
-<span class="ex">ARCHIVED_mega-bioinf-pop-gen.zip</span>  lowergranite_0.0.1.tar.gz
-<span class="ex">AssignmentAdustment/</span>              mega-bioinf-pop-gen-examples/
-<span class="ex">CKMRsim/</span>                          microhaps_np/
-
-<span class="ex">Documents</span>/work:
-<span class="ex">assist/</span>          maps/            oxford/          uw_days/
-<span class="ex">courses_audited/</span> misc/            personnel/</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb19-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ls Documents/git-repos Documents/work</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="ex">Documents</span>/git-repos:</a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="ex">ARCHIVED_mega-bioinf-pop-gen.zip</span>  lowergranite_0.0.1.tar.gz</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="ex">AssignmentAdustment/</span>              mega-bioinf-pop-gen-examples/</a>
+<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="ex">CKMRsim/</span>                          microhaps_np/</a>
+<a class="sourceLine" id="cb19-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="ex">Documents</span>/work:</a>
+<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="ex">assist/</span>          maps/            oxford/          uw_days/</a>
+<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="ex">courses_audited/</span> misc/            personnel/</a></code></pre></div>
 <p>You might also note in the above example, that some of the paths listed within
 each of the two directories are followed by a slash, <code>/</code>. This <code>ls</code> customization denotes that
 they are directories themselves. Much like your command prompt, <code>ls</code> can be customized in ways
 that make its output more informative. We will return to that in Section <a href="essential-unixlinux-terminal-knowledge.html#unix-env">4.5</a>.</p>
 <p>If you pass the path of a file to <code>ls</code>, and that file exists in your filesystem,
 then <code>ls</code> will respond by printing the file’s path:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> ls Documents/git-repos/lowergranite_0.0.1.tar.gz 
-<span class="ex">Documents/git-repos/lowergranite_0.0.1.tar.gz</span></code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="ex">%</span> ls Documents/git-repos/lowergranite_0.0.1.tar.gz </a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="ex">Documents/git-repos/lowergranite_0.0.1.tar.gz</span></a></code></pre></div>
 <p>If the file does not exist you get an error message to that effect:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">%</span> ls Documents/try-this-name
-<span class="ex">ls</span>: Documents/try-this-name: No such file or directory</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="ex">%</span> ls Documents/try-this-name</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="ex">ls</span>: Documents/try-this-name: No such file or directory</a></code></pre></div>
 <p>The multi-column, default output of <code>ls</code> is useful when you want
 to scan the contents of a directory, and quickly see as many files
 as possible in the fewest lines of output.
@@ -619,21 +640,21 @@ offers little information beyond the names of the files.</p>
 <p>You can tell the <code>ls</code> command to provide more information, by using it with the <code>-l</code>
 option. Appropriately, with the <code>-l</code> option, the <code>ls</code> command will return
 output in <em>long</em> format:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">2019-02-08</span> 21:09 /osu-chinook/--% ls -l
-<span class="ex">total</span> 108
-<span class="ex">drwxr-xr-x</span>  2 eriq kruegg  4096 Feb  7 08:26 bam
-<span class="ex">drwxr-xr-x</span> 14 eriq kruegg  4096 Feb  8 15:56 bam-slices
-<span class="ex">-rw-r--r--</span>  1 eriq kruegg 17114 Feb  7 20:16 bwa-run-list.txt
-<span class="ex">-rw-r--r--</span>  1 eriq kruegg   824 Feb  6 14:14 fastq-file-prefixes.txt
-<span class="ex">-rw-r--r--</span>  1 eriq kruegg     0 Feb  7 20:14 fqslice-22.error
-<span class="ex">-rw-r--r--</span>  1 eriq kruegg     0 Feb  7 20:14 fqslice-22.log
-<span class="ex">-rwxr--r--</span>  1 eriq kruegg  1012 Feb  7 07:59 map-etc.sh
-<span class="ex">-rwxr--r--</span>  1 eriq kruegg  1138 Feb  7 20:56 map-sliced-fastqs-etc.sh
-<span class="ex">drwxr-xr-x</span>  3 eriq kruegg  4096 Feb  7 13:01 play
-<span class="ex">-rwxr--r--</span>  1 eriq kruegg  1157 Feb  8 15:08 REDOS-map-sliced-fastqs-etc.sh
-<span class="ex">drwxr-xr-x</span> 14 eriq kruegg  4096 Feb  8 15:49 sliced
-<span class="ex">-rwxr--r--</span>  1 eriq kruegg   826 Feb  7 20:09 slice-fastqs.sh
-<span class="ex">-rw-r--r--</span>  1 eriq kruegg  1729 Feb  7 16:11 slicer-lines.txt</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="ex">2019-02-08</span> 21:09 /osu-chinook/--% ls -l</a>
+<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="ex">total</span> 108</a>
+<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="ex">drwxr-xr-x</span>  2 eriq kruegg  4096 Feb  7 08:26 bam</a>
+<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="ex">drwxr-xr-x</span> 14 eriq kruegg  4096 Feb  8 15:56 bam-slices</a>
+<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="ex">-rw-r--r--</span>  1 eriq kruegg 17114 Feb  7 20:16 bwa-run-list.txt</a>
+<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="ex">-rw-r--r--</span>  1 eriq kruegg   824 Feb  6 14:14 fastq-file-prefixes.txt</a>
+<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="ex">-rw-r--r--</span>  1 eriq kruegg     0 Feb  7 20:14 fqslice-22.error</a>
+<a class="sourceLine" id="cb22-8" data-line-number="8"><span class="ex">-rw-r--r--</span>  1 eriq kruegg     0 Feb  7 20:14 fqslice-22.log</a>
+<a class="sourceLine" id="cb22-9" data-line-number="9"><span class="ex">-rwxr--r--</span>  1 eriq kruegg  1012 Feb  7 07:59 map-etc.sh</a>
+<a class="sourceLine" id="cb22-10" data-line-number="10"><span class="ex">-rwxr--r--</span>  1 eriq kruegg  1138 Feb  7 20:56 map-sliced-fastqs-etc.sh</a>
+<a class="sourceLine" id="cb22-11" data-line-number="11"><span class="ex">drwxr-xr-x</span>  3 eriq kruegg  4096 Feb  7 13:01 play</a>
+<a class="sourceLine" id="cb22-12" data-line-number="12"><span class="ex">-rwxr--r--</span>  1 eriq kruegg  1157 Feb  8 15:08 REDOS-map-sliced-fastqs-etc.sh</a>
+<a class="sourceLine" id="cb22-13" data-line-number="13"><span class="ex">drwxr-xr-x</span> 14 eriq kruegg  4096 Feb  8 15:49 sliced</a>
+<a class="sourceLine" id="cb22-14" data-line-number="14"><span class="ex">-rwxr--r--</span>  1 eriq kruegg   826 Feb  7 20:09 slice-fastqs.sh</a>
+<a class="sourceLine" id="cb22-15" data-line-number="15"><span class="ex">-rw-r--r--</span>  1 eriq kruegg  1729 Feb  7 16:11 slicer-lines.txt</a></code></pre></div>
 <p>Each row contains information about only a single file.
 The first column indicates what kind of file
 each entry is, and also tells us which users have permission to
@@ -651,8 +672,8 @@ the default behavior is to list the contents of the directory. This can be troub
 when you are listing the contents of a subdirectory: <code>ls ~/Documents/git-repos/*</code> lists the
 contents (which can be substantial) of each of the directories in my directory, but
 I might only want to know the name of each of those directories, rather than their full contents.
-<code>ls -d ~/Documents/git-repos</code> will</p>
-<p>Gotta talk about the <code>-d</code> option.</p>
+<code>ls -d ~/Documents/git-repos</code> will do that for you. Finally, the <code>-R</code> option to <code>ls</code> will cause the operating system to drill down, <em>recursively</em> into all the subdirectories of the one you
+supplied to the command, and list their contents, as well.</p>
 </div>
 <div id="globbing" class="section level3">
 <h3><span class="header-section-number">4.2.5</span> Globbing</h3>
@@ -685,11 +706,23 @@ dot is included explicitly. Files with names starting with a dot are
 use the <code>-a</code> option: <code>ls -a</code>.
 </div>
 
-<p>After the asterisk, the next most commonly-used wildcard is the question mark, <code>?</code>.</p>
-<p>Should make it clear that this is not something unique only to ls.
-All that ls is doing is listing its arguments. The expansion happens
-on the command line.</p>
-<p>Gonna have to talk about <code>-l</code> and <code>-a</code> options. Maybe talk about -d, which is useful.</p>
+<p>After the asterisk, the next most commonly-used wildcard is the question mark, <code>?</code>. The question mark
+denotes any single character in a file name. For example. If you had a series of files that looked
+like <code>AA-file.txt</code>, <code>AB-file.txt</code>, …, <code>AZ-file.txt</code>. You could get get all those by
+using <code>A?-file.txt</code>. This would not expand to, for example, <code>AAZ-file.txt</code>, if that were in the directory.</p>
+<p>You can be more specific in globbing by putting things within <code>[</code> and <code>]</code>. For example:
+<code>A[A-D]*</code> would pick out any files starting with, <code>AA</code>, <code>AB</code>, <code>AC</code>, or <code>AD</code>. Or you could
+have said <code>A[a-d]*</code> which would get any files starting with <code>Aa</code>, <code>Ab</code>, <code>Ac</code>, or <code>Ad</code>. And you
+can also do it with numbers: <code>[0-9]</code>. You can also negate the contents of the <code>[]</code>, with <code>^</code>. Thus,
+<code>100_[^ABC]*</code> picks out all files that start with <code>100_</code> followed by anything that is <em>not</em> and <code>A</code>, <code>B</code>, or a <code>C</code>.</p>
+<p>Finally, you can be really specific about replacements in file names by iterating over
+different possibilities with a comma-separated list within curly braces. For example, <code>img.{png,jpg,svg}</code>
+will iterate over the values in curly braces and expand to <code>img.png img.jpg img.svg</code>. Interestingly,
+with curly braces, this forms all those file names whether they exist or not. So, unlike <code>*</code> it isn’t
+really matching available file names.</p>
+<p>The last thing to note about all of these globbing constructs is that they are not intimately
+associated with the <code>ls</code> command. Rather, they simply provide expansions on the command
+line, and the the <code>ls</code> command is listing all those files. For example, try <code>echo *.txt</code>.</p>
 </div>
 <div id="what-makes-a-good-file-name" class="section level3">
 <h3><span class="header-section-number">4.2.6</span> What makes a good file-name?</h3>
@@ -706,7 +739,15 @@ names, but there is really no reason to include spaces in your file names, and h
 names will typically break a good many scripts. Rather than a space, use an underscore, <code>_</code>, or a
 dash, <code>-</code>. You’ve gotta admit that, not only does <code>My-Documents</code> work better, but it actually
 looks better too!</p>
-<p>So, to make your life easier, the bottom line is that you should name your files
+<p>However, should you have to deal with files having spaces in their name, you can
+address them by either backslash escaping the spaces, or putting the whole
+file name in quotation marks (single or double quotation marks will work).
+If you have a file called <code>dumb file name.jpg</code>, you can address it on the
+command line as either of the following three:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="ex">dumb\ file\ name.jpg</span></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">&quot;dumb file name.jpg&quot;</span></a>
+<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="st">&#39;dumb file name.jpg&#39;</span></a></code></pre></div>
+<p>To make your life easier, however, the bottom line is that you should name your files
 on a Unix system using only upper- and lowercase letters (Unix file systems are
 case-sensitive), numerals, and the following three punctuation characters: <code>.</code>, <code>-</code>, and <code>_</code>.
 Though you can use other punctuation characters, they often require special treatment, and it
@@ -727,6 +768,12 @@ like this:</p>
 <p>Of course, there are exceptions. For example, when invoking Java-based programs from your
 shell, arguments might be supplied in ways that make them look like options, etc. But, for
 the most part, the above is a useful way of thinking about Unix commands.</p>
+<p>Sometimes, especially when using <code>samtools</code> or <code>bcftools</code>, the <code>command</code> part of the
+command line might including a command and a subcommand, like <code>samtools view</code> or
+<code>bcftools query</code>. This means that the operating system is calling the program
+<code>samtools</code> (for example), and then samtools interprets the next token (<code>view</code>) to
+know that it needs to run the <code>view</code> routine, and interpret all following
+options in that context.</p>
 <p>We will now break down each element in “<code>command</code> <em>options</em> <em>arguments</em>”.</p>
 <div id="anatomy-command" class="section level3">
 <h3><span class="header-section-number">4.3.1</span> The <code>command</code></h3>
@@ -739,12 +786,12 @@ understand where and how the bash shell searches for these command files. Unders
 well, and knowing how to add directories that the shell searches for executable
 commands will alleviate a lot of frustration that often arises with Unix.</p>
 <p>In brief, all Unix shells (and the bash shell specifically) maintain what is called
-an <em>environent variable</em> called <code>PATH</code> that is a colon-separated list of pathnames
+an <em>environment variable</em> called <code>PATH</code> that is a colon-separated list of pathnames
 where the shell searches for commands. You can print the <code>PATH</code> variable using
 the <code>echo</code> command:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="bu">echo</span> <span class="va">$PATH</span></code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$PATH</span></a></code></pre></div>
 <p>On a freshly installed system without many customizations the <code>PATH</code> might look like:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">/usr</span>/bin:/bin:<span class="ex">/usr</span>/sbin:<span class="ex">/sbin</span></code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="ex">/usr</span>/bin:/bin:<span class="ex">/usr</span>/sbin:<span class="ex">/sbin</span></a></code></pre></div>
 <p>which is telling us that, when bash is searching for a command, it searches for a file
 of the same name as the command first in the directory <code>/usr/bin</code>. If it finds it there, then
 it uses the contents of that file to invoke the command. If it doesn’t find it there,
@@ -754,71 +801,319 @@ then it returns the error <code>command not found</code>.</p>
 <p>When you install programs on your own computer system, quite often the installer will modify
 a system file that specifies the <code>PATH</code> variable upon startup. Thus after installing some
 programs that use the command line on a Mac system, the “default” <code>PATH</code> might look like:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="ex">/usr/local</span>/bin:<span class="ex">/usr</span>/bin:/bin:<span class="ex">/usr</span>/sbin:/sbin:<span class="ex">/opt/X11</span>/bin:<span class="ex">/Library/TeX/texbin</span></code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="ex">/usr/local</span>/bin:<span class="ex">/usr</span>/bin:/bin:<span class="ex">/usr</span>/sbin:/sbin:<span class="ex">/opt/X11</span>/bin:<span class="ex">/Library/TeX/texbin</span></a></code></pre></div>
 </div>
 <div id="the-options" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> The <em>options</em></h3>
-<p>Sometimes these are called flags.</p>
-<p><code>-</code> vs <code>--</code> (more of a convention). And bunging the <code>-</code> options together.</p>
-<p>Some options might take parameters, e.g. <code>-t 1.0</code></p>
+<p>Sometimes these are called flags, and they provide a convenient way of
+telling a Unix command how to operate. We have already seen a few of them,
+like the <code>-a</code>, <code>-l</code> or <code>-d</code> options to <code>ls</code>.</p>
+<p>Most, but not all, Unix tools follow the convention that options specified by a single
+letter follow a single dash, while those specified by multiple letters follow two dashes.
+Thus, the <code>tar</code> command takes the single character options <code>-x</code>, <code>-v</code>, and <code>-f</code>, but also takes
+an option named like <code>--check-links</code>. Some utilities also have two different names—a single-letter
+name and a long name—for many options.
+For example, the <code>bcftools view</code> program uses either <code>-a</code> or <code>--trim-alt-alleles</code> to invoke the option
+that trims alternate alleles not seen in a given subset of individuals. Other tools, like BEAGLE, are perfectly
+have options that are named with multiple letters following just a single dash.</p>
+<p>Sometimes options take parameter values, like <code>bcftools view -g het</code>. In that case, <code>het</code> is
+a parameter value. Sometimes the parameter values are added to the option with an equals-sign.</p>
+<p>With some unix utilities’ single-letter options can be bunged together
+following a single dash, like, <code>tar -xvf</code> being synonymous with <code>tar -x -v -f</code>. This
+is not universal, and it is not recommended to expect it.</p>
+<p>Holy Cow! This is not terribly standardized, and probably won’t make sense till
+you really get in there and starting playing around in Unix…</p>
 </div>
 <div id="arguments" class="section level3">
 <h3><span class="header-section-number">4.3.3</span> Arguments</h3>
-<p>These are often filenames, or other things that are not preceded by an option flag.</p>
-<p>Things</p>
-<p>Discuss symbolic links — a special kind of file. Maybe do this when discussing file types.</p>
-<p>Then introduce <code>open</code> and a PC bash equivalent if available.</p>
+<p>These are often file names, or other things that are not preceded by an option flag.
+For example, in the <code>ls</code> command:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="fu">ls</span> -lrt dir3</a></code></pre></div>
+<p><code>-lrt</code> is giving <code>ls</code> the options <code>-l</code>, <code>-r</code>, and <code>-t</code> and <code>dir3</code> is the <em>argument</em>—the
+name of the directory whose contents you should list.</p>
 </div>
 <div id="getting-information-about-unix-commands" class="section level3">
 <h3><span class="header-section-number">4.3.4</span> Getting information about Unix commands</h3>
-<p>Talk about –help and man pages.</p>
-</div>
-<div id="exercises" class="section level3">
-<h3><span class="header-section-number">4.3.5</span> Exercises</h3>
-
-<div class="exercise">
-<span id="exr:some" class="exercise"><strong>Exercise 4.1  (Some exercise)  </strong></span>We can’t make a fenced block. But we coul say, Consider the following<br />
-<code>ls all*.txt ball*.txt ala*.txt</code><br />
-And then see how that comes out.
-</div>
-
-
-<div class="exercise">
-<span id="exr:some-other" class="exercise"><strong>Exercise 4.2  (Some other exercise)  </strong></span>Here is another.
-</div>
-
+<p>Zheesh! The above looks like a horrible mish-mash. How do we find out
+how to use/invoke different commands and programs in Unix? Well, most
+programs are documented, and you have to learn how to read the documentation.</p>
+<p>If a utility is properly installed, you should be able to find its manual page with
+the <code>man</code> command. For example, <code>man ls</code> or <code>man tar</code>. These “man-pages”, as the
+results are called, have a fairly uniform format. They start with a summary of what the
+utility does, then then show how it is invoked and what the possible options are by
+showing a skeleton in the form:<br />
+“<code>command</code> <em>options</em> <em>arguments</em>”<br />
+and usually square brackets are put around things that are not required. This format
+can get quite ugly and hard to parse for an old human brain, like mine, but stick with it.</p>
+<p>If you don’t have a man-page for a program, you might try invoking the program with
+the <code>--help</code> option, or maybe with no option at all.</p>
 </div>
 </div>
 <div id="handling-manipulating-and-viewing-files-and-streams" class="section level2">
 <h2><span class="header-section-number">4.4</span> Handling, Manipulating, and Viewing files and streams</h2>
-<div id="fundamental-file-handling-commands" class="section level3">
-<h3><span class="header-section-number">4.4.1</span> Fundamental file-handling commands</h3>
-<p><code>cp</code>, <code>mv</code>, `rm’</p>
-<p>Note the difference between cp and mv and how they behave with directories
-too. Maybe talk a little about links.</p>
+<p>In Unix, there are two main types of files: <em>regular files</em> which are things like text files,
+figures, etc.—Anything that holds data of some sort. And then there are “special” files, which
+include <em>directories</em> which you’ve already seen, and <em>symbolic links</em> which we will talk about later.</p>
+<div id="creating-new-directories" class="section level3">
+<h3><span class="header-section-number">4.4.1</span> Creating new directories</h3>
+<p>You can make a new directory with:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="fu">mkdir</span> path</a></code></pre></div>
+<p>where <code>path</code> is a path specification (either absolute or relative). Note that if you
+want to make a directory within a subdirectory that does currently not exist, for example:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="fu">mkdir</span> new-dir/under-new-dir</a></code></pre></div>
+<p>when <code>new-dir</code> does not already exist, then you have to either create <code>new-dir</code> first, like:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="fu">mkdir</span> new-dir</a>
+<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="ex">mdkir</span> new-dir/under-new-dir</a></code></pre></div>
+<p>or you have to use the <code>-p</code> option of <code>mkdir</code>, which creates all necessary parent directories
+as well, like:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="fu">mkdir</span> -p new-dir/under-new-dir</a></code></pre></div>
+<p>If there is already a file (regular or directory) with the same path specifiation as a directory you are
+trying to create, you will get an error from <code>mkdir</code>.</p>
 </div>
-<div id="everytyhing-is-a-file.-io-redirection-and-pipes" class="section level3">
-<h3><span class="header-section-number">4.4.2</span> Everytyhing is a file. I/O: redirection and pipes</h3>
-<p>Three major types of files: regular files, directories, and symbolic links.</p>
-<p>Executable files.</p>
-<p>Somewhere, at some point I will have to talk about chmod and about what the
-hell 600 is, for example (u+rw). So, a whole little session on permissions,
-and I should also explain the nomenclature like 755. An exercise where
-students touch a file in /tmp and then use the numbers of u+x type commands
-to get an end result (like <code>-rw- --- ---</code>). For example:
-<em>use chmod to get a result like this</em>: <code>-rwxrw-r--</code>.</p>
-<pre><code>chmod 764</code></pre>
-<p>Note that the first position denotes whether it is a directory or not.</p>
-<p>Everything is a file, some of them are executuble (programs) and they
-typically do things to other files.</p>
-<p>Unix philosophy of spitting text out so that stuff can be done to it (chaining/piping) or
-redirecting.</p>
-<p><code>stdin</code>, <code>stdout</code>, <code>stderr</code>.</p>
+<div id="fundamental-file-handling-commands" class="section level3">
+<h3><span class="header-section-number">4.4.2</span> Fundamental file-handling commands</h3>
+<p>For the day-to-day business of moving, copying, or removing files in the file system,
+the three main Unix commands are:</p>
+<ul>
+<li><code>mv</code> for moving files and directories</li>
+<li><code>cp</code> for copying files and directories</li>
+<li><code>rm</code> for removing files and directories</li>
+</ul>
+<p>These obviously do different things, but their syntax is somewhat similar.</p>
+<div id="mv" class="section level4">
+<h4><span class="header-section-number">4.4.2.1</span> <code>mv</code></h4>
+<p><code>mv</code> can be invoked with just two arguments like:</p>
+<pre><code>mv this there</code></pre>
+<p>which moves the file (or directory) from the path <code>this</code> to the path <code>there</code>.</p>
+<ul>
+<li>If <code>this</code> is a regular file (i.e. not a directory), and:
+<ul>
+<li><code>there</code> is a directory,<code>this</code> gets moved inside of <code>there</code>.</li>
+<li><code>there</code> is a regular file that exists, then <code>there</code> will get overwritten, becoming a regular
+file that holds the contents of <code>this</code>.</li>
+<li><code>there</code> does not exist, it will be created as regular file whose contents are identical
+to those of <code>this</code>.</li>
+</ul></li>
+<li>If <code>this</code> is a
+directory and:
+<ul>
+<li><code>there</code> does not exist in the filesystem, the directory <code>there</code> will be made
+and its contents will be the (former) contents of <code>this</code></li>
+<li>if <code>there</code> already exists, and is a directory, then the directory <code>this</code> will
+be moved inside of the directory <code>there</code> (i.e. it will become <code>there/this</code>).</li>
+<li>if <code>there</code> already exists, but is not a directory, then nothing will change
+in the filesystem, but an an error will
+be reported.
+In all cases, whatever used to exist at path <code>this</code> will no longer be found there.</li>
+</ul></li>
+</ul>
+<p>And <code>mv</code> can be invoked with multiple arguments, in which case the last one must be a directory
+<em>that already exists</em> that receives all the earlier arguments inside it. So, if you already have
+a directory named <code>dest_dir</code> then you can move a lot of things into it like:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="fu">mv</span> file1 file2 dir1 dir2 dest_dir</a></code></pre></div>
+<p>You can also write that as as</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="fu">mv</span> file1 file2 dir1 dir2 dest_dir/</a></code></pre></div>
+<p>which makes its meaning a little more clear, but there is no requirement that the
+final argument have a trailing <code>/</code>.</p>
+<p>Note, if any files in <code>dest_dir</code> have the same name as the files you are moving into
+<code>dest_dir</code> they <em>will</em> get overwritten.</p>
+<p>So, you have gotta be careful not to overwrite stuff that you don’t want to overwrite.</p>
+</div>
+<div id="cp" class="section level4">
+<h4><span class="header-section-number">4.4.2.2</span> <code>cp</code></h4>
+<p>This works much the same way as <code>mv</code> with two different flavors:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="fu">cp</span> this there</a></code></pre></div>
+<p>and</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="fu">cp</span> file1 file2 dest_dir</a>
+<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="co"># or</span></a>
+<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="fu">cp</span> file1 file2 dest_dir/</a></code></pre></div>
+<p>The result is very much like that of <code>mv</code>, but instead of moving the file
+from one place to another (an operation that can actually be done without moving the
+data within the file to a different place on the hard drive), the <code>cp</code> command actually
+makes a full copy of files. Note that, if the files are large, this can take a long time.</p>
+</div>
+<div id="rm" class="section level4">
+<h4><span class="header-section-number">4.4.2.3</span> <code>rm</code></h4>
+<p>Finally we get to the very spooky <code>rm</code> command, which is short for “remove.” If you
+say “rm myfile.txt” the OS will remove that file from your hard drive’s directory. The data
+that were in the file might live on for some time on your hard drive—in other words, by default,
+<code>rm</code> does not wipe the file off your hard drive, but simply “forgets” where to look for that file. And
+the space that file took up on your hard drive is no longer reserved, and could easily be
+overwritten the next time you write something to disk. (Nonetheless, if you do <code>rm</code> a file, you should never expect to be able to get it back). So, be very careful about using <code>rm</code>. It takes an <code>-r</code> option for recursively removing directories <em>and</em> all of
+their contents.</p>
+<p>When used in conjunction with globbing, <code>rm</code> can be very useful. For example, if you wanted
+to remove all the files in a directory with a <code>.jpg</code> extension, you would do <code>rm *.jpg</code> from
+within that directory. However, it’s a disaster to accidentally remove a number of files you
+might not have wanted to. So, especially as you are getting familiar with Unix, it is
+worth it to experiment with your globbing using <code>ls</code> first, to see what the results are,
+and only when you are convinced that you won’t remove any files you really want should you
+end up using <code>rm</code> to remove those files.</p>
+</div>
+</div>
+<div id="viewing-files" class="section level3">
+<h3><span class="header-section-number">4.4.3</span> “Viewing” Files</h3>
+<p>In a typical GUI-based environment, when you interact with files on your computer,
+you typically open the files with some application. For example, you open Word files
+with Microsoft Word. When working on the Unix shell, that same paradigm does not
+really exist. Rather, (apart from a few cases like the text editors, <code>nano</code>, <code>vim</code> and
+<code>emacs</code>, instead of opening a file and letting the user interact with it the shell is
+much happier just streaming the contents of the file to the terminal.</p>
+<p>The most basic of such commands is the <code>cat</code> command, which <em>catenates</em> the contents
+of a file into a very special <em>data stream</em> called <em>stdout</em>, which is short
+for “standard output.” If you don’t provide any other instruction, data that gets
+streamed to <em>stdout</em> just shoots by on your terminal screen. If the file is very large, it might
+do this for a long time. If the file is a <em>text file</em> then the data in it can be
+written out in letters that are recognizable. If it is a <em>binary file</em> then there is
+no good way to represent the contents as text letters, and your screen will be filled with
+all sorts of crazy looking characters.</p>
+<p>It is generally best not to <code>cat</code> very large files, especially binary ones. If you do and
+you need to stop the command from continuing to spew stuff across your screen, you can type
+<code>cntrl-c</code> which is the universal Unix command for “kill the current process happening on the
+shell.” Usually that will stop it.</p>
+
+<div class="rmdtip">
+<strong>A note regarding terminals:</strong> On a Mac, the Terminal app is quite fast at spewing text
+across the screen. Megabytes of text or binary gibberish can flash by in seconds flat. This
+is not the case with the terminal window within RStudio, which can by abysmally slow, and usually
+doesn’t store many lines of output.
+</div>
+
+<p>Sometimes you want to just look at the top of a file. The <code>head</code> command
+shows you the first 10 lines of a file. That is valuable. The <code>less</code> command
+shows a file one screenful at a time. You can hit the space bar to see the next screenful,
+and you can hit <code>q</code> to quit viewing the file.</p>
+<p>Try navigating to a file and using <code>cat</code>, <code>head</code>, and <code>less</code> on it.</p>
+<p>One particularly cool thing about <code>cat</code> is that if you say</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="fu">cat</span> file1 file2</a></code></pre></div>
+<p>it will catenate the contents of both files, in order, to <em>stdout</em>.</p>
+<p>Now, one Big Important Unix fact is that many programs written to run in the
+Unix shell behave in the same way regarding their output: they write their
+output to <em>stdout</em>. We have already seen this with <code>ls</code>: its output just
+gets written to the screen, which is where <em>stdout</em> goes by default.</p>
+</div>
+<div id="redirecting-standard-output" class="section level3">
+<h3><span class="header-section-number">4.4.4</span> Redirecting standard output: <code>&gt;</code></h3>
+<p>Unix starts to get really fun when you realize that you can “redirect” the
+contents of <em>stdout</em> from any command (or group of commands…see the next chapter!)
+to a file. To do that, you merely follow the command (and all its options and arguments)
+with <code>&gt; path</code> where <code>path</code> is the path specifying the file into which you
+wish to redirect <em>stdout</em>.</p>
+<p>Witness, try this:</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co"># echo three lines of text to a file in the /tmp directory</span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="bu">echo</span> <span class="st">&quot;bing</span></a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="st">bong</span></a>
+<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="st">boing&quot;</span> <span class="op">&gt;</span> /tmp/file1</a>
+<a class="sourceLine" id="cb38-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb38-6" data-line-number="6"><span class="co"># echo three more lines of text to another file</span></a>
+<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="bu">echo</span> <span class="st">&quot;foo</span></a>
+<a class="sourceLine" id="cb38-8" data-line-number="8"><span class="st">bar</span></a>
+<a class="sourceLine" id="cb38-9" data-line-number="9"><span class="st">baz&quot;</span> <span class="op">&gt;</span> /tmp/file2</a>
+<a class="sourceLine" id="cb38-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb38-11" data-line-number="11"><span class="co"># now view the contents of the first file</span></a>
+<a class="sourceLine" id="cb38-12" data-line-number="12"><span class="fu">cat</span> /tmp/file1</a>
+<a class="sourceLine" id="cb38-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb38-14" data-line-number="14"><span class="co"># and the second file:</span></a>
+<a class="sourceLine" id="cb38-15" data-line-number="15"><span class="fu">cat</span> /tmp/file2</a></code></pre></div>
+</div>
+<div id="stdin-and" class="section level3">
+<h3><span class="header-section-number">4.4.5</span> stdin, <code>&lt;</code> and <code>|</code></h3>
+<p>Not only do most Unix-based programs deliver output to standard output, but
+most utilities can also receive input from a file stream called <em>stdin</em> which
+is short for “standard input.”</p>
+<p>If you have data in a file that you want to send into standard input
+for a utility, you can use the <code>&lt;</code> like this:</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="bu">command</span> <span class="op">&lt;</span> file</a></code></pre></div>
+<p>But, since most Unix utilities also let you specify the file as an argument,
+this is not used very much.</p>
+<p>However, what is used all the time in Unix, and it is one of the things
+that makes it super fun, is the pipe, <code>|</code>, which says, &quot;take <em>stdout</em> coming
+out of the command on the left and redirect it into <em>stdin</em> going into
+the command on the right of the pipe.</p>
+<p>For example, if I wanted to count the number of files and directories stored in my <code>git-repos</code>
+directory, I could do</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="ex">%</span> ls -dl Documents/git-repos/* <span class="kw">|</span> <span class="fu">wc</span> </a>
+<a class="sourceLine" id="cb40-2" data-line-number="2">     <span class="ex">174</span>    1566   14657</a></code></pre></div>
+<p>which pipes the output of <code>ls -dl</code> (one line per file) into the <em>stdin</em> for the <code>wc</code> command, which
+counts the number of lines, words, and letters sent to its standard input. So, the output tells
+me that there are 174 files and directories in my directory <code>Documents/git-repos</code>.</p>
+<p>Note that pipes and redirects can be combined in sequence over multiple
+operations or commands. This is what gives rise to the terminology of
+making “Unix pipelines:” the data are like streams of water coming into
+or out of different commands, and the pipes hook up all those streams into
+a pipeline.</p>
+</div>
+<div id="stderr" class="section level3">
+<h3><span class="header-section-number">4.4.6</span> stderr</h3>
+<p>While output from Unix commands is often written to <em>stdout</em>, if anything goes wrong with
+a program, then messages about that get written to a different stream called <em>stderr</em>, which, you
+guessed it! is short for “standard error”. By default, both <em>stdout</em> and <em>stderr</em> get written
+to the terminal, which is why it can be hard for beginners to think of them as separate streams.<br />
+But, indeed, they are. Redirecting <em>stdout</em> with <code>&gt;</code>, that does <strong>not</strong> redirect <em>stderr</em>.</p>
+<p>For example. See what happens when we ask <code>ls</code> to list a file that does not exist:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb41-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ls file-not-here.txt </a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="ex">ls</span>: file-not-here.txt: No such file or directory</a></code></pre></div>
+<p>The error message comes back to the screen. If you redirect the output
+it still comes back to the screen!</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb42-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ls file-not-here.txt <span class="op">&gt;</span> out.txt </a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="ex">ls</span>: file-not-here.txt: No such file or directory</a></code></pre></div>
+<p>If you want to redirect <em>stderr</em>, then you need to specify which stream
+it is. On all Unix systems, <em>stderr</em> is stream #2, so the <code>2&gt;</code> syntax can be
+used:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb43-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ls file-not-here.txt <span class="op">2&gt;</span> out.txt </a></code></pre></div>
+<p>Then there is no output of <em>stderr</em> to the terminal, and when you <code>cat</code> the output
+file, you see that it went there!</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb44-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> cat out.txt </a>
+<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="ex">ls</span>: file-not-here.txt: No such file or directory</a></code></pre></div>
+<p>Doing bioinformatics, you will find that there will be failures of various programs.
+It is essential when you write bioinformatic pipelines to redirect <em>stderr</em> to a
+file so that you can go back, after the fact, to sleuth out why the failure occurred.
+Additionally, some bioinformatic programs write things like progress messages to
+<em>stderr</em> so it is important to know how to redirect those as well.</p>
+</div>
+<div id="symbolic-links" class="section level3">
+<h3><span class="header-section-number">4.4.7</span> Symbolic links</h3>
+<p>Besides regular files and directories, a third type of file in Unix is called a
+<em>symbolic link</em>. It is a special type of file whose contents are just an
+absolute or a relative path to another file. You can think of symbolic links
+as “shortcuts” to different locations in your file system. There are many
+useful applications of symbolic links.</p>
+<p>Symbolic links are made using the <code>ln</code> command with the <code>-s</code> option. For example,
+if I did this in my home directory:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb45-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ln -s /Users/eriq/Documents/git-repos/srsStuff srs</a></code></pre></div>
+<p>then <code>srs</code> becomes a file whose full listing (from <code>ls -l srs</code>) looks like:</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="ex">lrwxrwxr-x</span>  1 eriq  staff    40B Jan  9 19:24 srs@ -<span class="op">&gt;</span> /Users/eriq/Documents/git-repos/srsStuff</a></code></pre></div>
+</div>
+<div id="file-permissions" class="section level3">
+<h3><span class="header-section-number">4.4.8</span> File Permissions</h3>
+<p>Unix systems often host many different users. Some users might belong to the
+same research group, and might like to be able to read the files (and/or use
+the programs) that their colleagues have in their accounts.</p>
+<p>The Unix file system uses a system of permissions that gives rights to various
+classes of users to read, write, or execute files. The permissions associated with
+a file can be viewed using <code>ls -l</code>. They are captured in the first column which might
+look something like <code>-rwxr-xr-x</code>. When you first start looking at these, they can
+be distressingly difficult to visually parse. But you will get better at it! Let’s
+start breaking it down now.</p>
+<p>The file description string, in a standard Unix setting, consists of 10 characters.</p>
+<ul>
+<li>The first tells what kind of file it is: <code>-</code> = regular file, <code>d</code> = directory, <code>l</code> = symbolic link.</li>
+<li>The next group of three characters denote whether the owner/user of the file has
+permission to either read, write, or execute the file.<br />
+</li>
+<li>The following two groups of three characters are the same thing for users within the
+users group, and for all other users, respectively.</li>
+</ul>
+<p>Here is a figure from <a href="https://unix.stackexchange.com/questions/183994/understanding-unix-permissions-and-file-types">the web</a> that we can talk about:
+<img src="https://i.stack.imgur.com/JKUg3.jpg" /><!-- --></p>
+<p>Permissions can be changed with the <code>chmod</code> command. We will talk in class about
+how to use it with the octal representation of permissions.</p>
 </div>
 <div id="editing-text-files-at-the-terminal" class="section level3">
-<h3><span class="header-section-number">4.4.3</span> Editing text files at the terminal</h3>
-<p>Gonna introduce new users to nano, cuz it is easy. Say that emacs and vim are
-other more fully-featured options. For mac users, get TextWrangler and use the edit command.</p>
+<h3><span class="header-section-number">4.4.9</span> Editing text files at the terminal</h3>
+<p>Sometimes you might need to edit text files at the command line.</p>
+<p>The easiest text editor to use on the command line is <code>nano</code>.
+Try typing <code>nano a-file.txt</code> and type a few things. It is
+pretty self explanatory.</p>
 </div>
 </div>
 <div id="unix-env" class="section level2">
@@ -828,37 +1123,37 @@ working directory is (remember <code>PS1='[\W]--% '</code>). The limitation of g
 command on the command line is that if you logout and then log back in again, or open
 a new Terminal window, you will have to reissue that command in order to achieve
 the desired look of your command prompt. Quite often a Unix user would like to make
-a number of customizations to the look, feel, and behavior of their Unix shell.
-The bash shell allows these customizations to be specified in two different files that
-are read by the system so as to invoke the customizations. The two files are hidden files
+a number of customization to the look, feel, and behavior of their Unix shell.
+The bash shell allows these customization to be specified in two different files that
+are read by the system so as to invoke the customization. The two files are hidden files
 in the home directory: <code>~/.bashrc</code> and <code>~/.bash_profile</code>. They are used by the Unix system
 in two slightly different contexts, but for most purposes, you, the user, will not need or
 even want to distinguish between the different contexts. Managing two separate files
-of customizations is unnecessary and duplicative of your efforts, and can lead to inconsistent
+of customization is unnecessary and requires duplication of your efforts, and can lead to inconsistent
 and confusing results, so here is what we will do:</p>
 <ol style="list-style-type: decimal">
-<li>Keep all of our customizations in <code>~/.bashrc</code>.</li>
+<li>Keep all of our customization in <code>~/.bashrc</code>.</li>
 <li>Insert commands in <code>~/.bash_profile</code> that say, &quot;Hey computer! If you are looking
-for customizations in here, don’t bother, just get them straight out of <code>~/.bashrc</code>.</li>
+for customization in here, don’t bother, just get them straight out of <code>~/.bashrc</code>.</li>
 </ol>
 <p>We take care of #2, by creating the file <code>~/.bash_profile</code> to have the following
 lines in it:</p>
-<pre class="sourceCode sh"><code class="sourceCode bash">
-<span class="kw">if</span><span class="bu"> [</span> <span class="ot">-f</span> ~/.bashrc<span class="bu"> ]</span>; <span class="kw">then</span>
-    <span class="bu">source</span> ~/.bashrc
-<span class="kw">fi</span></code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb47-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-f</span> ~/.bashrc<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3">    <span class="bu">source</span> ~/.bashrc</a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="kw">fi</span></a></code></pre></div>
 <p>Taking care of #1 is now just a matter of writing commands into <code>~/.bashrc</code>. In the following
-are some recommended customizations.</p>
+are some recommended customization.</p>
 <div id="appearances-matter" class="section level3">
 <h3><span class="header-section-number">4.5.1</span> Appearances matter</h3>
-<p>Some customizations just change the way your shell looks or what type of output
+<p>Some customization just change the way your shell looks or what type of output
 is given from different commands. Here are some lines to add to your <code>~/.bashrc</code>
 along with some discussion of each.</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="bu">export</span> <span class="va">PS1=</span><span class="st">&#39;[\W]--% &#39;</span></code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="bu">export</span> <span class="va">PS1=</span><span class="st">&#39;[\W]--% &#39;</span></a></code></pre></div>
 <p>This gives a tidier and more informative command prompt. The <code>export</code> command before
 it tells the system to pass the value of this <em>environment variable</em>, <code>PS1</code>, along
 to any other shells that get spawned by the current one.</p>
-<pre class="sourceCode sh"><code class="sourceCode bash"><span class="bu">alias</span> ls=<span class="st">&#39;ls -GFh&#39;</span></code></pre>
+<div class="sourceCode" id="cb49"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="bu">alias</span> ls=<span class="st">&#39;ls -GFh&#39;</span></a></code></pre></div>
 <p>This makes it so that each time you invoke the <code>ls</code> command, you do so with the
 options <code>-G</code>, <code>-F</code>, and <code>-h</code>. To find out on your own what those options do, you can
 type <code>man ls</code> at the command line and read the output, but briefly: <code>-G</code> causes directories and
@@ -873,63 +1168,226 @@ using the <code>-l</code> option.</p>
 <code>PATH</code> variable to find commands and executables. You can modify the PATH variable to include
 directories where you have installed different programs. In doing so, you want to make sure
 that you don’t lose any of the other directories in <code>PATH</code>, so there is a certain way to
-go about redefining <code>PATH</code>.</p>
-<p>Example use case. You write a short script and put it in <code>~/bin</code>. Maybe even have an
-exercise where students put <code>abspath</code> and <code>fp</code> into ’~/bin` and then make sure it is in
-their PATH.</p>
-</div>
-<div id="and-more" class="section level3">
-<h3><span class="header-section-number">4.5.3</span> And more…</h3>
-<p>Just going to say that much more can be done, and we will see entries throughout the
-book about other customizations that are helpful in <code>~/.bashrc</code>.</p>
+go about redefining <code>PATH</code>. If you want to add the path <code>/a-new/program/directory</code> to your
+PATH variable you do it like this:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="va">PATH=$PATH</span>:/a-new/program/directory</a></code></pre></div>
 </div>
 </div>
-<div id="a-short-list-of-useful-commands." class="section level2">
-<h2><span class="header-section-number">4.6</span> A short list of useful commands.</h2>
-<p>cat, head (good for binary files too with -c), less, sort, paste, cut, tar, gzip, du, wc, date</p>
+<div id="a-few-more-important-keystrokes" class="section level2">
+<h2><span class="header-section-number">4.6</span> A Few More Important Keystrokes</h2>
+<p>If a command “gets stuck” or is running longer than it should be, you can usually
+kill/quit it by doing <code>cntrl-c</code>.</p>
+<p>Once you have given a command, it gets stored in your bash history. You can use the
+up-arrow key to cycle backward through different commands in your history. This is particularly
+useful if you are building up complex pipelines on the command line piece by piece, looking at
+the output of each to make sure it is correct. Rather than re-typing what you did for the last
+command line, you just up-arrow it.</p>
+<p>Once you have done an up-arrow or two, you can cycle back down through your history with
+a down-arrow.</p>
+<p>Finally, you can search through your bash history by typing <code>cntrl-r</code> and then typing
+the word/command you are looking for. For example, if, 100 command lines back, you
+used a command that involved the program <code>awk</code>, you can search for that by typing
+<code>cntrl-r</code> and then typing <code>awk</code>.</p>
+<p>One last big thing to note: the <code>#</code> is considered a <em>comment character</em> in bash.
+This means that any text following a <code>#</code> (unless it is backslash-escaped or inside quotation marks),
+until the next line ending,
+will be ignored by the shell.</p>
 </div>
-<div id="several-computing-fundamentals" class="section level2">
-<h2><span class="header-section-number">4.7</span> Several computing fundamentals</h2>
-<p>I want to give some explanations of a few things here.<br />
-### Compression</p>
+<div id="a-short-list-of-additional-useful-commands." class="section level2">
+<h2><span class="header-section-number">4.7</span> A short list of additional useful commands.</h2>
+<p>Everyone should be familiar with the following commands, and the
+options that follow them on each line below. One might even think of
+scanning the manual page for each of these:</p>
+<ul>
+<li><code>echo</code></li>
+<li><code>cat</code></li>
+<li><code>head</code>, <code>-n, -c</code></li>
+<li><code>tail</code>, <code>-n</code></li>
+<li><code>less</code></li>
+<li><code>sort</code>, <code>-n -b -k</code></li>
+<li><code>paste</code></li>
+<li><code>cut</code>, <code>-d</code></li>
+<li><code>tar</code>, <code>-cvf, -xvf</code></li>
+<li><code>gzip</code>, <code>-c</code></li>
+<li><code>du</code>, <code>-h -C</code>,</li>
+<li><code>wc</code></li>
+<li><code>date</code></li>
+<li><code>uniq</code></li>
+<li><code>chmod</code>, <code>u+x</code>, <code>ug+x</code></li>
+<li><code>grep</code></li>
+</ul>
+</div>
+<div id="two-important-computing-concepts" class="section level2">
+<h2><span class="header-section-number">4.8</span> Two important computing concepts</h2>
+<div id="compression" class="section level3">
+<h3><span class="header-section-number">4.8.1</span> Compression</h3>
+<p>Most file storage types (like text files) are a bit wasteful in terms of
+file space: every character in a text file takes the same number of bytes to
+store, whether it is a character that is used a lot, like <code>s</code> or <code>e</code>, or whether
+it is a character that is seldom seen in many text files, like <code>^</code>. <em>Compression</em>
+is the art of creating a code for different types of data that uses fewer bits to
+encode “letters” (or “chunks” of data) that occur frequently and it reserves codewords of
+more bits to encode less frequently occurring chunks in the data. The result is that the
+total file size is smaller than the uncompressed version. However, in order to read it,
+the file must be decompressed.</p>
+<p>In bioinformatics, many of the files you deal with will be compressed, because that
+can save many terabytes of disk space. Most often, files will be compressed using the
+<code>gzip</code> utility, and they can be uncompressed with the <code>gunzip</code> command. Sometimes
+you might want to just look at the fist part of a compressed file. If the file is compressed
+with <code>gzip</code>, you can decompress to <em>stdout</em> by using <code>gzcat</code> and then pipe it to <code>head</code>, for example.</p>
+<p>A central form of compression in bioinformatics is called <code>bgzip</code> compression
+which compresses files into a series of blocks of the same size, situated in such a way that
+it is possible to <em>index</em> the contents of the file so that certain parts of the file can be
+accessed without decompressing the whole thing. We will encounter indexed compressed files a
+lot when we start dealing with BAM and vcf.gz files.</p>
+</div>
 <div id="hashing" class="section level3">
-<h3><span class="header-section-number">4.7.1</span> Hashing</h3>
+<h3><span class="header-section-number">4.8.2</span> Hashing</h3>
+<p>The final topic we will cover here is the topic of hashing, an in particular
+the idea of “fingerprinting” files on ones computer. This process is central
+to how the git version control system works, and it is well worth knowing about.</p>
+<p>Any file on your computer can be thought of as a series of bits, 0’s and 1’s, as,
+fundamentally, that is what the file is. A <em>hashing algorithm</em> is an algorithm
+that maps a series of bits (or arbitrary length) to a short sequence of bits. The
+SHA1 hashing algorithm maps arbitrary sequences of bits to a sequence of 160 bits.</p>
+<p>There are <span class="math inline">\(2^{160} \approx 1.46 \times 10^{48}\)</span> possible bit sequences of length 160.
+That is a vast number. If your hashing algorithm is well randomized, so that bit sequences
+are hashed into 160 bits in a roughly uniform distribution, then it is exceedingly unlikely
+that any two bit sequences (i.e. files on your filesystem) will have the same hash (“fingerprint”)
+unless they are perfectly identical. As hashing algorithms are often quite fast to compute,
+this provides an exceptionally good way to verify that two files are identical.</p>
+<p>The SHA1 algorithm is implemented with the <code>shasum</code> command. In the following,
+as a demonstration, I store the recursive listing of my <code>git-repos</code> directory into
+a file and I hash it. Then I add just a single line ending to the end
+of the file, and hash that, to note that the two hashes are not at all similar
+even though the two files differ by only one character:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb51-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ls -R Documents/git-repos/* <span class="op">&gt;</span> /tmp/gr-list.txt </a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">[<span class="ex">~</span>]<span class="ex">--%</span> <span class="co"># how many lines is that?</span></a>
+<a class="sourceLine" id="cb51-3" data-line-number="3">[<span class="ex">~</span>]<span class="ex">--%</span> wc /tmp/gr-list.txt </a>
+<a class="sourceLine" id="cb51-4" data-line-number="4">   <span class="ex">93096</span>   88177 2310967 /tmp/gr-list.txt</a>
+<a class="sourceLine" id="cb51-5" data-line-number="5">[<span class="ex">~</span>]<span class="ex">--%</span> shasum /tmp/gr-list.txt </a>
+<a class="sourceLine" id="cb51-6" data-line-number="6"><span class="ex">1396f2fec4eebdee079830e1eff9e3a64ba5588c</span>  /tmp/gr-list.txt</a>
+<a class="sourceLine" id="cb51-7" data-line-number="7">[<span class="ex">~</span>]<span class="ex">--%</span> <span class="co"># now add a line ending to the end</span></a>
+<a class="sourceLine" id="cb51-8" data-line-number="8">[<span class="ex">~</span>]<span class="ex">--%</span> (cat /tmp/gr-list.txt<span class="kw">;</span> <span class="bu">echo</span>) <span class="op">&gt;</span> <span class="ex">/tmp/gr-list2.txt</span> </a>
+<a class="sourceLine" id="cb51-9" data-line-number="9">[<span class="ex">~</span>]<span class="ex">--%</span> <span class="co"># hash both and compare</span></a>
+<a class="sourceLine" id="cb51-10" data-line-number="10">[<span class="ex">~</span>]<span class="ex">--%</span> shasum /tmp/gr-list.txt /tmp/gr-list2.txt </a>
+<a class="sourceLine" id="cb51-11" data-line-number="11"><span class="ex">1396f2fec4eebdee079830e1eff9e3a64ba5588c</span>  /tmp/gr-list.txt</a>
+<a class="sourceLine" id="cb51-12" data-line-number="12"><span class="ex">23bff8776ff86e5ebbe39e11cc2f5e31c286ae91</span>  /tmp/gr-list2.txt</a>
+<a class="sourceLine" id="cb51-13" data-line-number="13">[<span class="ex">~</span>]<span class="ex">--%</span> <span class="co"># whoa! cool.</span></a></code></pre></div>
 </div>
 </div>
 <div id="unix-quick-study-guide" class="section level2">
-<h2><span class="header-section-number">4.8</span> Unix: Quick Study Guide</h2>
+<h2><span class="header-section-number">4.9</span> Unix: Quick Study Guide</h2>
 <p>This is just a table with quick topics/commands/words in it. You should
 understand each and be able to tell a friend a lot about each one. Cite it
 as <a href="essential-unixlinux-terminal-knowledge.html#tab:unix-chap-review">4.1</a></p>
-<pre><code>## Warning: `as_tibble.matrix()` requires a matrix with column names or a `.name_repair` argument. Using compatibility `.name_repair`.
-## This warning is displayed once per session.</code></pre>
 <table>
 <caption><span id="tab:unix-chap-review">TABLE 4.1: </span> Terms/ideas/etc. to know forward and backward</caption>
 <colgroup>
+<col width="37%" />
 <col width="38%" />
 <col width="23%" />
-<col width="37%" />
 </colgroup>
 <tbody>
 <tr class="odd">
+<td align="left">bash</td>
 <td align="left">absolute path</td>
 <td align="left">relative path</td>
-<td align="left"><code>/</code> at beginning of path</td>
 </tr>
 <tr class="even">
+<td align="left"><code>/</code> at beginning of path</td>
 <td align="left"><code>/</code> between directories</td>
 <td align="left">home directory</td>
-<td align="left"><code>~</code></td>
 </tr>
 <tr class="odd">
+<td align="left"><code>~</code></td>
 <td align="left">current working directory</td>
-<td align="left"><strong>pwd</strong></td>
-<td align="left"><code>cd</code></td>
+<td align="left"><code>pwd</code></td>
 </tr>
 <tr class="even">
+<td align="left"><code>cd</code></td>
 <td align="left"><code>.</code></td>
 <td align="left"><code>..</code></td>
+</tr>
+<tr class="odd">
 <td align="left"><code>cd -</code></td>
+<td align="left">basename</td>
+<td align="left">PS1</td>
+</tr>
+<tr class="even">
+<td align="left">TAB-completion</td>
+<td align="left"><code>ls</code> (<code>-a</code>, <code>-d</code>, <code>-R</code>)</td>
+<td align="left">globbing</td>
+</tr>
+<tr class="odd">
+<td align="left">*</td>
+<td align="left">?</td>
+<td align="left">[0-9]</td>
+</tr>
+<tr class="even">
+<td align="left">[a-z]</td>
+<td align="left">[^CDcd]</td>
+<td align="left">{png,jpg,pdf}</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>echo</code></td>
+<td align="left"><code>man</code> <em>command</em></td>
+<td align="left"><code>mkdir</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>mv</code></td>
+<td align="left"><code>cp</code></td>
+<td align="left"><code>rm</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>cat</code></td>
+<td align="left"><code>head</code></td>
+<td align="left"><code>less</code></td>
+</tr>
+<tr class="even">
+<td align="left"><em>stdout</em></td>
+<td align="left"><em>stdin</em></td>
+<td align="left"><em>stderr</em></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>&gt;</code></td>
+<td align="left"><code>&lt;</code></td>
+<td align="left"><code>|</code></td>
+</tr>
+<tr class="even">
+<td align="left"><code>ln -s</code></td>
+<td align="left">symbolic link</td>
+<td align="left">PATH</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>-rw-r--r--</code></td>
+<td align="left">.bashrc</td>
+<td align="left">.bash_profile</td>
+</tr>
+<tr class="even">
+<td align="left"><code>sort</code>, <code>-n -b -k</code></td>
+<td align="left"><code>paste</code></td>
+<td align="left"><code>cut</code>, <code>-d</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>tar</code>, <code>-cvf, -xvf</code></td>
+<td align="left"><code>gzip</code></td>
+<td align="left"><code>du</code>, <code>-h -C</code>,</td>
+</tr>
+<tr class="even">
+<td align="left"><code>wc</code></td>
+<td align="left"><code>date</code></td>
+<td align="left"><code>uniq</code></td>
+</tr>
+<tr class="odd">
+<td align="left">cntrl-c</td>
+<td align="left">cntrl-r</td>
+<td align="left"><code>#</code></td>
+</tr>
+<tr class="even">
+<td align="left">up-arrow/down-arrow</td>
+<td align="left"><code>chmod</code>, <code>ug+x</code>, <code>664</code></td>
+<td align="left"><code>grep</code></td>
 </tr>
 </tbody>
 </table>
@@ -947,11 +1405,13 @@ as <a href="essential-unixlinux-terminal-knowledge.html#tab:unix-chap-review">4.
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
 <script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
 <script src="libs/gitbook/js/plugin-search.js"></script>
 <script src="libs/gitbook/js/plugin-sharing.js"></script>
 <script src="libs/gitbook/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -959,12 +1419,11 @@ gitbook.start({
 "github": true,
 "facebook": false,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -977,6 +1436,10 @@ gitbook.start({
 },
 "history": {
 "link": "https://github.com/eriqande/eca-bioinf-handbook/commits/master/1.01-unix.Rmd",
+"text": null
+},
+"view": {
+"link": null,
 "text": null
 },
 "download": ["eca-bioinf-handbook.pdf", "eca-bioinf-handbook.epub"],
@@ -994,8 +1457,9 @@ gitbook.start({
     script.type = "text/javascript";
     var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();

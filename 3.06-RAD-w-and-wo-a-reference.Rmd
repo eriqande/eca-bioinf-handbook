@@ -1,0 +1,18 @@
+# Bioinformatics for RAD seq data with and without a reference genome
+
+We've gotta get our hands dirty with RAD and STACKS.  
+
+For some applications (like massive salamander genomes) this is the only 
+way forward, at the moment.  Can be useful, but is also
+fraught with peril.
+
+Discuss all the problems, and strategies for dealing with them.
+
+Note that stacks2 is a lot better than things were before. And, you can use
+a reference genome with them. 
+
+Amanda Stahlke gave a nice practical example at ConGen.  Found all the materials
+on box through the link that Brian Hand gave me (in my email.)
+
+That will be worth running through closely and carefully.  Note that stacks2's denovo_map.pl script
+now takes all the tsv output and puts it into a series of bams.  

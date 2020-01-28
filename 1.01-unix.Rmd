@@ -26,30 +26,44 @@ typically without the need to write intermediate results to the disk;
 5) Unix was developed when computers were extremely limited in terms of memory and speed. Accordingly,
 many Unix tools have been well optimized and are appropriate to the massive genomic data sets 
 that can be taxing even for today's large, high performance computing systems;  6) virtually all state-of-the-art
-bioinformatc tools are tailored to run in a Unix environment; and finally, 7) essentially
+bioinformatic tools are tailored to run in a Unix environment; and finally, 7) essentially
 every high-performance computer cluster runs some variant of Unix, so if you are going to be
 using a cluster for your analyses (which is highly likely), then you have gotta know Unix!
 
-_A paragraph about what kinds of computers run Unix. (Often big servers, but also some
-flavors of personal laptops).  The difference (similarities) between 
-Unix and Linux.  You might have Unix on your system (if you have a Mac).  Or not.  All this
-will effect what you need to do to get a Unix shell on your computer_
 
 ## Getting a bash shell on your system
 
-Talk about what a shell is.
+A special part of the Unix operating system is the "shell." This is the system that
+interprets commands from the user.  At times it behaves like an interpreted programming
+language, and it also has a number of features that help to minimize the amount of
+typing the user must do to complete any particular tasks.  There are a number of
+different "shells" that people use.  We will focus on one called "bash," which stands
+for the "Bourne again shell."  Many of the shells share a number of features.
 
-For windows, it looks like windows 10 might be able to do pretty well with it:  
-[https://www.howtogeek.com/265900/everything-you-can-do-with-windows-10s-new-bash-shell/](https://www.howtogeek.com/265900/everything-you-can-do-with-windows-10s-new-bash-shell/)
+Many common operating systems are built upon a Unix or upon Linux---an open-source flavor of
+Unix that is, in many scenarios, indistinguishable.  Hereafter we will refer
+to both Unix and Linux as "Unix" systems).  For example all Apple Macintosh computers are
+built on top of the Berkeley Standard Distribution of Unix and bash is the default
+shell.  Many people these days
+use laptops that run a flavor of Linux like Ubuntu, Debian, or RedHat.  Linux
+users should ensure that they are running the bash shell.  This can be done
+by typing "bash" at the command line, or inserting that into their profile.
+To know what shell is currently running you can type:
+```sh
+echo $0
+```
+at the Unix command line.  If you are running `bash` the result should
+be
+```sh
+-bash
+```
 
-But maybe I should get a windows box and use Rstudio and see how the terminal in R studio is.
-
-For now, I will punt on this and get just assume POSIX available on the system.
-
-However, we will want to start everyone off by having them type `bash` to 
-make sure they have a bash shell.
-
-Also, I am going to have to talk a little bit about what a shell is here....
+PCs running Microsoft Windows are something of the exception in the computer world, in that
+they are not running an operating system built on Unix.  However, Windows 10 now allows for
+a Linux Subsystem to be run.  For Windows, it is also possible to install a lightweight
+implementation of bash (like Git Bash).  This is helpful for learning how to use Unix,
+but it should be noted that most bioinformatic tools are still difficult to install
+on Windows.
 
 ## Navigating the Unix filesystem
 
@@ -434,9 +448,9 @@ the default behavior is to list the contents of the directory.  This can be trou
 when you are listing the contents of a subdirectory: `ls ~/Documents/git-repos/*` lists the
 contents (which can be substantial) of each of the directories in my  directory, but
 I might only want to know the name of each of those directories, rather than their full contents.
-`ls -d ~/Documents/git-repos` will 
+`ls -d ~/Documents/git-repos` will do that for you.  Finally, the `-R` option to `ls` will cause the operating system to drill down, _recursively_ into all the subdirectories of the one you
+supplied to the command, and list their contents, as well.  
 
-Gotta talk about the `-d` option.  
 
 ### Globbing
 
@@ -469,16 +483,28 @@ dot is included explicitly.  Files with names starting with a dot are
 use the `-a` option:  `ls -a`.
 ``` 
 
-After the asterisk, the next most commonly-used wildcard is the question mark, `?`.
+After the asterisk, the next most commonly-used wildcard is the question mark, `?`. The question mark
+denotes any single character in a file name.  For example.  If you had a series of files that looked
+like `AA-file.txt`, `AB-file.txt`, ..., `AZ-file.txt`.  You could get get all those by
+using `A?-file.txt`.  This would not expand to, for example, `AAZ-file.txt`, if that were in the directory.
 
-Should make it clear that this is not something unique only to ls. 
-All that ls is doing is listing its arguments.  The expansion happens
-on the command line.
+You can be more specific in globbing by putting things within `[` and `]`.  For example:
+`A[A-D]*` would pick out any files starting with, `AA`, `AB`, `AC`, or `AD`.  Or you could
+have said `A[a-d]*` which would get any files starting with `Aa`, `Ab`, `Ac`, or `Ad`. And you
+can also do it with numbers: `[0-9]`.  You can also negate the contents of the `[]`, with `^`.  Thus,
+`100_[^ABC]*` picks out all files that start with `100_` followed by anything that is _not_ and `A`, `B`, or a `C`.
 
 
+Finally, you can be really specific about replacements in file names by iterating over
+different possibilities with a comma-separated list within curly braces.  For example, `img.{png,jpg,svg}`
+will iterate over the values in curly braces and expand to `img.png img.jpg img.svg`.  Interestingly,
+with curly braces, this forms all those file names whether they exist or not.  So, unlike `*` it isn't
+really matching available file names.
 
 
-Gonna have to talk about `-l` and `-a` options.  Maybe talk about -d, which is useful.  
+The last thing to note about all of these globbing constructs is that they are not intimately
+associated with the `ls` command.  Rather, they simply provide expansions on the command
+line, and the the `ls` command is listing all those files.  For example, try `echo *.txt`.
 
 
 ### What makes a good file-name?
@@ -499,7 +525,18 @@ names will typically break a good many scripts.  Rather than a space, use an und
 dash, `-`.  You've gotta admit that, not only does `My-Documents` work better, but it actually
 looks better too!
 
-So, to make your life easier, the bottom line is that you should name your files 
+However, should you have to deal with files having spaces in their name, you can
+address them by either backslash escaping the spaces, or putting the whole
+file name in quotation marks (single or double quotation marks will work).
+If you have a file called `dumb file name.jpg`, you can address it on the 
+command line as either of the following three:
+```sh
+dumb\ file\ name.jpg
+"dumb file name.jpg"
+'dumb file name.jpg'
+```
+
+To make your life easier, however, the bottom line is that you should name your files 
 on a Unix system using only upper- and lowercase letters (Unix file systems are
 case-sensitive), numerals, and the following three punctuation characters: `.`, `-`, and `_`.
 Though you can use other punctuation characters, they often require special treatment, and it
@@ -529,6 +566,13 @@ Of course, there are exceptions.  For example, when invoking Java-based programs
 shell, arguments might be supplied in ways that make them look like options, etc. But, for
 the most part, the above is a useful way of thinking about Unix commands.
 
+Sometimes, especially when using `samtools` or `bcftools`, the `command` part of the
+command line might including a command and a subcommand, like `samtools view` or 
+`bcftools query`.  This means that the operating system is calling the program
+`samtools` (for example), and then samtools interprets the next token (`view`) to
+know that it needs to run the `view` routine, and interpret all following
+options in that context.
+
 We will now break down each element in "`command` _options_ _arguments_".
 
 ### The `command` {#anatomy-command}
@@ -543,7 +587,7 @@ well, and knowing how to add directories that the shell searches for executable
 commands will alleviate a lot of frustration that often arises with Unix.
 
 In brief, all Unix shells (and the bash shell specifically) maintain what is called
-an _environent variable_ called `PATH` that is a colon-separated list of pathnames
+an _environment variable_ called `PATH` that is a colon-separated list of pathnames
 where the shell searches for commands.  You can print the `PATH` variable using
 the `echo` command:
 ```sh
@@ -570,41 +614,59 @@ programs that use the command line on a Mac system, the "default" `PATH` might l
 
 ### The _options_
 
-Sometimes these are called flags.
+Sometimes these are called flags, and they provide a convenient way of
+telling a Unix command how to operate.  We have already seen a few of them,
+like the `-a`, `-l` or `-d` options to `ls`.  
 
-`-` vs `--` (more of a convention).  And bunging the `-` options together.
+Most, but not all, Unix tools follow the convention that options specified by a single
+letter follow a single dash, while those specified by multiple letters follow two dashes.
+Thus, the `tar` command takes the single character options `-x`, `-v`, and `-f`, but also takes
+an option named like `--check-links`.  Some utilities also have two different names---a single-letter
+name and a long name---for many options.
+For example, the `bcftools view` program uses either `-a` or `--trim-alt-alleles` to invoke the option
+that trims alternate alleles not seen in a given subset of individuals.  Other tools, like BEAGLE, are perfectly
+have options that are named with multiple letters following just a single dash.
 
-Some options might take parameters, e.g. `-t 1.0`
+Sometimes options take parameter values, like `bcftools view -g het`.  In that case, `het` is 
+a parameter value.  Sometimes the parameter values are added to the option with an equals-sign.
+
+With some unix utilities' single-letter options can be bunged together
+following a single dash, like, `tar -xvf` being synonymous with `tar -x -v -f`.  This
+is not universal, and it is not recommended to expect it.
+
+Holy Cow!  This is not terribly standardized, and probably won't make sense till
+you really get in there and starting playing around in Unix...
 
 ### Arguments 
 
-These are often filenames, or other things that are not preceded by an option flag.
+These are often file names, or other things that are not preceded by an option flag.
+For example, in the `ls` command:
+```sh
+ls -lrt dir3
+```
+`-lrt` is giving `ls` the options `-l`, `-r`, and `-t` and `dir3` is the _argument_---the 
+name of the directory whose contents you should list.
 
 
-
-Things 
-
-Discuss symbolic links --- a special kind of file.  Maybe do this when discussing file types.
-
-Then introduce `open` and a PC bash equivalent if available.
 
 ### Getting information about Unix commands
 
-Talk about --help and man pages.
+Zheesh! The above looks like a horrible mish-mash.  How do we find out
+how to use/invoke different commands and programs in Unix?  Well, most
+programs are documented, and you have to learn how to read the documentation.
 
-### Exercises 
+If a utility is properly installed, you should be able to find its manual page with
+the `man` command.  For example, `man ls` or `man tar`.   These "man-pages", as the
+results are called, have a fairly uniform format.  They start with a summary of what the
+utility does, then then show how it is invoked and what the possible options are by
+showing a skeleton in the form:  
+"`command` _options_ _arguments_"  
+and usually square brackets are put around things that are not required.  This format
+can get quite ugly and hard to parse for an old human brain, like mine, but stick with it.
 
-```{exercise, name="Some exercise", label=some}
-We can't make a fenced block.  But we coul say, Consider the following  
-`ls all*.txt ball*.txt ala*.txt`  
-And then see how that comes out.
-```
+If you don't have a man-page for a program, you might try invoking the program with
+the `--help` option, or maybe with no option at all.
 
-
-
-```{exercise, name="Some other exercise", label=some-other}
-Here is another.
-```
 
 
 
@@ -612,45 +674,333 @@ Here is another.
 
 ## Handling, Manipulating, and Viewing files and streams
 
+In Unix, there are two main types of files: _regular files_ which are things like text files,
+figures, etc.---Anything that holds data of some sort.  And then there are "special" files, which
+include _directories_ which you've already seen, and _symbolic links_ which we will talk about later.
+
+
+### Creating new directories 
+
+You can make a new directory with:
+```sh
+mkdir path
+```
+where `path` is a path specification (either absolute or relative).  Note that if you
+want to make a directory within a subdirectory that does currently not exist, for example:
+```sh
+mkdir new-dir/under-new-dir
+```
+when `new-dir` does not already exist, then you have to either create `new-dir` first, like:
+```sh
+mkdir new-dir
+mdkir new-dir/under-new-dir
+```
+or you have to use the `-p` option of `mkdir`, which creates all necessary parent directories
+as well, like:
+```sh
+mkdir -p new-dir/under-new-dir
+```
+
+If there is already a file (regular or directory) with the same path specifiation as a directory you are 
+trying to create, you will get an error from `mkdir`.
+
+
+
 ### Fundamental file-handling commands
 
-`cp`, `mv`, `rm'
+For the day-to-day business of moving, copying, or removing files in the file system,
+the three main Unix commands are: 
 
-Note the difference between cp and mv and how they behave with directories
-too.  Maybe talk a little about links.
+* `mv` for moving files and directories
+* `cp` for copying files and directories
+* `rm` for removing files and directories
 
-### Everytyhing is a file. I/O: redirection and pipes
+These obviously do different things, but their syntax is somewhat similar.
 
-Three major types of files: regular files, directories, and symbolic links.
+#### `mv`
 
-Executable files.
-
-
-Somewhere, at some point I will have to talk about chmod and about what the
-hell 600 is, for example (u+rw).  So, a whole little session on permissions,
-and I should also explain the nomenclature like 755.  An exercise where 
-students touch a file in /tmp and then use the numbers of u+x type commands
-to get an end result (like `-rw- --- ---`).  For example: 
-_use chmod to get a result like this_: `-rwxrw-r--`.  
+`mv` can be invoked with just two arguments like:
 ```
-chmod 764
+mv this there
 ```
-Note that the first position denotes whether it is a directory or not.
+which moves the file (or directory) from the path `this` to the path `there`.  
+
+* If `this` is a regular file (i.e. not a directory), and:
+    - `there` is a directory,`this` gets moved inside of `there`.
+    - `there` is a regular file that exists, then `there` will get overwritten, becoming a regular
+    file that holds the contents of `this`.
+    - `there` does not exist, it will be created as regular file whose contents are identical
+    to those of `this`.
+* If `this` is a
+directory and: 
+    - `there` does not exist in the filesystem, the directory `there` will be made
+    and its contents will be the (former) contents of `this`
+    - if `there` already exists, and is a directory, then the directory `this` will
+    be moved inside of the directory `there` (i.e. it will become `there/this`).
+    - if `there` already exists, but is not a directory, then nothing will change
+    in the filesystem, but an an error will
+    be reported.
+In all cases, whatever used to exist at path `this` will no longer be found there.
+
+And `mv` can be invoked with multiple arguments, in which case the last one must be a directory
+_that already exists_ that receives all the earlier arguments inside it.  So, if you already have
+a directory named `dest_dir` then you can move a lot of things into it like:
+```sh
+mv file1 file2 dir1 dir2 dest_dir
+```
+You can also write that as as
+```sh
+mv file1 file2 dir1 dir2 dest_dir/
+```
+which makes its meaning a little more clear, but there is no requirement that the
+final argument have a trailing `/`.
+
+Note, if any files in `dest_dir` have the same name as the files you are moving into
+`dest_dir` they _will_ get overwritten.
+
+So, you have gotta be careful not to overwrite stuff that you don't want to overwrite.
+
+#### `cp`
+
+This works much the same way as `mv` with two different flavors:
+```sh
+cp this there
+```
+and 
+```sh
+cp file1 file2 dest_dir
+# or
+cp file1 file2 dest_dir/
+```
+The result is very much like that of `mv`, but  instead of moving the file
+from one place to another (an operation that can actually be done without moving the
+data within the file to a different place on the hard drive), the `cp` command actually
+makes a full copy of files.  Note that, if the files are large, this can take a long time.
+
+#### `rm`
+
+Finally we get to the very spooky `rm` command, which is short for "remove."  If you
+say "rm myfile.txt" the OS will remove that file from your hard drive's directory.  The data
+that were in the file might live on for some time on your hard drive---in other words, by default,
+`rm` does not wipe the file off your hard drive, but simply "forgets" where to look for that file. And
+the space that file took up on your hard drive is no longer reserved, and could easily be
+overwritten the next time you write something to disk. (Nonetheless, if you do `rm` a file, you should never expect to be able to get it back).  So, be very careful about using `rm`.  It takes an `-r` option for recursively removing directories _and_ all of
+their contents.  
+
+When used in conjunction with globbing, `rm` can be very useful. For example, if you wanted
+to remove all the files in a directory with a `.jpg` extension, you would do `rm *.jpg` from
+within that directory.  However, it's a disaster to accidentally remove a number of files you
+might not have wanted to.  So, especially as you are getting familiar with Unix, it is
+worth it to experiment with your globbing using `ls` first, to see what the results are,
+and only when you are convinced that you won't remove any files you really want should you
+end up using `rm` to remove those files.
 
 
-Everything is a file, some of them are executuble (programs) and they
-typically do things to other files.
 
-Unix philosophy of spitting text out so that stuff can be done to it (chaining/piping) or
-redirecting.
+### "Viewing" Files
+
+In a typical GUI-based environment, when you interact with files on your computer,
+you typically open the files with some application.  For example, you open Word files
+with Microsoft Word.  When working on the Unix shell, that same paradigm does not
+really exist.  Rather, (apart from a few cases like the text editors, `nano`, `vim` and
+`emacs`, instead of opening a file and letting the user interact with it the shell is 
+much happier just streaming the contents of the file to the terminal.  
+
+The most basic of such commands is the `cat` command, which _catenates_ the contents
+of a file into a very special _data stream_ called _stdout_, which is short
+for "standard output."  If you don't provide any other instruction, data that gets
+streamed to _stdout_ just shoots by on your terminal screen.  If the file is very large, it might
+do this for a long time.  If the file is a _text file_ then the data in it can be
+written out in letters that are recognizable.  If it is a _binary file_ then there is
+no good way to represent the contents as text letters, and your screen will be filled with
+all sorts of crazy looking characters.
+
+It is generally best not to `cat` very large files, especially binary ones.  If you do and
+you need to stop the command from continuing to spew stuff across your screen, you can type
+`cntrl-c` which is the universal Unix command for "kill the current process happening on the
+shell."  Usually that will stop it.
+
+```{block2, note-text-terminal, type='rmdtip'}
+**A note regarding terminals:** On a Mac, the Terminal app is quite fast at spewing text
+across the screen.  Megabytes of text or binary gibberish can flash by in seconds flat.  This 
+is not the case with the terminal window within RStudio, which can by abysmally slow, and usually
+doesn't store many lines of output.
+```
+
+Sometimes you want to just look at the top of a file.  The `head` command
+shows you the first 10 lines of a file.  That is valuable.  The `less` command
+shows a file one screenful at a time.  You can hit the space bar to see the next screenful,
+and you can hit `q` to quit viewing the file. 
+
+Try navigating to a file and using `cat`, `head`, and `less` on it.
+
+One particularly cool thing about `cat` is that if you say
+```sh
+cat file1 file2
+```
+it will catenate the contents of both files, in order, to _stdout_.  
+
+Now, one Big Important Unix fact is that many programs written to run in the
+Unix shell behave in the same way regarding their output: they write their
+output to _stdout_.  We have already seen this with `ls`: its output just
+gets written to the screen, which is where _stdout_ goes by default. 
+
+### Redirecting standard output: `>`
+
+Unix starts to get really fun when you realize that you can "redirect" the
+contents of _stdout_ from any command (or group of commands...see the next chapter!)
+to a file.  To do that, you merely follow the command (and all its options and arguments)
+with `> path` where `path` is the path specifying the file into which you
+wish to redirect _stdout_.
+
+Witness, try this:
+```{sh, eval=FALSE}
+# echo three lines of text to a file in the /tmp directory
+echo "bing
+bong
+boing" > /tmp/file1
+
+# echo three more lines of text to another file
+echo "foo
+bar
+baz" > /tmp/file2
+
+# now view the contents of the first file
+cat /tmp/file1
+
+# and the second file:
+cat /tmp/file2
+```
+
+### stdin, `<` and `|`
+
+Not only do most Unix-based programs deliver output to standard output, but
+most utilities can also receive input from a file stream called _stdin_ which
+is short for "standard input."  
+
+If you have data in a file that you want to send into standard input
+for a utility, you can use the `<` like this:
+```sh
+command < file
+```
+But, since most Unix utilities also let you specify the file as an argument,
+this is not used very much.
+
+However, what is used all the time in Unix, and it is one of the things
+that makes it super fun, is the pipe, `|`, which says, "take _stdout_ coming
+out of the command on the left and redirect it into _stdin_ going into
+the command on the right of the pipe.  
+
+For example, if I wanted to count the number of files and directories stored in my `git-repos` 
+directory, I could do
+```sh
+% ls -dl Documents/git-repos/* | wc 
+     174    1566   14657
+```
+which pipes the output of `ls -dl` (one line per file) into the _stdin_ for the `wc` command, which
+counts the number of lines, words, and letters sent to its standard input.  So, the output tells
+me that there are 174 files and directories in my directory `Documents/git-repos`.
+
+Note that pipes and redirects can be combined in sequence over multiple
+operations or commands.  This is what gives rise to the terminology of
+making "Unix pipelines:" the data are like streams of water coming into
+or out of different commands, and the pipes hook up all those streams into
+a pipeline.
+
+### stderr
+
+While output from Unix commands is often written to _stdout_, if anything goes wrong with
+a program, then messages about that get written to a different stream called _stderr_, which, you
+guessed it! is short for "standard error".  By default, both _stdout_ and _stderr_ get written
+to the terminal, which is why it can be hard for beginners to think of them as separate streams.  
+But, indeed, they are.  Redirecting _stdout_ with `>`, that does **not** redirect _stderr_.
+
+For example.  See what happens when we ask `ls` to list a file that does not exist:
+```sh
+[~]--% ls file-not-here.txt 
+ls: file-not-here.txt: No such file or directory
+```
+The error message comes back to the screen.  If you redirect the output
+it still comes back to the screen!
+```sh
+[~]--% ls file-not-here.txt > out.txt 
+ls: file-not-here.txt: No such file or directory
+```
+If you want to redirect _stderr_, then you need to specify which stream
+it is.  On all Unix systems, _stderr_ is stream #2, so the `2>` syntax can be 
+used:
+```sh
+[~]--% ls file-not-here.txt 2> out.txt 
+```
+Then there is no output of _stderr_ to the terminal, and when you `cat` the output
+file, you see that it went there!
+```sh
+[~]--% cat out.txt 
+ls: file-not-here.txt: No such file or directory
+```
+
+Doing bioinformatics, you will find that there will be failures of various programs.
+It is essential when you write bioinformatic pipelines to redirect _stderr_ to a
+file so that you can go back, after the fact, to sleuth out why the failure occurred.
+Additionally, some bioinformatic programs write things like progress messages to 
+_stderr_ so it is important to know how to redirect those as well.
 
 
-`stdin`, `stdout`, `stderr`.
+### Symbolic links
+
+Besides regular files and directories, a third type of file in Unix is called a
+_symbolic link_.  It is a special type of file whose contents are just an
+absolute or a relative path to another file.  You can think of symbolic links
+as "shortcuts" to different locations in your file system. There are many
+useful applications of symbolic links.
+
+Symbolic links are made using the `ln` command with the `-s` option.  For example,
+if I did this in my home directory:
+```sh
+[~]--% ln -s /Users/eriq/Documents/git-repos/srsStuff srs
+```
+then `srs` becomes a file whose full listing (from `ls -l srs`) looks like:
+```sh
+lrwxrwxr-x  1 eriq  staff    40B Jan  9 19:24 srs@ -> /Users/eriq/Documents/git-repos/srsStuff
+```
+
+### File Permissions
+
+Unix systems often host many different users.  Some users might belong to the
+same research group, and might like to be able to read the files (and/or use
+the programs) that their colleagues have in their accounts.  
+
+The Unix file system uses a system of permissions that gives rights to various
+classes of users to read, write, or execute files.  The permissions associated with
+a file can be viewed using `ls -l`.  They are captured in the first column which might
+look something like `-rwxr-xr-x`.  When you first start looking at these, they can
+be distressingly difficult to visually parse.  But you will get better at it! Let's
+start breaking it down now.
+
+The file description string, in a standard Unix setting, consists of 10 characters.
+
+* The first tells what kind of file it is: `-` = regular file, `d` = directory, `l` = symbolic link.
+* The next group of three characters denote whether the owner/user of the file has
+permission to either read, write, or execute the file.  
+* The following two groups of three characters are the same thing for users within the
+users group, and for all other users, respectively.
+
+Here is a figure from [the web](https://unix.stackexchange.com/questions/183994/understanding-unix-permissions-and-file-types) that we can talk about: 
+```{r, echo=FALSE}
+knitr::include_graphics("https://i.stack.imgur.com/JKUg3.jpg")
+```
+
+Permissions can be changed with the `chmod` command.  We will talk in class about
+how to use it with the octal representation of permissions.
 
 ### Editing text files at the terminal
 
-Gonna introduce new users to nano, cuz it is easy.   Say that emacs and vim are
-other more fully-featured options.  For mac users, get TextWrangler and use the edit command.
+Sometimes you might need to edit text files at the command line.
+
+The easiest text editor to use on the command line is `nano`.
+Try typing `nano a-file.txt` and type a few things. It is
+pretty self explanatory.
+
 
 
 ## Customizing your Environment {#unix-env}
@@ -660,18 +1010,18 @@ working directory is (remember `PS1='[\W]--% '`).  The limitation of giving that
 command on the command line is that if you logout and then log back in again, or open
 a new Terminal window, you will have to reissue that command in order to achieve
 the desired look of your command prompt.  Quite often a Unix user would like to make
-a number of customizations to the look, feel, and behavior of their Unix shell.
-The bash shell allows these customizations to be specified in two different files that
-are read by the system so as to invoke the customizations.  The two files are hidden files
+a number of customization to the look, feel, and behavior of their Unix shell.
+The bash shell allows these customization to be specified in two different files that
+are read by the system so as to invoke the customization.  The two files are hidden files
 in the home directory: `~/.bashrc` and `~/.bash_profile`.  They are used by the Unix system
 in two slightly different contexts, but for most purposes, you, the user, will not need or
 even want to distinguish between the different contexts.  Managing two separate files
-of customizations is unnecessary and duplicative of your efforts, and can lead to inconsistent
+of customization is unnecessary and requires duplication of your efforts, and can lead to inconsistent
 and confusing results, so here is what we will do: 
 
-1. Keep all of our customizations in `~/.bashrc`.
+1. Keep all of our customization in `~/.bashrc`.
 2. Insert commands in `~/.bash_profile` that say, "Hey computer! If you are looking
-for customizations in here, don't bother, just get them straight out of `~/.bashrc`.
+for customization in here, don't bother, just get them straight out of `~/.bashrc`.
 
 We take care of #2, by creating the file `~/.bash_profile` to have the following
 lines in it:
@@ -684,11 +1034,11 @@ fi
 ```
 
 Taking care of #1 is now just a matter of writing commands into `~/.bashrc`. In the following
-are some recommended customizations.
+are some recommended customization.
 
 ### Appearances matter
 
-Some customizations just change the way your shell looks or what type of output
+Some customization just change the way your shell looks or what type of output
 is given from different commands.  Here are some lines to add to your `~/.bashrc`
 along with some discussion of each.
 
@@ -716,30 +1066,125 @@ We saw in Section \@ref(anatomy-command) that bash searches the directories list
 `PATH` variable to find commands and executables.  You can modify the PATH variable to include
 directories where you have installed different programs.  In doing so, you want to make sure
 that you don't lose any of the other directories in `PATH`, so there is a certain way to
-go about redefining `PATH`.
+go about redefining `PATH`. If you want to add the path `/a-new/program/directory` to your
+PATH variable you do it like this:
+```sh
+PATH=$PATH:/a-new/program/directory
+```
 
-Example use case.  You write a short script and put it in `~/bin`.  Maybe even have an 
-exercise where students put `abspath` and `fp` into '~/bin` and then make sure it is in 
-their PATH.
+## A Few More Important Keystrokes
 
-### And more...
+If a command "gets stuck" or is running longer than it should be, you can usually
+kill/quit it by doing `cntrl-c`.
 
-Just going to say that much more can be done, and we will see entries throughout the
-book about other customizations that are helpful in `~/.bashrc`.
+Once you have given a command, it gets stored in your bash history.  You can use the
+up-arrow key to cycle backward through different commands in your history.  This is particularly
+useful if you are building up complex pipelines on the command line piece by piece, looking at
+the output of each to make sure it is correct.  Rather than re-typing what you did for the last
+command line, you just up-arrow it.
+
+Once you have done an up-arrow or two, you can cycle back down through your history with
+a down-arrow.
+
+Finally, you can search through your bash history by typing `cntrl-r` and then typing
+the word/command you are looking for.  For example, if, 100 command lines back, you
+used a command that involved the program `awk`, you can search for that by typing
+`cntrl-r` and then typing `awk`.
+
+One last big thing to note:  the `#` is considered a _comment character_ in bash.
+This means that any text following a `#` (unless it is backslash-escaped or inside quotation marks),
+until the next line ending,
+will be ignored by the shell.
+
+## A short list of additional useful commands.
+
+Everyone should be familiar with the following commands, and the 
+options that follow them on each line below. One might even think of
+scanning the manual page for each of these:
+
+- `echo`
+- `cat`
+- `head`, `-n, -c`
+- `tail`, `-n`
+- `less`
+- `sort`, `-n -b -k`
+- `paste`
+- `cut`, `-d`
+- `tar`, `-cvf, -xvf`
+- `gzip`, `-c`
+- `du`, `-h -C`,
+- `wc`
+- `date`
+- `uniq`
+- `chmod`,  `u+x`, `ug+x`
+- `grep`
 
 
+## Two important computing concepts
 
-## A short list of useful commands.
-
-cat, head (good for binary files too with -c), less, sort, paste, cut, tar, gzip, du, wc, date
-
-
-## Several computing fundamentals
-
-I want to give some explanations of a few things here.  
 ### Compression
 
+Most file storage types (like text files) are a bit wasteful in terms of
+file space: every character in a text file takes the same number of bytes to
+store, whether it is a character that is used a lot, like `s` or `e`, or whether
+it is a character that is seldom seen in many text files, like `^`.  _Compression_
+is the art of creating a code for different types of data that uses fewer bits to
+encode "letters" (or "chunks" of data) that occur frequently and it reserves codewords of
+more bits to encode less frequently occurring chunks in the data.  The result is that the
+total file size is smaller than the uncompressed version.  However, in order to read it,
+the file must be decompressed.  
+
+In bioinformatics, many of the files you deal with will be compressed, because that
+can save many terabytes of disk space.  Most often, files will be compressed using the
+`gzip` utility, and they can be uncompressed with the `gunzip` command. Sometimes
+you might want to just look at the fist part of a compressed file.  If the file is compressed
+with `gzip`, you can decompress to _stdout_ by using `gzcat` and then pipe it to `head`, for example.
+
+A central form of compression in bioinformatics is called `bgzip` compression
+which compresses files into a series of blocks of the same size, situated in such a way that
+it is possible to _index_ the contents of the file so that certain parts of the file can be
+accessed without decompressing the whole thing.  We will encounter indexed compressed files a
+lot when we start dealing with BAM and vcf.gz files.
+
 ### Hashing
+
+The final topic we will cover here is the topic of hashing, an in particular
+the idea of "fingerprinting" files on ones computer.  This process is central
+to how the git version control system works, and it is well worth knowing about.
+
+Any file on your computer can be thought of as a series of bits, 0's and 1's, as,
+fundamentally, that is what the file is.  A _hashing algorithm_ is an algorithm
+that maps a series of bits (or arbitrary length) to a short sequence of bits.  The
+SHA1 hashing algorithm maps arbitrary sequences of bits to a sequence of 160 bits.
+
+There are $2^{160} \approx 1.46 \times 10^{48}$ possible bit sequences of length 160.
+That is a vast number.  If your hashing algorithm is well randomized, so that bit sequences
+are hashed into 160 bits in a roughly uniform distribution, then it is exceedingly unlikely
+that any two bit sequences (i.e. files on your filesystem) will have the same hash ("fingerprint")
+unless they are perfectly identical.  As hashing algorithms are often quite fast to compute,
+this provides an exceptionally good way to verify that two files are identical.
+
+The SHA1 algorithm is implemented with the `shasum` command.  In the following,
+as a demonstration, I store the recursive listing of my `git-repos` directory into
+a file and I hash it.  Then I add just a single line ending to the end
+of the file, and hash that, to note that the two hashes are not at all similar
+even though the two files differ by only one character:
+
+```sh
+[~]--% ls -R Documents/git-repos/* > /tmp/gr-list.txt 
+[~]--% # how many lines is that?
+[~]--% wc /tmp/gr-list.txt 
+   93096   88177 2310967 /tmp/gr-list.txt
+[~]--% shasum /tmp/gr-list.txt 
+1396f2fec4eebdee079830e1eff9e3a64ba5588c  /tmp/gr-list.txt
+[~]--% # now add a line ending to the end
+[~]--% (cat /tmp/gr-list.txt; echo) > /tmp/gr-list2.txt 
+[~]--% # hash both and compare
+[~]--% shasum /tmp/gr-list.txt /tmp/gr-list2.txt 
+1396f2fec4eebdee079830e1eff9e3a64ba5588c  /tmp/gr-list.txt
+23bff8776ff86e5ebbe39e11cc2f5e31c286ae91  /tmp/gr-list2.txt
+[~]--% # whoa! cool.
+```
 
 
 ## Unix: Quick Study Guide
@@ -750,8 +1195,10 @@ as \@ref(tab:unix-chap-review)
 
 ```{r unix-chap-review, echo=FALSE}
 lines <- read_lines("chapter_review_inputs/unix-chapter-review-terms.txt")
-tab <- matrix(lines, byrow = TRUE, ncol = 3) %>%
-  as_tibble() %>%
+mat <- matrix(lines, byrow = TRUE, ncol = 3)
+colnames(mat) <- c("X1", "X2", "X3")
+tab <- mat %>%
+  as_tibble(.name_repair = "minimal") %>%
   setNames(NULL)
 pander::pander(
   tab,

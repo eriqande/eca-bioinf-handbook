@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 15 Next Generation Sequencing Data Acquisition | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
   <meta name="description" content="A book example for a Chapman &amp; Hall book." />
-  <meta name="generator" content="bookdown 0.10 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 15 Next Generation Sequencing Data Acquisition | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   <meta property="og:type" content="book" />
@@ -24,15 +24,15 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2019-07-11" />
+<meta name="date" content="2020-01-27" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="overview-of-bioinformatic-analyses.html">
-<link rel="next" href="bioinformatic-file-formats-and-associated-tools.html">
+<link rel="prev" href="overview-of-bioinformatic-analyses.html"/>
+<link rel="next" href="bioinformatic-file-formats-and-associated-tools.html"/>
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -40,6 +40,9 @@
 <link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -55,7 +58,6 @@ a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -129,12 +131,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><a href="./">ECA's Bioinformatics Handbook</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#why-read-this-book"><i class="fa fa-check"></i>Why read this book</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#structure-of-the-book"><i class="fa fa-check"></i>Structure of the book</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#software-information-and-conventions"><i class="fa fa-check"></i>Software information and conventions</a></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgments"><i class="fa fa-check"></i>Acknowledgments</a></li>
-</ul></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
 <li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="erics-notes-of-what-he-might-do.html"><a href="erics-notes-of-what-he-might-do.html"><i class="fa fa-check"></i><b>2</b> Eric’s Notes of what he might do</a><ul>
 <li class="chapter" data-level="2.1" data-path="erics-notes-of-what-he-might-do.html"><a href="erics-notes-of-what-he-might-do.html#table-of-topics"><i class="fa fa-check"></i><b>2.1</b> Table of topics</a></li>
@@ -156,23 +153,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.3.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#the-options"><i class="fa fa-check"></i><b>4.3.2</b> The <em>options</em></a></li>
 <li class="chapter" data-level="4.3.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#arguments"><i class="fa fa-check"></i><b>4.3.3</b> Arguments</a></li>
 <li class="chapter" data-level="4.3.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#getting-information-about-unix-commands"><i class="fa fa-check"></i><b>4.3.4</b> Getting information about Unix commands</a></li>
-<li class="chapter" data-level="4.3.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#exercises"><i class="fa fa-check"></i><b>4.3.5</b> Exercises</a></li>
 </ul></li>
 <li class="chapter" data-level="4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#handling-manipulating-and-viewing-files-and-streams"><i class="fa fa-check"></i><b>4.4</b> Handling, Manipulating, and Viewing files and streams</a><ul>
-<li class="chapter" data-level="4.4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#fundamental-file-handling-commands"><i class="fa fa-check"></i><b>4.4.1</b> Fundamental file-handling commands</a></li>
-<li class="chapter" data-level="4.4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#everytyhing-is-a-file.-io-redirection-and-pipes"><i class="fa fa-check"></i><b>4.4.2</b> Everytyhing is a file. I/O: redirection and pipes</a></li>
-<li class="chapter" data-level="4.4.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#editing-text-files-at-the-terminal"><i class="fa fa-check"></i><b>4.4.3</b> Editing text files at the terminal</a></li>
+<li class="chapter" data-level="4.4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#creating-new-directories"><i class="fa fa-check"></i><b>4.4.1</b> Creating new directories</a></li>
+<li class="chapter" data-level="4.4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#fundamental-file-handling-commands"><i class="fa fa-check"></i><b>4.4.2</b> Fundamental file-handling commands</a></li>
+<li class="chapter" data-level="4.4.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#viewing-files"><i class="fa fa-check"></i><b>4.4.3</b> “Viewing” Files</a></li>
+<li class="chapter" data-level="4.4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#redirecting-standard-output"><i class="fa fa-check"></i><b>4.4.4</b> Redirecting standard output: <code>&gt;</code></a></li>
+<li class="chapter" data-level="4.4.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#stdin-and"><i class="fa fa-check"></i><b>4.4.5</b> stdin, <code>&lt;</code> and <code>|</code></a></li>
+<li class="chapter" data-level="4.4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#stderr"><i class="fa fa-check"></i><b>4.4.6</b> stderr</a></li>
+<li class="chapter" data-level="4.4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#symbolic-links"><i class="fa fa-check"></i><b>4.4.7</b> Symbolic links</a></li>
+<li class="chapter" data-level="4.4.8" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#file-permissions"><i class="fa fa-check"></i><b>4.4.8</b> File Permissions</a></li>
+<li class="chapter" data-level="4.4.9" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#editing-text-files-at-the-terminal"><i class="fa fa-check"></i><b>4.4.9</b> Editing text files at the terminal</a></li>
 </ul></li>
 <li class="chapter" data-level="4.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-env"><i class="fa fa-check"></i><b>4.5</b> Customizing your Environment</a><ul>
 <li class="chapter" data-level="4.5.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#appearances-matter"><i class="fa fa-check"></i><b>4.5.1</b> Appearances matter</a></li>
 <li class="chapter" data-level="4.5.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#where-are-my-programscommands-at"><i class="fa fa-check"></i><b>4.5.2</b> Where are my programs/commands at?!</a></li>
-<li class="chapter" data-level="4.5.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#and-more"><i class="fa fa-check"></i><b>4.5.3</b> And more…</a></li>
 </ul></li>
-<li class="chapter" data-level="4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#a-short-list-of-useful-commands."><i class="fa fa-check"></i><b>4.6</b> A short list of useful commands.</a></li>
-<li class="chapter" data-level="4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#several-computing-fundamentals"><i class="fa fa-check"></i><b>4.7</b> Several computing fundamentals</a><ul>
-<li class="chapter" data-level="4.7.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#hashing"><i class="fa fa-check"></i><b>4.7.1</b> Hashing</a></li>
+<li class="chapter" data-level="4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#a-few-more-important-keystrokes"><i class="fa fa-check"></i><b>4.6</b> A Few More Important Keystrokes</a></li>
+<li class="chapter" data-level="4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#a-short-list-of-additional-useful-commands."><i class="fa fa-check"></i><b>4.7</b> A short list of additional useful commands.</a></li>
+<li class="chapter" data-level="4.8" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#two-important-computing-concepts"><i class="fa fa-check"></i><b>4.8</b> Two important computing concepts</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#compression"><i class="fa fa-check"></i><b>4.8.1</b> Compression</a></li>
+<li class="chapter" data-level="4.8.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#hashing"><i class="fa fa-check"></i><b>4.8.2</b> Hashing</a></li>
 </ul></li>
-<li class="chapter" data-level="4.8" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-quick-study-guide"><i class="fa fa-check"></i><b>4.8</b> Unix: Quick Study Guide</a></li>
+<li class="chapter" data-level="4.9" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-quick-study-guide"><i class="fa fa-check"></i><b>4.9</b> Unix: Quick Study Guide</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="shell-programming.html"><a href="shell-programming.html"><i class="fa fa-check"></i><b>5</b> Shell programming</a><ul>
 <li class="chapter" data-level="5.1" data-path="shell-programming.html"><a href="shell-programming.html#advanced-repitition"><i class="fa fa-check"></i><b>5.1</b> Advanced repitition</a></li>
@@ -191,13 +194,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#interfacing-with-the-cloud"><i class="fa fa-check"></i><b>7.2.3</b> Interfacing with “The Cloud”</a></li>
 <li class="chapter" data-level="7.2.4" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#getting-files-from-a-sequencing-center"><i class="fa fa-check"></i><b>7.2.4</b> Getting files from a sequencing center</a></li>
 </ul></li>
-<li class="chapter" data-level="7.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#boneyard"><i class="fa fa-check"></i><b>7.3</b> Boneyard</a></li>
-<li class="chapter" data-level="7.4" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#the-queue-slurmsgeuge"><i class="fa fa-check"></i><b>7.4</b> The Queue (SLURM/SGE/UGE)</a></li>
-<li class="chapter" data-level="7.5" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#modules-package"><i class="fa fa-check"></i><b>7.5</b> Modules package</a></li>
-<li class="chapter" data-level="7.6" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#compiling-programs-without-admin-privileges"><i class="fa fa-check"></i><b>7.6</b> Compiling programs without admin privileges</a></li>
-<li class="chapter" data-level="7.7" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#job-arrays"><i class="fa fa-check"></i><b>7.7</b> Job arrays</a></li>
-<li class="chapter" data-level="7.8" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#writing-stdout-and-stderr-to-files"><i class="fa fa-check"></i><b>7.8</b> Writing stdout and stderr to files</a></li>
-<li class="chapter" data-level="7.9" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#breaking-stuff-down"><i class="fa fa-check"></i><b>7.9</b> Breaking stuff down</a></li>
+<li class="chapter" data-level="7.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#activatinginstalling-software"><i class="fa fa-check"></i><b>7.3</b> Activating/Installing software</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#modules"><i class="fa fa-check"></i><b>7.3.1</b> Modules</a></li>
+<li class="chapter" data-level="7.3.2" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#miniconda"><i class="fa fa-check"></i><b>7.3.2</b> Miniconda</a></li>
+<li class="chapter" data-level="7.3.3" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#exporting-environments"><i class="fa fa-check"></i><b>7.3.3</b> Exporting environments</a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#boneyard"><i class="fa fa-check"></i><b>7.4</b> Boneyard</a></li>
+<li class="chapter" data-level="7.5" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#the-queue-slurmsgeuge"><i class="fa fa-check"></i><b>7.5</b> The Queue (SLURM/SGE/UGE)</a></li>
+<li class="chapter" data-level="7.6" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#modules-package"><i class="fa fa-check"></i><b>7.6</b> Modules package</a></li>
+<li class="chapter" data-level="7.7" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#compiling-programs-without-admin-privileges"><i class="fa fa-check"></i><b>7.7</b> Compiling programs without admin privileges</a></li>
+<li class="chapter" data-level="7.8" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#job-arrays"><i class="fa fa-check"></i><b>7.8</b> Job arrays</a></li>
+<li class="chapter" data-level="7.9" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#writing-stdout-and-stderr-to-files"><i class="fa fa-check"></i><b>7.9</b> Writing stdout and stderr to files</a></li>
+<li class="chapter" data-level="7.10" data-path="high-performance-computing-hpc-environments.html"><a href="high-performance-computing-hpc-environments.html#breaking-stuff-down"><i class="fa fa-check"></i><b>7.10</b> Breaking stuff down</a></li>
 </ul></li>
 <li class="part"><span><b>II Part II: Reproducible Research Strategies</b></span></li>
 <li class="chapter" data-level="8" data-path="introduction-to-reproducible-research.html"><a href="introduction-to-reproducible-research.html"><i class="fa fa-check"></i><b>8</b> Introduction to Reproducible Research</a></li>
@@ -250,7 +258,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="18.4" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html#divide-and-conquer-strategies"><i class="fa fa-check"></i><b>18.4</b> Divide and Conquer Strategies</a></li>
 </ul></li>
 <li class="chapter" data-level="19" data-path="variant-calling-with-gatk.html"><a href="variant-calling-with-gatk.html"><i class="fa fa-check"></i><b>19</b> Variant calling with GATK</a></li>
-<li class="chapter" data-level="20" data-path="bioinformatics-for-rad-seq-data-with-no-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-no-reference-genome.html"><i class="fa fa-check"></i><b>20</b> Bioinformatics for RAD seq data with no reference genome</a></li>
+<li class="chapter" data-level="20" data-path="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><i class="fa fa-check"></i><b>20</b> Bioinformatics for RAD seq data with and without a reference genome</a></li>
 <li class="chapter" data-level="21" data-path="processing-amplicon-sequencing-data.html"><a href="processing-amplicon-sequencing-data.html"><i class="fa fa-check"></i><b>21</b> Processing amplicon sequencing data</a></li>
 <li class="chapter" data-level="22" data-path="genome-annotation.html"><a href="genome-annotation.html"><i class="fa fa-check"></i><b>22</b> Genome Annotation</a></li>
 <li class="chapter" data-level="23" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html"><i class="fa fa-check"></i><b>23</b> Whole genome alignment strategies</a><ul>
@@ -354,11 +362,13 @@ breakpoints, etc <span class="citation">(Corbett-Detig, Cardeno, and Langley <a 
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
 <script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
 <script src="libs/gitbook/js/plugin-search.js"></script>
 <script src="libs/gitbook/js/plugin-sharing.js"></script>
 <script src="libs/gitbook/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -366,12 +376,11 @@ gitbook.start({
 "github": true,
 "facebook": false,
 "twitter": true,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
-"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
 "theme": "white",
@@ -384,6 +393,10 @@ gitbook.start({
 },
 "history": {
 "link": "https://github.com/eriqande/eca-bioinf-handbook/commits/master/3.01-ngs-data-acquisition.Rmd",
+"text": null
+},
+"view": {
+"link": null,
 "text": null
 },
 "download": ["eca-bioinf-handbook.pdf", "eca-bioinf-handbook.epub"],
@@ -401,8 +414,9 @@ gitbook.start({
     script.type = "text/javascript";
     var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();

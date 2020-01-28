@@ -4,6 +4,8 @@
 
 # Overview of Essential Computing Skills
 
-What up with this?
+What up with this?  It appears that bookdown does not let you
+write things at the beginning of a Part without putting it under
+a chapter heading.  Oh well.
 
 

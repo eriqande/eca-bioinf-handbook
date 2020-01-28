@@ -1,5 +1,23 @@
 # Sed, awk, and regular expressions
 
+In the course of doing bioinformatics, you will be dealing with myriad different
+_text_ files. As we noted in the previous chapters, Unix, with its file I/O model,
+piping capabilities, and numerous utilities, is well-suited to handling
+large text files.  Two utilities found on every Unix installation---`awk` and `sed`---merit
+special attention in this context.  `awk` is a lightweight scripting language that lets
+you write succinct programs to operate line-by-by line on the contents of text files.  It is
+particularly useful for handling text files that have columns of data separated by white spaces
+or tabs.  `sed` on the other hand, is particularly useful for automating
+"find-and-replace" operations on text files.  Each of them is optimized to
+handle large files without storing a lot of information in memory, so they can be 
+useful for quick operations on large bioinformatic data sets.  Neither is a fully-featured
+programming language that you would want to write large, complex programs in; however they do share many of the
+useful text-manipulation capabilities of such languages, such as Perl and Python.  Additionally,
+`awk` and `sed` are deployed in a consistent fashion across most Unix operating systems, and they
+don't require much time to learn to use effectively for common text-processing tasks.
+As a consequence `awk` and `sed` are a useful addition to the bioinformatician's tookbox. 
 
-
-gotta talk about these bad boys...
+Both `awk` and `sed` rely heavily on _regular expressions_ to describe _patterns_
+in text upon which some operation should be performed.  You can think of
+regular expressions as providing a succinct language for performing very advanced "find" operations
+in a text file.  

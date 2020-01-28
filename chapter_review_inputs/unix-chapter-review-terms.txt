@@ -1,3 +1,4 @@
+bash
 absolute path
 relative path
 `/` at beginning of path
@@ -5,8 +6,55 @@ relative path
 home directory
 `~`
 current working directory
-**pwd**
+`pwd`
 `cd`
 `.`
 `..`
 `cd -`
+basename
+PS1
+TAB-completion
+`ls` (`-a`, `-d`, `-R`)
+globbing
+*
+?
+[0-9]
+[a-z]
+[^CDcd]
+{png,jpg,pdf}
+`echo`
+`man` _command_
+`mkdir`
+`mv`
+`cp`
+`rm`
+`cat`
+`head`
+`less`
+_stdout_
+_stdin_
+_stderr_
+`>`
+`<`
+`|`
+`ln -s`
+symbolic link
+PATH
+`-rw-r--r--`
+.bashrc
+.bash_profile
+`sort`, `-n -b -k`
+`paste`
+`cut`, `-d`
+`tar`, `-cvf, -xvf`
+`gzip`
+`du`, `-h -C`,
+`wc`
+`date`
+`uniq`
+cntrl-c
+cntrl-r
+`#`
+up-arrow/down-arrow
+`chmod`, `ug+x`, `664`
+`grep`
