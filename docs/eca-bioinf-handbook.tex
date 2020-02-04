@@ -209,23 +209,8 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2019-12-22}
+\date{2020-01-30}
 
-\usepackage{amsthm}
-\newtheorem{theorem}{Theorem}[chapter]
-\newtheorem{lemma}{Lemma}[chapter]
-\newtheorem{corollary}{Corollary}[chapter]
-\newtheorem{proposition}{Proposition}[chapter]
-\newtheorem{conjecture}{Conjecture}[chapter]
-\theoremstyle{definition}
-\newtheorem{definition}{Definition}[chapter]
-\theoremstyle{definition}
-\newtheorem{example}{Example}[chapter]
-\theoremstyle{definition}
-\newtheorem{exercise}{Exercise}[chapter]
-\theoremstyle{remark}
-\newtheorem*{remark}{Remark}
-\newtheorem*{solution}{Solution}
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
 \maketitle
@@ -258,176 +243,18 @@ without whom I should have finished this book two years earlier
 \chapter*{Preface}\label{preface}}
 
 
-Hi there, this is my great book.
+This is a collection of blurbs Eric started writing in the last year to
+help remind himself and others of some useful things to know for bioinformatics.
 
-\hypertarget{why-read-this-book}{%
-\section*{Why read this book}\label{why-read-this-book}}
-
-
-It is very important\ldots{}
-
-\hypertarget{structure-of-the-book}{%
-\section*{Structure of the book}\label{structure-of-the-book}}
-
-
-Chapters \ref{introduction} introduces a new topic, and \ldots{}
-
-\hypertarget{software-information-and-conventions}{%
-\section*{Software information and conventions}\label{software-information-and-conventions}}
-
-
-I used the \textbf{knitr}\index{knitr} package \citep{xie2015} and the \textbf{bookdown}\index{bookdown} package \citep{R-bookdown} to compile my book. My R session information is shown below:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{xfun}\OperatorTok{::}\KeywordTok{session_info}\NormalTok{()}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-## R version 3.6.1 (2019-07-05)
-## Platform: x86_64-apple-darwin15.6.0 (64-bit)
-## Running under: macOS Sierra 10.12.6
-## 
-## Locale: en_US.UTF-8 / en_US.UTF-8 / en_US.UTF-8 / C / en_US.UTF-8 / en_US.UTF-8
-## 
-## Package version:
-##   askpass_1.1        assertthat_0.2.1  
-##   backports_1.1.5    base64enc_0.1.3   
-##   BH_1.69.0.1        bookdown_0.16     
-##   broom_0.5.2        callr_3.4.0       
-##   cellranger_1.1.0   cli_1.1.0         
-##   clipr_0.7.0        colorspace_1.4-1  
-##   compiler_3.6.1     crayon_1.3.4      
-##   curl_4.2           DBI_1.0.0         
-##   dbplyr_1.4.2       digest_0.6.21     
-##   dplyr_0.8.3        ellipsis_0.3.0    
-##   evaluate_0.14      fansi_0.4.0       
-##   forcats_0.4.0      fs_1.3.1          
-##   generics_0.0.2     ggplot2_3.2.1     
-##   glue_1.3.1         graphics_3.6.1    
-##   grDevices_3.6.1    grid_3.6.1        
-##   gtable_0.3.0       haven_2.1.1       
-##   highr_0.8          hms_0.5.2         
-##   htmltools_0.4.0    httr_1.4.1        
-##   jsonlite_1.6       knitr_1.25        
-##   labeling_0.3       lattice_0.20-38   
-##   lazyeval_0.2.2     lifecycle_0.1.0   
-##   lubridate_1.7.4    magrittr_1.5      
-##   markdown_1.1       MASS_7.3.51.4     
-##   Matrix_1.2.17      methods_3.6.1     
-##   mgcv_1.8.28        mime_0.7          
-##   modelr_0.1.5       munsell_0.5.0     
-##   nlme_3.1-140       openssl_1.4.1     
-##   pillar_1.4.2       pkgconfig_2.0.3   
-##   plogr_0.2.0        plyr_1.8.4        
-##   prettyunits_1.0.2  processx_3.4.1    
-##   progress_1.2.2     ps_1.3.0          
-##   purrr_0.3.3        R6_2.4.0          
-##   RColorBrewer_1.1.2 Rcpp_1.0.2        
-##   readr_1.3.1        readxl_1.3.1      
-##   rematch_1.0.1      reprex_0.3.0      
-##   reshape2_1.4.3     rlang_0.4.1       
-##   rmarkdown_1.16     rstudioapi_0.10   
-##   rvest_0.3.4        scales_1.0.0      
-##   selectr_0.4.1      splines_3.6.1     
-##   stats_3.6.1        stringi_1.4.3     
-##   stringr_1.4.0      sys_3.3           
-##   tibble_2.1.3       tidyr_1.0.0       
-##   tidyselect_0.2.5   tidyverse_1.2.1   
-##   tinytex_0.17       tools_3.6.1       
-##   utf8_1.1.4         utils_3.6.1       
-##   vctrs_0.2.0        viridisLite_0.3.0 
-##   whisker_0.4        withr_2.1.2       
-##   xfun_0.10          xml2_1.2.2        
-##   yaml_2.2.0         zeallot_0.1.0
-\end{verbatim}
-
-Package names are in bold text (e.g., \textbf{rmarkdown}), and inline code and filenames are formatted in a typewriter font (e.g., \texttt{knitr::knit(\textquotesingle{}foo.Rmd\textquotesingle{})}). Function names are followed by parentheses (e.g., \texttt{bookdown::render\_book()}).
-
-\hypertarget{acknowledgments}{%
-\section*{Acknowledgments}\label{acknowledgments}}
-
-
-A lot of people helped me when I was writing the book.
-
-\BeginKnitrBlock{flushright}
-Frida Gomam\\
-on the Mars
-\EndKnitrBlock{flushright}
+It was started during an extended government shutdown, when it seemed like writing a book
+might be in order. Fortunately, the shutdown ended eventually. It is not clear whether a
+book will ever come of it, but these notes shall be up on the web indefinitely, so feel free to use
+them!
 
 \hypertarget{intro}{%
 \chapter{Introduction}\label{intro}}
 
-You can label chapter and section titles using \texttt{\{\#label\}} after them, e.g., we can reference Chapter \ref{intro}. If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \ref{methods}.
-
-Figures and tables with captions will be placed in \texttt{figure} and \texttt{table} environments, respectively.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{par}\NormalTok{(}\DataTypeTok{mar =} \KeywordTok{c}\NormalTok{(}\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{, }\FloatTok{.1}\NormalTok{, }\FloatTok{.1}\NormalTok{))}
-\KeywordTok{plot}\NormalTok{(pressure, }\DataTypeTok{type =} \StringTok{'b'}\NormalTok{, }\DataTypeTok{pch =} \DecValTok{19}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{figure}
-
-{\centering \includegraphics[width=0.8\linewidth]{eca-bioinf-handbook_files/figure-latex/nice-fig-1} 
-
-}
-
-\caption{Here is a nice figure!}\label{fig:nice-fig}
-\end{figure}
-
-Reference a figure by its code chunk label with the \texttt{fig:} prefix, e.g., see Figure \ref{fig:nice-fig}. Similarly, you can reference tables generated from \texttt{knitr::kable()}, e.g., see Table \ref{tab:nice-tab}.
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(}
-  \KeywordTok{head}\NormalTok{(iris, }\DecValTok{20}\NormalTok{), }\DataTypeTok{caption =} \StringTok{'Here is a nice table!'}\NormalTok{,}
-  \DataTypeTok{booktabs =} \OtherTok{TRUE}
-\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{table}
-
-\caption{\label{tab:nice-tab}Here is a nice table!}
-\centering
-\begin{tabular}[t]{rrrrl}
-\toprule
-Sepal.Length & Sepal.Width & Petal.Length & Petal.Width & Species\\
-\midrule
-5.1 & 3.5 & 1.4 & 0.2 & setosa\\
-4.9 & 3.0 & 1.4 & 0.2 & setosa\\
-4.7 & 3.2 & 1.3 & 0.2 & setosa\\
-4.6 & 3.1 & 1.5 & 0.2 & setosa\\
-5.0 & 3.6 & 1.4 & 0.2 & setosa\\
-\addlinespace
-5.4 & 3.9 & 1.7 & 0.4 & setosa\\
-4.6 & 3.4 & 1.4 & 0.3 & setosa\\
-5.0 & 3.4 & 1.5 & 0.2 & setosa\\
-4.4 & 2.9 & 1.4 & 0.2 & setosa\\
-4.9 & 3.1 & 1.5 & 0.1 & setosa\\
-\addlinespace
-5.4 & 3.7 & 1.5 & 0.2 & setosa\\
-4.8 & 3.4 & 1.6 & 0.2 & setosa\\
-4.8 & 3.0 & 1.4 & 0.1 & setosa\\
-4.3 & 3.0 & 1.1 & 0.1 & setosa\\
-5.8 & 4.0 & 1.2 & 0.2 & setosa\\
-\addlinespace
-5.7 & 4.4 & 1.5 & 0.4 & setosa\\
-5.4 & 3.9 & 1.3 & 0.4 & setosa\\
-5.1 & 3.5 & 1.4 & 0.3 & setosa\\
-5.7 & 3.8 & 1.7 & 0.3 & setosa\\
-5.1 & 3.8 & 1.5 & 0.3 & setosa\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-You can write citations, too. For example, we are using the \textbf{bookdown} package \citep{R-bookdown} in this sample book, which was built on top of R Markdown and \textbf{knitr} \citep{xie2015}.
-
-And John wrote a paper: \citep{NovembreTreadLightlyInterpreting2018}
+Nothing here yet.
 
 \hypertarget{erics-notes-of-what-he-might-do}{%
 \chapter{Eric's Notes of what he might do}\label{erics-notes-of-what-he-might-do}}
@@ -530,7 +357,9 @@ samtools, vcftools, bcftools. hands on, doing stuff with them, reading the man p
 \hypertarget{overview-of-essential-computing-skills}{%
 \chapter{Overview of Essential Computing Skills}\label{overview-of-essential-computing-skills}}
 
-What up with this?
+What up with this? It appears that bookdown does not let you
+write things at the beginning of a Part without putting it under
+a chapter heading. Oh well.
 
 \hypertarget{essential-unixlinux-terminal-knowledge}{%
 \chapter{Essential Unix/Linux Terminal Knowledge}\label{essential-unixlinux-terminal-knowledge}}
@@ -556,31 +385,51 @@ typically without the need to write intermediate results to the disk;
 5) Unix was developed when computers were extremely limited in terms of memory and speed. Accordingly,
 many Unix tools have been well optimized and are appropriate to the massive genomic data sets
 that can be taxing even for today's large, high performance computing systems; 6) virtually all state-of-the-art
-bioinformatc tools are tailored to run in a Unix environment; and finally, 7) essentially
+bioinformatic tools are tailored to run in a Unix environment; and finally, 7) essentially
 every high-performance computer cluster runs some variant of Unix, so if you are going to be
 using a cluster for your analyses (which is highly likely), then you have gotta know Unix!
-
-\emph{A paragraph about what kinds of computers run Unix. (Often big servers, but also some
-flavors of personal laptops). The difference (similarities) between
-Unix and Linux. You might have Unix on your system (if you have a Mac). Or not. All this
-will effect what you need to do to get a Unix shell on your computer}
 
 \hypertarget{getting-a-bash-shell-on-your-system}{%
 \section{Getting a bash shell on your system}\label{getting-a-bash-shell-on-your-system}}
 
-Talk about what a shell is.
+A special part of the Unix operating system is the ``shell.'' This is the system that
+interprets commands from the user. At times it behaves like an interpreted programming
+language, and it also has a number of features that help to minimize the amount of
+typing the user must do to complete any particular tasks. There are a number of
+different ``shells'' that people use. We will focus on one called ``bash,'' which stands
+for the ``Bourne again shell.'' Many of the shells share a number of features.
 
-For windows, it looks like windows 10 might be able to do pretty well with it:\\
-\url{https://www.howtogeek.com/265900/everything-you-can-do-with-windows-10s-new-bash-shell/}
+Many common operating systems are built upon a Unix or upon Linux---an open-source flavor of
+Unix that is, in many scenarios, indistinguishable. Hereafter we will refer
+to both Unix and Linux as ``Unix'' systems). For example all Apple Macintosh computers are
+built on top of the Berkeley Standard Distribution of Unix and bash is the default
+shell. Many people these days
+use laptops that run a flavor of Linux like Ubuntu, Debian, or RedHat. Linux
+users should ensure that they are running the bash shell. This can be done
+by typing ``bash'' at the command line, or inserting that into their profile.
+To know what shell is currently running you can type:
 
-But maybe I should get a windows box and use Rstudio and see how the terminal in R studio is.
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \VariableTok{$0}
+\end{Highlighting}
+\end{Shaded}
 
-For now, I will punt on this and get just assume POSIX available on the system.
+at the Unix command line. If you are running \texttt{bash} the result should
+be
 
-However, we will want to start everyone off by having them type \texttt{bash} to
-make sure they have a bash shell.
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{-bash}
+\end{Highlighting}
+\end{Shaded}
 
-Also, I am going to have to talk a little bit about what a shell is here\ldots{}.
+PCs running Microsoft Windows are something of the exception in the computer world, in that
+they are not running an operating system built on Unix. However, Windows 10 now allows for
+a Linux Subsystem to be run. For Windows, it is also possible to install a lightweight
+implementation of bash (like Git Bash). This is helpful for learning how to use Unix,
+but it should be noted that most bioinformatic tools are still difficult to install
+on Windows.
 
 \hypertarget{navigating-the-unix-filesystem}{%
 \section{Navigating the Unix filesystem}\label{navigating-the-unix-filesystem}}
@@ -1053,7 +902,8 @@ the default behavior is to list the contents of the directory. This can be troub
 when you are listing the contents of a subdirectory: \texttt{ls\ \textasciitilde{}/Documents/git-repos/*} lists the
 contents (which can be substantial) of each of the directories in my directory, but
 I might only want to know the name of each of those directories, rather than their full contents.
-\texttt{ls\ -d\ \textasciitilde{}/Documents/git-repos} will
+\texttt{ls\ -d\ \textasciitilde{}/Documents/git-repos} will do that for you. Finally, the \texttt{-R} option to \texttt{ls} will cause the operating system to drill down, \emph{recursively} into all the subdirectories of the one you
+supplied to the command, and list their contents, as well.
 
 \hypertarget{globbing}{%
 \subsection{Globbing}\label{globbing}}
@@ -1100,7 +950,11 @@ denotes any single character in a file name. For example. If you had a series of
 like \texttt{AA-file.txt}, \texttt{AB-file.txt}, \ldots{}, \texttt{AZ-file.txt}. You could get get all those by
 using \texttt{A?-file.txt}. This would not expand to, for example, \texttt{AAZ-file.txt}, if that were in the directory.
 
-You can be more specific in globbing by putting things within \texttt{{[}\textquotesingle{}\ and}{]}\texttt{.\ \ For\ example:}A{[}A-D{]}\emph{\texttt{would\ pick\ out\ any\ files\ starting\ with,}AA\texttt{,}AB\texttt{,}AC\texttt{,\ or}AD\texttt{.\ \ Or\ you\ could\ have\ said}A{[}a-d{]}}\texttt{which\ would\ get\ any\ files\ starting\ with}Aa\texttt{,}Ab\texttt{,}Ac\texttt{,\ or}Ad\texttt{.\ And\ you\ can\ also\ do\ it\ with\ numbers:}{[}0-9{]}`.
+You can be more specific in globbing by putting things within \texttt{{[}} and \texttt{{]}}. For example:
+\texttt{A{[}A-D{]}*} would pick out any files starting with, \texttt{AA}, \texttt{AB}, \texttt{AC}, or \texttt{AD}. Or you could
+have said \texttt{A{[}a-d{]}*} which would get any files starting with \texttt{Aa}, \texttt{Ab}, \texttt{Ac}, or \texttt{Ad}. And you
+can also do it with numbers: \texttt{{[}0-9{]}}. You can also negate the contents of the \texttt{{[}{]}}, with \texttt{\^{}}. Thus,
+\texttt{100\_{[}\^{}ABC{]}*} picks out all files that start with \texttt{100\_} followed by anything that is \emph{not} and \texttt{A}, \texttt{B}, or a \texttt{C}.
 
 Finally, you can be really specific about replacements in file names by iterating over
 different possibilities with a comma-separated list within curly braces. For example, \texttt{img.\{png,jpg,svg\}}
@@ -1108,7 +962,7 @@ will iterate over the values in curly braces and expand to \texttt{img.png\ img.
 with curly braces, this forms all those file names whether they exist or not. So, unlike \texttt{*} it isn't
 really matching available file names.
 
-The last thing to note about all of these globbing constructs is that they are not intimtately
+The last thing to note about all of these globbing constructs is that they are not intimately
 associated with the \texttt{ls} command. Rather, they simply provide expansions on the command
 line, and the the \texttt{ls} command is listing all those files. For example, try \texttt{echo\ *.txt}.
 
@@ -1130,7 +984,21 @@ names will typically break a good many scripts. Rather than a space, use an unde
 dash, \texttt{-}. You've gotta admit that, not only does \texttt{My-Documents} work better, but it actually
 looks better too!
 
-So, to make your life easier, the bottom line is that you should name your files
+However, should you have to deal with files having spaces in their name, you can
+address them by either backslash escaping the spaces, or putting the whole
+file name in quotation marks (single or double quotation marks will work).
+If you have a file called \texttt{dumb\ file\ name.jpg}, you can address it on the
+command line as either of the following three:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{dumb\textbackslash{} file\textbackslash{} name.jpg}
+\StringTok{"dumb file name.jpg"}
+\StringTok{'dumb file name.jpg'}
+\end{Highlighting}
+\end{Shaded}
+
+To make your life easier, however, the bottom line is that you should name your files
 on a Unix system using only upper- and lowercase letters (Unix file systems are
 case-sensitive), numerals, and the following three punctuation characters: \texttt{.}, \texttt{-}, and \texttt{\_}.
 Though you can use other punctuation characters, they often require special treatment, and it
@@ -1176,7 +1044,7 @@ well, and knowing how to add directories that the shell searches for executable
 commands will alleviate a lot of frustration that often arises with Unix.
 
 In brief, all Unix shells (and the bash shell specifically) maintain what is called
-an \emph{environent variable} called \texttt{PATH} that is a colon-separated list of pathnames
+an \emph{environment variable} called \texttt{PATH} that is a colon-separated list of pathnames
 where the shell searches for commands. You can print the \texttt{PATH} variable using
 the \texttt{echo} command:
 
@@ -1215,102 +1083,506 @@ programs that use the command line on a Mac system, the ``default'' \texttt{PATH
 \subsection{\texorpdfstring{The \emph{options}}{The options}}\label{the-options}}
 
 Sometimes these are called flags, and they provide a convenient way of
-telling a Unix command how to operate. We have already seen a few of thems,
+telling a Unix command how to operate. We have already seen a few of them,
 like the \texttt{-a}, \texttt{-l} or \texttt{-d} options to \texttt{ls}.
 
-Most, but not all, Unix tools follow the convention that options specified by a sinble
+Most, but not all, Unix tools follow the convention that options specified by a single
 letter follow a single dash, while those specified by multiple letters follow two dashes.
 Thus, the \texttt{tar} command takes the single character options \texttt{-x}, \texttt{-v}, and \texttt{-f}, but also takes
 an option named like \texttt{-\/-check-links}. Some utilities also have two different names---a single-letter
 name and a long name---for many options.
-For example, the \texttt{bcftools\ view} program uses either \texttt{-a} or \texttt{-\/-trim-alt-alleles} to invoke the options
+For example, the \texttt{bcftools\ view} program uses either \texttt{-a} or \texttt{-\/-trim-alt-alleles} to invoke the option
 that trims alternate alleles not seen in a given subset of individuals. Other tools, like BEAGLE, are perfectly
 have options that are named with multiple letters following just a single dash.
 
 Sometimes options take parameter values, like \texttt{bcftools\ view\ -g\ het}. In that case, \texttt{het} is
-a parameter value. Sometimes that parameter values are
+a parameter value. Sometimes the parameter values are added to the option with an equals-sign.
 
 With some unix utilities' single-letter options can be bunged together
 following a single dash, like, \texttt{tar\ -xvf} being synonymous with \texttt{tar\ -x\ -v\ -f}. This
 is not universal, and it is not recommended to expect it.
 
-\texttt{-} vs \texttt{-\/-} (more of a convention). And bunging the \texttt{-} options together.
-
-Some options might take parameters, e.g. \texttt{-t\ 1.0}
+Holy Cow! This is not terribly standardized, and probably won't make sense till
+you really get in there and starting playing around in Unix\ldots{}
 
 \hypertarget{arguments}{%
 \subsection{Arguments}\label{arguments}}
 
-These are often filenames, or other things that are not preceded by an option flag.
+These are often file names, or other things that are not preceded by an option flag.
+For example, in the \texttt{ls} command:
 
-Things
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ls}\NormalTok{ -lrt dir3}
+\end{Highlighting}
+\end{Shaded}
 
-Discuss symbolic links --- a special kind of file. Maybe do this when discussing file types.
-
-Then introduce \texttt{open} and a PC bash equivalent if available.
+\texttt{-lrt} is giving \texttt{ls} the options \texttt{-l}, \texttt{-r}, and \texttt{-t} and \texttt{dir3} is the \emph{argument}---the
+name of the directory whose contents you should list.
 
 \hypertarget{getting-information-about-unix-commands}{%
 \subsection{Getting information about Unix commands}\label{getting-information-about-unix-commands}}
 
-Talk about --help and man pages.
+Zheesh! The above looks like a horrible mish-mash. How do we find out
+how to use/invoke different commands and programs in Unix? Well, most
+programs are documented, and you have to learn how to read the documentation.
 
-\hypertarget{exercises}{%
-\subsection{Exercises}\label{exercises}}
+If a utility is properly installed, you should be able to find its manual page with
+the \texttt{man} command. For example, \texttt{man\ ls} or \texttt{man\ tar}. These ``man-pages'', as the
+results are called, have a fairly uniform format. They start with a summary of what the
+utility does, then then show how it is invoked and what the possible options are by
+showing a skeleton in the form:\\
+``\texttt{command} \emph{options} \emph{arguments}''\\
+and usually square brackets are put around things that are not required. This format
+can get quite ugly and hard to parse for an old human brain, like mine, but stick with it.
 
-\BeginKnitrBlock{exercise}[Some exercise]
-\protect\hypertarget{exr:some}{}{\label{exr:some} \iffalse (Some exercise) \fi{} }We can't make a fenced block. But we coul say, Consider the following\\
-\texttt{ls\ all*.txt\ ball*.txt\ ala*.txt}~\\
-And then see how that comes out.
-\EndKnitrBlock{exercise}
-
-\BeginKnitrBlock{exercise}[Some other exercise]
-\protect\hypertarget{exr:some-other}{}{\label{exr:some-other} \iffalse (Some other exercise) \fi{} }Here is another.
-\EndKnitrBlock{exercise}
+If you don't have a man-page for a program, you might try invoking the program with
+the \texttt{-\/-help} option, or maybe with no option at all.
 
 \hypertarget{handling-manipulating-and-viewing-files-and-streams}{%
 \section{Handling, Manipulating, and Viewing files and streams}\label{handling-manipulating-and-viewing-files-and-streams}}
 
+In Unix, there are two main types of files: \emph{regular files} which are things like text files,
+figures, etc.---Anything that holds data of some sort. And then there are ``special'' files, which
+include \emph{directories} which you've already seen, and \emph{symbolic links} which we will talk about later.
+
+\hypertarget{creating-new-directories}{%
+\subsection{Creating new directories}\label{creating-new-directories}}
+
+You can make a new directory with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mkdir}\NormalTok{ path}
+\end{Highlighting}
+\end{Shaded}
+
+where \texttt{path} is a path specification (either absolute or relative). Note that if you
+want to make a directory within a subdirectory that does currently not exist, for example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mkdir}\NormalTok{ new-dir/under-new-dir}
+\end{Highlighting}
+\end{Shaded}
+
+when \texttt{new-dir} does not already exist, then you have to either create \texttt{new-dir} first, like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mkdir}\NormalTok{ new-dir}
+\ExtensionTok{mdkir}\NormalTok{ new-dir/under-new-dir}
+\end{Highlighting}
+\end{Shaded}
+
+or you have to use the \texttt{-p} option of \texttt{mkdir}, which creates all necessary parent directories
+as well, like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mkdir}\NormalTok{ -p new-dir/under-new-dir}
+\end{Highlighting}
+\end{Shaded}
+
+If there is already a file (regular or directory) with the same path specifiation as a directory you are
+trying to create, you will get an error from \texttt{mkdir}.
+
 \hypertarget{fundamental-file-handling-commands}{%
 \subsection{Fundamental file-handling commands}\label{fundamental-file-handling-commands}}
 
-\texttt{cp}, \texttt{mv}, `rm'
+For the day-to-day business of moving, copying, or removing files in the file system,
+the three main Unix commands are:
 
-Note the difference between cp and mv and how they behave with directories
-too. Maybe talk a little about links.
+\begin{itemize}
+\tightlist
+\item
+  \texttt{mv} for moving files and directories
+\item
+  \texttt{cp} for copying files and directories
+\item
+  \texttt{rm} for removing files and directories
+\end{itemize}
 
-\hypertarget{everytyhing-is-a-file.-io-redirection-and-pipes}{%
-\subsection{Everytyhing is a file. I/O: redirection and pipes}\label{everytyhing-is-a-file.-io-redirection-and-pipes}}
+These obviously do different things, but their syntax is somewhat similar.
 
-Three major types of files: regular files, directories, and symbolic links.
+\hypertarget{mv}{%
+\subsubsection{\texorpdfstring{\texttt{mv}}{mv}}\label{mv}}
 
-Executable files.
-
-Somewhere, at some point I will have to talk about chmod and about what the
-hell 600 is, for example (u+rw). So, a whole little session on permissions,
-and I should also explain the nomenclature like 755. An exercise where
-students touch a file in /tmp and then use the numbers of u+x type commands
-to get an end result (like \texttt{-rw-\ -\/-\/-\ -\/-\/-}). For example:
-\emph{use chmod to get a result like this}: \texttt{-rwxrw-r-\/-}.
+\texttt{mv} can be invoked with just two arguments like:
 
 \begin{verbatim}
-chmod 764
+mv this there
 \end{verbatim}
 
-Note that the first position denotes whether it is a directory or not.
+which moves the file (or directory) from the path \texttt{this} to the path \texttt{there}.
 
-Everything is a file, some of them are executuble (programs) and they
-typically do things to other files.
+\begin{itemize}
+\tightlist
+\item
+  If \texttt{this} is a regular file (i.e.~not a directory), and:
 
-Unix philosophy of spitting text out so that stuff can be done to it (chaining/piping) or
-redirecting.
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{there} is a directory,\texttt{this} gets moved inside of \texttt{there}.
+  \item
+    \texttt{there} is a regular file that exists, then \texttt{there} will get overwritten, becoming a regular
+    file that holds the contents of \texttt{this}.
+  \item
+    \texttt{there} does not exist, it will be created as regular file whose contents are identical
+    to those of \texttt{this}.
+  \end{itemize}
+\item
+  If \texttt{this} is a
+  directory and:
 
-\texttt{stdin}, \texttt{stdout}, \texttt{stderr}.
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{there} does not exist in the filesystem, the directory \texttt{there} will be made
+    and its contents will be the (former) contents of \texttt{this}
+  \item
+    if \texttt{there} already exists, and is a directory, then the directory \texttt{this} will
+    be moved inside of the directory \texttt{there} (i.e.~it will become \texttt{there/this}).
+  \item
+    if \texttt{there} already exists, but is not a directory, then nothing will change
+    in the filesystem, but an an error will
+    be reported.
+    In all cases, whatever used to exist at path \texttt{this} will no longer be found there.
+  \end{itemize}
+\end{itemize}
+
+And \texttt{mv} can be invoked with multiple arguments, in which case the last one must be a directory
+\emph{that already exists} that receives all the earlier arguments inside it. So, if you already have
+a directory named \texttt{dest\_dir} then you can move a lot of things into it like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mv}\NormalTok{ file1 file2 dir1 dir2 dest_dir}
+\end{Highlighting}
+\end{Shaded}
+
+You can also write that as as
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mv}\NormalTok{ file1 file2 dir1 dir2 dest_dir/}
+\end{Highlighting}
+\end{Shaded}
+
+which makes its meaning a little more clear, but there is no requirement that the
+final argument have a trailing \texttt{/}.
+
+Note, if any files in \texttt{dest\_dir} have the same name as the files you are moving into
+\texttt{dest\_dir} they \emph{will} get overwritten.
+
+So, you have gotta be careful not to overwrite stuff that you don't want to overwrite.
+
+\hypertarget{cp}{%
+\subsubsection{\texorpdfstring{\texttt{cp}}{cp}}\label{cp}}
+
+This works much the same way as \texttt{mv} with two different flavors:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cp}\NormalTok{ this there}
+\end{Highlighting}
+\end{Shaded}
+
+and
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cp}\NormalTok{ file1 file2 dest_dir}
+\CommentTok{# or}
+\FunctionTok{cp}\NormalTok{ file1 file2 dest_dir/}
+\end{Highlighting}
+\end{Shaded}
+
+The result is very much like that of \texttt{mv}, but instead of moving the file
+from one place to another (an operation that can actually be done without moving the
+data within the file to a different place on the hard drive), the \texttt{cp} command actually
+makes a full copy of files. Note that, if the files are large, this can take a long time.
+
+\hypertarget{rm}{%
+\subsubsection{\texorpdfstring{\texttt{rm}}{rm}}\label{rm}}
+
+Finally we get to the very spooky \texttt{rm} command, which is short for ``remove.'' If you
+say ``rm myfile.txt'' the OS will remove that file from your hard drive's directory. The data
+that were in the file might live on for some time on your hard drive---in other words, by default,
+\texttt{rm} does not wipe the file off your hard drive, but simply ``forgets'' where to look for that file. And
+the space that file took up on your hard drive is no longer reserved, and could easily be
+overwritten the next time you write something to disk. (Nonetheless, if you do \texttt{rm} a file, you should never expect to be able to get it back). So, be very careful about using \texttt{rm}. It takes an \texttt{-r} option for recursively removing directories \emph{and} all of
+their contents.
+
+When used in conjunction with globbing, \texttt{rm} can be very useful. For example, if you wanted
+to remove all the files in a directory with a \texttt{.jpg} extension, you would do \texttt{rm\ *.jpg} from
+within that directory. However, it's a disaster to accidentally remove a number of files you
+might not have wanted to. So, especially as you are getting familiar with Unix, it is
+worth it to experiment with your globbing using \texttt{ls} first, to see what the results are,
+and only when you are convinced that you won't remove any files you really want should you
+end up using \texttt{rm} to remove those files.
+
+\hypertarget{viewing-files}{%
+\subsection{``Viewing'' Files}\label{viewing-files}}
+
+In a typical GUI-based environment, when you interact with files on your computer,
+you typically open the files with some application. For example, you open Word files
+with Microsoft Word. When working on the Unix shell, that same paradigm does not
+really exist. Rather, (apart from a few cases like the text editors, \texttt{nano}, \texttt{vim} and
+\texttt{emacs}, instead of opening a file and letting the user interact with it the shell is
+much happier just streaming the contents of the file to the terminal.
+
+The most basic of such commands is the \texttt{cat} command, which \emph{catenates} the contents
+of a file into a very special \emph{data stream} called \emph{stdout}, which is short
+for ``standard output.'' If you don't provide any other instruction, data that gets
+streamed to \emph{stdout} just shoots by on your terminal screen. If the file is very large, it might
+do this for a long time. If the file is a \emph{text file} then the data in it can be
+written out in letters that are recognizable. If it is a \emph{binary file} then there is
+no good way to represent the contents as text letters, and your screen will be filled with
+all sorts of crazy looking characters.
+
+It is generally best not to \texttt{cat} very large files, especially binary ones. If you do and
+you need to stop the command from continuing to spew stuff across your screen, you can type
+\texttt{cntrl-c} which is the universal Unix command for ``kill the current process happening on the
+shell.'' Usually that will stop it.
+
+\BeginKnitrBlock{rmdtip}
+\textbf{A note regarding terminals:} On a Mac, the Terminal app is quite fast at spewing text
+across the screen. Megabytes of text or binary gibberish can flash by in seconds flat. This
+is not the case with the terminal window within RStudio, which can by abysmally slow, and usually
+doesn't store many lines of output.
+\EndKnitrBlock{rmdtip}
+
+Sometimes you want to just look at the top of a file. The \texttt{head} command
+shows you the first 10 lines of a file. That is valuable. The \texttt{less} command
+shows a file one screenful at a time. You can hit the space bar to see the next screenful,
+and you can hit \texttt{q} to quit viewing the file.
+
+Try navigating to a file and using \texttt{cat}, \texttt{head}, and \texttt{less} on it.
+
+One particularly cool thing about \texttt{cat} is that if you say
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{ file1 file2}
+\end{Highlighting}
+\end{Shaded}
+
+it will catenate the contents of both files, in order, to \emph{stdout}.
+
+Now, one Big Important Unix fact is that many programs written to run in the
+Unix shell behave in the same way regarding their output: they write their
+output to \emph{stdout}. We have already seen this with \texttt{ls}: its output just
+gets written to the screen, which is where \emph{stdout} goes by default.
+
+\hypertarget{redirecting-standard-output-and}{%
+\subsection{\texorpdfstring{Redirecting standard output: \texttt{\textgreater{}} and \texttt{\textgreater{}\textgreater{}}}{Redirecting standard output: \textgreater{} and \textgreater{}\textgreater{}}}\label{redirecting-standard-output-and}}
+
+Unix starts to get really fun when you realize that you can ``redirect'' the
+contents of \emph{stdout} from any command (or group of commands\ldots{}see the next chapter!)
+to a file. To do that, you merely follow the command (and all its options and arguments)
+with \texttt{\textgreater{}\ path} where \texttt{path} is the path specifying the file into which you
+wish to redirect \emph{stdout}.
+
+Witness, try this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# echo three lines of text to a file in the /tmp directory}
+\BuiltInTok{echo} \StringTok{"bing}
+\StringTok{bong}
+\StringTok{boing"} \OperatorTok{>}\NormalTok{ /tmp/file1}
+
+\CommentTok{# echo three more lines of text to another file}
+\BuiltInTok{echo} \StringTok{"foo}
+\StringTok{bar}
+\StringTok{baz"} \OperatorTok{>}\NormalTok{ /tmp/file2}
+
+\CommentTok{# now view the contents of the first file}
+\FunctionTok{cat}\NormalTok{ /tmp/file1}
+
+\CommentTok{# and the second file:}
+\FunctionTok{cat}\NormalTok{ /tmp/file2}
+\end{Highlighting}
+\end{Shaded}
+
+It is important to realize that when you redirect output into a file
+with \texttt{\textgreater{}}, any contents that previously existed in that file will
+be deleted (wiped out!). So be careful about redirecting. Don't
+accidentally redirect output into a file that has valuable data in it.
+
+The \texttt{\textgreater{}\textgreater{}} redirection operator does not delete the destination file before
+it redirects output into it. Rather, \texttt{\textgreater{}\textgreater{}\ file} means ``append \emph{stdout} to the contents that already exist in \texttt{file}.'' This can be very useful
+sometimes.
+
+\hypertarget{stdin-and}{%
+\subsection{\texorpdfstring{stdin, \texttt{\textless{}} and \texttt{\textbar{}}}{stdin, \textless{} and \textbar{}}}\label{stdin-and}}
+
+Not only do most Unix-based programs deliver output to standard output, but
+most utilities can also receive input from a file stream called \emph{stdin} which
+is short for ``standard input.''
+
+If you have data in a file that you want to send into standard input
+for a utility, you can use the \texttt{\textless{}} like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{command} \OperatorTok{<}\NormalTok{ file}
+\end{Highlighting}
+\end{Shaded}
+
+But, since most Unix utilities also let you specify the file as an argument,
+this is not used very much.
+
+However, what is used all the time in Unix, and it is one of the things
+that makes it super fun, is the pipe, \texttt{\textbar{}}, which says, "take \emph{stdout} coming
+out of the command on the left and redirect it into \emph{stdin} going into
+the command on the right of the pipe.
+
+For example, if I wanted to count the number of files and directories stored in my \texttt{git-repos}
+directory, I could do
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ ls -dl Documents/git-repos/* }\KeywordTok{|} \FunctionTok{wc} 
+     \ExtensionTok{174}\NormalTok{    1566   14657}
+\end{Highlighting}
+\end{Shaded}
+
+which pipes the output of \texttt{ls\ -dl} (one line per file) into the \emph{stdin} for the \texttt{wc} command, which
+counts the number of lines, words, and letters sent to its standard input. So, the output tells
+me that there are 174 files and directories in my directory \texttt{Documents/git-repos}.
+
+Note that pipes and redirects can be combined in sequence over multiple
+operations or commands. This is what gives rise to the terminology of
+making ``Unix pipelines:'' the data are like streams of water coming into
+or out of different commands, and the pipes hook up all those streams into
+a pipeline.
+
+\hypertarget{stderr}{%
+\subsection{stderr}\label{stderr}}
+
+While output from Unix commands is often written to \emph{stdout}, if anything goes wrong with
+a program, then messages about that get written to a different stream called \emph{stderr}, which, you
+guessed it! is short for ``standard error''. By default, both \emph{stdout} and \emph{stderr} get written
+to the terminal, which is why it can be hard for beginners to think of them as separate streams.\\
+But, indeed, they are. Redirecting \emph{stdout} with \texttt{\textgreater{}}, that does \textbf{not} redirect \emph{stderr}.
+
+For example. See what happens when we ask \texttt{ls} to list a file that does not exist:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ ls file-not-here.txt }
+\ExtensionTok{ls}\NormalTok{: file-not-here.txt: No such file or directory}
+\end{Highlighting}
+\end{Shaded}
+
+The error message comes back to the screen. If you redirect the output
+it still comes back to the screen!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ ls file-not-here.txt }\OperatorTok{>}\NormalTok{ out.txt }
+\ExtensionTok{ls}\NormalTok{: file-not-here.txt: No such file or directory}
+\end{Highlighting}
+\end{Shaded}
+
+If you want to redirect \emph{stderr}, then you need to specify which stream
+it is. On all Unix systems, \emph{stderr} is stream \#2, so the \texttt{2\textgreater{}} syntax can be
+used:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ ls file-not-here.txt }\OperatorTok{2>}\NormalTok{ out.txt }
+\end{Highlighting}
+\end{Shaded}
+
+Then there is no output of \emph{stderr} to the terminal, and when you \texttt{cat} the output
+file, you see that it went there!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ cat out.txt }
+\ExtensionTok{ls}\NormalTok{: file-not-here.txt: No such file or directory}
+\end{Highlighting}
+\end{Shaded}
+
+Doing bioinformatics, you will find that there will be failures of various programs.
+It is essential when you write bioinformatic pipelines to redirect \emph{stderr} to a
+file so that you can go back, after the fact, to sleuth out why the failure occurred.
+Additionally, some bioinformatic programs write things like progress messages to
+\emph{stderr} so it is important to know how to redirect those as well.
+
+\hypertarget{symbolic-links}{%
+\subsection{Symbolic links}\label{symbolic-links}}
+
+Besides regular files and directories, a third type of file in Unix is called a
+\emph{symbolic link}. It is a special type of file whose contents are just an
+absolute or a relative path to another file. You can think of symbolic links
+as ``shortcuts'' to different locations in your file system. There are many
+useful applications of symbolic links.
+
+Symbolic links are made using the \texttt{ln} command with the \texttt{-s} option. For example,
+if I did this in my home directory:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ ln -s /Users/eriq/Documents/git-repos/srsStuff srs}
+\end{Highlighting}
+\end{Shaded}
+
+then \texttt{srs} becomes a file whose full listing (from \texttt{ls\ -l\ srs}) looks like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{lrwxrwxr-x}\NormalTok{  1 eriq  staff    40B Jan  9 19:24 srs@ -}\OperatorTok{>}\NormalTok{ /Users/eriq/Documents/git-repos/srsStuff}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{file-permissions}{%
+\subsection{File Permissions}\label{file-permissions}}
+
+Unix systems often host many different users. Some users might belong to the
+same research group, and might like to be able to read the files (and/or use
+the programs) that their colleagues have in their accounts.
+
+The Unix file system uses a system of permissions that gives rights to various
+classes of users to read, write, or execute files. The permissions associated with
+a file can be viewed using \texttt{ls\ -l}. They are captured in the first column which might
+look something like \texttt{-rwxr-xr-x}. When you first start looking at these, they can
+be distressingly difficult to visually parse. But you will get better at it! Let's
+start breaking it down now.
+
+The file description string, in a standard Unix setting, consists of 10 characters.
+
+\begin{itemize}
+\tightlist
+\item
+  The first tells what kind of file it is: \texttt{-} = regular file, \texttt{d} = directory, \texttt{l} = symbolic link.
+\item
+  The next group of three characters denote whether the owner/user of the file has
+  permission to either read, write, or execute the file.\\
+\item
+  The following two groups of three characters are the same thing for users within the
+  users group, and for all other users, respectively.
+\end{itemize}
+
+Here is a figure from \href{https://unix.stackexchange.com/questions/183994/understanding-unix-permissions-and-file-types}{the web} that we can talk about:
+
+\includegraphics[width=25.08in]{figs/permissions}
+
+Permissions can be changed with the \texttt{chmod} command. We will talk in class about
+how to use it with the octal representation of permissions.
 
 \hypertarget{editing-text-files-at-the-terminal}{%
 \subsection{Editing text files at the terminal}\label{editing-text-files-at-the-terminal}}
 
-Gonna introduce new users to nano, cuz it is easy. Say that emacs and vim are
-other more fully-featured options. For mac users, get TextWrangler and use the edit command.
+Sometimes you might need to edit text files at the command line.
+
+The easiest text editor to use on the command line is \texttt{nano}.
+Try typing \texttt{nano\ a-file.txt} and type a few things. It is
+pretty self explanatory.
 
 \hypertarget{unix-env}{%
 \section{Customizing your Environment}\label{unix-env}}
@@ -1320,23 +1592,23 @@ working directory is (remember \texttt{PS1=\textquotesingle{}{[}\textbackslash{}
 command on the command line is that if you logout and then log back in again, or open
 a new Terminal window, you will have to reissue that command in order to achieve
 the desired look of your command prompt. Quite often a Unix user would like to make
-a number of customizations to the look, feel, and behavior of their Unix shell.
-The bash shell allows these customizations to be specified in two different files that
-are read by the system so as to invoke the customizations. The two files are hidden files
+a number of customization to the look, feel, and behavior of their Unix shell.
+The bash shell allows these customization to be specified in two different files that
+are read by the system so as to invoke the customization. The two files are hidden files
 in the home directory: \texttt{\textasciitilde{}/.bashrc} and \texttt{\textasciitilde{}/.bash\_profile}. They are used by the Unix system
 in two slightly different contexts, but for most purposes, you, the user, will not need or
 even want to distinguish between the different contexts. Managing two separate files
-of customizations is unnecessary and duplicative of your efforts, and can lead to inconsistent
+of customization is unnecessary and requires duplication of your efforts, and can lead to inconsistent
 and confusing results, so here is what we will do:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Keep all of our customizations in \texttt{\textasciitilde{}/.bashrc}.
+  Keep all of our customization in \texttt{\textasciitilde{}/.bashrc}.
 \item
   Insert commands in \texttt{\textasciitilde{}/.bash\_profile} that say, "Hey computer! If you are looking
-  for customizations in here, don't bother, just get them straight out of \texttt{\textasciitilde{}/.bashrc}.
+  for customization in here, don't bother, just get them straight out of \texttt{\textasciitilde{}/.bashrc}.
 \end{enumerate}
 
 We take care of \#2, by creating the file \texttt{\textasciitilde{}/.bash\_profile} to have the following
@@ -1352,12 +1624,12 @@ lines in it:
 \end{Shaded}
 
 Taking care of \#1 is now just a matter of writing commands into \texttt{\textasciitilde{}/.bashrc}. In the following
-are some recommended customizations.
+are some recommended customization.
 
 \hypertarget{appearances-matter}{%
 \subsection{Appearances matter}\label{appearances-matter}}
 
-Some customizations just change the way your shell looks or what type of output
+Some customization just change the way your shell looks or what type of output
 is given from different commands. Here are some lines to add to your \texttt{\textasciitilde{}/.bashrc}
 along with some discussion of each.
 
@@ -1370,9 +1642,6 @@ along with some discussion of each.
 This gives a tidier and more informative command prompt. The \texttt{export} command before
 it tells the system to pass the value of this \emph{environment variable}, \texttt{PS1}, along
 to any other shells that get spawned by the current one.
-
-\textbf{HEY! NOTE THAT YOU WANT TO DO THIS BEFORE CONDA CHANGES YOUR PROMPT! Otherwise you
-lose your conda environment specifier. }
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1395,31 +1664,153 @@ We saw in Section \ref{anatomy-command} that bash searches the directories liste
 \texttt{PATH} variable to find commands and executables. You can modify the PATH variable to include
 directories where you have installed different programs. In doing so, you want to make sure
 that you don't lose any of the other directories in \texttt{PATH}, so there is a certain way to
-go about redefining \texttt{PATH}.
+go about redefining \texttt{PATH}. If you want to add the path \texttt{/a-new/program/directory} to your
+PATH variable you do it like this:
 
-Example use case. You write a short script and put it in \texttt{\textasciitilde{}/bin}. Maybe even have an
-exercise where students put \texttt{abspath} and \texttt{fp} into '\textasciitilde{}/bin` and then make sure it is in
-their PATH.
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{PATH=$PATH}\NormalTok{:/a-new/program/directory}
+\end{Highlighting}
+\end{Shaded}
 
-\hypertarget{and-more}{%
-\subsection{And more\ldots{}}\label{and-more}}
+\hypertarget{a-few-more-important-keystrokes}{%
+\section{A Few More Important Keystrokes}\label{a-few-more-important-keystrokes}}
 
-Just going to say that much more can be done, and we will see entries throughout the
-book about other customizations that are helpful in \texttt{\textasciitilde{}/.bashrc}.
+If a command ``gets stuck'' or is running longer than it should be, you can usually
+kill/quit it by doing \texttt{cntrl-c}.
 
-\hypertarget{a-short-list-of-useful-commands.}{%
-\section{A short list of useful commands.}\label{a-short-list-of-useful-commands.}}
+Once you have given a command, it gets stored in your bash history. You can use the
+up-arrow key to cycle backward through different commands in your history. This is particularly
+useful if you are building up complex pipelines on the command line piece by piece, looking at
+the output of each to make sure it is correct. Rather than re-typing what you did for the last
+command line, you just up-arrow it.
 
-cat, head (good for binary files too with -c), less, sort, paste, cut, tar, gzip, du, wc, date
+Once you have done an up-arrow or two, you can cycle back down through your history with
+a down-arrow.
 
-\hypertarget{several-computing-fundamentals}{%
-\section{Several computing fundamentals}\label{several-computing-fundamentals}}
+Finally, you can search through your bash history by typing \texttt{cntrl-r} and then typing
+the word/command you are looking for. For example, if, 100 command lines back, you
+used a command that involved the program \texttt{awk}, you can search for that by typing
+\texttt{cntrl-r} and then typing \texttt{awk}.
 
-I want to give some explanations of a few things here.\\
-\#\#\# Compression
+One last big thing to note: the \texttt{\#} is considered a \emph{comment character} in bash.
+This means that any text following a \texttt{\#} (unless it is backslash-escaped or inside quotation marks),
+until the next line ending,
+will be ignored by the shell.
+
+\hypertarget{a-short-list-of-additional-useful-commands.}{%
+\section{A short list of additional useful commands.}\label{a-short-list-of-additional-useful-commands.}}
+
+Everyone should be familiar with the following commands, and the
+options that follow them on each line below. One might even think of
+scanning the manual page for each of these:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{echo}
+\item
+  \texttt{cat}
+\item
+  \texttt{head}, \texttt{-n,\ -c}
+\item
+  \texttt{tail}, \texttt{-n}
+\item
+  \texttt{less}
+\item
+  \texttt{sort}, \texttt{-n\ -b\ -k}
+\item
+  \texttt{paste}
+\item
+  \texttt{cut}, \texttt{-d}
+\item
+  \texttt{tar}, \texttt{-cvf,\ -xvf}
+\item
+  \texttt{gzip}, \texttt{-c}
+\item
+  \texttt{du}, \texttt{-h\ -C},
+\item
+  \texttt{wc}
+\item
+  \texttt{date}
+\item
+  \texttt{uniq}
+\item
+  \texttt{chmod}, \texttt{u+x}, \texttt{ug+x}
+\item
+  \texttt{grep}
+\end{itemize}
+
+\hypertarget{two-important-computing-concepts}{%
+\section{Two important computing concepts}\label{two-important-computing-concepts}}
+
+\hypertarget{compression}{%
+\subsection{Compression}\label{compression}}
+
+Most file storage types (like text files) are a bit wasteful in terms of
+file space: every character in a text file takes the same number of bytes to
+store, whether it is a character that is used a lot, like \texttt{s} or \texttt{e}, or whether
+it is a character that is seldom seen in many text files, like \texttt{\^{}}. \emph{Compression}
+is the art of creating a code for different types of data that uses fewer bits to
+encode ``letters'' (or ``chunks'' of data) that occur frequently and it reserves codewords of
+more bits to encode less frequently occurring chunks in the data. The result is that the
+total file size is smaller than the uncompressed version. However, in order to read it,
+the file must be decompressed.
+
+In bioinformatics, many of the files you deal with will be compressed, because that
+can save many terabytes of disk space. Most often, files will be compressed using the
+\texttt{gzip} utility, and they can be uncompressed with the \texttt{gunzip} command. Sometimes
+you might want to just look at the fist part of a compressed file. If the file is compressed
+with \texttt{gzip}, you can decompress to \emph{stdout} by using \texttt{gzcat} and then pipe it to \texttt{head}, for example.
+
+A central form of compression in bioinformatics is called \texttt{bgzip} compression
+which compresses files into a series of blocks of the same size, situated in such a way that
+it is possible to \emph{index} the contents of the file so that certain parts of the file can be
+accessed without decompressing the whole thing. We will encounter indexed compressed files a
+lot when we start dealing with BAM and vcf.gz files.
 
 \hypertarget{hashing}{%
 \subsection{Hashing}\label{hashing}}
+
+The final topic we will cover here is the topic of hashing, an in particular
+the idea of ``fingerprinting'' files on ones computer. This process is central
+to how the git version control system works, and it is well worth knowing about.
+
+Any file on your computer can be thought of as a series of bits, 0's and 1's, as,
+fundamentally, that is what the file is. A \emph{hashing algorithm} is an algorithm
+that maps a series of bits (or arbitrary length) to a short sequence of bits. The
+SHA1 hashing algorithm maps arbitrary sequences of bits to a sequence of 160 bits.
+
+There are \(2^{160} \approx 1.46 \times 10^{48}\) possible bit sequences of length 160.
+That is a vast number. If your hashing algorithm is well randomized, so that bit sequences
+are hashed into 160 bits in a roughly uniform distribution, then it is exceedingly unlikely
+that any two bit sequences (i.e.~files on your filesystem) will have the same hash (``fingerprint'')
+unless they are perfectly identical. As hashing algorithms are often quite fast to compute,
+this provides an exceptionally good way to verify that two files are identical.
+
+The SHA1 algorithm is implemented with the \texttt{shasum} command. In the following,
+as a demonstration, I store the recursive listing of my \texttt{git-repos} directory into
+a file and I hash it. Then I add just a single line ending to the end
+of the file, and hash that, to note that the two hashes are not at all similar
+even though the two files differ by only one character:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ ls -R Documents/git-repos/* }\OperatorTok{>}\NormalTok{ /tmp/gr-list.txt }
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%} \CommentTok{# how many lines is that?}
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ wc /tmp/gr-list.txt }
+   \ExtensionTok{93096}\NormalTok{   88177 2310967 /tmp/gr-list.txt}
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ shasum /tmp/gr-list.txt }
+\ExtensionTok{1396f2fec4eebdee079830e1eff9e3a64ba5588c}\NormalTok{  /tmp/gr-list.txt}
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%} \CommentTok{# now add a line ending to the end}
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ (cat /tmp/gr-list.txt}\KeywordTok{;} \BuiltInTok{echo}\NormalTok{) }\OperatorTok{>} \ExtensionTok{/tmp/gr-list2.txt} 
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%} \CommentTok{# hash both and compare}
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ shasum /tmp/gr-list.txt /tmp/gr-list2.txt }
+\ExtensionTok{1396f2fec4eebdee079830e1eff9e3a64ba5588c}\NormalTok{  /tmp/gr-list.txt}
+\ExtensionTok{23bff8776ff86e5ebbe39e11cc2f5e31c286ae91}\NormalTok{  /tmp/gr-list2.txt}
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%} \CommentTok{# whoa! cool.}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{unix-quick-study-guide}{%
 \section{Unix: Quick Study Guide}\label{unix-quick-study-guide}}
@@ -1428,42 +1819,149 @@ This is just a table with quick topics/commands/words in it. You should
 understand each and be able to tell a friend a lot about each one. Cite it
 as \ref{tab:unix-chap-review}
 
-\begin{verbatim}
-## Warning: `as_tibble.matrix()` requires a matrix with column names or a `.name_repair` argument. Using compatibility `.name_repair`.
-## This warning is displayed once per session.
-\end{verbatim}
-
 \begin{longtable}[]{@{}lll@{}}
 \caption{\label{tab:unix-chap-review} Terms/ideas/etc. to know forward and backward}\tabularnewline
 \toprule
 \endhead
-\begin{minipage}[t]{0.35\columnwidth}\raggedright
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+bash\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
 absolute path\strut
 \end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
 relative path\strut
-\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
-\texttt{/} at beginning of path\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.35\columnwidth}\raggedright
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\texttt{/} at beginning of path\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
 \texttt{/} between directories\strut
 \end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
 home directory\strut
-\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
-\texttt{\textasciitilde{}}\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.35\columnwidth}\raggedright
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\texttt{\textasciitilde{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
 current working directory\strut
 \end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
-\textbf{pwd}\strut
-\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
-\texttt{cd}\strut
+\texttt{pwd}\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.35\columnwidth}\raggedright
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\texttt{cd}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
 \texttt{.}\strut
 \end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
 \texttt{..}\strut
-\end{minipage} & \begin{minipage}[t]{0.34\columnwidth}\raggedright
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
 \texttt{cd\ -}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+basename\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+PS1\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+TAB-completion\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+\texttt{ls} (\texttt{-a}, \texttt{-d}, \texttt{-R})\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+globbing\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+*\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+?\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+{[}0-9{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+{[}a-z{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+{[}\^{}CDcd{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+\{png,jpg,pdf\}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\texttt{echo}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+\texttt{man} \emph{command}\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+\texttt{mkdir}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\texttt{mv}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+\texttt{cp}\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+\texttt{rm}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\texttt{cat}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+\texttt{head}\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+\texttt{less}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\emph{stdout}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+\emph{stdin}\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+\emph{stderr}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\texttt{\textgreater{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+\texttt{\textless{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+\texttt{\textbar{}}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\texttt{ln\ -s}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+symbolic link\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+PATH\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\texttt{-rw-r-\/-r-\/-}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+.bashrc\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+.bash\_profile\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\texttt{sort}, \texttt{-n\ -b\ -k}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+\texttt{paste}\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+\texttt{cut}, \texttt{-d}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\texttt{tar}, \texttt{-cvf,\ -xvf}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+\texttt{gzip}\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+\texttt{du}, \texttt{-h\ -C},\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+\texttt{wc}\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+\texttt{date}\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+\texttt{uniq}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+cntrl-c\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+cntrl-r\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+\texttt{\#}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.34\columnwidth}\raggedright
+up-arrow/down-arrow\strut
+\end{minipage} & \begin{minipage}[t]{0.35\columnwidth}\raggedright
+\texttt{chmod}, \texttt{ug+x}, \texttt{664}\strut
+\end{minipage} & \begin{minipage}[t]{0.22\columnwidth}\raggedright
+\texttt{grep}\strut
 \end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
@@ -3839,7 +4337,7 @@ Another from Amanda. It would be good to do some light Quant Genet so that
 we all understand how we might be able to use NGS data to estimate heritability
 in wild populations.
 
-\bibliography{references.bib,book.bib,packages.bib}
+\bibliography{references.bib,book.bib}
 
 \backmatter
 \printindex

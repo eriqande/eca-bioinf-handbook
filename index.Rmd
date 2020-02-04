@@ -3,7 +3,7 @@ title: "Practical Computing and Bioinformatics for Conservation and Evolutionary
 author: "Eric C. Anderson"
 date: "`r Sys.Date()`"
 documentclass: krantz
-bibliography: [references.bib, book.bib, packages.bib]
+bibliography: [references.bib, book.bib]
 biblio-style: apalike
 link-citations: yes
 colorlinks: yes

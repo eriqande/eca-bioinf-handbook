@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 20 Bioinformatics for RAD seq data with and without a reference genome | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
+  <title>Chapter 15 DNA Sequences and Sequencing | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
   <meta name="description" content="A book example for a Chapman &amp; Hall book." />
   <meta name="generator" content="bookdown 0.16 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 20 Bioinformatics for RAD seq data with and without a reference genome | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
+  <meta property="og:title" content="Chapter 15 DNA Sequences and Sequencing | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="yihui/bookdown-crc" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 20 Bioinformatics for RAD seq data with and without a reference genome | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
+  <meta name="twitter:title" content="Chapter 15 DNA Sequences and Sequencing | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   
   <meta name="twitter:description" content="A book example for a Chapman &amp; Hall book." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="variant-calling-with-gatk.html"/>
-<link rel="next" href="processing-amplicon-sequencing-data.html"/>
+<link rel="prev" href="overview-of-bioinformatic-analyses.html"/>
+<link rel="next" href="bioinformatic-file-formats-and-associated-tools.html"/>
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
@@ -314,28 +314,270 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome" class="section level1">
-<h1><span class="header-section-number">Chapter 20</span> Bioinformatics for RAD seq data with and without a reference genome</h1>
-<p>We’ve gotta get our hands dirty with RAD and STACKS.</p>
-<p>For some applications (like massive salamander genomes) this is the only
-way forward, at the moment. Can be useful, but is also
-fraught with peril.</p>
-<p>Discuss all the problems, and strategies for dealing with them.</p>
-<p>Note that stacks2 is a lot better than things were before. And, you can use
-a reference genome with them.</p>
-<p>Amanda Stahlke gave a nice practical example at ConGen. Found all the materials
-on box through the link that Brian Hand gave me (in my email.)</p>
-<p>That will be worth running through closely and carefully. Note that stacks2’s denovo_map.pl script
-now takes all the tsv output and puts it into a series of bams.</p>
+<div id="dna-sequences-and-sequencing" class="section level1">
+<h1><span class="header-section-number">Chapter 15</span> DNA Sequences and Sequencing</h1>
+<p>To understand the fundamentals of alignment of DNA sequence to a reference
+genome, and all the intricacies that such a process entails, it is important
+to know a few important facts about DNA and how the sequence of a DNA molecule
+can be determined. This section may be review for some, but it presents the minimal
+set of knowledge needed to understand how DNA sequencing works, today.</p>
+<div id="dna-stuff" class="section level2">
+<h2><span class="header-section-number">15.1</span> DNA Stuff</h2>
+<p>In bioinformatics, we are primarily going to be interested in representing DNA molecules
+in text format as a series of nucleotide bases (A, C, G, T). For the most part, we don’t want
+to stray from that very simple representation; however, it is important to understand a
+handful of things about <em>DNA directionality</em> and the action of DNA polymerase during the
+process of <em>DNA replication</em> to understand next generation sequencing and DNA alignment
+conventions.</p>
+DNA typically occurs as a double-helix of two <em>complementary</em> strands. Each strand is composed of a
+<em>backbone</em> of phophates and deoxyribose molecules, to which DNA <em>bases</em> are attached. Figure <a href="dna-sequences-and-sequencing.html#fig:dna-structure">15.1</a> shows this for a fragment of <em>double-stranded</em> DNA of four nucleotides.
+<div class="figure" style="text-align: center"><span id="fig:dna-structure"></span>
+<img src="figs/DNA_chemical_structure.svg" alt="Schematic of the structure of DNA. (Figure By Madprime (talk---contribs)  CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1848174)"  />
+<p class="caption">
+FIGURE 15.1: Schematic of the structure of DNA. (Figure By Madprime (talk—contribs) CC BY-SA 3.0, <a href="https://commons.wikimedia.org/w/index.php?curid=1848174" class="uri">https://commons.wikimedia.org/w/index.php?curid=1848174</a>)
+</p>
+</div>
+<p>The orange parts show the ribose molecules in the backbone, while the four remaining colors
+denote the nucleotide bases of adenine (A), cytosine (C), guanine (G), and thymine (T). Each base
+on one strand is associated with its <em>complement</em> on the other strand. The hydrogen bonds between
+complements is what holds the two strands of DNA together. A and T are complements, and
+C and G are complements. (I remember this by noting that C and G and curvy and A and T are sharp and
+angular, so the pairs go together…).</p>
+<p>Immediately this raises two challenges that must be resolved for making a simple,
+text-based representation of DNA:</p>
+<ol style="list-style-type: decimal">
+<li>When describing a sequence of DNA bases, which direction will we read it in?</li>
+<li>Which strand will we read off of?</li>
+</ol>
+<p>We leave the second question until later. But note that the order in which DNA sequence
+is read is, by convention, from the 5’ to the 3’ end of the molecule. The terms 3’ and 5’
+refer to different carbon atoms on the ribose backbone molecules. In the figure above,
+each little “kink” in the ribose molecule ring (and in the attached lines) is a carbon molecule.
+If you count clockwise from the oxygen in ribose, you see that the third carbon (the 3’ carbon) is the
+carbon atom that leads to a phosphate group, and through the phosphate, to an attachment with the
+5’ carbon atom of the next ribose. The 3’ and 5’ carbon atoms are labelled in red
+on the top-left ribose molecule in Figure <a href="dna-sequences-and-sequencing.html#fig:dna-structure">15.1</a>.</p>
+<p>Notice that when we speak of reading a DNA sequence, we are implicitly talking about
+reading the sequence of one of the two strands of the double-stranded DNA molecule.
+I’ll say it again: a DNA sequence is always the sequence of one <em>strand</em> of the molecule.
+But, if that DNA were “out living in the wild” it would have been in double-stranded
+form, and would have been paired with its complement sequence. For now, just note
+that any DNA sequence always has a complement which is read in the reverse direction.
+Thus, if we have a sequence like:</p>
+<pre><code>5&#39;--ACTCGACCT--3&#39;</code></pre>
+<p>Then, paired with its complement it would look like:</p>
+<pre><code>5&#39;--ACTCGACCT--3&#39;
+    |||||||||
+3&#39;--TGAGCTGGA--5&#39;</code></pre>
+<p>and, if you were to write its complement in standard 5’ to 3’ order,
+you would have to reverse it like so:</p>
+<pre><code>5&#39;--AGGTCGAGT--3&#39;</code></pre>
+<div id="dna-replication-with-dna-polymerase" class="section level3">
+<h3><span class="header-section-number">15.1.1</span> DNA Replication with DNA Polymerase</h3>
+<p>So, why do we read DNA sequence from 5’ to 3’? Is it just because geneticists are wacky, backwards
+folks and thought it would be fun to read in a direction that sounds, numerically, to be
+backwards? No! It is because <span class="math inline">\(5&#39;\longrightarrow 3&#39;\)</span> is the direction in
+which a new strand of DNA is
+synthesized during DNA replication.</p>
+When <span class="citation">Watson and Crick (<a href="#ref-watsonMolecularStructureNucleic1953">1953</a>)</span> published the first account of the double helical structure of DNA,
+they noted that the double-helix (i.e., two-stranded) nature of the molecule immediately suggested
+a copying mechanism (Figure <a href="dna-sequences-and-sequencing.html#fig:crickwat">15.2</a>).
+<div class="figure" style="text-align: center"><span id="fig:crickwat"></span>
+<img src="figs/crick-and-watson.png" alt="Excerpt from Crick and Watson (1953)." width="1244" />
+<p class="caption">
+FIGURE 15.2: Excerpt from Crick and Watson (1953).
+</p>
+</div>
+<p>(I’ve also included, in the excerpt, the inadequate acknowledgment
+of the centrality of Rosalind Franklin’s pioneering
+X-ray crystallography results to Crick and Watson’s conclusions—an issue in scientific history about
+which much has been written, see, for example, this <a href="https://www.theguardian.com/science/2015/jun/23/sexism-in-science-did-watson-and-crick-really-steal-rosalind-franklins-data">article</a> in <em>The Guardian</em>.)</p>
+Figure <a href="dna-sequences-and-sequencing.html#fig:dna-copying">15.3</a> shows a schematic of what DNA looks like during the replication process.
+<div class="figure" style="text-align: center"><span id="fig:dna-copying"></span>
+<img src="figs/DNA_chemical_structure_2.svg" alt="DNA during replication. (Figure adapted from the one by Madprime (talk---contribs)  CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1848174)"  />
+<p class="caption">
+FIGURE 15.3: DNA during replication. (Figure adapted from the one by Madprime (talk—contribs) CC BY-SA 3.0, <a href="https://commons.wikimedia.org/w/index.php?curid=1848174" class="uri">https://commons.wikimedia.org/w/index.php?curid=1848174</a>)
+</p>
+</div>
+<p>Essentially, during DNA replication, a <em>DNA polymerase</em> molecule finds nucleotide bases (attached
+to three phoshpate groups) to build a new strand
+that is complementary to the DNA <em>template</em> strand, and it guides
+those <em>nucleotide triphosphates</em> to the appropriate
+place in the complementary strand and helps them be incorporated into that growing,
+complementary strand. The newly syntesized strand is a
+<em>reverse complement</em> of the template strand. However, DNA polymerase is not capable of
+“setting up shop” anywhere upon a template strand and simply stuffing complementary bases
+in wherever it wants. In fact, DNA polymerase is only able to add new
+bases to a growing strand if it can attach the new nucleotide triphosphate to a <em>free 3’ hydroxyl</em>
+that is on the end of the growing strand (the 3’ hydroxyl is just a hydroxyl
+group attached to the 3’ carbon). In Figure <a href="dna-sequences-and-sequencing.html#fig:dna-copying">15.3</a>, the template
+strand is the strand on the right of the figure, and the growing complementary strand
+is on the left side. There is a free 3’ hydroxyl group on the ribose attached to the cytosine
+base. That is what is needed for DNA polymerase to be able to place a
+thymine triphosphate (complementary to adenine on
+the template strand) in the currently vacant position. If that thymine comes with a free
+3’ hydroxyl group, then DNA polymerase will next place a guanine (complementary to the
+cytosine on the template strand) on the growing chain. And so forth. Thus, we see
+how the new strand of DNA is synthesized from the 5’ to the 3’ end <em>of the growing chain</em>.</p>
+<p>Of course, some people find it easier to think about a new strand of DNA being sythesized in
+the 3’ to 5’ direction <em>along the template strand</em>. This is equivalent. However, if you just remember
+that “free three” rhymes, and that DNA polymerase needs a free 3’ hydroxyl to add a new base
+to the growing strand, you can always deduce that DNA must “grow” in a 5’ to 3’ direction.</p>
+</div>
+<div id="the-importance-of-the-3-hydroxyl" class="section level3">
+<h3><span class="header-section-number">15.1.2</span> The importance of the 3’ hydroxyl…</h3>
+<p>It would be hard to overstate the importance to molecular biology
+of DNA polymerase’s dependence upon
+a free 3’ hydroxyl group for new strand synthesis. This simple fact plays a central
+role in:</p>
+<ol style="list-style-type: decimal">
+<li>polymerase chain reaction (PCR)—the PCR primers are little oligonucleotides
+that attach to a template strand and provide a free 3’ hydroxyl group for the initiation
+of synthesis.</li>
+<li>a ddNTP is a nucleotide attached to a ribose molecule
+that lacks a hydroxyl group on its 3’ carbon. Incorporation of
+such a ddNTP into a growing DNA strand terminates further DNA extension, and forms
+the basis for Sanger sequencing (we’ll explore this below).</li>
+<li>Some medications are designed to interfere with viral DNA replication. For example,
+AZT, or azino-thymine, is an anti-retroviral drug used to slow the progression of AIDS.
+It is a thymine nucleotide with an azino (<span class="math inline">\(\mathrm{N}_3\)</span>) group (instead
+of a hydroxyl group) attached to the 3’ carbon. Azino-thymine is used preferentially
+by reverse transcriptase when synthesizing DNA. Incorporation of it into a growing
+chain terminates DNA synthesis.</li>
+</ol>
+<p>The reversible inhibition of DNA extension also plays an important role in
+sequencing by synthesis as used by Illumina platforms. We will discuss
+this in a moment, but first we take a stroll down memory lane to refresh our
+understanding of <em>Sanger sequencing</em> so as to understand how radically different
+<em>next-generation sequencing</em> technologies are.</p>
+</div>
+</div>
+<div id="sanger-sequencing" class="section level2">
+<h2><span class="header-section-number">15.2</span> Sanger sequencing</h2>
+<p>It is hard to imagine that the first public human genome was sequenced almost
+entirely by Sanger sequencing. We discuss the Sanger sequencing method
+here so we can contrast it with what happens on, say, an Illumina machine
+today.</p>
+<p>To perform Sanger sequencing, first it was necessary to do PCR to
+create numerous copies of a double stranded DNA fragment that was to be
+sequenced. For example let’s say that one wanted to sequence the
+20-mer shown below, represented as double stranded DNA.</p>
+<pre><code>5&#39;--AGGCTCAAGCTTCGACCGT--3&#39;
+3&#39;--TCCGAGTTCGAAGCTGGCA--5&#39;</code></pre>
+<p>For Sanger sequencing, first, one would do PCR to create
+bazillions of copies of that double-stranded DNA. Then four separate further PCR
+reactions would be done, each one having been “spiked” with a little bit of
+one of four different ddNTPs which, if incorporated into the
+growing strand allow no further extension of it.</p>
+<p>For example, if PCR were done as usual, but with the addition of ddATP,
+then occasionally, when a ddATP (an A lacking a 3’ hydroxyl group)
+is incorporated into the growing strand that strand will grow no more.
+Consequently, the products of that PCR (incorporating an appropriate
+concentration of ddATPs), once filtered to retain only
+the top strand from above, will include the fragments</p>
+<pre><code>## [1] &quot;A*&quot;               &quot;AGGCTCA*&quot;        
+## [3] &quot;AGGCTCAA*&quot;        &quot;AGGCTCAAGCTTCGA*&quot;</code></pre>
+<p>Where the <code>*</code> follows the sequence-terminating base.</p>
+<p>Likewise, in a separate reaction, occasional incorporation of a ddCTP will yield products:</p>
+<pre><code>## [1] &quot;AGGC*&quot;              &quot;AGGCTC*&quot;           
+## [3] &quot;AGGCTCAAGC*&quot;        &quot;AGGCTCAAGCTTC*&quot;    
+## [5] &quot;AGGCTCAAGCTTCGAC*&quot;  &quot;AGGCTCAAGCTTCGACC*&quot;</code></pre>
+<p>And in another reaction, occasional incorporation of ddGTP yields:</p>
+<pre><code>## [1] &quot;AG*&quot;                 &quot;AGG*&quot;               
+## [3] &quot;AGGCTCAAG*&quot;          &quot;AGGCTCAAGCTTCG*&quot;    
+## [5] &quot;AGGCTCAAGCTTCGACCG*&quot;</code></pre>
+<p>And in a final, separate reaction, incorporation of ddTTP would give:</p>
+<pre><code>## [1] &quot;AGGCT*&quot;               &quot;AGGCTCAAGCT*&quot;        
+## [3] &quot;AGGCTCAAGCTT*&quot;        &quot;AGGCTCAAGCTTCGACCGT*&quot;</code></pre>
+Each of these fragments is of a different length, so they can be
+separated on an electrophoretic gel. The secret to Sanger sequencing is that
+the products of all four separate reactions can be run side by side in
+separate lanes of the gel (or, as was done later, in separate capillaries…),
+so that the gel, with small
+fragments running faster than large fragments, from the top to the bottom
+of the gel, would look like Figure <a href="dna-sequences-and-sequencing.html#fig:sanger">15.4</a>:
+<div class="figure"><span id="fig:sanger"></span>
+<img src="eca-bioinf-handbook_files/figure-html/sanger-1.png" alt="Stylized gel from Sanger sequencing. DNA migrates downward from the top, with smaller fragments traveling further than longer fragments. The four differnent lanes corresponds to four different PCR reactions incorporating ddNTPs of different types, as denoted below the x axis." width="672" />
+<p class="caption">
+FIGURE 15.4: Stylized gel from Sanger sequencing. DNA migrates downward from the top, with smaller fragments traveling further than longer fragments. The four differnent lanes corresponds to four different PCR reactions incorporating ddNTPs of different types, as denoted below the x axis.
+</p>
+</div>
+In reality, a gel like that in Figure <a href="dna-sequences-and-sequencing.html#fig:sanger">15.4</a>, won’t bear the name of each
+sequence fragment. In fact, it will look much more like what you see in Figure <a href="dna-sequences-and-sequencing.html#fig:sanger2">15.5</a>.
+<div class="figure"><span id="fig:sanger2"></span>
+<img src="eca-bioinf-handbook_files/figure-html/sanger2-1.png" alt="Stylized gel from Sanger sequencing. Here, the DNA sequence of each band cannot be seen." width="672" />
+<p class="caption">
+FIGURE 15.5: Stylized gel from Sanger sequencing. Here, the DNA sequence of each band cannot be seen.
+</p>
+</div>
+<p>However, even with the DNA fragemnt sequences obscured, their sequences can be
+detemined by working from the bottom to the top and adding a different DNA base according to which column the band is in. Try it out.</p>
+<p>Some very important points must be made about Sanger sequencing:</p>
+<ol style="list-style-type: decimal">
+<li>The signal obtained from sequencing is, in a sense, a mixture of the starting templates. So, if you
+have DNA from an individual, you have two copies of each chromosome, and they might carry slightly
+different sequences. At heterozygous sites, it is impossible to tell which allele came from which
+chromosome.</li>
+<li>To conduct this procedure, it was typical that specific PCR primers were used to sequence
+only a single fragment of interest. Extending the sequencing beyond that region often involved
+a laborious process of “walking” primers further out in either direction. Very tedious.</li>
+<li>Each sequencing reaction was typically carried out for just a single individual at once.<br />
+</li>
+<li>Until a little over a decade ago, this is how sequencing was done in conservation genetics.</li>
+</ol>
+</div>
+<div id="illumina-sequencing-by-synthesis" class="section level2">
+<h2><span class="header-section-number">15.3</span> Illumina Sequencing by Synthesis</h2>
+<p>Illumina paired-end sequencing is currently the leading technology in conservation
+genomics.</p>
+<p>They say that a picture is worth a thousand words, so a video may well be worth
+ten thousand. Illumina has a very informative video about sequencing by synthesis.</p>
+<p>I have used some code (I found on GitHub) to provide captions to the video. These captions
+include comments, as well as questions that form part of this week’s homework. (Yay!)<br />
+You can see the video at
+<a href="https://eriqande.github.io/erics-captioned-vids/vids/illumina-sbs/">https://eriqande.github.io/erics-captioned-vids/vids/illumina-sbs/</a></p>
+<p>The main take-home messages I want everyone to get about Illumin sequencing is:</p>
+<ol style="list-style-type: decimal">
+<li>The signal obtained from each cluster is the sequence of a single, <em>single-stranded DNA fragment</em></li>
+<li>In paired-end sequencing, sequence from both ends of the fragment (but not necessarily
+the middle) is obtained.</li>
+<li>The technique lends itself to sequencing millions of “anonymous” chunks of DNA.</li>
+<li>The indexes, or “barcodes” allow DNA from multiple individuals to be sequenced in a single run.</li>
+<li>This is how most high-throughput sequencing is done today.</li>
+</ol>
+</div>
+<div id="library-prep-protocols" class="section level2">
+<h2><span class="header-section-number">15.4</span> Library Prep Protocols</h2>
+<p>Gotta mention here about how barcodes work.</p>
+<p>How you prepare your libraries dictates what type of data you get.</p>
+<div id="wgs" class="section level3">
+<h3><span class="header-section-number">15.4.1</span> WGS</h3>
+</div>
+<div id="rad-seq-methods" class="section level3">
+<h3><span class="header-section-number">15.4.2</span> RAD-Seq methods</h3>
+</div>
+<div id="amplicon-sequencing" class="section level3">
+<h3><span class="header-section-number">15.4.3</span> Amplicon Sequencing</h3>
+</div>
+<div id="capture-arrays-rapture-etc." class="section level3">
+<h3><span class="header-section-number">15.4.4</span> Capture arrays, RAPTURE, etc.</h3>
 
+</div>
+</div>
+</div>
+<h3>References</h3>
+<div id="refs" class="references">
+<div id="ref-watsonMolecularStructureNucleic1953">
+<p>Watson, J. D., and F. H. C. Crick. 1953. “Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid.” <em>Nature</em> 171 (4356): 737–38. <a href="https://doi.org/10.1038/171737a0">https://doi.org/10.1038/171737a0</a>.</p>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="variant-calling-with-gatk.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="processing-amplicon-sequencing-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="overview-of-bioinformatic-analyses.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bioinformatic-file-formats-and-associated-tools.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook/js/app.min.js"></script>
@@ -366,11 +608,11 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/eriqande/eca-bioinf-handbook/edit/master/3.06-RAD-w-and-wo-a-reference.Rmd",
+"link": "https://github.com/eriqande/eca-bioinf-handbook/edit/master/3.01-ngs-data-acquisition.Rmd",
 "text": "Edit"
 },
 "history": {
-"link": "https://github.com/eriqande/eca-bioinf-handbook/commits/master/3.06-RAD-w-and-wo-a-reference.Rmd",
+"link": "https://github.com/eriqande/eca-bioinf-handbook/commits/master/3.01-ngs-data-acquisition.Rmd",
 "text": null
 },
 "view": {

@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-01-27" />
+<meta name="date" content="2020-02-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -158,7 +158,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#creating-new-directories"><i class="fa fa-check"></i><b>4.4.1</b> Creating new directories</a></li>
 <li class="chapter" data-level="4.4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#fundamental-file-handling-commands"><i class="fa fa-check"></i><b>4.4.2</b> Fundamental file-handling commands</a></li>
 <li class="chapter" data-level="4.4.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#viewing-files"><i class="fa fa-check"></i><b>4.4.3</b> “Viewing” Files</a></li>
-<li class="chapter" data-level="4.4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#redirecting-standard-output"><i class="fa fa-check"></i><b>4.4.4</b> Redirecting standard output: <code>&gt;</code></a></li>
+<li class="chapter" data-level="4.4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#redirecting-standard-output-and"><i class="fa fa-check"></i><b>4.4.4</b> Redirecting standard output: <code>&gt;</code> and <code>&gt;&gt;</code></a></li>
 <li class="chapter" data-level="4.4.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#stdin-and"><i class="fa fa-check"></i><b>4.4.5</b> stdin, <code>&lt;</code> and <code>|</code></a></li>
 <li class="chapter" data-level="4.4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#stderr"><i class="fa fa-check"></i><b>4.4.6</b> stderr</a></li>
 <li class="chapter" data-level="4.4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#symbolic-links"><i class="fa fa-check"></i><b>4.4.7</b> Symbolic links</a></li>
@@ -231,24 +231,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13" data-path="using-python.html"><a href="using-python.html"><i class="fa fa-check"></i><b>13</b> Using python</a></li>
 <li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
 <li class="chapter" data-level="14" data-path="overview-of-bioinformatic-analyses.html"><a href="overview-of-bioinformatic-analyses.html"><i class="fa fa-check"></i><b>14</b> Overview of Bioinformatic Analyses</a></li>
-<li class="chapter" data-level="15" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html"><i class="fa fa-check"></i><b>15</b> Next Generation Sequencing Data Acquisition</a><ul>
-<li class="chapter" data-level="15.1" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#dna-stuff"><i class="fa fa-check"></i><b>15.1</b> DNA Stuff</a></li>
-<li class="chapter" data-level="15.2" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#sequencing-platforms"><i class="fa fa-check"></i><b>15.2</b> Sequencing platforms</a></li>
-<li class="chapter" data-level="15.3" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#library-prep-protocols"><i class="fa fa-check"></i><b>15.3</b> Library Prep Protocols</a><ul>
-<li class="chapter" data-level="15.3.1" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#wgs"><i class="fa fa-check"></i><b>15.3.1</b> WGS</a></li>
-<li class="chapter" data-level="15.3.2" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#rad-seq-methods"><i class="fa fa-check"></i><b>15.3.2</b> RAD-Seq methods</a></li>
-<li class="chapter" data-level="15.3.3" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#amplicon-sequencing"><i class="fa fa-check"></i><b>15.3.3</b> Amplicon Sequencing</a></li>
-<li class="chapter" data-level="15.3.4" data-path="next-generation-sequencing-data-acquisition.html"><a href="next-generation-sequencing-data-acquisition.html#capture-arrays-rapture-etc."><i class="fa fa-check"></i><b>15.3.4</b> Capture arrays, RAPTURE, etc.</a></li>
+<li class="chapter" data-level="15" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html"><i class="fa fa-check"></i><b>15</b> DNA Sequences and Sequencing</a><ul>
+<li class="chapter" data-level="15.1" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#dna-stuff"><i class="fa fa-check"></i><b>15.1</b> DNA Stuff</a><ul>
+<li class="chapter" data-level="15.1.1" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#dna-replication-with-dna-polymerase"><i class="fa fa-check"></i><b>15.1.1</b> DNA Replication with DNA Polymerase</a></li>
+<li class="chapter" data-level="15.1.2" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#the-importance-of-the-3-hydroxyl"><i class="fa fa-check"></i><b>15.1.2</b> The importance of the 3’ hydroxyl…</a></li>
+</ul></li>
+<li class="chapter" data-level="15.2" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#sanger-sequencing"><i class="fa fa-check"></i><b>15.2</b> Sanger sequencing</a></li>
+<li class="chapter" data-level="15.3" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#illumina-sequencing-by-synthesis"><i class="fa fa-check"></i><b>15.3</b> Illumina Sequencing by Synthesis</a></li>
+<li class="chapter" data-level="15.4" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#library-prep-protocols"><i class="fa fa-check"></i><b>15.4</b> Library Prep Protocols</a><ul>
+<li class="chapter" data-level="15.4.1" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#wgs"><i class="fa fa-check"></i><b>15.4.1</b> WGS</a></li>
+<li class="chapter" data-level="15.4.2" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#rad-seq-methods"><i class="fa fa-check"></i><b>15.4.2</b> RAD-Seq methods</a></li>
+<li class="chapter" data-level="15.4.3" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#amplicon-sequencing"><i class="fa fa-check"></i><b>15.4.3</b> Amplicon Sequencing</a></li>
+<li class="chapter" data-level="15.4.4" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#capture-arrays-rapture-etc."><i class="fa fa-check"></i><b>15.4.4</b> Capture arrays, RAPTURE, etc.</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="16" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html"><i class="fa fa-check"></i><b>16</b> Bioinformatic file formats and associated tools</a><ul>
 <li class="chapter" data-level="16.1" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#sequences"><i class="fa fa-check"></i><b>16.1</b> Sequences</a></li>
-<li class="chapter" data-level="16.2" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#alignments"><i class="fa fa-check"></i><b>16.2</b> Alignments</a><ul>
-<li class="chapter" data-level="16.2.1" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#samtools"><i class="fa fa-check"></i><b>16.2.1</b> Samtools</a></li>
+<li class="chapter" data-level="16.2" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#fasta"><i class="fa fa-check"></i><b>16.2</b> FASTA</a></li>
+<li class="chapter" data-level="16.3" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#fastq"><i class="fa fa-check"></i><b>16.3</b> FASTQ</a><ul>
+<li class="chapter" data-level="16.3.1" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#line-1-illumina-identifier-lines"><i class="fa fa-check"></i><b>16.3.1</b> Line 1: Illumina identifier lines</a></li>
+<li class="chapter" data-level="16.3.2" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#line-4-base-quality-scores"><i class="fa fa-check"></i><b>16.3.2</b> Line 4: Base quality scores</a></li>
+<li class="chapter" data-level="16.3.3" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#a-fasta-tidyerse-interlude"><i class="fa fa-check"></i><b>16.3.3</b> A FASTA ‘tidyerse’ Interlude</a></li>
 </ul></li>
-<li class="chapter" data-level="16.3" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#variants"><i class="fa fa-check"></i><b>16.3</b> Variants</a></li>
-<li class="chapter" data-level="16.4" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#segments"><i class="fa fa-check"></i><b>16.4</b> Segments</a></li>
-<li class="chapter" data-level="16.5" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#conversionextractions-between-different-formats"><i class="fa fa-check"></i><b>16.5</b> Conversion/Extractions between different formats</a></li>
+<li class="chapter" data-level="16.4" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#alignments"><i class="fa fa-check"></i><b>16.4</b> Alignments</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#samtools"><i class="fa fa-check"></i><b>16.4.1</b> Samtools</a></li>
+</ul></li>
+<li class="chapter" data-level="16.5" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#variants"><i class="fa fa-check"></i><b>16.5</b> Variants</a></li>
+<li class="chapter" data-level="16.6" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#segments"><i class="fa fa-check"></i><b>16.6</b> Segments</a></li>
+<li class="chapter" data-level="16.7" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#conversionextractions-between-different-formats"><i class="fa fa-check"></i><b>16.7</b> Conversion/Extractions between different formats</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="genome-assembly.html"><a href="genome-assembly.html"><i class="fa fa-check"></i><b>17</b> Genome Assembly</a></li>
 <li class="chapter" data-level="18" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html"><i class="fa fa-check"></i><b>18</b> Alignment of sequence data to a reference genome</a><ul>
@@ -315,9 +325,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Bradburd, Gideon S., Graham M. Coop, and Peter L. Ralph. 2018. “Inferring Continuous and Discrete Population Genetic Structure Across Space.” <em>Genetics</em> 210 (1): 33–52. <a href="https://doi.org/10.1534/genetics.118.301333">https://doi.org/10.1534/genetics.118.301333</a>.</p>
 </div>
 <div>
-<p>Corbett-Detig, Russell B., Charis Cardeno, and Charles H. Langley. 2012. “Sequence-Based Detection and Breakpoint Assembly of Polymorphic Inversions.” <em>Genetics</em> 192 (1): 131–37. <a href="https://doi.org/10.1534/genetics.112.141622">https://doi.org/10.1534/genetics.112.141622</a>.</p>
-</div>
-<div>
 <p>Pickrell, Joseph K., and Jonathan K. Pritchard. 2012. “Inference of Population Splits and Mixtures from Genome-Wide Allele Frequency Data.” <em>PLOS Genetics</em> 8 (11): e1002967. <a href="https://doi.org/10.1371/journal.pgen.1002967">https://doi.org/10.1371/journal.pgen.1002967</a>.</p>
 </div>
 <div>
@@ -325,6 +332,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 <div>
 <p>Raymond, Eric S. 2003. <em>Art of UNIX Programming, The</em>. 1st ed. Addison-Wesley Professional. Part of the Addison-Wesley Professional Computing Series series.</p>
+</div>
+<div>
+<p>Watson, J. D., and F. H. C. Crick. 1953. “Molecular Structure of Nucleic Acids: A Structure for Deoxyribose Nucleic Acid.” <em>Nature</em> 171 (4356): 737–38. <a href="https://doi.org/10.1038/171737a0">https://doi.org/10.1038/171737a0</a>.</p>
 </div>
 </div>
 </div>

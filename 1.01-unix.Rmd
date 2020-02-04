@@ -997,7 +997,7 @@ users group, and for all other users, respectively.
 
 Here is a figure from [the web](https://unix.stackexchange.com/questions/183994/understanding-unix-permissions-and-file-types) that we can talk about: 
 ```{r, echo=FALSE}
-knitr::include_graphics("https://i.stack.imgur.com/JKUg3.jpg")
+knitr::include_graphics("figs/permissions.png")
 ```
 
 Permissions can be changed with the `chmod` command.  We will talk in class about
