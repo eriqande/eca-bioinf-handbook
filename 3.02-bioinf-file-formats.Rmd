@@ -153,12 +153,11 @@ Here is another question: why do you think the scale starts with ASCII character
 ### A FASTA 'tidyerse' Interlude
 
 Here we demonstrate some R code while exploring FASTQ files.  First, in order to
-do these exercises you will want to download and launch the RStudio project
-[big-fastq-play](https://drive.google.com/file/d/1iD8tz_KSOHDBpXvXssqo3noPZAm1Qsjp/view?usp=sharing)
+do these exercises you will want to download and launch the RStudio project,
+`big-fastq-play`,
 that has the data
 in it.  Please work within that RStudio project to do these exercises.
-
-Here is a direct download link too:
+Here is a direct download link to it:
 [https://docs.google.com/uc?export=download&id=1iD8tz_KSOHDBpXvXssqo3noPZAm1Qsjp](https://docs.google.com/uc?export=download&id=1iD8tz_KSOHDBpXvXssqo3noPZAm1Qsjp)
 
 
@@ -173,9 +172,10 @@ library(tidyverse)
 
 # if you don't have this package, get it
 # install.packages("viridis")
+library(viridis)
 ```
 
-Read it, make a matrix, then make a tibble
+Read the FASTQ, make it a matrix, then make it a tibble
 
 ```r
 # use read_lines to read the R1 fastq file line by line;
@@ -206,7 +206,7 @@ Look at the first ID line:
  @E00430:101:HKT7WCCXY:1:1101:6411:1204 1:N:0:NGATGT
 ```
 Aha!  This is a slightly different format than the above.  The part after the
-space has colon separate fields that are:
+space has colon-separated fields that are:
 ```
 1        :  which read of the pair
 N        :  has this been filtered (Y/N)
@@ -239,8 +239,8 @@ R1 %>%
     remove = FALSE
     )
 ```
-Wow! That was cool.  Now, **your mission** is to pipe that (with `%>%`)
-into another separate command that breaks part2 into
+Wow! That was cool.  Now, your mission is to pipe that (with `%>%`)
+into another `separate()` command that breaks part2 into
 `read`, `filter`, `cnum`, and `barcode`, and save that into `R1_sep`
 
 Here is a starter:
@@ -255,7 +255,38 @@ R1_sep <- R1 %>%
     ) %>%
     ...your code here...
     
-# when you have successfully done that, you might want to delete R1 with rm(R1)
+# when you are done with that, look at it
+R1_sep
+    
+```
+
+Doh! There is one thing to note.  Look at the first few columns of that:
+```r
+# A tibble: 1,000,000 x 11
+   id          machine run   flow_cell lane  tile  x     y   
+   <chr>       <chr>   <chr> <chr>     <chr> <chr> <chr> <chr>      
+ 1 @E00430:10… @E00430 101   HKT7WCCXY 1     1101  6411  1204
+ 2 @E00430:10… @E00430 101   HKT7WCCXY 1     1101  7324  1204
+ 3 @E00430:10… @E00430 101   HKT7WCCXY 1     1101  8582  1204
+ 4 @E00430:10… @E00430 101   HKT7WCCXY 1     1101  9841  1204
+ 5 @E00430:10… @E00430 101   HKT7WCCXY 1     1101  10186 1204 
+```
+The x- and the y-coordinates are listed as characters (`<chr>`) but they should
+be numeric.  This shows the default behavior of `separate()`: it just breaks each
+field into a column of strings.  However, you can ask `separate()` to make a good-faith
+guess of the type of each column and convert it to that.  This works suitably in this
+situation, so, let's repeat the last command, but convert types automatically:
+```{r, eval=FALSE}
+R1_sep <- R1 %>%
+  separate(ID, into = c("id", "part2"), sep = " ") %>%
+  separate(
+    id, 
+    into = c("machine", "run", "flow_cell", "lane", "tile", "x", "y"), 
+    sep = ":",
+    remove = FALSE,
+    convert = TRUE
+  ) %>%
+  separate(part2, into = c("read", "filter", "cnum", "barcode"), sep = ":", convert = TRUE)
 ```
 
 #### Counting tiles
@@ -283,26 +314,82 @@ Check out this function:
 ```{r}
 utf8ToInt("!*JGH")
 ```
-We can use that to get Phred scaled values by subtracting 33 from the result.  Let's check:
+We can use that to get Phred-scaled values by subtracting 33 from the result.  Let's check:
 ```{r}
 utf8ToInt("!+5?IJ") - 33
 ```
 Note that `J` seems to be used for "below 1 in 10,000" as it is the highest I have ever seen.
 
-So, what we want to do is make a new column called mean_qual that gives the
-mean of the Phred scaled qualities.  Any time you need to make a new column in a
+So, what we want to do is make a new column called `mean_qual` that gives the
+mean of the Phred-scaled qualities.  Any time you need to make a new column in a
 tibble, where the result in each row depends only on the values in current columns
 in that same row, that is a job for `mutate()`.
 
-However, in this case, it involves using `map()` and it is a little beyond
+However, in this case, because the `utf8ToInt()` function doesn't take vector input,
+computing the `mean_qual` for every row requres using one of the `map()` family of functions.
+It is a little beyond
 what we want to delve into at the moment. But here is what it looks like:
-
-Here is some starter code:
 ```{r, eval=FALSE}
 R1_sepq <- R1_sep %>%
   mutate(mean_qual = map_dbl(.x = qual, .f = function(x) mean(utf8ToInt(x) - 33))
 ```
 
+Check out the distribution of those mean quality scores:
+```r
+ggplot(R1_sepq, aes(x = mean_qual)) +
+  geom_histogram(binwidth = 1)
+```
+
+#### Investigating the spatial distribution of reads and quality scores
+
+Now, use the above as a template to investigate the distribution of the
+x-values:
+```r
+ggplot(R1_sepq, aes(...your code here...)) +
+  geom_histogram(bins = 500)
+```
+
+And, do the same for the y-values.   
+```r
+# Dsn of y
+ggplot(R1_sepq, aes(x = y)) +
+  geom_histogram(bins = 500) +
+  coord_flip()
+```
+
+
+Hmm... for fun, make a 2-D hex-bin plot
+```r
+ggplot(R1_sepq, aes(x = x, y = y)) +
+  geom_hex(bins = 100) +
+  scale_fill_viridis_c()
+```
+
+That is super interesting.  It looks like the flowcell or camera must have a mild
+issue where the smears are between y = 20,000 and 30,000.
+
+It is natural to wonder if the quality scores of the reads that did actually get
+recovered from those regions have lower quality scores.  This makes a hexbin plot 
+of the mean quality scores:
+```r
+# hexbin of the mean quality score
+ggplot(R1_sepq, aes(x = x, y = y, z = mean_qual)) +
+  stat_summary_hex(bins = 100) +
+  scale_fill_viridis_c()
+```
+
+Cool.
+
+### Comparing read 1 to read 2
+
+One question that came up in class is whether the quality of read 2 is typically lower
+than that of read 1.  We can totally answer that with the data we have. It would involve,
+
+1. reading in all the read 2 reads and separating columns.
+2. computing the read 2 mean quality scores
+3. joining (see `left_join()`) on the `id` columns and then making a scatter plot.
+
+Go for it...
 
 
 

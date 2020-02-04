@@ -9,3 +9,8 @@ preamble.tex
 _book
 _bookdown_files
 eca-bioinf-handbook.log
+eca-bioinf-handbook.idx
+eca-bioinf-handbook.lof
+eca-bioinf-handbook.lot
+eca-bioinf-handbook.out
+eca-bioinf-handbook.toc

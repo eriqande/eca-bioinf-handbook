@@ -252,6 +252,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16.3.1" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#line-1-illumina-identifier-lines"><i class="fa fa-check"></i><b>16.3.1</b> Line 1: Illumina identifier lines</a></li>
 <li class="chapter" data-level="16.3.2" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#line-4-base-quality-scores"><i class="fa fa-check"></i><b>16.3.2</b> Line 4: Base quality scores</a></li>
 <li class="chapter" data-level="16.3.3" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#a-fasta-tidyerse-interlude"><i class="fa fa-check"></i><b>16.3.3</b> A FASTA ‘tidyerse’ Interlude</a></li>
+<li class="chapter" data-level="16.3.4" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#comparing-read-1-to-read-2"><i class="fa fa-check"></i><b>16.3.4</b> Comparing read 1 to read 2</a></li>
 </ul></li>
 <li class="chapter" data-level="16.4" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#alignments"><i class="fa fa-check"></i><b>16.4</b> Alignments</a><ul>
 <li class="chapter" data-level="16.4.1" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#samtools"><i class="fa fa-check"></i><b>16.4.1</b> Samtools</a></li>
@@ -449,11 +450,11 @@ base quality score is the character’s decimal representation <em>minus 33</em>
 <div id="a-fasta-tidyerse-interlude" class="section level3">
 <h3><span class="header-section-number">16.3.3</span> A FASTA ‘tidyerse’ Interlude</h3>
 <p>Here we demonstrate some R code while exploring FASTQ files. First, in order to
-do these exercises you will want to download and launch the RStudio project
-<a href="https://drive.google.com/file/d/1iD8tz_KSOHDBpXvXssqo3noPZAm1Qsjp/view?usp=sharing">big-fastq-play</a>
+do these exercises you will want to download and launch the RStudio project,
+<code>big-fastq-play</code>,
 that has the data
-in it. Please work within that RStudio project to do these exercises.</p>
-<p>Here is a direct download link too:
+in it. Please work within that RStudio project to do these exercises.
+Here is a direct download link to it:
 <a href="https://docs.google.com/uc?export=download&amp;id=1iD8tz_KSOHDBpXvXssqo3noPZAm1Qsjp">https://docs.google.com/uc?export=download&amp;id=1iD8tz_KSOHDBpXvXssqo3noPZAm1Qsjp</a></p>
 <p>Note that this might stress out older laptops as it loads 100s of Mb of sequence
 data into memory.</p>
@@ -463,8 +464,9 @@ data into memory.</p>
 <div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
 <a class="sourceLine" id="cb109-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb109-3" data-line-number="3"><span class="co"># if you don&#39;t have this package, get it</span></a>
-<a class="sourceLine" id="cb109-4" data-line-number="4"><span class="co"># install.packages(&quot;viridis&quot;)</span></a></code></pre></div>
-<p>Read it, make a matrix, then make a tibble</p>
+<a class="sourceLine" id="cb109-4" data-line-number="4"><span class="co"># install.packages(&quot;viridis&quot;)</span></a>
+<a class="sourceLine" id="cb109-5" data-line-number="5"><span class="kw">library</span>(viridis)</a></code></pre></div>
+<p>Read the FASTQ, make it a matrix, then make it a tibble</p>
 <div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" data-line-number="1"><span class="co"># use read_lines to read the R1 fastq file line by line;</span></a>
 <a class="sourceLine" id="cb110-2" data-line-number="2"><span class="co"># then make a 4 column matrix, filling by rows</span></a>
 <a class="sourceLine" id="cb110-3" data-line-number="3"><span class="co"># then drop column 3, which corresponds to the &quot;+&quot; line</span></a>
@@ -489,7 +491,7 @@ data into memory.</p>
 <p>Look at the first ID line:</p>
 <pre><code> @E00430:101:HKT7WCCXY:1:1101:6411:1204 1:N:0:NGATGT</code></pre>
 <p>Aha! This is a slightly different format than the above. The part after the
-space has colon separate fields that are:</p>
+space has colon-separated fields that are:</p>
 <pre><code>1        :  which read of the pair
 N        :  has this been filtered (Y/N)
 0        :  control number (always 0 on HiSeq and NextSeq)
@@ -516,8 +518,8 @@ break the first part of the ID into its constituent parts:</p>
 <a class="sourceLine" id="cb113-8" data-line-number="8">    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</a>
 <a class="sourceLine" id="cb113-9" data-line-number="9">    <span class="dt">remove =</span> <span class="ot">FALSE</span></a>
 <a class="sourceLine" id="cb113-10" data-line-number="10">    )</a></code></pre></div>
-<p>Wow! That was cool. Now, <strong>your mission</strong> is to pipe that (with <code>%&gt;%</code>)
-into another separate command that breaks part2 into
+<p>Wow! That was cool. Now, your mission is to pipe that (with <code>%&gt;%</code>)
+into another <code>separate()</code> command that breaks part2 into
 <code>read</code>, <code>filter</code>, <code>cnum</code>, and <code>barcode</code>, and save that into <code>R1_sep</code></p>
 <p>Here is a starter:</p>
 <div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" data-line-number="1">R1_sep &lt;-<span class="st"> </span>R1 <span class="op">%&gt;%</span></a>
@@ -530,17 +532,43 @@ into another separate command that breaks part2 into
 <a class="sourceLine" id="cb114-8" data-line-number="8">    ) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb114-9" data-line-number="9"><span class="st">    </span>...your code here...</a>
 <a class="sourceLine" id="cb114-10" data-line-number="10">    </a>
-<a class="sourceLine" id="cb114-11" data-line-number="11"><span class="co"># when you have successfully done that, you might want to delete R1 with rm(R1)</span></a></code></pre></div>
+<a class="sourceLine" id="cb114-11" data-line-number="11"><span class="co"># when you are done with that, look at it</span></a>
+<a class="sourceLine" id="cb114-12" data-line-number="12">R1_sep</a>
+<a class="sourceLine" id="cb114-13" data-line-number="13">    </a></code></pre></div>
+<p>Doh! There is one thing to note. Look at the first few columns of that:</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1"><span class="co"># A tibble: 1,000,000 x 11</span></a>
+<a class="sourceLine" id="cb115-2" data-line-number="2">   id          machine run   flow_cell lane  tile  x     y   </a>
+<a class="sourceLine" id="cb115-3" data-line-number="3">   <span class="op">&lt;</span>chr<span class="op">&gt;</span><span class="st">       </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">   </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">     </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">      </span></a>
+<a class="sourceLine" id="cb115-4" data-line-number="4"><span class="st"> </span><span class="dv">1</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">6411</span>  <span class="dv">1204</span></a>
+<a class="sourceLine" id="cb115-5" data-line-number="5"> <span class="dv">2</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">7324</span>  <span class="dv">1204</span></a>
+<a class="sourceLine" id="cb115-6" data-line-number="6"> <span class="dv">3</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">8582</span>  <span class="dv">1204</span></a>
+<a class="sourceLine" id="cb115-7" data-line-number="7"> <span class="dv">4</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">9841</span>  <span class="dv">1204</span></a>
+<a class="sourceLine" id="cb115-8" data-line-number="8"> <span class="dv">5</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">10186</span> <span class="dv">1204</span> </a></code></pre></div>
+<p>The x- and the y-coordinates are listed as characters (<code>&lt;chr&gt;</code>) but they should
+be numeric. This shows the default behavior of <code>separate()</code>: it just breaks each
+field into a column of strings. However, you can ask <code>separate()</code> to make a good-faith
+guess of the type of each column and convert it to that. This works suitably in this
+situation, so, let’s repeat the last command, but convert types automatically:</p>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1">R1_sep &lt;-<span class="st"> </span>R1 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb116-2" data-line-number="2"><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb116-3" data-line-number="3"><span class="st">  </span><span class="kw">separate</span>(</a>
+<a class="sourceLine" id="cb116-4" data-line-number="4">    id, </a>
+<a class="sourceLine" id="cb116-5" data-line-number="5">    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </a>
+<a class="sourceLine" id="cb116-6" data-line-number="6">    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</a>
+<a class="sourceLine" id="cb116-7" data-line-number="7">    <span class="dt">remove =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb116-8" data-line-number="8">    <span class="dt">convert =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb116-9" data-line-number="9">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb116-10" data-line-number="10"><span class="st">  </span><span class="kw">separate</span>(part2, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;read&quot;</span>, <span class="st">&quot;filter&quot;</span>, <span class="st">&quot;cnum&quot;</span>, <span class="st">&quot;barcode&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 </div>
 <div id="counting-tiles" class="section level4">
 <h4><span class="header-section-number">16.3.3.3</span> Counting tiles</h4>
 <p>Let’s see how many tiles these reads came from. Basically we just want to count the
 number of rows with different values for tile. Read the documentation for
 <code>dplyr::count</code> with</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1">?count</a></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1">?count</a></code></pre></div>
 <p>and when you are done count up the number of reads in each tile:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1">R1_sep <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb116-2" data-line-number="2"><span class="st">  </span>...your code here...</a></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" data-line-number="1">R1_sep <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb118-2" data-line-number="2"><span class="st">  </span>...your code here...</a></code></pre></div>
 <p>Turns out they are all from the same tile…</p>
 </div>
 <div id="parsing-quality-scores" class="section level4">
@@ -548,22 +576,63 @@ number of rows with different values for tile. Read the documentation for
 <p>Now, we want to turn the quality-score ASCII-characters into Phred-scaled
 qualities, ultimately taking the average over each sequence of those.</p>
 <p>Check out this function:</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="kw">utf8ToInt</span>(<span class="st">&quot;!*JGH&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1"><span class="kw">utf8ToInt</span>(<span class="st">&quot;!*JGH&quot;</span>)</a></code></pre></div>
 <pre><code>## [1] 33 42 74 71 72</code></pre>
-<p>We can use that to get Phred scaled values by subtracting 33 from the result. Let’s check:</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1"><span class="kw">utf8ToInt</span>(<span class="st">&quot;!+5?IJ&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="dv">33</span></a></code></pre></div>
+<p>We can use that to get Phred-scaled values by subtracting 33 from the result. Let’s check:</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw">utf8ToInt</span>(<span class="st">&quot;!+5?IJ&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="dv">33</span></a></code></pre></div>
 <pre><code>## [1]  0 10 20 30 40 41</code></pre>
 <p>Note that <code>J</code> seems to be used for “below 1 in 10,000” as it is the highest I have ever seen.</p>
-<p>So, what we want to do is make a new column called mean_qual that gives the
-mean of the Phred scaled qualities. Any time you need to make a new column in a
+<p>So, what we want to do is make a new column called <code>mean_qual</code> that gives the
+mean of the Phred-scaled qualities. Any time you need to make a new column in a
 tibble, where the result in each row depends only on the values in current columns
 in that same row, that is a job for <code>mutate()</code>.</p>
-<p>However, in this case, it involves using <code>map()</code> and it is a little beyond
+<p>However, in this case, because the <code>utf8ToInt()</code> function doesn’t take vector input,
+computing the <code>mean_qual</code> for every row requres using one of the <code>map()</code> family of functions.
+It is a little beyond
 what we want to delve into at the moment. But here is what it looks like:</p>
-<p>Here is some starter code:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1">R1_sepq &lt;-<span class="st"> </span>R1_sep <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb121-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mean_qual =</span> <span class="kw">map_dbl</span>(<span class="dt">.x =</span> qual, <span class="dt">.f =</span> <span class="cf">function</span>(x) <span class="kw">mean</span>(<span class="kw">utf8ToInt</span>(x) <span class="op">-</span><span class="st"> </span><span class="dv">33</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1">R1_sepq &lt;-<span class="st"> </span>R1_sep <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb123-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mean_qual =</span> <span class="kw">map_dbl</span>(<span class="dt">.x =</span> qual, <span class="dt">.f =</span> <span class="cf">function</span>(x) <span class="kw">mean</span>(<span class="kw">utf8ToInt</span>(x) <span class="op">-</span><span class="st"> </span><span class="dv">33</span>))</a></code></pre></div>
+<p>Check out the distribution of those mean quality scores:</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> mean_qual)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb124-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>)</a></code></pre></div>
 </div>
+<div id="investigating-the-spatial-distribution-of-reads-and-quality-scores" class="section level4">
+<h4><span class="header-section-number">16.3.3.5</span> Investigating the spatial distribution of reads and quality scores</h4>
+<p>Now, use the above as a template to investigate the distribution of the
+x-values:</p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(...your code here...)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb125-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">500</span>)</a></code></pre></div>
+<p>And, do the same for the y-values.</p>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="co"># Dsn of y</span></a>
+<a class="sourceLine" id="cb126-2" data-line-number="2"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb126-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">500</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb126-4" data-line-number="4"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
+<p>Hmm… for fun, make a 2-D hex-bin plot</p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb127-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_hex</span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb127-3" data-line-number="3"><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>()</a></code></pre></div>
+<p>That is super interesting. It looks like the flowcell or camera must have a mild
+issue where the smears are between y = 20,000 and 30,000.</p>
+<p>It is natural to wonder if the quality scores of the reads that did actually get
+recovered from those regions have lower quality scores. This makes a hexbin plot
+of the mean quality scores:</p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="co"># hexbin of the mean quality score</span></a>
+<a class="sourceLine" id="cb128-2" data-line-number="2"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">z =</span> mean_qual)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb128-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary_hex</span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb128-4" data-line-number="4"><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>()</a></code></pre></div>
+<p>Cool.</p>
+</div>
+</div>
+<div id="comparing-read-1-to-read-2" class="section level3">
+<h3><span class="header-section-number">16.3.4</span> Comparing read 1 to read 2</h3>
+<p>One question that came up in class is whether the quality of read 2 is typically lower
+than that of read 1. We can totally answer that with the data we have. It would involve,</p>
+<ol style="list-style-type: decimal">
+<li>reading in all the read 2 reads and separating columns.</li>
+<li>computing the read 2 mean quality scores</li>
+<li>joining (see <code>left_join()</code>) on the <code>id</code> columns and then making a scatter plot.</li>
+</ol>
+<p>Go for it…</p>
 </div>
 </div>
 <div id="alignments" class="section level2">
