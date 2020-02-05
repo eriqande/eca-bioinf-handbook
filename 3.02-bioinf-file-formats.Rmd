@@ -150,7 +150,7 @@ base quality score is the character's decimal representation _minus 33_.
 
 Here is another question: why do you think the scale starts with ASCII character 33?
 
-### A FASTA 'tidyerse' Interlude
+### A FASTQ 'tidyverse' Interlude
 
 Here we demonstrate some R code while exploring FASTQ files.  First, in order to
 do these exercises you will want to download and launch the RStudio project,
