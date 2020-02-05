@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-02-04" />
+<meta name="date" content="2020-02-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -416,14 +416,14 @@ be the same?</p>
 This comes from data the sequencer collects on the brightness and compactness of the cluster
 radiance, other factors, and Illumina’s own models for base call accuracy. If we let <span class="math inline">\(p\)</span>
 be the probability that a base is called incorrectly, then <span class="math inline">\(Q\)</span>, the Phred-scaled base quality
-score, is:
-<span class="math display">\[
+score, is:</p>
+<p><span class="math display">\[
 Q = \lfloor-10\log_{10}p\rfloor,
 \]</span>
 where <span class="math inline">\(\lfloor x \rfloor\)</span> means &quot;the largest integer smaller than <span class="math inline">\(x\)</span>.</p>
 <p>To get the estimate of the probability that the base is called incorrectly from
-the Phred scaled score, you invert the above equation:
-<span class="math display">\[
+the Phred scaled score, you invert the above equation:</p>
+<p><span class="math display">\[
 p = \frac{1}{10^{Q/10}}
 \]</span>
 Base quality scores from Illumina range from 0 to 40.

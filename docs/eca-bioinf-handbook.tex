@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-01-30}
+\date{2020-02-05}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -1569,8 +1569,7 @@ The file description string, in a standard Unix setting, consists of 10 characte
 \end{itemize}
 
 Here is a figure from \href{https://unix.stackexchange.com/questions/183994/understanding-unix-permissions-and-file-types}{the web} that we can talk about:
-
-\includegraphics[width=25.08in]{figs/permissions}
+\includegraphics{figs/permissions.pdf}
 
 Permissions can be changed with the \texttt{chmod} command. We will talk in class about
 how to use it with the octal representation of permissions.
@@ -3491,34 +3490,318 @@ Hey Eric! Find a place to put a section about bedtools in there. It is pretty
 cool what you can do with it, even on VCF files, like coverage of a VCF file in
 windows to get a sliding window of variant density.
 
-\hypertarget{next-generation-sequencing-data-acquisition}{%
-\chapter{Next Generation Sequencing Data Acquisition}\label{next-generation-sequencing-data-acquisition}}
+\hypertarget{dna-sequences-and-sequencing}{%
+\chapter{DNA Sequences and Sequencing}\label{dna-sequences-and-sequencing}}
+
+To understand the fundamentals of alignment of DNA sequence to a reference
+genome, and all the intricacies that such a process entails, it is important
+to know a few important facts about DNA and how the sequence of a DNA molecule
+can be determined. This section may be review for some, but it presents the minimal
+set of knowledge needed to understand how DNA sequencing works, today.
 
 \hypertarget{dna-stuff}{%
 \section{DNA Stuff}\label{dna-stuff}}
 
-We are primarily going to be interested in representing DNA molecules
-in text format as series of nucleotide bases (A, C, G, T). But, in order
-to do this in a consistent fashion that lets us correctly and precisely compare
-one sequence of DNA to another we need to know how DNA ``works'' and we require some
+In bioinformatics, we are primarily going to be interested in representing DNA molecules
+in text format as a series of nucleotide bases (A, C, G, T). For the most part, we don't want
+to stray from that very simple representation; however, it is important to understand a
+handful of things about \emph{DNA directionality} and the action of DNA polymerase during the
+process of \emph{DNA replication} to understand next generation sequencing and DNA alignment
 conventions.
 
-Talk about the fact that it is double-stranded, and hence there is a reverse complement.
+DNA typically occurs as a double-helix of two \emph{complementary} strands. Each strand is composed of a
+\emph{backbone} of phophates and deoxyribose molecules, to which DNA \emph{bases} are attached. Figure \ref{fig:dna-structure} shows this for a fragment of \emph{double-stranded} DNA of four nucleotides.
 
-Genome references and forward vs reverse strand stuff.
+\begin{figure}
 
-\hypertarget{sequencing-platforms}{%
-\section{Sequencing platforms}\label{sequencing-platforms}}
+{\centering \includegraphics{figs/DNA_chemical_structure} 
 
-Basically talk a little about how the technologies work.
+}
 
-Go into paired-end vs single end reads, etc.
+\caption{Schematic of the structure of DNA. (Figure By Madprime (talk---contribs)  CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1848174)}\label{fig:dna-structure}
+\end{figure}
 
-Strand direction. There is a good overview on a blog at:
-\url{http://www.cureffi.org/2012/12/19/forward-and-reverse-reads-in-paired-end-sequencing/},
-to start getting one's head around it. It ends up being super
-important if you are looking for inversion
-breakpoints, etc \citep{Corbett-DetigSequenceBasedDetectionBreakpoint2012}.
+The orange parts show the ribose molecules in the backbone, while the four remaining colors
+denote the nucleotide bases of adenine (A), cytosine (C), guanine (G), and thymine (T). Each base
+on one strand is associated with its \emph{complement} on the other strand. The hydrogen bonds between
+complements is what holds the two strands of DNA together. A and T are complements, and
+C and G are complements. (I remember this by noting that C and G and curvy and A and T are sharp and
+angular, so the pairs go together\ldots{}).
+
+Immediately this raises two challenges that must be resolved for making a simple,
+text-based representation of DNA:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  When describing a sequence of DNA bases, which direction will we read it in?
+\item
+  Which strand will we read off of?
+\end{enumerate}
+
+We leave the second question until later. But note that the order in which DNA sequence
+is read is, by convention, from the 5' to the 3' end of the molecule. The terms 3' and 5'
+refer to different carbon atoms on the ribose backbone molecules. In the figure above,
+each little ``kink'' in the ribose molecule ring (and in the attached lines) is a carbon molecule.
+If you count clockwise from the oxygen in ribose, you see that the third carbon (the 3' carbon) is the
+carbon atom that leads to a phosphate group, and through the phosphate, to an attachment with the
+5' carbon atom of the next ribose. The 3' and 5' carbon atoms are labelled in red
+on the top-left ribose molecule in Figure \ref{fig:dna-structure}.
+
+Notice that when we speak of reading a DNA sequence, we are implicitly talking about
+reading the sequence of one of the two strands of the double-stranded DNA molecule.
+I'll say it again: a DNA sequence is always the sequence of one \emph{strand} of the molecule.
+But, if that DNA were ``out living in the wild'' it would have been in double-stranded
+form, and would have been paired with its complement sequence. For now, just note
+that any DNA sequence always has a complement which is read in the reverse direction.
+Thus, if we have a sequence like:
+
+\begin{verbatim}
+5'--ACTCGACCT--3'
+\end{verbatim}
+
+Then, paired with its complement it would look like:
+
+\begin{verbatim}
+5'--ACTCGACCT--3'
+    |||||||||
+3'--TGAGCTGGA--5'
+\end{verbatim}
+
+and, if you were to write its complement in standard 5' to 3' order,
+you would have to reverse it like so:
+
+\begin{verbatim}
+5'--AGGTCGAGT--3'
+\end{verbatim}
+
+\hypertarget{dna-replication-with-dna-polymerase}{%
+\subsection{DNA Replication with DNA Polymerase}\label{dna-replication-with-dna-polymerase}}
+
+So, why do we read DNA sequence from 5' to 3'? Is it just because geneticists are wacky, backwards
+folks and thought it would be fun to read in a direction that sounds, numerically, to be
+backwards? No! It is because \(5'\longrightarrow 3'\) is the direction in
+which a new strand of DNA is
+synthesized during DNA replication.
+
+When \citet{watsonMolecularStructureNucleic1953} published the first account of the double helical structure of DNA,
+they noted that the double-helix (i.e., two-stranded) nature of the molecule immediately suggested
+a copying mechanism (Figure \ref{fig:crickwat}).
+
+\begin{figure}
+
+{\centering \includegraphics{figs/crick-and-watson} 
+
+}
+
+\caption{Excerpt from Crick and Watson (1953).}\label{fig:crickwat}
+\end{figure}
+
+(I've also included, in the excerpt, the inadequate acknowledgment
+of the centrality of Rosalind Franklin's pioneering
+X-ray crystallography results to Crick and Watson's conclusions---an issue in scientific history about
+which much has been written, see, for example, this \href{https://www.theguardian.com/science/2015/jun/23/sexism-in-science-did-watson-and-crick-really-steal-rosalind-franklins-data}{article} in \emph{The Guardian}.)
+
+Figure \ref{fig:dna-copying} shows a schematic of what DNA looks like during the replication process.
+
+\begin{figure}
+
+{\centering \includegraphics{figs/DNA_chemical_structure_2} 
+
+}
+
+\caption{DNA during replication. (Figure adapted from the one by Madprime (talk---contribs)  CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1848174)}\label{fig:dna-copying}
+\end{figure}
+
+Essentially, during DNA replication, a \emph{DNA polymerase} molecule finds nucleotide bases (attached
+to three phoshpate groups) to build a new strand
+that is complementary to the DNA \emph{template} strand, and it guides
+those \emph{nucleotide triphosphates} to the appropriate
+place in the complementary strand and helps them be incorporated into that growing,
+complementary strand. The newly syntesized strand is a
+\emph{reverse complement} of the template strand. However, DNA polymerase is not capable of
+``setting up shop'' anywhere upon a template strand and simply stuffing complementary bases
+in wherever it wants. In fact, DNA polymerase is only able to add new
+bases to a growing strand if it can attach the new nucleotide triphosphate to a \emph{free 3' hydroxyl}
+that is on the end of the growing strand (the 3' hydroxyl is just a hydroxyl
+group attached to the 3' carbon). In Figure \ref{fig:dna-copying}, the template
+strand is the strand on the right of the figure, and the growing complementary strand
+is on the left side. There is a free 3' hydroxyl group on the ribose attached to the cytosine
+base. That is what is needed for DNA polymerase to be able to place a
+thymine triphosphate (complementary to adenine on
+the template strand) in the currently vacant position. If that thymine comes with a free
+3' hydroxyl group, then DNA polymerase will next place a guanine (complementary to the
+cytosine on the template strand) on the growing chain. And so forth. Thus, we see
+how the new strand of DNA is synthesized from the 5' to the 3' end \emph{of the growing chain}.
+
+Of course, some people find it easier to think about a new strand of DNA being sythesized in
+the 3' to 5' direction \emph{along the template strand}. This is equivalent. However, if you just remember
+that ``free three'' rhymes, and that DNA polymerase needs a free 3' hydroxyl to add a new base
+to the growing strand, you can always deduce that DNA must ``grow'' in a 5' to 3' direction.
+
+\hypertarget{the-importance-of-the-3-hydroxyl}{%
+\subsection{The importance of the 3' hydroxyl\ldots{}}\label{the-importance-of-the-3-hydroxyl}}
+
+It would be hard to overstate the importance to molecular biology
+of DNA polymerase's dependence upon
+a free 3' hydroxyl group for new strand synthesis. This simple fact plays a central
+role in:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  polymerase chain reaction (PCR)---the PCR primers are little oligonucleotides
+  that attach to a template strand and provide a free 3' hydroxyl group for the initiation
+  of synthesis.
+\item
+  a ddNTP is a nucleotide attached to a ribose molecule
+  that lacks a hydroxyl group on its 3' carbon. Incorporation of
+  such a ddNTP into a growing DNA strand terminates further DNA extension, and forms
+  the basis for Sanger sequencing (we'll explore this below).
+\item
+  Some medications are designed to interfere with viral DNA replication. For example,
+  AZT, or azino-thymine, is an anti-retroviral drug used to slow the progression of AIDS.
+  It is a thymine nucleotide with an azino (\(\mathrm{N}_3\)) group (instead
+  of a hydroxyl group) attached to the 3' carbon. Azino-thymine is used preferentially
+  by reverse transcriptase when synthesizing DNA. Incorporation of it into a growing
+  chain terminates DNA synthesis.
+\end{enumerate}
+
+The reversible inhibition of DNA extension also plays an important role in
+sequencing by synthesis as used by Illumina platforms. We will discuss
+this in a moment, but first we take a stroll down memory lane to refresh our
+understanding of \emph{Sanger sequencing} so as to understand how radically different
+\emph{next-generation sequencing} technologies are.
+
+\hypertarget{sanger-sequencing}{%
+\section{Sanger sequencing}\label{sanger-sequencing}}
+
+It is hard to imagine that the first public human genome was sequenced almost
+entirely by Sanger sequencing. We discuss the Sanger sequencing method
+here so we can contrast it with what happens on, say, an Illumina machine
+today.
+
+To perform Sanger sequencing, first it was necessary to do PCR to
+create numerous copies of a double stranded DNA fragment that was to be
+sequenced. For example let's say that one wanted to sequence the
+20-mer shown below, represented as double stranded DNA.
+
+\begin{verbatim}
+5'--AGGCTCAAGCTTCGACCGT--3'
+3'--TCCGAGTTCGAAGCTGGCA--5'
+\end{verbatim}
+
+For Sanger sequencing, first, one would do PCR to create
+bazillions of copies of that double-stranded DNA. Then four separate further PCR
+reactions would be done, each one having been ``spiked'' with a little bit of
+one of four different ddNTPs which, if incorporated into the
+growing strand allow no further extension of it.
+
+For example, if PCR were done as usual, but with the addition of ddATP,
+then occasionally, when a ddATP (an A lacking a 3' hydroxyl group)
+is incorporated into the growing strand that strand will grow no more.
+Consequently, the products of that PCR (incorporating an appropriate
+concentration of ddATPs), once filtered to retain only
+the top strand from above, will include the fragments
+
+\begin{verbatim}
+## [1] "A*"               "AGGCTCA*"        
+## [3] "AGGCTCAA*"        "AGGCTCAAGCTTCGA*"
+\end{verbatim}
+
+Where the \texttt{*} follows the sequence-terminating base.
+
+Likewise, in a separate reaction, occasional incorporation of a ddCTP will yield products:
+
+\begin{verbatim}
+## [1] "AGGC*"              "AGGCTC*"           
+## [3] "AGGCTCAAGC*"        "AGGCTCAAGCTTC*"    
+## [5] "AGGCTCAAGCTTCGAC*"  "AGGCTCAAGCTTCGACC*"
+\end{verbatim}
+
+And in another reaction, occasional incorporation of ddGTP yields:
+
+\begin{verbatim}
+## [1] "AG*"                 "AGG*"               
+## [3] "AGGCTCAAG*"          "AGGCTCAAGCTTCG*"    
+## [5] "AGGCTCAAGCTTCGACCG*"
+\end{verbatim}
+
+And in a final, separate reaction, incorporation of ddTTP would give:
+
+\begin{verbatim}
+## [1] "AGGCT*"               "AGGCTCAAGCT*"        
+## [3] "AGGCTCAAGCTT*"        "AGGCTCAAGCTTCGACCGT*"
+\end{verbatim}
+
+Each of these fragments is of a different length, so they can be
+separated on an electrophoretic gel. The secret to Sanger sequencing is that
+the products of all four separate reactions can be run side by side in
+separate lanes of the gel (or, as was done later, in separate capillaries\ldots{}),
+so that the gel, with small
+fragments running faster than large fragments, from the top to the bottom
+of the gel, would look like Figure \ref{fig:sanger}:
+\includegraphics{eca-bioinf-handbook_files/figure-latex/sanger-1.pdf}
+
+In reality, a gel like that in Figure \ref{fig:sanger}, won't bear the name of each
+sequence fragment. In fact, it will look much more like what you see in Figure \ref{fig:sanger2}.
+\includegraphics{eca-bioinf-handbook_files/figure-latex/sanger2-1.pdf}
+However, even with the DNA fragemnt sequences obscured, their sequences can be
+detemined by working from the bottom to the top and adding a different DNA base according to which column the band is in. Try it out.
+
+Some very important points must be made about Sanger sequencing:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The signal obtained from sequencing is, in a sense, a mixture of the starting templates. So, if you
+  have DNA from an individual, you have two copies of each chromosome, and they might carry slightly
+  different sequences. At heterozygous sites, it is impossible to tell which allele came from which
+  chromosome.
+\item
+  To conduct this procedure, it was typical that specific PCR primers were used to sequence
+  only a single fragment of interest. Extending the sequencing beyond that region often involved
+  a laborious process of ``walking'' primers further out in either direction. Very tedious.
+\item
+  Each sequencing reaction was typically carried out for just a single individual at once.\\
+\item
+  Until a little over a decade ago, this is how sequencing was done in conservation genetics.
+\end{enumerate}
+
+\hypertarget{illumina-sequencing-by-synthesis}{%
+\section{Illumina Sequencing by Synthesis}\label{illumina-sequencing-by-synthesis}}
+
+Illumina paired-end sequencing is currently the leading technology in conservation
+genomics.
+
+They say that a picture is worth a thousand words, so a video may well be worth
+ten thousand. Illumina has a very informative video about sequencing by synthesis.
+
+I have used some code (I found on GitHub) to provide captions to the video. These captions
+include comments, as well as questions that form part of this week's homework. (Yay!)\\
+You can see the video at
+\url{https://eriqande.github.io/erics-captioned-vids/vids/illumina-sbs/}
+
+The main take-home messages I want everyone to get about Illumin sequencing is:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The signal obtained from each cluster is the sequence of a single, \emph{single-stranded DNA fragment}
+\item
+  In paired-end sequencing, sequence from both ends of the fragment (but not necessarily
+  the middle) is obtained.
+\item
+  The technique lends itself to sequencing millions of ``anonymous'' chunks of DNA.
+\item
+  The indexes, or ``barcodes'' allow DNA from multiple individuals to be sequenced in a single run.
+\item
+  This is how most high-throughput sequencing is done today.
+\end{enumerate}
 
 \hypertarget{library-prep-protocols}{%
 \section{Library Prep Protocols}\label{library-prep-protocols}}
@@ -3542,14 +3825,492 @@ How you prepare your libraries dictates what type of data you get.
 \hypertarget{bioinformatic-file-formats-and-associated-tools}{%
 \chapter{Bioinformatic file formats and associated tools}\label{bioinformatic-file-formats-and-associated-tools}}
 
-Go over these, and for each, pay special attention to compressed and indexed
-forms and explain why that is so important. And I think that I should probably
-talk about the programs that are available for manipulating each of these.
+Almost all the high-throughput sequencing data you will deal with should
+arrive in just a few different formats. There are some specialized formats
+(like those output by the program TASSEL, etc.) but we will largely ignore
+those, focusing instead on the format used in production by the 1000 genomes
+and 10K vertebrate genomes projects. In a sentence, the most important are:
+FASTA, FASTQ, SAM, BAM, and VCF.
+
+Plan: Go over these, and for each, pay special attention to compressed and indexed
+forms and explain why that is so important. I think that we should probably
+talk about the programs that are available for manipulating each of these, as well,
+but I won't add that until we all have access to an HPC or other proper
+Unix environment.
 
 \hypertarget{sequences}{%
 \section{Sequences}\label{sequences}}
 
-FASTA, FASTQ
+\hypertarget{fasta}{%
+\section{FASTA}\label{fasta}}
+
+Come back to this when we talk about alignments.
+
+\hypertarget{fastq}{%
+\section{FASTQ}\label{fastq}}
+
+The FASTQ format is the standard format for lightly-processed data
+coming off an Illumina machine. If you are doing whole genome sequencing,
+it is typical for the Illumina processing pipeline to have separated all
+the reads with different barcodes into different, separate files. Typically
+this means that all the reads from one library prep for one sample will
+be in a single file. The barcodes and any associated additional adapter
+sequence is typically also removed from the reads. If you are processing
+RAD data, the reads may not be separated by barcode, because, due to the
+vagaries of the RAD library prep, the barcodes might appear on different ends
+of some reads than expected.
+
+A typical file extension for FASTQ files is \texttt{.fq}.
+Almost all FASTQ files you get from a sequencer should be gzipped to save space.
+Thus, in order to view the file you will have to uncompress it. Since you would,
+in most circumstances, want to visually inspect just a few lines, it is best
+to do that with \texttt{gzcat} and pipe the output to \texttt{head}.
+
+As we have seen, paired-end sequencing produces two separate reads of a DNA
+fragment. Those two different reads are usually stored in two separate files named
+in such a manner as to transparently denote whether it contains sequences obtained
+from read 1 or read 2.
+For example \texttt{bird\_08\_B03\_R1.fq.gz} and \texttt{bird\_08\_B03\_R2.fq.gz}. Read 1 and Read 2 from
+a paired read must occupy the sames lines in their respective files, i.e., lines
+10001-10004 in \texttt{bird\_08\_B03\_R1.fq.gz} and lines 10001-10004 in \texttt{bird\_08\_B03\_R2.fq.gz}
+should both pertain to the same DNA fragment that was sequenced. That is what is
+meant by ``paired-end'' sequencing: the sequences come in pairs from different
+ends of the same fragment.
+
+The FASTQ format is \emph{very} simple: information about each read occupies just four lines.
+This means that the number of lines in a proper FASTQ file must always be a multiple of four.
+Briefly, the four lines of information about each read are always in the same order as follows:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  An Identifier line
+\item
+  The DNA sequence as A's, C's, G's and T's.
+\item
+  A line that is almost always simply a \texttt{+} sign, but can optionally be followed
+  by a repeat of the ID line.
+\item
+  An ASCII-encoded, Phred-scaled base quality score. This gives an estimated
+  measure of certainty about each base call in the sequence.
+\end{enumerate}
+
+The code block below shows three reads worth (twelve lines) of
+information from a FASTQ file.
+Take a moment to identify the four different lines for each read.
+
+\begin{verbatim}
+@K00364:64:HTYYCBBXX:1:1108:4635:14133/1
+TAGAATACGCCAGGTGTAAGAATAGTAGAATACGCCAGGTGTAAGAATAGTAGAACACGCCAGGTGTAAGAATAGTAGAA
++
+AAAFFJJJJJFFJFJJJFJJFFJFJFJJJJJJJJFFJJJFJJJFJJAJJFJJFJJFJJJ7JJJF-<JAFJJ<F<AJAJJF
+@K00364:64:HTYYCBBXX:1:1108:5081:25527/1
+AAAACACCAAAAGAAAGATGCCCAGGGTCCCTGCTCATCTGCGTGAAAGTGACTTAGGCATGCTGCAAGGAGGCATGAGG
++
+AAFFFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ
+@K00364:64:HTYYCBBXX:1:1108:5852:47295/1
+AGGTGGCTCTAGAAGGTTCTCGGACCGAGAAACAGCCTCGTACATTTGCAATGATTTCAATTCATTTTGACCATTACGAA
++
+AAFFFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ
+\end{verbatim}
+
+Lines 2 and 3 are self-explanatory, but we will expound upon lines 1 and 4 below.
+
+\hypertarget{line-1-illumina-identifier-lines}{%
+\subsection{Line 1: Illumina identifier lines}\label{line-1-illumina-identifier-lines}}
+
+The identifier line can be just about any string that starts with an \texttt{@}, but, from Illumina data, today,
+you will typically see something like this:
+
+\begin{verbatim}
+@K00364:64:HTYYCBBXX:1:1108:4635:14133/1
+\end{verbatim}
+
+The colons (and the \texttt{/}) are field separators. The separate parts of the line
+above are interpreted something along the lines as follows (keeping in mind that
+Illumina occasionally changes the format and that there may be additional
+optional fields):
+
+\begin{verbatim}
+@           : mandatory character that starts the ID line
+K00364      : Unique sequencing machine ID 
+64          : Run number on instrument
+HTYYCBBXX   : Unique flow cell identifier
+1           : Lane number
+1108        : Tile number (section of the lane)
+4635        : x-coordinate of the cluster within the tile
+14133       : y-coordinate of the cluster within the tile
+1           : Whether the sequence is from read 1 or read 2 
+\end{verbatim}
+
+Question: For paired reads, do you expect the x- and y-coordinates for read 1 and read 2 to
+be the same?
+
+\hypertarget{line-4-base-quality-scores}{%
+\subsection{Line 4: Base quality scores}\label{line-4-base-quality-scores}}
+
+The base quality scores give an estimate of the probability that the base call is incorrect.
+This comes from data the sequencer collects on the brightness and compactness of the cluster
+radiance, other factors, and Illumina's own models for base call accuracy. If we let \(p\)
+be the probability that a base is called incorrectly, then \(Q\), the Phred-scaled base quality
+score, is:
+
+\[
+Q = \lfloor-10\log_{10}p\rfloor,
+\]
+where \(\lfloor x \rfloor\) means "the largest integer smaller than \(x\).
+
+To get the estimate of the probability that the base is called incorrectly from
+the Phred scaled score, you invert the above equation:
+
+\[
+p = \frac{1}{10^{Q/10}}
+\]
+Base quality scores from Illumina range from 0 to 40.
+The easiest values to use as guideposts are \(Q = 0, 10, 20, 30, 40\), which correspond to
+error probabilites of 1, 1 in 10, 1 in 100, 1 in 1,000, and 1 in 10,000, respectively.
+
+All this is fine and well, but when we look at the quality score line above we see
+something like \texttt{7JJJF-\textless{}JAFJJ\textless{}F\textless{}AJAJJF}. What gives? Well, from a file storage and
+parsing perspective, it makes sense to only use a single character to store the
+quality score for every base. So, that is what has been done: each of those
+single characters represents a quality score---a number between 0 and 40, inclusive.
+
+The values that have been used are the \emph{decimal representations of ASCII text characters} minus 33.\\
+The decimal representation or each character can be found in Figure \ref{fig:ascii}.
+
+\begin{figure}
+
+{\centering \includegraphics{figs/ascii-crop} 
+
+}
+
+\caption{This lovely ASCII table shows the binary, hexadecimal, octal and decimal representations of ASCII characters (in the corners of each square; see the legend rectangle at bottom.  Table produced from TeX code written and developed by Victor Eijkhout available at [https://ctan.math.illinois.edu/info/ascii-chart/ascii.tex](https://ctan.math.illinois.edu/info/ascii-chart/ascii.tex)}\label{fig:ascii}
+\end{figure}
+
+The decimal representation in in the upper left of each character's rectangle.
+
+Find the characters corresponding to base quality scores of 0, 10, 20, 30, and 40. Remember that the
+base quality score is the character's decimal representation \emph{minus 33}.
+
+Here is another question: why do you think the scale starts with ASCII character 33?
+
+\hypertarget{a-fastq-tidyverse-interlude}{%
+\subsection{A FASTQ `tidyverse' Interlude}\label{a-fastq-tidyverse-interlude}}
+
+Here we demonstrate some R code while exploring FASTQ files. First, in order to
+do these exercises you will want to download and launch the RStudio project,
+\texttt{big-fastq-play},
+that has the data
+in it. Please work within that RStudio project to do these exercises.
+Here is a direct download link to it:
+\url{https://docs.google.com/uc?export=download\&id=1iD8tz_KSOHDBpXvXssqo3noPZAm1Qsjp}
+
+Note that this might stress out older laptops as it loads 100s of Mb of sequence
+data into memory.
+
+\hypertarget{reading-fastqs-with-read_lines}{%
+\subsubsection{\texorpdfstring{Reading FASTQs with \texttt{read\_lines}}{Reading FASTQs with read\_lines}}\label{reading-fastqs-with-read_lines}}
+
+Load packages:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+
+\CommentTok{# if you don't have this package, get it}
+\CommentTok{# install.packages("viridis")}
+\KeywordTok{library}\NormalTok{(viridis)}
+\end{Highlighting}
+\end{Shaded}
+
+Read the FASTQ, make it a matrix, then make it a tibble
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# use read_lines to read the R1 fastq file line by line;}
+\CommentTok{# then make a 4 column matrix, filling by rows}
+\CommentTok{# then drop column 3, which corresponds to the "+" line}
+\NormalTok{R1 <-}\StringTok{ }\KeywordTok{read_lines}\NormalTok{(}\StringTok{"data/Battle_Creek_01_chinook_R1.fq.gz"}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{matrix}\NormalTok{(}\DataTypeTok{ncol =} \DecValTok{4}\NormalTok{, }\DataTypeTok{byrow =} \OtherTok{TRUE}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{.[,}\OperatorTok{-}\DecValTok{3}\NormalTok{]}
+  
+
+\CommentTok{# add colnames}
+\KeywordTok{colnames}\NormalTok{(R1) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"ID"}\NormalTok{, }\StringTok{"seq"}\NormalTok{, }\StringTok{"qual"}\NormalTok{)}
+
+\CommentTok{# now make a tibble out that.  We will assign}
+\CommentTok{# it back to the variable R1, to note carry}
+\CommentTok{# extra memory around}
+\NormalTok{R1 <-}\StringTok{ }\KeywordTok{as_tibble}\NormalTok{(R1)}
+
+\CommentTok{# Look at it:}
+\NormalTok{R1}
+
+
+\CommentTok{# OK, 1 million reads.}
+\end{Highlighting}
+\end{Shaded}
+
+Look at the first ID line:
+
+\begin{verbatim}
+ @E00430:101:HKT7WCCXY:1:1101:6411:1204 1:N:0:NGATGT
+\end{verbatim}
+
+Aha! This is a slightly different format than the above. The part after the
+space has colon-separated fields that are:
+
+\begin{verbatim}
+1        :  which read of the pair
+N        :  has this been filtered (Y/N)
+0        :  control number (always 0 on HiSeq and NextSeq)
+NGATGT   :  barcode on the read
+\end{verbatim}
+
+OK, our mission is to actually look at the locations of these reads on different
+tiles. To do that we will want to access the x and y coordinates and the
+tiles, etc. In the tidyverse, this means giving each of those things its own
+column.
+
+\hypertarget{tidyrseparate}{%
+\subsubsection{tidyr::separate()}\label{tidyrseparate}}
+
+How do we break those colon-separated fields into columns? This is a job for
+\texttt{tidyr::separate} which breaks a text string on user-defined separators into
+columns in a tibble.
+
+Here we can use it to break the ID into two parts split on the space, and then
+break the first part of the ID into its constituent parts:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# first we break on the space,}
+\CommentTok{# then we break the ID on the colons, but keep the original "id" for later}
+\NormalTok{R1 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{separate}\NormalTok{(ID, }\DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"id"}\NormalTok{, }\StringTok{"part2"}\NormalTok{), }\DataTypeTok{sep =} \StringTok{" "}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{separate}\NormalTok{(}
+\NormalTok{    id, }
+    \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"machine"}\NormalTok{, }\StringTok{"run"}\NormalTok{, }\StringTok{"flow_cell"}\NormalTok{, }\StringTok{"lane"}\NormalTok{, }\StringTok{"tile"}\NormalTok{, }\StringTok{"x"}\NormalTok{, }\StringTok{"y"}\NormalTok{), }
+    \DataTypeTok{sep =} \StringTok{":"}\NormalTok{,}
+    \DataTypeTok{remove =} \OtherTok{FALSE}
+\NormalTok{    )}
+\end{Highlighting}
+\end{Shaded}
+
+Wow! That was cool. Now, your mission is to pipe that (with \texttt{\%\textgreater{}\%})
+into another \texttt{separate()} command that breaks part2 into
+\texttt{read}, \texttt{filter}, \texttt{cnum}, and \texttt{barcode}, and save that into \texttt{R1\_sep}
+
+Here is a starter:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{R1_sep <-}\StringTok{ }\NormalTok{R1 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{separate}\NormalTok{(ID, }\DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"id"}\NormalTok{, }\StringTok{"part2"}\NormalTok{), }\DataTypeTok{sep =} \StringTok{" "}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{separate}\NormalTok{(}
+\NormalTok{    id, }
+    \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"machine"}\NormalTok{, }\StringTok{"run"}\NormalTok{, }\StringTok{"flow_cell"}\NormalTok{, }\StringTok{"lane"}\NormalTok{, }\StringTok{"tile"}\NormalTok{, }\StringTok{"x"}\NormalTok{, }\StringTok{"y"}\NormalTok{), }
+    \DataTypeTok{sep =} \StringTok{":"}\NormalTok{,}
+    \DataTypeTok{remove =} \OtherTok{FALSE}
+\NormalTok{    ) }\OperatorTok{%>%}
+\StringTok{    }\NormalTok{...your code here...}
+    
+\CommentTok{# when you are done with that, look at it}
+\NormalTok{R1_sep}
+    
+\end{Highlighting}
+\end{Shaded}
+
+Doh! There is one thing to note. Look at the first few columns of that:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# A tibble: 1,000,000 x 11}
+\NormalTok{   id          machine run   flow_cell lane  tile  x     y   }
+   \OperatorTok{<}\NormalTok{chr}\OperatorTok{>}\StringTok{       }\ErrorTok{<}\NormalTok{chr}\OperatorTok{>}\StringTok{   }\ErrorTok{<}\NormalTok{chr}\OperatorTok{>}\StringTok{ }\ErrorTok{<}\NormalTok{chr}\OperatorTok{>}\StringTok{     }\ErrorTok{<}\NormalTok{chr}\OperatorTok{>}\StringTok{ }\ErrorTok{<}\NormalTok{chr}\OperatorTok{>}\StringTok{ }\ErrorTok{<}\NormalTok{chr}\OperatorTok{>}\StringTok{ }\ErrorTok{<}\NormalTok{chr}\OperatorTok{>}\StringTok{      }
+\StringTok{ }\DecValTok{1} \OperatorTok{@}\NormalTok{E00430}\OperatorTok{:}\NormalTok{10… }\OperatorTok{@}\NormalTok{E00430 }\DecValTok{101}\NormalTok{   HKT7WCCXY }\DecValTok{1}     \DecValTok{1101}  \DecValTok{6411}  \DecValTok{1204}
+ \DecValTok{2} \OperatorTok{@}\NormalTok{E00430}\OperatorTok{:}\NormalTok{10… }\OperatorTok{@}\NormalTok{E00430 }\DecValTok{101}\NormalTok{   HKT7WCCXY }\DecValTok{1}     \DecValTok{1101}  \DecValTok{7324}  \DecValTok{1204}
+ \DecValTok{3} \OperatorTok{@}\NormalTok{E00430}\OperatorTok{:}\NormalTok{10… }\OperatorTok{@}\NormalTok{E00430 }\DecValTok{101}\NormalTok{   HKT7WCCXY }\DecValTok{1}     \DecValTok{1101}  \DecValTok{8582}  \DecValTok{1204}
+ \DecValTok{4} \OperatorTok{@}\NormalTok{E00430}\OperatorTok{:}\NormalTok{10… }\OperatorTok{@}\NormalTok{E00430 }\DecValTok{101}\NormalTok{   HKT7WCCXY }\DecValTok{1}     \DecValTok{1101}  \DecValTok{9841}  \DecValTok{1204}
+ \DecValTok{5} \OperatorTok{@}\NormalTok{E00430}\OperatorTok{:}\NormalTok{10… }\OperatorTok{@}\NormalTok{E00430 }\DecValTok{101}\NormalTok{   HKT7WCCXY }\DecValTok{1}     \DecValTok{1101}  \DecValTok{10186} \DecValTok{1204} 
+\end{Highlighting}
+\end{Shaded}
+
+The x- and the y-coordinates are listed as characters (\texttt{\textless{}chr\textgreater{}}) but they should
+be numeric. This shows the default behavior of \texttt{separate()}: it just breaks each
+field into a column of strings. However, you can ask \texttt{separate()} to make a good-faith
+guess of the type of each column and convert it to that. This works suitably in this
+situation, so, let's repeat the last command, but convert types automatically:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{R1_sep <-}\StringTok{ }\NormalTok{R1 }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{separate}\NormalTok{(ID, }\DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"id"}\NormalTok{, }\StringTok{"part2"}\NormalTok{), }\DataTypeTok{sep =} \StringTok{" "}\NormalTok{) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{separate}\NormalTok{(}
+\NormalTok{    id, }
+    \DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"machine"}\NormalTok{, }\StringTok{"run"}\NormalTok{, }\StringTok{"flow_cell"}\NormalTok{, }\StringTok{"lane"}\NormalTok{, }\StringTok{"tile"}\NormalTok{, }\StringTok{"x"}\NormalTok{, }\StringTok{"y"}\NormalTok{), }
+    \DataTypeTok{sep =} \StringTok{":"}\NormalTok{,}
+    \DataTypeTok{remove =} \OtherTok{FALSE}\NormalTok{,}
+    \DataTypeTok{convert =} \OtherTok{TRUE}
+\NormalTok{  ) }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{separate}\NormalTok{(part2, }\DataTypeTok{into =} \KeywordTok{c}\NormalTok{(}\StringTok{"read"}\NormalTok{, }\StringTok{"filter"}\NormalTok{, }\StringTok{"cnum"}\NormalTok{, }\StringTok{"barcode"}\NormalTok{), }\DataTypeTok{sep =} \StringTok{":"}\NormalTok{, }\DataTypeTok{convert =} \OtherTok{TRUE}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{counting-tiles}{%
+\subsubsection{Counting tiles}\label{counting-tiles}}
+
+Let's see how many tiles these reads came from. Basically we just want to count the
+number of rows with different values for tile. Read the documentation for
+\texttt{dplyr::count} with
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{?count}
+\end{Highlighting}
+\end{Shaded}
+
+and when you are done count up the number of reads in each tile:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{R1_sep }\OperatorTok{%>%}
+\StringTok{  }\NormalTok{...your code here...}
+\end{Highlighting}
+\end{Shaded}
+
+Turns out they are all from the same tile\ldots{}
+
+\hypertarget{parsing-quality-scores}{%
+\subsubsection{Parsing quality scores}\label{parsing-quality-scores}}
+
+Now, we want to turn the quality-score ASCII-characters into Phred-scaled
+qualities, ultimately taking the average over each sequence of those.
+
+Check out this function:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{utf8ToInt}\NormalTok{(}\StringTok{"!*JGH"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 33 42 74 71 72
+\end{verbatim}
+
+We can use that to get Phred-scaled values by subtracting 33 from the result. Let's check:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{utf8ToInt}\NormalTok{(}\StringTok{"!+5?IJ"}\NormalTok{) }\OperatorTok{-}\StringTok{ }\DecValTok{33}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  0 10 20 30 40 41
+\end{verbatim}
+
+Note that \texttt{J} seems to be used for ``below 1 in 10,000'' as it is the highest I have ever seen.
+
+So, what we want to do is make a new column called \texttt{mean\_qual} that gives the
+mean of the Phred-scaled qualities. Any time you need to make a new column in a
+tibble, where the result in each row depends only on the values in current columns
+in that same row, that is a job for \texttt{mutate()}.
+
+However, in this case, because the \texttt{utf8ToInt()} function doesn't take vector input,
+computing the \texttt{mean\_qual} for every row requres using one of the \texttt{map()} family of functions.
+It is a little beyond
+what we want to delve into at the moment. But here is what it looks like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{R1_sepq <-}\StringTok{ }\NormalTok{R1_sep }\OperatorTok{%>%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{mean_qual =} \KeywordTok{map_dbl}\NormalTok{(}\DataTypeTok{.x =}\NormalTok{ qual, }\DataTypeTok{.f =} \ControlFlowTok{function}\NormalTok{(x) }\KeywordTok{mean}\NormalTok{(}\KeywordTok{utf8ToInt}\NormalTok{(x) }\OperatorTok{-}\StringTok{ }\DecValTok{33}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Check out the distribution of those mean quality scores:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(R1_sepq, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ mean_qual)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{binwidth =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{investigating-the-spatial-distribution-of-reads-and-quality-scores}{%
+\subsubsection{Investigating the spatial distribution of reads and quality scores}\label{investigating-the-spatial-distribution-of-reads-and-quality-scores}}
+
+Now, use the above as a template to investigate the distribution of the
+x-values:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(R1_sepq, }\KeywordTok{aes}\NormalTok{(...your code here...)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{500}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+And, do the same for the y-values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Dsn of y}
+\KeywordTok{ggplot}\NormalTok{(R1_sepq, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ y)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_histogram}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{500}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{coord_flip}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+Hmm\ldots{} for fun, make a 2-D hex-bin plot
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(R1_sepq, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ x, }\DataTypeTok{y =}\NormalTok{ y)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_hex}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{100}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_fill_viridis_c}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+That is super interesting. It looks like the flowcell or camera must have a mild
+issue where the smears are between y = 20,000 and 30,000.
+
+It is natural to wonder if the quality scores of the reads that did actually get
+recovered from those regions have lower quality scores. This makes a hexbin plot
+of the mean quality scores:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# hexbin of the mean quality score}
+\KeywordTok{ggplot}\NormalTok{(R1_sepq, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ x, }\DataTypeTok{y =}\NormalTok{ y, }\DataTypeTok{z =}\NormalTok{ mean_qual)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stat_summary_hex}\NormalTok{(}\DataTypeTok{bins =} \DecValTok{100}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{scale_fill_viridis_c}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+Cool.
+
+\hypertarget{comparing-read-1-to-read-2}{%
+\subsection{Comparing read 1 to read 2}\label{comparing-read-1-to-read-2}}
+
+One question that came up in class is whether the quality of read 2 is typically lower
+than that of read 1. We can totally answer that with the data we have. It would involve,
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  reading in all the read 2 reads and separating columns.
+\item
+  computing the read 2 mean quality scores
+\item
+  joining (see \texttt{left\_join()}) on the \texttt{id} columns and then making a scatter plot.
+\end{enumerate}
+
+Go for it\ldots{}
 
 \hypertarget{alignments}{%
 \section{Alignments}\label{alignments}}
@@ -3830,7 +4591,7 @@ I copied that to \texttt{inputs} so we can plot it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-10-1.pdf}
+\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-19-1.pdf}
 
 OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.
 
@@ -4280,9 +5041,9 @@ Get far enough to discuss \(\pi\) and the expected site frequency spectrum.
 \section{Measures of genetic diversity and such}\label{measures-of-genetic-diversity-and-such}}
 
 It would really be good for me to write a chapter / give a few lectures
-on different measures like \(d_{xy}\), \(F_\mathrm{ST}\).
+on different measures like dxy and fst
 
-From Ash's paper: However, population genomic analyses (outlined below) use FST only, as dxy was highly correlated to nucleotide diversity (π) (for early stage diverging populations the correlation between dxy and \(\pi\) is \textgreater{} 0.91, Pearson correlation). As such variation in dxy across the genome reflects variation in diversity, not differentiation (Riesch et al., 2017).
+From Ash's paper: However, population genomic analyses (outlined below) use FST only, as dxy was highly correlated to nucleotide diversity (for early stage diverging populations the correlation between dxy and \(\pi\) is \textgreater{} 0.91, Pearson correlation). As such variation in dxy across the genome reflects variation in diversity, not differentiation (Riesch et al., 2017).
 
 Tajima's \(D\) and such. The influence of selection on such measures.
 

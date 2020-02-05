@@ -21,9 +21,9 @@ Get far enough to discuss $\pi$ and the expected site frequency spectrum.
 ## Measures of genetic diversity and such
 
 It would really be good for me to write a chapter / give a few lectures
-on different measures like $d_{xy}$, $F_\mathrm{ST}$.  
+on different measures like dxy and fst  
 
-From Ash's paper:  However, population genomic analyses (outlined below) use FST only, as dxy was highly correlated to nucleotide diversity (π) (for early stage diverging populations the correlation between dxy and $\pi$ is > 0.91, Pearson correlation). As such variation in dxy across the genome reflects variation in diversity, not differentiation (Riesch et al., 2017).
+From Ash's paper:  However, population genomic analyses (outlined below) use FST only, as dxy was highly correlated to nucleotide diversity (for early stage diverging populations the correlation between dxy and $\pi$ is > 0.91, Pearson correlation). As such variation in dxy across the genome reflects variation in diversity, not differentiation (Riesch et al., 2017).
 
 Tajima's $D$ and such.  The influence of selection on such measures.
 

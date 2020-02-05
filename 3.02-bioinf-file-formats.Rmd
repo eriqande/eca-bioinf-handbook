@@ -117,6 +117,7 @@ This comes from data the sequencer collects on the brightness and compactness of
 radiance, other factors, and Illumina's own models for base call accuracy.  If we let $p$
 be the probability that a base is called incorrectly, then $Q$, the Phred-scaled base quality
 score, is:
+
 $$
 Q = \lfloor-10\log_{10}p\rfloor,
 $$
@@ -125,6 +126,7 @@ where $\lfloor x \rfloor$ means "the largest integer smaller than $x$.
 
 To get the estimate of the probability that the base is called incorrectly from
 the Phred scaled score, you invert the above equation:
+
 $$
 p = \frac{1}{10^{Q/10}}
 $$
@@ -141,7 +143,7 @@ single characters represents a quality score---a number between 0 and 40, inclus
 The values that have been used are the _decimal representations of ASCII text characters_ minus 33.  
 The decimal representation or each character can be found in Figure \@ref(fig:ascii).
 ```{r ascii, echo=FALSE, fig.align='center', dpi=270, fig.cap='This lovely ASCII table shows the binary, hexadecimal, octal and decimal representations of ASCII characters (in the corners of each square; see the legend rectangle at bottom.  Table produced from TeX code written and developed by Victor Eijkhout available at [https://ctan.math.illinois.edu/info/ascii-chart/ascii.tex](https://ctan.math.illinois.edu/info/ascii-chart/ascii.tex)'}
-knitr::include_graphics("figs/ascii-crop.png")
+knitr::include_graphics("figs/ascii-crop.png", auto_pdf = TRUE)
 ```
 The decimal representation in in the upper left of each character's rectangle.  
 

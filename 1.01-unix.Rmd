@@ -1203,7 +1203,7 @@ This is just a table with quick topics/commands/words in it.  You should
 understand each and be able to tell a friend a lot about each one.  Cite it
 as \@ref(tab:unix-chap-review)
 
-```{r unix-chap-review, echo=FALSE}
+```{r, echo=FALSE}
 lines <- read_lines("chapter_review_inputs/unix-chapter-review-terms.txt")
 mat <- matrix(lines, byrow = TRUE, ncol = 3)
 colnames(mat) <- c("X1", "X2", "X3")

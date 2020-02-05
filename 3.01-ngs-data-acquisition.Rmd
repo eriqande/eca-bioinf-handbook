@@ -19,7 +19,7 @@ conventions.
 DNA typically occurs as a double-helix of two _complementary_ strands.  Each strand is composed of a
 _backbone_ of phophates and deoxyribose molecules, to which DNA _bases_ are attached.  Figure \@ref(fig:dna-structure) shows this for a fragment of _double-stranded_ DNA of four nucleotides.
 ```{r dna-structure, echo=FALSE, fig.align='center', dpi=80, fig.cap='Schematic of the structure of DNA. (Figure By Madprime (talk---contribs)  CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1848174)'}
-knitr::include_graphics("figs/DNA_chemical_structure.svg")
+knitr::include_graphics("figs/DNA_chemical_structure.svg", auto_pdf = TRUE)
 ```
 The orange parts show the ribose molecules in the backbone, while the four remaining colors
 denote the nucleotide bases of adenine (A), cytosine (C), guanine (G), and thymine (T).  Each base
@@ -78,7 +78,7 @@ When @watsonMolecularStructureNucleic1953 published the first account of the dou
 they noted that the double-helix (i.e., two-stranded) nature of the molecule immediately suggested
 a copying mechanism (Figure \@ref(fig:crickwat)).
 ```{r crickwat, echo=FALSE, fig.align='center', dpi=80, fig.cap='Excerpt from Crick and Watson (1953).'}
-knitr::include_graphics("figs/crick-and-watson.png")
+knitr::include_graphics("figs/crick-and-watson.png", auto_pdf = TRUE)
 ```
 (I've also included, in the excerpt, the inadequate acknowledgment
 of the centrality of Rosalind Franklin's pioneering
@@ -87,7 +87,7 @@ which much has been written, see, for example, this [article](https://www.thegua
 
 Figure \@ref(fig:dna-copying) shows a schematic of what DNA looks like during the replication process.
 ```{r dna-copying, echo=FALSE, fig.align='center', dpi=80, fig.cap='DNA during replication. (Figure adapted from the one by Madprime (talk---contribs)  CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=1848174)'}
-knitr::include_graphics("figs/DNA_chemical_structure_2.svg")
+knitr::include_graphics("figs/DNA_chemical_structure_2.svg", auto_pdf = TRUE)
 ```
 Essentially, during DNA replication, a _DNA polymerase_ molecule finds nucleotide bases (attached
 to three phoshpate groups) to build a new strand
