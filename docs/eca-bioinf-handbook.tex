@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-02-05}
+\date{2020-02-06}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -223,9 +223,7 @@
 \thispagestyle{empty}
 
 \begin{center}
-To my son,
 
-without whom I should have finished this book two years earlier
 %\includegraphics{images/dedication.pdf}
 \end{center}
 
@@ -3841,11 +3839,6 @@ Unix environment.
 \hypertarget{sequences}{%
 \section{Sequences}\label{sequences}}
 
-\hypertarget{fasta}{%
-\section{FASTA}\label{fasta}}
-
-Come back to this when we talk about alignments.
-
 \hypertarget{fastq}{%
 \section{FASTQ}\label{fastq}}
 
@@ -4312,14 +4305,411 @@ than that of read 1. We can totally answer that with the data we have. It would 
 
 Go for it\ldots{}
 
+\hypertarget{fasta}{%
+\section{FASTA}\label{fasta}}
+
+The FASTQ format, described above, is tailored for representing short DNA sequences---and their associated
+quality scores---that have been generated from high-throughput sequencing machines.
+A simpler, leaner format is used to represent longer DNA sequences that have typically
+been established from a lot of sequencing, and which no longer travel with their
+quality scores. This is the FASTA format, which you will typically see storing
+the DNA sequence from \emph{reference genomes}. FASTA files typically use the file extensions \texttt{.fa}, \texttt{.fasta},
+or \texttt{.fna}, the latter denoting it as a FASTA file of nucleotides.
+
+In an ideal world, a reference genome
+would contain a single, uninterrupted sequence of DNA for every chromosome. While the resources
+for some well-studied species include ``chromosomal-level assemblies'' which have much
+sequence organized into chromosomes in a FASTA file, even these genome assemblies often
+include a large number of short fragments of sequence that are known to belong
+to the species, but whose location and orientation in the genome remain unknown.
+
+More often, in conservation genetics, the reference genome for an organism you are working
+on might be the product of a recent, small-scale, assembly of a \emph{low-coverage genome}.
+In this case, the genome may be represented by thousands, or tens of thousands, of \emph{scaffolds},
+only a few of which might be longer than one or a few megabases. All of these scaffolds
+go into the FASTA file of the reference genome.
+
+Here are the first 10 lines of the FASTA holding a reference genome for
+Chinook salmon:
+
+\begin{verbatim}
+>CM008994.1 Oncorhynchus tshawytscha isolate JC-2011-M1
+AGTGTAGTAGTATCTTACCTATATAGGGGACAGTGTAGTAGTATCTTACTTATTTGGGGGACAATGCTCTAGTGTAGTAG
+AATCTTACCTTTATAGGGGACAGTGCTGGAGTGCACTGGTATCTTACCTATATAGGGGACAGTGCTGGAGTGTAGTAGTG
+TCTCGGCCCACAGCCGGCAGGCCTCAGTCTTAGTTAGACTCTCCACTCCATAAGAAAGCTGGTACTCCATCTTGGACAGG
+ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA
+TGTGTGGTACATGTTTACAGAGAAGGAGtatattaaaaacagaaaactgTTTTGGttgaaatatttgtttttgtctgaAG
+CCCGAAAAACACATGAAATTCAAAAGATAATTTGACCTACGCACTAACTAGGCTTTTCAGCAGCTCAACTACTGTCCGTT
+TATTGATCTACTGTACTGCAACAACATATGTACTCACACAACAGACTATATTGGATTCAGACAGGACCTATAGGTTACCA
+TGCTTCCTCTCTACAGGACCTATAGGTTACCATGCTTCCTCTCTACAAGGTCTATAGGTTACCATGCGTCCTCTCTACAG
+GACCTATAGGTTACCATGCTTCCTCTCTACAGGGCCTATAGGTTACCATGCTTCCTCTCTACAGGACCTGTAGGTTACCA
+\end{verbatim}
+
+The format is straightforward: any line starting with \texttt{\textgreater{}} is interpreted as a
+line holding the identifier of the following sequence. In this case, the identifier
+is \texttt{CM008994.1}. The remainder of the line (following the first white space) are
+further comments about the sequence, but will not typically be carried through
+downstream analysis (such as aligment) pipelines. In this case \texttt{CM008994.1} is
+the name of an assembled chromosome in this reference genome. The remaining lines give
+the DNA sequence of that assembled chromosome.
+
+It is convention with FASTA files that lines of DNA sequence should be less
+than 80 characters, but this is inconsistently enforced by different analysis
+programs. However, most of the FASTA files you will see will have lines that
+are 80 characters long.
+
+In the above fragment, we see DNA sequence that is either upper or lower case.
+A common convention is that the lowercase bases are segments of DNA that
+have been inferred (by, for example RepeatMasker) to include repetitive DNA.
+It is worth noting this if you are trying to design assays from sequence
+data! However, not all reference genomes have repeat-sequences denoted
+in this fashion.
+
+Most reference genomes contain gaps. Sometimes the length of these gaps
+can be accurately known, in which case each missing base pair is replaced by
+an \texttt{N}. Sometimes gaps of unknown length are represented by a string of \texttt{N}'s of
+some fixed length (like 100).
+
+Finally, it is worth reiterating that the sequence in a reference-genome FASTA file represents
+the sequence only one strand of a double-stranded molecule. In chromosomal-scale assemblies
+there is a convention to use the strand that has its 5' end at the telomere of the
+short arm of the chromosome \citep{cartwrightMultiplePersonalitiesWatson2011}.
+Obviously, such a convention cannot be enforced
+in a low-coverage genome in thousands of pieces. In such a genome, different
+scaffolds will represent sequence on different strands; however the sequence
+in the FASTA file, whichever strand it is upon, is taken to be the reference,
+and that sequence is referred to as the \emph{forward} strand of the reference genome.
+
+\hypertarget{genomic-ranges}{%
+\subsection{Genomic ranges}\label{genomic-ranges}}
+
+Almost every aspect of genomics or bioinformatics involves talking about the
+``address'' or ``location'' of a piece of DNA in the reference genome. These locations
+within a reference genome can almost universally be described in terms of genomic range
+with a format that looks like:
+
+\begin{verbatim}
+SegmentName:start-stop
+\end{verbatim}
+
+For example,
+
+\begin{verbatim}
+CM008994.1:1000001-1001000
+\end{verbatim}
+
+denotes the 1 Mb chunk of DNA starting from position 1000001 and proceeding
+to (and including!) position 1001000.
+Such nomenclature is often referred to as the \emph{genomic coordinates} of a
+segment.
+
+In most applications we will encounter, the first position in a chromosome
+labeled 1. This is called a \emph{base 1 coordinate system}. In some genomic
+applications, a \emph{base 0 coordinate system} is employed; however, for the most
+part such a system is only employed internally in the guts of code of software that we
+will use, while the user interface of the software consistently uses a
+base 1 coordinate system.
+
+\hypertarget{extracting-genomic-ranges-from-a-fasta-file}{%
+\subsection{Extracting genomic ranges from a FASTA file}\label{extracting-genomic-ranges-from-a-fasta-file}}
+
+Commonly (for example, when designing primers for assays) it is necessary
+to pick out an precise genomic range from a reference genome. This
+is something that you should \emph{never} try to do by hand. That is too
+slow and too error prone. Rather the software package \texttt{samtools} (which
+will be discussed in detail later) provides the \texttt{faidx} utility to \emph{index} a FASTA
+file. It then uses that index to provide lightning fast access to
+specific genomic coordinates, returning them in a new FASTA file with
+identifiers giving the genomic ranges. Here is an example using \texttt{samtools\ faidx} to
+extract four DNA sequences of length 150 from within the Chinook salmon genome
+excerpted above:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# assume the working directory is where the fasta file resides}
+
+\CommentTok{# create the index}
+\ExtensionTok{samtools}\NormalTok{ faidx GCA_002831465.1_CHI06_genomic.fna}
+
+\CommentTok{# that created the file: GCA_002831465.1_CHI06_genomic.fna.fai}
+\CommentTok{# which holds four columns that constitute the index}
+
+\CommentTok{# now we extract the four sequences:}
+\ExtensionTok{samtools}\NormalTok{ faidx \textbackslash{}}
+\NormalTok{    GCA_002831465.1_CHI06_genomic.fna \textbackslash{}}
+\NormalTok{    CM009007.1:3913989-3914138 \textbackslash{}}
+\NormalTok{    CM009011.1:2392339-2392488 \textbackslash{}}
+\NormalTok{    CM009013.1:11855194-11855343 \textbackslash{}}
+\NormalTok{    CM009019.1:1760297-1760446}
+    
+\CommentTok{# the output is like so:}
+\OperatorTok{>}\ExtensionTok{CM009007.1}\NormalTok{:3913989-3914138}
+\ExtensionTok{TTACCGAtggaacattttgaaaaacacaaCAATAAAGCCTTGTGTCCTATTGTTTGTATT}
+\ExtensionTok{TGCTTCGTGCTGTTAATGGTAgttgcacttgattcagcagccgtAGCGCCGGGAAggcag}
+\ExtensionTok{tgttcccattttgaaaaaTGTCATGTCTGA}
+\OperatorTok{>}\ExtensionTok{CM009011.1}\NormalTok{:2392339-2392488}
+\ExtensionTok{gatgcctctagcactgaggatgccttagaccgctgtgccactcgggaggccttcaGCCTA}
+\ExtensionTok{ACTCTAACTGTAAGTAAATTGTGTGTATTTTTGGGTACATTTCGCTGGTCCCCACAAGGG}
+\ExtensionTok{GAAAGggctattttaggtttagggttaagg}
+\OperatorTok{>}\ExtensionTok{CM009013.1}\NormalTok{:11855194-11855343}
+\ExtensionTok{TGAGGTTTCTGACTTCATTTTCATTCACAGCAGTTACTGTATGCCTCGGTCAAATTGAAA}
+\ExtensionTok{GGAAAGTAAAGTAACCATGTGGAGCTGtatggtgtactgtactgtactgtattgtactgt}
+\ExtensionTok{attgtgtgGGACGTGAGGCAGGTCCAGATA}
+\OperatorTok{>}\ExtensionTok{CM009019.1}\NormalTok{:1760297-1760446}
+\ExtensionTok{ttcccagaatctctatgttaaccaaggtgtttgcaaatgtaacatcagtaggggagagag}
+\ExtensionTok{aggaaataaagggggaagaggtatttatgactgtcataaacctacccctcaggccaacgt}
+\ExtensionTok{catgacactcccgttaatcacacagactGG}
+\end{Highlighting}
+\end{Shaded}
+
 \hypertarget{alignments}{%
 \section{Alignments}\label{alignments}}
 
-SAM/BAM. Talk about them being sorted or not. Note that the headers between these
-and VCF are similar.
+A major task in bioinformatics is \emph{aligning} reads from a sequencing machine
+to a reference genome. We will discuss the operational features of that task
+in a later chapter, but here we treat the topic of the SAM, or
+Sequence Alignment Map, file format which is widely used to represent the results of
+sequence alignment. We attempt to motivate this topic by first considering a handful
+of the intricacies that arise during sequence alignment, before proceeding
+to a discussion of the various parts of the SAM file that are employed to handle
+the many and complex ways in which DNA alignments can occur and be represented.
+This will necessarily be an incomplete and relatively humane introduction to SAM files.
+For the adventurous a more complete---albeit astonishingly terse---description of the
+\href{https://samtools.github.io/hts-specs/SAMv1.pdf}{SAM format specification}
+is maintained and regularly updated.
 
-Have a discussion here about naming positions within the genome
-and talk about 0-based vs 1-based coordinates.
+\hypertarget{how-might-i-align-to-thee-let-me-count-the-ways}{%
+\subsection{How might I align to thee? Let me count the ways\ldots{}}\label{how-might-i-align-to-thee-let-me-count-the-ways}}
+
+We are going to consider the alignment of very short (10 bp)
+paired reads from the ends of a short (50 bp) fragment from
+the fourth line of the FASTA file printed above. In other words,
+those 80 bp of the reference genome are:
+
+\begin{verbatim}
+5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'
+\end{verbatim}
+
+And we will be considering double-stranded DNA occupying the middle 50 base
+pairs of that piece of reference genome. That piece of double stranded
+DNA looks like:
+
+\begin{verbatim}
+5'  ACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGA  3'
+    ||||||||||||||||||||||||||||||||||||||||||||||||||
+3'  TGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACT  5'
+\end{verbatim}
+
+If we print it alongside (underneath, really) our reference genome,
+we can see where it lines up:
+
+\begin{verbatim}
+5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'
+               5'  ACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGA  3'
+                   ||||||||||||||||||||||||||||||||||||||||||||||||||
+               3'  TGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACT  5'
+\end{verbatim}
+
+Now, remember that any template being sequenced on an Illumina machine is
+going to be single-stranded, and we have no control over which strand, from
+a double-stranded fragment of DNA, will get sequenced. Futhermore, recall that
+for this tiny example, we are assuming that the reads are only 10 bp long.
+Ergo, if everything has gone according to plan, we can expect to see two
+different possible \emph{templates}, where I have denoted the base pairs
+that do not get sequenced with \texttt{-}'s
+
+\begin{verbatim}
+either:
+               5'  ACCTGCAGGA------------------------------AACACAGTGA  3'
+or:
+               3'  TGGACGTCCT------------------------------TTGTGTCACT  5'
+\end{verbatim}
+
+If we see the top situation, we have a situation in which the template that reached
+the lawn on the Illumina machine comes from the strand that is represented
+in the reference genome. This is called the \emph{forward strand}. On the other hand,
+the bottom situation is one in which the template is from the reverse complement
+of the strand represented by the reference. This is called the \emph{reverse strand}.
+
+Now, things start to get a little more interesting, because we don't get to look at the
+the entire template as one contiguous piece of DNA in the 5' to 3' direction.
+Rather, we get to ``see'' one end of it by reading Read 1 in the 5' to 3' direction,
+and then we ``see'' the other end of it by reading Read 2, also in the 5' to 3' direction,
+\emph{but Read 2 is read off the complementary strand}.
+
+So, if we take the template from the top situation:
+
+\begin{verbatim}
+the original template is:
+               5'  ACCTGCAGGA------------------------------AACACAGTGA  3'
+               
+So the resulting reads are:
+
+Read 1:        5'  ACCTGCAGGA  3'   --> from 5' to 3' on the template
+Read 2:        5'  TCACTGTGTT  3'   --> the reverse complement of the
+                                        read on the 3' end of the template
+\end{verbatim}
+
+And if we take the template from the bottom scenario:
+
+\begin{verbatim}
+the original template is:
+               3'  TGGACGTCCT------------------------------TTGTGTCACT  5'
+               
+So the resulting reads are:
+
+Read 1:        5'  TCACTGTGTT  3'   --> from 5' to 3' on the template
+Read 2:        5'  ACCTGCAGGA  3'   --> the reverse complement of the
+                                        read on the 3' end of the template
+\end{verbatim}
+
+Aha! Regardless of which strand of DNA the original template
+comes from, sequences must be read off of it in a 5' to 3' direction
+(as that is how the biochemistry works). So, there are only two
+possible sequences you will see, and these correspond to reads from 5' to 3'
+off of each strand. So, the only difference that happens when
+the template is from the forward or the reverse strand (relative to the
+reference), is whether Read 1 is from the forward strand and Read 2 is
+from the reverse strand, or whether Read 1 is from the reverse strand
+and Read 2 is from the forward strand. The actual pair of sequences
+you will end up seeing is still the same.
+
+So, to repeat, with a segment of DNA that is a faithful copy of the reference genome,
+there are only two read sequences that you might see, and as we will show
+below \emph{Read 1 and Read 2 must
+align to opposite strands of the reference.}
+
+What does a faithful segment from the reference genome look like
+in alignment? Well, in the top case we have:
+
+\begin{verbatim}
+      Read 1:  5'  ACCTGCAGGA  3' 
+5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'  forward-strand
+    ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+3'  TGTATCTGTCCCTGGTGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5'  reverse-strand
+                                              Read 2:  3'  TTGTGTCACT  5'
+\end{verbatim}
+
+And in the bottom case we have:
+
+\begin{verbatim}
+      Read 2:  5'  ACCTGCAGGA  3' 
+5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'  forward-strand
+    ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+3'  TGTATCTGTCCCTGGTGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5'  reverse-strand
+                                              Read 1:  3'  TTGTGTCACT  5'
+\end{verbatim}
+
+Note that, although one of the reads always aligns to the reverse strand, the position
+at which it is deemed to align is still read off of the position on the forward strand.
+(Thank goodness for that! Just
+think how atrocious it would be if we counted positions of fragments mapping to the reverse strand
+by starting from the reverse strands's 5' end, on the other end of the chromosome, and counting
+forward from there!!)
+
+Note that the \emph{alignment position} is one of the most important pieces of information
+about an alignment. It gets recorded in the \textbf{POS} column of an alignment. It is recorded as the
+first position (counting from 1 on the 5' end of the forward reference strand) at which
+the alignment starts. Of course, the name of the reference sequence the read maps to is
+essential. In a SAM file this is called the \textbf{RNAME} or reference name.
+
+Both of the last two alignments illustrated above involve paired end reads that align
+``properly,'' because one read in the pair aligns to the forward strand and one read
+aligns to the reverse strand of the reference genome. As we saw above, that is just what
+we would expect if the template we were sequencing is a faithful copy (apart from a few SNPs
+or indels) of either the forward or the reverse strand of the reference sequence. In alignment
+parlance we say that each of the reads is ``mapped in a proper pair.'' This is obviously
+an important piece of information about an alignment and it is recorded in a SAM file
+in the so-called \textbf{FLAG} column for each alignment. (More on these flags later\ldots{})
+
+How can a read pair not be properly mapped? There are a few possibilities:
+
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\tightlist
+\item
+  One read of the pair gets aligned, but the other does not. For example something
+  that in our schematic would look like this:
+\end{enumerate}
+
+\begin{verbatim}
+5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'
+               5'  ACCTGCAGGA  3'
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Both read of the pair map to the same strand. If our paired end reads looked like:
+\end{enumerate}
+
+\begin{verbatim}
+Read 1:   5'  ACCTGCAGGA  3'
+Read 2:   5'  AACACAGTGA  5'
+\end{verbatim}
+
+then they would both align nicely to just the forward strand of the reference genome:
+
+\begin{verbatim}
+5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'
+               5'  ACCTGCAGGA------------------------------AACACAGTGA  3'
+\end{verbatim}
+
+And, as we saw above, this would indicate the the template must not
+conform to the reference genome in some way.\\
+This may occur if there is a rearrangement (like an inversion, etc.) in the
+genome being sequenced, relative to the reference genome.
+
+\begin{enumerate}
+\def\labelenumi{(\arabic{enumi})}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  The two different reads of a pair get aligned to different chromosomes/scaffolds or
+  they get aligned so far apart on the same chromosome/scaffold that the alignment program
+  determines the pair to be aberrant. This evaluation requires that the program have
+  a lot of other paired end reads from which to estimate the distribution, in the sequencing library,
+  of the \emph{template length}---the length of the original template. The template length
+  for each read pair is calculate from the mapping positions of the two reads and
+  is store in the \textbf{TLEN} column of the SAM file.
+\end{enumerate}
+
+What is another way I might align to thee? Well, one possbility is that a read pair
+might align to many different places in the genome (this can happen if the reads are from
+a repetitive element in the genome, for example). In such cases, there is typically
+a ``best'' or ``most likely'' alignment, which is called the \emph{primary alignment}. The SAM
+file output might record other ``less good'' alignments, which are called \emph{secondary alignments}
+and whose status as such is recorded in the \textbf{FLAG} column. The aligner \texttt{bwa\ mem} has an
+option to allow you to output all secondary alignments. Since you don't typically output and inspect
+all secondary alignments (something that would be an unbearable task), most aligners
+provide some measure of confidence about the alignment of a read pair. The aligner, \emph{bwa}, for example,
+looks at all possible alignments and computes a score for each. Then it evaluates confidence
+in the primary alignment by comparing its score to the sum of the scores of all the alignments.
+This provides the \emph{mapping quality score} found in the
+\textbf{MAPQ} column of a SAM file. It can be interpreted, roughly, as the probability that
+the given alignment of the read pair is incorrect. These can be small probabilities,
+and are represented as Phred scaled values (using integers, not characters!) in the
+SAM file.
+
+The last way that a read might align to a reference is by not perfectly matching
+every base pair in the reference. Perhaps only the first part of the read matches
+base pairs in the reference, or maybe the read contains an insertion or a deletion.
+For example, if instead of appearing like \texttt{5\textquotesingle{}\ \ ACCTGCAGGA\ \ 3\textquotesingle{}}, one of our reads
+had an insertion of AGA, giving: \texttt{5\textquotesingle{}\ \ ACCAGAGTGCAGGA\ \ 3\textquotesingle{}}, this fragment would
+still align to the reference, at 10 bp, and we might record that alignment,
+but would still want a compact way of denoting the position and length of the
+insertion---a task handled by the \textbf{CIGAR} column.
+
+\hypertarget{play-with-simple-alignments}{%
+\subsection{Play with simple alignments}\label{play-with-simple-alignments}}
+
+Now, everyone \textbf{who has a Mac} should clone the RStudio project repository on GitHub at \url{https://github.com/eriqande/alignment-play}
+(by opening a new RStudio project with the ``From Version Control'' --\textgreater{} GitHub option, for example).
+
+This has a notebook that will let us do simple alignments and familiarize
+ourselves with the output in SAM format.
 
 \hypertarget{samtools}{%
 \subsection{Samtools}\label{samtools}}
