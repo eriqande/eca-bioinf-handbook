@@ -57,4 +57,4 @@ cntrl-r
 `#`
 up-arrow/down-arrow
 `chmod`, `ug+x`, `664`
-`grep`
+`grep` 

@@ -19,6 +19,28 @@ header-includes:
 fig-retina: 2
 ---
 
+\newcommand{\bitsfa}{{\circ}{\circ}{\circ}{\bullet}}
+\newcommand{\bitsfb}{{\circ}{\circ}{\bullet}{\circ}}
+\newcommand{\bitsfc}{{\circ}{\bullet}{\circ}{\circ}}
+\newcommand{\bitsfd}{{\bullet}{\circ}{\circ}{\circ}}
+\newcommand{\bitsopen}{{\circ}{\circ}{\circ}{\circ}}
+
+\newcommand{\bitsa}{\bitsopen~\bitsopen~\bitsfa}
+\newcommand{\bitsb}{\bitsopen~\bitsopen~\bitsfb}
+\newcommand{\bitsc}{\bitsopen~\bitsopen~\bitsfc}
+\newcommand{\bitsd}{\bitsopen~\bitsopen~\bitsfd}
+
+\newcommand{\bitse}{\bitsopen~\bitsfa~\bitsopen}
+\newcommand{\bitsf}{\bitsopen~\bitsfb~\bitsopen}
+\newcommand{\bitsg}{\bitsopen~\bitsfc~\bitsopen}
+\newcommand{\bitsh}{\bitsopen~\bitsfd~\bitsopen}
+
+\newcommand{\bitsi}{\bitsfa~\bitsopen~\bitsopen}
+\newcommand{\bitsj}{\bitsfb~\bitsopen~\bitsopen}
+\newcommand{\bitsk}{\bitsfc~\bitsopen~\bitsopen}
+\newcommand{\bitsl}{\bitsfd~\bitsopen~\bitsopen}
+\newcommand{\bitsmany}{\bitsopen~{\circ}{\bullet}{\circ}{\bullet}~{\circ}{\circ}{\bullet}{\bullet}}
+
 ```{r setup, include=FALSE}
 options(
   htmltools.dir.version = FALSE, formatR.indent = 2, width = 55, digits = 4

@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-02-06" />
+<meta name="date" content="2020-02-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -260,7 +260,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16.4" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#alignments"><i class="fa fa-check"></i><b>16.4</b> Alignments</a><ul>
 <li class="chapter" data-level="16.4.1" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#how-might-i-align-to-thee-let-me-count-the-ways"><i class="fa fa-check"></i><b>16.4.1</b> How might I align to thee? Let me count the ways…</a></li>
 <li class="chapter" data-level="16.4.2" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#play-with-simple-alignments"><i class="fa fa-check"></i><b>16.4.2</b> Play with simple alignments</a></li>
-<li class="chapter" data-level="16.4.3" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#samtools"><i class="fa fa-check"></i><b>16.4.3</b> Samtools</a></li>
+<li class="chapter" data-level="16.4.3" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#sam-flags"><i class="fa fa-check"></i><b>16.4.3</b> SAM Flags</a></li>
+<li class="chapter" data-level="16.4.4" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#samtools"><i class="fa fa-check"></i><b>16.4.4</b> Samtools</a></li>
 </ul></li>
 <li class="chapter" data-level="16.5" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#variants"><i class="fa fa-check"></i><b>16.5</b> Variants</a></li>
 <li class="chapter" data-level="16.6" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#segments"><i class="fa fa-check"></i><b>16.6</b> Segments</a></li>
@@ -891,7 +892,7 @@ that in our schematic would look like this:</li>
 <pre><code>5&#39;  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3&#39;
                5&#39;  ACCTGCAGGA  3&#39;</code></pre>
 <ol start="2" class="example" style="list-style-type: decimal">
-<li>Both read of the pair map to the same strand. If our paired end reads looked like:</li>
+<li>Both reads of the pair map to the same strand. If our paired end reads looked like:</li>
 </ol>
 <pre><code>Read 1:   5&#39;  ACCTGCAGGA  3&#39;
 Read 2:   5&#39;  AACACAGTGA  5&#39;</code></pre>
@@ -899,7 +900,7 @@ Read 2:   5&#39;  AACACAGTGA  5&#39;</code></pre>
 <pre><code>5&#39;  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3&#39;
                5&#39;  ACCTGCAGGA------------------------------AACACAGTGA  3&#39;</code></pre>
 <p>And, as we saw above, this would indicate the the template must not
-conform to the reference genome in some way.<br />
+conform to the reference genome in some way.
 This may occur if there is a rearrangement (like an inversion, etc.) in the
 genome being sequenced, relative to the reference genome.</p>
 <ol start="3" class="example" style="list-style-type: decimal">
@@ -908,8 +909,8 @@ they get aligned so far apart on the same chromosome/scaffold that the alignment
 determines the pair to be aberrant. This evaluation requires that the program have
 a lot of other paired end reads from which to estimate the distribution, in the sequencing library,
 of the <em>template length</em>—the length of the original template. The template length
-for each read pair is calculate from the mapping positions of the two reads and
-is store in the <strong>TLEN</strong> column of the SAM file.</li>
+for each read pair is calculated from the mapping positions of the two reads and
+is stored in the <strong>TLEN</strong> column of the SAM file.</li>
 </ol>
 <p>What is another way I might align to thee? Well, one possbility is that a read pair
 might align to many different places in the genome (this can happen if the reads are from
@@ -943,8 +944,202 @@ insertion—a task handled by the <strong>CIGAR</strong> column.</p>
 <p>This has a notebook that will let us do simple alignments and familiarize
 ourselves with the output in SAM format.</p>
 </div>
+<div id="sam-flags" class="section level3">
+<h3><span class="header-section-number">16.4.3</span> SAM Flags</h3>
+<p>The SAM flag expresses the status of
+the alignment associated with a given read in terms of a combination of
+12 yes-or-no statements. Each yes-or-no statement determines the truth of
+a single one of the twelve statements and is called a “bit” because it can be
+thought of as a single binary digit
+whose value can be 0 (No/False) or 1 (Yes/True). Sometimes a picture can be helpful:
+we can represent each statement as a circle which is shaded if it is true and open
+if it is false. Thus, if all 12 statements are false you would see <span class="math inline">\({\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}\)</span>. However,
+if statements 1, 2, 5, and 7 are true then you would see <span class="math inline">\({\circ}{\circ}{\circ}{\circ}~{\circ}{\bullet}{\circ}{\bullet}~{\circ}{\circ}{\bullet}{\bullet}\)</span>. In computer parlance
+we would say that bits 1, 3, 5, and 7 are “set” if they indicate Yes/True. As these are bits
+in a binary number, each bit is associated with a power of 2 as shown in Table <a href="bioinformatic-file-formats-and-associated-tools.html#tab:sam-flags">16.1</a>,
+which also lists the statement (the “meaning”) of each flag.</p>
+<table>
+<caption><span id="tab:sam-flags">TABLE 16.1: </span> SAM flags in a nutshell. The description of these flags in the SAM specification are more general, but if we restrict ourselves to paired-end Illumina data, the flags can be interpreted by the meanings shown here. The “bit-grams” show a visual representation of each bit-flag with open circles meaning 0 or False and filled circles denoting 1 or True. The bit grams are broken into three groups of four, which show the values that correspond to different place-columns in the hexadecimal representation of the bit masks.</caption>
+<colgroup>
+<col width="10%" />
+<col width="14%" />
+<col width="14%" />
+<col width="8%" />
+<col width="10%" />
+<col width="42%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">bit-#</th>
+<th align="left">bit-gram</th>
+<th align="left"><span class="math inline">\(2^x\)</span></th>
+<th align="left">dec</th>
+<th align="left">hex</th>
+<th align="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left"><span class="math inline">\({\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\bullet}\)</span></td>
+<td align="left"><span class="math inline">\(2^0\)</span></td>
+<td align="left">1</td>
+<td align="left">0x1</td>
+<td align="left">the read is paired (i.e. comes
+from paired-end sequencing.)</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left"><span class="math inline">\({\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\bullet}{\circ}\)</span></td>
+<td align="left"><span class="math inline">\(2^1\)</span></td>
+<td align="left">2</td>
+<td align="left">0x2</td>
+<td align="left">the read is mapped in a proper
+pair</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left"><span class="math inline">\({\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}~{\circ}{\bullet}{\circ}{\circ}\)</span></td>
+<td align="left"><span class="math inline">\(2^2\)</span></td>
+<td align="left">4</td>
+<td align="left">0x4</td>
+<td align="left">the read is not mapped/aligned</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left"><span class="math inline">\({\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}~{\bullet}{\circ}{\circ}{\circ}\)</span></td>
+<td align="left"><span class="math inline">\(2^3\)</span></td>
+<td align="left">8</td>
+<td align="left">0x8</td>
+<td align="left">the read’s mate is not
+mapped/aligned</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="left"><span class="math inline">\({\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\bullet}~{\circ}{\circ}{\circ}{\circ}\)</span></td>
+<td align="left"><span class="math inline">\(2^4\)</span></td>
+<td align="left">16</td>
+<td align="left">0x10</td>
+<td align="left">the read maps to the reverse
+strand</td>
+</tr>
+<tr class="even">
+<td align="left">6</td>
+<td align="left"><span class="math inline">\({\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\bullet}{\circ}~{\circ}{\circ}{\circ}{\circ}\)</span></td>
+<td align="left"><span class="math inline">\(2^5\)</span></td>
+<td align="left">32</td>
+<td align="left">0x20</td>
+<td align="left">the read’s mate maps to the
+reverse strand</td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="left"><span class="math inline">\({\circ}{\circ}{\circ}{\circ}~{\circ}{\bullet}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}\)</span></td>
+<td align="left"><span class="math inline">\(2^6\)</span></td>
+<td align="left">64</td>
+<td align="left">0x40</td>
+<td align="left">the read is read 1</td>
+</tr>
+<tr class="even">
+<td align="left">8</td>
+<td align="left"><span class="math inline">\({\circ}{\circ}{\circ}{\circ}~{\bullet}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}\)</span></td>
+<td align="left"><span class="math inline">\(2^7\)</span></td>
+<td align="left">128</td>
+<td align="left">0x80</td>
+<td align="left">the read is read 2</td>
+</tr>
+<tr class="odd">
+<td align="left">9</td>
+<td align="left"><span class="math inline">\({\circ}{\circ}{\circ}{\bullet}~{\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}\)</span></td>
+<td align="left"><span class="math inline">\(2^8\)</span></td>
+<td align="left">256</td>
+<td align="left">0x100</td>
+<td align="left">the alignment is not primary
+(don’t use it!)</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="left"><span class="math inline">\({\circ}{\circ}{\bullet}{\circ}~{\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}\)</span></td>
+<td align="left"><span class="math inline">\(2^9\)</span></td>
+<td align="left">512</td>
+<td align="left">0x200</td>
+<td align="left">the read did not pass platform
+quality checks</td>
+</tr>
+<tr class="odd">
+<td align="left">11</td>
+<td align="left"><span class="math inline">\({\circ}{\bullet}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}\)</span></td>
+<td align="left"><span class="math inline">\(2^{10}\)</span></td>
+<td align="left">1024</td>
+<td align="left">0x400</td>
+<td align="left">the read is a PCR (or optical)
+duplicate</td>
+</tr>
+<tr class="even">
+<td align="left">12</td>
+<td align="left"><span class="math inline">\({\bullet}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}\)</span></td>
+<td align="left"><span class="math inline">\(2^{11}\)</span></td>
+<td align="left">2048</td>
+<td align="left">0x800</td>
+<td align="left">the alignment is part of a
+chimeric alignment</td>
+</tr>
+</tbody>
+</table>
+<p>If we think of the 12 bits as coming in three groups of four we can easily represent them as hexadecimal
+numbers. Hexadecimal number are numbers in base-16. They are expressed with a leading “0x” but otherwise behave
+like decimal numbers, except that instead of a 1’s place, 10’s place, and 100’s place, and so on, we have
+a 1’s place, a 16’s place, and 256’s place, and so forth.
+In the first group of four bits (reading from right to left) the bits correspond to
+0x1, 0x2, 0x4, and 0x8, in hexadecimal. The next set of four bits correspond to 0x10, 0x20, 0x40, and 0x80,
+and the last set of four bits correspond to 0x100, 0x200, 0x400, 0x800. It can be worthwhile becoming comfortable with
+these hexadecimal names of each bit.
+In the SAM format,
+the <strong>FLAG</strong> field records the decimal (integer) equivalent of the binary number that represents
+the yes-or-no answers to the 12 different statements. It is relatively easy to do arithmetic with
+the hexadecimal flags to
+find the decimal equivalent: add up the numbers in each of the three hexadecimal value places
+(the 1’s, 16’s, and 256’s places)
+and multiply the result by 16 raised to the number of zeros in the hexadecimal number. For example if the
+bits set on an alignment are 0x1 &amp; 0x2 &amp; 0x10 &amp; 0x40, then they sum column-wise to 0x3, and 0x50, so the
+value listed in the FLAG field of a SAM file would be <span class="math inline">\(3 + 5 \cdot 16 = 83\)</span>.</p>
+<p>While it is probably possible to get good at computing these bit flag combinations in your
+head, it is also quite convenient to use the Broad Institute’s wonderful
+<a href="https://broadinstitute.github.io/picard/explain-flags.html">SAM flag calculator</a>.</p>
+<p>We will leave our discussion of the various SAM flag values by noting that the large SAM flags
+(0x100, 0x200, 0x400, and 0x800) all signify something “not good” about the alignment.
+The same goes for 0x4 and 0x8. On the other hand, when you are dealing with paired-end
+data one of the reads has to be read 1 and the other read 2, and that is known from their
+read names and the FASTQ file that they are in. So, we expect that 0x40 and 0x80 should always be set,
+trivially. With paired-end data, we are always comforted to see bits 0x1 and 0x2 set, as departures from
+that condition indicate that the pairing of the read alignments does not make sense given the
+sequence in the reference genome. As
+we saw in our discussion of how a template can properly map to a reference, you should be able to convince
+yourself that, in a properly mapped alignment, exactly one of the two bits 0x10 and 0x20 should be set for
+one read in the pair, and the other should be set for the other.
+Therefore, in good, happy, properly paired reads, from a typical whole genome sequencing library
+preparation, we should find either:</p>
+<pre><code>read 1 : 0x1 &amp; 0x2 &amp; 0x10 &amp; 0x40 = 83
+read 2 : 0x1 &amp; 0x2 &amp; 0x20 &amp; 0x80 = 163</code></pre>
+<p>or</p>
+<pre><code>read 1 : 0x1 &amp; 0x2 &amp; 0x20 &amp; 0x40 = 99
+read 2 : 0x1 &amp; 0x2 &amp; 0x10 &amp; 0x80 = 147</code></pre>
+<p>So, now that we know all about SAM flags and the values that they take,
+what should we do with them? First, investigating the distribution of
+SAM flags is an important way of assessing the nature and reliability of
+the alignments you have made (this is what <em>samtools flagstat</em> is for, as discussed
+in a later chapter). Second, you might wonder if you should do some sort
+of filtering of your alignments before you do variant calling. With most modern
+variant callers, the answer to that is, “No.” Modern variant callers take account of
+the information in the SAM flags to weight information from different alignments, so
+leaving bad alignments in your SAM file should not have a large effect on the final
+results. Furthermore, filtering out your data might make it hard to follow up on interesting patterns in
+your data, for example, the occurrence of improperly aligning reads can be used to
+infer the presence of inversions. If all those improperly paired reads had been discarded,
+they could not be used in such an endeavor.</p>
+</div>
 <div id="samtools" class="section level3">
-<h3><span class="header-section-number">16.4.3</span> Samtools</h3>
+<h3><span class="header-section-number">16.4.4</span> Samtools</h3>
 </div>
 </div>
 <div id="variants" class="section level2">
