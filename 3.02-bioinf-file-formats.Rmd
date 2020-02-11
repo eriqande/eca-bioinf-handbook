@@ -1,9 +1,9 @@
-# Bioinformatic file formats and associated tools
+# Bioinformatic file formats
 
 Almost all the high-throughput sequencing data you will deal with should
 arrive in just a few different formats.  There are some specialized formats
 (like those output by the program TASSEL, etc.) but we will largely ignore
-those, focusing instead on the format used in production by the 1000 genomes 
+those, focusing instead on the formats used in production by the 1000 genomes 
 and 10K vertebrate genomes projects. In a sentence, the most important are:
 FASTA, FASTQ, SAM, BAM, and VCF.  
 
@@ -12,6 +12,10 @@ forms and explain why that is so important. I think that we should probably
 talk about the programs that are available for manipulating each of these, as well,
 but I won't add that until we all have access to an HPC or other proper
 Unix environment.
+
+I was originally going to do tools for manipulating files in the different
+formats, but I will do that in a separate chapter(s) later.
+
 
 
 
@@ -142,7 +146,7 @@ The decimal representation or each character can be found in Figure \@ref(fig:as
 ```{r ascii, echo=FALSE, fig.align='center', dpi=270, fig.cap='This lovely ASCII table shows the binary, hexadecimal, octal and decimal representations of ASCII characters (in the corners of each square; see the legend rectangle at bottom.  Table produced from TeX code written and developed by Victor Eijkhout available at [https://ctan.math.illinois.edu/info/ascii-chart/ascii.tex](https://ctan.math.illinois.edu/info/ascii-chart/ascii.tex)'}
 knitr::include_graphics("figs/ascii-crop.png", auto_pdf = TRUE)
 ```
-The decimal representation in in the upper left of each character's rectangle.  
+The decimal representation is in the upper left of each character's rectangle.  
 
 Find the characters corresponding to base quality scores of 0, 10, 20, 30, and 40.  Remember that the
 base quality score is the character's decimal representation _minus 33_.
@@ -646,17 +650,21 @@ What does a faithful segment from the reference genome look like
 in alignment?  Well, in the top case we have:
 ```
       Read 1:  5'  ACCTGCAGGA  3' 
-5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'  forward-strand
+5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'
+forward-strand
     ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-3'  TGTATCTGTCCCTGGTGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5'  reverse-strand
+reverse-strand
+3'  TGTATCTGTCCCTGGTGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5'  
                                               Read 2:  3'  TTGTGTCACT  5'
 ```
 And in the bottom case we have:
 ```
       Read 2:  5'  ACCTGCAGGA  3' 
-5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'  forward-strand
+5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'  
+forward-strand
     ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-3'  TGTATCTGTCCCTGGTGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5'  reverse-strand
+reverse-strand
+3'  TGTATCTGTCCCTGGTGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5'
                                               Read 1:  3'  TTGTGTCACT  5'
 ```
 
@@ -741,6 +749,26 @@ still align to the reference, at 10 bp, and we might record that alignment,
 but would still want a compact way of denoting the position and length of the
 insertion---a task handled by the **CIGAR** column.
 
+To express all these different ways in which an alignment can occur,
+each read occupies a single line in a SAM file.  This row holds information about
+the read's alignment to the reference genome in a number of TAB-delimited columns.
+There are 11 required columns in each alignment row, after which different aligners
+may provide additional columns of information.
+Table \@ref(tab:sam-cols) gives a brief description of the 11 required columns (intimations
+of most of which occurred in **ALL CAPS BOLDFACE** in the preceding paragraphs.  Some,
+like **POS** are relatively self-explanatory.  Others, like **FLAG** and **CIGAR**
+benefit from further explanation as given in the subsections below.
+```{r, echo=FALSE, message=FALSE}
+tab <- readr::read_delim("table_inputs/sam-columns-table.txt", delim = "&", trim_ws = TRUE)
+pander::pander(
+  tab,
+  booktabs = TRUE,
+  caption = '(\\#tab:sam-cols) Brief description of the 11 required columns in a SAM file.',
+  justify = "left")
+```
+
+
+
 
 ### Play with simple alignments
 
@@ -748,15 +776,18 @@ Now, everyone **who has a Mac** should clone the RStudio project repository on G
 (by opening a new RStudio project with the "From Version Control" --> GitHub option, for example).
 
 This has a notebook that will let us do simple alignments and familiarize
-ourselves with the output in SAM format.  
+ourselves with the output in SAM format. 
+
 
 
 ### SAM Flags
 
-The SAM flag expresses the status of
-the alignment associated with a given read in terms of a combination of
-12 yes-or-no statements.  Each yes-or-no statement determines the truth of
-a single one of the twelve statements and is called a "bit" because it can be
+The FLAG column expresses the status of
+the alignment associated with a given read (and its _mate_ in paired-end
+sequencing) in terms of a combination of
+12 yes-or-no statements. The combination of all of these "yesses" and "nos" for a
+given aligned read is
+called its SAM _flag_. The yes-or-no status of any single one of the twelve statements is called a "bit" because it can be
 thought of as a single binary digit
 whose value can be 0 (No/False) or 1 (Yes/True).  Sometimes a picture can be helpful:
 we can represent each statement as a circle which is shaded if it is true and open
@@ -764,14 +795,14 @@ if it is false.  Thus, if all 12 statements are false you would see $\bitsopen~\
 if statements 1, 2,  5, and 7 are true then you would see $\bitsmany$. In computer parlance 
 we would say that bits 1, 3, 5, and 7 are "set" if they indicate Yes/True.  As these are bits
 in a binary number, each bit is associated with a power of 2 as shown in Table \@ref(tab:sam-flags),
-which also lists the statement (the "meaning") of each flag.
+which also lists the meaning of each bit.
 
 ```{r, echo=FALSE, message=FALSE}
 tab <- readr::read_delim("table_inputs/sam-flag-table.txt", delim = "&", trim_ws = TRUE)
 pander::pander(
   tab,
   booktabs = TRUE,
-  caption = '(\\#tab:sam-flags) SAM flags in a nutshell.  The description of these flags in the SAM specification are more general, but if we restrict ourselves to paired-end Illumina data, the flags can be interpreted by the meanings shown here. The "bit-grams" show a visual representation of each bit-flag with open circles meaning 0 or False and filled circles denoting 1 or True.  The bit grams are broken into three groups of four, which show the values that correspond to different place-columns in the hexadecimal representation of the bit masks.',
+  caption = '(\\#tab:sam-flags) SAM flag bits in a nutshell.  The description of these in the SAM specification is more general, but if we restrict ourselves to paired-end Illumina data, each bit can be interpreted by the meanings shown here. The "bit-grams" show a visual representation of each bit with open circles meaning 0 or False and filled circles denoting 1 or True.  The bit grams are broken into three groups of four, which show the values that correspond to different place-columns in the hexadecimal representation of the bit masks.',
   justify = "left")
 ```
 
@@ -783,24 +814,27 @@ In the first group of four bits (reading from right to left) the bits correspond
 0x1, 0x2, 0x4, and 0x8, in hexadecimal.  The next set of four bits correspond to 0x10, 0x20, 0x40, and 0x80,
 and the last set of four bits correspond to 0x100, 0x200, 0x400, 0x800.  It can be worthwhile becoming comfortable with
 these hexadecimal names of each bit.
+
+
 In the SAM format,
 the **FLAG** field records the decimal (integer) equivalent of the binary number that represents
 the yes-or-no answers to the 12 different statements. It is relatively easy to do arithmetic with
 the hexadecimal flags to
 find the decimal equivalent: add up the numbers in each of the three hexadecimal value places
 (the 1's, 16's, and 256's places)
-and multiply the result by 16 raised to the number of zeros in the hexadecimal number. For example if the
+and multiply the result by 16 raised to the number of zeros right of the "x" in the hexadecimal number. For example if the
 bits set on an alignment are 0x1 & 0x2 & 0x10 & 0x40, then they sum column-wise to 0x3, and 0x50, so the
 value listed in the FLAG field of a SAM file would be $3 + 5 \cdot 16 = 83$.  
 
-While it is probably possible to get good at computing these bit flag combinations in your
+While it is probably possible to get good at computing these 12-bit combinations
+from hexadecimal in your
 head, it is also quite convenient to use the Broad Institute's wonderful
 [SAM flag calculator](https://broadinstitute.github.io/picard/explain-flags.html).
 
-We will leave our discussion of the various SAM flag values by noting that the large SAM flags
+We will leave our discussion of the various SAM flag values by noting that the large SAM-flag bits
 (0x100, 0x200, 0x400, and 0x800) all signify something "not good" about the alignment.
 The same goes for 0x4 and 0x8.  On the other hand, when you are dealing with paired-end
-data one of the reads has to be read 1 and the other read 2, and that is known from their
+data, one of the reads has to be read 1 and the other read 2, and that is known from their
 read names and the FASTQ file that they are in.  So, we expect that 0x40 and 0x80 should always be set,
 trivially.  With paired-end data, we are always comforted to see bits 0x1 and 0x2 set, as departures from
 that condition indicate that the pairing of the read alignments does not make sense given the
@@ -827,15 +861,195 @@ the alignments you have made (this is what _samtools flagstat_ is for, as discus
 in a later chapter).  Second, you might wonder if you should do some sort
 of filtering of your alignments before you do variant calling. With most modern
 variant callers, the answer to that is, "No."  Modern variant callers take account of
-the information in the SAM flags to weight information from different alignments, so
+the information in the SAM flags to weight information from different alignments, so,
 leaving bad alignments in your SAM file should not have a large effect on the final
 results.  Furthermore, filtering out your data might make it hard to follow up on interesting patterns in
 your data, for example, the occurrence of improperly aligning reads can be used to
 infer the presence of inversions. If all those improperly paired reads had been discarded,
 they could not be used in such an endeavor.  
 
+### The CIGAR string
 
-### Samtools {#samtools}
+**CIGAR** is an acronym for Compressed Idiosyncratic Gapped Alignment Report.  It provides a
+space-economical way of describing the manner in which a single read aligns to a reference
+genome. It is particularly important for recording the presence of insertions or deletions within
+the read, relative to the reference genome.  This is done by counting up, along the alignment, the
+number of base pairs that: _match_ (`M`) the reference; that are _inserted_ (`I`) into the read and 
+absent from the reference; and that are _deleted_ (`D`) from the read, but present in the reference.
+To arrive at the syntax of the CIGAR string you catenate a series of Number-Letter pairs that describe the
+sequence of matches, insertions and deletions that describe an alignment.  
+
+Some examples are in order. We return to our 80 base-pair reference from above and consider
+the alignment to it of a 10 bp read that looks like `5'  ACCTGCAGGA  3'`:
+```
+5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'
+               5'  ACCTGCAGGA  3'
+```
+Such an alignment has no insertions or deletions, or other weird things, going on. So its
+CIGAR string would be `10M`, signifying 10 matching base pairs.  A _very important_ thing
+to note about this is that the `M` refers to bases that match in _position_ in the alignment
+_even though they might not match the specific nucleotide types_.  For example, even if
+bases 3 and 5 in the read don't match the exact base nucleotides in the alignment, like this:
+```
+5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'
+               5'  ACTTACAGGA  3'
+```
+its CIGAR string will typically still be `10M`. (The SAM format allows for an `X` to denote
+mismatches in the base nucleotides between a reference and a read, but I have never seen
+it used in practice.)
+
+Now, on the other hand, if our read carried a deletion of bases 3 and 4.  It would look
+like `5'  ACGCAGGA  3'` and we might represent it in an alignment like:
+```
+5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'
+               5'  AC--GCAGGA  3'
+```
+where the `-`'s have replaced the two deleted bases.  The CIGAR string for this
+alignment would be `2M2D6M`.  
+
+Continuing to add onto this example, suppose that not only have bases 3 and 4 been deleted,
+but also a four-base insertion of `ACGT occurs in the read between positions 8 and 9 (of the original
+read).  That would appear like:
+```
+5'  ACATAGACAGGGACCACCTGCAG----GACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'
+               5'  AC--GCAGACGTGA  3'
+```
+where `-`'s have been added to the reference at the position of the insertion in the read.
+The CIGAR string for this arrangement would be `2M2D4M4I2M` which can be hard to parse, visually,
+if your eyes are getting as old as mine, but it translates to:
+```
+2 bp Match  
+2 bp Deletion  
+4 bp Match  
+4 bp Insert   
+2 bp Match   
+```
+
+In addition to `M`, `D` and `I` (and `X`) there are also `S` and `H`, which are
+typically seen with longer sequences.  They refer to _soft-_ and _hard-clipping_,
+respectively, which are situations in which a terminal piece of the read, from 
+either near the 3' or 5' end, does not align to the reference, but the central
+part, or the other end of the read does.  Hard clipping removes the clipped sequence
+from the read as represented in the SEQ column, while soft clipping does not
+remove the clipped sequence from the SEQ column representation.
+
+One important thing to understand about CIGAR strings is that they always represent
+the alignment as it appears in the 5' to 3' direction. As a consequence, it is the
+same whether you are reading it off the read in the 5' to 3' direction _or_ if you are reading it
+off from how the reverse complement of the read would align to the opposite strand of the reference.
+Another picture is in order: if we saw a situation like the following,
+with a deletion in Read 1 (which aligns to the reverse strand),
+the CIGAR string would be, from 5' to 3' on Read 1, `6M2D2M`,
+which is just what we would have if we were to align the reverse
+complement of Read 1, called `Comp R1` below to the forward strand
+of the reference.
+```
+      Read 2:  5'  ACCTGCAGGA  3'            Comp R1:  5'  AA--CAGTGA  3'
+5'  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'  
+forward-strand
+    ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+reverse-strand
+3'  TGTATCTGTCCCTGGTGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5'
+                                              Read 1:  3'  TT--GTCACT  5'
+```
+
+For the most part, it is important to have an understanding of
+CIGAR strings, though you will rarely end up parsing and using them
+yourself.  That job is best left for the specialized tools that process
+SAM files and their compressed equivalents, BAM files. Nonetheless, it
+is worth pointing out that if you want to identify the nucleotide values
+(i.e. alleles) at different variant positions upon single reads, it is necessary
+to contend with CIGAR strings to do so.  This is one of the things that gets
+taken care of (with some Perl code) in the R package
+[microhaplot](https://cran.r-project.org/web/packages/microhaplot/index.html) for extracting
+microhaplotypes from short read data (and then visualizing them).
+
+### The SEQ and QUAL columns
+
+These columns hold the actual reads and quality scores that came off the
+sequencing machine and were in the FASTQ files.  (Note, if you thought that
+after aligning your reads, the SAM or BAM files would end up taking up less space then the ridiculously
+large, gzipped FASTQ files you just downloaded from the sequencing center,
+guess again!  SAM files actually have all the information present in a FASTQ, along with extra
+information about the alignments.)
+
+The only thing that is tricky about these columns is that, if the read aligns to the
+reverse strand of the reference genome, the entry in the **SEQ** column is the
+reverse complement of the read that actually appeared in the FASTQ file.  Of course,
+when you read off the letters of DNA from a reverse complement, going left to right
+the way you read a book, the order in which you encounter the complement of each base
+from the original sequence is reversed from the way you would read the bases
+in the original sequence.  Accordingly, the order of the base quality scores that
+appear in the **QUAL** column will be in reverse order is the mapping was to the
+reverse strand.   
+
+
+### SAM File Headers
+
+To this point, we have talked almost exclusively about the rows in a SAM file
+which record the alignments of different reads.  However, if you look at a SAM file
+(with `cat` or `less`, or in a text editor) the first thing you will see is the
+SAM file _header_: a series of lines that all start with the `@` symbol followed by
+two capital letters.  Like `@SQ`.  
+
+These file header lines can appear daunting at first, and, when merging or dividing
+SAM and BAM files can prove to the bain of your existence, so understanding both their
+purpose and structure is paramount to avoiding some pain down the road.
+
+This section not yet complete.
+
+### The BAM format
+
+As you might have inferred from the foregoing, SAM files can end up being enormous
+text files.  The two big problems with that are:
+
+1. They could take up a lot of hard drive space.
+2. It would take you (or some program that was processing a SAM file)
+a lot of time to "scroll" through the file to find any particular alignment you (it)
+might be interested in. 
+
+The originators of the SAM format dealt with this by also specifying and creating
+a compressed _binary_ (meaning "not composed of text") format to store all the
+information in a SAM file.  This is called a BAM (Binary Alignment Map) file.  In a
+BAM file, each column of information is stored in its native data type (i.e., the way a 
+computer would reprensent it internally if it were working on it) and then the file holding all
+of these "rows" is compressed into a series of small blocks in such a way that the file can be 
+indexed, allowing rapid
+access (without "scrolling" through the whole file) to the alignments within
+a desired genomic range.  As we will see in a later chapter,
+in order to index such a file for rapid
+access to alignments in a particular genomic range, the alignments must be sorted
+in the order of genomic coordinates in the reference sequence.
+
+
+Since BAM files are smaller than SAM files, and access into them
+is faster than for SAM files, you will almost always convert your SAM files to BAM
+files to prepare for futher bioinformatic processing.  The main tool
+used for this purpose is the program `samtools`
+(written by the creators of the SAM and BAM formats)
+for that purpose.  We will encounter `samtools` in a later chapter.
+
+Finally, humans cannot directly read BAM files, or even decompress them with
+standard Unix tools.  If you want to view a BAM file, you can use
+`samtools view` to read it in SAM format.
+
+### Quick self study
+
+1. Suppose a read is Read 2 from the FASTQ, it aligns to the reverse strand, and its mate does 
+too.  The alignment is a primary alignment, but it has been flagged as a PCR duplicate.  Write 
+down, in hexadecimal form, all the bits that will be set for this read's alignment, then 
+combine them to compute the SAM FLAG for it.
+2. Given the alignments shown below, what do you think the CIGAR strings for Read 1 and Read 2 
+might look like?
+```
+      Read 2:  5'  ACCT--AGGAGGACACACAC   3' 
+5'  ACATAGACAGGGACCACCTGCAGGA---CACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'  
+forward-strand
+    |||||||||||||||||||||||||---|||||||||||||||||||||||||||||||||||||||||||||||||||||||
+reverse-strand
+3'  TGTATCTGTCCCTGGTGGACGTCCT---GTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5'
+                                      Read 1:  3' AAAAAAAAAAAATTGTGTC-CT  5'
+```
 
 
 ## Variants
@@ -861,3 +1075,124 @@ BED
 ## Conversion/Extractions between different formats
 
 * vcflib's vcf2fasta takes a phased VCF file and a fasta file and spits out sequence.  
+
+## Visualization of Genomic Data
+
+Many humans, by dint of our evolution, are exceptionally visual creatures.
+Being able to create visual maps for different concepts is also central 
+facilitating understanding of those concepts and extending their utility
+to other realms.  The same is true for bioinformatic data: being able to
+visualize bioinformatic data can help us understand it better and to see
+connections between parts of our data sets that we did not, before.  
+
+The text-based bioinformatic formats we have discussed so far do not, 
+standing by themselves, offer a rich visual experience (have you ever watched
+a million lines of a SAM file traverse your terminal, and gotten much
+understanding from that?).  However, sequence data, once it has been aligned
+to a reference genome has an "address" or "genomic coordinates" that, by analogy
+to street addresses and geographic coordinates suggests that aligned
+sequence data might be visualized
+like geographic data in beautiful and/or thought-provoking "maps." 
+
+There are a handful of programs that do just that: they make compelling, interactive pictures
+of bioinformatic data.  One of those programs (that I am partial to), called
+IGV (for Integative Genomics Viewer), was
+developed in the cross-platform language, Java, by researchers at the Broad Institute.
+It is available for free download from
+[https://software.broadinstitute.org/software/igv/](https://software.broadinstitute.org/software/igv/), and it should run on almost any operating system.  It has been
+well-optimized to portray genomics data at various scales and to render
+an incredible amount of information in visual displays as well as text-based
+"tool-tip" reports that may be activated by mousing over different parts of the display.
+
+There is extensive documentation that goes with IGV, but it is valuable
+(and more fun!) to just crack open some genomic data and start playing with
+it.  To do so, there are just a few things that you need to know:
+
+1. The placement of all data relies on the reference genome as a sort of "base map."
+The reference genome serves the purpose of a latitude-longitude coordinate system
+that lets you make sense of spatial data on maps.  Therefore, it is required for
+all forays with IGV.  You must specify a reference genome by choosing one of the
+options from the "Genomes" menu.  If you are working on a non-model organism of
+conservation concern it is likely that you will have the reference genome for that
+critter on your local computer, so you would "Genomes->Load Genome From File...",
+to show IGV where the FASTA file (cannot be compressed) of your genome is on your
+hard drive.
+
+2. Once your reference genome is known to IGV, you can add data from the
+bioinformatic formats described in this chapter _that include positions from a reference genome_.
+These include SAM or BAM files and VCF files (but note FASTQ files).  To include
+data from these formats, choose "File->Load From File...".  (Note, BAMs are best
+sorted and indexed).  The data from each file that you "Load" in this manner
+appears in a separate _track_ of data in a horizontally tiled window that is
+keyed to the reference genome coordinates.
+
+3. You can zoom in and out as appropriate (and in several different ways).
+
+4. Right clicking within any track gives a set of options appropriate for the type
+of track it is. For example, if you are viewing a BAM file, you can choose whether the reads
+joined together with their mates ("View as pairs") or not, or whether the alignments
+should be viewed at "full scale" ("Expanded"), somewhat mashed down ("Collapsed") or
+completely squashed down and small ("Squished").  
+
+### Sample Data
+
+About 0.5 Gb of sample data can be downloaded from
+[https://drive.google.com/file/d/1TMug-PjuL7FYrXRTpNikAgZ-ElrvVneH/view?usp=sharing]( https://drive.google.com/file/d/1TMug-PjuL7FYrXRTpNikAgZ-ElrvVneH/view?usp=sharing).
+
+This download includes a zip-compressed folder called `tiny-genomic-data`.  Within that
+folder are two more folders:  
+
+* `chinook-wgs-3-Mb-on-chr-32`: FASTQs, BAMs, and VCFs from whole genome sequencing data
+along a 3 Mb span of Chinook salmon chromosome 32 (which in the reference is named 
+`NC_037124.1`).  The genomic region from which the data comes from is
+`NC_037124.1:4,000,000-7,000,000`.
+The BAM and VCF files can be viewed against the reference genome in IGV.
+* `mykiss-rad-and-wgs-3-Mb-chr-omy28` includes BAMs from RAD-seq data (sequenced
+in the study by [@princeEvolutionaryBasisPremature2017]) from multiple
+steelhead trout individuals
+merged together into two BAM files.  The genomic region included in those
+BAM files is omy28:11,200,000-12,200,000.  Also included is a VCF file from whole genome
+resequencing data from 125 steelhead and rainbow trout in the 3 Mb region from
+`omy28:10,150,000-13,150,000.  
+
+Both of the above directories include a `genome` directory that holds the FASTA
+that you must point IGV to.  Note that in neither case does the FASTA hold the complete
+genome of the organism. I have merely included three chromosomes in each---the chromosome
+upon which the BAM and VCF data are located, and the chromosome on either side of that
+chromosome.
+
+Explore these data and have fun.  Some things to play with (remember to right-click 
+[cntrl-click on a Mac] each track for a menu) :
+
+Start with the Chinook data:
+
+1. Load the FASTA for each data set first
+1. Load a BAM file after that
+1. Then load a VCF file.
+1. You will likely have to zoom pretty far into a genomic region with data (see above!)
+before you see anything interesting.
+1. Try zooming in as far as you can.
+1. Toggle "View as Pairs" and see the result.
+1. Play with "Collapsed/Expanded/Squished"
+1. Experiment with grouping/sorting/coloring alignments by different properties
+1. Use coloring to quickly find alignments with 
+    - `F1R2` of `F2R1` orientation
+    - Insert size > 1000 bp
+1. Sort by mapping quality and find some reads with MAPQ < 60
+1. Zoom out and use the VCF to find a region with a high variant density, then zoom back
+in and view the alignments there?  What do you notice about the number of reads aligning
+to those areas?
+
+For the steelhead data additionally:
+
+1. Do you see where the RAD cutsite must have been and how paired-end sequencing
+works from either side of the cutsite?
+1. What do you notice about the orientation of Read 1 and Read 2 on either side of the cutsite?
+1. Why do we see the read depth patterns we see on either side of the cutsite?  (i.e., in many 
+cases it goes up as you move away from the cutsite, and then drops off again.)
+1. Do you appreciate this visual representation of how sparse RAD data is compared to whole 
+genome resequencing data?
+
+
+
+

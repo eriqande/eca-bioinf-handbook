@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-02-07" />
+<meta name="date" content="2020-02-11" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -261,11 +261,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="16.4.1" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#how-might-i-align-to-thee-let-me-count-the-ways"><i class="fa fa-check"></i><b>16.4.1</b> How might I align to thee? Let me count the ways…</a></li>
 <li class="chapter" data-level="16.4.2" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#play-with-simple-alignments"><i class="fa fa-check"></i><b>16.4.2</b> Play with simple alignments</a></li>
 <li class="chapter" data-level="16.4.3" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#sam-flags"><i class="fa fa-check"></i><b>16.4.3</b> SAM Flags</a></li>
-<li class="chapter" data-level="16.4.4" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#samtools"><i class="fa fa-check"></i><b>16.4.4</b> Samtools</a></li>
+<li class="chapter" data-level="16.4.4" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#the-cigar-string"><i class="fa fa-check"></i><b>16.4.4</b> The CIGAR string</a></li>
+<li class="chapter" data-level="16.4.5" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#the-seq-and-qual-columns"><i class="fa fa-check"></i><b>16.4.5</b> The SEQ and QUAL columns</a></li>
+<li class="chapter" data-level="16.4.6" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#sam-file-headers"><i class="fa fa-check"></i><b>16.4.6</b> SAM File Headers</a></li>
+<li class="chapter" data-level="16.4.7" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#the-bam-format"><i class="fa fa-check"></i><b>16.4.7</b> The BAM format</a></li>
+<li class="chapter" data-level="16.4.8" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#samtools"><i class="fa fa-check"></i><b>16.4.8</b> Samtools</a></li>
 </ul></li>
 <li class="chapter" data-level="16.5" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#variants"><i class="fa fa-check"></i><b>16.5</b> Variants</a></li>
 <li class="chapter" data-level="16.6" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#segments"><i class="fa fa-check"></i><b>16.6</b> Segments</a></li>
 <li class="chapter" data-level="16.7" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#conversionextractions-between-different-formats"><i class="fa fa-check"></i><b>16.7</b> Conversion/Extractions between different formats</a></li>
+<li class="chapter" data-level="16.8" data-path="bioinformatic-file-formats-and-associated-tools.html"><a href="bioinformatic-file-formats-and-associated-tools.html#visualization-of-genomic-data"><i class="fa fa-check"></i><b>16.8</b> Visualization of Genomic Data</a></li>
 </ul></li>
 <li class="chapter" data-level="17" data-path="genome-assembly.html"><a href="genome-assembly.html"><i class="fa fa-check"></i><b>17</b> Genome Assembly</a></li>
 <li class="chapter" data-level="18" data-path="alignment-of-sequence-data-to-a-reference-genome.html"><a href="alignment-of-sequence-data-to-a-reference-genome.html"><i class="fa fa-check"></i><b>18</b> Alignment of sequence data to a reference genome</a><ul>
@@ -444,7 +449,7 @@ The decimal representation or each character can be found in Figure <a href="bio
 FIGURE 16.1: This lovely ASCII table shows the binary, hexadecimal, octal and decimal representations of ASCII characters (in the corners of each square; see the legend rectangle at bottom. Table produced from TeX code written and developed by Victor Eijkhout available at <a href="https://ctan.math.illinois.edu/info/ascii-chart/ascii.tex">https://ctan.math.illinois.edu/info/ascii-chart/ascii.tex</a>
 </p>
 </div>
-<p>The decimal representation in in the upper left of each character’s rectangle.</p>
+<p>The decimal representation is in the upper left of each character’s rectangle.</p>
 <p>Find the characters corresponding to base quality scores of 0, 10, 20, 30, and 40. Remember that the
 base quality score is the character’s decimal representation <em>minus 33</em>.</p>
 <p>Here is another question: why do you think the scale starts with ASCII character 33?</p>
@@ -855,15 +860,19 @@ align to opposite strands of the reference.</em></p>
 <p>What does a faithful segment from the reference genome look like
 in alignment? Well, in the top case we have:</p>
 <pre><code>      Read 1:  5&#39;  ACCTGCAGGA  3&#39; 
-5&#39;  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3&#39;  forward-strand
+5&#39;  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3&#39;
+forward-strand
     ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-3&#39;  TGTATCTGTCCCTGGTGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5&#39;  reverse-strand
+reverse-strand
+3&#39;  TGTATCTGTCCCTGGTGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5&#39;  
                                               Read 2:  3&#39;  TTGTGTCACT  5&#39;</code></pre>
 <p>And in the bottom case we have:</p>
 <pre><code>      Read 2:  5&#39;  ACCTGCAGGA  3&#39; 
-5&#39;  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3&#39;  forward-strand
+5&#39;  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3&#39;  
+forward-strand
     ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-3&#39;  TGTATCTGTCCCTGGTGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5&#39;  reverse-strand
+reverse-strand
+3&#39;  TGTATCTGTCCCTGGTGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5&#39;
                                               Read 1:  3&#39;  TTGTGTCACT  5&#39;</code></pre>
 <p>Note that, although one of the reads always aligns to the reverse strand, the position
 at which it is deemed to align is still read off of the position on the forward strand.
@@ -936,6 +945,115 @@ had an insertion of AGA, giving: <code>5'  ACCAGAGTGCAGGA  3'</code>, this fragm
 still align to the reference, at 10 bp, and we might record that alignment,
 but would still want a compact way of denoting the position and length of the
 insertion—a task handled by the <strong>CIGAR</strong> column.</p>
+<p>To express all these different ways in which an alignment can occur,
+each read occupies a single line in a SAM file. This row holds information about
+the read’s alignment to the reference genome in a number of TAB-delimited columns.
+There are 11 required columns in each alignment row, after which different aligners
+may provide additional columns of information.
+Table <a href="bioinformatic-file-formats-and-associated-tools.html#tab:sam-cols">16.1</a> gives a brief description of the 11 required columns (intimations
+of most of which occurred in <strong>ALL CAPS BOLDFACE</strong> in the preceding paragraphs. Some,
+like <strong>POS</strong> are relatively self-explanatory. Others, like <strong>FLAG</strong> and <strong>CIGAR</strong>
+benefit from further explanation as given in the subsections below.</p>
+<table style="width:86%;">
+<caption><span id="tab:sam-cols">TABLE 16.1: </span> Brief description of the 11 required columns in a SAM file.</caption>
+<colgroup>
+<col width="12%" />
+<col width="11%" />
+<col width="16%" />
+<col width="45%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Column</th>
+<th align="left">Field</th>
+<th align="left">Data Type</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">QNAME</td>
+<td align="left">String</td>
+<td align="left">Name/ID of the read (from
+FASTQ file)</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">FLAG</td>
+<td align="left">Integer</td>
+<td align="left">The SAM flag</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">RNAME</td>
+<td align="left">String</td>
+<td align="left">Name of scaffold/chromosome
+the read aligns to</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">POS</td>
+<td align="left">Integer</td>
+<td align="left">1-based 5’-most alignment
+position on reference forward
+strand</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="left">MAPQ</td>
+<td align="left">Integer</td>
+<td align="left">Phred-scaled mapping quality
+score</td>
+</tr>
+<tr class="even">
+<td align="left">6</td>
+<td align="left">CIGAR</td>
+<td align="left">String</td>
+<td align="left">String indicating matches,
+indels and clipping in
+alignment</td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="left">RNEXT</td>
+<td align="left">String</td>
+<td align="left">Scaffold/chromosome that the
+read’s mate aligns to</td>
+</tr>
+<tr class="even">
+<td align="left">8</td>
+<td align="left">PNEXT</td>
+<td align="left">Integer</td>
+<td align="left">Alignment position of the
+read’s mate</td>
+</tr>
+<tr class="odd">
+<td align="left">9</td>
+<td align="left">TLEN</td>
+<td align="left">Integer</td>
+<td align="left">Length of DNA template whose
+ends were read (in paired-end
+sequencing)</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="left">SEQ</td>
+<td align="left">String</td>
+<td align="left">The sequence of the read,
+represented in 5’ to 3’ on the
+reference forward strand</td>
+</tr>
+<tr class="odd">
+<td align="left">11</td>
+<td align="left">QUAL</td>
+<td align="left">String</td>
+<td align="left">Base quality scores, ordered
+from 5’ to 3’ on the reference
+forward strand</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div id="play-with-simple-alignments" class="section level3">
 <h3><span class="header-section-number">16.4.2</span> Play with simple alignments</h3>
@@ -946,20 +1064,22 @@ ourselves with the output in SAM format.</p>
 </div>
 <div id="sam-flags" class="section level3">
 <h3><span class="header-section-number">16.4.3</span> SAM Flags</h3>
-<p>The SAM flag expresses the status of
-the alignment associated with a given read in terms of a combination of
-12 yes-or-no statements. Each yes-or-no statement determines the truth of
-a single one of the twelve statements and is called a “bit” because it can be
+<p>The FLAG column expresses the status of
+the alignment associated with a given read (and its <em>mate</em> in paired-end
+sequencing) in terms of a combination of
+12 yes-or-no statements. The combination of all of these “yesses” and “nos” for a
+given aligned read is
+called its SAM <em>flag</em>. The yes-or-no status of any single one of the twelve statements is called a “bit” because it can be
 thought of as a single binary digit
 whose value can be 0 (No/False) or 1 (Yes/True). Sometimes a picture can be helpful:
 we can represent each statement as a circle which is shaded if it is true and open
 if it is false. Thus, if all 12 statements are false you would see <span class="math inline">\({\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}~{\circ}{\circ}{\circ}{\circ}\)</span>. However,
 if statements 1, 2, 5, and 7 are true then you would see <span class="math inline">\({\circ}{\circ}{\circ}{\circ}~{\circ}{\bullet}{\circ}{\bullet}~{\circ}{\circ}{\bullet}{\bullet}\)</span>. In computer parlance
 we would say that bits 1, 3, 5, and 7 are “set” if they indicate Yes/True. As these are bits
-in a binary number, each bit is associated with a power of 2 as shown in Table <a href="bioinformatic-file-formats-and-associated-tools.html#tab:sam-flags">16.1</a>,
-which also lists the statement (the “meaning”) of each flag.</p>
+in a binary number, each bit is associated with a power of 2 as shown in Table <a href="bioinformatic-file-formats-and-associated-tools.html#tab:sam-flags">16.2</a>,
+which also lists the meaning of each bit.</p>
 <table>
-<caption><span id="tab:sam-flags">TABLE 16.1: </span> SAM flags in a nutshell. The description of these flags in the SAM specification are more general, but if we restrict ourselves to paired-end Illumina data, the flags can be interpreted by the meanings shown here. The “bit-grams” show a visual representation of each bit-flag with open circles meaning 0 or False and filled circles denoting 1 or True. The bit grams are broken into three groups of four, which show the values that correspond to different place-columns in the hexadecimal representation of the bit masks.</caption>
+<caption><span id="tab:sam-flags">TABLE 16.2: </span> SAM flag bits in a nutshell. The description of these in the SAM specification is more general, but if we restrict ourselves to paired-end Illumina data, each bit can be interpreted by the meanings shown here. The “bit-grams” show a visual representation of each bit with open circles meaning 0 or False and filled circles denoting 1 or True. The bit grams are broken into three groups of four, which show the values that correspond to different place-columns in the hexadecimal representation of the bit masks.</caption>
 <colgroup>
 <col width="10%" />
 <col width="14%" />
@@ -1093,23 +1213,24 @@ a 1’s place, a 16’s place, and 256’s place, and so forth.
 In the first group of four bits (reading from right to left) the bits correspond to
 0x1, 0x2, 0x4, and 0x8, in hexadecimal. The next set of four bits correspond to 0x10, 0x20, 0x40, and 0x80,
 and the last set of four bits correspond to 0x100, 0x200, 0x400, 0x800. It can be worthwhile becoming comfortable with
-these hexadecimal names of each bit.
-In the SAM format,
+these hexadecimal names of each bit.</p>
+<p>In the SAM format,
 the <strong>FLAG</strong> field records the decimal (integer) equivalent of the binary number that represents
 the yes-or-no answers to the 12 different statements. It is relatively easy to do arithmetic with
 the hexadecimal flags to
 find the decimal equivalent: add up the numbers in each of the three hexadecimal value places
 (the 1’s, 16’s, and 256’s places)
-and multiply the result by 16 raised to the number of zeros in the hexadecimal number. For example if the
+and multiply the result by 16 raised to the number of zeros right of the “x” in the hexadecimal number. For example if the
 bits set on an alignment are 0x1 &amp; 0x2 &amp; 0x10 &amp; 0x40, then they sum column-wise to 0x3, and 0x50, so the
 value listed in the FLAG field of a SAM file would be <span class="math inline">\(3 + 5 \cdot 16 = 83\)</span>.</p>
-<p>While it is probably possible to get good at computing these bit flag combinations in your
+<p>While it is probably possible to get good at computing these 12-bit combinations
+from hexadecimal in your
 head, it is also quite convenient to use the Broad Institute’s wonderful
 <a href="https://broadinstitute.github.io/picard/explain-flags.html">SAM flag calculator</a>.</p>
-<p>We will leave our discussion of the various SAM flag values by noting that the large SAM flags
+<p>We will leave our discussion of the various SAM flag values by noting that the large SAM-flag bits
 (0x100, 0x200, 0x400, and 0x800) all signify something “not good” about the alignment.
 The same goes for 0x4 and 0x8. On the other hand, when you are dealing with paired-end
-data one of the reads has to be read 1 and the other read 2, and that is known from their
+data, one of the reads has to be read 1 and the other read 2, and that is known from their
 read names and the FASTQ file that they are in. So, we expect that 0x40 and 0x80 should always be set,
 trivially. With paired-end data, we are always comforted to see bits 0x1 and 0x2 set, as departures from
 that condition indicate that the pairing of the read alignments does not make sense given the
@@ -1131,15 +1252,117 @@ the alignments you have made (this is what <em>samtools flagstat</em> is for, as
 in a later chapter). Second, you might wonder if you should do some sort
 of filtering of your alignments before you do variant calling. With most modern
 variant callers, the answer to that is, “No.” Modern variant callers take account of
-the information in the SAM flags to weight information from different alignments, so
+the information in the SAM flags to weight information from different alignments, so,
 leaving bad alignments in your SAM file should not have a large effect on the final
 results. Furthermore, filtering out your data might make it hard to follow up on interesting patterns in
 your data, for example, the occurrence of improperly aligning reads can be used to
 infer the presence of inversions. If all those improperly paired reads had been discarded,
 they could not be used in such an endeavor.</p>
 </div>
+<div id="the-cigar-string" class="section level3">
+<h3><span class="header-section-number">16.4.4</span> The CIGAR string</h3>
+<p><strong>CIGAR</strong> is an acronym for Compressed Idiosyncratic Gapped Alignment Report. It provides a
+space-economical way of describing the manner in which a single read aligns to a reference
+genome. It is particularly important for recording the presence of insertions or deletions within
+the read, relative to the reference genome. This is done by counting up, along the alignment, the
+number of base pairs that: <em>match</em> (<code>M</code>) the reference; that are <em>inserted</em> (<code>I</code>) into the read and
+absent from the reference; and that are <em>deleted</em> (<code>D</code>) from the read, but present in the reference.
+To arrive at the syntax of the CIGAR string you catenate a series of Number-Letter pairs that describe the
+sequence of matches, insertions and deletions that describe an alignment.</p>
+<p>Some examples are in order. We return to our 80 base-pair reference from above and consider
+the alignment to it of a 10 bp read that looks like <code>5'  ACCTGCAGGA  3'</code>:</p>
+<pre><code>5&#39;  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3&#39;
+               5&#39;  ACCTGCAGGA  3&#39;</code></pre>
+<p>Such an alignment has no insertions or deletions, or other weird things, going on. So its
+CIGAR string would be <code>10M</code>, signifying 10 matching base pairs. A <em>very important</em> thing
+to note about this is that the <code>M</code> refers to bases that match in <em>position</em> in the alignment
+<em>even though they might not match the specific nucleotide types</em>. For example, even if
+bases 3 and 5 in the read don’t match the exact base nucleotides in the alignment, like this:</p>
+<pre><code>5&#39;  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3&#39;
+               5&#39;  ACTTACAGGA  3&#39;</code></pre>
+<p>its CIGAR string will typically still be <code>10M</code>. (The SAM format allows for an <code>X</code> to denote
+mismatches in the base nucleotides between a reference and a read, but I have never seen
+it used in practice.)</p>
+<p>Now, on the other hand, if our read carried a deletion of bases 3 and 4. It would look
+like <code>5'  ACGCAGGA  3'</code> and we might represent it in an alignment like:</p>
+<pre><code>5&#39;  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3&#39;
+               5&#39;  AC--GCAGGA  3&#39;</code></pre>
+<p>where the <code>-</code>’s have replaced the two deleted bases. The CIGAR string for this
+alignment would be <code>2M2D6M</code>.</p>
+<p>Continuing to add onto this example, suppose that not only have bases 3 and 4 been deleted,
+but also a four-base insertion of <code>ACGT occurs in the read between positions 8 and 9 (of the original read).  That would appear like: ``` 5'  ACATAGACAGGGACCACCTGCAG----GACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'                5'  AC--GCAGACGTGA  3' ``` where</code>-<code>'s have been added to the reference at the position of the insertion in the read. The CIGAR string for this arrangement would be</code>2M2D4M4I2M` which can be hard to parse, visually,
+if your eyes are getting as old as mine, but it translates to:</p>
+<pre><code>2 bp Match  
+2 bp Deletion  
+4 bp Match  
+4 bp Insert   
+2 bp Match   </code></pre>
+<p>In addition to <code>M</code>, <code>D</code> and <code>I</code> (and <code>X</code>) there are also <code>S</code> and <code>H</code>, which are
+typically seen with longer sequences. They refer to <em>soft-</em> and <em>hard-clipping</em>,
+respectively, which are situations in which a terminal piece of the read, from
+either near the 3’ or 5’ end, does not align to the reference, but the central
+part, or the other end of the read does. Hard clipping removes the clipped sequence
+from the read as represented in the SEQ column, while soft clipping does not
+remove the clipped sequence from the SEQ column representation.</p>
+<p>One important thing to understand about CIGAR strings is that they always represent
+the alignment as it appears in the 5’ to 3’ direction. As a consequence, it is the
+same whether you are reading it off the read in the 5’ to 3’ direction <em>or</em> if you are reading it
+off from how the reverse complement of the read would align to the opposite strand of the reference.
+Another picture is in order: if we saw a situation like the following,
+with a deletion in Read 1 (which aligns to the reverse strand),
+the CIGAR string would be, from 5’ to 3’ on Read 1, <code>6M2D2M</code>,
+which is just what we would have if we were to align the reverse
+complement of Read 1, called <code>Comp R1</code> below to the forward strand
+of the reference.</p>
+<pre><code>      Read 2:  5&#39;  ACCTGCAGGA  3&#39;            Comp R1:  5&#39;  AA--CAGTGA  3&#39;
+5&#39;  ACATAGACAGGGACCACCTGCAGGACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3&#39;  
+forward-strand
+    ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+reverse-strand
+3&#39;  TGTATCTGTCCCTGGTGGACGTCCTGTGTGTGCGTCCAAATGATTCCCAAATGAGTTGTGTCACTTGTCGTATATGGTCT  5&#39;
+                                              Read 1:  3&#39;  TT--GTCACT  5&#39;</code></pre>
+<p>For the most part, it is important to have an understanding of
+CIGAR strings, though you will rarely end up parsing and using them
+yourself. That job is best left for the specialized tools that process
+SAM files and their compressed equivalents, BAM files. Nonetheless, it
+is worth pointing out that if you want to identify the nucleotide values
+(i.e. alleles) at different variant positions upon single reads, it is necessary
+to contend with CIGAR strings to do so. This is one of the things that gets
+taken care of (with some Perl code) in the R package
+<a href="https://cran.r-project.org/web/packages/microhaplot/index.html">microhaplot</a> for extracting
+microhaplotypes from short read data (and then visualizing them).</p>
+</div>
+<div id="the-seq-and-qual-columns" class="section level3">
+<h3><span class="header-section-number">16.4.5</span> The SEQ and QUAL columns</h3>
+<p>These columns hold the actual reads and quality scores that came off the
+sequencing machine and were in the FASTQ files. (Note, if you thought that
+after aligning your reads, the SAM or BAM files would end up taking up less space then the ridiculously
+large, gzipped FASTQ files you just downloaded from the sequencing center,
+guess again! SAM files actually have all the information present in a FASTQ, along with extra
+information about the alignments.)</p>
+<p>The only thing that is tricky about these columns is that, if the read aligns to the
+reverse strand of the reference genome, the entry in the <strong>SEQ</strong> column is the
+reverse complement of the read that actually appeared in the FASTQ file. Of course,
+when you read off the letters of DNA from a reverse complement, going left to right
+the way you read a book, the order in which you encounter the complement of each base
+from the original sequence is reversed from the way you would read the bases
+in the original sequence. Accordingly, the order of the base quality scores that
+appear in the <strong>QUAL</strong> column will be in reverse order is the mapping was to the
+reverse strand.</p>
+</div>
+<div id="sam-file-headers" class="section level3">
+<h3><span class="header-section-number">16.4.6</span> SAM File Headers</h3>
+</div>
+<div id="the-bam-format" class="section level3">
+<h3><span class="header-section-number">16.4.7</span> The BAM format</h3>
+<p>Compressed into small blocks so that the file can be indexed, allowing rapid
+access (without “scrolling” through the whole file) to the alignments within
+a desired genomic range.</p>
+<p>You can’t read these, or even decompress them with standard Unix tools, but you can
+use <code>samtools</code> for that purpose. We will talk about that a lot more in a later chapter.</p>
+</div>
 <div id="samtools" class="section level3">
-<h3><span class="header-section-number">16.4.4</span> Samtools</h3>
+<h3><span class="header-section-number">16.4.8</span> Samtools</h3>
 </div>
 </div>
 <div id="variants" class="section level2">
@@ -1164,6 +1387,9 @@ bcftools is that it works a whole lot like samtools, syntactically.</p>
 <ul>
 <li>vcflib’s vcf2fasta takes a phased VCF file and a fasta file and spits out sequence.</li>
 </ul>
+</div>
+<div id="visualization-of-genomic-data" class="section level2">
+<h2><span class="header-section-number">16.8</span> Visualization of Genomic Data</h2>
 
 </div>
 </div>

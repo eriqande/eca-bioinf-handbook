@@ -1,0 +1,12 @@
+Column   &  Field   & Data Type  & Description
+1        & QNAME    & String     & Name/ID of the read (from FASTQ file)
+2        & FLAG     & Integer    & The SAM flag
+3        & RNAME    & String     & Name of scaffold/chromosome the read aligns to
+4        & POS      & Integer    & 1-based 5'-most alignment position on reference forward strand 
+5        & MAPQ     & Integer    & Phred-scaled mapping quality score
+6        & CIGAR    & String     & String indicating matches, indels and clipping in alignment
+7        & RNEXT    & String     & Scaffold/chromosome that the read's mate aligns to
+8        & PNEXT    & Integer    & Alignment position of the read's mate
+9        & TLEN     & Integer    & Length of DNA template whose ends were read (in paired-end sequencing)
+10       & SEQ      & String     & The sequence of the read, represented in 5' to 3' on the reference forward strand
+11       & QUAL     & String     & Base quality scores, ordered from 5' to 3' on the reference forward strand
