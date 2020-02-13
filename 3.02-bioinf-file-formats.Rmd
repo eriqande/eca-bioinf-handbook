@@ -540,6 +540,10 @@ aggaaataaagggggaagaggtatttatgactgtcataaacctacccctcaggccaacgt
 catgacactcccgttaatcacacagactGG
 ```
 
+### Downloading reference genomes from NCBI
+
+Gotta write a blurb here about how much nicer it is to
+use the ftp link:  [ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/](ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/).  More on this, eventually...
 
 ## Alignments
 
@@ -908,7 +912,7 @@ where the `-`'s have replaced the two deleted bases.  The CIGAR string for this
 alignment would be `2M2D6M`.  
 
 Continuing to add onto this example, suppose that not only have bases 3 and 4 been deleted,
-but also a four-base insertion of `ACGT occurs in the read between positions 8 and 9 (of the original
+but also a four-base insertion of `ACGT` occurs in the read between positions 8 and 9 (of the original
 read).  That would appear like:
 ```
 5'  ACATAGACAGGGACCACCTGCAG----GACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'
@@ -996,8 +1000,84 @@ These file header lines can appear daunting at first, and, when merging or divid
 SAM and BAM files can prove to the bain of your existence, so understanding both their
 purpose and structure is paramount to avoiding some pain down the road.
 
-This section not yet complete.
+In a nutshell, the lines in the header provide information to programs (and people)
+that will be processing the data in a SAM (or BAM, see below) file. Some of the header
+lines give information about the reference genome that was aligned to, others
+provide an overview of the various samples (and other information) included in the file,
+while still others give information about the program and data that produced the
+SAM file.
 
+If you have every looked at the SAM header for an alignment to a reference genome
+that is in thousands of pieces, you were likely overwhelmed by thousands of
+lines that started with `@SQ`.  Each of these lines gives information about the
+names and lengths (and optionally, some other information) of sequences that
+were used as the reference for the alignment.
+
+Each header line begins with an `@` followed by two capital letters, for example,
+`@RG` or `@SQ`.  The two-letter code indicates what kind of header line it is.  There are only
+five kinds of header lines:
+
+* `@HD`: the "main" header line, which, if present, will be the first line of the
+file.  It's purpose is to reveal the version of the SAM format in use, and also information
+about how the alignments in the file are sorted.
+* `@SQ`: typically the most abundant SAM header lines, each of these gives information about
+a sequence in the reference genome aligned to.
+* `@RG`: these indicate information about _read groups_, which are collections of reads that,
+for the purposes of downstream analysis can all be assumed to be from the same individual and
+to have been treated the same way during the processes of library preparation and sequencing.
+We will discuss read groups more fully in the section on alignment.
+* `@PG`: a line that tells about the program that was used to produced the SAM file.
+* `@CO`: a line in which a comment can be placed.
+
+Those first three characters signify that a line is a header line, but, within each
+header line, how is information conveyed?  In all cases (except for the comment lines
+using `@CO`), information within a header line is provided in TAB-delimited, colon-separate
+_key-value_ pairs.  This means that the type or meaning or each piece of information is tagged
+with a key, like `ID`, and its _value_ follows that key after a colon.  For example, then line
+```
+@PG	ID:bwa	PN:bwa	VN:0.7.9a-r786
+```
+tells us that the ID of the program that produced the SAM file was `bwa`, and
+its version number (VN) was 0.7.9a-r786.
+
+The keys in the key-value pairs are always two uppercase letters.  And different keys
+are allowed (and in some case required) in the context of each of the five different
+kinds of SAM header lines.
+
+The most important keys for the different kinds of header lines are as follows:
+
+* For `@HD`
+    - `VN`: the version of the SAM specification in use.  This is required.
+    - `SO`: the sort order of the file.  The default value is be `unknown`.
+    More commonly, when your SAM/BAM file is prepared for variant calling, it will have been sorted in the
+    order of the reference genome, which is denoted as `SO:coordinate`. For other purposes, it is important
+    to sort the file in the order of read names, or `SO:queryname`.  It is important to note that
+    setting these values in a SAM file does not sort it.  Rather, when you have asked a program to sort
+    a SAM/BAM file, that program will make a note in the header about how it is sorted.
+* For `@SQ`
+    - `SN` is the key for the sequence name and is required.  
+    - `LN` is the key for the length (in nucleotide bases) of the sequence, and is also required.
+* For `@RG`
+    - `ID` is the only required key for `@RG` lines.  Note that if multiple `@RG` lines occur in the file,
+    each of their `ID` values must be different.
+    - `SM` is the key for the name of the sample from which the reads came from.  This is the name
+    used when recording genotypes of individuals when doing variant calling.
+    - `LB` denotes the particularly library in which the sample was prepared for sequencing.
+    - `PU` denotes the "Platform Unit," of sequencing.  Typically interpreted to mean the flow-cell and
+    the lane upon which the sample was sequenced.  We will talk much more about the contents of read-group
+    header lines, and how to fill them.
+* For `@PG`
+    - `ID` is required and provides information about the program that produced the SAM output.
+    - `VN` as we saw before, this key lets you record the version of the program used to produce the
+    SAM output.
+    
+A complete accounting of the different possible SAM header lines and their contents is given
+in the [SAM specification](https://samtools.github.io/hts-specs/SAMv1.pdf).  It is given in a
+terse table that is quite informative and is not terribly tough sledding.  It is recommended that
+you read the section on header lines.
+
+
+    
 ### The BAM format
 
 As you might have inferred from the foregoing, SAM files can end up being enormous
@@ -1116,7 +1196,9 @@ options from the "Genomes" menu.  If you are working on a non-model organism of
 conservation concern it is likely that you will have the reference genome for that
 critter on your local computer, so you would "Genomes->Load Genome From File...",
 to show IGV where the FASTA file (cannot be compressed) of your genome is on your
-hard drive.
+hard drive. Let's repeat that: if you are loading the FASTA for a reference genome into IGV, 
+you _must_ use the "Genomes" menu option.  If you use "**File**->Load From File..." to try to
+load the reference genome, it won't let you.  Don't do it!  Use "**Genomes->Load Genome From File**"
 
 2. Once your reference genome is known to IGV, you can add data from the
 bioinformatic formats described in this chapter _that include positions from a reference genome_.

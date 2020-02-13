@@ -43,3 +43,7 @@ blockquote > p:last-child {
 blockquote > p:first-child {
   text-align: inherit;
 }
+
+pre.numberSource a.sourceLine {
+  left: -2.6em;
+}

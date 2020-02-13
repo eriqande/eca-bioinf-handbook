@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-02-11}
+\date{2020-02-13}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -1988,18 +1988,853 @@ up-arrow/down-arrow\strut
 \hypertarget{shell-programming}{%
 \chapter{Shell programming}\label{shell-programming}}
 
-Discuss the programming interface, and also maybe discuss \& and ;
-and how to put things into scripts.
+In our first foray into Unix and the shell, we restricted ourselves mostly
+to navigating the file system, handling files, and working with streams of data
+(via redirection and pipes). These are all crucial skills, but the bash shell
+becomes truly powerful when we start to adopt it as a sort of programming language.
+That's right, even though the functionality of bash is geared toward running jobs
+and calling commands, it still exhibits most of the features expected in a programming
+language, like variables, iteration and flow control.
 
-In here, let's also talk about compression with gzip (and using \texttt{stuff\ \textbar{}\ gzip\ -c\ \textgreater{}\ this.gz} to gzip and send to stdout.)
+We start this section by taking a look at a short bash program (typically
+called a \emph{script}) that the author wrote in order to efficiently download
+(clone, really) repositories from GitHub that have been submitted by
+students to GitHub Classroom. The program is not long, but exhibits
+many useful features of bash as a programming language. If you are reading
+this, not in the context of a class with lectures, just go ahead and read
+through it and see if you can figure out what is going on in each line
+of the script. Afterward, we will address many features of bash by
+referencing different parts of the script.
 
-\hypertarget{advanced-repitition}{%
-\section{Advanced repitition}\label{advanced-repitition}}
+The script, which happens to be stored in a file called \texttt{clone-classroom-repos.sh}
+is printed below, with linenumbers, since we will
+be referring back to specific sections of the script later.
 
-I want to get constructs like \texttt{\{1..20\}} and \texttt{\{csv,pdf,jpg\}} in here too.
+\begin{Shaded}
+\begin{Highlighting}[numbers=left,,]
+\CommentTok{#!/bin/bash}
+
+\CommentTok{# define a function to print the usage or "help" for the script}
+\KeywordTok{function}\FunctionTok{ usage} \KeywordTok{\{}
+      \BuiltInTok{echo}\NormalTok{ Syntax:}
+      \BuiltInTok{echo} \StringTok{"  }\VariableTok{$(}\FunctionTok{basename} \VariableTok{$0)}\StringTok{  GH_Prefix  Repo_Prefix  Branch  Dir}
+\StringTok{      }
+\StringTok{      GH_Prefix: the URL of the GitHub site where the repository exists.}
+\StringTok{      Repo_Prefix: the prefix of the name of each repository to be cloned.}
+\StringTok{      Branch: the name of the branch to create and switch to in the repository,}
+\StringTok{         once the repo has been cloned.}
+\StringTok{      Dir: path to the directory (will be created if necessary) to clone all}
+\StringTok{         the repositories to.}
+\StringTok{         }
+\StringTok{   Example:}
+\StringTok{   }
+\StringTok{      }\VariableTok{$(}\FunctionTok{basename} \VariableTok{$0)}\StringTok{  https://github.com/CSU-con-gen-bioinformatics-2020  illumina-video-questions- erics-edits  /tmp/illumina-questions}
+\StringTok{      "}
+      \BuiltInTok{echo}
+\KeywordTok{\}}
+
+\CommentTok{#  test for right number of required args.  If not, print usage message}
+\KeywordTok{if}\BuiltInTok{ [} \VariableTok{$#} \OtherTok{-ne}\NormalTok{ 4}\BuiltInTok{ ]}\NormalTok{; }\KeywordTok{then}
+    \ExtensionTok{usage}\KeywordTok{;}
+    \BuiltInTok{exit}\NormalTok{ 1}\KeywordTok{;}
+\KeywordTok{fi}
+
+\CommentTok{# copy positional parameters into other variables}
+\VariableTok{GHP=$1}
+\VariableTok{RP=$2}
+\VariableTok{BRANCH=$3}
+\VariableTok{DD=$4}
+
+\CommentTok{# assign string with student GitHub handles into a variable}
+\VariableTok{GHNAMES=}\StringTok{"AmandaCicchino}
+\StringTok{BrennaF}
+\StringTok{CaitlinWells}
+\StringTok{EllenMCampbell}
+\StringTok{FayDong}
+\StringTok{LibbyGH}
+\StringTok{NathanPhipps}
+\StringTok{RGCheek}
+\StringTok{Ronan17}
+\StringTok{abeulke}
+\StringTok{carolazari}
+\StringTok{cbossu}
+\StringTok{ccolumbu}
+\StringTok{elenacorrea}
+\StringTok{eriqande}
+\StringTok{jenleon07}
+\StringTok{kimhoke}
+\StringTok{kruegg}
+\StringTok{lauracgoetz}
+\StringTok{mdrod110}
+\StringTok{mgdesaix}
+\StringTok{raven-wings}
+\StringTok{seamus100}
+\StringTok{taylorbobowski}
+\StringTok{wcfunk"}
+
+\CommentTok{# assign my GitHub username to the variable USER}
+\VariableTok{USER=}\NormalTok{eriqande}
+
+\CommentTok{# assign the current working directory to the variable RUNDIR}
+\VariableTok{RUNDIR=$PWD}
+
+\CommentTok{# make a new directory named whatever the user wanted for the output directory}
+\FunctionTok{mkdir}\NormalTok{ -p }\VariableTok{$DD}
+
+\CommentTok{# make variables to hold log and error file names}
+\VariableTok{LOG=$\{PWD\}}\NormalTok{/}\VariableTok{$\{RP\}}\NormalTok{log}
+\VariableTok{ERR=$LOG}\NormalTok{.stderr}
+
+\CommentTok{# print the date/time when the process is starting}
+\BuiltInTok{echo} \StringTok{"STARTING at }\VariableTok{$(}\FunctionTok{date}\VariableTok{)}\StringTok{"}
+
+\CommentTok{# make a clean slate. remove any files with the name}
+\CommentTok{# of the error output file}
+\FunctionTok{rm}\NormalTok{ -f }\VariableTok{$ERR}
+
+\CommentTok{# cycle over the student GitHub names, and for each one *do*}
+\CommentTok{# the commands that appear before the *done* keyword. Indenting}
+\CommentTok{# is used to make it easier to read, but is not essential.}
+\KeywordTok{for} \ExtensionTok{L}\NormalTok{ in }\VariableTok{$GHNAMES}\KeywordTok{;} \KeywordTok{do}
+
+    \BuiltInTok{echo} \StringTok{"Working on }\VariableTok{$L}\StringTok{, starting at }\VariableTok{$(}\FunctionTok{date}\VariableTok{)}\StringTok{"}\NormalTok{  # print a progress line to stdout}
+    \VariableTok{REPO=$GHP}\NormalTok{/}\VariableTok{$\{RP\}$L}\NormalTok{     # }\ExtensionTok{combine}\NormalTok{ variables into new variables that}
+    \BuiltInTok{echo} \VariableTok{$REPO}\NormalTok{            # hold the URL for the repository to be}
+    \VariableTok{DEST=$DD}\NormalTok{/}\VariableTok{$L}\NormalTok{           # }\ExtensionTok{cloned}\NormalTok{ and the path where it should be cloned to}
+  
+    \CommentTok{# store the commands themselves into variables. Note the }
+    \CommentTok{# use of double quotes.}
+    \VariableTok{CLONE_IT=}\StringTok{"git clone }\VariableTok{$\{REPO/}\NormalTok{github.com}\VariableTok{/$USER}\NormalTok{@github.com}\VariableTok{\}}\StringTok{ }\VariableTok{$DEST}\StringTok{"} 
+    \VariableTok{BRANCH_IT=}\StringTok{"git checkout -B }\VariableTok{$BRANCH}\StringTok{"}
+    \VariableTok{PUSH_IT=}\StringTok{"git push -u origin }\VariableTok{$BRANCH}\StringTok{"}
+  
+    
+    \CommentTok{# now, run those commands, chained together by exit-status-AND}
+    \CommentTok{# operators (so it will stop if any one part fails), while}
+    \CommentTok{# all the while appending error statements to the Error file. Run it}
+    \CommentTok{# all within an "if" statement so you can deliver a report as to}
+    \CommentTok{# whether the whole shebang succeeded or failed.}
+    \KeywordTok{if} \VariableTok{$CLONE_IT} \OperatorTok{2>>} \VariableTok{$ERR}  \KeywordTok{&&} \KeywordTok{\textbackslash{}}
+        \BuiltInTok{cd} \VariableTok{$DEST} \KeywordTok{&&} \KeywordTok{\textbackslash{}}
+        \VariableTok{$BRANCH_IT} \OperatorTok{2>>} \VariableTok{$ERR}  \KeywordTok{&&} \KeywordTok{\textbackslash{}}
+        \VariableTok{$PUSH_IT} \OperatorTok{2>>} \VariableTok{$ERR}  \KeywordTok{&&} \KeywordTok{\textbackslash{}}
+        \BuiltInTok{cd} \VariableTok{$RUNDIR}\NormalTok{   # at the very end make sure to return to the original working directory}
+    \KeywordTok{then}
+        \BuiltInTok{echo} \StringTok{"FULL SUCCESS }\VariableTok{$L}\StringTok{"}
+    \KeywordTok{else}
+        \BuiltInTok{echo} \StringTok{"FAILURE SOMEWHERE WITHIN }\VariableTok{$L}\StringTok{"}
+        \BuiltInTok{cd} \VariableTok{$RUNDIR}\NormalTok{  # get back to the working directory from which the original command was run.}
+                    \CommentTok{# so we are ready to handle the next student repo.}
+    \KeywordTok{fi}
+  
+\KeywordTok{done}\NormalTok{  # }\ExtensionTok{signifies}\NormalTok{ the end of the for loop we are cycling over}
+\end{Highlighting}
+\end{Shaded}
+
+If my current working directory is where the script resides, I can run it
+like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ ./clone-classroom-repos.sh }
+\end{Highlighting}
+\end{Shaded}
+
+And if I wanted to be fancy, I could put the script in a directory (like \texttt{\textasciitilde{}/bin} perhaps)
+that I have included in my \texttt{PATH} variable. In which case I could run it like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ clone-classroom-repos.sh }
+\end{Highlighting}
+\end{Shaded}
+
+from anywhere on my computer.
+
+When I run the script in any of those two ways, because I have not provided the
+proper number of \emph{arguments} to the command, it returns a message telling me
+what syntax is required to use it (i.e., its \emph{usage syntax}):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ clone-classroom-repos.sh }
+\ExtensionTok{Syntax}\NormalTok{:}
+  \ExtensionTok{clone-classroom-repos.sh}\NormalTok{  GH_Prefix  Repo_Prefix  Branch  Dir}
+      
+      \ExtensionTok{GH_Prefix}\NormalTok{: the URL of the GitHub site where the repository exists.}
+      \ExtensionTok{Repo_Prefix}\NormalTok{: the prefix of the name of each repository to be cloned.}
+      \ExtensionTok{Branch}\NormalTok{: the name of the branch to create and switch to in the repository,}
+         \ExtensionTok{once}\NormalTok{ the repo has been cloned.}
+      \ExtensionTok{Dir}\NormalTok{: path to the directory (will be created if necessary) }\ExtensionTok{to}\NormalTok{ clone all}
+         \ExtensionTok{the}\NormalTok{ repositories to.}
+         
+   \ExtensionTok{Example}\NormalTok{:}
+   
+      \ExtensionTok{clone-classroom-repos.sh}\NormalTok{  https://github.com/CSU-con-gen-bioinformatics-2020  illumina-video-questions- erics-edits  /tmp/illumina-questions}
+      
+\end{Highlighting}
+\end{Shaded}
+
+That is handy, and the code to do it exists in the script itself. Looking at the output, how many
+arguments do you think the script is expecting?
+
+Now, if I wanted to clone all of the student GitHub repos associated with the \texttt{illumina-video-questions}
+homework set, and then, once cloned, set up a new git \emph{branch} called \texttt{eric-edits} so that I can make
+edits and/or comments and send those to students via a pull request, here is the command I would give
+(remembering, again that the \texttt{\%} signifies the command prompt, here):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ clone-classroom-repos.sh  https://github.com/CSU-con-gen-bioinformatics-2020  illumina-video-questions- erics-edits  /tmp/illumina-questions}
+\end{Highlighting}
+\end{Shaded}
+
+And when I do, I see output like this:
+
+\begin{verbatim}
+STARTING at Thu Feb 13 06:02:05 MST 2020
+Working on AmandaCicchino, starting at Thu Feb 13 06:02:05 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-AmandaCicchino
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS AmandaCicchino
+Working on BrennaF, starting at Thu Feb 13 06:02:07 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-BrennaF
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS BrennaF
+Working on CaitlinWells, starting at Thu Feb 13 06:02:08 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-CaitlinWells
+FAILURE SOMEWHERE WITHIN CaitlinWells
+Working on EllenMCampbell, starting at Thu Feb 13 06:02:09 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-EllenMCampbell
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS EllenMCampbell
+Working on FayDong, starting at Thu Feb 13 06:02:10 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-FayDong
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS FayDong
+Working on LibbyGH, starting at Thu Feb 13 06:02:12 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-LibbyGH
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS LibbyGH
+Working on NathanPhipps, starting at Thu Feb 13 06:02:14 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-NathanPhipps
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS NathanPhipps
+Working on RGCheek, starting at Thu Feb 13 06:02:15 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-RGCheek
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS RGCheek
+Working on Ronan17, starting at Thu Feb 13 06:02:17 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-Ronan17
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS Ronan17
+Working on abeulke, starting at Thu Feb 13 06:02:19 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-abeulke
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS abeulke
+Working on carolazari, starting at Thu Feb 13 06:02:21 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-carolazari
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS carolazari
+Working on cbossu, starting at Thu Feb 13 06:02:23 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-cbossu
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS cbossu
+Working on ccolumbu, starting at Thu Feb 13 06:02:25 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-ccolumbu
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS ccolumbu
+Working on elenacorrea, starting at Thu Feb 13 06:02:26 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-elenacorrea
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS elenacorrea
+Working on eriqande, starting at Thu Feb 13 06:02:28 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-eriqande
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS eriqande
+Working on jenleon07, starting at Thu Feb 13 06:02:29 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-jenleon07
+FAILURE SOMEWHERE WITHIN jenleon07
+Working on kimhoke, starting at Thu Feb 13 06:02:30 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-kimhoke
+FAILURE SOMEWHERE WITHIN kimhoke
+Working on kruegg, starting at Thu Feb 13 06:02:30 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-kruegg
+FAILURE SOMEWHERE WITHIN kruegg
+Working on lauracgoetz, starting at Thu Feb 13 06:02:30 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-lauracgoetz
+FAILURE SOMEWHERE WITHIN lauracgoetz
+Working on mdrod110, starting at Thu Feb 13 06:02:31 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-mdrod110
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS mdrod110
+Working on mgdesaix, starting at Thu Feb 13 06:02:32 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-mgdesaix
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS mgdesaix
+Working on raven-wings, starting at Thu Feb 13 06:02:34 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-raven-wings
+FAILURE SOMEWHERE WITHIN raven-wings
+Working on seamus100, starting at Thu Feb 13 06:02:34 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-seamus100
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS seamus100
+Working on taylorbobowski, starting at Thu Feb 13 06:02:36 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-taylorbobowski
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS taylorbobowski
+Working on wcfunk, starting at Thu Feb 13 06:02:37 MST 2020
+https://github.com/CSU-con-gen-bioinformatics-2020/illumina-video-questions-wcfunk
+Branch erics-edits set up to track remote branch erics-edits from origin.
+FULL SUCCESS wcfunk
+\end{verbatim}
+
+From that report, it is clear that it takes about 1 to 2 seconds to handle each
+repository. If I were doing each repository by hand, (i.e.~cloning and
+branching through a GUI
+interface like RStudio's) each repository would probably take me about 30 seconds
+to a minute, with a lot of copying and pasting and chance for errors,
+and I would have destroyed my wrists with all the repetitive tasks. So, this
+is a HUGE deal.
+
+It is also easy to scan through the results and see, ``Holy Moly! These are
+some dedicated students!'' Everyone has successfully submitted their homework repositories
+(and thus we were \texttt{SUCCESS}-ful in cloning them), except for a handful
+who were traveling or otherwise occupied and had warned me they wouldn't
+be able to do the assignment.
+
+When all is said and done, I have the following git repositories on my laptop which
+I can peruse at my leisure:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ ls /tmp/illumina-questions/}
+\ExtensionTok{AmandaCicchino/}\NormalTok{ FayDong/        RGCheek/        carolazari/     elenacorrea/    mgdesaix/       wcfunk/}
+\ExtensionTok{BrennaF/}\NormalTok{        LibbyGH/        Ronan17/        cbossu/         eriqande/       seamus100/}
+\ExtensionTok{EllenMCampbell/}\NormalTok{ NathanPhipps/   abeulke/        ccolumbu/       mdrod110/       taylorbobowski/}
+\end{Highlighting}
+\end{Shaded}
+
+Additionally, in the directory where I ran the command, I have a
+file called \texttt{illumina-video-questions-log.stderr} that gives me a more detailed
+report of things when they worked or failed.
+
+If you are new to Unix, then the above script likely appears a bit daunting.
+Our goal by the end of the chapter is to have described every little piece
+of bash syntax needed, so that you will be able to read and understand the
+above script. You will thus also be in a good position to start
+writing your own scripts to automate tasks and analyses
+on your computer.
+
+We will start with an overview of the structure of a script and then
+delve into specific areas of syntax. For each area of syntax, we will
+provide some examples, and then leave some openings for you, the reader,
+to try your own hand at implementing each pattern that you see.
+
+\hypertarget{the-structure-of-a-bash-script}{%
+\section{The Structure of a Bash Script}\label{the-structure-of-a-bash-script}}
+
+A bash script is merely a text file that is a collection of different command lines, one
+after the next, which the bash shell will run in sequence---one after
+the other. If you want to run the script, you must make sure you have set its
+permissions to include execute permissions (i.e., \texttt{chmod\ ug+x\ script.sh}).
+
+It is important to point out however, that the bash programming syntax that
+we will be describing in this chapter is not solely useful in the context
+of scripts that are stored in files. Rather, all the programming syntax can still
+be used directly on the shell command line itself! This means you can employ
+all the little tricks you will learn in this chapter while directly ``hacking away''
+at the command line. In this context, it is worth noting that if you want to
+write multiple distinct commands on a single line, \emph{as if they were on separate lines},
+you can separate them with a semicolon, \texttt{;}. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \StringTok{"Put this in a file! (and catenate it later...twice!)"} \OperatorTok{>}\NormalTok{ tmp.txt}
+\FunctionTok{cat}\NormalTok{ tmp.txt}
+\FunctionTok{cat}\NormalTok{ tmp.txt}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Put this in a file! (and catenate it later...twice!)
+## Put this in a file! (and catenate it later...twice!)
+\end{verbatim}
+
+Is equivalent to:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \StringTok{"Put this in a file! (and catenate it later...twice!)"} \OperatorTok{>}\NormalTok{ tmp.txt}\KeywordTok{;} \FunctionTok{cat}\NormalTok{ tmp.txt}\KeywordTok{;} \FunctionTok{cat}\NormalTok{ tmp.txt}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Put this in a file! (and catenate it later...twice!)
+## Put this in a file! (and catenate it later...twice!)
+\end{verbatim}
+
+Sometimes when you are writing a script, (or even working on the command line) you might want
+a very long expression to be treated as being all part of the same command line, even though
+you would like to break it up over multiple lines. A backslash (\texttt{\textbackslash{}}) immediately followed by
+a line ending (i.e., the ``return'' key) has the effect of treating the lines that it separates
+as all being on the same line.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# this:}
+\ExtensionTok{clone-classroom-repos.sh}\NormalTok{  \textbackslash{}}
+\NormalTok{    https://github.com/CSU-con-gen-bioinformatics-2020  \textbackslash{}}
+\NormalTok{    illumina-video-questions- \textbackslash{}}
+\NormalTok{    erics-edits  \textbackslash{}}
+\NormalTok{    /tmp/illumina-questions}
+
+\CommentTok{# is the same as this:}
+\ExtensionTok{clone-classroom-repos.sh}\NormalTok{  https://github.com/CSU-con-gen-bioinformatics-2020  illumina-video-questions- erics-edits  /tmp/illumina-questions}
+\end{Highlighting}
+\end{Shaded}
+
+Using backslashes (and indenting) in this way can sometimes dramatically improve readability of
+your scripts.
+
+You might also notice a number of lines or statements in the script above that start
+with a \texttt{\#}. The \texttt{\#} is known as a \emph{comment character}. When the bash interpreter is
+reading the script, it \emph{ignores} the comment character \emph{and anything following it} until
+the \emph{end of the line}. This makes it quite convenient to pepper your scripts with
+notes to yourselves or others that can be \emph{extremely} helpful when you come back
+to a piece of code and are trying to remember what it does! Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# this might report an error if there is no file}
+\CommentTok{# named SillyRidiculous.what}
+\FunctionTok{ls}\NormalTok{ -l SillyRidiculous.what}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## ls: SillyRidiculous.what: No such file or directory
+\end{verbatim}
+
+(Note: each line of the the \emph{output} shown above follows two \texttt{\#} symbols. This
+is not commenting. It is just the convention that the `bookdown' package uses to signify that
+what it is showing you is output, rather than input. No relation, really, to commenting\ldots{}
+
+In the \texttt{clone-classroom-repos.sh} script, listed above, on the very top line (line 1) you will see
+a special statement that follows a \texttt{\#} comment character. This is one of the few cases you will
+see when the contents after a comment character are \emph{not} ignored (the other place you will see this
+is when preparing additional statements for schedulers for high-performance computing systems!).
+In this case the combination \texttt{\#!} on the first line is telling Unix to get ready to learn how
+to interpret the contents of the script:
+
+\begin{verbatim}
+#!/bin/bash
+\end{verbatim}
+
+The part after the \texttt{\#!} is just
+the path to the program \texttt{bash} that implements the bash shell. It is telling Unix
+how to run the script. While it is common practice to put this top line on a script,
+on most systems, if the line is absent, Unix will interpret the script using bash, anyway.
+
+If you ever find yourself having a hard time remembering the order of those first two
+symbols (i.e., is it \texttt{\#!} or \texttt{!\#}?), just remember that it is sometimes called
+the \emph{shebang}. You know the first part should be a comment character so the line is treated
+a little differently, but then that has to be followed by the ``bang'' which is \texttt{!}.
+
+\hypertarget{a-bit-more-on-and}{%
+\subsection{\texorpdfstring{A bit more on \texttt{;} and \texttt{\&}}{A bit more on ; and \&}}\label{a-bit-more-on-and}}
+
+Recall the semicolon: it provides a way to combine multiple commands on a single line.
+In fact, when you think of putting multiple commands on different lines, you could
+think of each one being followed by a semicolon. Like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# this}
+\BuiltInTok{echo}\NormalTok{ one}
+\BuiltInTok{echo}\NormalTok{ two}
+
+\CommentTok{# is the same as}
+\BuiltInTok{echo}\NormalTok{ one}\KeywordTok{;}
+\BuiltInTok{echo}\NormalTok{ two}\KeywordTok{;}
+
+\CommentTok{# is the same as}
+\BuiltInTok{echo}\NormalTok{ one}\KeywordTok{;} \BuiltInTok{echo}\NormalTok{ two}\KeywordTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+However, there is another character, beyond the semicolon, with which you might
+follow commands. It is the \emph{single} \texttt{\&} symbol. Thus,
+you could use it like a semicolon, writing and executing this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo}\NormalTok{ one }\KeywordTok{&} \BuiltInTok{echo}\NormalTok{ two }\KeywordTok{&}
+\end{Highlighting}
+\end{Shaded}
+
+But, if you do that on your Unix system, you should see some numbers and a report
+about jobs, like this:
+
+\begin{verbatim}
+[1] 1007
+[2] 1008
+one
+two
+[1]-  Done                    echo one
+[2]+  Done                    echo two
+\end{verbatim}
+
+Whoa! What the heck is going on there? The \texttt{\&} symbol means, ``run the command that
+came before it, but don't bother waiting for it to be done before running the next one.''
+As a consequence of this, when you run a command followed by a \texttt{\&}, the computer returns to you
+the job ID numbers for the jobs that have been started, and when they are done, it
+also tells you that the jobs that have completed.
+
+If you want to run multiple jobs on your own computer, the \texttt{\&} syntax can be helpful.
+But, most of the time as a bioinformatician, you will be vying with countless others
+to run jobs on a large server or cluster. In those cases there are more refined
+systems for allocating jobs, and, as a consequence, you may rarely use the single \texttt{\&}
+syntax when working on a high performace computing system.
 
 \hypertarget{variables}{%
 \section{Variables}\label{variables}}
+
+When your goal is to script up repetitive tasks, one of the main ingredients to your
+success is bash's ability to \emph{assign} \emph{values} to \emph{variables}, and then later, retrieve
+those values and replace a variable in your script with its value, a process
+known as \emph{variable substitution}. Both \emph{variable assignment} and
+\emph{variable subtitution} happen all over the \texttt{clone-classroom-repos.sh}
+script, in lines like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{USER=}\NormalTok{eriqande}
+\VariableTok{LOG=$\{PWD\}}\NormalTok{/}\VariableTok{$\{RP\}}\NormalTok{log}
+\VariableTok{ERR=$LOG}\NormalTok{.stderr}
+\end{Highlighting}
+\end{Shaded}
+
+We are going to break this down because it is of central importance.
+
+\hypertarget{assigning-values-to-variables}{%
+\subsection{Assigning values to variables}\label{assigning-values-to-variables}}
+
+The syntax to assign a value to a variable is, ``put the variable on the left, follow it
+with an equals sign \textbf{with absolutely no spaces around it}, and the put the value
+on the right,'' like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{VAR=}\NormalTok{value}
+\VariableTok{HUNGRY=}\StringTok{"My cat, Oliver"}
+\VariableTok{SWEET=}\StringTok{"A chocolately treat"}
+\VariableTok{MY_FILE=}\NormalTok{/Users/eriq/Documents/git-repos/eca-bioinf-handbook/eca-bioinf-handbook.Rproj}
+\VariableTok{lowercase_variables_work_too=}\StringTok{"oh yeah."}
+\VariableTok{Or_even_MIXtures_of_cases=}\NormalTok{boing}
+\end{Highlighting}
+\end{Shaded}
+
+Identify the variables and the values in the above.
+
+The names of variables must start with either an upper- or lowercase letter
+or an underscore. After that initial character, valid variable names can
+then include any combination of underscores, upper- and lowercase letters
+and numerals.
+
+In the following, identify the variable names that are valid and those
+that are not on each line. After you have made your choices, paste all
+these lines into your terminal to see which ones work and which do not.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{vaRiAble=}\NormalTok{value}
+\ExtensionTok{1_tough_cookie}\NormalTok{=}\StringTok{"hard to eat with false teeth"}
+\VariableTok{_bring_it_on=}\StringTok{"A fine musical"}
+\ExtensionTok{PLATE.FIFTEEN}\NormalTok{=/home/me/labwork/plate_15}
+\end{Highlighting}
+\end{Shaded}
+
+Ha! That is a pretty easy task because syntax highlighter in `bookdown' colors
+variables differently than other parts of a script. Oh well, you still get the point!
+
+The value of the variable, on the other hand can be pretty much any string
+(as long as it doesn't confuse the shell with characters like \texttt{\&}, \texttt{;}, or \texttt{!}).
+The shell typically understands that strings are delimited by whitespace, so, if
+your string (value) should include multiple words separated by spaces, you must
+enclose them in quotation marks:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{NAME=}\StringTok{"Eric C. Anderson"}
+\end{Highlighting}
+\end{Shaded}
+
+You can use either pairs of single quotes (\texttt{\textquotesingle{}this\ is\ single-quoted\textquotesingle{}}) or double
+quotes (\texttt{"this\ is\ double-quoted"}), but the shell treats these very differently,
+as we will see. Most of the time, in bioinformatics, you will want to be using
+double quotes.
+
+If you want to include, in a variable's value, characters that have special meaning to the shell,
+like \texttt{*}, \texttt{{[}}, \texttt{\{}, \texttt{\&}, and \texttt{;}, among others, you must enclose the string inside quotation
+marks to assign it to your variable:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{FOO=}\StringTok{"bar&grill"}\NormalTok{  # }\ExtensionTok{works}
+\VariableTok{FOO=}\NormalTok{bar}\KeywordTok{&}\ExtensionTok{grill}\NormalTok{    # won}\StringTok{'t work the way you want it to}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{accessing-values-from-variables}{%
+\subsection{Accessing values from variables}\label{accessing-values-from-variables}}
+
+This is called ``variable substitution.'' Remember, when you want something from someone, (or even
+just from a variable) it might cost you some money. Which is how you can
+remember that you need to use the \texttt{\$} to access values from variables. The \texttt{\$} tells the
+shell that you want the value of the variable, in a process called \emph{variable substitution}. It is
+called that, because if you write \texttt{\$VAR}, somewhere in a command line, then
+the shell will happily go along and substitute the \emph{value} of the variable \texttt{\$VAR} in place of the variable
+itself, \emph{after} which the shell will evaluate the command line.
+
+If you have a variable called \texttt{VAR}, the writing \texttt{\$VAR} subtitutes its value on the command line.
+The same occurs if you write \texttt{\$\{VAR\}}. The latter is a little more formal, but is also, in
+some sense a little more flexible, because it lets you append text immediately after the variable:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{FIRST_PART=}\NormalTok{oxy}
+
+\CommentTok{# this works:}
+\BuiltInTok{echo} \StringTok{"I like the word }\VariableTok{$\{FIRST_PART\}}\StringTok{moron"}
+
+\CommentTok{# this doesn't}
+\BuiltInTok{echo} \StringTok{"I like the word }\VariableTok{$FIRST_PARTmoron}\StringTok{"}
+
+\CommentTok{# but this would}
+\BuiltInTok{echo} \StringTok{"Remove the stain with }\VariableTok{$FIRST_PART}\StringTok{-clean"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## I like the word oxymoron
+## I like the word 
+## Remove the stain with oxy-clean
+\end{verbatim}
+
+In the case above that does not work, the shell is subtituting the value
+of the variable \texttt{FIRST\_PARTmoron} which actually does not exist, so
+it substitutes nothing (and doesn't even give you an error). This type
+of mistake typically occurs when you forget the the underscore is part of
+a valid variable name, like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{GENUS=}\NormalTok{Oncorhynhus}
+\VariableTok{SPECIES=}\NormalTok{mykiss}
+
+\BuiltInTok{cd} \VariableTok{$GENUS_$SPECIES}\NormalTok{  # Fail!}
+
+\BuiltInTok{cd} \VariableTok{$\{GENUS\}}\NormalTok{_}\VariableTok{$\{SPECIES\}}\NormalTok{  # Works!}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Now it is your turn}: save your three favorite foods into
+the variables ONE, TWO, and THREE, and then use the \texttt{echo} command
+to print \texttt{My\ three\ favorite\ foods\ are...} where you include
+those foods via variable substitution:
+
+\begin{verbatim}
+\end{verbatim}
+
+Are we starting to feel the power of Unix scripting yet?
+
+\hypertarget{what-does-the-shell-do-with-the-value-substituted-for-a-variable}{%
+\subsection{What does the shell do with the value substituted for a variable?}\label{what-does-the-shell-do-with-the-value-substituted-for-a-variable}}
+
+This is a great question, and it gets at the heart of why Unix is so powerful
+for scripting. Recall that variable substitution occurs before command evaluation.
+So, basically, after variable substitution, the shell has a command line that includes
+the values instead of the variables. Then it just evaluates that command line. So, what
+happens to the values that have been substituted for the variables depends on what context
+they appear in, in the command line!
+
+Follow along with this example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Start by assigning to DIR the absolute path of a directory you often go to}
+\CommentTok{# Note, you should use a path from your own computer!}
+\VariableTok{DIR=}\NormalTok{/Users/eriq/Documents/git-repos/eca-bioinf-handbook}
+
+\CommentTok{# Now, note that we can do different things with that variable}
+\CommentTok{# depending on how/where we put it in a command line.}
+
+\CommentTok{# print it}
+\BuiltInTok{echo} \VariableTok{$DIR}
+
+\CommentTok{# list its contents}
+\FunctionTok{ls} \VariableTok{$DIR}
+
+\CommentTok{# from your home directory (reached with `cd` and nothing after it)}
+\CommentTok{# you can go directly to DIR like so:}
+\BuiltInTok{cd}
+\BuiltInTok{cd} \VariableTok{$DIR}
+
+\CommentTok{# If you just put $DIR on the command line by itself, the shell}
+\CommentTok{# interprets it as a command, and tries to execute it, which give an error:}
+\VariableTok{$DIR}
+
+\CommentTok{# On the other hand, if you wanted to make a new variable:}
+\VariableTok{GODIR=}\StringTok{"cd }\VariableTok{$DIR}\StringTok{"}
+
+\CommentTok{# then, that would work as a command on its own:}
+\BuiltInTok{cd}
+\VariableTok{$GODIR}
+\end{Highlighting}
+\end{Shaded}
+
+Oh! Now I am getting excited. Notice that in the \texttt{clone-classroom-repos.sh} script I
+did this quite a bit, making a few different command lines\ldots{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# store the commands themselves into variables. Note the }
+    \CommentTok{# use of double quotes.}
+    \VariableTok{CLONE_IT=}\StringTok{"git clone }\VariableTok{$\{REPO/}\NormalTok{github.com}\VariableTok{/$USER}\NormalTok{@github.com}\VariableTok{\}}\StringTok{ }\VariableTok{$DEST}\StringTok{"} 
+    \VariableTok{BRANCH_IT=}\StringTok{"git checkout -B }\VariableTok{$BRANCH}\StringTok{"}
+    \VariableTok{PUSH_IT=}\StringTok{"git push -u origin }\VariableTok{$BRANCH}\StringTok{"}
+\end{Highlighting}
+\end{Shaded}
+
+\ldots{}that I would then call later:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \VariableTok{$CLONE_IT} \OperatorTok{2>>} \VariableTok{$ERR}  \KeywordTok{&&} \KeywordTok{\textbackslash{}}
+        \BuiltInTok{cd} \VariableTok{$DEST} \KeywordTok{&&} \KeywordTok{\textbackslash{}}
+        \VariableTok{$BRANCH_IT} \OperatorTok{2>>} \VariableTok{$ERR}  \KeywordTok{&&} \KeywordTok{\textbackslash{}}
+        \VariableTok{$PUSH_IT} \OperatorTok{2>>} \VariableTok{$ERR}  \KeywordTok{&&} \KeywordTok{\textbackslash{}}
+        \BuiltInTok{cd} \VariableTok{$RUNDIR}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{double-and-single-quotation-marks-and-variable-substitution}{%
+\subsection{Double and Single Quotation Marks and Variable Substitution}\label{double-and-single-quotation-marks-and-variable-substitution}}
+
+Quite often you will want to save a value to a variable that, itself,
+includes other variables. In other words, you want to do variable
+subtition on the value you are assigning to the variable. Double quote
+let you do this: variable substition will proceed within double quotes:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{FOO=}\NormalTok{sandwiches}
+\VariableTok{BAR=}\StringTok{"I like }\VariableTok{$FOO}\StringTok{"}
+\BuiltInTok{echo} \VariableTok{$BAR}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## I like sandwiches
+\end{verbatim}
+
+However, inside single quotes, variable subtitution will not occur:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{FOO=}\NormalTok{sandwiches}
+\VariableTok{BAR=}\StringTok{'I like $FOO'}
+\BuiltInTok{echo} \VariableTok{$BAR}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## I like $FOO
+\end{verbatim}
+
+Each behavior has its uses, but most of the time, as I said, you will be wanting to use
+double quotes.
+
+\textbf{Now it is your turn}: Save three pairs of foods that you like (for example,
+``cookies \& cream'' or ``bananas \& walnuts'') into
+three variables, \texttt{PAIR\_ONE}, \texttt{PAIR\_TWO}, and \texttt{PAIR\_THREE}. Then combine those into
+a variable called \texttt{SENTENCE} and print it with \texttt{echo}, so that the result looks something
+like: ``I like cookies \& cream, and bananas \& walnuts, and rooibos and milk.''
+
+\begin{verbatim}
+\end{verbatim}
+
+\hypertarget{one-useful-fancy-variable-substitution-method}{%
+\subsection{One useful, fancy, variable-substitution method}\label{one-useful-fancy-variable-substitution-method}}
+
+Bash is full of fancy variable-substitution embellishments. One that
+I use all the time replaces strings in a variable with other strings.
+Check this out:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{FILE=}\NormalTok{my_picture.jpg}
+\BuiltInTok{echo} \VariableTok{$FILE}
+\BuiltInTok{echo} \VariableTok{$\{FILE/}\NormalTok{jpg}\VariableTok{/}\NormalTok{png}\VariableTok{\}}
+\BuiltInTok{echo} \VariableTok{$\{FILE/}\NormalTok{my}\VariableTok{/}\NormalTok{your}\VariableTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## my_picture.jpg
+## my_picture.png
+## your_picture.jpg
+\end{verbatim}
+
+That turns out to be some powerful stuff.
+
+\hypertarget{evaluate-a-command-and-substitute-the-result-on-the-command-line}{%
+\section{Evaluate a command and substitute the result on the command line}\label{evaluate-a-command-and-substitute-the-result-on-the-command-line}}
+
+Sometimes what you want to put on a command line isn't just a variable
+you have previously defined but rather the result of a command that
+is executed. We see this in \texttt{clone-classroom-repos.sh} around line 75:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \StringTok{"STARTING at }\VariableTok{$(}\FunctionTok{date}\VariableTok{)}\StringTok{"}
+\end{Highlighting}
+\end{Shaded}
+
+In general, if you put a command inside a \texttt{\$()}, like \texttt{\$(command)} it means take the output of
+the command and insert it into the command line.
+
+You can even assign the result to a variable, like \texttt{RESULT=\$(command)}.
+
+For example, try this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# what do you think this is doing?}
+\VariableTok{HOME_LIST=$(}\FunctionTok{ls}\NormalTok{ -l ~}\VariableTok{)}
+
+\CommentTok{# what about this?}
+\BuiltInTok{echo} \VariableTok{$HOME_LIST}
+\end{Highlighting}
+\end{Shaded}
+
+Whoa! What happened to all my carriage returns? The results gets put onto the command line and
+parsed there. The command line parser sometimes treats line endings as just more whitespace,
+and it converts all runs of whitespace to a single space\ldots{}
+
+\hypertarget{groupingcollecting-output-from-multiple-commands}{%
+\section{Grouping/Collecting output from multiple commands}\label{groupingcollecting-output-from-multiple-commands}}
+
+\texttt{(\ )}
+
+\hypertarget{advanced-repetition}{%
+\section{Advanced repetition}\label{advanced-repetition}}
+
+I want to get constructs like \texttt{\{1..20\}} and \texttt{\{csv,pdf,jpg\}} in here too.
+
+\hypertarget{variables-1}{%
+\section{Variables}\label{variables-1}}
 
 \hypertarget{looping}{%
 \section{looping}\label{looping}}
@@ -2035,10 +2870,10 @@ This is handy. Note the line can be broken into a shell array:
 Note that this is not how you want to rip through files, typically, because it is slow and awk is a much
 better bet. But, if you want to do a system call for each line, it ends up being a decent way forward.
 
-\hypertarget{difference-between-double-and-single-quotes}{%
-\section{Difference between double and single quotes}\label{difference-between-double-and-single-quotes}}
+\hypertarget{more-stuff}{%
+\section{More stuff}\label{more-stuff}}
 
-This becomes important when writing awk scripts and using bcftools expressions.
+In here, let's also talk about compression with gzip (and using \texttt{stuff\ \textbar{}\ gzip\ -c\ \textgreater{}\ this.gz} to gzip and send to stdout.)
 
 \hypertarget{sed-awk-and-regular-expressions}{%
 \chapter{Sed, awk, and regular expressions}\label{sed-awk-and-regular-expressions}}
@@ -4487,6 +5322,12 @@ excerpted above:
 \end{Highlighting}
 \end{Shaded}
 
+\hypertarget{downloading-reference-genomes-from-ncbi}{%
+\subsection{Downloading reference genomes from NCBI}\label{downloading-reference-genomes-from-ncbi}}
+
+Gotta write a blurb here about how much nicer it is to
+use the ftp link: \url{ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/}. More on this, eventually\ldots{}
+
 \hypertarget{alignments}{%
 \section{Alignments}\label{alignments}}
 
@@ -5224,7 +6065,16 @@ where the \texttt{-}'s have replaced the two deleted bases. The CIGAR string for
 alignment would be \texttt{2M2D6M}.
 
 Continuing to add onto this example, suppose that not only have bases 3 and 4 been deleted,
-but also a four-base insertion of \texttt{ACGT\ occurs\ in\ the\ read\ between\ positions\ 8\ and\ 9\ (of\ the\ original\ read).\ \ That\ would\ appear\ like:\ \textasciigrave{}\textasciigrave{}\textasciigrave{}\ 5\textquotesingle{}\ \ ACATAGACAGGGACCACCTGCAG-\/-\/-\/-GACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA\ \ 3\textquotesingle{}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 5\textquotesingle{}\ \ AC-\/-GCAGACGTGA\ \ 3\textquotesingle{}\ \textasciigrave{}\textasciigrave{}\textasciigrave{}\ where}-\texttt{\textquotesingle{}s\ have\ been\ added\ to\ the\ reference\ at\ the\ position\ of\ the\ insertion\ in\ the\ read.\ The\ CIGAR\ string\ for\ this\ arrangement\ would\ be}2M2D4M4I2M` which can be hard to parse, visually,
+but also a four-base insertion of \texttt{ACGT} occurs in the read between positions 8 and 9 (of the original
+read). That would appear like:
+
+\begin{verbatim}
+5'  ACATAGACAGGGACCACCTGCAG----GACACACACGCAGGTTTACTAAGGGTTTACTCAACACAGTGAACAGCATATACCAGA  3'
+               5'  AC--GCAGACGTGA  3'
+\end{verbatim}
+
+where \texttt{-}'s have been added to the reference at the position of the insertion in the read.
+The CIGAR string for this arrangement would be \texttt{2M2D4M4I2M} which can be hard to parse, visually,
 if your eyes are getting as old as mine, but it translates to:
 
 \begin{verbatim}
@@ -5308,7 +6158,124 @@ These file header lines can appear daunting at first, and, when merging or divid
 SAM and BAM files can prove to the bain of your existence, so understanding both their
 purpose and structure is paramount to avoiding some pain down the road.
 
-This section not yet complete.
+In a nutshell, the lines in the header provide information to programs (and people)
+that will be processing the data in a SAM (or BAM, see below) file. Some of the header
+lines give information about the reference genome that was aligned to, others
+provide an overview of the various samples (and other information) included in the file,
+while still others give information about the program and data that produced the
+SAM file.
+
+If you have every looked at the SAM header for an alignment to a reference genome
+that is in thousands of pieces, you were likely overwhelmed by thousands of
+lines that started with \texttt{@SQ}. Each of these lines gives information about the
+names and lengths (and optionally, some other information) of sequences that
+were used as the reference for the alignment.
+
+Each header line begins with an \texttt{@} followed by two capital letters, for example,
+\texttt{@RG} or \texttt{@SQ}. The two-letter code indicates what kind of header line it is. There are only
+five kinds of header lines:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{@HD}: the ``main'' header line, which, if present, will be the first line of the
+  file. It's purpose is to reveal the version of the SAM format in use, and also information
+  about how the alignments in the file are sorted.
+\item
+  \texttt{@SQ}: typically the most abundant SAM header lines, each of these gives information about
+  a sequence in the reference genome aligned to.
+\item
+  \texttt{@RG}: these indicate information about \emph{read groups}, which are collections of reads that,
+  for the purposes of downstream analysis can all be assumed to be from the same individual and
+  to have been treated the same way during the processes of library preparation and sequencing.
+  We will discuss read groups more fully in the section on alignment.
+\item
+  \texttt{@PG}: a line that tells about the program that was used to produced the SAM file.
+\item
+  \texttt{@CO}: a line in which a comment can be placed.
+\end{itemize}
+
+Those first three characters signify that a line is a header line, but, within each
+header line, how is information conveyed? In all cases (except for the comment lines
+using \texttt{@CO}), information within a header line is provided in TAB-delimited, colon-separate
+\emph{key-value} pairs. This means that the type or meaning or each piece of information is tagged
+with a key, like \texttt{ID}, and its \emph{value} follows that key after a colon. For example, then line
+
+\begin{verbatim}
+@PG ID:bwa  PN:bwa  VN:0.7.9a-r786
+\end{verbatim}
+
+tells us that the ID of the program that produced the SAM file was \texttt{bwa}, and
+its version number (VN) was 0.7.9a-r786.
+
+The keys in the key-value pairs are always two uppercase letters. And different keys
+are allowed (and in some case required) in the context of each of the five different
+kinds of SAM header lines.
+
+The most important keys for the different kinds of header lines are as follows:
+
+\begin{itemize}
+\tightlist
+\item
+  For \texttt{@HD}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{VN}: the version of the SAM specification in use. This is required.
+  \item
+    \texttt{SO}: the sort order of the file. The default value is be \texttt{unknown}.
+    More commonly, when your SAM/BAM file is prepared for variant calling, it will have been sorted in the
+    order of the reference genome, which is denoted as \texttt{SO:coordinate}. For other purposes, it is important
+    to sort the file in the order of read names, or \texttt{SO:queryname}. It is important to note that
+    setting these values in a SAM file does not sort it. Rather, when you have asked a program to sort
+    a SAM/BAM file, that program will make a note in the header about how it is sorted.
+  \end{itemize}
+\item
+  For \texttt{@SQ}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{SN} is the key for the sequence name and is required.\\
+  \item
+    \texttt{LN} is the key for the length (in nucleotide bases) of the sequence, and is also required.
+  \end{itemize}
+\item
+  For \texttt{@RG}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{ID} is the only required key for \texttt{@RG} lines. Note that if multiple \texttt{@RG} lines occur in the file,
+    each of their \texttt{ID} values must be different.
+  \item
+    \texttt{SM} is the key for the name of the sample from which the reads came from. This is the name
+    used when recording genotypes of individuals when doing variant calling.
+  \item
+    \texttt{LB} denotes the particularly library in which the sample was prepared for sequencing.
+  \item
+    \texttt{PU} denotes the ``Platform Unit,'' of sequencing. Typically interpreted to mean the flow-cell and
+    the lane upon which the sample was sequenced. We will talk much more about the contents of read-group
+    header lines, and how to fill them.
+  \end{itemize}
+\item
+  For \texttt{@PG}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{ID} is required and provides information about the program that produced the SAM output.
+  \item
+    \texttt{VN} as we saw before, this key lets you record the version of the program used to produce the
+    SAM output.
+  \end{itemize}
+\end{itemize}
+
+A complete accounting of the different possible SAM header lines and their contents is given
+in the \href{https://samtools.github.io/hts-specs/SAMv1.pdf}{SAM specification}. It is given in a
+terse table that is quite informative and is not terribly tough sledding. It is recommended that
+you read the section on header lines.
 
 \hypertarget{the-bam-format}{%
 \subsection{The BAM format}\label{the-bam-format}}
@@ -5451,7 +6418,9 @@ it. To do so, there are just a few things that you need to know:
   conservation concern it is likely that you will have the reference genome for that
   critter on your local computer, so you would ``Genomes-\textgreater{}Load Genome From File\ldots{}'',
   to show IGV where the FASTA file (cannot be compressed) of your genome is on your
-  hard drive.
+  hard drive. Let's repeat that: if you are loading the FASTA for a reference genome into IGV,
+  you \emph{must} use the ``Genomes'' menu option. If you use ``\textbf{File}-\textgreater{}Load From File\ldots{}'' to try to
+  load the reference genome, it won't let you. Don't do it! Use ``\textbf{Genomes-\textgreater{}Load Genome From File}''
 \item
   Once your reference genome is known to IGV, you can add data from the
   bioinformatic formats described in this chapter \emph{that include positions from a reference genome}.
@@ -5801,7 +6770,7 @@ I copied that to \texttt{inputs} so we can plot it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-21-1.pdf}
+\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-29-1.pdf}
 
 OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.
 
