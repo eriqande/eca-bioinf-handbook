@@ -1,0 +1,9 @@
+Within tmux?   ;  Command         ;  Effect 
+Y              ; `<cntrl>-b /`       ; Split current window/pane vertically into two panes
+Y              ; `<cntrl>-b -`       ; Split current window/pane horizontally into two panes
+Y              ; `<cntrl>-b arrow`       ; Use `<cntrl>-b` + an arrow key to move sequentially amongst panes
+Y              ; `<cntrl>-b x`       ; Kill current the current pane
+Y              ; `<cntrl>-b q`       ; Paint big ID numbers (from 0 up) on the panes for a few seconds. Hitting a number before it disappears moves focus to that pane.
+Y              ; <cntrl>-b [hjkl]    ; Resize the current pane, h = Left, j = Down, k = Up, l = Right. It takes a while to understand which boundary will move.
+Y              ; <cntrl>-b z         ; Zoom current pane to full size.  `<cntrl>-b z` again restores it to original size.
+

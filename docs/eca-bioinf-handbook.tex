@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-02-13}
+\date{2020-02-16}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -2900,153 +2900,462 @@ in text upon which some operation should be performed. You can think of
 regular expressions as providing a succinct language for performing very advanced ``find'' operations
 in a text file.
 
-\hypertarget{high-performance-computing-hpc-environments}{%
-\chapter{High Performance Computing (HPC) Environments}\label{high-performance-computing-hpc-environments}}
-
-Hey Eric! You might consider breaking this into two separate chatpers: 1 = working on remote computers
-and 2 = high-performance computing. The first could include all the stuff about scp, globus, rclone,
-and google drive.
-
-This is going to be a chapter on using High Performance Computing clusters.
-
-There is a lot to convey here about using queues and things.
-
-I know SGE pretty well at this point, but others might use slurm.
-
-Here is a good page with a comparison: \url{https://confluence.csiro.au/display/SC/Reference+Guide\%3A+Migrating+from+SGE+to+SLURM}
-
-And here is a good primer on SGE stuff: \url{https://confluence.si.edu/display/HPC/Monitoring+your+Jobs}
-
-I guess I'll have to see what the CSU students have access to.
+\hypertarget{working-on-remote-servers}{%
+\chapter{Working on remote servers}\label{working-on-remote-servers}}
 
 \hypertarget{accessing-remote-computers}{%
 \section{Accessing remote computers}\label{accessing-remote-computers}}
 
-Start off with some stuff about ssh and scp.
+The primary protocol for accessing remote computers in this day and age
+is \texttt{ssh} which stands for ``Secure Shell.'' In the protocol, your computer
+and the remote computer talk to one another and then choose to have a ``shared
+secret'' which they can use as a key to encrypt data traffic from one to the other.
+The amazing thing is that the two computers can actually tell each other what
+that shared secret is by having a conversation ``in the open'' with one another.
+That is a topic for another day, but if you are interested, you could
+read about it \href{https://en.wikipedia.org/wiki/Diffie\%E2\%80\%93Hellman_key_exchange}{here}.
 
-Maybe have a section on public and private keys so you don't have to put
-your password in every time (I would like to get better with that,
-as well).
+At any rate, the SSH protocal allows for secure access to a remote server. It involves
+using a username and a password, and, in many cases today, some form of two-factor
+authentication (i.e., you need to have your phone involved, too!). Different
+remote servers have different routines for logging in to them, and they are also
+all configured a little differently. The main servers we are concerned about in
+these teaching materials are:
 
-Here is the deal on that. On a mac, you can use
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The Hummingbird cluster at UCSC, which is accessible by anyone with a UCSC blue username/password.
+\item
+  The Summit Supercomputer at CU Boulder which is accessible by all graduate students and
+  faculty at CSU.
+\item
+  The Sedna cluster housed at the National Marine Fisheries Service, Northwest Fisheries Science
+  Center. This is accessible only by those Federal NMFS employees whom have been granted access.
+\end{enumerate}
+
+Happily, all of these systems use SLURM for job scheduling (much more about that in the
+next chapter); however are a few vagaries to each of these systems that we will cover below.
+
+\hypertarget{windows}{%
+\subsection{Windows}\label{windows}}
+
+If you are on a Windows machine, you can use the \texttt{ssh} utility from your Git Bash shell, but
+that is a bit of a hassle from RStudio. And a better terminal emulator is available if you
+are going to be accessing remote computers. It is recommended that you install and
+use the program \href{https://www.ssh.com/ssh/putty}{PuTTy}. The steps are pretty self-explanatory
+and well documented. Instead of using \texttt{ssh} on a command line you put a host name into
+a dialog box, etc.
+
+\hypertarget{hummingbird}{%
+\subsection{Hummingbird}\label{hummingbird}}
+
+Directions for UCSC students and staff to login to Hummingbird are available
+at \url{https://www.hb.ucsc.edu/getting-started/}.
+If you are not on the UCSC campus network, you need to use the UCSC VPN to connect.
+
+By default, this cluster uses \texttt{tcsh} for a shell rather than \texttt{bash}. To keep things
+consistent with what you have learned about \texttt{bash}, you will want to automatically switch
+to \texttt{bash} upon login. You can do this by adding a file \texttt{\textasciitilde{}/.tcshrc} whose contents are:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{setenv}\NormalTok{ SHELL /usr/bin/bash}
+\BuiltInTok{exec}\NormalTok{ /usr/bin/bash --login}
+\end{Highlighting}
+\end{Shaded}
+
+Then, configure your \texttt{bash} environment with your \texttt{\textasciitilde{}/.bashrc} and \texttt{\textasciitilde{}/.bash\_profile} as
+described in Chapter \ref{unix-env}.
+
+The \texttt{tmux} settings (See section \ref{tmux}) in hummingbird are a little messed up as well, making
+it hard to set window names that don't get changed the moment you make another command. Therefore,
+you must make a file called \texttt{\textasciitilde{}/.tmux.conf} and put this line in it:
 
 \begin{verbatim}
-ssh-keygen -t rsa -b 4096
+set-option -g allow-rename off
 \end{verbatim}
 
-and be sure to give it a password, so that your private key is not unencrypted.
-For, if it is, then there is a chance (I do believe) that if someone were to
-obtain that file, they could gain access to all the computers you are authorized on.
+\hypertarget{summit}{%
+\subsection{Summit}\label{summit}}
 
-Note that a lot of tutorials on the web have you generating a private key without
-any encryption. That is lame.
+To get an account on Summit, see \url{https://www.acns.colostate.edu/hpc/summit-get-started/}. Account creation is automatic for graduate students and faculty. This setup requires
+that you get an app called Duo on your phone for doing two-factor authentication.
 
-Then copy the .ssh/id\_rsa.pub key to the .ssh/authorized\_keys file on the server
-(creating it if it needs to be there). Then ssh to the server and your Mac will pop
-up a window asking for a password or will prompt on the command line for one (note that the password stays local!). You put in
-the password that you used when you created the private key. That
-can be saved in the Mac keychain (on old version of OSX you might
-get asked if you want to save it in the Mac keychain). Voila!
-Now you have access to the server with no need to type a password in there.
+Instructions for logging into Summit are at \url{https://www.acns.colostate.edu/hpc/\#remote-login}.
 
-Note, since Sierra, you need to add this to a \texttt{.ssh/config} file to get the password
-stored in the keychain:
+On your local machine (i.e., laptop), you might consider adding an alias to your
+\texttt{.bashrc} that will let you type \texttt{summit} to issue the login command. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{alias}\NormalTok{ summit=}\StringTok{'ssh csu_eid@colostate.edu@login.rc.colorado.edu'}
+\end{Highlighting}
+\end{Shaded}
+
+where you replace \texttt{csu\_eid} with your actual CSU eID.
+
+\hypertarget{sedna}{%
+\subsection{Sedna}\label{sedna}}
+
+To connect to this cluster you must be on the NMFS network, or
+connected to it via the VPN, then \texttt{ssh} with, for example:
 
 \begin{verbatim}
-Host *
-   AddKeysToAgent yes
-   UseKeychain yes     
+ssh eanderson@sedna.nwfsc2.noaa.gov
 \end{verbatim}
 
-And, it turns out that you also need to make sure the permissions on that
-file are set appropriately:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{chmod}\NormalTok{ 600 ~/.ssh/config}
-\end{Highlighting}
-\end{Shaded}
-
-It is actually pretty darn simple\ldots{}
-
-Note, to have access from another computer to the server, you probably just create
-a keypair for that computer, and add the public key to the authorized\_keys.
-
-Then add something like this to your .bashrc:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# for quick ssh to hoffman}
-\BuiltInTok{alias}\NormalTok{ hoffy=}\StringTok{'ssh eriq@hoffman2.idre.ucla.edu'}
-
-\CommentTok{# to be used in scp.  like scp file $hoff:~/}
-\VariableTok{hoff=}\NormalTok{eriq}\ExtensionTok{@hoffman2.idre.ucla.edu}
-\end{Highlighting}
-\end{Shaded}
-
-Note that this should only be done on a private computer account, not on a shared account on a computer.
-Otherwise, everyone using that account will have access.
-
-Also, an interesting thing to investigate might be SSHF/FUSE which just might
-let one mount the HPC filesystem on a local directory, so you can work with
-files there using RStudio, etc, get them all debugged, and then run them.
-
-Check out some information about that here:
-\url{https://www.digitalocean.com/community/tutorials/how-to-use-sshfs-to-mount-remote-file-systems-over-ssh}.
-
-I went to \url{https://osxfuse.github.io/} and I downloaded SSHFS 2.5.0 and FUSE for Mac OS X. Then I installed them,
-doing a simple default install for each.
-
-Then, you make a mountpoint, which you can do in your home directory if you want:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{mkdir}\NormalTok{ ~/hoffman  # this is the mountpoint}
-\ExtensionTok{sshfs}\NormalTok{ -o allow_other,defer_permissions,IdentityFile=~/.ssh/id_rsa eriq@hoffman2.idre.ucla.edu:/u/home/e/eriq/  ~/hoffman}
-
-\CommentTok{# close it out:}
-\FunctionTok{umount}\NormalTok{ ~/hoffman/}
-\end{Highlighting}
-\end{Shaded}
-
-Note that the absolute path to my home folder there seemed to be important.
-
-Also, I can't get to \texttt{/u/nobackup/kruegg/eriq} from here by going through the symlink in my home directory
-on hoffman, since that is essentially a different volume. But I should
-be able to do this:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ExtensionTok{sshfs}\NormalTok{ -o allow_other,defer_permissions,IdentityFile=~/.ssh/id_rsa eriq@hoffman2.idre.ucla.edu:/u/nobackup/kruegg/eriq  ~/hoffman}
-\end{Highlighting}
-\end{Shaded}
-
-Yep! that works. And I can open all those files from within RStudio. Cool.
-
-Note, I will have to have a separate mount point for \$SCRATCH as well.
-
-Shoot! That works really seamlessly!
-
-I can also add to my .bashrc:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\BuiltInTok{alias}\NormalTok{ hoffuse=}\StringTok{'sshfs -o allow_other,defer_permissions,IdentityFile=~/.ssh/id_rsa eriq@hoffman2.idre.ucla.edu:/u/nobackup/kruegg/eriq  ~/hoffman'}
-\end{Highlighting}
-\end{Shaded}
-
-Now, the bad news: you can open an Rstudio project from that remote, mounted volume, but it
-doesn't seem to really work. It is incredibly slow, and then fails to quit properly, etc.
-
-After force-quitting it, I am unable to unmount the hoffuse volume. What a mess. OK, I probably
-won't try (running the rstudio project over FUSE). But it might be useful still for editing
-small things.
+but using your own username.
 
 \hypertarget{transferring-files-to-remote-computers}{%
 \section{Transferring files to remote computers}\label{transferring-files-to-remote-computers}}
 
-\hypertarget{scp}{%
-\subsection{scp}\label{scp}}
+\hypertarget{sftp}{%
+\subsection{sftp}\label{sftp}}
+
+\hypertarget{git}{%
+\subsection{git}\label{git}}
+
+Most remote servers you work on will have \texttt{git} by default.
+If you are doing all your work on a project within a single
+repository, you can use \texttt{git} to keep scripts and other files
+version-controlled on the server. You can also push and pull files
+(not big data or output files!) to GitHub, thus keeping things backed up
+and version controlled, and providing a useful way to synchronize scripts
+and other files in your project between the server and your laptop.
+
+Example:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  write and test scripts on your laptop in a repo called \texttt{my-project}
+\item
+  commit scripts on your laptop and push them to GitHub in a repo also
+  called \texttt{my-project}
+\item
+  pull \texttt{my-project} from GitHub to the server.
+\item
+  Try running your scripts in \texttt{my-project} on your server. In the process,
+  you may discover that you need to change/fix some things so they will
+  run correctly on the server. Fix them!
+\item
+  Once things are fixed and successfully running on the server, commit
+  those changes and push them to GitHub.
+\item
+  Update the files on your laptop so that they reflect the changes you
+  had to make on the server, by pulling \texttt{my-project} from GitHub to your
+  laptop.
+\end{enumerate}
+
+\hypertarget{configuring-git-on-the-remote-server}{%
+\subsubsection{Configuring git on the remote server}\label{configuring-git-on-the-remote-server}}
+
+In order to make this sort of worklow successful, you first need
+to ensure that you have set up git on your remote server. Doing
+so involves:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  establishing your name and email that will be used with your git commits
+  made from the server.
+\item
+  Ensuring that git password caching is set up so you don't always have
+  to type your GitHub password when you push and pull.
+\item
+  configuring your git text editor to be something that you know how
+  to use.
+\end{enumerate}
+
+It can be useful give yourself a git name on the server that reflects
+the fact that the changes you are committing were made on the server.
+
+For example, for my own setup on the Summit cluster at Boulder, I might
+do my git configurations by issuing these commands on the
+command line on the server:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ config --global user.name }\StringTok{"Eric C. Anderson (From Summit)"}
+\FunctionTok{git}\NormalTok{ config --global user.email eriq@rams.colostate.edu}
+\FunctionTok{git}\NormalTok{ config --global credential.helper cache}
+\FunctionTok{git}\NormalTok{ config --global core.editor nano}
+\end{Highlighting}
+\end{Shaded}
+
+In all actuality, I would set my editor to be \texttt{vim} or \texttt{emacs}, because those are
+more powerful editors and I am familiar with then; however, if you are new to Unix,
+then \texttt{nano} is an easy-to-use editor.
+
+You should set configurations on your server appropriate to yourself
+(i.e., with your name and email and preferred text editor). Once these configurations are set, you are ready to start cloning
+repositories from GitHub and then pushing and pulling them, as well.
+
+To this point, we have always done those actions from within
+RStudio. On a remote server, however, you will have to do all these
+actions from the command line. That is OK, it just requires learning
+a few new things.
+
+The first, and most important, issue to understand is that if you want
+to push new changes back to a repository that is on your GitHub account,
+GitHub needs to know that you have privileges to do so. One way to
+do this is by making sure, when you initially clone the repository,
+that you do so whilst letting GitHub know that you are the user that
+``owns'' your GitHub account. This is done by inserting your GitHub
+username into your \texttt{git\ clone} request with the following syntax:
+
+\begin{verbatim}
+git clone https://username@github.com/username/repository.git
+\end{verbatim}
+
+For example, if I want to \texttt{clone} a repository whose URL is:
+
+\begin{verbatim}
+https://github.com/eriqande/alignment-play
+\end{verbatim}
+
+I would issue this command:
+
+\begin{verbatim}
+git clone https://eriqande@github.com/eriqande/alignment-play
+\end{verbatim}
+
+This clones the repository to my server, and makes
+a note of the fact that you did so as the GitHub user \texttt{eriqande},
+so that if I try to push something back to that GitHub repository,
+it will ask me for me proper \texttt{eriqande} GitHub password.
+
+\hypertarget{using-git-on-the-remote-server}{%
+\subsubsection{Using git on the remote server}\label{using-git-on-the-remote-server}}
+
+When on the server, you don't have the convenient RStudio interface
+to git, so you have to use git commands on the command line. Fortunately
+these provide straightforward, command-line analogies to the RStudio
+GUI git interface you have become familiar with.
+
+Intead of having an RStudio Git panel that shows you files that are new or
+have been modified, etc., you use \texttt{git\ status} in your repo to give
+a text report of the same.
+
+For example, imagine that Figure \ref{fig:git-window} shows an RStudio project Git window describing the status of files in the repository.
+
+\begin{figure}
+
+{\centering \includegraphics{figs/git-window} 
+
+}
+
+\caption{An example of what an RStudio git window might look like.}\label{fig:git-window}
+\end{figure}
+
+That view is merely showing you a graphical view of the output of
+the \texttt{git\ status} command run at the top level of the repository which
+looks like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ git status}
+\ExtensionTok{On}\NormalTok{ branch master}
+\ExtensionTok{Changes}\NormalTok{ not staged for commit:}
+  \KeywordTok{(}\ExtensionTok{use} \StringTok{"git add <file>..."}\NormalTok{ to update what will be committed}\KeywordTok{)}
+  \KeywordTok{(}\ExtensionTok{use} \StringTok{"git checkout -- <file>..."}\NormalTok{ to discard changes in working directory}\KeywordTok{)}
+
+    \ExtensionTok{modified}\NormalTok{:   .gitignore}
+    \ExtensionTok{modified}\NormalTok{:   002-homeologue-permutation-with-bedr.Rmd}
+
+\ExtensionTok{Untracked}\NormalTok{ files:}
+  \KeywordTok{(}\ExtensionTok{use} \StringTok{"git add <file>..."}\NormalTok{ to include in what will be committed}\KeywordTok{)}
+
+    \ExtensionTok{002-homeologue-permutation-with-bedr.nb.html}
+    \ExtensionTok{data/}
+    \ExtensionTok{mykiss-rad-project-with-mac-and-devon.Rproj}
+    \ExtensionTok{reconcile/}
+
+\ExtensionTok{no}\NormalTok{ changes added to commit (use }\StringTok{"git add"}\NormalTok{ and/or }\StringTok{"git commit -a"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Aha! Be sure to read that and understand that the output tells you which
+files are tracked by git and Modified (blue M in RStudio) and which
+are untracked (Yellow ? in RStudio).
+
+Of you wanted to see a report of the changes in the files relative
+to the currently committed version, you could use \texttt{git\ diff}, passing
+it the file name as an argument. We will see an example of that below\ldots{}
+
+Now, recall, that in order to commit files to \texttt{git} you first must
+\emph{stage} them. In RStudio you do that by clicking the little button to
+the left of the file or directory in the Git window. For example,
+if we clicked the buttons for the \texttt{data/} directory, as well as for
+\texttt{.gitignore} and \texttt{002-homeologue-permutation-with-bedr.Rmd}, we would
+have staged them and it would look like Figure \ref{fig:git-staged}.
+
+\begin{figure}
+
+{\centering \includegraphics{figs/git-staged} 
+
+}
+
+\caption{An example of what an RStudio git window might look like.}\label{fig:git-staged}
+\end{figure}
+
+In order to do the equivalent operations with \texttt{git} on the command line
+you would use the \texttt{git\ add} command, explicitly naming the files you wish to
+\emph{stage} for committing:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ add .gitignore 002-homeologue-permutation-with-bedr.Rmd data}
+\end{Highlighting}
+\end{Shaded}
+
+Now, if you check \texttt{git\ status} you will see:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ git status}
+\ExtensionTok{On}\NormalTok{ branch master}
+\ExtensionTok{Changes}\NormalTok{ to be committed:}
+  \KeywordTok{(}\ExtensionTok{use} \StringTok{"git reset HEAD <file>..."}\NormalTok{ to unstage}\KeywordTok{)}
+
+    \ExtensionTok{modified}\NormalTok{:   .gitignore}
+    \ExtensionTok{modified}\NormalTok{:   002-homeologue-permutation-with-bedr.Rmd}
+    \ExtensionTok{new}\NormalTok{ file:   data/Pearse_Barson_etal_Supp_Table_7.tsv}
+    \ExtensionTok{new}\NormalTok{ file:   data/high-fst-rad-locus-indices.txt}
+
+\ExtensionTok{Untracked}\NormalTok{ files:}
+  \KeywordTok{(}\ExtensionTok{use} \StringTok{"git add <file>..."}\NormalTok{ to include in what will be committed}\KeywordTok{)}
+
+    \ExtensionTok{002-homeologue-permutation-with-bedr.nb.html}
+    \ExtensionTok{mykiss-rad-project-with-mac-and-devon.Rproj}
+    \ExtensionTok{reconcile/}
+\end{Highlighting}
+\end{Shaded}
+
+It tells you which files are ready to be committed!
+
+In order to commit the files to git you do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ commit}
+\end{Highlighting}
+\end{Shaded}
+
+And then, to push them back to GitHub (if you cloned this repository
+from GitHub), you can simply do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ push origin master}
+\end{Highlighting}
+\end{Shaded}
+
+That syntax is telling git to push the \texttt{master} branch (which is
+the default branch in a git repository), to the repository labeled as
+\texttt{origin}, which will be the GitHub repository if you cloned the repository
+from GitHub. (If you are working with a different git branch than master,
+you would need to specify its name here. That is not difficult, but is
+beyond the scope of this chapter.)
+
+Now, assuming that we cloned the \texttt{alignment-play} repository to our
+server, here are the steps involved in editing a file, committing the
+changes, and then pushing them back to GitHub. The command in the following
+is written as \texttt{{[}alignment-play{]}-\/-\%} which is telling us that we are in the
+\texttt{alignment-play} repository.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# check git status}
+\NormalTok{[}\ExtensionTok{alignment-play}\NormalTok{]--% git status}
+
+\CommentTok{# On branch master}
+\ExtensionTok{nothing}\NormalTok{ to commit, working directory clean}
+
+\CommentTok{# Aha! That says nothing has been modified.}
+\CommentTok{# But, now we edit the file alignment-play.Rmd}
+\NormalTok{[}\ExtensionTok{alignment-play}\NormalTok{]--% nano alignment-play.Rmd}
+
+\CommentTok{# In this case I merely added a line to the YAML header.}
+
+\CommentTok{# Now, check status of the files:}
+\NormalTok{[}\ExtensionTok{alignment-play}\NormalTok{]--% git status}
+
+\CommentTok{# On branch master}
+\CommentTok{# Changes not staged for commit:}
+\CommentTok{#   (use "git add <file>..." to update what will be committed)}
+\CommentTok{#   (use "git checkout -- <file>..." to discard changes in working directory)}
+\CommentTok{#}
+\CommentTok{#   modified:   alignment-play.Rmd}
+\CommentTok{#}
+\ExtensionTok{no}\NormalTok{ changes added to commit (use }\StringTok{"git add"}\NormalTok{ and/or }\StringTok{"git commit -a"}\NormalTok{)}
+
+\CommentTok{# We see that the file has been modified.}
+
+\CommentTok{# Now we can use git diff to see what the changes were}
+\NormalTok{[}\ExtensionTok{alignment-play}\NormalTok{]--% git diff alignment-play.Rmd }
+
+\FunctionTok{diff}\NormalTok{ --git a/alignment-play.Rmd b/alignment-play.Rmd}
+\ExtensionTok{index}\NormalTok{ 9f75ebb..b389fae 100644}
+\ExtensionTok{---}\NormalTok{ a/alignment-play.Rmd}
+\ExtensionTok{+++}\NormalTok{ b/alignment-play.Rmd}
+\ExtensionTok{@@}\NormalTok{ -3,6 +3,7 @@ title: }\StringTok{"Alignment Play!"}
+ \ExtensionTok{output}\NormalTok{: }
+   \ExtensionTok{html_notebook}\NormalTok{:}
+     \ExtensionTok{toc}\NormalTok{: true}
+\ExtensionTok{+}\NormalTok{    toc_float: true}
+ \ExtensionTok{---}
+ 
+\CommentTok{# The output above is a little hard to parse, but it shows}
+\CommentTok{# the line that has been added: "  toc_float: true" with a}
+\CommentTok{# "+" sign.}
+
+\CommentTok{# In order to commit the changes, we do:}
+\NormalTok{[}\ExtensionTok{alignment-play}\NormalTok{]--% git add alignment-play.Rmd }
+\NormalTok{[}\ExtensionTok{alignment-play}\NormalTok{]--% git commit}
+
+\CommentTok{# after that, we are bumped into the nano text editor}
+\CommentTok{# to write a short message about the commit. After exiting}
+\CommentTok{# from the editor, it tells us:}
+\NormalTok{[}\ExtensionTok{master}\NormalTok{ 001e650] yaml change}
+ \ExtensionTok{1}\NormalTok{ file changed, 1 insertion(+)}
+ 
+\CommentTok{# Now, to send that new commit to GitHub, we use git push origin master}
+\NormalTok{[}\ExtensionTok{alignment-play}\NormalTok{]--% git push origin master}
+\ExtensionTok{Password}\NormalTok{ for }\StringTok{'https://eriqande@github.com'}\NormalTok{:}
+
+\ExtensionTok{Counting}\NormalTok{ objects: 5, done.}
+\ExtensionTok{Delta}\NormalTok{ compression using up to 24 threads.}
+\ExtensionTok{Compressing}\NormalTok{ objects: 100% (3/3), }\KeywordTok{done}\ExtensionTok{.}
+\ExtensionTok{Writing}\NormalTok{ objects: 100% (3/3), }\ExtensionTok{325}\NormalTok{ bytes }\KeywordTok{|} \ExtensionTok{0}\NormalTok{ bytes/s, done.}
+\ExtensionTok{Total}\NormalTok{ 3 (delta 2), }\ExtensionTok{reused}\NormalTok{ 0 (delta 0)}
+\ExtensionTok{remote}\NormalTok{: Resolving deltas: 100% (2/2), }\ExtensionTok{completed}\NormalTok{ with 2 local objects.}
+\ExtensionTok{To}\NormalTok{ https://eriqande@github.com/eriqande/alignment-play}
+   \ExtensionTok{0c1707f..001e650}\NormalTok{  master -}\OperatorTok{>}\NormalTok{ master}
+\end{Highlighting}
+\end{Shaded}
+
+When pushing to a GitHub repository for the first
+time from your remote server you
+will be asked for your GitHub password. Once you have successfully
+provided your password, if you set password caching up correctly, then
+you should not have to provide your password for subsequent pushes.
+
+Finally, if after pushing those changes to GitHub, we then pull them
+down to our laptop, and make more changes on top of them and push those
+back to GitHub, we can retrieve from GitHub to the server those changes we
+made on our laptop with \texttt{git\ pull\ origin\ master}. In other words, from the
+server we simply issue the command:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[}\ExtensionTok{alignment-play}\NormalTok{]--% git pull origin master}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{globus}{%
 \subsection{Globus}\label{globus}}
@@ -3178,6 +3487,82 @@ typical session of \texttt{rclone\ config} for Google Drive access is given
 \href{https://rclone.org/drive/}{here}. Don't choose to do the advanced setup; however
 do use ``auto config,'' which will bounce up a web page and let you authenticate rclone
 to your Google account.
+
+It is worthwhile first setting up a config file on your laptop, and making sure
+that it is working. After that, you can copy that config file to other remote
+servers you work on and immediately have the same functionality.
+
+\hypertarget{encrypting-your-config-file}{%
+\subsubsection{Encrypting your config file}\label{encrypting-your-config-file}}
+
+While it is a powerful thing to be able to copy a config file from
+one computer to the next and immediately be able to access your Google
+Drive account. That might (and should) also make you a little bit
+uneasy. It means that if the config file falls into the wrong hands,
+whoever has it can gain access to everything on your Google Drive. Clearly
+this is not good. Consequently, once you have created your rclone config
+file, and well before you transfer it to another computer, you must
+encrypt it. This makes sense, and fortunately it is fairly easy: you can
+use \texttt{rclone\ config} and see that encryption is one of
+the options. When it is encrypted, use \texttt{rclone\ config\ show} to see what
+it looks like in clear text.
+
+The downside of using encryption is that you have to enter your password
+every time you make an rclone command, but it is worth it to have the
+security.
+
+Here is what it looks like when choosing to encrypt one's config file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ rclone config}
+\ExtensionTok{Current}\NormalTok{ remotes:}
+
+\ExtensionTok{Name}\NormalTok{                 Type}
+\NormalTok{====                 ====}
+\ExtensionTok{gdrive-rclone}\NormalTok{        drive}
+
+\ExtensionTok{e}\NormalTok{) }\ExtensionTok{Edit}\NormalTok{ existing remote}
+\ExtensionTok{n}\NormalTok{) }\ExtensionTok{New}\NormalTok{ remote}
+\ExtensionTok{d}\NormalTok{) }\ExtensionTok{Delete}\NormalTok{ remote}
+\ExtensionTok{r}\NormalTok{) }\ExtensionTok{Rename}\NormalTok{ remote}
+\ExtensionTok{c}\NormalTok{) }\ExtensionTok{Copy}\NormalTok{ remote}
+\ExtensionTok{s}\NormalTok{) }\ExtensionTok{Set}\NormalTok{ configuration password}
+\ExtensionTok{q}\NormalTok{) }\ExtensionTok{Quit}\NormalTok{ config}
+\ExtensionTok{e/n/d/r/c/s}\NormalTok{/}\ExtensionTok{q}\OperatorTok{>}\NormalTok{ s }
+\ExtensionTok{Your}\NormalTok{ configuration is not encrypted.}
+\ExtensionTok{If}\NormalTok{ you add a password, you will protect your login information to cloud services.}
+\ExtensionTok{a}\NormalTok{) }\ExtensionTok{Add}\NormalTok{ Password}
+\ExtensionTok{q}\NormalTok{) }\ExtensionTok{Quit}\NormalTok{ to main menu}
+\ExtensionTok{a}\NormalTok{/}\ExtensionTok{q}\OperatorTok{>}\NormalTok{ a}
+\ExtensionTok{Enter}\NormalTok{ NEW configuration password:}
+\ExtensionTok{password}\NormalTok{:}
+\ExtensionTok{Confirm}\NormalTok{ NEW configuration password:}
+\ExtensionTok{password}\NormalTok{:}
+\ExtensionTok{Password}\NormalTok{ set}
+\ExtensionTok{Your}\NormalTok{ configuration is encrypted.}
+\ExtensionTok{c}\NormalTok{) }\ExtensionTok{Change}\NormalTok{ Password}
+\ExtensionTok{u}\NormalTok{) }\ExtensionTok{Unencrypt}\NormalTok{ configuration}
+\ExtensionTok{q}\NormalTok{) }\ExtensionTok{Quit}\NormalTok{ to main menu}
+\ExtensionTok{c/u}\NormalTok{/}\ExtensionTok{q}\OperatorTok{>}\NormalTok{ q}
+\ExtensionTok{Current}\NormalTok{ remotes:}
+
+\ExtensionTok{Name}\NormalTok{                 Type}
+\NormalTok{====                 ====}
+\ExtensionTok{gdrive-rclone}\NormalTok{        drive}
+
+\ExtensionTok{e}\NormalTok{) }\ExtensionTok{Edit}\NormalTok{ existing remote}
+\ExtensionTok{n}\NormalTok{) }\ExtensionTok{New}\NormalTok{ remote}
+\ExtensionTok{d}\NormalTok{) }\ExtensionTok{Delete}\NormalTok{ remote}
+\ExtensionTok{r}\NormalTok{) }\ExtensionTok{Rename}\NormalTok{ remote}
+\ExtensionTok{c}\NormalTok{) }\ExtensionTok{Copy}\NormalTok{ remote}
+\ExtensionTok{s}\NormalTok{) }\ExtensionTok{Set}\NormalTok{ configuration password}
+\ExtensionTok{q}\NormalTok{) }\ExtensionTok{Quit}\NormalTok{ config}
+\ExtensionTok{e/n/d/r/c/s}\NormalTok{/}\ExtensionTok{q}\OperatorTok{>}\NormalTok{ q}
+\end{Highlighting}
+\end{Shaded}
+
+Once that file is encrypted, you can copy it to other machines for use.
 
 \hypertarget{basic-maneuvers}{%
 \subsubsection{Basic Maneuvers}\label{basic-maneuvers}}
@@ -3387,13 +3772,6 @@ is easy to find using the command:
 \end{Highlighting}
 \end{Shaded}
 
-\hypertarget{encrypting-your-config-file}{%
-\subsubsection{Encrypting your config file}\label{encrypting-your-config-file}}
-
-This makes sense, and it easy: with \texttt{rclone\ config} encryption is one of
-the options. When it is encrypted, use \texttt{rclone\ config\ show} to see what
-it looks like in clear text.
-
 \hypertarget{some-other-usage-tips}{%
 \subsubsection{Some other usage tips}\label{some-other-usage-tips}}
 
@@ -3542,6 +3920,620 @@ and maybe add \texttt{-v\ -P} to give us verbose output and progress information
 \ExtensionTok{%}\NormalTok{ rclone copy --exclude */ESP_A1/* -v -P  --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/}
 \end{Highlighting}
 \end{Shaded}
+
+\hypertarget{tmux}{%
+\section{\texorpdfstring{\texttt{tmux}: the terminal multiplexer}{tmux: the terminal multiplexer}}\label{tmux}}
+
+Many universities have recently implemented a two-factor
+authentication requirement for access to their computing resources
+(like remote servers and clusters). This means that every time
+you login to a server on campus (using \texttt{ssh} for example) you must
+type your password, and also fiddle with your phone. Such systems
+preclude the use of public/private key pairs that historically allowed
+you to access a server from a trusted client (i.e., your own secured
+laptop) without having to type in a password. As a consequence, today,
+opening multiple sessions on a server using \texttt{ssh} and two-factor
+authentication requires a ridiculous amount of additional typing and
+phone-fiddling, and is a huge hassle. But, when working on a remote
+server it is often very convenient to have multiple separate shells that
+you are working on and can quickly switch between.
+
+At the same time. When you are working on the shell of a remote machine
+and your network connection goes down, then, typically the bash session on
+your remote machine will be forcibly quit, killing any jobs that you might
+have been in the middle of (however, this is not the case of you submitted
+those jobs through a job scheduler like SLURM. Much more on that in the
+next chapter.). And, finally, in a traditional
+\texttt{ssh} session to a remote machine, when you close your laptop, or put it
+to sleep, or quit the Terminal application, all of your active bash sessions
+on the remote machine will get shut down. Consequently, the next time
+you want to work on that project, after you have logged
+onto that remote machine you will have to go through the laborious steps
+of navigating to your desired working directory, starting up any processes
+that might have gotten killed, and generally getting yourself
+set up to work again. That is a serious buzz kill!
+
+Fortunately, there is an awesome utility called \texttt{tmux}, which is short for
+``terminal multiplexer'' that solves most of the problems we just described.
+\texttt{tmux} is similar in function to a utility called \texttt{screen}, but it is easier
+to use while at the same time being more customizable and configurable
+(in my opinion). \texttt{tmux} is basically your ticket to working \emph{way} more
+efficiently on remote computers, while at the same time looking
+(to friends and colleagues, at least) like
+the full-on, bad-ass Unix user.
+
+In full confession, I didn't actually start using \texttt{tmux} until some
+five years after a speaker at a workshop delivered an incredibly
+enthusiastic presentation about \texttt{tmux} and how much he was in love
+with it. In somewhat the same fashion that I didn't adopt RStudio shortly
+after its release, because I had my own R workflows that I had hacked
+together myself, I thought to myself: ``I have public/private key pairs
+so it is super easy for me to just start another terminal window and login
+to the server for a new session. Why would I need \texttt{tmux}?'' I also didn't
+quite understand how \texttt{tmux} worked initially: I thought that I had to
+run \texttt{tmux} simultaneously on my laptop and on the server, and that those
+two processes would talk to one another. That is not the case! You
+just have to run \texttt{tmux} on the server and all will work fine!
+The upshot of that confession is that you should \emph{not} be a bozo like me,
+and you should learn to use \texttt{tmux} \emph{right now}! You will thank yourself
+for it many times over down the road.
+
+\hypertarget{an-analogy-for-how-tmux-works}{%
+\subsection{\texorpdfstring{An analogy for how \texttt{tmux} works}{An analogy for how tmux works}}\label{an-analogy-for-how-tmux-works}}
+
+Imagine that the first time you log in to your remote server
+you also have the option of speaking on the phone to a super
+efficient IT guy who has a desk in the server room.
+This dude never takes a break, but sits at his desk
+24/7. He probably has mustard stains on his dingy white T-shirt
+from eating ham sandwiches non-stop while he works super hard. This guy is Tmux.
+
+When you \emph{first} speak to this guy, you have to preface your
+commands with \texttt{tmux} (as in, ``Hey Tmux!''). He is there to help you
+manage different terminal windows with different bash shells or
+processes going on in them. In fact, you can think of it this way: you can
+ask him to set up
+a terminal (i.e., like a monitor), right there on his desk, and then create
+a bunch of windows on that terminal for you---each
+one with its own bash shell---without having to do a separate login for
+each one. He has created all those windows, but you still get to use them.
+It is like he has a miracle-mirroring device that lets you operate
+the windows that are on the terminal he set up for you on his desk.
+
+When you are done working on all those windows, you can tell Tmux that you
+want to \emph{detach} from the special terminal he set up for you at the server.
+In response he says, ``Cool!'' and shuts down his miracle-mirroring device, so
+you know longer see those different windows. However, he \emph{does not} shut down the
+terminal on his desk that he set up for you. That terminal stays on, and any of your processes
+happening on it keep chugging away\ldots{}even after you logout from the server entirely,
+throw the lid down on your laptop,
+have drinks with your friends at Social, downtown, watch an episode
+of Parks and Rec, and then get a good night sleep.
+
+All through the night, Tmux is munching ham sandwiches and keeping an eye on that
+terminal he set up for you. When you log back onto the server in the morning, you
+can say ``Hey Tmux! I want to attach back to that terminal you set up for me.'' He
+says, ``No problem!'', turns his miracle-mirroring device back on, and in an instant
+you have all of the windows on that terminal back on your laptop with all the processes
+still running in them---in all the same working directories---just as you left it all
+(except that if you were running jobs in those windows, some of those jobs might already
+be done!).
+
+Not only that, but, further, if you are working on the server, when a local thunderstorm
+fries the motherboard on your laptop, you can get a new laptop, log back into the
+server and ask Tmux to reconnect you to that terminal and get back to all of those
+windows and jobs, etc. as if you didn't get zapped. The same goes for the case of
+a backhoe operator accidentally digging up the fiber optic cable in your yard. Your
+network connection can go down completely. But, when you get it up and running again,
+you can say ``Hey Tmux! Hook me up!'' and he'll say, ``No problem!'' and reconnect you
+to all those windows you had open on the server.
+
+Finally, when you are done with all the windows and jobs on the terminal that Tmux set
+up for you, you can ask him to kill it, and he will shut it down, unplug it, and, straight
+out of Office Space, chuck it out the window. But he will gladly install a new one
+if you want to start another \emph{session} with him.
+
+That dude is super helpful!
+
+\hypertarget{first-steps-with-tmux}{%
+\subsection{\texorpdfstring{First steps with \texttt{tmux}}{First steps with tmux}}\label{first-steps-with-tmux}}
+
+The first thing you want to
+do to make sure Tmux is ready to help you is to simply type:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ which tmux}
+\end{Highlighting}
+\end{Shaded}
+
+This should return something like:
+
+\begin{verbatim}
+/usr/bin/tmux
+\end{verbatim}
+
+If, instead, you get a response like \texttt{tmux:\ Command\ not\ found.} then \texttt{tmux}
+is apparently not installed
+on your remote server, so you
+will have to install it yourself, or beg your sysadmin to do so (we will cover
+that in a later chapter). If you
+are working on the Summit supercomptuer in Colorado or on Hummingbird at
+UCSC, then \texttt{tmux} is installed already. (As of Feb 16, 2020, \texttt{tmux} was
+not installed on the Sedna cluster at the NWFSC, but I will request that it
+be installed.)
+
+In the analogy, above, we talked about Tmux setting up a terminal
+in the server room. In \texttt{tmux} parlance, such a ``terminal'' is called
+a \emph{session}. In order to be able to tell Tmux that you want to reconnect
+to a session, you
+will \emph{always} want to name your sessions so you will request a new
+session with this syntax:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ tmux new -s froggies}
+\end{Highlighting}
+\end{Shaded}
+
+You can think of the \texttt{-s} as being short for ``session.'' So it is basically a short
+way of saying, ``Hey Tmux, give me a new session named \texttt{froggies}.''
+That creates a new session called \texttt{froggies}, and you can imagine we've
+named it that because we will use it for work on a frog genomics project.
+
+The effect of this
+is like Tmux firing up a new terminal in his server room, making a
+window on it for you, starting a new bash shell in that window,
+\emph{and then giving you control of this new terminal}.
+In other words, it is sort of like he has opened a new shell window on a
+terminal for you, and is letting you see and use it on your computer at the same time.
+
+One very cool thing about this is that you just got a new bash shell
+without having to login with your password and two-factor authentication again.
+That much is cool in itself, but is only the beginning.
+
+The new window that you get looks a little different. For one thing, it
+has a section, one line tall, that is green (by default) on the bottom.
+In our case, on the left side it gives the name of the session (in square
+brackets) and then the name of the current \emph{window} within that session. On
+the right side you see the \emph{hostname} (the name of the remote computer
+you are working on) in quotes, followed by the date and time. The contents
+in that green band will look something
+like:
+
+\begin{verbatim}
+[froggies] 0:bash*                                               "login11" 20:02 15-Feb-20
+\end{verbatim}
+
+This little line of information is the sweet sauce that will let you
+find your way around all the new windows that
+\texttt{tmux} can spawn for you.\\
+\BeginKnitrBlock{rmdcaution}
+If you are working on a cluster, please pay special attention to the hostname.
+(In the above case the hostname is \texttt{login11}). Many clusters have multiple \emph{login}
+or \emph{head} nodes, as they are called. The next time you login to the cluster, you
+might be assigned to a different login node which will have no idea about your
+\texttt{tmux} sessions. If that were the case in this example I would have to use \texttt{slogin\ login11} and
+authenticate again to get logged into \texttt{login11} to reconnect to my
+\texttt{tmux} session, \texttt{froggies}. Or, if you were a CSU student and wanted to login specifically to
+the \texttt{login11} node on Summit the next time you logged on you could do
+\texttt{ssh\ username@colostate.edu@login11.rc.colorado.edu}. Note the specific \texttt{login11} in that
+statement.
+\EndKnitrBlock{rmdcaution}
+
+Now, imagine that we want to use this \emph{window} in our \texttt{froggies} \emph{session}, to look at some
+frog data we have. Accordingly, we might navigate to the directory where those data live
+and look at the data with \texttt{head} and \texttt{less}, etc. That is all great, until we realize that
+we also want to edit some scripts that we wrote for processing our froggy data. These scripts
+might be in a directory far removed from the data directory we are currently in, and we don't really
+want to keep navigating back and forth between those two directories within a single bash shell.
+Clearly, we would like to have two windows that we could switch between: one for inspecting
+our data, and the other for editing our scripts.
+
+We are in luck! We can do this with \texttt{tmux}. However, now that we are safely working in a \emph{session}
+that \texttt{tmux} started for us, we no longer have to shout ``Hey Tmux!'' Rather we can just ``ring a little
+bell'' to get his attention. In the default \texttt{tmux} configuration, you do that by pressing
+\texttt{\textless{}cntrl\textgreater{}-b} from anywhere within a \texttt{tmux} window. This is easy to remember because it is like
+a ``b'' for the ``bell'' that we ring to get our faithful servant's attention. \texttt{\textless{}cntrl\textgreater{}-b} is known
+as the ``prefix'' sequence that starts all requests to \texttt{tmux} from within a session.
+
+The first thing that we are going to do is ask \texttt{tmux} to let us assign a more descriptive,
+name---\texttt{data} to be specific---to the current window. We do this with
+
+\begin{verbatim}
+<cntrl>-b ,
+\end{verbatim}
+
+(That's right! It's a control-b and then a comma. \texttt{tmux} likes to get by on a minimum number
+of keystrokes.) When you do that, the green band at the bottom of the window changes color
+and tells you that you can rename the current window. We simply use our keyboard to
+change the name to ``data''. That was super easy!
+
+Now, to make a new window with a new bash shell that we can use for writing scripts
+we do \texttt{\textless{}cntrl\textgreater{}-b\ c}. Try it! That gives you a new \emph{window} within the \texttt{froggies} session
+and switches your focus to it. It is as if Tmux (in his mustard-stained shirt) has created
+a new window on the \texttt{froggies} terminal, brought it to the front, and shared it with you.
+The left side of the green \texttt{tmux} status bar at the bottom of the screen now says:
+
+\begin{verbatim}
+[froggies] 0:data- 1:bash*
+\end{verbatim}
+
+Holy Moly! This is telling you that the \texttt{froggies} session has two windows in it: the first
+numbered 0 and named \texttt{data}, and the second numbered 1 and named \texttt{bash}. The \texttt{-} at the end
+of \texttt{0:data-} is telling you that \texttt{data} is the window you were previously focused on, but that
+now you are currently focused on the window with the \texttt{*} after its name: \texttt{1:bash*}.
+
+So, the name \texttt{bash} is not as informative as it could be. Since we will be using this
+new window for editing scripts, let's rename it to \texttt{edit}. You can do that with
+\texttt{\textless{}cntrl\textgreater{}-b\ ,}. Do it!
+
+OK! Now, if you have been paying attention, you probably realize that \texttt{tmux} has given us
+two windows (with two different bash shells) in this session called \texttt{froggies}. Not only that
+but it has associated a single-digit number with each window. If you are all about keyboard
+shortcuts, then you probably have already imagined that \texttt{tmux} will let you switch between
+these two windows with \texttt{\textless{}cntrl\textgreater{}-b} plus a digit (0 or 1 in this case). Play with that.
+Do \texttt{\textless{}cntrl\textgreater{}-b\ 0} and \texttt{\textless{}cntrl\textgreater{}-b\ 1} and feel the power!
+
+Now, for fun, imagine that we want to have another window and a bash shell for launching
+jobs. Make a new window, name it \texttt{launch}, and then switch between those three windows.
+
+Finally. When you are done with all that, you tell Tmux to detach from this session
+by typing:
+
+\begin{verbatim}
+<cntrl>-b d
+\end{verbatim}
+
+(The \texttt{d} is for ``detach''). This should kick you back to the shell from which you
+first shouted ``Hey Tmux!'' by issuing the \texttt{tmux\ a\ -t\ froggies} command. So, you
+can't see the windows of your \texttt{froggies} session any longer, \emph{but do not despair}!
+Those windows are still on the monitor Tmux set up for you, casting an eerie glow
+on his mustard stained shirt.
+
+If you want to get back in the driver's seat with all of those windows, you simply need to
+tell Tmux that you want to be attached again via his miracle-mirroring device. Since we
+are no longer in a \texttt{tmux} window, we don't use our \texttt{\textless{}cntrl-b\textgreater{}} bell to get Tmux's attention.
+We have to shout:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ tmux attach -t froggies}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{-t} flag stands for ``target.'' The \texttt{froggies} session is the target of our
+attach request. Note that if you don't like typing that much, you can shorten this to:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ tmux a -t froggies}
+\end{Highlighting}
+\end{Shaded}
+
+Of course, sometimes, when you log back onto the server, you won't remember the name
+of the \texttt{tmux} session(s) you started. Use this command to list them all:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ tmux ls}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{ls} here stands for ``list-sessions.'' This can be particularly useful if you
+actually have multiple sessions. For example, suppose you are a poly-taxa genomicist,
+with projects not only on a frog species, but also on a fish and a bird species. You
+might have a separate session for each of those, so that when you issue \texttt{tmux\ ls} the
+result could look something like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ tmux ls}
+\ExtensionTok{birdies}\NormalTok{: 4 windows (created Sun Feb 16 07:23:30 2020) [}\ExtensionTok{203x59}\NormalTok{]}
+\ExtensionTok{fishies}\NormalTok{: 2 windows (created Sun Feb 16 07:23:55 2020) [}\ExtensionTok{203x59}\NormalTok{]}
+\ExtensionTok{froggies}\NormalTok{: 3 windows (created Sun Feb 16 07:22:36 2020) [}\ExtensionTok{203x59}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+That is enough to remind you of which session you might wish to reattach to.
+
+Finally, if you are all done with a \texttt{tmux} session, and you have detached from it,
+then from your shell prompt (not within a \texttt{tmux} session) you can do, for example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{tmux}\NormalTok{ kill-session -t  birdies}
+\end{Highlighting}
+\end{Shaded}
+
+to kill the session. There are other ways to kill sessions while you
+are in them, but that is not so much needed.
+
+Table \ref{tab:minimal-tmux} reviews the minimal set of
+\texttt{tmux} commands just described. Though there is much more that
+can be done with \texttt{tmux}, those commands will get you started.
+
+\begin{longtable}[]{@{}lll@{}}
+\caption{\label{tab:minimal-tmux} A bare bones set of commands for using \texttt{tmux} The first column says whether the command is given within a \texttt{tmux} session rather than at the shell outside of a \texttt{tmux} session}\tabularnewline
+\toprule
+\begin{minipage}[b]{0.18\columnwidth}\raggedright
+Within tmux?\strut
+\end{minipage} & \begin{minipage}[b]{0.36\columnwidth}\raggedright
+Command\strut
+\end{minipage} & \begin{minipage}[b]{0.38\columnwidth}\raggedright
+Effect\strut
+\end{minipage}\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+\begin{minipage}[b]{0.18\columnwidth}\raggedright
+Within tmux?\strut
+\end{minipage} & \begin{minipage}[b]{0.36\columnwidth}\raggedright
+Command\strut
+\end{minipage} & \begin{minipage}[b]{0.38\columnwidth}\raggedright
+Effect\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.18\columnwidth}\raggedright
+N\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{tmux\ ls}\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+List any tmux sessions the
+server knows about\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.18\columnwidth}\raggedright
+N\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{tmux\ new\ -s\ name}\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+Create a new tmux session
+named ``name''\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.18\columnwidth}\raggedright
+N\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{tmux\ attach\ -t\ name}\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+Attach to the existing tmux
+session ``name''\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.18\columnwidth}\raggedright
+N\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{tmux\ a\ -t\ name}\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+Same as ``attach'' but shorter.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.18\columnwidth}\raggedright
+N\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{tmux\ kill-session\ -t} name\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+Kill the tmux session named
+``name''\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.18\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{\textless{}cntrl\textgreater{}-b\ ,}\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+Edit the name of the current
+window\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.18\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{\textless{}cntrl\textgreater{}-b\ c}\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+Create a new window\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.18\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{\textless{}cntrl\textgreater{}-b\ 3}\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+Move focus to window 3\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.18\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{\textless{}cntrl\textgreater{}-b\ \&}\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+Kill current window\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.18\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{\textless{}cntrl\textgreater{}-b\ d}\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+Detach from current session\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.18\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.36\columnwidth}\raggedright
+\texttt{\textless{}cntrl\textgreater{}-l}\strut
+\end{minipage} & \begin{minipage}[t]{0.38\columnwidth}\raggedright
+Clear screen current window\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{further-steps-with-tmux}{%
+\subsection{\texorpdfstring{Further steps with \texttt{tmux}}{Further steps with tmux}}\label{further-steps-with-tmux}}
+
+The previous section merely scratched the surface of what is possible with \texttt{tmux}.\\
+Indeed, that is the case with this section. But here I just want to leave you with a
+taste for how to configure \texttt{tmux} to your liking, and also with the ability to create
+different \emph{panes} within a window within a session. You guessed it! A pane is made by
+splitting a \emph{window} (which is itself a part of a \emph{session}) into two different
+sections, each one running its own bash shell.
+
+Before we start making panes, we set some configurations that make the
+establishment of panes more intuitive (by using keystrokes that are easier
+to remember) and others that make it easier to quickly adjust the size of the panes.
+So, first, add these lines to \texttt{\textasciitilde{}/.tmux.conf}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# splitting panes}
+\BuiltInTok{bind} \DataTypeTok{\textbackslash{} }\NormalTok{split-window -h -c }\StringTok{'#\{pane_current_path\}'}
+\BuiltInTok{bind}\NormalTok{ - split-window -v -c }\StringTok{'#\{pane_current_path\}'}
+
+\CommentTok{# easily resize panes with <C-b> + one of j, k, h, l}
+\ExtensionTok{bind-key}\NormalTok{ j resize-pane -D 10}
+\ExtensionTok{bind-key}\NormalTok{ k resize-pane -U 10}
+\ExtensionTok{bind-key}\NormalTok{ h resize-pane -L 10}
+\ExtensionTok{bind-key}\NormalTok{ l resize-pane -R 10}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have updated \texttt{\textasciitilde{}/.tmux.conf} you need to reload that
+configuration file in \texttt{tmux}. So, from within a \texttt{tmux} session,
+you do \texttt{\textless{}cntrl\textgreater{}-b\ :}. This let's you type a \texttt{tmux} command in the lower
+left (where the cursor has become active). Type \texttt{source-file\ \textasciitilde{}/.tmux.conf}
+
+The comments show what each line is intended to do, and you
+can see that the configuration ``language'' for \texttt{tmux} is relatively
+unintimidating. In plain language, these configurations are saying that, after this
+configuration is made active, \texttt{\textless{}cntrl\textgreater{}-b\ /} will split a window (or a pane),
+vertically, in to two panes. (Note that this is easy to remember
+because on an American keyboard, the \texttt{\textbackslash{}} and the \texttt{\textbar{}}, share a key. The latter
+looks like a vertical separator, and would thus be a good key stroke
+to split a screen vertically, but why force ourselves to hit the shift key as well?).
+Likewise, \texttt{\textless{}cntrl\textgreater{}-b\ -} will split a window (or a pane) into two panes.
+
+What do we mean by splitting a window into multiple panes? A picture is
+worth a thousand words. Figure \ref{fig:tmux-4-panes} shows a \texttt{tmux}
+window with four panes. The two vertical ones on the left show a yaml
+file and a shell script being edited in \texttt{vim}, and the remaining two
+house shells for looking at files in two different directories.
+
+\begin{figure}
+
+{\centering \includegraphics{figs/tmux-4-panes} 
+
+}
+
+\caption{A tmux window with four panes.}\label{fig:tmux-4-panes}
+\end{figure}
+
+This provides almost endless opportunities for customizing the
+appearance of your terminal workspace on a remote machine for maximum
+efficiency. Of course, doing so requires you know a few more
+keystrokes for handling panes. These are summarized in Table \ref{tab:tmux-pane-strokes}.
+
+\begin{longtable}[]{@{}lll@{}}
+\caption{\label{tab:tmux-pane-strokes} Important keystrokes within a \texttt{tmux} session for handling panes}\tabularnewline
+\toprule
+\begin{minipage}[b]{0.19\columnwidth}\raggedright
+Within tmux?\strut
+\end{minipage} & \begin{minipage}[b]{0.25\columnwidth}\raggedright
+Command\strut
+\end{minipage} & \begin{minipage}[b]{0.42\columnwidth}\raggedright
+Effect\strut
+\end{minipage}\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+\begin{minipage}[b]{0.19\columnwidth}\raggedright
+Within tmux?\strut
+\end{minipage} & \begin{minipage}[b]{0.25\columnwidth}\raggedright
+Command\strut
+\end{minipage} & \begin{minipage}[b]{0.42\columnwidth}\raggedright
+Effect\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.19\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{\textless{}cntrl\textgreater{}-b\ /}\strut
+\end{minipage} & \begin{minipage}[t]{0.42\columnwidth}\raggedright
+Split current window/pane
+vertically into two panes\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{\textless{}cntrl\textgreater{}-b\ -}\strut
+\end{minipage} & \begin{minipage}[t]{0.42\columnwidth}\raggedright
+Split current window/pane
+horizontally into two panes\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{\textless{}cntrl\textgreater{}-b\ arrow}\strut
+\end{minipage} & \begin{minipage}[t]{0.42\columnwidth}\raggedright
+Use \texttt{\textless{}cntrl\textgreater{}-b} + an arrow key
+to move sequentially amongst
+panes\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{\textless{}cntrl\textgreater{}-b\ x}\strut
+\end{minipage} & \begin{minipage}[t]{0.42\columnwidth}\raggedright
+Kill current the current pane\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{\textless{}cntrl\textgreater{}-b\ q}\strut
+\end{minipage} & \begin{minipage}[t]{0.42\columnwidth}\raggedright
+Paint big ID numbers (from 0
+up) on the panes for a few
+seconds. Hitting a number
+before it disappears moves
+focus to that pane.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+-b {[}hjkl{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.42\columnwidth}\raggedright
+Resize the current pane, h =
+Left, j = Down, k = Up, l =
+Right. It takes a while to
+understand which boundary will
+move.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.19\columnwidth}\raggedright
+Y\strut
+\end{minipage} & \begin{minipage}[t]{0.25\columnwidth}\raggedright
+-b z\strut
+\end{minipage} & \begin{minipage}[t]{0.42\columnwidth}\raggedright
+Zoom current pane to full
+size. \texttt{\textless{}cntrl\textgreater{}-b\ z} again
+restores it to original size.\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Now that you have seen all these keystrokes, use \texttt{\textless{}cntrl\textgreater{}-b\ \textbackslash{}} and \texttt{\textless{}cntrl\textgreater{}-b\ -} to split your windows
+up into a few panes and try them out. It takes a while to get used to it, but once you get
+the hang of it, it's quite nice.
+
+\hypertarget{high-performance-computing-hpc-environments}{%
+\chapter{High Performance Computing (HPC) Environments}\label{high-performance-computing-hpc-environments}}
+
+Hey Eric! You might consider breaking this into two separate chatpers: 1 = working on remote computers
+and 2 = high-performance computing. The first could include all the stuff about scp, globus, rclone,
+and google drive.
+
+This is going to be a chapter on using High Performance Computing clusters.
+
+There is a lot to convey here about using queues and things.
+
+I know SGE pretty well at this point, but others might use slurm.
+
+Here is a good page with a comparison: \url{https://confluence.csiro.au/display/SC/Reference+Guide\%3A+Migrating+from+SGE+to+SLURM}
+
+And here is a good primer on SGE stuff: \url{https://confluence.si.edu/display/HPC/Monitoring+your+Jobs}
+
+I guess I'll have to see what the CSU students have access to.
 
 \hypertarget{activatinginstalling-software}{%
 \section{Activating/Installing software}\label{activatinginstalling-software}}
@@ -6770,7 +7762,7 @@ I copied that to \texttt{inputs} so we can plot it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-29-1.pdf}
+\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-31-1.pdf}
 
 OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.
 

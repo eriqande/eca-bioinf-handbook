@@ -1,0 +1,1220 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# Working on remote servers
+
+
+## Accessing remote computers
+
+The primary protocol for accessing remote computers in this day and age
+is `ssh` which stands for "Secure Shell."  In the protocol, your computer
+and the remote computer talk to one another and then choose to have a "shared
+secret" which they can use as a key to encrypt data traffic from one to the other.
+The amazing thing is that the two computers can actually tell each other what
+that shared secret is by having a conversation "in the open" with one another.
+That is a topic for another day, but if you are interested, you could
+read about it [here](https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange).
+
+At any rate, the SSH protocal allows for secure access to a remote server.  It involves
+using a username and a password, and, in many cases today, some form of two-factor
+authentication (i.e., you need to have your phone involved, too!).  Different
+remote servers have different routines for logging in to them, and they are also
+all configured a little differently.  The main servers we are concerned about in
+these teaching materials are:
+
+1. The Hummingbird cluster at UCSC, which is accessible by anyone with a UCSC blue username/password.
+1. The Summit Supercomputer at CU Boulder which is accessible by all graduate students and
+faculty at CSU.
+1. The Sedna cluster housed at the National Marine Fisheries Service, Northwest Fisheries Science
+Center.  This is accessible only by those Federal NMFS employees whom have been granted access.
+
+Happily, all of these systems use SLURM for job scheduling (much more about that in the
+next chapter); however are a few vagaries to each of these systems that we will cover below.
+
+### Windows
+
+If you are on a Windows machine, you can use the `ssh` utility from your Git Bash shell, but
+that is a bit of a hassle from RStudio.  And a better terminal emulator is available if you
+are going to be accessing remote computers.  It is recommended that you install and
+use the program [PuTTy](https://www.ssh.com/ssh/putty).  The steps are pretty self-explanatory
+and well documented.  Instead of using `ssh` on a command line you put a host name into
+a dialog box, etc.
+
+### Hummingbird
+
+Directions for UCSC students and staff to login to Hummingbird are available
+at [https://www.hb.ucsc.edu/getting-started/](https://www.hb.ucsc.edu/getting-started/).
+If you are not on the UCSC campus network, you need to use the UCSC VPN to connect.
+
+By default, this cluster uses `tcsh` for a shell rather than `bash`.  To keep things
+consistent with what you have learned about `bash`, you will want to automatically switch
+to `bash` upon login.  You can do this by adding a file `~/.tcshrc` whose contents are:
+```sh
+setenv SHELL /usr/bin/bash
+exec /usr/bin/bash --login
+```
+Then, configure your `bash` environment with your `~/.bashrc` and `~/.bash_profile` as
+described in Chapter \@ref(unix-env).
+
+The `tmux` settings (See section \@ref(tmux)) in hummingbird are a little messed up as well, making
+it hard to set window names that don't get changed the moment you make another command. Therefore,
+you must make a file called `~/.tmux.conf` and put this line in it:
+```
+set-option -g allow-rename off
+```
+
+### Summit
+
+To get an account on Summit, see [https://www.acns.colostate.edu/hpc/summit-get-started/](https://www.acns.colostate.edu/hpc/summit-get-started/).  Account creation is automatic for graduate students and faculty. This setup requires
+that you get an app called Duo on your phone for doing two-factor authentication.
+
+Instructions for logging into Summit are at [https://www.acns.colostate.edu/hpc/#remote-login](https://www.acns.colostate.edu/hpc/#remote-login).
+
+On your local machine (i.e., laptop), you might consider adding an alias to your
+`.bashrc`  that will let you type `summit` to issue the login command.  For example:
+```sh
+alias summit='ssh csu_eid@colostate.edu@login.rc.colorado.edu'
+```
+where you replace `csu_eid` with your actual CSU eID.
+
+### Sedna
+
+To connect to this cluster you must be on the NMFS network, or
+connected to it via the VPN, then `ssh` with, for example:
+```
+ssh eanderson@sedna.nwfsc2.noaa.gov
+```
+but using your own username.
+
+## Transferring files to remote computers
+
+### sftp
+### git
+
+Most remote servers you work on will have `git` by default.
+If you are doing all your work on a project within a single
+repository, you can use `git` to keep scripts and other files
+version-controlled on the server.  You can also push and pull files
+(not big data or output files!) to GitHub, thus keeping things backed up
+and version controlled, and providing a useful way to synchronize scripts
+and other files in your project between the server and your laptop.
+
+Example: 
+
+1. write and test scripts on your laptop in a repo called `my-project`
+1. commit scripts on your laptop and push them to GitHub in a repo also
+called `my-project`
+1. pull `my-project` from GitHub to the server.
+1. Try running your scripts in `my-project` on your server.  In the process,
+you may discover that you need to change/fix some things so they will
+run correctly on the server.  Fix them!
+1. Once things are fixed and successfully running on the server, commit
+those changes and push them to GitHub.
+1. Update the files on your laptop so that they reflect the changes you
+had to make on the server, by pulling `my-project` from GitHub to your
+laptop.
+
+#### Configuring git on the remote server
+
+In order to make this sort of worklow successful, you first need
+to ensure that you have set up git on your remote server.  Doing
+so involves:
+
+1. establishing your name and email that will be used with your git commits
+made from the server.
+1. Ensuring that git password caching is set up so you don't always have
+to type your GitHub password when you push and pull.
+1. configuring your git text editor to be something that you know how
+to use.  
+
+It can be useful give yourself a git name on the server that reflects
+the fact that the changes you are committing were made on the server.
+
+For example, for my own setup on the Summit cluster at Boulder, I might
+do my git configurations by issuing these commands on the 
+command line on the server:
+```sh
+git config --global user.name "Eric C. Anderson (From Summit)"
+git config --global user.email eriq@rams.colostate.edu
+git config --global credential.helper cache
+git config --global core.editor nano
+```
+
+In all actuality, I would set my editor to be `vim` or `emacs`, because those are
+more powerful editors and I am familiar with then; however, if you are new to Unix,
+then `nano` is an easy-to-use editor.
+
+You should set configurations on your server appropriate to yourself
+(i.e., with your name and email and preferred text editor). Once these configurations are set, you are ready to start cloning
+repositories from GitHub and then pushing and pulling them, as well.
+
+To this point, we have always done those actions from within
+RStudio.  On a remote server, however, you will have to do all these
+actions from the command line.  That is OK, it just requires learning
+a few new things.
+
+The first, and most important, issue to understand is that if you want
+to push new changes back to a repository that is on your GitHub account,
+GitHub needs to know that you have privileges to do so.  One way to
+do this is by making sure, when you initially clone the repository,
+that you do so whilst letting GitHub know that you are the user that
+"owns" your GitHub account.  This is done by inserting your GitHub
+username into your `git clone` request with the following syntax:  
+```
+git clone https://username@github.com/username/repository.git
+```
+For example, if I want to `clone` a repository whose URL is:
+```
+https://github.com/eriqande/alignment-play
+```
+I would issue this command:
+```
+git clone https://eriqande@github.com/eriqande/alignment-play
+```
+This clones the repository to my server, and makes
+a note of the fact that you did so as the GitHub user `eriqande`,
+so that if I try to push something back to that GitHub repository,
+it will ask me for me proper `eriqande` GitHub password.
+
+
+#### Using git on the remote server
+
+When on the server, you don't have the convenient RStudio interface
+to git, so you have to use git commands on the command line.  Fortunately
+these provide straightforward, command-line analogies to the RStudio
+GUI git interface you have become familiar with.
+
+Intead of having an RStudio Git panel that shows you files that are new or
+have been modified, etc., you use `git status` in your repo to give
+a text report of the same.
+
+For example, imagine that Figure \@ref(fig:git-window) shows an RStudio project Git window describing the status of files in the repository.
+```{r git-window, echo=FALSE, fig.align='center', dpi=100, fig.cap="An example of what an RStudio git window might look like."}
+knitr::include_graphics("figs/git-window.png", auto_pdf = TRUE)
+```
+That view is merely showing you a graphical view of the output of
+the `git status` command run at the top level of the repository which
+looks like this:
+```sh
+% git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	modified:   .gitignore
+	modified:   002-homeologue-permutation-with-bedr.Rmd
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	002-homeologue-permutation-with-bedr.nb.html
+	data/
+	mykiss-rad-project-with-mac-and-devon.Rproj
+	reconcile/
+
+no changes added to commit (use "git add" and/or "git commit -a")
+```
+Aha! Be sure to read that and understand that the output tells you which
+files are tracked by git and Modified (blue M in RStudio) and which
+are untracked (Yellow ? in RStudio).  
+
+Of you wanted to see a report of the changes in the files relative
+to the currently committed version, you could use `git diff`, passing
+it the file name as an argument.  We will see an example of that below...
+
+Now, recall, that in order to commit files to `git` you first must
+_stage_ them.  In RStudio you do that by clicking the little button to 
+the left of the file or directory in the Git window.  For example,
+if we clicked the buttons for the `data/` directory, as well as for
+`.gitignore` and `002-homeologue-permutation-with-bedr.Rmd`, we would
+have staged them and it would look like Figure \@ref(fig:git-staged).
+```{r git-staged, echo=FALSE, fig.align='center', dpi=100, fig.cap="An example of what an RStudio git window might look like."}
+knitr::include_graphics("figs/git-staged.png", auto_pdf = TRUE)
+```
+In order to do the equivalent operations with `git` on the command line
+you would use the `git add` command, explicitly naming the files you wish to
+_stage_ for committing:
+```sh
+git add .gitignore 002-homeologue-permutation-with-bedr.Rmd data
+```
+Now, if you check `git status` you will see:
+```sh
+% git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   .gitignore
+	modified:   002-homeologue-permutation-with-bedr.Rmd
+	new file:   data/Pearse_Barson_etal_Supp_Table_7.tsv
+	new file:   data/high-fst-rad-locus-indices.txt
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	002-homeologue-permutation-with-bedr.nb.html
+	mykiss-rad-project-with-mac-and-devon.Rproj
+	reconcile/
+```
+It tells you which files are ready to be committed! 
+
+In order to commit the files to git you do:
+```sh
+git commit
+```
+And then, to push them back to GitHub (if you cloned this repository
+from GitHub), you can simply do:
+```sh
+git push origin master
+```
+That syntax is telling git to push the `master` branch (which is
+the default branch in a git repository), to the repository labeled as
+`origin`, which will be the GitHub repository if you cloned the repository
+from GitHub.  (If you are working with a different git branch than master,
+you would need to specify its name here.  That is not difficult, but is
+beyond the scope of this chapter.)
+
+
+Now, assuming that we cloned the `alignment-play` repository to our
+server, here are the steps involved in editing a file, committing the
+changes, and then pushing them back to GitHub.  The command in the following
+is written as `[alignment-play]--% ` which is telling us that we are in the
+`alignment-play` repository.
+```sh
+# check git status
+[alignment-play]--% git status
+
+# On branch master
+nothing to commit, working directory clean
+
+# Aha! That says nothing has been modified.
+# But, now we edit the file alignment-play.Rmd
+[alignment-play]--% nano alignment-play.Rmd
+
+# In this case I merely added a line to the YAML header.
+
+# Now, check status of the files:
+[alignment-play]--% git status
+
+# On branch master
+# Changes not staged for commit:
+#   (use "git add <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#
+#	modified:   alignment-play.Rmd
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+
+# We see that the file has been modified.
+
+# Now we can use git diff to see what the changes were
+[alignment-play]--% git diff alignment-play.Rmd 
+
+diff --git a/alignment-play.Rmd b/alignment-play.Rmd
+index 9f75ebb..b389fae 100644
+--- a/alignment-play.Rmd
++++ b/alignment-play.Rmd
+@@ -3,6 +3,7 @@ title: "Alignment Play!"
+ output: 
+   html_notebook:
+     toc: true
++    toc_float: true
+ ---
+ 
+# The output above is a little hard to parse, but it shows
+# the line that has been added: "  toc_float: true" with a
+# "+" sign.
+
+# In order to commit the changes, we do:
+[alignment-play]--% git add alignment-play.Rmd 
+[alignment-play]--% git commit
+
+# after that, we are bumped into the nano text editor
+# to write a short message about the commit. After exiting
+# from the editor, it tells us:
+[master 001e650] yaml change
+ 1 file changed, 1 insertion(+)
+ 
+# Now, to send that new commit to GitHub, we use git push origin master
+[alignment-play]--% git push origin master
+Password for 'https://eriqande@github.com':
+
+Counting objects: 5, done.
+Delta compression using up to 24 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 325 bytes | 0 bytes/s, done.
+Total 3 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://eriqande@github.com/eriqande/alignment-play
+   0c1707f..001e650  master -> master
+```
+When pushing to a GitHub repository for the first
+time from your remote server you
+will be asked for your GitHub password.  Once you have successfully
+provided your password, if you set password caching up correctly, then
+you should not have to provide your password for subsequent pushes.
+
+Finally, if after pushing those changes to GitHub, we then pull them
+down to our laptop, and make more changes on top of them and push those
+back to GitHub, we can retrieve from GitHub to the server those changes we 
+made on our laptop with `git pull origin master`.  In other words, from the 
+server we simply issue the command:
+```sh
+[alignment-play]--% git pull origin master
+```
+
+### Globus
+
+### Interfacing with "The Cloud"
+
+Increasingly, data scientists and tech companies alike are keeping their
+data "in the cloud." This means that they
+pay a large tech firm like Amazon, Dropbox, or Google to store their data for them in
+a place that can be accessed via the internet.  There are many advantages to this
+model.  For one thing, the company that serves the data often will create multiple copies
+of the data for backup and redundancy: a fire in a single data center is not a calamity
+because the data are also stored elsewhere, and can often be accessed seamlessly from those
+other locations with no apparent disruption of service.  For another, companies that are
+in the business of storing and serving 
+data to multiple clients have data centers that are well-networked, so that getting
+data onto and off of their storage systems can be done very quickly over the internet
+by an end-user with a good internet connection.
+
+Five years ago, the idea of storing next generation sequencing data might have
+sounded a little
+crazy---it always seemed a laborious task getting the data off of the remote server at the 
+sequencing center, so why not just keep the data in-house once you have it?
+To be sure, keeping a copy of your 
+data in-house still can make sense for long-term data archiving needs, but, today, cloud 
+storage for your sequencing data can make a lot of sense. A few reasons are:
+
+1. Transferring your data from the cloud to the remote HPC system
+that you use to process the data can be very fast.
+2. As above, your data can be redundantly backed up.
+3. If your institution (university, agency, etc.) has an agreement with a cloud storage
+service that provides you with unlimited storage and free network access, then storing
+your sequencing data in the cloud will cost considerably less than buying a dedicated
+large system of hard drives for data backup.  (One must wonder if service
+agreements might not be at risk of renegotiation if many researchers start using their
+unlimited institutional cloud storage space to store and/or archive their 
+next generation sequencing data sets. My own agency's contract with Google runs
+through 2021...but I have to think that these services are making plenty of money, even
+if a handful of researchers store big sequence data in the cloud.  Nonetheless, you
+should be careful not to put multiple copies of data sets, or intermediate files that
+are easily regenerated, up in the cloud.)
+4. If you are a PI with many lab members wishing to access the same data set, or even if
+you are just a regular Joe/Joanna researcher but you wish to share your data, it is 
+possible to effect that using your cloud service's sharing settings.  We will discuss
+how to do this with Google Drive.
+
+There are clearly advantages to using the cloud, but one small hurdle remains.  Most
+of the time, working in an HPC environment, we are using Unix, which provides a consistent
+set of tools for interfacing with other computers using SSH-based protocols (like `scp` 
+for copying files from one remote computer to another).  Unfortunately, many common
+cloud storage services do not offer an SSH based interface.  Rather, they typically process
+requests from clients using an HTTPS protocol.  This protocol, which effectively runs the
+world-wide web, is a natural choice for cloud services that most people will access
+using a web browser; however, Unix does not traditionally come with a utility or command
+to easily process the types of HTTPS transactions needed to network with
+cloud storage.  Furthermore, there must be some security when it comes to accessing
+your cloud-based storage---you don't want everyone to be able to access your files, so
+your cloud service needs to have some way of authenticating people
+(you and your labmates for example) that are authorized to access your data.
+
+These problems have been overcome by a utility called `rclone`, the product of a
+comprehensive open-source software project that brings the functionality of the
+`rsync` utility (a common Unix tool used to synchronize and mirror file systems)
+to cloud-based storage. (Note: `rclone` has nothing to do with the R programming
+language, despite its name that looks like an R package.)
+Currently `rclone` provides a consistent interface for accessing
+files from over 35 different cloud storage providers, including Box, Dropbox, Google Drive,
+and Microsoft OneDrive. Binaries for `rclone` can be downloaded for your desktop
+machine from [https://rclone.org/downloads/](https://rclone.org/downloads/).  We will
+talk about how to install it on your HPC system later.
+
+Once `rclone` is installed and in your `PATH`, you invoke it in your terminal
+with the command `rclone`.  Before we get into the details of the various `rclone` subcommands,
+it will be helpful to take a glance at the information `rclone` records when it
+configures itself to talk to your cloud service.  To do so, it creates a file called `~/.config/rclone/rclone.conf`, where it stores information about all the different
+connections to cloud services you have set up.  For example, that
+file on my system looks like this:
+```
+[gdrive-rclone]
+type = drive
+scope = drive
+root_folder_id = 1I2EDV465N5732Tx1FFAiLWOqZRJcAzUd
+token = {"access_token":"bs43.94cUFOe6SjjkofZ","token_type":"Bearer","refresh_token":"1/MrtfsRoXhgc","expiry":"2019-04-29T22:51:58.148286-06:00"}
+client_id = 2934793-oldk97lhld88dlkh301hd.apps.googleusercontent.com
+client_secret = MMq3jdsjdjgKTGH4rNV_y-NbbG
+```
+In this configuration:
+
+* `gdrive-rclone` is the name by which rclone refers to this cloud storage location
+* `root_folder_id` is the ID of the Google Drive folder that can be thought of as the root directory of `gdrive-rclone`. This ID is not the simple name of that directory on
+your Google Drive, rather it is the unique name given by Google Drive to that directory.
+You can see it by navigating in your browser to the directory you want and finding it
+after the last slash in the URL.  For example, in the above case, the URL is: 
+`https://drive.google.com/drive/u/1/folders/1I2EDV465N5732Tx1FFAiLWOqZRJcAzUd`
+* `client_id` and `client_secret` are like a username and a shared secret that `rclone` uses
+to authenticate the user to Google Drive as who they say they are. 
+* `token` are the credentials used by `rclone` to make requests of Google Drive on the basis
+of the user.
+
+Note: the above does not include my
+real credentials, as then anyone could use them to access my Google Drive!
+
+To set up your own configuration file to use Google Drive, you will use the `rclone config`
+command, but before you do that, you will want to wrangle a client_id from Google. Follow
+the directions at [https://rclone.org/drive/#making-your-own-client-id](https://rclone.org/drive/#making-your-own-client-id). Things are a little different from in their step
+by step, but you can muddle through to get to a screen with a client_ID and a client
+secret that you can copy onto your clipboard.
+
+
+Once you have done that, then run `rclone config` and follow the prompts.  A
+typical session of `rclone config` for Google Drive access is given 
+[here](https://rclone.org/drive/).  Don't choose to do the advanced setup; however
+do use "auto config," which will bounce up a web page and let you authenticate rclone 
+to your Google account. 
+
+It is worthwhile first setting up a config file on your laptop, and making sure
+that it is working.  After that, you can copy that config file to other remote
+servers you work on and immediately have the same functionality.
+
+#### Encrypting your config file
+
+While it is a powerful thing to be able to copy a config file from
+one computer to the next and immediately be able to access your Google
+Drive account.  That might (and should) also make you a little bit
+uneasy.  It means that if the config file falls into the wrong hands,
+whoever has it can gain access to everything on your Google Drive.  Clearly
+this is not good.  Consequently, once you have created your rclone config 
+file, and well before you transfer it to another computer, you must
+encrypt it.  This makes sense, and fortunately it is fairly easy: you can
+use `rclone config` and see that encryption is one of
+the options.  When it is encrypted, use `rclone config show` to see what
+it looks like in clear text.
+
+The downside of using encryption is that you have to enter your password
+every time you make an rclone command, but it is worth it to have the
+security.  
+
+Here is what it looks like when choosing to encrypt one's config file:
+```sh
+% rclone config
+Current remotes:
+
+Name                 Type
+====                 ====
+gdrive-rclone        drive
+
+e) Edit existing remote
+n) New remote
+d) Delete remote
+r) Rename remote
+c) Copy remote
+s) Set configuration password
+q) Quit config
+e/n/d/r/c/s/q> s 
+Your configuration is not encrypted.
+If you add a password, you will protect your login information to cloud services.
+a) Add Password
+q) Quit to main menu
+a/q> a
+Enter NEW configuration password:
+password:
+Confirm NEW configuration password:
+password:
+Password set
+Your configuration is encrypted.
+c) Change Password
+u) Unencrypt configuration
+q) Quit to main menu
+c/u/q> q
+Current remotes:
+
+Name                 Type
+====                 ====
+gdrive-rclone        drive
+
+e) Edit existing remote
+n) New remote
+d) Delete remote
+r) Rename remote
+c) Copy remote
+s) Set configuration password
+q) Quit config
+e/n/d/r/c/s/q> q
+```
+
+Once that file is encrypted, you can copy it to other machines for use.
+
+
+
+#### Basic Maneuvers
+
+The syntax for use is:
+```sh
+rclone [options] subcommand  parameter1 [parameter 2...]
+```
+The "subcommand" part tells `rclone` what you want to do, like `copy` or `sync`, and
+the "parameter" part of the above syntax is typically a path
+specification to a directory or a file.  In using rclone to access the
+cloud there is not a root directory, like `/` in Unix.  Instead, each remote
+cloud access point is treated as the root directory, and you refer to it
+by the name of the configuration followed by a colon.  In our example,
+`gdrive-rclone:` is the root, and we don't need to add a `/` after it to 
+start a path with it.  Thus `gdrive-rclone:this_dir/that_dir` is a 
+valid path for `rclone` to a location on my Google Drive.  
+
+
+
+Very often when moving, copying, or syncing files, the parameters
+consist of:
+```s
+source-directory  destination-directory
+```
+
+One very important point is that, unlike the Unix commands `cp` and `mv`, rclone
+likes to operate on directories, not on multiple named files.  
+
+A few key subcommands:
+
+- `ls`,  `lsd`, and `lsl` are like `ls`, `ls -d` and `ls -l`
+```sh
+rclone  lsd gdrive-rclone:
+rclone  lsd gdrive-rclone:NOFU
+```
+- `copy`:  copy the _contents_ of a source _directory_ to a destination _directory_. One super cool
+thing about this is that `rclone` won't re-copy files that are already on the destination and which
+are identical to those in the source directory.
+```sh
+rclone copy bams gdrive-rclone:NOFU/bams
+```
+Note that the destination directory will be created if it does not already exist.  
+- `sync`: make the contents of the destination directory look just like the
+contents of the source directory. *WARNING* This will delete files in the destination 
+directory that do not appear in the source directory.  
+
+A few key options:
+
+- `--dry-run`: don't actually copy, sync, or move anything.  Just tell me what you would have done.
+- `-P`, `-v`, `-vv`: give me progress information, verbose output, or super-verbose output, respectively.
+- `--tpslimit 10`: don't make any more than 10 transactions a second with Google Drive (should always be used when transferring files)
+- `---fast-list`: combine multiple transactions together.  Should always be used with Google Drive,
+especially when handling lots of files.
+- `--drive-shared-with-me`: make the "root" directory a directory that shows all
+of the Google Drive folders that people have shared with you.  This is key for accessing
+folders that have been shared with you.
+
+For example, try something like:
+```sh
+rclone --drive-shared-with-me lsd gdrive-rclone:
+```
+
+#### filtering: Be particular about the files you transfer {#rclone-filter}
+
+`rclone` works a little differently than the Unix utility `cp`.  In particular,
+`rclone` is not set up very well to copy individual files.  While there is a
+an `rclone` command known as `copyto` that will allow you copy a single file,
+you cannot (apparently) specify multiple, individual files that you wish to copy.
+
+In other words, you can't do:
+```sh
+rclone copyto this_file.txt that_file.txt another_file.bam gdrive-rclone:dest_dir
+```
+
+In general, you will be better off using `rclone` to copy the *contents* of a directory
+to the inside of the destination directory.  However, there are options in `rclone` that
+can keep you from being totally indiscriminate about the files you transfer.  In other words,
+you can *filter* the files that get transferred.  You can read about that at
+[https://rclone.org/filtering/](https://rclone.org/filtering/).
+
+For a quick example, imagine that you have a directory called `Data` on you Google Drive
+that contains both VCF and BAM files.  You want to get only the VCF files (ending with `.vcf.gz`, say)
+onto the current working directory on your cluster.  Then something like this works:
+```sh
+rclone copy --include *.vcf.gz gdrive-rclone:Data ./
+```
+Note that, if you are issuing this command on a Unix system in a directory
+where the pattern `*.vcf.gz` will expand (by globbing) to multiple files, you will
+get an error.  In that case, wrap the pattern in a pair of single quotes to keep
+the shell from expanding it, like this:
+```sh
+rclone copy --include '*.vcf.gz' gdrive-rclone:Data ./
+```
+
+
+
+#### Feel free to make lots of configurations
+
+You might want to configure a remote for each directory-specific project.
+You can do that by just editing the configuration file. For example,
+if I had a directory deep within my Google Drive, inside a chain of folders that
+looked like, say, `Projects/NGS/Species/Salmon/Chinook/CentralValley/WinterRun`
+where I was keeping
+all my data on a project concerning winter-run Chinook salmon, then it would be
+quite inconvenient to type `Projects/NGS/Species/Salmon/Chinook/CentralValley/WinterRun`
+every time I wanted to copy or sync something within that directory.   Instead,
+I could add the following
+lines to my configuration file, essentially copying the existing configuration and
+then modifying the configuration name and the `root_folder_id` to be the
+Google Drive identifier for the folder  `Projects/NGS/Species/Salmon/Chinook/CentralValley/WinterRun` (which 
+one can find by navigating to that folder in a web browser and pulling the ID from the
+end of the URL.)  The updated configuration could look like:
+```
+[gdrive-winter-run]
+type = drive
+scope = drive
+root_folder_id = 1MjOrclmP1udhxOTvLWDHFBVET1dF6CIn
+token = {"access_token":"bs43.94cUFOe6SjjkofZ","token_type":"Bearer","refresh_token":"1/MrtfsRoXhgc","expiry":"2019-04-29T22:51:58.148286-06:00"}
+client_id = 2934793-oldk97lhld88dlkh301hd.apps.googleusercontent.com
+client_secret = MMq3jdsjdjgKTGH4rNV_y-NbbG
+```
+As long as the directory is still within the same Google Drive account, you can re-use
+all the authorization information, and just change the `[name]` part and the `root_folder_id`.
+Now this:
+```sh
+rclone copy src_dir gdrive-winter-run: 
+```
+puts items into `Projects/NGS/Species/Salmon/Chinook/CentralValley/WinterRun` on the Google Drive
+without having to type that God-awful long path name.
+
+
+
+
+
+
+#### Installing rclone on a remote machine without sudo access
+
+The instructions on the website require root access.  You don't have to have root 
+access to install rclone locally in your home directory somewhere. 
+Copy the download link from [https://rclone.org/downloads/](https://rclone.org/downloads/) for
+the type of operating system your remote machine uses (most likely Linux if it is a cluster).
+Then transfer that with `wget`, unzip it and put the binary in your PATH.  It will look 
+something like this:
+```
+wget https://downloads.rclone.org/rclone-current-linux-amd64.zip
+unzip rclone-current-linux-amd64.zip
+cp rclone-current-linux-amd64/rclone ~/bin
+```
+You won't get manual pages on your system, but you can always find the docs on the web.
+
+
+#### Setting up configurations on the remote machine...
+
+Is as easy as copying your config file to where it should go, which
+is easy to find using the command:
+```sh
+rclone config file
+```
+
+
+#### Some other usage tips
+
+Following an email exchange with Ren, I should mention how to do an md5 
+checksum on the remote server to make sure that everything is correctly there.
+
+
+
+
+
+
+
+
+### Getting files from a sequencing center
+
+Very often sequencing centers will post all the data from a single
+run of a machine at a secured (or unsecured) http address. You will
+need to download those files to operate on them on your cluster or
+local machine.  However some of the files available on the server
+will likely belong to other researchers and you don't want to waste time
+downloading them.
+
+Let's take an example.  Suppose you are sent an email from the sequencing
+center that says something like:
+
+>Your samples are AW_F1 (female) and AW_M1 (male).
+>You should be able to access the data from this link provided by YCGA:
+>http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/
+
+You can easily access this web address using `rclone`.  You could set up a new
+remote in your rclone config to point to `http://sysg1.cs.yale.edu`,
+but, since you will only be using this once, to get your data, it makes
+more sense to just specify the remote on the command line.  This can be 
+done by passing `rclone` the URL address via the `--http-url` option, and
+then, after that, telling it what protocol to use by adding `:http:` to
+the command.  Here is what you would use to list the directories available
+at the sequencing center URL:
+```sh
+# here is the command
+% rclone lsd --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:
+
+# and here is the output
+          -1 1969-12-31 16:00:00        -1 sjg73_fqs
+          -1 1969-12-31 16:00:00        -1 sjg73_supernova_fqs
+```
+Aha! There are two directories that might hold our sequencing data.
+I wonder what is in those diretories?  The `rclone tree` command is the 
+perfect way to drill down into those diretories and look at their contents:
+```sh
+% rclone tree --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:
+/
+├── sjg73_fqs
+│   ├── AW_F1
+│   │   ├── AW_F1_S2_L001_I1_001.fastq.gz
+│   │   ├── AW_F1_S2_L001_R1_001.fastq.gz
+│   │   └── AW_F1_S2_L001_R2_001.fastq.gz
+│   ├── AW_M1
+│   │   ├── AW_M1_S3_L001_I1_001.fastq.gz
+│   │   ├── AW_M1_S3_L001_R1_001.fastq.gz
+│   │   └── AW_M1_S3_L001_R2_001.fastq.gz
+│   └── ESP_A1
+│       ├── ESP_A1_S1_L001_I1_001.fastq.gz
+│       ├── ESP_A1_S1_L001_R1_001.fastq.gz
+│       └── ESP_A1_S1_L001_R2_001.fastq.gz
+└── sjg73_supernova_fqs
+    ├── AW_F1
+    │   ├── AW_F1_S2_L001_I1_001.fastq.gz
+    │   ├── AW_F1_S2_L001_R1_001.fastq.gz
+    │   └── AW_F1_S2_L001_R2_001.fastq.gz
+    ├── AW_M1
+    │   ├── AW_M1_S3_L001_I1_001.fastq.gz
+    │   ├── AW_M1_S3_L001_R1_001.fastq.gz
+    │   └── AW_M1_S3_L001_R2_001.fastq.gz
+    └── ESP_A1
+        ├── ESP_A1_S1_L001_I1_001.fastq.gz
+        ├── ESP_A1_S1_L001_R1_001.fastq.gz
+        └── ESP_A1_S1_L001_R2_001.fastq.gz
+
+8 directories, 18 files
+```
+Whoa! That is pretty cool!.  From this output we see that there are 
+subdirectories named `AW_F1` and `AW_M1` that hold the files that
+we want.  And, of course, the `ESP_A1` samples must belong to someone
+else.  It would be great if we could just download the files we wanted,
+excluding the ones in the `ESP_A1` directories.  It turns out that there is!
+`rclone` has an `--exclude` option to exclude paths that match certain
+patterns (see Section \@ref(rclone-filter), above).  We can
+experiment by giving `rclone copy` the `--dry-run` command to see which
+files will be transferred. If we don't do any filtering, we see this
+when we try to dry-run copy the directories to our local directory `Alewife/fastqs`:
+```sh
+% rclone copy --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run
+```
+Since we do not want to copy the `ESP_A1` files we see if we can exclude
+them:
+```sh
+% rclone copy --exclude */ESP_A1/* --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/
+2019/07/11 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run
+2019/07/11 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run
+```
+Booyah!  That gets us just what we want.  So, then we remove the `--dry-run` option,
+and maybe add `-v -P` to give us verbose output and progress information, and copy all of our files:
+```sh
+% rclone copy --exclude */ESP_A1/* -v -P  --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/
+```
+
+
+
+## `tmux`: the terminal multiplexer {#tmux}
+
+Many universities have recently implemented a two-factor
+authentication requirement for access to their computing resources
+(like remote servers and clusters).  This means that every time
+you login to a server on campus (using `ssh` for example) you must
+type your password, and also fiddle with your phone. Such systems
+preclude the use of public/private key pairs that historically allowed
+you to access a server from a trusted client (i.e., your own secured
+laptop) without having to type in a password.  As a consequence, today,
+opening multiple sessions on a server using `ssh` and two-factor 
+authentication requires a ridiculous amount of additional typing and 
+phone-fiddling, and is a huge hassle.  But, when working on a remote
+server it is often very convenient to have multiple separate shells that
+you are working on and can quickly switch between.
+
+At the same time.  When you are working on the shell of a remote machine
+and your network connection goes down, then, typically the bash session on
+your remote machine will be forcibly quit, killing any jobs that you might
+have been in the middle of (however, this is not the case of you submitted
+those jobs through a job scheduler like SLURM. Much more on that in the
+next chapter.). And, finally, in a traditional
+`ssh` session to a remote machine, when you close your laptop, or put it
+to sleep, or quit the Terminal application, all of your active bash sessions
+on the remote machine will get shut down.  Consequently, the next time
+you want to work on that project, after you have logged
+onto that remote machine you will have to go through the laborious steps 
+of navigating to your desired working directory, starting up any processes
+that might have gotten killed, and generally getting yourself
+set up to work again. That is a serious buzz kill!
+
+Fortunately, there is an awesome utility called `tmux`, which is short for
+"terminal multiplexer" that solves most of the problems we just described.
+`tmux` is similar in function to a utility called `screen`, but it is easier
+to use while at the same time being more customizable and configurable
+(in my opinion).  `tmux` is basically your ticket to working _way_ more
+efficiently on remote computers, while at the same time looking
+(to friends and colleagues, at least) like
+the full-on, bad-ass Unix user.
+
+In full confession, I didn't actually start using `tmux` until some
+five years after a speaker at a workshop delivered an incredibly
+enthusiastic presentation about `tmux` and how much he was in love
+with it. In somewhat the same fashion that I didn't adopt RStudio shortly
+after its release, because I had my own R workflows that I had hacked 
+together myself, I thought to myself: "I have public/private key pairs
+so it is super easy for me to just start another terminal window and login
+to the server for a new session.  Why would I need `tmux`?"  I also didn't
+quite understand how `tmux` worked initially: I thought that I had to
+run `tmux` simultaneously on my laptop and on the server, and that those
+two processes would talk to one another.  That is not the case!  You
+just have to run `tmux` on the server and all will work fine!
+The upshot of that confession is that you should _not_ be a bozo like me,
+and you should learn to use `tmux` _right now_!  You will thank yourself
+for it many times over down the road.
+
+### An analogy for how `tmux` works
+
+Imagine that the first time you log in to your remote server
+you also have the option of speaking on the phone to a super
+efficient IT guy who has a desk in the server room.
+This dude never takes a break, but sits at his desk
+24/7.  He probably has mustard stains on his dingy white T-shirt
+from eating ham sandwiches non-stop while he works super hard.  This guy is Tmux.  
+
+When you _first_ speak to this guy, you have to preface your
+commands with `tmux` (as in, "Hey Tmux!").  He is there to help you
+manage different terminal windows with different bash shells or
+processes going on in them. In fact, you can think of it this way: you can
+ask him to set up
+a terminal (i.e., like a monitor), right there on his desk, and then create
+a bunch of windows on that terminal for you---each
+one with its own bash shell---without having to do a separate login for
+each one.  He has created all those windows, but you still get to use them.
+It is like he has a miracle-mirroring device that lets you operate
+the windows that are on the terminal he set up for you on his desk.  
+
+When you are done working on all those windows, you can tell Tmux that you
+want to _detach_ from the special terminal he set up for you at the server.
+In response he says, "Cool!" and shuts down his miracle-mirroring device, so
+you know longer see those different windows. However, he _does not_ shut down the
+terminal on his desk that he set up for you.  That terminal stays on, and any of your processes
+happening on it keep chugging away...even after you logout from the server entirely,
+throw the lid down on your laptop,
+have drinks with your friends at Social, downtown, watch an episode
+of Parks and Rec, and then get a good night sleep.  
+
+All through the night, Tmux is munching ham sandwiches and keeping an eye on that
+terminal he set up for you.  When you log back onto the server in the morning, you
+can say "Hey Tmux! I want to attach back to that terminal you set up for me."  He
+says, "No problem!", turns his miracle-mirroring device back on, and in an instant
+you have all of the windows on that terminal back on your laptop with all the processes
+still running in them---in all the same working directories---just as you left it all
+(except that if you were running jobs in those windows, some of those jobs might already
+be done!).  
+
+Not only that, but, further, if you are working on the server, when a local thunderstorm
+fries the motherboard on your laptop, you can get a new laptop, log back into the
+server and ask Tmux to reconnect you to that terminal and get back to all of those
+windows and jobs, etc. as if you didn't get zapped.  The same goes for the case of
+a backhoe operator accidentally digging up the fiber optic cable in your yard.  Your
+network connection can go down completely. But, when you get it up and running again,
+you can say "Hey Tmux! Hook me up!" and he'll say, "No problem!" and reconnect you
+to all those windows you had open on the server.
+
+Finally, when you are done with all the windows and jobs on the terminal that Tmux set
+up for you, you can ask him to kill it, and he will shut it down, unplug it, and, straight
+out of Office Space, chuck it out the window.  But he will gladly install a new one
+if you want to start another _session_ with him.
+
+That dude is super helpful!
+
+### First steps with `tmux`
+
+The first thing you want to
+do to make sure Tmux is ready to help you is to simply type:
+```sh
+% which tmux
+```
+This should return something like:
+```
+/usr/bin/tmux
+```
+If, instead, you get a response like `tmux: Command not found.` then `tmux`
+is apparently not installed
+on your remote server, so you
+will have to install it yourself, or beg your sysadmin to do so (we will cover
+that in a later chapter).  If you
+are working on the Summit supercomptuer in Colorado or on Hummingbird at
+UCSC, then `tmux` is installed already.  (As of Feb 16, 2020, `tmux` was
+not installed on the Sedna cluster at the NWFSC, but I will request that it
+be installed.)
+
+In the analogy, above, we talked about Tmux setting up a terminal
+in the server room.  In `tmux` parlance, such a "terminal" is called
+a _session_.  In order to be able to tell Tmux that you want to reconnect
+to a session, you 
+will _always_ want to name your sessions so you will request a new
+session with this syntax:
+```sh
+% tmux new -s froggies
+```
+You can think of the `-s` as being short for "session." So it is basically a short
+way of saying, "Hey Tmux, give me a new session named `froggies`." 
+That creates a new session called `froggies`, and you can imagine we've
+named it that because we will use it for work on a frog genomics project.
+
+The effect of this
+is like Tmux firing up a new terminal in his server room, making a
+window on it for you, starting a new bash shell in that window, 
+_and then giving you control of this new terminal_.
+In other words, it is sort of like he has opened a new shell window on a 
+terminal for you, and is letting you see and use it on your computer at the same time.
+
+One very cool thing about this is that you just got a new bash shell
+without having to login with your password and two-factor authentication again.
+That much is cool in itself, but is only the beginning.
+
+The new window that you get looks a little different.  For one thing, it
+has a section, one line tall, that is green (by default) on the bottom.
+In our case, on the left side it gives the name of the session (in square
+brackets) and then the name of the current _window_ within that session. On
+the right side you see the _hostname_ (the name of the remote computer
+you are working on) in quotes, followed by the date and time.  The contents
+in that green band will look something
+like:
+```
+[froggies] 0:bash*                                               "login11" 20:02 15-Feb-20
+```
+This little line of information is the sweet sauce that will let you
+find your way around all the new windows that
+`tmux` can spawn for you.  
+```{block2, caution-login-nodes, type='rmdcaution'}
+If you are working on a cluster, please pay special attention to the hostname.
+(In the above case the hostname is `login11`).  Many clusters have multiple _login_
+or _head_ nodes, as they are called.  The next time you login to the cluster, you
+might be assigned to a different login node which will have no idea about your
+`tmux` sessions.  If that were the case in this example I would have to use `slogin login11` and 
+authenticate again to get logged into `login11` to reconnect to my
+`tmux` session, `froggies`. Or, if you were a CSU student and wanted to login specifically to
+the `login11` node on Summit the next time you logged on you could do 
+`ssh username@colostate.edu@login11.rc.colorado.edu`.  Note the specific `login11` in that
+statement.
+``` 
+
+Now, imagine that we want to use this _window_ in our `froggies` _session_, to look at some
+frog data we have.  Accordingly, we might navigate to the directory where those data live
+and look at the data with `head` and `less`, etc.  That is all great, until we realize that
+we also want to edit some scripts that we wrote for processing our froggy data.  These scripts
+might be in a directory far removed from the data directory we are currently in, and we don't really
+want to keep navigating back and forth between those two directories within a single bash shell.
+Clearly, we would like to have two windows that we could switch between: one for inspecting
+our data, and the other for editing our scripts.
+
+We are in luck!  We can do this with `tmux`.  However, now that we are safely working in a _session_
+that `tmux` started for us, we no longer have to shout "Hey Tmux!" Rather we can just "ring a little
+bell" to get his attention.  In the default `tmux` configuration, you do that by pressing
+`<cntrl>-b` from anywhere within a `tmux` window.  This is easy to remember because it is like
+a "b" for the "bell" that we ring to get our faithful servant's attention.  `<cntrl>-b` is known
+as the "prefix" sequence that starts all requests to `tmux` from within a session.
+
+The first thing that we are going to do is ask `tmux` to let us assign a more descriptive,
+name---`data` to be specific---to the current window.  We do this with
+```
+<cntrl>-b ,
+```
+(That's right! It's a control-b and then a comma.  `tmux` likes to get by on a minimum number
+of keystrokes.) When you do that, the green band at the bottom of the window changes color
+and tells you that you can rename the current window.  We simply use our keyboard to
+change the name to "data".  That was super easy!
+
+Now, to make a new window with a new bash shell that we can use for writing scripts
+we do `<cntrl>-b c`.  Try it!  That gives you a new _window_ within the `froggies` session
+and switches your focus to it.  It is as if Tmux (in his mustard-stained shirt) has created
+a new window on the `froggies` terminal, brought it to the front, and shared it with you.
+The left side of the green `tmux` status bar at the bottom of the screen now says:
+```
+[froggies] 0:data- 1:bash*
+```
+Holy Moly! This is telling you that the `froggies` session has two windows in it: the first 
+numbered 0 and named `data`, and the second numbered 1 and named `bash`.  The `-` at the end
+of `0:data-` is telling you that `data` is the window you were previously focused on, but that
+now you are currently focused on the window with the `*` after its name: `1:bash*`.  
+
+So, the name `bash` is not as informative as it could be. Since we will be using this
+new window for editing scripts, let's rename it to `edit`.  You can do that with 
+`<cntrl>-b ,`. Do it!
+
+OK! Now, if you have been paying attention, you probably realize that `tmux` has given us
+two windows (with two different bash shells) in this session called `froggies`.  Not only that
+but it has associated a single-digit number with each window.  If you are all about keyboard
+shortcuts, then you probably have already imagined that `tmux` will let you switch between
+these two windows with `<cntrl>-b` plus a digit (0 or 1 in this case).  Play with that.
+Do `<cntrl>-b 0` and `<cntrl>-b 1` and feel the power!
+
+Now, for fun, imagine that we want to have another window and a bash shell for launching
+jobs.  Make a new window, name it `launch`, and then switch between those three windows.
+
+Finally.  When you are done with all that, you tell Tmux to detach from this session
+by typing:
+```
+<cntrl>-b d
+```
+(The `d` is for "detach").  This should kick you back to the shell from which you
+first shouted "Hey Tmux!" by issuing the `tmux a -t froggies` command.  So, you
+can't see the windows of your `froggies` session any longer, _but do not despair_!
+Those windows are still on the monitor Tmux set up for you, casting an eerie glow
+on his mustard stained shirt.
+
+If you want to get back in the driver's seat with all of those windows, you simply need to
+tell Tmux that you want to be attached again via his miracle-mirroring device.  Since we
+are no longer in a `tmux` window, we don't use our `<cntrl-b>` bell to get Tmux's attention.
+We have to shout:
+```sh
+% tmux attach -t froggies
+```
+The `-t` flag stands for "target."  The `froggies` session is the target of our
+attach request. Note that if you don't like typing that much, you can shorten this to:
+```sh
+% tmux a -t froggies
+```
+
+Of course, sometimes, when you log back onto the server, you won't remember the name
+of the `tmux` session(s) you started.  Use this command to list them all:
+```sh
+% tmux ls
+```
+The `ls` here stands for "list-sessions."  This can be particularly useful if you
+actually have multiple sessions.  For example, suppose you are a poly-taxa genomicist,
+with projects not only on a frog species, but also on a fish and a bird species.  You
+might have a separate session for each of those, so that when you issue `tmux ls` the
+result could look something like:
+```sh
+% tmux ls
+birdies: 4 windows (created Sun Feb 16 07:23:30 2020) [203x59]
+fishies: 2 windows (created Sun Feb 16 07:23:55 2020) [203x59]
+froggies: 3 windows (created Sun Feb 16 07:22:36 2020) [203x59]
+```
+That is enough to remind you of which session you might wish to reattach to.
+
+Finally, if you are all done with a `tmux` session, and you have detached from it,
+then from your shell prompt (not within a `tmux` session) you can do, for example:
+```sh
+tmux kill-session -t  birdies
+```
+to kill the session.  There are other ways to kill sessions while you
+are in them, but that is not so much needed.
+
+Table \@ref(tab:minimal-tmux) reviews the minimal set of
+`tmux` commands just described.  Though there is much more that
+can be done with `tmux`, those commands will get you started.
+```{r, echo=FALSE, message=FALSE}
+tab <- readr::read_delim("table_inputs/minimal-tmux.txt", delim = ";", trim_ws = TRUE)
+pander::pander(
+  tab,
+  booktabs = TRUE,
+  caption = '(\\#tab:minimal-tmux) A bare bones set of commands for using `tmux` The first column says whether the command is given within a `tmux` session rather than at the shell outside of a `tmux` session',
+  justify = "left")
+```
+
+
+### Further steps with `tmux`
+
+The previous section merely scratched the surface of what is possible with `tmux`.  
+Indeed, that is the case with this section.  But here I just want to leave you with a
+taste for how to configure `tmux` to your liking, and also with the ability to create
+different _panes_ within a window within a session.  You guessed it! A pane is made by
+splitting a _window_ (which is itself a part of a _session_) into two different
+sections, each one running its own bash shell.
+
+Before we start making panes, we set some configurations that make the
+establishment of panes more intuitive (by using keystrokes that are easier
+to remember) and others that make it easier to quickly adjust the size of the panes.
+So, first, add these lines to `~/.tmux.conf`:
+```sh
+# splitting panes
+bind \ split-window -h -c '#{pane_current_path}'
+bind - split-window -v -c '#{pane_current_path}'
+
+# easily resize panes with <C-b> + one of j, k, h, l
+bind-key j resize-pane -D 10
+bind-key k resize-pane -U 10
+bind-key h resize-pane -L 10
+bind-key l resize-pane -R 10
+```
+Once you have updated `~/.tmux.conf` you need to reload that
+configuration file in `tmux`.  So, from within a `tmux` session,
+you do `<cntrl>-b :`.  This let's you type a `tmux` command in the lower
+left (where the cursor has become active).  Type `source-file ~/.tmux.conf`
+
+The comments show what each line is intended to do, and you
+can see that the configuration "language" for `tmux` is relatively
+unintimidating.  In plain language, these configurations are saying that, after this
+configuration is made active, `<cntrl>-b /` will split a window (or a pane),
+vertically, in to two panes. (Note that this is easy to remember
+because on an American keyboard, the `\` and the `|`, share a key.  The latter
+looks like a vertical separator, and would thus be a good key stroke
+to split a screen vertically, but why force ourselves to hit the shift key as well?).
+Likewise, `<cntrl>-b -` will split a window (or a pane) into two panes.
+
+What do we mean by splitting a window into multiple panes? A picture is
+worth a thousand words.  Figure \@ref(fig:tmux-4-panes) shows a `tmux`
+window with four panes.  The two vertical ones on the left show a yaml
+file and a shell script being edited in `vim`, and the remaining two
+house shells for looking at files in two different directories.
+```{r tmux-4-panes, echo=FALSE, fig.align='center', dpi=120, fig.cap="A tmux window with four panes."}
+knitr::include_graphics("figs/tmux-4-panes.png", auto_pdf = TRUE)
+```
+This provides almost endless opportunities for customizing the
+appearance of your terminal workspace on a remote machine for maximum
+efficiency.  Of course, doing so requires you know a few more
+keystrokes for handling panes.  These are summarized in Table \@ref(tab:tmux-pane-strokes).
+```{r, echo=FALSE, message=FALSE}
+tab <- readr::read_delim("table_inputs/tmux-pane-strokes.txt", delim = ";", trim_ws = TRUE)
+pander::pander(
+  tab,
+  booktabs = TRUE,
+  caption = '(\\#tab:tmux-pane-strokes) Important keystrokes within a `tmux` session for handling panes',
+  justify = "left")
+```
+
+Now that you have seen all these keystrokes, use `<cntrl>-b \` and `<cntrl>-b -` to split your windows
+up into a few panes and try them out.  It takes a while to get used to it, but once you get
+the hang of it, it's quite nice.
+
+
+
+
+
+
+

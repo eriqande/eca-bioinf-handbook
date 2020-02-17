@@ -1,0 +1,12 @@
+Within tmux?   ;  Command         ;  Effect 
+N              ; `tmux ls`          ; List any tmux sessions the server knows about
+N              ; `tmux new -s name` ; Create a new tmux session named "name"
+N              ; `tmux attach -t name` ; Attach to the existing tmux session "name"
+N              ; `tmux a -t name`      ; Same as "attach" but shorter.
+N              ; `tmux kill-session -t` name ; Kill the tmux session named "name"
+Y              ; `<cntrl>-b ,`       ; Edit the name of the current window
+Y              ; `<cntrl>-b c`       ; Create a new window
+Y              ; `<cntrl>-b 3`       ; Move focus to window 3
+Y              ; `<cntrl>-b &`       ; Kill current window
+Y              ; `<cntrl>-b d`       ; Detach from current session
+Y              ; `<cntrl>-l`          ; Clear screen current window

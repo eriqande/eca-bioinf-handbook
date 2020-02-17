@@ -1,0 +1,476 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+# High Performance Computing (HPC) Environments
+
+Hey Eric!  You might consider breaking this into two separate chatpers: 1 = working on remote computers
+and 2 = high-performance computing.  The first could include all the stuff about scp, globus, rclone,
+and google drive.
+
+
+This is going to be a chapter on using High Performance Computing clusters.
+
+There is a lot to convey here about using queues and things.
+
+I know SGE pretty well at this point, but others might use slurm. 
+
+Here is a good page with a comparison:  [https://confluence.csiro.au/display/SC/Reference+Guide%3A+Migrating+from+SGE+to+SLURM](https://confluence.csiro.au/display/SC/Reference+Guide%3A+Migrating+from+SGE+to+SLURM)
+
+And here is a good primer on SGE stuff: [https://confluence.si.edu/display/HPC/Monitoring+your+Jobs](https://confluence.si.edu/display/HPC/Monitoring+your+Jobs)
+
+I guess I'll have to see what the CSU students have access to.
+
+## Activating/Installing software
+
+### Modules 
+
+This is if your sys admin has made it easy.
+
+### Miniconda
+
+This is how one will probably want to do it
+
+#### Testing this on Summit
+
+I just want to quickly try this:
+```sh
+ssh eriq@colostate.edu@login.rc.colorado.edu
+
+# get on compile nodes
+ssh scompile
+
+# I checked modules and found no samtools, bcftools, etc.
+
+# Now install miniconda
+mkdir conda_install
+cd conda_install/
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+chmod u+x Miniconda3-latest-Linux-x86_64.sh 
+./Miniconda3-latest-Linux-x86_64.sh 
+
+# then you follow the prompts and agree to the license and the 
+# default install location.
+
+## NOTE: Might want to install to a different location if there
+## are serious caps on hard disk usage in home directory..
+
+source ~/.bashrc
+
+# after that I have it!
+(base) [eriq@colostate.edu@shas0136 conda_install]$
+```
+
+Now, let's see if we can get samtools.  Just google "samtools conda" to
+get an idea of how to do it:
+```sh
+conda install -c bioconda samtools
+```
+AFter that, it just works! Cool!
+```sh
+(base) [eriq@colostate.edu@shas0136 ~]$ samtools
+
+Program: samtools (Tools for alignments in the SAM format)
+Version: 1.9 (using htslib 1.9)
+
+Usage:   samtools <command> [options]
+
+Commands:
+  -- Indexing
+     dict           create a sequence dictionary file
+     faidx          index/extract FASTA
+     fqidx          index/extract FASTQ
+     index          index alignment
+
+...
+```
+
+All right! That is amazing.  Next steps:
+
+1. Tell students about establishing different environments.
+2. Learn about how to make a minimal environment for a project and how to 
+record that and be able to distribute/propagate it.
+
+Along those lines, I want to see if, when I install samtools into a new environment,
+it re-downloads it or not...
+```sh
+conda create --name quick-test
+conda activate quick-test
+
+# i also made an environment in a specified directory (you
+# could put these within a project directory)
+conda create --prefix ./test-envs-dir 
+conda activate ./test-envs-dir
+
+# now, let's install bcftools there
+conda install -c bioconda bcftools
+
+# note that it doesn't re-download the dependencies, as far as I can tell.
+conda activate base
+bcftools # not found in environment base
+
+conda activate ./test-envs-dir
+bcftools  # it is found in this environment.  Cool.
+
+conda activate quick-test
+bcftools  # it ain't here
+```
+Now, after that, bcftools is in ./test-envs-dir/bcftools
+
+So, what if we install it into another environment.  Does it symlink it?
+```sh
+conda activate base
+conda install -c bioconda bcftools
+bcftools
+
+# whoa! That errored out!
+bcftools: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory
+
+# that is a serious problem.  
+
+# Can I get it in my other environment?
+conda activate quick-test
+conda install -c bioconda bcftools
+bcftools
+
+# that totally works, but it still doesn't in base...
+
+# so, what if we add samtools to our other environments?
+# that works fine.
+```
+
+But, samtools/bcftools dependency issues are a known problem:  https://github.com/sunbeam-labs/sunbeam/issues/181
+Basically they rely on different versions of some ssh libs.  
+
+Note that installing bcftools first things work.  But what if we make another environment
+and install samtools first again?
+```sh
+conda create --name samtools-first
+conda activate samtools-first
+conda install -c bioconda samtools  # this didn't download anything new
+conda install -c bioconda bcftools
+
+# BOOM! THIS CREATES A FAIL.  SO, YOU GOTTA INSTALL BCFTOOLS
+# FIRST.  FAR OUT.
+```
+
+### Exporting environments
+
+Looks like we should be able to do this.  Let's do the one that works:
+```sh
+(quick-test) [~]--% conda env export > quick-test-env.yml
+
+(quick-test) [~]--% cat quick-test-env.yml 
+name: quick-test
+channels:
+  - bioconda
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - bcftools=1.9=ha228f0b_4
+  - bzip2=1.0.8=h7b6447c_0
+  - ca-certificates=2019.5.15=1
+  - curl=7.65.3=hbc83047_0
+  - htslib=1.9=ha228f0b_7
+  - krb5=1.16.1=h173b8e3_7
+  - libcurl=7.65.3=h20c2e04_0
+  - libdeflate=1.0=h14c3975_1
+  - libedit=3.1.20181209=hc058e9b_0
+  - libgcc-ng=9.1.0=hdf63c60_0
+  - libssh2=1.8.2=h1ba5d50_0
+  - libstdcxx-ng=9.1.0=hdf63c60_0
+  - ncurses=6.1=he6710b0_1
+  - openssl=1.1.1c=h7b6447c_1
+  - samtools=1.9=h10a08f8_12
+  - tk=8.6.8=hbc83047_0
+  - xz=5.2.4=h14c3975_4
+  - zlib=1.2.11=h7b6447c_3
+prefix: /home/eriq@colostate.edu/miniconda3/envs/quick-test
+
+
+# OK, that is cool.  Now, if we wanted to email that to someone,
+# we could, and then they could do this:
+conda env create --name dupie-quick -f quick-test-env.yml 
+
+# that environment then has samtools and bcftools
+
+# note that it probably would try to name it quick-test if we didn't
+# pass in the name there...
+
+```
+
+## Boneyard
+
+
+
+
+
+
+
+This is a variant of rsync that let's you sync stuff up to google drive.  It might be a better
+solution than rcp for getting stuff onto and off of google drive.  Here is a link:
+[https://rclone.org/](https://rclone.org/).  I need to evaluate it.  It might also be a good way
+to backup some of my workstuff on my laptop to Google Drive (and maybe also for other people to create replicas and have a decent backup if they have unlimited Google Drive storage).
+
+
+I got this working.  It is important to set your own OAuth client ID:
+[https://forum.rclone.org/t/very-slow-sync-to-google-drive/6903](https://forum.rclone.org/t/very-slow-sync-to-google-drive/6903)
+
+After that I did like this:
+```
+rclone sync -vv --tpslimit 10 --fast-list Otsh_v1.0_genomic.fna  gdrive-rclone:spoogee-spoogee
+```
+which did 2 Gb of fasta into the spoogee-spoogee directory pretty quickly.
+
+But, with something that has lots of files, it took longer:
+```
+# this is only about 100 Mb but took a long time
+rclone copy -P --tpslimit 10 --fast-list  rubias  gdrive-rclone:rubias
+```
+However, once that is done, you can sync it and it finds that parts that have changed pretty quickly.
+
+it appears to do that by file modification times:
+```sh
+2019-04-19 23:21 /Otsh_v1.0/--% rclone sync -vv --tpslimit 10 --fast-list Otsh_v1.0_genomic.fna  gdrive-rclone:spoogee-spoogee
+2019/04/19 23:21:36 DEBUG : rclone: Version "v1.47.0" starting with parameters ["rclone" "sync" "-vv" "--tpslimit" "10" "--fast-list" "Otsh_v1.0_genomic.fna" "gdrive-rclone:spoogee-spoogee"]
+2019/04/19 23:21:36 DEBUG : Using config file from "/Users/eriq/.config/rclone/rclone.conf"
+2019/04/19 23:21:36 INFO  : Starting HTTP transaction limiter: max 10 transactions/s with burst 1
+2019/04/19 23:21:37 DEBUG : GCF_002872995.1_Otsh_v1.0_genomic.gff.gz: Excluded
+2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.dict: Excluded
+2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.amb: Excluded
+2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.ann: Excluded
+2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.bwt: Excluded
+2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.fai: Excluded
+2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.pac: Excluded
+2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.sa: Excluded
+2019/04/19 23:21:37 INFO  : Google drive root 'spoogee-spoogee': Waiting for checks to finish
+2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna: Size and modification time the same (differ by 0s, within tolerance 1s)
+2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna: Unchanged skipping
+2019/04/19 23:21:37 INFO  : Google drive root 'spoogee-spoogee': Waiting for transfers to finish
+2019/04/19 23:21:37 INFO  : Waiting for deletions to finish
+2019/04/19 23:21:37 INFO  : 
+Transferred:   	         0 / 0 Bytes, -, 0 Bytes/s, ETA -
+Errors:                 0
+Checks:                 1 / 1, 100%
+Transferred:            0 / 0, -
+Elapsed time:        1.3s
+
+2019/04/19 23:21:37 DEBUG : 5 go routines active
+2019/04/19 23:21:37 DEBUG : rclone: Version "v1.47.0" finishing with parameters ["rclone" "sync" "-vv" "--tpslimit" "10" "--fast-list" "Otsh_v1.0_genomic.fna" "gdrive-rclone:spoogee-spoogee"]
+2
+```
+
+So, for moving big files around that might be a good way forward.  I will have to do a test with some big files.
+
+And I need to test it with team drives so that multiple individuals can pull stuff off of the Bird Genoscape drive for example.
+
+It would be nice to have safeguards so people don't trash stuff accidentally....
+
+#### rclone on Hoffman
+
+Their default install script expects sudo access to put it in /usr/local
+but I don't on hoffman, obviously, so I just downloaded the the install script and edited
+the section for Linux to look like this at the relevant part
+```sh
+case $OS in
+  'linux')
+    #binary
+    cp rclone ~/bin/rclone.new
+    chmod 755 ~/bin/rclone.new
+    #chown root:root /usr/bin/rclone.new
+    mv ~/bin/rclone.new ~/bin/rclone
+    #manuals
+    #mkdir -p /usr/local/share/man/man1
+    #cp rclone.1 /usr/local/share/man/man1/
+    #mandb
+    ;;
+```
+I don't get man pages, but I get it in ~/bin no problem.
+
+To set up the configuration, check where it belongs:
+```sh
+% rclone config file
+Configuration file doesn't exist, but rclone will use this path:
+/u/home/e/eriq/.config/rclone/rclone.conf
+```
+And then I just put my config file from my laptop on there.  I just pasted the stuff 
+in whilst emacsing it.  Holy cow!  That is super easy.
+
+Note that the config file is where you can also set default options like tpslimit and fast-list I think.
+
+So, the OAuth stuff is all stored in that config file. And if you can set it up on one machine you can
+go put it on any others that you want.  That is awesome.
+
+When it was done, I tested it:
+```sh
+% rclone sync -vv  --drive-shared-with-me  gdrive-rclone:BaselinePaper  BaselinePaper_here
+2019/04/29 14:49:24 DEBUG : rclone: Version "v1.47.0" starting with parameters ["rclone" "sync" "-vv" "--drive-shared-with-me" "gdrive-rclone:BaselinePaper" "BaselinePaper_here"]
+2019/04/29 14:49:24 DEBUG : Using config file from "/u/home/e/eriq/.config/rclone/rclone.conf"
+2019/04/29 14:49:25 INFO  : Local file system at /u/home/e/eriq/BaselinePaper_here: Waiting for checks to finish
+2019/04/29 14:49:25 INFO  : Local file system at /u/home/e/eriq/BaselinePaper_here: Waiting for transfers to finish
+2019/04/29 14:49:26 DEBUG : Local file system at /u/home/e/eriq/BaselinePaper_here: File to upload is small (41922 bytes), uploading instead of streaming
+2019/04/29 14:49:26 DEBUG : BaselinePaper_Body.docx: Failed to pre-allocate: operation not supported
+2019/04/29 14:49:26 INFO  : BaselinePaper_Body.docx: Copied (new)
+2019/04/29 14:49:26 DEBUG : BaselinePaper_Body.docx: Updating size of doc after download to 41922
+2019/04/29 14:49:26 INFO  : BaselinePaper_Body.docx: Copied (Rcat, new)
+2019/04/29 14:49:27 DEBUG : Local file system at /u/home/e/eriq/BaselinePaper_here: File to upload is small (57172 bytes), uploading instead of streaming
+2019/04/29 14:49:27 DEBUG : ResponseToReviewers_eca.docx: Failed to pre-allocate: operation not supported
+2019/04/29 14:49:27 INFO  : ResponseToReviewers_eca.docx: Copied (new)
+2019/04/29 14:49:27 DEBUG : ResponseToReviewers_eca.docx: Updating size of doc after download to 57172
+2019/04/29 14:49:27 INFO  : ResponseToReviewers_eca.docx: Copied (Rcat, new)
+2019/04/29 14:49:27 INFO  : Waiting for deletions to finish
+2019/04/29 14:49:27 INFO  : 
+Transferred:   	  193.543k / 193.543 kBytes, 100%, 79.377 kBytes/s, ETA 0s
+Errors:                 0
+Checks:                 0 / 0, -
+Transferred:            4 / 4, 100%
+Elapsed time:        2.4s
+
+2019/04/29 14:49:27 DEBUG : 6 go routines active
+2019/04/29 14:49:27 DEBUG : rclone: Version "v1.47.0" finishing with parameters ["rclone" "sync" "-vv" "--drive-shared-with-me" "gdrive-rclone:BaselinePaper" "BaselinePaper_here"]
+```
+That was fast and super solid.
+
+
+#### Encrypt the config file
+
+You can use `rclone config edit` to set a password for the config file.  Then it
+encrypts that so no one is able to run wild if they just get that file.  You have to
+provide your password to do any of the rclone commands.  If you want to see the
+config file use `rclone config show`.  You could always copy that elsewhere, and then
+re-encrypt it.
+
+
+
+
+
+
+
+
+Here is some nice stuff for summarizing all the information from the different runs from the chinook-wgs project:
+```sh
+qacct -o eriq -b 09271925 -j ml | tidy-qacct
+```
+
+Explain scratch space and how clusters are configured with respect to storage, etc.
+
+Strategies---break names up with consistent characters:
+
+- dashes within population names
+- underscores for different groups of chromosomes
+- periods for catenating pairs of pops
+
+etc.  Basically, it just makes it much easier to split things up
+when the time comes.
+
+## The Queue  (SLURM/SGE/UGE)
+
+## Modules package
+
+## Compiling programs without admin privileges
+
+Inevitably you will want to use a piece of software that is not available as
+a module or is not otherwise installed on they system.
+
+Typically these software programs have a frightful web of dependencies.
+
+Unix/Linux distros typically maintain all these dependencies as libraries or packages
+that can be installed using a `rpm` or `yum`.  However, the simple "plug-and-play" approach
+to using these programs requires have administrator privileges so that the software can
+be installed in one of the (typically protected) paths in the root (like `/usr/bin`).
+
+But, you can use these programs to install packages into your home directory.  Once you have done
+that, you need to let your system know where to look for these packages when it needs them
+(i.e., when running a program or _linking_ to it whilst compiling up a program that uses it
+as a dependency.
+
+Hoffman2 runs CentOS.  Turns out that CentOS uses `yum` as a package manager.
+
+Let's see if we can install llvm using yum.
+
+```sh
+yum search all llvm # <- this got me to devtoolset-7-all.x86_64 : Package shipping all available toolsets.
+
+# a little web searching made it look like llvm-toolset-7-5.0.1-4.el7.x86_64.rpm or devtoolset-7-llvm-7.0-5.el7.x86_64.rpm
+# might be what we want.  The first is a dependency of the second...
+mkdir ~/centos
+
+```
+Was using instructions at [https://stackoverflow.com/questions/36651091/how-to-install-packages-in-linux-centos-without-root-user-with-automatic-depen](https://stackoverflow.com/questions/36651091/how-to-install-packages-in-linux-centos-without-root-user-with-automatic-depen) 
+
+Couldn't get yum downloader to download any packages.  The whole thing looked like it was going to
+be a mess, so I thought I would try with miniconda.
+
+I installed miniconda (python 2.7 version) into `/u/nobackup/kruegg/eriq/programs/miniconda/` and then did this:
+```sh
+# probably could have listed them all at once, but wanted to watch them go 
+# one at a time...
+conda install numpy
+conda install scipy
+conda install pandas
+conda install numba
+
+# those all ran great.
+
+conda install pysnptools
+
+# that one didn't find a match, but I found on the web that I should try:
+conda install -c bioconda pysnptools 
+
+# that worked!
+```
+
+
+Also we want to touch briefly on LD_PATH (linking failures---and note that libraries are often
+named libxxx.a) and CPATH (for failure to find xxxx.h), etc.
+
+
+
+
+## Job arrays
+
+Definitely mention the `eval` keyword in bash for when you want to print 
+command lines with redirects.  
+
+Show the routine for it, and develop a good approach to efficiently
+orchestrating redos.  If you know the taskIDs of the ones that failed
+then it is pretty easy to write an awk script that picks out the
+commands and puts them in a new file.  Actually, it is probably
+better to just cycle over the numbers and use the -t option
+to launch each.  Then there is now changing the job-ids file.  
+
+In fact, I am starting to think that the -t option is better than
+putting it into the file.
+
+Question: if you give something on the command line, does that override
+the directive in the header of the file?  If so, then you don't even
+need to change the file.  Note that using the qsub command line options
+instead of the directives really opens up a lot of possibilities for
+writing useful scripts that are flexible.  
+
+Also use short names for the jobs and have a system for naming the
+redos (append numbers so you know which round it is, too) 
+possibly base the name on the ways things failed the first time.  Like,
+`fsttf1` = "Fst run for things that failed due to time limits, 1". Or
+structure things so that redos can just be done by invoking it with -t 
+and the jobid.
+
+## Writing stdout and stderr to files
+
+This is always good to do.  Note that `stdbuf` is super useful here so that
+things don't get buffered super long. (PCAngsd doesn't seem to write antyhing till
+the end...)
+
+
+## Breaking stuff down
+
+It is probably worth talking about how problems can be broken down into
+smaller ones.  Maybe give an example, and then say that we will be talking about
+this for every step of the way in bioinformatic pipelines.
+
+One thing to note---sometimes processes go awry for one reason or another.
+When things are in smaller chunks it is not such a huge investment to
+re-run it. (Unlike stuff that runs for two weeks before you realize that
+it ain't working right).
+
