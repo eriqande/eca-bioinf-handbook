@@ -912,7 +912,7 @@ This dude never takes a break, but sits at his desk
 24/7.  He probably has mustard stains on his dingy white T-shirt
 from eating ham sandwiches non-stop while he works super hard.  This guy is Tmux.  
 
-When you _first_ speak to this guy, you have to preface your
+When you _first_ speak to this guy after logging in, you have to preface your
 commands with `tmux` (as in, "Hey Tmux!").  He is there to help you
 manage different terminal windows with different bash shells or
 processes going on in them. In fact, you can think of it this way: you can
@@ -927,12 +927,12 @@ the windows that are on the terminal he set up for you on his desk.
 When you are done working on all those windows, you can tell Tmux that you
 want to _detach_ from the special terminal he set up for you at the server.
 In response he says, "Cool!" and shuts down his miracle-mirroring device, so
-you know longer see those different windows. However, he _does not_ shut down the
+you no longer see those different windows. However, he _does not_ shut down the
 terminal on his desk that he set up for you.  That terminal stays on, and any of your processes
 happening on it keep chugging away...even after you logout from the server entirely,
 throw the lid down on your laptop,
 have drinks with your friends at Social, downtown, watch an episode
-of Parks and Rec, and then get a good night sleep.  
+of Parks and Rec, and then get a good night's sleep.  
 
 All through the night, Tmux is munching ham sandwiches and keeping an eye on that
 terminal he set up for you.  When you log back onto the server in the morning, you
@@ -943,7 +943,7 @@ still running in them---in all the same working directories---just as you left i
 (except that if you were running jobs in those windows, some of those jobs might already
 be done!).  
 
-Not only that, but, further, if you are working on the server, when a local thunderstorm
+Not only that, but, further, if you are working on the server when a local thunderstorm
 fries the motherboard on your laptop, you can get a new laptop, log back into the
 server and ask Tmux to reconnect you to that terminal and get back to all of those
 windows and jobs, etc. as if you didn't get zapped.  The same goes for the case of
@@ -954,7 +954,7 @@ to all those windows you had open on the server.
 
 Finally, when you are done with all the windows and jobs on the terminal that Tmux set
 up for you, you can ask him to kill it, and he will shut it down, unplug it, and, straight
-out of Office Space, chuck it out the window.  But he will gladly install a new one
+out of _Office Space_, chuck it out the window.  But he will gladly install a new one
 if you want to start another _session_ with him.
 
 That dude is super helpful!

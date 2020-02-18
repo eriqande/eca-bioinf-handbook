@@ -9,7 +9,9 @@ That's right, even though the functionality of bash is geared toward running job
 and calling commands, it still exhibits most of the features expected in a programming
 language, like variables, iteration and flow control.
 
-We start this section by taking a look at a short bash program (typically
+## An example script
+
+We start this chapter by taking a look at a short bash program (typically
 called a _script_) that the author wrote in order to efficiently download
 (clone, really) repositories from GitHub that have been submitted by
 students to GitHub Classroom.  The program is not long, but exhibits
@@ -625,6 +627,133 @@ did this quite a bit, making a few different command lines...
         cd $RUNDIR
 ```
 
+While you can count on subtituted variables to be evaluated in context,
+the above-displayed behaviors of the shell don't always work.  Because of the
+intricacies of how the bash shell command parser works, and the order of parsing
+and variable substition, there are times when the string which is a substituted
+variable _will not_ be evaluated exactly as that same string would be evaluated if
+it were just text in a script.  Typically the differences in behavior are found
+when `=` signs or redirects are found in the string.
+
+An example should make this clear:
+```sh
+# here is a command that is a simple string
+echo me oh my, i like pie.
+
+# if we run it as a command we see:
+me oh my, i like pie.
+
+# here is that same command stored in a variable
+boing="echo me oh my, i like pie."
+
+# Variable substitution for boing on the command line looks like:
+$boing
+
+# and the result we see is:
+me oh my, i like pie.
+
+# However, if we type this:
+echo me oh my, i like pie. > /tmp/out
+
+# then the the file /tmp/out will hold:
+me oh my, i like pie.
+
+# But if we say
+bonk="echo me oh my, i like pie. > /tmp/out"
+
+# And do:
+$bonk
+
+# We get:
+me oh my, i like pie. > /tmp/out
+
+# which is clearly not the same thing
+```
+In the above, example, when `>` occurred within a variable,
+the command parser did not recognize it as the redirection
+operator.
+
+Here is another example: imagine that we want to assign three values to
+three different variables.  If we just assigned them on the command line
+we could do something like this:
+```sh
+# simple variable assignment
+A=one; B=two; C=three
+
+# after that, if we do:
+echo $A $B $C
+
+# we get
+one two three
+```
+
+But, what if we wanted to assign three values to three variables
+within a string that gets assigned to a variable, and
+then substitute that variable on the command line to actually assign those
+variables.  For example:
+```sh
+ASSIGNMENTS="D=four; E=five; F=six"
+
+# then try to substitute ASSIGNMENTS to actually make
+# the variable assignments:
+$ASSIGNMENTS 
+
+# bash replies with an error message
+-bash: D=four;: command not found
+```
+It is clear that bash is not able to interpret the `=` sign as the assignment
+operator in this context.
+
+We can solve this problem by using the `eval` keyword to tell bash to
+explicitly evaluate the command
+line a second time after variable substitution has occurred.
+Observe. In the latter case:
+```sh
+# create variable that is a line with assignments
+ASSIGNMENTS="D=four; E=five; F=six"
+
+# evaluate that line after variable substitution:
+eval $ASSIGNMENTS
+
+# see that the variables D, E, and F have values assigned:
+echo $D, $E, $F
+
+# cool!
+```
+And in the former:
+```sh
+# assign complete command line with redirection to bonk
+bonk="echo me oh my, i like pie. > /tmp/out"
+
+# evalute command line after $bonk's value is substituted
+eval $bonk
+
+# now /tmp/out holds the contents:
+me oh my, i like pie.
+```
+
+```{block2, eval-hot-tip, type='rmdtip'}
+The `eval` keyword is not often used in `bash`, but it is very useful in bioinformatics
+for evaluating command lines, _that include their redirection specifiers_, and which have
+been stored in a variable.  Why is this important? If your script stores a command line (after
+variable subtstitution) in a variable, then you can print that command line before evaluating
+it.  When developing your scripts this makes it easy to test your command lines (just echo it, 
+copy it, and paste it into a shell you have open for testing). When running scripts, if you print
+out each line to a log, it is easier to go back to ones that failed and figure out why.
+```
+
+**Your Turn**: Make a variable called `YELL_IT` that holds the command
+line that would print the line "Oh, I just gotta be me" and redirect
+it into the file `yawp.txt`.  Once you have done that, do variable 
+substitution without, and then with, the `eval` keyword.  Which one
+actually gets the job done?
+```
+
+```
+Remember that in RStudio, if you highlight some text and do CMD-Option-Return on a Mac,
+the text gets sent to the RStudio Unix Terminal.  (I suspect the PC equivalent is
+cntrl-alt-return).  That can be helpful for quickly testing lines you have written.
+
 ### Double and Single Quotation Marks and Variable Substitution
 
 Quite often you will want to save a value to a variable that, itself,
@@ -670,6 +799,103 @@ echo ${FILE/my/your}
 That turns out to be some powerful stuff.
 
 
+### Variable arrays
+
+Most programming languages allow you to store things in arrays.  In R they
+are called _vectors_ (or, more generally, _lists_).  The same is true in
+`bash`: you can store a number of values into a single variable, and then
+access each individual value one at at time.  This can be quite useful sometimes.
+
+The syntax for assigning values to array variable is like this:
+```sh
+ArrayVariable=(words or things 'or stuff' separated 'by whitespace')
+```
+In other words, wrap the items inside a pair of parentheses, with white-space
+separating them, and the shell will break those up into different, _numbered_
+parts of the array variable. It is important to note that single-quoted groups of words
+are treated as single values that will be assigned to an array element as a group.
+(Though the same is not true of double-quoted values...)
+
+Once values are stored in an array, how do we access them, i.e., what sort
+of variable subtitution can we do?  
+
+Well, if we just do the traditional variable substitution, like `${ArrayVariable}` or
+`$ArrayVariable`, then we just get the first element:
+```sh
+# doing this
+echo $ArrayVariable
+
+# produces this:
+words
+```
+That is not super helpful. So, to get each separate element we can
+_subscript_ the array by adding a number in square brackets inside the
+curly braces, like this:
+```sh
+# Doing this:
+echo ${ArrayVariable[2]}
+
+# gives:
+things
+```
+The subscripting is done with 0 as the starting value, so `${ArrayVariable[0]}`
+will give `words`, and `${ArrayVariable[1]}` gives `or`.
+Here is a `for` loop (see below) that prints each of the different subscripts 
+followed by their associated values:
+```sh
+# this loop...
+for i in {0..5}; do
+  echo $i: ${ArrayVariable[$i]}
+done
+
+# produces output like:
+0: words
+1: or
+2: things
+3: or stuff
+4: separated
+5: by whitespace
+```
+
+There are a few more important ways of accessing array variable values:
+
+You can get all the values at once as a single string.  There are two
+ways you can do this: either `${ArrayVariable[*]}` or 
+`${ArrayVariable[@]}`.  These two methods differ only when you have wrapped the variable up
+in double quotation marks, but that involves some serious bash arcana.
+```sh
+# when just printing output, both of these give the same result
+echo ${ArrayVariable[*]}
+echo ${ArrayVariable[@]}
+
+# producing:
+words or things or stuff separated by whitespace
+words or things or stuff separated by whitespace
+```
+
+And finally, the _length_ of the array (meaning, how many elements
+are in it) is found with a peculiar syntax `${#ArrayVariable[@]}`
+```sh
+# this:
+echo ${#ArrayVariable[@]}
+
+# produces:
+6
+```
+
+Although bash arrays can be quite useful, I must admit that I only
+use them in a few bioinformatic situtations---primarily when I want
+to break a single row of white-space delimited columns (that I grabbed
+from a file, for example) into its consituent words that I can
+then manipulate.
+
+**Your turn**: Create a variable called `MY_ARRAY` in which each
+element is the first name of 5 different people in our bioinformatics class.
+Then print the 1st, 2nd and 5th of them each on a separate line.
+```
+
+```
+
 
 ## Evaluate a command and substitute the result on the command line
 
@@ -696,45 +922,543 @@ Whoa! What happened to all my carriage returns?  The results gets put onto the c
 parsed there.  The command line parser sometimes treats line endings as just more whitespace,
 and it converts all runs of whitespace to a single space...
 
-## Grouping/Collecting output from multiple commands
+**Your Turn**: Make a three line script.  In the first one, assign the output
+of the `date` command to the variable `BEFORE`, then give this command `sleep 5`,
+then in the third line, assign the output of the `date` command to the variable
+`AFTER`.  Evaluate all three lines at once (by CMD-OPTION-Return or copying and pasting
+into the terminal.)  Then, look at `BEFORE` and `AFTER` to compare.
 
-`( )`
+## Grouping/Collecting output from multiple commands: `(commands)` and `{ commands; }`
 
-## Advanced repetition
+Quite often you may wish to think of the result of a  group of commands (taken together such
+a group is called "list" in bash parlance) as being the result of a single command.  Typical
+use cases are when you want to redirect the output from three separate commands into a
+single file.  For example if you want to put the contents of two files, FileA and FileB,
+into a file called "Both," but separate the contents of FileA and FileB by a short line of
+x's, you could do this:
+```sh
+cat FileA > Both
+echo xxxxxxxxxxxx >> Both
+cat FileB >> Both
+```
+But, it is easier to see what is going on and to maintain code that looks like this:
+```sh
+(cat FileA; echo xxxxxxxxxxxx; cat FileB) > Both
+```
+or like:
+```sh
+{ cat FileA; echo xxxxxxxxxxxx; cat FileB;} > Both
+```
+Both parentheses and curly braces can be used to group commands into one
+_grouped_ command, thereby making it easy to redirect the output from
+that command.  These two forms of grouping have subtle differences.
 
-I want to get constructs like `{1..20}` and `{csv,pdf,jpg}` in here too.
+When you group commands into parentheses, all the commands get
+evaluated in a separate _subshell_.  By contrast, grouped commands
+inside curly braces are all evaluated within the current shell.  In 
+many cases this will make almost no difference to you.  However, if you
+are assigning variable values within the grouped commands, then, using
+parentheses for grouping, you won't have access to those variable values
+in the current shell:
+```sh
+# include a variable assignment in parentheses
+(cat FileA; echo xxxxx; cat FileB; NewVar=15) > Both
 
-## Variables
+# if you try this:
+$NewVar
 
-## looping
+# the shell knows nothing about it
+```
+
+Using curly braces, the variable assignments will be known in
+the current shell you are in:
+```sh
+# include a variable assignment in curly braces
+{ cat FileA; echo xxxxx; cat FileB; NewVar=15; } > Both
+
+# Now, if you try this:
+$NewVar
+
+# the shell knows that $NewVar has a value:
+15
+```
+
+The syntax for using curly braces for grouping, however, is more finicky than
+it is with parentheses:  the left curly brace cannot be touching anything on the
+right, and the last command in the group must be followed by a semicolon or a newline.
+Thus, both of these would fail:
+```sh
+{cat FileA; echo xxxxxxxxxxxx; cat FileB;} > Both
+{ cat FileA; echo xxxxxxxxxxxx; cat FileB} > Both
+```
+
+## Exit Status
+
+When you run a command in Unix, that command might do a lot of different things,
+like print something to _stdout_, or copy a file around, or delete a file,
+or index a whole genome.  Regardless of all the things a command might do, it
+also should let the operating system know whether it was successful or not. The
+_exit status_ of a Unix command records whether it finished its task successfully
+or not.
+It is important to understand how exit statuses work so that you can
+design bioinformatic pipelines that will stop when something has gone wrong, and will
+let you know about that.  
+
+If a command exits normally (SUCCESS!) the exit status is 0.  If the command does
+not exit normally (it may have been unsuccessful) then its exit status will
+be anything but 0.  Some programs, when they fail, return a non-zero integer as their
+exit status, and the value can tell you what kind of error occurred. Other programs might
+just return 1. 
+
+Exit statuses are not typically seen by the user, but they do get passed to the
+shell.  You can always access the exit status of the last command with `$?`.  You can
+remember that because, with the question mark, it is kind of like you are asking
+the operating system, "What's up!!??".
+
+Here is an example: if we try to list a file, using `ls`, that exists, the file gets listed
+and the exit status is 0 (SUCCESS!).  If the file does not exist we get an error message
+and an exit status of 1 (NO_SUCCESS!).
+```sh
+# list a file we know exists
+% ls -d ~/Documents 
+/Users/eriq/Documents/
+
+# check exit status of last command
+% echo $?
+0
+
+# list a file we are pretty sure does not exist
+% ls I-doubt-this-file-exists.yeah.sure
+ls: I-doubt-this-file-exists.yeah.sure: No such file or directory
+
+# check the exit status of last command
+% echo $?
+1
+```
+
+While we don't get to "see" the exit status of a command without
+looking at `$?`, to the bash shell, when a command has completed
+on the command line, it effectively becomes the value of its exit
+status.  This is important to understand when dealing with combinations
+of exit statuses.
+
+### Combinations of exit statuses
+
+In bioinformatics, exit statuses can be helpful in a script to "decide" whether
+to continue processing the next command, based on whether the previous one
+failed or not.  `bash` has an elegant way of implementing this in terms of
+the binary operators `&&` and `||` that _combine_ exit statuses.  The `&&` is
+a logical-AND combinining operator.  If ES1 and ES2 are two exit statuses, then
+`ES1 && ES2` is "SUCCESS!" only if _both_ ES1 and ES2 have exit statuses of
+"SUCCESS!".  Here is a quick table:
+
+`ES1`      |      `ES2`     |    `ES1 && ES2` 
+-----------|----------------|---------------
+`NO_SUCCESS` | `NO_SUCCESS`     | `NO_SUCCESS`
+`NO_SUCCESS` | `SUCCESS!`       | `NO_SUCCESS`
+`SUCCESS!`   | `NO_SUCCESS`     | `NO_SUCCESS`
+`SUCCESS!`   | `SUCCESS!`       | `SUCCESS!`
+
+If you study this table for a moment, you will see that
+in the first two cases, the value of the combination,
+`ES1 && ES2` is apparent, just from knowing `ES1`.  It
+doesn't matter whether `ES2` has an exit status
+of `SUCCESS!` or `NO_SUCCESS`; either way, because
+`ES1` has failed, we know that `ES1 && ES2` will be
+`NO_SUCCESS`.  
+
+This knowledge, combined with an understanding that
+the bash shell is typically very busy, and so is not going to
+do any extra work _that it does not need to do_ will help you
+to understand the behavior of the shell when two (or more)
+commands are joined into a "compound command" with the `&&` symbol.
+Consider this:
+```sh
+command1 && command2
+```
+When bash looks at that, it sees that whoever wrote it wants to
+know the `&&`-combination of exit statuses of `command1` and 
+`command2`.  `bash` keeps that thought in the back of its mind,
+and then starts working through the commands from left to right.
+If `command1` fails, the shell says, "Hey! At this point, I know
+the exit status of `command1 && command2`, so I am not even going to
+evaluate `command2`!  On the other hand,  if the exit status
+of `command1` is "SUCCESS!", then the shell will proceed to evaluating
+`command2`, because it knows that if the exit status of `command1`
+was "SUCCESS!", then it must evaluate `command2` so as to get its
+exit status to properly evaluate `command1 && command2`.  
+
+The upshot of this is a construction like the following:
+```sh
+command1 && \
+  command2 && \
+  command3 && \
+  command4
+```
+can be very useful in bioinformatics.  This construction says,
+evaluate each command, if all the preceding commands were successful.
+If any of the commands fails, then none of the commands after them are
+evaluated.  This is helpful if future steps depend on the successful
+completion of previous steps.  In our example script, `clone-classroom-repos.sh`
+at the beginning of this chapter, we see the `&&` used on lines 103--106.
+This is saying, "if we didn't successfully clone the repository, then don't
+try to make a new branch in it, and if we didn't successfully make a new
+branch in it, then don't try to push that branch back to GitHub.
 
 
-## Further reading
+The opposite of `&&` is the `||` which combines exit statuses in an OR fashion
+with a table like the following:
 
-An excellent chapter on the development of Unix [@RaymondArtUNIXProgramming2003]
+`ES1`      |      `ES2`     |    `ES1 || ES2` 
+-----------|----------------|---------------
+`NO_SUCCESS` | `NO_SUCCESS`     | `NO_SUCCESS`
+`NO_SUCCESS` | `SUCCESS!`       | `SUCCESS!`
+`SUCCESS!`   | `NO_SUCCESS`     | `SUCCESS!`
+`SUCCESS!`   | `SUCCESS!`       | `SUCCESS!`
+
+In this case, if `ES1` is `SUCCESS!` then we know that
+`ES1 || ES2` will have a combined exit status of "SUCCESS!"
+Consequently, we use the `||` to force evaluation of
+another command in case the previous one failed.  Like this:
+```sh
+ls I-doubt-this-file-exists.yeah.sure || \
+  echo "Aw shucks! That file aint there" > /dev/stderr
+```
+
+Note, in the above, we redirect the text, "Aw shucks! That file aint there" to
+a file named `/dev/stderr`.  That file, `/dev/stderr` is a special file: anything
+that you send into it gets immediately printed on _stderr_.
+
+We end by noting that the numbers assigned to `SUCCESS!` and `NO_SUCCESS` do
+not accord with the 0's and 1's used in a standard "truth-table" context.  We just
+have to deal with that.  I find it much easier to think in terms of exit statuses
+of `SUCCESS!` and `NO_SUCCESS`, than in terms of the 0's and 1's, respectively,
+by which those statuses are represented in the computer.  
+
+## Loops and repetition
+
+By this point, you have probably heard, or been told,
+many times over, that Unix shell scripting is particularly good
+for taking care of repetitive tasks.  But, by this point in this
+book, it might not yet be clear how that is the case.  Wait no
+more!  This section will reveal a wonderful construct called the
+`for` loop that lets you do a task repeatedly, each time setting
+the value of a variable to something different that you want to
+be applying some commands to.  
+
+The basic syntax of the `for` loop is:
+```sh
+# here the cycled variable is "i"
+for i in some things separated by whitespace; do
+  commands involving $i
+done
+```
+For example:
+```sh
+for i in oranges bananas apples; do
+  echo "I like $i"
+done
+
+# produces this:
+I like oranges
+I like bananas
+I like apples
+```
+
+When you write a for loop in a script, it is good practice to indent
+the command lines that will get evaluated multiple times.  This is
+particularly useful if you have nested for loops (one inside another)
+such as:
+```sh
+for fruit in pears figs; do
+  for who in Mark Alice; do
+    echo "$who likes $fruit"
+  done
+done
+
+# which produces:
+Mark likes pears
+Alice likes pears
+Mark likes figs
+Alice likes figs
+```
+
+However, in bash (unlike Python, which is particularly obsessed with
+indentation) you are not required to indent things.  In fact the above could have
+been written all on one line:
+```sh
+for fruit in pears figs; do for who in Mark Alice; do echo "$who likes $fruit"; done; done
+```
+
+It is also worth pointing out that, while many languages use curly braces to denote
+blocks of repeated code, `bash` uses the pair `do...done`, which I find to be quite cute.
+
+
+As found with the variable `GHNAMES` in our example script,
+`clone-classroom-repos.sh`, you can also use variable
+subsitution to provide a list of terms to cycle over. Here is
+another small example:
+```sh
+ITEMS="cats dogs mice shrews"
+for critters in $ITEMS; do
+  echo $critters are vertebrates
+done
+```
+
+You can also use globbing (path expansion) to provide a list of
+things (files, specifically) to cycle over.  The following prints the path
+and the  first two
+lines of all files in the directory `table_inputs` in this book's repository,
+at this point in the book's formation:
+```sh
+for i in table_inputs/*; do 
+  echo "======= file: $i  ========="
+  head -n 2 $i
+done
+
+# this produces:
+======= file: table_inputs/minimal-tmux.txt  =========
+Within tmux?   ;  Command         ;  Effect
+N              ; `tmux ls`          ; List any tmux sessions the server knows about
+======= file: table_inputs/sam-columns-table.txt  =========
+Column   &  Field   & Data Type  & Description
+1        & QNAME    & String     & Name/ID of the read (from FASTQ file)
+======= file: table_inputs/sam-flag-table.txt  =========
+bit-#    &   bit-gram   &  $2^x$   &   dec    &   hex     & Meaning
+1    &  $\bitsa$    &  $2^0$   &    1     &   0x1    & the read is paired (i.e. comes from paired-endsequencing.)
+======= file: table_inputs/tmux-pane-strokes.txt  =========
+Within tmux?   ;  Command         ;  Effect
+Y              ; `<cntrl>-b /`       ; Split current window/pane vertically into two panes
+```
+Those files are the ones used as input to a few of the tables
+in the book.
+
+If it turns out that you want to cycle over some integers,
+in order (whether increasing or decreasing), from a starting
+value to a stopping value, you can use curly braces and two dots,
+like this:  `{1..5}`, like this:
+```sh
+for i in {1..5}; do echo The number is: $i; done
+
+# this makes:
+Number 1
+Number 2
+Number 3
+Number 4
+Number 5
+```
+And you can have negative numbers and a reverse order, too:
+```sh
+for i in {4..-2}; do echo The number is: $i; done
+
+# this makes
+The number is: 4
+The number is: 3
+The number is: 2
+The number is: 1
+The number is: 0
+The number is: -1
+The number is: -2
+```
+
+One cool thing to realize is that any output that goes to _stdout_
+from within a `for` loop---if it is not redirected from within the
+loop---effectively comes "flowing out" to _stdout_ from right
+after the `done` keyword.  So, you can redirect it in one swell foop
+from that point in your code like this:
+```sh
+for i in table_inputs/*; do 
+  echo "======= file: $i  ========="
+  head -n 2 $i
+done > file-to-redirect-it-all-into.txt 
+```
+...or, you could even pipe it to another command, like this, to print just the
+first column of text of each line:
+```sh
+for i in table_inputs/*; do 
+  echo "======= file: $i  ========="
+  head -n 2 $i
+done | awk '{print $1}'
+```
+
+## More Conditional Evaluation: `if`, `then`, `else`, and friends
+
+We have already seen how exit statuses can be combined with
+`&&` or `||` to control the flow of a script (i.e., if this
+failed, don't do the next line...).  There is also a traditional
+`if/then/else` construct in bash to control the execution of script
+on the basis of exit status.  Thus, we can do something like:
+```sh
+if ls README.md; then
+  echo "We found the README"
+else
+  echo "Can't find the README"
+fi
+```
+
+Note that this opens an `if` block of code with `if` and then
+it closes it (after the `then` and the `else`) with a backward
+`if`: `fi`. 
+
+The general syntax is:
+```sh
+if exit_status; then
+  Do this if exit_status = SUCCESS!
+else
+  Do this if exit_status = NO_SUCCESS
+fi
+```
+There is also an else-if construct, that is named `elif`, with
+syntax like this:
+```sh
+if exit_status1; then
+  Do this if exit_status1 = SUCCESS!
+elif exit_status2; then
+  Do this if exit_status1 = NO_SUCCESS and exit_status2 = SUCCESS!
+else 
+  Do this if both were NO_SUCCESS
+fi
+```
+
+Many of the times when you want to use an `if` construct, you will
+want to be _testing_ things about files, or strings or variables,
+rather than assessing exit status of functions.  Alas, all bash is
+capable of is assessing exit statuses.  But hark! All is not lost becuase
+there is a function called `test` that let's you test if statements 
+are true, and if they are, then it returns an exit status of 0 (SUCCESS!).
+
+For example, to test if a file exists, you can use:
+```sh
+# this file does exist in the current directory on my system...
+test -f eca-bioinf-handbook.Rproj
+
+# do this to see what the exit status was
+echo $?
+```
+
+Or, if we want to test if the value of a variable is the same as
+some string.
+```sh
+VAR=big_and_bad # set a variable to some string value
+
+test $VAR = small_and_sweet
+
+# get exit status, which will be NO_SUCCESS (1)
+echo $?
+```
+
+The value of integer variables can be tested too.  See `man test` for
+all the details.
+
+Now, the thing to remember about the test function is that there
+is an intuitive-looking shorthand for writing it: that is to write
+its arguments between a `[` and a `]`, but not touching either of them.
+
+So:
+```sh
+# this
+test $VAR = small_and_sweet
+
+# is equivalent to:
+[ $VAR = "small_and_sweet" ];
+```
+Note that the RStudio bash shell seems to be doing something weird,
+I don't think the "last command" is quite what we think it should be,
+so `$?` does not seem to be reliable. 
+
+## Finally...positional parameters
+
+Way back when we started this chapter, in the example script, `clone-classroom-repos.sh`,
+right at the top we see lines like:
+```sh
+GHP=$1
+```
+What the heck is that `$1`.  That is not proper syntax for a variable name! A variable
+name can't start with a number, after all.  Aha! `$1`, `$2`, `$3`, and so forth are
+variables that store the _positional parameters_ of a script.  In other words if you write a
+script called `my_script.sh` and you invoke it with some words after it, like:
+```sh
+my_script.sh  BigFile.txt  small_file.txt  Yee-ha   'Oh Yeah'
+```
+Then, when that script is executing the code inside it, the value of
+`$1` will be `BigFile.txt`, the value of `$2` will be `small-file.txt`, the
+value of `$3` will be `Yee-ha`, and the value of `$4` will be `Oh Yeah`.
+
+The variable `$#` inside the script holds the number of positional parameters, and,
+in our example script `[ $# -ne 4 ]` evaluates to `NO_SUCCESS` if `$#` is not equal
+to 4, in which case the script prints a message about how to use it.
+
+**Your Turn**: Write a script in a separate file called "three-things.sh" that is
+expecting to take three positional parameters.  In side the script, have it print
+the actual values passed to it in reverse order for example:
+```
+Third parameters is: -----
+Second parameter is: -----
+First parameters is: -----
+```
+Where `-----` would be replaced by the actual value of the positional parameters.
+
+
+
+
+## `basename` and `dirname` two useful little utilities
+
+Paths to files and directories expand and are listed as the paths relative
+to the current working directory.  Sometimes, you just want the name of the
+file.  This is what `basename` gives you. For example:
+```sh
+# expand the filenames a couple directories down:
+files="figure-creation/1.01-unix/*"
+
+# print all those file names
+echo $files
+
+# that produces this output:
+figure-creation/1.01-unix/file-hierarchy.dot figure-creation/1.01-unix/file-hierarchy.pdf figure-creation/1.01-unix/file-hierarchy.png figure-creation/1.01-unix/file-hierarchy.sh
+
+# do this to get just the filenames:
+basename $files
+
+# which produces this output:
+file-hierarchy.dot
+file-hierarchy.pdf
+file-hierarchy.png
+file-hierarchy.sh
+
+# if you want just the relative path to the directories those files
+# are in you can use dirname, but have to operate on one file at a time:
+for i in $files; do
+  dirname $i
+done
+
+# makes this output:
+figure-creation/1.01-unix
+figure-creation/1.01-unix
+figure-creation/1.01-unix
+figure-creation/1.01-unix
+```
+
+
+
 
 ## reading files line by line
 
 This is handy.  Note the line can be broken into a shell array:
 ```sh
-cat bwa-run-list.txt straggler-bwa-run-list.txt | while read -r line; do 
+# this is an example of reading a file in which each row is delimited
+# by whitespace, the second column is a file name and the the
+# third column is a number
+cat a_file | while read -r line; do 
   A=($line); 
   file=${A[1]}; 
   num=${A[2]}; 
-  du -h bam-slices/$file/${num}-sorted.bam;  
 done
-
-2.3G	bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0001-sorted.bam
-2.2G	bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0002-sorted.bam
-2.2G	bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0003-sorted.bam
-2.3G	bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0004-sorted.bam
-2.2G	bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0005-sorted.bam
-2.2G	bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0006-sorted.bam
 ```
-Note that this is not how you want to rip through files, typically, because it is slow and awk is a much
-better bet. But, if you want to do a system call for each line, it ends up being a decent way forward.
 
+## Further reading
 
-## More stuff
+An excellent chapter on the development of Unix [@RaymondArtUNIXProgramming2003]
 
-In here, let's also talk about compression with gzip (and using `stuff | gzip -c > this.gz` to gzip and send to stdout.)
+A nice set of bash scripting tutorials can be found at 
+[https://ryanstutorials.net/bash-scripting-tutorial/](https://ryanstutorials.net/bash-scripting-tutorial/)
+
