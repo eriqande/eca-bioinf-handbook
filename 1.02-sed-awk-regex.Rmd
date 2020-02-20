@@ -11,13 +11,583 @@ or tabs.  `sed` on the other hand, is particularly useful for automating
 "find-and-replace" operations on text files.  Each of them is optimized to
 handle large files without storing a lot of information in memory, so they can be 
 useful for quick operations on large bioinformatic data sets.  Neither is a fully-featured
-programming language that you would want to write large, complex programs in; however they do share many of the
+programming language that you would want to write large, complex programs in (that said,
+I did once implement a complete program for full-sibling inference from multiallelic markers
+in `awk`); however they do share many of the
 useful text-manipulation capabilities of such languages, such as Perl and Python.  Additionally,
 `awk` and `sed` are deployed in a consistent fashion across most Unix operating systems, and they
 don't require much time to learn to use effectively for common text-processing tasks.
-As a consequence `awk` and `sed` are a useful addition to the bioinformatician's tookbox. 
+As a consequence `awk` and `sed` are a useful addition to the bioinformatician's toolbox. 
 
 Both `awk` and `sed` rely heavily on _regular expressions_ to describe _patterns_
 in text upon which some operation should be performed.  You can think of
-regular expressions as providing a succinct language for performing very advanced "find" operations
+regular expressions as providing a succinct language for performing very advanced "find"
+and "find-and-replace" operations
 in a text file.  
+
+In this chapter we will only scratch the surface of what can be done with `awk` and `sed`.  Indeed,
+there is an entire [432-page book](http://shop.oreilly.com/product/9781565922259.do) published decades
+ago by O'Reilly about `awk` and `sed`.  Our goal here is to provide an introduction to a few basic
+maneuvers with both `awk` and `sed` and to describe instances where they can be useful, as well as
+to give an introduction to many (but certainly not all) of the patterns that can be expressed
+using regular expressions.  We will start with a basic overview of how `awk` works.  Then we will
+have a short look at regular expressions, then we will use those further in `awk`, and finally we
+will play with `sed` a little bit.
+
+In order to have a set of files to use in the examples, I have made a small GitHub
+repository called `awk-and-sed-inputs`.  You can get that with
+```sh
+git clone https://github.com/eriqande/awk-and-sed-inputs
+```
+
+All of the examples in this chapter that use such external files
+assume that the current working directory is
+the repository directory `awk-and-sed-inputs`.
+
+## awk
+
+### Line-cycling, tests and actions
+
+`awk` operates by cycling through a file (or an input stream from _stdin_) line-by-line.  At each
+new line `awk` tests whether it should do anything with the contents of the line.  If the answer
+to that test is "yes", then it executes the code that describes what should be done to the
+contents of the line.  The scope of ways that `awk` can operate on text is quite wide, but,
+the most common use of `awk` is to print parts of the line, or do small calculations on parts of the
+line.  The instructions that describe the tests and the actions are included in the `awk` "script", though,
+in practice, this script is often given to `awk` not as a file, but, rather, as text between single-quotes on the
+command line.  The basic syntax looks like this:
+```sh
+% awk '
+  test1  {action1}
+  test2  {action2}
+' file
+```
+Where `file` is the path of the file you want `awk` to read, and the "tests" and "actions"
+above are just placeholders showing where those parts of the script are written.  The layout
+makes it clear that if `test1` is TRUE, `action1` will be executed, and if `test2` is TRUE, then
+`action2` is executed.  Code describing the actions must always appear within a set of
+curly braces.  We will refer to the text within those curly braces as an _action block_.
+
+Two things to note:  first, different tests and actions do not have to be written on separate lines.  That makes
+things easier to read, but if you are writing these short scripts on the command line, it is often
+easier to put everything on a single line, like `'test1  {action1} test2  {action2}`, and that is fine.
+Second, if you don't supply a file path to `awk` it expects (and gladly processes) data from _stdin_.  
+This makes it easy to pipe data into `awk`.  For example, putting the above two points together,
+the above `awk` script skeleton could
+have been written this way:
+```sh
+% cat file | awk 'test1  {action1} test2  {action2}'
+```
+
+Before we get too abstract talking about tests and actions, let's look at a few
+examples:
+```sh
+# print lines starting with @SQ in the SAM header of a file
+awk '/^@SQ/ {print}' data/DPCh_plate1_F12_S72.sam
+
+# print only those @SQ lines with a sequence name tag starting with "NC_"
+awk '/^@SQ/ && /SN:NC_/ {print}' data/DPCh_plate1_F12_S72.sam
+
+# same as above, but quit processing the file as soon as you hit
+# an @SQ line with a sequence name starting with "NW_"
+awk '
+  /^@SQ/ && /SN:NC_/ {print}
+  /^@SQ/ && /SN:NW_/ {exit}  
+' data/DPCh_plate1_F12_S72.sam
+
+
+# print only lines 101, and 103 from the fastq file
+gzcat data/DPCh_plate1_F12_S72.R1.fq.gz | awk 'NR==101 || NR==102 {print}'
+```
+
+The above examples show only two different actions (`print` and `exit`) and
+a variety of tests based on matching substrings in each line, or on which
+line number (`NR`, which stands for "number of the record").
+
+Take a moment to make sure you understand which parts are the tests, and which are the actions
+in the above examples.
+
+
+### Column splitting, fields, `-F`, `$`, `NF`, `print`, `OFS` and `BEGIN`
+
+Every time `awk` processes a line of text it breaks it into different _fields_, which you
+can think of as columns (as in a spreadsheet).  By default, any number of whitespace (space or TAB)
+characters constitutes a break between columns.  If you want field-splitting to be done using
+more specific characters, you can specify that on the command line with the the `-F` option.
+For example:
+```sh
+awk -F"\t" 'test {action}' file  # split lines into fields on single TAB characters
+awk -F"," 'test {action}' file  # split lines into fields on single commas
+awk -F":" 'test {action}' file  # split lines into fields on single colons
+awk -F";" 'test {action}' file  # split lines into fields on single semicolons
+# and so forth...
+```
+While in all those examples, the field separator is a single character, in full-blown
+practice, the field separator can be specified as a _regular expression_ (see below).
+
+Within an action block, you can access the different fields that `awk` has split out
+of the line using a `$` followed immediately by a field number, i.e., `$1`, `$2`, `$3`, ... . When you get
+to fields with indexes greater than 9, you have to wrap the number in parentheses, like
+`$(10)`, `$(11)`,... . The special value `$0` denotes the whole line, not just one of its
+fields. (Note that if you give the action `print` without any arguments, that also just
+prints the whole line.)  The special variable `NF` is the "Number of Fields", so
+`$NF` is the "last column."
+
+Let's say we have a tab-separated file in `data/wgs-chinook-samples.tsv` that looks like this:
+```
+vcf_name	ID_Berk	NMFS_DNA_ID	BOX_ID	BOX_POSITION	Population	Concentration (ng/ul)	run_type
+DPCh_plate1_A01_S1	CH_Plate1_1A	T144767	T1512	1A	Salmon River Fall	23.4	Fall
+DPCh_plate1_A02_S2	CH_Plate1_2A	T144804	T1512	5F	Salmon River Fall	67.4	Fall
+DPCh_plate1_A03_S3	CH_Plate1_3A	T145109	T1515	7G	Salmon River Spring	3.52	Spring
+DPCh_plate1_A04_S4	CH_Plate1_4A	T145118	T1515	8H	Salmon River Spring	10.3	Spring
+DPCh_plate1_A05_S5	CH_Plate1_5A	T144863	T1513	1A	Feather River Hatchery Fall	220	Fall
+```
+Then, if we wanted to print the first and the last columns (fields) we could do
+```sh
+awk -F"\t" '{print $1, $NF}' data/wgs-chinook-samples.tsv
+
+# the first few lines of output look like:
+vcf_name run_type
+DPCh_plate1_A01_S1 Fall
+DPCh_plate1_A02_S2 Fall
+DPCh_plate1_A03_S3 Spring
+DPCh_plate1_A04_S4 Spring
+```
+Notice that if there is no `test` before the action block, then the action is
+done on every line.  
+
+The `print` command prints variables to _stdout_, if you separate those variables with
+a comma, then in the output, they will be separated by the _output field sepator_ which,
+by default, is a single space.  You can set the _output field separator_ using the `OFS`
+variable, in an action block that is forced to run at the beginning of execution using the
+special `BEGIN` test keyword:
+```sh
+awk -F"\t" '
+  BEGIN {OFS=";"}
+  {print $1, $NF}
+' data/wgs-chinook-samples.tsv
+
+# makes output like:
+vcf_name;run_type
+DPCh_plate1_A01_S1;Fall
+DPCh_plate1_A02_S2;Fall
+DPCh_plate1_A03_S3;Spring
+DPCh_plate1_A04_S4;Spring
+DPCh_plate1_A05_S5;Fall
+```
+
+The comma between the arguments to `print` is what makes `awk` print the output field 
+separator between the items. If you
+separate arguments to `print` with just a space (and not a comma), there will be nothing
+printed between the two arguments on output.  This, coupled with the fact that
+`print` will happily print any strings and numbers (in addition to variables!) you pass to it,
+provides a way to do some light formatting of the output text:
+```sh
+awk -F"\t" 'NR > 1 {print "sample_name:" $1, "run_type:" $NF}' data/wgs-chinook-samples.tsv
+
+# gives output like:
+sample_name:DPCh_plate1_A01_S1 run_type:Fall
+sample_name:DPCh_plate1_A02_S2 run_type:Fall
+sample_name:DPCh_plate1_A03_S3 run_type:Spring
+sample_name:DPCh_plate1_A04_S4 run_type:Spring
+sample_name:DPCh_plate1_A05_S5 run_type:Fall
+```
+
+Note that if you don't provide an action block after a test, the default action, if the
+test is true, is assumed to be "print the whole line as is."  Thus you can use `awk` to
+print matching lines simply like this:
+```sh
+awk '/regex/'
+```
+where `/regex/` just means "some regular expression," as is explained in the
+next section.
+
+**Now it's your turn!**
+```sh
+# 1. Using the file data/wgs-chinook-samples.csv, print out the
+# NMFS_DNA_ID the BOX_ID and the BOX_POSITION, separated by periods
+
+
+```
+
+### A brief introduction to regular expressions
+
+In a few of the above examples you will see tests that look like: `/^@SQ/`.  This is a regular expression.  In
+`awk`, regular expressions are enclosed in forward slashes, so the actual regular expression part
+in the above is `^@SQ`, the enclosing forward slashes are just delimiters that are telling `awk`, "Hey! The stuff inside here should
+be interpreted as a regular expression."
+
+At this stage, you can think of a regular expression as a "search-string" that `awk` will try to match
+against the text in a line.  At its simplest, a regular expression just describes how characters should
+match between the regular expression and the line being matched.  For example:
+```
+/ACGGTC/ 
+```
+Is saying, "search for the word `ACGGTC`," which is something that might find in a DNA string.
+
+If all that regular expressions did was express a search word (like your familiar find function in
+Microslop Word, for example), then they would be very easy to learn, but also very limited in
+utility.  The good news is that all your standard numerals and upper- and lowercase letters work
+in regular expressions just like they do in your vanilla "find" function.  So, all of the following
+regular expressions are just requesting that the word enclosed in the `/`'s be found:
+```
+/Fall/
+/A01/
+/plate/
+/LN/
+```
+
+Regular expressions get more complicated (and useful) because some of the familiar punctuation
+marks have special meaning within a regular expression. These are called _metacharacters_.
+The fundamental metacharacters in `awk` are listed in Table \@ref(tab:metachars).  It is
+worth getting familiar with all of these as most are common to all languages that use
+regular expressions, such as R, python, and perl, so learning these will be helpful not
+just in using `awk`, but also in your programming, in general.
+```{r, echo=FALSE, message=FALSE}
+tab <- readr::read_delim("table_inputs/metachars.txt", delim = "&", trim_ws = TRUE)
+pander::pander(
+  tab,
+  booktabs = TRUE,
+  caption = '(\\#tab:metachars) Basic metacharacters used in regular expressions with `awk`.',
+  justify = "left")
+```
+
+We note in the above table that more explanation is needed for the concept of _character classes_ defined by `[ ]`.
+These are similar to what you are already
+familiar with in terms of _globbing_ file names.  In short, if you
+put a variety of characters between square brackets, it means "match any one of these characters."
+For example, `/[aceACE]/` means "match any upper- or lowercase `a`, `c`, or `e`.  Within
+those square brackets, `^` and `-` have special meaning depending on where between
+the square brackets they occur:
+
+- A `-`, when _between_ letters or numbers, indicates a range: `/[a-zA-Z]/` means any letter; 
+/[0-5]/ means any numeral between 0 and 5. 
+- A `-` at the beginnging or end of the characters inside the square brackets just means `-`: `/[-;ab]/` means
+match any of the characters `-`, `;`, `a`, or `b`.
+- A `^` _at the beginning of the characters inside the square brackets_ negates the character class, meaning
+the match will be to anything _not_ within the character class, i.e., `[^ABC]` means match any character
+that is _not_ `A` nor `B` nor `C`.  If the `^` is not at the beginning of the characters within the `[ ]`
+then it carries no special meaning: `[:;^%]` matches any of those four punctuation characters.
+
+
+
+All these metacharacters might seem a little cryptic, so I provide a few
+examples, here, that might help to make it more clear. They are presented
+(i.e. "match any line") as if they are part of an `awk` test.
+```sh
+# match any line that starts with @RG
+/^@RG/
+
+# match any line that starts with @ followed by any two characters
+/^@../
+
+# match any line that starts with @ followed by any
+# two uppercase letters
+/^@[A-Z][A-Z]/
+
+# the above could also be written as:
+/^@[A-Z]{2}/
+
+# This matches phone numbers formatted either like 
+# (###) ###-####, or ###-###-####
+/\(?[0-9]{3}(\) |-)[0-9]{3}-[0-9]{4}/
+
+# And if you can parse that out, you get an A for the day!
+
+# match anything that starts with T456, then has any
+# number (including 0) of any other characters, then
+# ends with ".fq"
+/T456.*\.fq/
+
+# Note the use of backslash to escape the .
+
+# Match either "big mess" or "huge mess"
+/(big|huge) mess/
+```
+
+**Now it's your turn**
+
+Here are some things to try.
+```sh
+# 1. use alternation (the |) to match lines in the SAM file data/DPCh_plate1_F12_S72.sam
+# that start with either @PG or @RG
+
+
+# 2. search through the fastq file data/DPCh_plate1_F12_S72.R1.fq.gz 
+# to find any line with exactly two consecutive occurrences of any of the following characters:
+# ! " # $ % &
+
+
+# What are we searching for in the above?
+```
+
+### A variety of tests
+
+When you want to test whether a line will be processed by an action block, or not,
+you have many options.  Among the major ones (each given with an example or two) are:
+
+1. match a regular expression anywhere in a line:
+    ```{sh, eval=FALSE}
+    awk '/^@RG/'
+    awk '/Fall/'
+    ```
+1. match a regular expression in a specific column/field
+    ```{sh, eval=FALSE}
+    awk '$3 ~ /Sacramento/'
+    awk '$1 ~ /Chr[123]/'
+    ```
+1. test for equality, using `==`, of a single column to a string, or a number. Note
+these are _not_ regular expressions, but actual statements of equality.  Strings in
+such a context are surrounded by double quotes.
+    ```{sh, eval=FALSE}
+    awk '$1 == "NC_07124.1"'
+    awk '$5 == 100'
+    ```
+1. Use comparison operators `<`, `<=`, `>`, `>=`, and `!=` (not equals) to compare
+a column to a string (compared by lexicographical order) or a number
+(compared by numerical order)
+    ```{sh, eval=FALSE}
+    awk '$2 <= "Aardvark"'
+    awk '$7 > 25'
+    ```
+1. test the value of a user-defined variable that may be changing as lines are getting
+processed.
+    ```{sh, eval=FALSE}
+    awk 'n > 356'
+    awk 'my_word == "Loony"'
+    ```
+1. test the value of an internal variable, like `NR` or `NF`
+    ```{sh, eval=FALSE}
+    awk 'NR < 25'
+    awk 'NF == 13'
+    ```
+
+As these tests are effectively things that return a value of TRUE or FALSE, they can
+be combined with logical AND and logical OR operators.  In awk, the logical AND is
+`&&` and the logical OR is `||`.  To make the intent of long combinations clear, and to
+specify specific combinations, the tests can be grouped with parentheses:
+```sh
+awk '(units = "days" && n > 356) || (units == "months" && n > 12) {print "More than a year!"}'
+```
+
+### Code in the action blocks
+
+Within the action blocks you write computer code to do things, and `awk` has many features
+you expect in a programming language. 
+
+Separate lines of code can be ended with a line return (i.e., in scripts), or they can be 
+ended with a semicolon. 
+Variable assignment is done with the `=` sign. Unlike the bash shell, you can have spaces around
+the `=`.  One interesting aspect of `awk` is that the
+variables are _untyped_.  This means that you don't have to tell `awk` ahead of time whether
+a variable is going to hold a number, or a string, etc.  Everything is stored as a string,
+but when used in a numeric context, if it makes sense, the variable will be treated
+as a number. So, you don't have to worry too much about the type of variables.
+
+If a value has not yet been assigned to a variable, but it is used in a numeric
+context, the value is assumed to be 0;  if used in a string context, its value
+is assumed to be the empty string `""`.
+
+**You can use `for` loops within `awk`**.  They have the syntax of the C language: 
+```sh
+for(var = initial; test; increment)
+```
+For example, this cycles `i` over values starting from 1, until 10, each 
+time incrementing the value by 1:
+```sh
+for(i=1;i<=10;i++)
+```
+Note that the `++` means "add one to the variable to my left."
+
+You can also increment by larger amounts.  What do you think this would do?
+```sh
+echo boing | awk '{for(i=5; i<=25; i+=5) print i}' 
+```
+If the body of the loop consists of multiple lines of code (or even just one) those lines
+can be _grouped_ using curly braces.
+Here is an examle of using a `for` loop to print the columns of the Chinook sample sheet
+in row format:
+```sh
+awk -F"," '
+  NR == 1 {for(i=1;i<=NF;i++) head[i] = $i; next}
+  {for(i=1;i<=NF;i++) {
+      print i ". " head[i] ": " $i; 
+    }
+    print "----------------------"
+  }
+' data/wgs-chinook-samples.csv
+```
+
+
+**Arrays are implemented as _associative arrays_.**  Thus, rather than being arrays
+with elements indexed (and accessed) by natural numbers (i.e. `array[1]`, `array[2]`, etc.),
+arrays are indexed by any string.  This is sometimes called a hash.  In python it is
+called a _dictionary_. So, within an awk action block you could see  
+```sh
+n[$3]++
+```
+which means "find the element of the array `n` that is associated with the _key_ $3, and then
+add 1 to that element".  This can
+be quite useful for counting up the occurrences of different strings or values
+in a column.  Of course, in order to actually see what the values are, after they
+have been counted up, you need to be able
+to cycle over all the different _keys_ of the array, and print the key and the
+value for each.  In `awk`, you cycle over the keys of an array using
+```
+for (i in array)
+```
+where `for` and `in` are keywords, `i` is any variable name you want, and `array` is the
+name of an array variable. Unfortunately, you have no control over the _order_ in which the
+different keys in the array are visited! Example:
+```sh
+# count the number of fish from different sampling collections
+# in the wgs-chinook-samples.tsv file:
+awk -F"\t" '
+  NR > 1 {n[$6]++}
+  END {for(i in n) print i ":", n[i]}
+' data/wgs-chinook-samples.tsv 
+
+# gives us:
+Coleman Hatchery Late Fall: 16
+Feather River Hatchery Spring: 16
+Feather River Hatchery Fall: 16
+Salmon River Spring: 16
+Trinity River Hatchery Fall: 16
+Trinity River Hatchery Spring: 16
+Butte Creek Spring: 16
+Sacramento River Winter: 16
+Salmon River Fall: 16
+San Joaquin River Fall: 16
+```
+
+The above demonstrates the use of the very important `END` specifier in the
+test position.  The `END` there means "perform the actions in the action block
+once all the lines of the file have been processed."
+
+**Now it's your turn!**  
+We want to cycle through the file `DPCh_plate1_F12_S72.R1.fq.gz` and
+count up the number of times different base-quality sequences occur in the file.  The
+base quality scores occur on lines 4, 8, 12, ...   (so, the line number divided by 4 has
+no remainder.  Note that `x % 4` gives the remainder when `x` is divided by 4.  We want the
+output on each line to be in the format:
+```
+Number_of_occurrences  Base_quality_score_sequence
+```
+```sh
+# go for it!
+
+
+```
+After doing that, you might wish that things were sorted differently, like highest to lowest
+in terms of # of occurrences.  Try piping the output into:
+```sh
+sort -n -b -r -k 1
+```
+Pipe that to less and look through it.  It is actually pretty cool.  
+
+
+**Conditional tests use `if` and `else`, with blocking by curly braces.**   
+Below we will demonstrate the use of `if` and `else` and, how they can be put together
+to make an `ifelse`-like construction.  At the same time we demonstrate how
+output from `print` statements in `awk` can be redirected to files, from within
+the `awk` script itself.  This uses much the same syntax as the shell.  
+
+Imagine that we want to put the IDs (called the `vcf_names`) of the fish
+in `data/wgs-chinook-samples.csv` into separate files, one for each
+of the `run_types` of "Fall", "Winter", and "Spring", and another file
+for anything else.  We could do that like this:
+```sh
+awk -F"," '
+  NR > 1 {
+    if($NF == "Fall") {
+      print $1, $NF > "fall.txt"
+    } else if($NF == "Winter") {
+      print $1, $NF > "winter.txt"
+    } else if($NF == "Spring") {
+      print $1, $NF > "spring.txt"
+    } else {
+      print $1, $NF > "other.txt"
+    }
+  }
+' data/wgs-chinook-samples.csv
+```
+Now look at the four files produced.  
+
+**NB:** Parsing CSV files with `awk` is not always so straightforward as doing `-F","` because
+the CSV specification allows for commas that do not separate fields to be hidden within quotation marks.
+Don't expect to parse complex CSV files made by Excel, for example, to be parsed this easily
+with `awk`.  It is better to save them as TAB separate files, typically.  
+
+
+**Mathematical operations:** `awk` has got them all:  `+`, `-`, `*`, `/`, `%`, as well as "operate and reassign"
+versions:  `+=`, `-=`, `*=`, `/=`, as well as: `exp`, `log`, `sqrt`, `sin`, `cos`, and `atan2`
+
+
+**Built in functions:** `awk` has a limited set of built-in functions.  See `man awk` for a full
+listing.  The ones I find I use all the time are:
+
+- `length(n)` : return the number of characters of the variable `n`
+- `substr(s, m, n)` : return the portion of string `s` that begins at position `m`
+(counted starting from 1), and is `n` characters long 
+- `sub(r, t, s)` : substitute string `t` for the first occurrence of the regular expression `r` in the string `s`.  If `s` is not given, `$0` is used.
+- `gsub` : just like `sub` but replaces _all_ (rather than just the first) occurrences of the regular expression `r` in string `s`.
+- `split(s, a, fs)` : split the string `s` into an array variable named `a` at occurrences of the regular expression `fs`.
+The function returns the number of pieces the string was split into.  Afterward each part of the string can be accessed like
+`a[1]`, `a[2]`, and so forth.  (Good example = splitting out fields from a column in a VCF file.)
+
+
+### Using `awk` to assign to shell variables
+
+We leave our discussion of `awk` by noting that its terse syntax makes it
+a perfect tool for creating shell variables that we can do things (like
+cycling over them) with.
+
+For example, imagine we wanted to do something to all the FASTQ files associated with
+the fish in `data/wgs-chinook-samples.csv` that are of `run_type` = "Winter".  We can
+get all their IDs using command substitution and then cycle over them in the shell like this:
+```sh
+WINTERS=$(awk -F"," '$NF == "Winter" {print $1}' data/wgs-chinook-samples.csv)
+
+for i in $WINTERS; do
+  echo "FASTQS are: $i.R1.fq.gz     $i.R2.fq.gz"
+done
+```
+
+
+## sed
+
+`sed` is a "stream editor".  Though it is capable of all sorts of things,
+to be honest, I use it almost exclusively to
+do simple find-and-replace operations.   The syntax for that is:
+```sh
+sed 's/regex/replacement/g;' file
+```
+where `regex` is a regular expression and `replacement` is the string you wish to replace
+any segments of `file` that match `regex`.  The `s` means "substitute" and is like
+a command to `sed`, and the `g` means "globally", without which only the first
+match of `regex` on each line would be replaced.
+
+Multiple instances of the "s" command can be given, like:
+```sh
+sed '
+  s/regex1/replacement1/g;
+  s/regex2/replacement2/g;
+  s/regex3/replacement3/g;
+' file
+```
+The separate commands are done in order, line by line.  
+
+**Now it's your turn!**  
+Take the output of:
+```sh
+WINTERS=$(awk -F"," '$NF == "Winter" {print $1}' data/wgs-chinook-samples.csv)
+
+for i in $WINTERS; do
+  echo "FASTQS are: $i.R1.fq.gz     $i.R2.fq.gz"
+done
+```
+and pipe it into `sed` to changes the `R1` and `R2` into `r1` and `r2`,
+and to remove the `.gz` from the end of each file name.  Remember to
+backslash-escape that period!
+
+

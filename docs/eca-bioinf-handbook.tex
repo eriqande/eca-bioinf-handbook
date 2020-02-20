@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-02-16}
+\date{2020-02-20}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -1996,7 +1996,10 @@ That's right, even though the functionality of bash is geared toward running job
 and calling commands, it still exhibits most of the features expected in a programming
 language, like variables, iteration and flow control.
 
-We start this section by taking a look at a short bash program (typically
+\hypertarget{an-example-script}{%
+\section{An example script}\label{an-example-script}}
+
+We start this chapter by taking a look at a short bash program (typically
 called a \emph{script}) that the author wrote in order to efficiently download
 (clone, really) repositories from GitHub that have been submitted by
 students to GitHub Classroom. The program is not long, but exhibits
@@ -2719,6 +2722,152 @@ did this quite a bit, making a few different command lines\ldots{}
 \end{Highlighting}
 \end{Shaded}
 
+While you can count on subtituted variables to be evaluated in context,
+the above-displayed behaviors of the shell don't always work. Because of the
+intricacies of how the bash shell command parser works, and the order of parsing
+and variable substition, there are times when the string which is a substituted
+variable \emph{will not} be evaluated exactly as that same string would be evaluated if
+it were just text in a script. Typically the differences in behavior are found
+when \texttt{=} signs or redirects are found in the string.
+
+An example should make this clear:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# here is a command that is a simple string}
+\BuiltInTok{echo}\NormalTok{ me oh my, i like pie.}
+
+\CommentTok{# if we run it as a command we see:}
+\ExtensionTok{me}\NormalTok{ oh my, i like pie.}
+
+\CommentTok{# here is that same command stored in a variable}
+\VariableTok{boing=}\StringTok{"echo me oh my, i like pie."}
+
+\CommentTok{# Variable substitution for boing on the command line looks like:}
+\VariableTok{$boing}
+
+\CommentTok{# and the result we see is:}
+\ExtensionTok{me}\NormalTok{ oh my, i like pie.}
+
+\CommentTok{# However, if we type this:}
+\BuiltInTok{echo}\NormalTok{ me oh my, i like pie. }\OperatorTok{>}\NormalTok{ /tmp/out}
+
+\CommentTok{# then the the file /tmp/out will hold:}
+\ExtensionTok{me}\NormalTok{ oh my, i like pie.}
+
+\CommentTok{# But if we say}
+\VariableTok{bonk=}\StringTok{"echo me oh my, i like pie. > /tmp/out"}
+
+\CommentTok{# And do:}
+\VariableTok{$bonk}
+
+\CommentTok{# We get:}
+\ExtensionTok{me}\NormalTok{ oh my, i like pie. }\OperatorTok{>}\NormalTok{ /tmp/out}
+
+\CommentTok{# which is clearly not the same thing}
+\end{Highlighting}
+\end{Shaded}
+
+In the above, example, when \texttt{\textgreater{}} occurred within a variable,
+the command parser did not recognize it as the redirection
+operator.
+
+Here is another example: imagine that we want to assign three values to
+three different variables. If we just assigned them on the command line
+we could do something like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# simple variable assignment}
+\VariableTok{A=}\NormalTok{one; }\VariableTok{B=}\NormalTok{two; }\VariableTok{C=}\NormalTok{three}
+
+\CommentTok{# after that, if we do:}
+\BuiltInTok{echo} \VariableTok{$A} \VariableTok{$B} \VariableTok{$C}
+
+\CommentTok{# we get}
+\ExtensionTok{one}\NormalTok{ two three}
+\end{Highlighting}
+\end{Shaded}
+
+But, what if we wanted to assign three values to three variables
+within a string that gets assigned to a variable, and
+then substitute that variable on the command line to actually assign those
+variables. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{ASSIGNMENTS=}\StringTok{"D=four; E=five; F=six"}
+
+\CommentTok{# then try to substitute ASSIGNMENTS to actually make}
+\CommentTok{# the variable assignments:}
+\VariableTok{$ASSIGNMENTS} 
+
+\CommentTok{# bash replies with an error message}
+\ExtensionTok{-bash}\NormalTok{: D=four}\KeywordTok{;}\BuiltInTok{:}\NormalTok{ command not found}
+\end{Highlighting}
+\end{Shaded}
+
+It is clear that bash is not able to interpret the \texttt{=} sign as the assignment
+operator in this context.
+
+We can solve this problem by using the \texttt{eval} keyword to tell bash to
+explicitly evaluate the command
+line a second time after variable substitution has occurred.
+Observe. In the latter case:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# create variable that is a line with assignments}
+\VariableTok{ASSIGNMENTS=}\StringTok{"D=four; E=five; F=six"}
+
+\CommentTok{# evaluate that line after variable substitution:}
+\BuiltInTok{eval} \VariableTok{$ASSIGNMENTS}
+
+\CommentTok{# see that the variables D, E, and F have values assigned:}
+\BuiltInTok{echo} \VariableTok{$D}\NormalTok{, }\VariableTok{$E}\NormalTok{, }\VariableTok{$F}
+
+\CommentTok{# cool!}
+\end{Highlighting}
+\end{Shaded}
+
+And in the former:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# assign complete command line with redirection to bonk}
+\VariableTok{bonk=}\StringTok{"echo me oh my, i like pie. > /tmp/out"}
+
+\CommentTok{# evalute command line after $bonk's value is substituted}
+\BuiltInTok{eval} \VariableTok{$bonk}
+
+\CommentTok{# now /tmp/out holds the contents:}
+\ExtensionTok{me}\NormalTok{ oh my, i like pie.}
+\end{Highlighting}
+\end{Shaded}
+
+\BeginKnitrBlock{rmdtip}
+The \texttt{eval} keyword is not often used in \texttt{bash}, but it is very useful in bioinformatics
+for evaluating command lines, \emph{that include their redirection specifiers}, and which have
+been stored in a variable. Why is this important? If your script stores a command line (after
+variable subtstitution) in a variable, then you can print that command line before evaluating
+it. When developing your scripts this makes it easy to test your command lines (just echo it,
+copy it, and paste it into a shell you have open for testing). When running scripts, if you print
+out each line to a log, it is easier to go back to ones that failed and figure out why.
+\EndKnitrBlock{rmdtip}
+
+\textbf{Your Turn}: Make a variable called \texttt{YELL\_IT} that holds the command
+line that would print the line ``Oh, I just gotta be me'' and redirect
+it into the file \texttt{yawp.txt}. Once you have done that, do variable
+substitution without, and then with, the \texttt{eval} keyword. Which one
+actually gets the job done?
+
+\begin{verbatim}
+\end{verbatim}
+
+Remember that in RStudio, if you highlight some text and do CMD-Option-Return on a Mac,
+the text gets sent to the RStudio Unix Terminal. (I suspect the PC equivalent is
+cntrl-alt-return). That can be helpful for quickly testing lines you have written.
+
 \hypertarget{double-and-single-quotation-marks-and-variable-substitution}{%
 \subsection{Double and Single Quotation Marks and Variable Substitution}\label{double-and-single-quotation-marks-and-variable-substitution}}
 
@@ -2789,6 +2938,125 @@ Check this out:
 
 That turns out to be some powerful stuff.
 
+\hypertarget{variable-arrays}{%
+\subsection{Variable arrays}\label{variable-arrays}}
+
+Most programming languages allow you to store things in arrays. In R they
+are called \emph{vectors} (or, more generally, \emph{lists}). The same is true in
+\texttt{bash}: you can store a number of values into a single variable, and then
+access each individual value one at at time. This can be quite useful sometimes.
+
+The syntax for assigning values to array variable is like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{ArrayVariable=(}\NormalTok{words or things }\StringTok{'or stuff'}\NormalTok{ separated }\StringTok{'by whitespace'}\VariableTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+In other words, wrap the items inside a pair of parentheses, with white-space
+separating them, and the shell will break those up into different, \emph{numbered}
+parts of the array variable. It is important to note that single-quoted groups of words
+are treated as single values that will be assigned to an array element as a group.
+(Though the same is not true of double-quoted values\ldots{})
+
+Once values are stored in an array, how do we access them, i.e., what sort
+of variable subtitution can we do?
+
+Well, if we just do the traditional variable substitution, like \texttt{\$\{ArrayVariable\}} or
+\texttt{\$ArrayVariable}, then we just get the first element:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# doing this}
+\BuiltInTok{echo} \VariableTok{$ArrayVariable}
+
+\CommentTok{# produces this:}
+\ExtensionTok{words}
+\end{Highlighting}
+\end{Shaded}
+
+That is not super helpful. So, to get each separate element we can
+\emph{subscript} the array by adding a number in square brackets inside the
+curly braces, like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Doing this:}
+\BuiltInTok{echo} \VariableTok{$\{ArrayVariable[2]\}}
+
+\CommentTok{# gives:}
+\ExtensionTok{things}
+\end{Highlighting}
+\end{Shaded}
+
+The subscripting is done with 0 as the starting value, so \texttt{\$\{ArrayVariable{[}0{]}\}}
+will give \texttt{words}, and \texttt{\$\{ArrayVariable{[}1{]}\}} gives \texttt{or}.
+Here is a \texttt{for} loop (see below) that prints each of the different subscripts
+followed by their associated values:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# this loop...}
+\KeywordTok{for} \ExtensionTok{i}\NormalTok{ in }\DataTypeTok{\{0..5\}}\KeywordTok{;} \KeywordTok{do}
+  \BuiltInTok{echo} \VariableTok{$i}\NormalTok{: }\VariableTok{$\{ArrayVariable[$i]\}}
+\KeywordTok{done}
+
+\CommentTok{# produces output like:}
+\ExtensionTok{0}\NormalTok{: words}
+\ExtensionTok{1}\NormalTok{: or}
+\ExtensionTok{2}\NormalTok{: things}
+\ExtensionTok{3}\NormalTok{: or stuff}
+\ExtensionTok{4}\NormalTok{: separated}
+\ExtensionTok{5}\NormalTok{: by whitespace}
+\end{Highlighting}
+\end{Shaded}
+
+There are a few more important ways of accessing array variable values:
+
+You can get all the values at once as a single string. There are two
+ways you can do this: either \texttt{\$\{ArrayVariable{[}*{]}\}} or
+\texttt{\$\{ArrayVariable{[}@{]}\}}. These two methods differ only when you have wrapped the variable up
+in double quotation marks, but that involves some serious bash arcana.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# when just printing output, both of these give the same result}
+\BuiltInTok{echo} \VariableTok{$\{ArrayVariable[*]\}}
+\BuiltInTok{echo} \VariableTok{$\{ArrayVariable[@]\}}
+
+\CommentTok{# producing:}
+\ExtensionTok{words}\NormalTok{ or things or stuff separated by whitespace}
+\ExtensionTok{words}\NormalTok{ or things or stuff separated by whitespace}
+\end{Highlighting}
+\end{Shaded}
+
+And finally, the \emph{length} of the array (meaning, how many elements
+are in it) is found with a peculiar syntax \texttt{\$\{\#ArrayVariable{[}@{]}\}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# this:}
+\BuiltInTok{echo} \VariableTok{$\{#ArrayVariable[@]\}}
+
+\CommentTok{# produces:}
+\ExtensionTok{6}
+\end{Highlighting}
+\end{Shaded}
+
+Although bash arrays can be quite useful, I must admit that I only
+use them in a few bioinformatic situtations---primarily when I want
+to break a single row of white-space delimited columns (that I grabbed
+from a file, for example) into its consituent words that I can
+then manipulate.
+
+\textbf{Your turn}: Create a variable called \texttt{MY\_ARRAY} in which each
+element is the first name of 5 different people in our bioinformatics class.
+Then print the 1st, 2nd and 5th of them each on a separate line.
+
+\begin{verbatim}
+\end{verbatim}
+
 \hypertarget{evaluate-a-command-and-substitute-the-result-on-the-command-line}{%
 \section{Evaluate a command and substitute the result on the command line}\label{evaluate-a-command-and-substitute-the-result-on-the-command-line}}
 
@@ -2823,26 +3091,690 @@ Whoa! What happened to all my carriage returns? The results gets put onto the co
 parsed there. The command line parser sometimes treats line endings as just more whitespace,
 and it converts all runs of whitespace to a single space\ldots{}
 
-\hypertarget{groupingcollecting-output-from-multiple-commands}{%
-\section{Grouping/Collecting output from multiple commands}\label{groupingcollecting-output-from-multiple-commands}}
+\textbf{Your Turn}: Make a three line script. In the first one, assign the output
+of the \texttt{date} command to the variable \texttt{BEFORE}, then give this command \texttt{sleep\ 5},
+then in the third line, assign the output of the \texttt{date} command to the variable
+\texttt{AFTER}. Evaluate all three lines at once (by CMD-OPTION-Return or copying and pasting
+into the terminal.) Then, look at \texttt{BEFORE} and \texttt{AFTER} to compare.
 
-\texttt{(\ )}
+\hypertarget{groupingcollecting-output-from-multiple-commands-commands-and-commands}{%
+\section{\texorpdfstring{Grouping/Collecting output from multiple commands: \texttt{(commands)} and \texttt{\{\ commands;\ \}}}{Grouping/Collecting output from multiple commands: (commands) and \{ commands; \}}}\label{groupingcollecting-output-from-multiple-commands-commands-and-commands}}
 
-\hypertarget{advanced-repetition}{%
-\section{Advanced repetition}\label{advanced-repetition}}
+Quite often you may wish to think of the result of a group of commands (taken together such
+a group is called ``list'' in bash parlance) as being the result of a single command. Typical
+use cases are when you want to redirect the output from three separate commands into a
+single file. For example if you want to put the contents of two files, FileA and FileB,
+into a file called ``Both,'' but separate the contents of FileA and FileB by a short line of
+x's, you could do this:
 
-I want to get constructs like \texttt{\{1..20\}} and \texttt{\{csv,pdf,jpg\}} in here too.
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{ FileA }\OperatorTok{>}\NormalTok{ Both}
+\BuiltInTok{echo}\NormalTok{ xxxxxxxxxxxx }\OperatorTok{>>}\NormalTok{ Both}
+\FunctionTok{cat}\NormalTok{ FileB }\OperatorTok{>>}\NormalTok{ Both}
+\end{Highlighting}
+\end{Shaded}
 
-\hypertarget{variables-1}{%
-\section{Variables}\label{variables-1}}
+But, it is easier to see what is going on and to maintain code that looks like this:
 
-\hypertarget{looping}{%
-\section{looping}\label{looping}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{(}\FunctionTok{cat}\NormalTok{ FileA}\KeywordTok{;} \BuiltInTok{echo}\NormalTok{ xxxxxxxxxxxx}\KeywordTok{;} \FunctionTok{cat}\NormalTok{ FileB}\KeywordTok{)} \OperatorTok{>} \ExtensionTok{Both}
+\end{Highlighting}
+\end{Shaded}
 
-\hypertarget{further-reading}{%
-\section{Further reading}\label{further-reading}}
+or like:
 
-An excellent chapter on the development of Unix \citep{RaymondArtUNIXProgramming2003}
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{\{} \FunctionTok{cat}\NormalTok{ FileA}\KeywordTok{;} \BuiltInTok{echo}\NormalTok{ xxxxxxxxxxxx}\KeywordTok{;} \FunctionTok{cat}\NormalTok{ FileB}\KeywordTok{;\}} \OperatorTok{>} \ExtensionTok{Both}
+\end{Highlighting}
+\end{Shaded}
+
+Both parentheses and curly braces can be used to group commands into one
+\emph{grouped} command, thereby making it easy to redirect the output from
+that command. These two forms of grouping have subtle differences.
+
+When you group commands into parentheses, all the commands get
+evaluated in a separate \emph{subshell}. By contrast, grouped commands
+inside curly braces are all evaluated within the current shell. In
+many cases this will make almost no difference to you. However, if you
+are assigning variable values within the grouped commands, then, using
+parentheses for grouping, you won't have access to those variable values
+in the current shell:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# include a variable assignment in parentheses}
+\KeywordTok{(}\FunctionTok{cat}\NormalTok{ FileA}\KeywordTok{;} \BuiltInTok{echo}\NormalTok{ xxxxx}\KeywordTok{;} \FunctionTok{cat}\NormalTok{ FileB}\KeywordTok{;} \VariableTok{NewVar=}\NormalTok{15}\KeywordTok{)} \OperatorTok{>} \ExtensionTok{Both}
+
+\CommentTok{# if you try this:}
+\VariableTok{$NewVar}
+
+\CommentTok{# the shell knows nothing about it}
+\end{Highlighting}
+\end{Shaded}
+
+Using curly braces, the variable assignments will be known in
+the current shell you are in:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# include a variable assignment in curly braces}
+\KeywordTok{\{} \FunctionTok{cat}\NormalTok{ FileA}\KeywordTok{;} \BuiltInTok{echo}\NormalTok{ xxxxx}\KeywordTok{;} \FunctionTok{cat}\NormalTok{ FileB}\KeywordTok{;} \VariableTok{NewVar=}\NormalTok{15; }\KeywordTok{\}} \OperatorTok{>} \ExtensionTok{Both}
+
+\CommentTok{# Now, if you try this:}
+\VariableTok{$NewVar}
+
+\CommentTok{# the shell knows that $NewVar has a value:}
+\ExtensionTok{15}
+\end{Highlighting}
+\end{Shaded}
+
+The syntax for using curly braces for grouping, however, is more finicky than
+it is with parentheses: the left curly brace cannot be touching anything on the
+right, and the last command in the group must be followed by a semicolon or a newline.
+Thus, both of these would fail:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\{}\ExtensionTok{cat}\NormalTok{ FileA}\KeywordTok{;} \BuiltInTok{echo}\NormalTok{ xxxxxxxxxxxx}\KeywordTok{;} \FunctionTok{cat}\NormalTok{ FileB}\KeywordTok{;}\NormalTok{\} }\OperatorTok{>} \ExtensionTok{Both}
+\KeywordTok{\{} \FunctionTok{cat}\NormalTok{ FileA}\KeywordTok{;} \BuiltInTok{echo}\NormalTok{ xxxxxxxxxxxx}\KeywordTok{;} \FunctionTok{cat}\NormalTok{ FileB}\KeywordTok{\}} \OperatorTok{>} \ExtensionTok{Both}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exit-status}{%
+\section{Exit Status}\label{exit-status}}
+
+When you run a command in Unix, that command might do a lot of different things,
+like print something to \emph{stdout}, or copy a file around, or delete a file,
+or index a whole genome. Regardless of all the things a command might do, it
+also should let the operating system know whether it was successful or not. The
+\emph{exit status} of a Unix command records whether it finished its task successfully
+or not.
+It is important to understand how exit statuses work so that you can
+design bioinformatic pipelines that will stop when something has gone wrong, and will
+let you know about that.
+
+If a command exits normally (SUCCESS!) the exit status is 0. If the command does
+not exit normally (it may have been unsuccessful) then its exit status will
+be anything but 0. Some programs, when they fail, return a non-zero integer as their
+exit status, and the value can tell you what kind of error occurred. Other programs might
+just return 1.
+
+Exit statuses are not typically seen by the user, but they do get passed to the
+shell. You can always access the exit status of the last command with \texttt{\$?}. You can
+remember that because, with the question mark, it is kind of like you are asking
+the operating system, ``What's up!!??''.
+
+Here is an example: if we try to list a file, using \texttt{ls}, that exists, the file gets listed
+and the exit status is 0 (SUCCESS!). If the file does not exist we get an error message
+and an exit status of 1 (NO\_SUCCESS!).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# list a file we know exists}
+\ExtensionTok{%}\NormalTok{ ls -d ~/Documents }
+\ExtensionTok{/Users/eriq/Documents/}
+
+\CommentTok{# check exit status of last command}
+\ExtensionTok{%}\NormalTok{ echo }\VariableTok{$?}
+\ExtensionTok{0}
+
+\CommentTok{# list a file we are pretty sure does not exist}
+\ExtensionTok{%}\NormalTok{ ls I-doubt-this-file-exists.yeah.sure}
+\ExtensionTok{ls}\NormalTok{: I-doubt-this-file-exists.yeah.sure: No such file or directory}
+
+\CommentTok{# check the exit status of last command}
+\ExtensionTok{%}\NormalTok{ echo }\VariableTok{$?}
+\ExtensionTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+While we don't get to ``see'' the exit status of a command without
+looking at \texttt{\$?}, to the bash shell, when a command has completed
+on the command line, it effectively becomes the value of its exit
+status. This is important to understand when dealing with combinations
+of exit statuses.
+
+\hypertarget{combinations-of-exit-statuses}{%
+\subsection{Combinations of exit statuses}\label{combinations-of-exit-statuses}}
+
+In bioinformatics, exit statuses can be helpful in a script to ``decide'' whether
+to continue processing the next command, based on whether the previous one
+failed or not. \texttt{bash} has an elegant way of implementing this in terms of
+the binary operators \texttt{\&\&} and \texttt{\textbar{}\textbar{}} that \emph{combine} exit statuses. The \texttt{\&\&} is
+a logical-AND combinining operator. If ES1 and ES2 are two exit statuses, then
+\texttt{ES1\ \&\&\ ES2} is ``SUCCESS!'' only if \emph{both} ES1 and ES2 have exit statuses of
+``SUCCESS!''. Here is a quick table:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+\texttt{ES1} & \texttt{ES2} & \texttt{ES1\ \&\&\ ES2}\tabularnewline
+\midrule
+\endhead
+\texttt{NO\_SUCCESS} & \texttt{NO\_SUCCESS} & \texttt{NO\_SUCCESS}\tabularnewline
+\texttt{NO\_SUCCESS} & \texttt{SUCCESS!} & \texttt{NO\_SUCCESS}\tabularnewline
+\texttt{SUCCESS!} & \texttt{NO\_SUCCESS} & \texttt{NO\_SUCCESS}\tabularnewline
+\texttt{SUCCESS!} & \texttt{SUCCESS!} & \texttt{SUCCESS!}\tabularnewline
+\bottomrule
+\end{longtable}
+
+If you study this table for a moment, you will see that
+in the first two cases, the value of the combination,
+\texttt{ES1\ \&\&\ ES2} is apparent, just from knowing \texttt{ES1}. It
+doesn't matter whether \texttt{ES2} has an exit status
+of \texttt{SUCCESS!} or \texttt{NO\_SUCCESS}; either way, because
+\texttt{ES1} has failed, we know that \texttt{ES1\ \&\&\ ES2} will be
+\texttt{NO\_SUCCESS}.
+
+This knowledge, combined with an understanding that
+the bash shell is typically very busy, and so is not going to
+do any extra work \emph{that it does not need to do} will help you
+to understand the behavior of the shell when two (or more)
+commands are joined into a ``compound command'' with the \texttt{\&\&} symbol.
+Consider this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{command1} \KeywordTok{&&} \ExtensionTok{command2}
+\end{Highlighting}
+\end{Shaded}
+
+When bash looks at that, it sees that whoever wrote it wants to
+know the \texttt{\&\&}-combination of exit statuses of \texttt{command1} and
+\texttt{command2}. \texttt{bash} keeps that thought in the back of its mind,
+and then starts working through the commands from left to right.
+If \texttt{command1} fails, the shell says, ``Hey! At this point, I know
+the exit status of \texttt{command1\ \&\&\ command2}, so I am not even going to
+evaluate \texttt{command2}! On the other hand, if the exit status
+of \texttt{command1} is''SUCCESS!``, then the shell will proceed to evaluating
+\texttt{command2}, because it knows that if the exit status of \texttt{command1}
+was''SUCCESS!", then it must evaluate \texttt{command2} so as to get its
+exit status to properly evaluate \texttt{command1\ \&\&\ command2}.
+
+The upshot of this is a construction like the following:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{command1} \KeywordTok{&&} \KeywordTok{\textbackslash{}}
+  \ExtensionTok{command2} \KeywordTok{&&} \KeywordTok{\textbackslash{}}
+  \ExtensionTok{command3} \KeywordTok{&&} \KeywordTok{\textbackslash{}}
+  \ExtensionTok{command4}
+\end{Highlighting}
+\end{Shaded}
+
+can be very useful in bioinformatics. This construction says,
+evaluate each command, if all the preceding commands were successful.
+If any of the commands fails, then none of the commands after them are
+evaluated. This is helpful if future steps depend on the successful
+completion of previous steps. In our example script, \texttt{clone-classroom-repos.sh}
+at the beginning of this chapter, we see the \texttt{\&\&} used on lines 103--106.
+This is saying, "if we didn't successfully clone the repository, then don't
+try to make a new branch in it, and if we didn't successfully make a new
+branch in it, then don't try to push that branch back to GitHub.
+
+The opposite of \texttt{\&\&} is the \texttt{\textbar{}\textbar{}} which combines exit statuses in an OR fashion
+with a table like the following:
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+\texttt{ES1} & \texttt{ES2} & \texttt{ES1\ \textbar{}\textbar{}\ ES2}\tabularnewline
+\midrule
+\endhead
+\texttt{NO\_SUCCESS} & \texttt{NO\_SUCCESS} & \texttt{NO\_SUCCESS}\tabularnewline
+\texttt{NO\_SUCCESS} & \texttt{SUCCESS!} & \texttt{SUCCESS!}\tabularnewline
+\texttt{SUCCESS!} & \texttt{NO\_SUCCESS} & \texttt{SUCCESS!}\tabularnewline
+\texttt{SUCCESS!} & \texttt{SUCCESS!} & \texttt{SUCCESS!}\tabularnewline
+\bottomrule
+\end{longtable}
+
+In this case, if \texttt{ES1} is \texttt{SUCCESS!} then we know that
+\texttt{ES1\ \textbar{}\textbar{}\ ES2} will have a combined exit status of ``SUCCESS!''
+Consequently, we use the \texttt{\textbar{}\textbar{}} to force evaluation of
+another command in case the previous one failed. Like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ls}\NormalTok{ I-doubt-this-file-exists.yeah.sure }\KeywordTok{||} \KeywordTok{\textbackslash{}}
+  \BuiltInTok{echo} \StringTok{"Aw shucks! That file aint there"} \OperatorTok{>}\NormalTok{ /dev/stderr}
+\end{Highlighting}
+\end{Shaded}
+
+Note, in the above, we redirect the text, ``Aw shucks! That file aint there'' to
+a file named \texttt{/dev/stderr}. That file, \texttt{/dev/stderr} is a special file: anything
+that you send into it gets immediately printed on \emph{stderr}.
+
+We end by noting that the numbers assigned to \texttt{SUCCESS!} and \texttt{NO\_SUCCESS} do
+not accord with the 0's and 1's used in a standard ``truth-table'' context. We just
+have to deal with that. I find it much easier to think in terms of exit statuses
+of \texttt{SUCCESS!} and \texttt{NO\_SUCCESS}, than in terms of the 0's and 1's, respectively,
+by which those statuses are represented in the computer.
+
+\hypertarget{loops-and-repetition}{%
+\section{Loops and repetition}\label{loops-and-repetition}}
+
+By this point, you have probably heard, or been told,
+many times over, that Unix shell scripting is particularly good
+for taking care of repetitive tasks. But, by this point in this
+book, it might not yet be clear how that is the case. Wait no
+more! This section will reveal a wonderful construct called the
+\texttt{for} loop that lets you do a task repeatedly, each time setting
+the value of a variable to something different that you want to
+be applying some commands to.
+
+The basic syntax of the \texttt{for} loop is:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# here the cycled variable is "i"}
+\KeywordTok{for} \ExtensionTok{i}\NormalTok{ in some things separated by whitespace}\KeywordTok{;} \KeywordTok{do}
+  \ExtensionTok{commands}\NormalTok{ involving }\VariableTok{$i}
+\KeywordTok{done}
+\end{Highlighting}
+\end{Shaded}
+
+For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for} \ExtensionTok{i}\NormalTok{ in oranges bananas apples}\KeywordTok{;} \KeywordTok{do}
+  \BuiltInTok{echo} \StringTok{"I like }\VariableTok{$i}\StringTok{"}
+\KeywordTok{done}
+
+\CommentTok{# produces this:}
+\ExtensionTok{I}\NormalTok{ like oranges}
+\ExtensionTok{I}\NormalTok{ like bananas}
+\ExtensionTok{I}\NormalTok{ like apples}
+\end{Highlighting}
+\end{Shaded}
+
+When you write a for loop in a script, it is good practice to indent
+the command lines that will get evaluated multiple times. This is
+particularly useful if you have nested for loops (one inside another)
+such as:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for} \ExtensionTok{fruit}\NormalTok{ in pears figs}\KeywordTok{;} \KeywordTok{do}
+  \KeywordTok{for} \FunctionTok{who}\NormalTok{ in Mark Alice}\KeywordTok{;} \KeywordTok{do}
+    \BuiltInTok{echo} \StringTok{"}\VariableTok{$who}\StringTok{ likes }\VariableTok{$fruit}\StringTok{"}
+  \KeywordTok{done}
+\KeywordTok{done}
+
+\CommentTok{# which produces:}
+\ExtensionTok{Mark}\NormalTok{ likes pears}
+\ExtensionTok{Alice}\NormalTok{ likes pears}
+\ExtensionTok{Mark}\NormalTok{ likes figs}
+\ExtensionTok{Alice}\NormalTok{ likes figs}
+\end{Highlighting}
+\end{Shaded}
+
+However, in bash (unlike Python, which is particularly obsessed with
+indentation) you are not required to indent things. In fact the above could have
+been written all on one line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for} \ExtensionTok{fruit}\NormalTok{ in pears figs}\KeywordTok{;} \KeywordTok{do} \KeywordTok{for} \FunctionTok{who}\NormalTok{ in Mark Alice}\KeywordTok{;} \KeywordTok{do} \BuiltInTok{echo} \StringTok{"}\VariableTok{$who}\StringTok{ likes }\VariableTok{$fruit}\StringTok{"}\KeywordTok{;} \KeywordTok{done}\NormalTok{; }\KeywordTok{done}
+\end{Highlighting}
+\end{Shaded}
+
+It is also worth pointing out that, while many languages use curly braces to denote
+blocks of repeated code, \texttt{bash} uses the pair \texttt{do...done}, which I find to be quite cute.
+
+As found with the variable \texttt{GHNAMES} in our example script,
+\texttt{clone-classroom-repos.sh}, you can also use variable
+subsitution to provide a list of terms to cycle over. Here is
+another small example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{ITEMS=}\StringTok{"cats dogs mice shrews"}
+\KeywordTok{for} \ExtensionTok{critters}\NormalTok{ in }\VariableTok{$ITEMS}\KeywordTok{;} \KeywordTok{do}
+  \BuiltInTok{echo} \VariableTok{$critters}\NormalTok{ are vertebrates}
+\KeywordTok{done}
+\end{Highlighting}
+\end{Shaded}
+
+You can also use globbing (path expansion) to provide a list of
+things (files, specifically) to cycle over. The following prints the path
+and the first two
+lines of all files in the directory \texttt{table\_inputs} in this book's repository,
+at this point in the book's formation:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for} \ExtensionTok{i}\NormalTok{ in table_inputs/*}\KeywordTok{;} \KeywordTok{do} 
+  \BuiltInTok{echo} \StringTok{"======= file: }\VariableTok{$i}\StringTok{  ========="}
+  \FunctionTok{head}\NormalTok{ -n 2 }\VariableTok{$i}
+\KeywordTok{done}
+
+\CommentTok{# this produces:}
+\NormalTok{======= }\ExtensionTok{file}\NormalTok{: table_inputs/minimal-tmux.txt  =========}
+\ExtensionTok{Within}\NormalTok{ tmux?   }\KeywordTok{;}  \ExtensionTok{Command}         \KeywordTok{;}  \ExtensionTok{Effect}
+\ExtensionTok{N}              \KeywordTok{;} \KeywordTok{`}\ExtensionTok{tmux}\NormalTok{ ls}\KeywordTok{`}\NormalTok{          ; }\ExtensionTok{List}\NormalTok{ any tmux sessions the server knows about}
+\NormalTok{======= }\ExtensionTok{file}\NormalTok{: table_inputs/sam-columns-table.txt  =========}
+\ExtensionTok{Column}   \KeywordTok{&}  \ExtensionTok{Field}   \KeywordTok{&} \ExtensionTok{Data}\NormalTok{ Type  }\KeywordTok{&} \ExtensionTok{Description}
+\ExtensionTok{1}        \KeywordTok{&} \ExtensionTok{QNAME}    \KeywordTok{&} \ExtensionTok{String}     \KeywordTok{&} \ExtensionTok{Name/ID}\NormalTok{ of the read (from FASTQ file)}
+\NormalTok{======= }\ExtensionTok{file}\NormalTok{: table_inputs/sam-flag-table.txt  =========}
+\ExtensionTok{bit-}\NormalTok{#    }\KeywordTok{&}   \ExtensionTok{bit-gram}   \KeywordTok{&}  \VariableTok{$2}\NormalTok{^}\ExtensionTok{x}\NormalTok{$   }\KeywordTok{&}   \ExtensionTok{dec}    \KeywordTok{&}   \ExtensionTok{hex}     \KeywordTok{&} \ExtensionTok{Meaning}
+\ExtensionTok{1}    \KeywordTok{&}\NormalTok{  $\textbackslash{}}\ExtensionTok{bitsa}\NormalTok{$    }\KeywordTok{&}  \VariableTok{$2}\NormalTok{^}\ExtensionTok{0}\NormalTok{$   }\KeywordTok{&}    \ExtensionTok{1}     \KeywordTok{&}   \ExtensionTok{0x1}    \KeywordTok{&} \ExtensionTok{the}\NormalTok{ read is paired (i.e. comes from paired-endsequencing.)}
+\NormalTok{======= }\ExtensionTok{file}\NormalTok{: table_inputs/tmux-pane-strokes.txt  =========}
+\ExtensionTok{Within}\NormalTok{ tmux?   }\KeywordTok{;}  \ExtensionTok{Command}         \KeywordTok{;}  \ExtensionTok{Effect}
+\ExtensionTok{Y}              \KeywordTok{;} \KeywordTok{`}\OperatorTok{<}\ExtensionTok{cntrl}\OperatorTok{>}\NormalTok{-b /}\KeywordTok{`}\NormalTok{       ; }\ExtensionTok{Split}\NormalTok{ current window/pane vertically into two panes}
+\end{Highlighting}
+\end{Shaded}
+
+Those files are the ones used as input to a few of the tables
+in the book.
+
+If it turns out that you want to cycle over some integers,
+in order (whether increasing or decreasing), from a starting
+value to a stopping value, you can use curly braces and two dots,
+like this: \texttt{\{1..5\}}, like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for} \ExtensionTok{i}\NormalTok{ in }\DataTypeTok{\{1..5\}}\KeywordTok{;} \KeywordTok{do} \BuiltInTok{echo}\NormalTok{ The number is: }\VariableTok{$i}\KeywordTok{;} \KeywordTok{done}
+
+\CommentTok{# this makes:}
+\ExtensionTok{Number}\NormalTok{ 1}
+\ExtensionTok{Number}\NormalTok{ 2}
+\ExtensionTok{Number}\NormalTok{ 3}
+\ExtensionTok{Number}\NormalTok{ 4}
+\ExtensionTok{Number}\NormalTok{ 5}
+\end{Highlighting}
+\end{Shaded}
+
+And you can have negative numbers and a reverse order, too:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for} \ExtensionTok{i}\NormalTok{ in }\DataTypeTok{\{4..-2\}}\KeywordTok{;} \KeywordTok{do} \BuiltInTok{echo}\NormalTok{ The number is: }\VariableTok{$i}\KeywordTok{;} \KeywordTok{done}
+
+\CommentTok{# this makes}
+\ExtensionTok{The}\NormalTok{ number is: 4}
+\ExtensionTok{The}\NormalTok{ number is: 3}
+\ExtensionTok{The}\NormalTok{ number is: 2}
+\ExtensionTok{The}\NormalTok{ number is: 1}
+\ExtensionTok{The}\NormalTok{ number is: 0}
+\ExtensionTok{The}\NormalTok{ number is: -1}
+\ExtensionTok{The}\NormalTok{ number is: -2}
+\end{Highlighting}
+\end{Shaded}
+
+One cool thing to realize is that any output that goes to \emph{stdout}
+from within a \texttt{for} loop---if it is not redirected from within the
+loop---effectively comes ``flowing out'' to \emph{stdout} from right
+after the \texttt{done} keyword. So, you can redirect it in one swell foop
+from that point in your code like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for} \ExtensionTok{i}\NormalTok{ in table_inputs/*}\KeywordTok{;} \KeywordTok{do} 
+  \BuiltInTok{echo} \StringTok{"======= file: }\VariableTok{$i}\StringTok{  ========="}
+  \FunctionTok{head}\NormalTok{ -n 2 }\VariableTok{$i}
+\KeywordTok{done} \OperatorTok{>} \ExtensionTok{file-to-redirect-it-all-into.txt} 
+\end{Highlighting}
+\end{Shaded}
+
+\ldots{}or, you could even pipe it to another command, like this, to print just the
+first column of text of each line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for} \ExtensionTok{i}\NormalTok{ in table_inputs/*}\KeywordTok{;} \KeywordTok{do} 
+  \BuiltInTok{echo} \StringTok{"======= file: }\VariableTok{$i}\StringTok{  ========="}
+  \FunctionTok{head}\NormalTok{ -n 2 }\VariableTok{$i}
+\KeywordTok{done} \KeywordTok{|} \FunctionTok{awk} \StringTok{'\{print $1\}'}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{more-conditional-evaluation-if-then-else-and-friends}{%
+\section{\texorpdfstring{More Conditional Evaluation: \texttt{if}, \texttt{then}, \texttt{else}, and friends}{More Conditional Evaluation: if, then, else, and friends}}\label{more-conditional-evaluation-if-then-else-and-friends}}
+
+We have already seen how exit statuses can be combined with
+\texttt{\&\&} or \texttt{\textbar{}\textbar{}} to control the flow of a script (i.e., if this
+failed, don't do the next line\ldots{}). There is also a traditional
+\texttt{if/then/else} construct in bash to control the execution of script
+on the basis of exit status. Thus, we can do something like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{if} \FunctionTok{ls}\NormalTok{ README.md}\KeywordTok{;} \KeywordTok{then}
+  \BuiltInTok{echo} \StringTok{"We found the README"}
+\KeywordTok{else}
+  \BuiltInTok{echo} \StringTok{"Can't find the README"}
+\KeywordTok{fi}
+\end{Highlighting}
+\end{Shaded}
+
+Note that this opens an \texttt{if} block of code with \texttt{if} and then
+it closes it (after the \texttt{then} and the \texttt{else}) with a backward
+\texttt{if}: \texttt{fi}.
+
+The general syntax is:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{if} \ExtensionTok{exit_status}\KeywordTok{;} \KeywordTok{then}
+  \ExtensionTok{Do}\NormalTok{ this if exit_status = SUCCESS!}
+\KeywordTok{else}
+  \ExtensionTok{Do}\NormalTok{ this if exit_status = NO_SUCCESS}
+\KeywordTok{fi}
+\end{Highlighting}
+\end{Shaded}
+
+There is also an else-if construct, that is named \texttt{elif}, with
+syntax like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{if} \ExtensionTok{exit_status1}\KeywordTok{;} \KeywordTok{then}
+  \ExtensionTok{Do}\NormalTok{ this if exit_status1 = SUCCESS!}
+\KeywordTok{elif} \ExtensionTok{exit_status2}\KeywordTok{;} \KeywordTok{then}
+  \ExtensionTok{Do}\NormalTok{ this if exit_status1 = NO_SUCCESS and exit_status2 = SUCCESS!}
+\KeywordTok{else} 
+  \ExtensionTok{Do}\NormalTok{ this if both were NO_SUCCESS}
+\KeywordTok{fi}
+\end{Highlighting}
+\end{Shaded}
+
+Many of the times when you want to use an \texttt{if} construct, you will
+want to be \emph{testing} things about files, or strings or variables,
+rather than assessing exit status of functions. Alas, all bash is
+capable of is assessing exit statuses. But hark! All is not lost becuase
+there is a function called \texttt{test} that let's you test if statements
+are true, and if they are, then it returns an exit status of 0 (SUCCESS!).
+
+For example, to test if a file exists, you can use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# this file does exist in the current directory on my system...}
+\BuiltInTok{test}\NormalTok{ -f eca-bioinf-handbook.Rproj}
+
+\CommentTok{# do this to see what the exit status was}
+\BuiltInTok{echo} \VariableTok{$?}
+\end{Highlighting}
+\end{Shaded}
+
+Or, if we want to test if the value of a variable is the same as
+some string.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{VAR=}\NormalTok{big_and_bad }\CommentTok{# set a variable to some string value}
+
+\BuiltInTok{test} \VariableTok{$VAR}\NormalTok{ = small_and_sweet}
+
+\CommentTok{# get exit status, which will be NO_SUCCESS (1)}
+\BuiltInTok{echo} \VariableTok{$?}
+\end{Highlighting}
+\end{Shaded}
+
+The value of integer variables can be tested too. See \texttt{man\ test} for
+all the details.
+
+Now, the thing to remember about the test function is that there
+is an intuitive-looking shorthand for writing it: that is to write
+its arguments between a \texttt{{[}} and a \texttt{{]}}, but not touching either of them.
+
+So:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# this}
+\BuiltInTok{test} \VariableTok{$VAR}\NormalTok{ = small_and_sweet}
+
+\CommentTok{# is equivalent to:}
+\BuiltInTok{[} \VariableTok{$VAR} \OtherTok{=} \StringTok{"small_and_sweet"}\BuiltInTok{ ]}\NormalTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+Note that the RStudio bash shell seems to be doing something weird,
+I don't think the ``last command'' is quite what we think it should be,
+so \texttt{\$?} does not seem to be reliable.
+
+\hypertarget{finallypositional-parameters}{%
+\section{Finally\ldots{}positional parameters}\label{finallypositional-parameters}}
+
+Way back when we started this chapter, in the example script, \texttt{clone-classroom-repos.sh},
+right at the top we see lines like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{GHP=$1}
+\end{Highlighting}
+\end{Shaded}
+
+What the heck is that \texttt{\$1}. That is not proper syntax for a variable name! A variable
+name can't start with a number, after all. Aha! \texttt{\$1}, \texttt{\$2}, \texttt{\$3}, and so forth are
+variables that store the \emph{positional parameters} of a script. In other words if you write a
+script called \texttt{my\_script.sh} and you invoke it with some words after it, like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{my_script.sh}\NormalTok{  BigFile.txt  small_file.txt  Yee-ha   }\StringTok{'Oh Yeah'}
+\end{Highlighting}
+\end{Shaded}
+
+Then, when that script is executing the code inside it, the value of
+\texttt{\$1} will be \texttt{BigFile.txt}, the value of \texttt{\$2} will be \texttt{small-file.txt}, the
+value of \texttt{\$3} will be \texttt{Yee-ha}, and the value of \texttt{\$4} will be \texttt{Oh\ Yeah}.
+
+The variable \texttt{\$\#} inside the script holds the number of positional parameters, and,
+in our example script \texttt{{[}\ \$\#\ -ne\ 4\ {]}} evaluates to \texttt{NO\_SUCCESS} if \texttt{\$\#} is not equal
+to 4, in which case the script prints a message about how to use it.
+
+\textbf{Your Turn}: Write a script in a separate file called ``three-things.sh'' that is
+expecting to take three positional parameters. In side the script, have it print
+the actual values passed to it in reverse order for example:
+
+\begin{verbatim}
+Third parameters is: -----
+Second parameter is: -----
+First parameters is: -----
+\end{verbatim}
+
+Where \texttt{-\/-\/-\/-\/-} would be replaced by the actual value of the positional parameters.
+
+\hypertarget{basename-and-dirname-two-useful-little-utilities}{%
+\section{\texorpdfstring{\texttt{basename} and \texttt{dirname} two useful little utilities}{basename and dirname two useful little utilities}}\label{basename-and-dirname-two-useful-little-utilities}}
+
+Paths to files and directories expand and are listed as the paths relative
+to the current working directory. Sometimes, you just want the name of the
+file. This is what \texttt{basename} gives you. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# expand the filenames a couple directories down:}
+\VariableTok{files=}\StringTok{"figure-creation/1.01-unix/*"}
+
+\CommentTok{# print all those file names}
+\BuiltInTok{echo} \VariableTok{$files}
+
+\CommentTok{# that produces this output:}
+\ExtensionTok{figure-creation/1.01-unix/file-hierarchy.dot}\NormalTok{ figure-creation/1.01-unix/file-hierarchy.pdf figure-creation/1.01-unix/file-hierarchy.png figure-creation/1.01-unix/file-hierarchy.sh}
+
+\CommentTok{# do this to get just the filenames:}
+\FunctionTok{basename} \VariableTok{$files}
+
+\CommentTok{# which produces this output:}
+\ExtensionTok{file-hierarchy.dot}
+\ExtensionTok{file-hierarchy.pdf}
+\ExtensionTok{file-hierarchy.png}
+\ExtensionTok{file-hierarchy.sh}
+
+\CommentTok{# if you want just the relative path to the directories those files}
+\CommentTok{# are in you can use dirname, but have to operate on one file at a time:}
+\KeywordTok{for} \ExtensionTok{i}\NormalTok{ in }\VariableTok{$files}\KeywordTok{;} \KeywordTok{do}
+  \FunctionTok{dirname} \VariableTok{$i}
+\KeywordTok{done}
+
+\CommentTok{# makes this output:}
+\ExtensionTok{figure-creation/1.01-unix}
+\ExtensionTok{figure-creation/1.01-unix}
+\ExtensionTok{figure-creation/1.01-unix}
+\ExtensionTok{figure-creation/1.01-unix}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{bash-functions}{%
+\section{\texorpdfstring{\texttt{bash} functions}{bash functions}}\label{bash-functions}}
+
+In our example script, \texttt{clone-classroom-repos.sh}, we define a bash \emph{function} called \texttt{usage}
+that prints a helpful message showing the syntax and an example invocation of the script.
+This provides an example of how you can write functions in \texttt{bash}. In all honesty, I only
+rarely use functions in \texttt{bash}, but it is good to know about nonetheless.
+
+In \texttt{bash}, a function is just a collection of commands, grouped using curly braces, that
+will be evaluated when the function's name is issued on the command line or within a script.
+Not only will those lines be evaluated, but you can also pass \emph{positional parameters} to the
+function by following its name with other words/tokens/values. The \emph{positional parameters}
+within a function are distinct from the positional parameters within, say, the main script.
+
+Functions can be defined, most transparently, by using the \texttt{function} keyword.
+As an example, here is a silly function, called \texttt{Silly} that takes two positional parameters
+and then merely prints them separated by monkey noises.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{function}\FunctionTok{ Silly} \KeywordTok{\{}
+  \BuiltInTok{echo} \StringTok{"}\VariableTok{$1}\StringTok{  Ooooh-oooh  Aaaah-aaah  }\VariableTok{$2}\StringTok{"}
+\KeywordTok{\}}
+
+\CommentTok{# now, try}
+\ExtensionTok{Silly}\NormalTok{ foo bar}
+\end{Highlighting}
+\end{Shaded}
+
+Another syntax you might see is to not use the \emph{function} keyword, but rather
+follow the function's name with \texttt{()}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{Silly2()} \KeywordTok{\{}
+  \BuiltInTok{echo} \StringTok{"}\VariableTok{$1}\StringTok{  Ooooh-oooh  Aaaah-aaah  }\VariableTok{$2}\StringTok{"}
+\KeywordTok{\}}
+
+\CommentTok{# now, try}
+\ExtensionTok{Silly2}\NormalTok{ boing bonk}
+\end{Highlighting}
+\end{Shaded}
+
+You can even put it all on one line, but you have to make sure that you respect
+the curly-braces sensitivity to spacing and explicit line ending semicolons:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{function}\FunctionTok{ Silly3} \KeywordTok{\{} \BuiltInTok{echo} \StringTok{"}\VariableTok{$1}\StringTok{  Ooooh-oooh  Aaaah-aaah  }\VariableTok{$2}\StringTok{"}\KeywordTok{;\}}
+
+\CommentTok{# now, try}
+\ExtensionTok{Silly3}\NormalTok{ bing bap}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{reading-files-line-by-line}{%
 \section{reading files line by line}\label{reading-files-line-by-line}}
@@ -2851,29 +3783,24 @@ This is handy. Note the line can be broken into a shell array:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{cat}\NormalTok{ bwa-run-list.txt straggler-bwa-run-list.txt }\KeywordTok{|} \KeywordTok{while} \BuiltInTok{read}\NormalTok{ -r }\VariableTok{line}\NormalTok{; }\KeywordTok{do} 
+\CommentTok{# this is an example of reading a file in which each row is delimited}
+\CommentTok{# by whitespace, the second column is a file name and the the}
+\CommentTok{# third column is a number}
+\FunctionTok{cat}\NormalTok{ a_file }\KeywordTok{|} \KeywordTok{while} \BuiltInTok{read}\NormalTok{ -r }\VariableTok{line}\NormalTok{; }\KeywordTok{do} 
   \VariableTok{A=($line)}\NormalTok{; }
   \VariableTok{file=$\{A[1]\}}\NormalTok{; }
   \VariableTok{num=$\{A[2]\}}\NormalTok{; }
-  \FunctionTok{du}\NormalTok{ -h bam-slices/}\VariableTok{$file}\NormalTok{/}\VariableTok{$\{num\}}\NormalTok{-sorted.bam}\KeywordTok{;}  
 \KeywordTok{done}
-
-\ExtensionTok{2.3G}\NormalTok{    bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0001-sorted.bam}
-\ExtensionTok{2.2G}\NormalTok{    bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0002-sorted.bam}
-\ExtensionTok{2.2G}\NormalTok{    bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0003-sorted.bam}
-\ExtensionTok{2.3G}\NormalTok{    bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0004-sorted.bam}
-\ExtensionTok{2.2G}\NormalTok{    bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0005-sorted.bam}
-\ExtensionTok{2.2G}\NormalTok{    bam-slices/chinook_Battle.Creek.Sacramento.River_Schluter_GBC_001_CH1-2011_Male/0006-sorted.bam}
 \end{Highlighting}
 \end{Shaded}
 
-Note that this is not how you want to rip through files, typically, because it is slow and awk is a much
-better bet. But, if you want to do a system call for each line, it ends up being a decent way forward.
+\hypertarget{further-reading}{%
+\section{Further reading}\label{further-reading}}
 
-\hypertarget{more-stuff}{%
-\section{More stuff}\label{more-stuff}}
+An excellent chapter on the development of Unix \citep{RaymondArtUNIXProgramming2003}
 
-In here, let's also talk about compression with gzip (and using \texttt{stuff\ \textbar{}\ gzip\ -c\ \textgreater{}\ this.gz} to gzip and send to stdout.)
+A nice set of bash scripting tutorials can be found at
+\url{https://ryanstutorials.net/bash-scripting-tutorial/}
 
 \hypertarget{sed-awk-and-regular-expressions}{%
 \chapter{Sed, awk, and regular expressions}\label{sed-awk-and-regular-expressions}}
@@ -2889,16 +3816,826 @@ or tabs. \texttt{sed} on the other hand, is particularly useful for automating
 ``find-and-replace'' operations on text files. Each of them is optimized to
 handle large files without storing a lot of information in memory, so they can be
 useful for quick operations on large bioinformatic data sets. Neither is a fully-featured
-programming language that you would want to write large, complex programs in; however they do share many of the
+programming language that you would want to write large, complex programs in (that said,
+I did once implement a complete program for full-sibling inference from multiallelic markers
+in \texttt{awk}); however they do share many of the
 useful text-manipulation capabilities of such languages, such as Perl and Python. Additionally,
 \texttt{awk} and \texttt{sed} are deployed in a consistent fashion across most Unix operating systems, and they
 don't require much time to learn to use effectively for common text-processing tasks.
-As a consequence \texttt{awk} and \texttt{sed} are a useful addition to the bioinformatician's tookbox.
+As a consequence \texttt{awk} and \texttt{sed} are a useful addition to the bioinformatician's toolbox.
 
 Both \texttt{awk} and \texttt{sed} rely heavily on \emph{regular expressions} to describe \emph{patterns}
 in text upon which some operation should be performed. You can think of
-regular expressions as providing a succinct language for performing very advanced ``find'' operations
+regular expressions as providing a succinct language for performing very advanced ``find''
+and ``find-and-replace'' operations
 in a text file.
+
+In this chapter we will only scratch the surface of what can be done with \texttt{awk} and \texttt{sed}. Indeed,
+there is an entire \href{http://shop.oreilly.com/product/9781565922259.do}{432-page book} published decades
+ago by O'Reilly about \texttt{awk} and \texttt{sed}. Our goal here is to provide an introduction to a few basic
+maneuvers with both \texttt{awk} and \texttt{sed} and to describe instances where they can be useful, as well as
+to give an introduction to many (but certainly not all) of the patterns that can be expressed
+using regular expressions. We will start with a basic overview of how \texttt{awk} works. Then we will
+have a short look at regular expressions, then we will use those further in \texttt{awk}, and finally we
+will play with \texttt{sed} a little bit.
+
+In order to have a set of files to use in the examples, I have made a small GitHub
+repository called \texttt{awk-and-sed-inputs}. You can get that with
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ clone https://github.com/eriqande/awk-and-sed-inputs}
+\end{Highlighting}
+\end{Shaded}
+
+All of the examples in this chapter that use such external files
+assume that the current working directory is
+the repository directory \texttt{awk-and-sed-inputs}.
+
+\hypertarget{awk}{%
+\section{awk}\label{awk}}
+
+\hypertarget{line-cycling-tests-and-actions}{%
+\subsection{Line-cycling, tests and actions}\label{line-cycling-tests-and-actions}}
+
+\texttt{awk} operates by cycling through a file (or an input stream from \emph{stdin}) line-by-line. At each
+new line \texttt{awk} tests whether it should do anything with the contents of the line. If the answer
+to that test is ``yes'', then it executes the code that describes what should be done to the
+contents of the line. The scope of ways that \texttt{awk} can operate on text is quite wide, but,
+the most common use of \texttt{awk} is to print parts of the line, or do small calculations on parts of the
+line. The instructions that describe the tests and the actions are included in the \texttt{awk} ``script'', though,
+in practice, this script is often given to \texttt{awk} not as a file, but, rather, as text between single-quotes on the
+command line. The basic syntax looks like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ awk }\StringTok{'}
+\StringTok{  test1  \{action1\}}
+\StringTok{  test2  \{action2\}}
+\StringTok{'}\NormalTok{ file}
+\end{Highlighting}
+\end{Shaded}
+
+Where \texttt{file} is the path of the file you want \texttt{awk} to read, and the ``tests'' and ``actions''
+above are just placeholders showing where those parts of the script are written. The layout
+makes it clear that if \texttt{test1} is TRUE, \texttt{action1} will be executed, and if \texttt{test2} is TRUE, then
+\texttt{action2} is executed. Code describing the actions must always appear within a set of
+curly braces. We will refer to the text within those curly braces as an \emph{action block}.
+
+Two things to note: first, different tests and actions do not have to be written on separate lines. That makes
+things easier to read, but if you are writing these short scripts on the command line, it is often
+easier to put everything on a single line, like \texttt{\textquotesingle{}test1\ \ \{action1\}\ test2\ \ \{action2\}}, and that is fine.
+Second, if you don't supply a file path to \texttt{awk} it expects (and gladly processes) data from \emph{stdin}.\\
+This makes it easy to pipe data into \texttt{awk}. For example, putting the above two points together,
+the above \texttt{awk} script skeleton could
+have been written this way:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ cat file }\KeywordTok{|} \FunctionTok{awk} \StringTok{'test1  \{action1\} test2  \{action2\}'}
+\end{Highlighting}
+\end{Shaded}
+
+Before we get too abstract talking about tests and actions, let's look at a few
+examples:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# print lines starting with @SQ in the SAM header of a file}
+\FunctionTok{awk} \StringTok{'/^@SQ/ \{print\}'}\NormalTok{ data/DPCh_plate1_F12_S72.sam}
+
+\CommentTok{# print only those @SQ lines with a sequence name tag starting with "NC_"}
+\FunctionTok{awk} \StringTok{'/^@SQ/ && /SN:NC_/ \{print\}'}\NormalTok{ data/DPCh_plate1_F12_S72.sam}
+
+\CommentTok{# same as above, but quit processing the file as soon as you hit}
+\CommentTok{# an @SQ line with a sequence name starting with "NW_"}
+\FunctionTok{awk} \StringTok{'}
+\StringTok{  /^@SQ/ && /SN:NC_/ \{print\}}
+\StringTok{  /^@SQ/ && /SN:NW_/ \{exit\}  }
+\StringTok{'}\NormalTok{ data/DPCh_plate1_F12_S72.sam}
+
+
+\CommentTok{# print only lines 101, and 103 from the fastq file}
+\ExtensionTok{gzcat}\NormalTok{ data/DPCh_plate1_F12_S72.R1.fq.gz }\KeywordTok{|} \FunctionTok{awk} \StringTok{'NR==101 || NR==102 \{print\}'}
+\end{Highlighting}
+\end{Shaded}
+
+The above examples show only two different actions (\texttt{print} and \texttt{exit}) and
+a variety of tests based on matching substrings in each line, or on which
+line number (\texttt{NR}, which stands for ``number of the record'').
+
+Take a moment to make sure you understand which parts are the tests, and which are the actions
+in the above examples.
+
+\hypertarget{column-splitting-fields--f-nf-print-ofs-and-begin}{%
+\subsection{\texorpdfstring{Column splitting, fields, \texttt{-F}, \texttt{\$}, \texttt{NF}, \texttt{print}, \texttt{OFS} and \texttt{BEGIN}}{Column splitting, fields, -F, \$, NF, print, OFS and BEGIN}}\label{column-splitting-fields--f-nf-print-ofs-and-begin}}
+
+Every time \texttt{awk} processes a line of text it breaks it into different \emph{fields}, which you
+can think of as columns (as in a spreadsheet). By default, any number of whitespace (space or TAB)
+characters constitutes a break between columns. If you want field-splitting to be done using
+more specific characters, you can specify that on the command line with the the \texttt{-F} option.
+For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk}\NormalTok{ -F}\StringTok{"\textbackslash{}t"} \StringTok{'test \{action\}'}\NormalTok{ file  # split lines into fields on single TAB characters}
+\FunctionTok{awk}\NormalTok{ -F}\StringTok{","} \StringTok{'test \{action\}'}\NormalTok{ file  # split lines into fields on single commas}
+\FunctionTok{awk}\NormalTok{ -F}\StringTok{":"} \StringTok{'test \{action\}'}\NormalTok{ file  # split lines into fields on single colons}
+\FunctionTok{awk}\NormalTok{ -F}\StringTok{";"} \StringTok{'test \{action\}'}\NormalTok{ file  # split lines into fields on single semicolons}
+\CommentTok{# and so forth...}
+\end{Highlighting}
+\end{Shaded}
+
+While in all those examples, the field separator is a single character, in full-blown
+practice, the field separator can be specified as a \emph{regular expression} (see below).
+
+Within an action block, you can access the different fields that \texttt{awk} has split out
+of the line using a \texttt{\$} followed immediately by a field number, i.e., \texttt{\$1}, \texttt{\$2}, \texttt{\$3}, \ldots{} . When you get
+to fields with indexes greater than 9, you have to wrap the number in parentheses, like
+\texttt{\$(10)}, \texttt{\$(11)},\ldots{} . The special value \texttt{\$0} denotes the whole line, not just one of its
+fields. (Note that if you give the action \texttt{print} without any arguments, that also just
+prints the whole line.) The special variable \texttt{NF} is the ``Number of Fields'', so
+\texttt{\$NF} is the ``last column.''
+
+Let's say we have a tab-separated file in \texttt{data/wgs-chinook-samples.tsv} that looks like this:
+
+\begin{verbatim}
+vcf_name    ID_Berk NMFS_DNA_ID BOX_ID  BOX_POSITION    Population  Concentration (ng/ul)   run_type
+DPCh_plate1_A01_S1  CH_Plate1_1A    T144767 T1512   1A  Salmon River Fall   23.4    Fall
+DPCh_plate1_A02_S2  CH_Plate1_2A    T144804 T1512   5F  Salmon River Fall   67.4    Fall
+DPCh_plate1_A03_S3  CH_Plate1_3A    T145109 T1515   7G  Salmon River Spring 3.52    Spring
+DPCh_plate1_A04_S4  CH_Plate1_4A    T145118 T1515   8H  Salmon River Spring 10.3    Spring
+DPCh_plate1_A05_S5  CH_Plate1_5A    T144863 T1513   1A  Feather River Hatchery Fall 220 Fall
+\end{verbatim}
+
+Then, if we wanted to print the first and the last columns (fields) we could do
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk}\NormalTok{ -F}\StringTok{"\textbackslash{}t"} \StringTok{'\{print $1, $NF\}'}\NormalTok{ data/wgs-chinook-samples.tsv}
+
+\CommentTok{# the first few lines of output look like:}
+\ExtensionTok{vcf_name}\NormalTok{ run_type}
+\ExtensionTok{DPCh_plate1_A01_S1}\NormalTok{ Fall}
+\ExtensionTok{DPCh_plate1_A02_S2}\NormalTok{ Fall}
+\ExtensionTok{DPCh_plate1_A03_S3}\NormalTok{ Spring}
+\ExtensionTok{DPCh_plate1_A04_S4}\NormalTok{ Spring}
+\end{Highlighting}
+\end{Shaded}
+
+Notice that if there is no \texttt{test} before the action block, then the action is
+done on every line.
+
+The \texttt{print} command prints variables to \emph{stdout}, if you separate those variables with
+a comma, then in the output, they will be separated by the \emph{output field sepator} which,
+by default, is a single space. You can set the \emph{output field separator} using the \texttt{OFS}
+variable, in an action block that is forced to run at the beginning of execution using the
+special \texttt{BEGIN} test keyword:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk}\NormalTok{ -F}\StringTok{"\textbackslash{}t"} \StringTok{'}
+\StringTok{  BEGIN \{OFS=";"\}}
+\StringTok{  \{print $1, $NF\}}
+\StringTok{'}\NormalTok{ data/wgs-chinook-samples.tsv}
+
+\CommentTok{# makes output like:}
+\ExtensionTok{vcf_name}\KeywordTok{;}\ExtensionTok{run_type}
+\ExtensionTok{DPCh_plate1_A01_S1}\KeywordTok{;}\ExtensionTok{Fall}
+\ExtensionTok{DPCh_plate1_A02_S2}\KeywordTok{;}\ExtensionTok{Fall}
+\ExtensionTok{DPCh_plate1_A03_S3}\KeywordTok{;}\ExtensionTok{Spring}
+\ExtensionTok{DPCh_plate1_A04_S4}\KeywordTok{;}\ExtensionTok{Spring}
+\ExtensionTok{DPCh_plate1_A05_S5}\KeywordTok{;}\ExtensionTok{Fall}
+\end{Highlighting}
+\end{Shaded}
+
+The comma between the arguments to \texttt{print} is what makes \texttt{awk} print the output field
+separator between the items. If you
+separate arguments to \texttt{print} with just a space (and not a comma), there will be nothing
+printed between the two arguments on output. This, coupled with the fact that
+\texttt{print} will happily print any strings and numbers (in addition to variables!) you pass to it,
+provides a way to do some light formatting of the output text:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk}\NormalTok{ -F}\StringTok{"\textbackslash{}t"} \StringTok{'NR > 1 \{print "sample_name:" $1, "run_type:" $NF\}'}\NormalTok{ data/wgs-chinook-samples.tsv}
+
+\CommentTok{# gives output like:}
+\ExtensionTok{sample_name}\NormalTok{:DPCh_plate1_A01_S1 run_type:Fall}
+\ExtensionTok{sample_name}\NormalTok{:DPCh_plate1_A02_S2 run_type:Fall}
+\ExtensionTok{sample_name}\NormalTok{:DPCh_plate1_A03_S3 run_type:Spring}
+\ExtensionTok{sample_name}\NormalTok{:DPCh_plate1_A04_S4 run_type:Spring}
+\ExtensionTok{sample_name}\NormalTok{:DPCh_plate1_A05_S5 run_type:Fall}
+\end{Highlighting}
+\end{Shaded}
+
+Note that if you don't provide an action block after a test, the default action, if the
+test is true, is assumed to be ``print the whole line as is.'' Thus you can use \texttt{awk} to
+print matching lines simply like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk} \StringTok{'/regex/'}
+\end{Highlighting}
+\end{Shaded}
+
+where \texttt{/regex/} just means ``some regular expression,'' as is explained in the
+next section.
+
+\textbf{Now it's your turn!}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# 1. Using the file data/wgs-chinook-samples.csv, print out the}
+\CommentTok{# NMFS_DNA_ID the BOX_ID and the BOX_POSITION, separated by periods}
+
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{a-brief-introduction-to-regular-expressions}{%
+\subsection{A brief introduction to regular expressions}\label{a-brief-introduction-to-regular-expressions}}
+
+In a few of the above examples you will see tests that look like: \texttt{/\^{}@SQ/}. This is a regular expression. In
+\texttt{awk}, regular expressions are enclosed in forward slashes, so the actual regular expression part
+in the above is \texttt{\^{}@SQ}, the enclosing forward slashes are just delimiters that are telling \texttt{awk}, ``Hey! The stuff inside here should
+be interpreted as a regular expression.''
+
+At this stage, you can think of a regular expression as a ``search-string'' that \texttt{awk} will try to match
+against the text in a line. At its simplest, a regular expression just describes how characters should
+match between the regular expression and the line being matched. For example:
+
+\begin{verbatim}
+/ACGGTC/ 
+\end{verbatim}
+
+Is saying, ``search for the word \texttt{ACGGTC},'' which is something that might find in a DNA string.
+
+If all that regular expressions did was express a search word (like your familiar find function in
+Microslop Word, for example), then they would be very easy to learn, but also very limited in
+utility. The good news is that all your standard numerals and upper- and lowercase letters work
+in regular expressions just like they do in your vanilla ``find'' function. So, all of the following
+regular expressions are just requesting that the word enclosed in the \texttt{/}'s be found:
+
+\begin{verbatim}
+/Fall/
+/A01/
+/plate/
+/LN/
+\end{verbatim}
+
+Regular expressions get more complicated (and useful) because some of the familiar punctuation
+marks have special meaning within a regular expression. These are called \emph{metacharacters}.
+The fundamental metacharacters in \texttt{awk} are listed in Table \ref{tab:metachars}. It is
+worth getting familiar with all of these as most are common to all languages that use
+regular expressions, such as R, python, and perl, so learning these will be helpful not
+just in using \texttt{awk}, but also in your programming, in general.
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{\label{tab:metachars} Basic metacharacters used in regular expressions with \texttt{awk}.}\tabularnewline
+\toprule
+\begin{minipage}[b]{0.25\columnwidth}\raggedright
+Metacharacter(s)\strut
+\end{minipage} & \begin{minipage}[b]{0.43\columnwidth}\raggedright
+Description\strut
+\end{minipage}\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+\begin{minipage}[b]{0.25\columnwidth}\raggedright
+Metacharacter(s)\strut
+\end{minipage} & \begin{minipage}[b]{0.43\columnwidth}\raggedright
+Description\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{.}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Match any single character\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{{[}\ {]}}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Match any single character
+from a \emph{character class} (see
+below)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{\^{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Signifies/matches the
+\emph{beginning} of the line or
+word (remember \texttt{/\^{}@SQ/})\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{\$}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Signifies/matches the \emph{end} of
+the line of word\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{*}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Match zero or more occurrences
+of the character (or grouped
+pattern) immediately to the
+left\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{?}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Match zero or one occurrences
+of the character (or grouped
+pattern) immediately to the
+left\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{+}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Match one or more occurrences
+of the character (or grouped
+pattern) immediately to the
+left\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{\{n\}}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Match n occurrences of the
+character (or grouped pattern)
+immediately to the left\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{\{m,n\}}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Match any number between m and
+n occurrences of character (or
+grouped pattern) immediately
+to the left\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{\textbar{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Combine regular expressions
+with an OR\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{\textbackslash{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Use it if you want to match a
+literal metacharacter. For
+example \texttt{\textbackslash{}.} matches an actual
+period, and \texttt{\textbackslash{}?} matches an
+acutal question mark\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.25\columnwidth}\raggedright
+\texttt{(\ )}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Used to group characters into
+a single unit to which
+modifiers like \texttt{*} or \texttt{+} can
+be applied, to delimit the
+extent of \texttt{\textbar{}}'s (or to be used
+in more advanced expressions
+for inserting replacement
+groups)\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+We note in the above table that more explanation is needed for the concept of \emph{character classes} defined by \texttt{{[}\ {]}}.
+These are similar to what you are already
+familiar with in terms of \emph{globbing} file names. In short, if you
+put a variety of characters between square brackets, it means ``match any one of these characters.''
+For example, \texttt{/{[}aceACE{]}/} means "match any upper- or lowercase \texttt{a}, \texttt{c}, or \texttt{e}. Within
+those square brackets, \texttt{\^{}} and \texttt{-} have special meaning depending on where between
+the square brackets they occur:
+
+\begin{itemize}
+\tightlist
+\item
+  A \texttt{-}, when \emph{between} letters or numbers, indicates a range: \texttt{/{[}a-zA-Z{]}/} means any letter;
+  /{[}0-5{]}/ means any numeral between 0 and 5.
+\item
+  A \texttt{-} at the beginnging or end of the characters inside the square brackets just means \texttt{-}: \texttt{/{[}-;ab{]}/} means
+  match any of the characters \texttt{-}, \texttt{;}, \texttt{a}, or \texttt{b}.
+\item
+  A \texttt{\^{}} \emph{at the beginning of the characters inside the square brackets} negates the character class, meaning
+  the match will be to anything \emph{not} within the character class, i.e., \texttt{{[}\^{}ABC{]}} means match any character
+  that is \emph{not} \texttt{A} nor \texttt{B} nor \texttt{C}. If the \texttt{\^{}} is not at the beginning of the characters within the \texttt{{[}\ {]}}
+  then it carries no special meaning: \texttt{{[}:;\^{}\%{]}} matches any of those four punctuation characters.
+\end{itemize}
+
+All these metacharacters might seem a little cryptic, so I provide a few
+examples, here, that might help to make it more clear. They are presented
+(i.e. ``match any line'') as if they are part of an \texttt{awk} test.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# match any line that starts with @RG}
+\NormalTok{/^}\ExtensionTok{@RG/}
+
+\CommentTok{# match any line that starts with @ followed by any two characters}
+\NormalTok{/^}\ExtensionTok{@../}
+
+\CommentTok{# match any line that starts with @ followed by any}
+\CommentTok{# two uppercase letters}
+\NormalTok{/^}\ExtensionTok{@}\NormalTok{[A-Z][A-Z]/}
+
+\CommentTok{# the above could also be written as:}
+\NormalTok{/^}\ExtensionTok{@}\NormalTok{[A-Z]}\DataTypeTok{\{2\}}\NormalTok{/}
+
+\CommentTok{# This matches phone numbers formatted either like }
+\CommentTok{# (}\AlertTok{###}\CommentTok{) }\AlertTok{###}\CommentTok{-####, or }\AlertTok{###}\CommentTok{-}\AlertTok{###}\CommentTok{-####}
+\NormalTok{/}\DataTypeTok{\textbackslash{}(}\ExtensionTok{?}\NormalTok{[0-9]}\DataTypeTok{\{3\}}\NormalTok{(}\DataTypeTok{\textbackslash{})} \KeywordTok{|}\ExtensionTok{-}\NormalTok{)[}\ExtensionTok{0-9}\NormalTok{]}\DataTypeTok{\{3\}-[0-9]\{4\}}\NormalTok{/}
+
+\CommentTok{# And if you can parse that out, you get an A for the day!}
+
+\CommentTok{# match anything that starts with T456, then has any}
+\CommentTok{# number (including 0) of any other characters, then}
+\CommentTok{# ends with ".fq"}
+\NormalTok{/}\ExtensionTok{T456.*}\NormalTok{\textbackslash{}.fq/}
+
+\CommentTok{# Note the use of backslash to escape the .}
+
+\CommentTok{# Match either "big mess" or "huge mess"}
+\NormalTok{/}\KeywordTok{(}\ExtensionTok{big}\KeywordTok{|}\ExtensionTok{huge}\KeywordTok{)} \ExtensionTok{mess/}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Now it's your turn}
+
+Here are some things to try.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# 1. use alternation (the |) to match lines in the SAM file data/DPCh_plate1_F12_S72.sam}
+\CommentTok{# that start with either @PG or @RG}
+
+
+\CommentTok{# 2. search through the fastq file data/DPCh_plate1_F12_S72.R1.fq.gz }
+\CommentTok{# to find any line with exactly two consecutive occurrences of any of the following characters:}
+\CommentTok{# ! " # $ % &}
+
+
+\CommentTok{# What are we searching for in the above?}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{a-variety-of-tests}{%
+\subsection{A variety of tests}\label{a-variety-of-tests}}
+
+When you want to test whether a line will be processed by an action block, or not,
+you have many options. Among the major ones (each given with an example or two) are:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  match a regular expression anywhere in a line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk} \StringTok{'/^@RG/'}
+\FunctionTok{awk} \StringTok{'/Fall/'}
+\end{Highlighting}
+\end{Shaded}
+\item
+  match a regular expression in a specific column/field
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk} \StringTok{'$3 ~ /Sacramento/'}
+\FunctionTok{awk} \StringTok{'$1 ~ /Chr[123]/'}
+\end{Highlighting}
+\end{Shaded}
+\item
+  test for equality, using \texttt{==}, of a single column to a string, or a number. Note
+  these are \emph{not} regular expressions, but actual statements of equality. Strings in
+  such a context are surrounded by double quotes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk} \StringTok{'$1 == "NC_07124.1"'}
+\FunctionTok{awk} \StringTok{'$5 == 100'}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Use comparison operators \texttt{\textless{}}, \texttt{\textless{}=}, \texttt{\textgreater{}}, \texttt{\textgreater{}=}, and \texttt{!=} (not equals) to compare
+  a column to a string (compared by lexicographical order) or a number
+  (compared by numerical order)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk} \StringTok{'$2 <= "Aardvark"'}
+\FunctionTok{awk} \StringTok{'$7 > 25'}
+\end{Highlighting}
+\end{Shaded}
+\item
+  test the value of a user-defined variable that may be changing as lines are getting
+  processed.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk} \StringTok{'n > 356'}
+\FunctionTok{awk} \StringTok{'my_word == "Loony"'}
+\end{Highlighting}
+\end{Shaded}
+\item
+  test the value of an internal variable, like \texttt{NR} or \texttt{NF}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk} \StringTok{'NR < 25'}
+\FunctionTok{awk} \StringTok{'NF == 13'}
+\end{Highlighting}
+\end{Shaded}
+\end{enumerate}
+
+As these tests are effectively things that return a value of TRUE or FALSE, they can
+be combined with logical AND and logical OR operators. In awk, the logical AND is
+\texttt{\&\&} and the logical OR is \texttt{\textbar{}\textbar{}}. To make the intent of long combinations clear, and to
+specify specific combinations, the tests can be grouped with parentheses:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk} \StringTok{'(units = "days" && n > 356) || (units == "months" && n > 12) \{print "More than a year!"\}'}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{code-in-the-action-blocks}{%
+\subsection{Code in the action blocks}\label{code-in-the-action-blocks}}
+
+Within the action blocks you write computer code to do things, and \texttt{awk} has many features
+you expect in a programming language.
+
+Separate lines of code can be ended with a line return (i.e., in scripts), or they can be
+ended with a semicolon.
+Variable assignment is done with the \texttt{=} sign. Unlike the bash shell, you can have spaces around
+the \texttt{=}. One interesting aspect of \texttt{awk} is that the
+variables are \emph{untyped}. This means that you don't have to tell \texttt{awk} ahead of time whether
+a variable is going to hold a number, or a string, etc. Everything is stored as a string,
+but when used in a numeric context, if it makes sense, the variable will be treated
+as a number. So, you don't have to worry too much about the type of variables.
+
+If a value has not yet been assigned to a variable, but it is used in a numeric
+context, the value is assumed to be 0; if used in a string context, its value
+is assumed to be the empty string \texttt{""}.
+
+\textbf{You can use \texttt{for} loops within \texttt{awk}}. They have the syntax of the C language:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for(}\ExtensionTok{var}\NormalTok{ = initial}\KeywordTok{;} \BuiltInTok{test}\KeywordTok{;} \ExtensionTok{increment}\KeywordTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+For example, this cycles \texttt{i} over values starting from 1, until 10, each
+time incrementing the value by 1:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for(}\VariableTok{i=}\NormalTok{1;}\ExtensionTok{i}\OperatorTok{<}\NormalTok{=10}\KeywordTok{;}\ExtensionTok{i++}\KeywordTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Note that the \texttt{++} means ``add one to the variable to my left.''
+
+You can also increment by larger amounts. What do you think this would do?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo}\NormalTok{ boing }\KeywordTok{|} \FunctionTok{awk} \StringTok{'\{for(i=5; i<=25; i+=5) print i\}'} 
+\end{Highlighting}
+\end{Shaded}
+
+If the body of the loop consists of multiple lines of code (or even just one) those lines
+can be \emph{grouped} using curly braces.
+Here is an examle of using a \texttt{for} loop to print the columns of the Chinook sample sheet
+in row format:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk}\NormalTok{ -F}\StringTok{","} \StringTok{'}
+\StringTok{  NR == 1 \{for(i=1;i<=NF;i++) head[i] = $i; next\}}
+\StringTok{  \{for(i=1;i<=NF;i++) \{}
+\StringTok{      print i ". " head[i] ": " $i; }
+\StringTok{    \}}
+\StringTok{    print "----------------------"}
+\StringTok{  \}}
+\StringTok{'}\NormalTok{ data/wgs-chinook-samples.csv}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Arrays are implemented as \emph{associative arrays}.} Thus, rather than being arrays
+with elements indexed (and accessed) by natural numbers (i.e. \texttt{array{[}1{]}}, \texttt{array{[}2{]}}, etc.),
+arrays are indexed by any string. This is sometimes called a hash. In python it is
+called a \emph{dictionary}. So, within an awk action block you could see
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{n}\NormalTok{[}\VariableTok{$3}\NormalTok{]++}
+\end{Highlighting}
+\end{Shaded}
+
+which means ``find the element of the array \texttt{n} that is associated with the \emph{key} \$3, and then
+add 1 to that element''. This can
+be quite useful for counting up the occurrences of different strings or values
+in a column. Of course, in order to actually see what the values are, after they
+have been counted up, you need to be able
+to cycle over all the different \emph{keys} of the array, and print the key and the
+value for each. In \texttt{awk}, you cycle over the keys of an array using
+
+\begin{verbatim}
+for (i in array)
+\end{verbatim}
+
+where \texttt{for} and \texttt{in} are keywords, \texttt{i} is any variable name you want, and \texttt{array} is the
+name of an array variable. Unfortunately, you have no control over the \emph{order} in which the
+different keys in the array are visited! Example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# count the number of fish from different sampling collections}
+\CommentTok{# in the wgs-chinook-samples.tsv file:}
+\FunctionTok{awk}\NormalTok{ -F}\StringTok{"\textbackslash{}t"} \StringTok{'}
+\StringTok{  NR > 1 \{n[$6]++\}}
+\StringTok{  END \{for(i in n) print i ":", n[i]\}}
+\StringTok{'}\NormalTok{ data/wgs-chinook-samples.tsv }
+
+\CommentTok{# gives us:}
+\ExtensionTok{Coleman}\NormalTok{ Hatchery Late Fall: 16}
+\ExtensionTok{Feather}\NormalTok{ River Hatchery Spring: 16}
+\ExtensionTok{Feather}\NormalTok{ River Hatchery Fall: 16}
+\ExtensionTok{Salmon}\NormalTok{ River Spring: 16}
+\ExtensionTok{Trinity}\NormalTok{ River Hatchery Fall: 16}
+\ExtensionTok{Trinity}\NormalTok{ River Hatchery Spring: 16}
+\ExtensionTok{Butte}\NormalTok{ Creek Spring: 16}
+\ExtensionTok{Sacramento}\NormalTok{ River Winter: 16}
+\ExtensionTok{Salmon}\NormalTok{ River Fall: 16}
+\ExtensionTok{San}\NormalTok{ Joaquin River Fall: 16}
+\end{Highlighting}
+\end{Shaded}
+
+The above demonstrates the use of the very important \texttt{END} specifier in the
+test position. The \texttt{END} there means ``perform the actions in the action block
+once all the lines of the file have been processed.''
+
+\textbf{Now it's your turn!}\\
+We want to cycle through the file \texttt{DPCh\_plate1\_F12\_S72.R1.fq.gz} and
+count up the number of times different base-quality sequences occur in the file. The
+base quality scores occur on lines 4, 8, 12, \ldots{} (so, the line number divided by 4 has
+no remainder. Note that \texttt{x\ \%\ 4} gives the remainder when \texttt{x} is divided by 4. We want the
+output on each line to be in the format:
+
+\begin{verbatim}
+Number_of_occurrences  Base_quality_score_sequence
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# go for it!}
+
+\end{Highlighting}
+\end{Shaded}
+
+After doing that, you might wish that things were sorted differently, like highest to lowest
+in terms of \# of occurrences. Try piping the output into:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sort}\NormalTok{ -n -b -r -k 1}
+\end{Highlighting}
+\end{Shaded}
+
+Pipe that to less and look through it. It is actually pretty cool.
+
+\textbf{Conditional tests use \texttt{if} and \texttt{else}, with blocking by curly braces.}\\
+Below we will demonstrate the use of \texttt{if} and \texttt{else} and, how they can be put together
+to make an \texttt{ifelse}-like construction. At the same time we demonstrate how
+output from \texttt{print} statements in \texttt{awk} can be redirected to files, from within
+the \texttt{awk} script itself. This uses much the same syntax as the shell.
+
+Imagine that we want to put the IDs (called the \texttt{vcf\_names}) of the fish
+in \texttt{data/wgs-chinook-samples.csv} into separate files, one for each
+of the \texttt{run\_types} of ``Fall'', ``Winter'', and ``Spring'', and another file
+for anything else. We could do that like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk}\NormalTok{ -F}\StringTok{","} \StringTok{'}
+\StringTok{  NR > 1 \{}
+\StringTok{    if($NF == "Fall") \{}
+\StringTok{      print $1, $NF > "fall.txt"}
+\StringTok{    \} else if($NF == "Winter") \{}
+\StringTok{      print $1, $NF > "winter.txt"}
+\StringTok{    \} else if($NF == "Spring") \{}
+\StringTok{      print $1, $NF > "spring.txt"}
+\StringTok{    \} else \{}
+\StringTok{      print $1, $NF > "other.txt"}
+\StringTok{    \}}
+\StringTok{  \}}
+\StringTok{'}\NormalTok{ data/wgs-chinook-samples.csv}
+\end{Highlighting}
+\end{Shaded}
+
+Now look at the four files produced.
+
+\textbf{NB:} Parsing CSV files with \texttt{awk} is not always so straightforward as doing \texttt{-F","} because
+the CSV specification allows for commas that do not separate fields to be hidden within quotation marks.
+Don't expect to parse complex CSV files made by Excel, for example, to be parsed this easily
+with \texttt{awk}. It is better to save them as TAB separate files, typically.
+
+\textbf{Mathematical operations:} \texttt{awk} has got them all: \texttt{+}, \texttt{-}, \texttt{*}, \texttt{/}, \texttt{\%}, as well as ``operate and reassign''
+versions: \texttt{+=}, \texttt{-=}, \texttt{*=}, \texttt{/=}, as well as: \texttt{exp}, \texttt{log}, \texttt{sqrt}, \texttt{sin}, \texttt{cos}, and \texttt{atan2}
+
+\textbf{Built in functions:} \texttt{awk} has a limited set of built-in functions. See \texttt{man\ awk} for a full
+listing. The ones I find I use all the time are:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{length(n)} : return the number of characters of the variable \texttt{n}
+\item
+  \texttt{substr(s,\ m,\ n)} : return the portion of string \texttt{s} that begins at position \texttt{m}
+  (counted starting from 1), and is \texttt{n} characters long
+\item
+  \texttt{sub(r,\ t,\ s)} : substitute string \texttt{t} for the first occurrence of the regular expression \texttt{r} in the string \texttt{s}. If \texttt{s} is not given, \texttt{\$0} is used.
+\item
+  \texttt{gsub} : just like \texttt{sub} but replaces \emph{all} (rather than just the first) occurrences of the regular expression \texttt{r} in string \texttt{s}.
+\item
+  \texttt{split(s,\ a,\ fs)} : split the string \texttt{s} into an array variable named \texttt{a} at occurrences of the regular expression \texttt{fs}.
+  The function returns the number of pieces the string was split into. Afterward each part of the string can be accessed like
+  \texttt{a{[}1{]}}, \texttt{a{[}2{]}}, and so forth. (Good example = splitting out fields from a column in a VCF file.)
+\end{itemize}
+
+\hypertarget{using-awk-to-assign-to-shell-variables}{%
+\subsection{\texorpdfstring{Using \texttt{awk} to assign to shell variables}{Using awk to assign to shell variables}}\label{using-awk-to-assign-to-shell-variables}}
+
+We leave our discussion of \texttt{awk} by noting that its terse syntax makes it
+a perfect tool for creating shell variables that we can do things (like
+cycling over them) with.
+
+For example, imagine we wanted to do something to all the FASTQ files associated with
+the fish in \texttt{data/wgs-chinook-samples.csv} that are of \texttt{run\_type} = ``Winter''. We can
+get all their IDs using command substitution and then cycle over them in the shell like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{WINTERS=$(}\FunctionTok{awk}\NormalTok{ -F}\StringTok{","} \StringTok{'$NF == "Winter" \{print $1\}'}\NormalTok{ data/wgs-chinook-samples.csv}\VariableTok{)}
+
+\KeywordTok{for} \ExtensionTok{i}\NormalTok{ in }\VariableTok{$WINTERS}\KeywordTok{;} \KeywordTok{do}
+  \BuiltInTok{echo} \StringTok{"FASTQS are: }\VariableTok{$i}\StringTok{.R1.fq.gz     }\VariableTok{$i}\StringTok{.R2.fq.gz"}
+\KeywordTok{done}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{sed}{%
+\section{sed}\label{sed}}
+
+\texttt{sed} is a ``stream editor''. Though it is capable of all sorts of things,
+to be honest, I use it almost exclusively to
+do simple find-and-replace operations. The syntax for that is:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sed} \StringTok{'s/regex/replacement/g;'}\NormalTok{ file}
+\end{Highlighting}
+\end{Shaded}
+
+where \texttt{regex} is a regular expression and \texttt{replacement} is the string you wish to replace
+any segments of \texttt{file} that match \texttt{regex}. The \texttt{s} means ``substitute'' and is like
+a command to \texttt{sed}, and the \texttt{g} means ``globally'', without which only the first
+match of \texttt{regex} on each line would be replaced.
+
+Multiple instances of the ``s'' command can be given, like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{sed} \StringTok{'}
+\StringTok{  s/regex1/replacement1/g;}
+\StringTok{  s/regex2/replacement2/g;}
+\StringTok{  s/regex3/replacement3/g;}
+\StringTok{'}\NormalTok{ file}
+\end{Highlighting}
+\end{Shaded}
+
+The separate commands are done in order, line by line.
+
+\textbf{Now it's your turn!}\\
+Take the output of:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{WINTERS=$(}\FunctionTok{awk}\NormalTok{ -F}\StringTok{","} \StringTok{'$NF == "Winter" \{print $1\}'}\NormalTok{ data/wgs-chinook-samples.csv}\VariableTok{)}
+
+\KeywordTok{for} \ExtensionTok{i}\NormalTok{ in }\VariableTok{$WINTERS}\KeywordTok{;} \KeywordTok{do}
+  \BuiltInTok{echo} \StringTok{"FASTQS are: }\VariableTok{$i}\StringTok{.R1.fq.gz     }\VariableTok{$i}\StringTok{.R2.fq.gz"}
+\KeywordTok{done}
+\end{Highlighting}
+\end{Shaded}
+
+and pipe it into \texttt{sed} to changes the \texttt{R1} and \texttt{R2} into \texttt{r1} and \texttt{r2},
+and to remove the \texttt{.gz} from the end of each file name. Remember to
+backslash-escape that period!
 
 \hypertarget{working-on-remote-servers}{%
 \chapter{Working on remote servers}\label{working-on-remote-servers}}
@@ -3988,7 +5725,7 @@ This dude never takes a break, but sits at his desk
 24/7. He probably has mustard stains on his dingy white T-shirt
 from eating ham sandwiches non-stop while he works super hard. This guy is Tmux.
 
-When you \emph{first} speak to this guy, you have to preface your
+When you \emph{first} speak to this guy after logging in, you have to preface your
 commands with \texttt{tmux} (as in, ``Hey Tmux!''). He is there to help you
 manage different terminal windows with different bash shells or
 processes going on in them. In fact, you can think of it this way: you can
@@ -4003,12 +5740,12 @@ the windows that are on the terminal he set up for you on his desk.
 When you are done working on all those windows, you can tell Tmux that you
 want to \emph{detach} from the special terminal he set up for you at the server.
 In response he says, ``Cool!'' and shuts down his miracle-mirroring device, so
-you know longer see those different windows. However, he \emph{does not} shut down the
+you no longer see those different windows. However, he \emph{does not} shut down the
 terminal on his desk that he set up for you. That terminal stays on, and any of your processes
 happening on it keep chugging away\ldots{}even after you logout from the server entirely,
 throw the lid down on your laptop,
 have drinks with your friends at Social, downtown, watch an episode
-of Parks and Rec, and then get a good night sleep.
+of Parks and Rec, and then get a good night's sleep.
 
 All through the night, Tmux is munching ham sandwiches and keeping an eye on that
 terminal he set up for you. When you log back onto the server in the morning, you
@@ -4019,7 +5756,7 @@ still running in them---in all the same working directories---just as you left i
 (except that if you were running jobs in those windows, some of those jobs might already
 be done!).
 
-Not only that, but, further, if you are working on the server, when a local thunderstorm
+Not only that, but, further, if you are working on the server when a local thunderstorm
 fries the motherboard on your laptop, you can get a new laptop, log back into the
 server and ask Tmux to reconnect you to that terminal and get back to all of those
 windows and jobs, etc. as if you didn't get zapped. The same goes for the case of
@@ -4030,7 +5767,7 @@ to all those windows you had open on the server.
 
 Finally, when you are done with all the windows and jobs on the terminal that Tmux set
 up for you, you can ask him to kill it, and he will shut it down, unplug it, and, straight
-out of Office Space, chuck it out the window. But he will gladly install a new one
+out of \emph{Office Space}, chuck it out the window. But he will gladly install a new one
 if you want to start another \emph{session} with him.
 
 That dude is super helpful!
@@ -7762,7 +9499,7 @@ I copied that to \texttt{inputs} so we can plot it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-31-1.pdf}
+\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-38-1.pdf}
 
 OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.
 

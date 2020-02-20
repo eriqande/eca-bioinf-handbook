@@ -1439,7 +1439,49 @@ figure-creation/1.01-unix
 ```
 
 
+## `bash` functions
 
+In our example script, `clone-classroom-repos.sh`, we define a bash _function_ called `usage`
+that prints a helpful message showing the syntax and an example invocation of the script.
+This provides an example of how you can write functions in `bash`.  In all honesty, I only
+rarely use functions in `bash`, but it is good to know about nonetheless.  
+
+In `bash`, a function is just a collection of commands, grouped using curly braces, that
+will be evaluated when the function's name is issued on the command line or within a script.
+Not only will those lines be evaluated, but you can also pass _positional parameters_ to the
+function by following its name with other words/tokens/values.  The _positional parameters_
+within a function are distinct from the positional parameters within, say, the main script.
+
+Functions can be defined, most transparently, by using the `function` keyword.
+As an example, here is a silly function, called `Silly` that takes two positional parameters
+and then merely prints them separated by monkey noises.
+```sh
+function Silly {
+  echo "$1  Ooooh-oooh  Aaaah-aaah  $2"
+}
+
+# now, try
+Silly foo bar
+```
+Another syntax you might see is to not use the _function_ keyword, but rather
+follow the function's name with `()`:
+```sh
+Silly2() {
+  echo "$1  Ooooh-oooh  Aaaah-aaah  $2"
+}
+
+# now, try
+Silly2 boing bonk
+```
+
+You can even put it all on one line, but you have to make sure that you respect
+the curly-braces sensitivity to spacing and explicit line ending semicolons:
+```sh
+function Silly3 { echo "$1  Ooooh-oooh  Aaaah-aaah  $2";}
+
+# now, try
+Silly3 bing bap
+```
 
 ## reading files line by line
 

@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-02-17" />
+<meta name="date" content="2020-02-20" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -199,10 +199,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.8" data-path="shell-programming.html"><a href="shell-programming.html#more-conditional-evaluation-if-then-else-and-friends"><i class="fa fa-check"></i><b>5.8</b> More Conditional Evaluation: <code>if</code>, <code>then</code>, <code>else</code>, and friends</a></li>
 <li class="chapter" data-level="5.9" data-path="shell-programming.html"><a href="shell-programming.html#finallypositional-parameters"><i class="fa fa-check"></i><b>5.9</b> Finally…positional parameters</a></li>
 <li class="chapter" data-level="5.10" data-path="shell-programming.html"><a href="shell-programming.html#basename-and-dirname-two-useful-little-utilities"><i class="fa fa-check"></i><b>5.10</b> <code>basename</code> and <code>dirname</code> two useful little utilities</a></li>
-<li class="chapter" data-level="5.11" data-path="shell-programming.html"><a href="shell-programming.html#reading-files-line-by-line"><i class="fa fa-check"></i><b>5.11</b> reading files line by line</a></li>
-<li class="chapter" data-level="5.12" data-path="shell-programming.html"><a href="shell-programming.html#further-reading"><i class="fa fa-check"></i><b>5.12</b> Further reading</a></li>
+<li class="chapter" data-level="5.11" data-path="shell-programming.html"><a href="shell-programming.html#bash-functions"><i class="fa fa-check"></i><b>5.11</b> <code>bash</code> functions</a></li>
+<li class="chapter" data-level="5.12" data-path="shell-programming.html"><a href="shell-programming.html#reading-files-line-by-line"><i class="fa fa-check"></i><b>5.12</b> reading files line by line</a></li>
+<li class="chapter" data-level="5.13" data-path="shell-programming.html"><a href="shell-programming.html#further-reading"><i class="fa fa-check"></i><b>5.13</b> Further reading</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Sed, awk, and regular expressions</a></li>
+<li class="chapter" data-level="6" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Sed, awk, and regular expressions</a><ul>
+<li class="chapter" data-level="6.1" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#awk"><i class="fa fa-check"></i><b>6.1</b> awk</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#line-cycling-tests-and-actions"><i class="fa fa-check"></i><b>6.1.1</b> Line-cycling, tests and actions</a></li>
+<li class="chapter" data-level="6.1.2" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#column-splitting-fields--f-nf-print-ofs-and-begin"><i class="fa fa-check"></i><b>6.1.2</b> Column splitting, fields, <code>-F</code>, <code>$</code>, <code>NF</code>, <code>print</code>, <code>OFS</code> and <code>BEGIN</code></a></li>
+<li class="chapter" data-level="6.1.3" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#a-brief-introduction-to-regular-expressions"><i class="fa fa-check"></i><b>6.1.3</b> A brief introduction to regular expressions</a></li>
+<li class="chapter" data-level="6.1.4" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#a-variety-of-tests"><i class="fa fa-check"></i><b>6.1.4</b> A variety of tests</a></li>
+<li class="chapter" data-level="6.1.5" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#code-in-the-action-blocks"><i class="fa fa-check"></i><b>6.1.5</b> Code in the action blocks</a></li>
+<li class="chapter" data-level="6.1.6" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#using-awk-to-assign-to-shell-variables"><i class="fa fa-check"></i><b>6.1.6</b> Using <code>awk</code> to assign to shell variables</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#sed"><i class="fa fa-check"></i><b>6.2</b> sed</a></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html"><i class="fa fa-check"></i><b>7</b> Working on remote servers</a><ul>
 <li class="chapter" data-level="7.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#accessing-remote-computers"><i class="fa fa-check"></i><b>7.1</b> Accessing remote computers</a><ul>
 <li class="chapter" data-level="7.1.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#windows"><i class="fa fa-check"></i><b>7.1.1</b> Windows</a></li>
@@ -412,11 +423,11 @@ choosing BetterBibTex, and then selecting “Export” button. That yields a pag
 that gives you a place to omit certain reference fields. You life will be easier
 if you omit fields that are often long, or which are not needed for citation. I recommend
 filling that field with:</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1">abstract,copyright,file,pmid</a></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb239-1" data-line-number="1">abstract,copyright,file,pmid</a></code></pre></div>
 And, you probably should restart Zotero after doing that.</li>
 <li><p>Install the R package <code>citr</code>. It is on CRAN, but it is probably best
 to first try the latest development version. Install it from within R using:</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb200-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;crsh/citr&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb240-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;crsh/citr&quot;</span>)</a></code></pre></div>
 For more information about this package check out <a href="https://github.com/crsh/citr">https://github.com/crsh/citr</a>.</li>
 <li>Once that package is installed. Quit and re-open RStudio. Now, if you go to the
 “Addins” menu (right under the name panel at the top of the RStudio window) you will
@@ -445,12 +456,12 @@ so you can edit references.bib to put titles in sentence case. Probably want to 
 <p>Whoa! Bookdown has figured out how to do references to sections and tables and things in a reasonable
 way that just isn’t there for the vanilla Rmarkdown. But you can use the bookdown syntax for a non-book
 too. Just put something like this in the YAML:</p>
-<div class="sourceCode" id="cb201"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="fu">output:</span></a>
-<a class="sourceLine" id="cb201-2" data-line-number="2">  <span class="fu">bookdown:</span><span class="at">:word_document2: default</span></a>
-<a class="sourceLine" id="cb201-3" data-line-number="3">  <span class="fu">bookdown:</span><span class="at">:pdf_document2:</span></a>
-<a class="sourceLine" id="cb201-4" data-line-number="4">    <span class="fu">number_sections:</span><span class="at"> yes</span></a>
-<a class="sourceLine" id="cb201-5" data-line-number="5">  <span class="fu">bookdown:</span><span class="at">:html_document2:</span></a>
-<a class="sourceLine" id="cb201-6" data-line-number="6">    <span class="fu">df_print:</span><span class="at"> paged</span></a></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb241-1" data-line-number="1"><span class="fu">output:</span></a>
+<a class="sourceLine" id="cb241-2" data-line-number="2">  <span class="fu">bookdown:</span><span class="at">:word_document2: default</span></a>
+<a class="sourceLine" id="cb241-3" data-line-number="3">  <span class="fu">bookdown:</span><span class="at">:pdf_document2:</span></a>
+<a class="sourceLine" id="cb241-4" data-line-number="4">    <span class="fu">number_sections:</span><span class="at"> yes</span></a>
+<a class="sourceLine" id="cb241-5" data-line-number="5">  <span class="fu">bookdown:</span><span class="at">:html_document2:</span></a>
+<a class="sourceLine" id="cb241-6" data-line-number="6">    <span class="fu">df_print:</span><span class="at"> paged</span></a></code></pre></div>
 </div>
 <div id="google-docs" class="section level2">
 <h2><span class="header-section-number">13.4</span> Google Docs</h2>

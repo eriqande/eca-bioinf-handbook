@@ -1,0 +1,13 @@
+Metacharacter(s)  &    Description 
+`.`            & Match any single character
+`[ ]`          & Match any single character from a _character class_ (see below)
+`^`            & Signifies/matches the _beginning_ of the line or word (remember `/^@SQ/`)
+`$`            & Signifies/matches the _end_ of the line of word
+`*`            & Match zero or more occurrences of the character (or grouped pattern) immediately to the left
+`?`            & Match zero or one occurrences of the character (or grouped pattern) immediately to the left
+`+`            & Match one or more occurrences of the character (or grouped pattern) immediately to the left
+`{n}`          & Match n occurrences of the character (or grouped pattern) immediately to the left
+`{m,n}`        & Match any number between m and n occurrences of character (or grouped pattern) immediately to the left
+`|`            & Combine regular expressions with an OR
+`\`            & Use it if you want to match a literal metacharacter.  For example `\.` matches an actual period, and `\?` matches an acutal question mark
+`( )`          & Used to group characters into a single unit to which modifiers like `*` or `+` can be applied, to delimit the extent of `|`'s (or to be used in more advanced expressions for inserting replacement groups)
