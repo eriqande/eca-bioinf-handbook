@@ -536,6 +536,11 @@ The function returns the number of pieces the string was split into.  Afterward 
 `a[1]`, `a[2]`, and so forth.  (Good example = splitting out fields from a column in a VCF file.)
 
 
+**Take control of output formatting with the `printf()` function**:  
+I still need to write this.
+
+
+
 ### Using `awk` to assign to shell variables
 
 We leave our discussion of `awk` by noting that its terse syntax makes it
