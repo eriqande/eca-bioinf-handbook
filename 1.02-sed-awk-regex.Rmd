@@ -267,8 +267,9 @@ match any of the characters `-`, `;`, `a`, or `b`.
 - A `^` _at the beginning of the characters inside the square brackets_ negates the character class, meaning
 the match will be to anything _not_ within the character class, i.e., `[^ABC]` means match any character
 that is _not_ `A` nor `B` nor `C`.  If the `^` is not at the beginning of the characters within the `[ ]`
-then it carries no special meaning: `[:;^%]` matches any of those four punctuation characters.
-
+then it carries no special meaning: `[:;^%]` matches any of those four punctuation characters.'
+- All characters, except `-` and `^` in the correct positions, and the backslash `\`, are interpreted _literally_
+(i.e., not as metacharacters) within the `[ ]`.  So you can match any one of `?`, `*`, `(`, `)`, or `+`, for instance, with `/[?*()+]/`.
 
 
 All these metacharacters might seem a little cryptic, so I provide a few

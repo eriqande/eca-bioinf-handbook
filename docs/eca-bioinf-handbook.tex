@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-02-20}
+\date{2020-02-24}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -4222,7 +4222,10 @@ the square brackets they occur:
   A \texttt{\^{}} \emph{at the beginning of the characters inside the square brackets} negates the character class, meaning
   the match will be to anything \emph{not} within the character class, i.e., \texttt{{[}\^{}ABC{]}} means match any character
   that is \emph{not} \texttt{A} nor \texttt{B} nor \texttt{C}. If the \texttt{\^{}} is not at the beginning of the characters within the \texttt{{[}\ {]}}
-  then it carries no special meaning: \texttt{{[}:;\^{}\%{]}} matches any of those four punctuation characters.
+  then it carries no special meaning: \texttt{{[}:;\^{}\%{]}} matches any of those four punctuation characters.'
+\item
+  All characters, except \texttt{-} and \texttt{\^{}} in the correct positions, and the backslash \texttt{\textbackslash{}}, are interpreted \emph{literally}
+  (i.e., not as metacharacters) within the \texttt{{[}\ {]}}. So you can match any one of \texttt{?}, \texttt{*}, \texttt{(}, \texttt{)}, or \texttt{+}, for instance, with \texttt{/{[}?*()+{]}/}.
 \end{itemize}
 
 All these metacharacters might seem a little cryptic, so I provide a few
@@ -4566,6 +4569,9 @@ listing. The ones I find I use all the time are:
   The function returns the number of pieces the string was split into. Afterward each part of the string can be accessed like
   \texttt{a{[}1{]}}, \texttt{a{[}2{]}}, and so forth. (Good example = splitting out fields from a column in a VCF file.)
 \end{itemize}
+
+\textbf{Take control of output formatting with the \texttt{printf()} function}:\\
+I still need to write this.
 
 \hypertarget{using-awk-to-assign-to-shell-variables}{%
 \subsection{\texorpdfstring{Using \texttt{awk} to assign to shell variables}{Using awk to assign to shell variables}}\label{using-awk-to-assign-to-shell-variables}}
@@ -6253,8 +6259,266 @@ Now that you have seen all these keystrokes, use \texttt{\textless{}cntrl\textgr
 up into a few panes and try them out. It takes a while to get used to it, but once you get
 the hang of it, it's quite nice.
 
-\hypertarget{high-performance-computing-hpc-environments}{%
-\chapter{High Performance Computing (HPC) Environments}\label{high-performance-computing-hpc-environments}}
+\hypertarget{high-performance-computing-clusters-hpccs}{%
+\chapter{High Performance Computing Clusters (HPCC's)}\label{high-performance-computing-clusters-hpccs}}
+
+One interesting aspect of modern next generation sequencing data is simply its
+sheer size: it is not uncommon to receive a half or a full terabyte of data from
+a sequencing center. It is impractical to store this much data on your
+laptop, let alone analyze it there. Crunching through such a quantity of data on a single
+computer or server could take a very long time. Instead, you will likely break
+up the analysis of such data into a number of smaller jobs, and send them off to
+run on an assortment of different computers in a High Performance Computing Cluster (HPCC).
+
+Thus, even if you have immersed yourself in bioinformatic data file formats and honed
+your skills at shell programming and accessing remote computers, sequence data analysis
+remains such a formidable foe that there is still one last key area of computing
+in which you must be fluent, in order to comfortably do bioinformatics: you must understand
+how to submit and manage jobs sent to an HPCC.
+
+My first experience with HPCC's occurred when I started analyzing
+high-throughput sequencer output. I had over 15 years experience in shell
+programming at that time, and I was given some example analysis scripts to emulate, but I still
+found it took several weeks before I was moderately comfortable in an HPCC environment. Most
+HPCC's have some sort of tutorial web pages that provide a little bit of background
+on cluster computing, but I didn't find the ones available to me, at the time, to
+be particularly helpful.
+
+The goal of this chapter is to provide the sort of background I wish that I had
+when I started doing cluster computing for bioinformatics. I will not be providing
+a comprehensive overview of parallel computation. For example, we will not focus at all
+upon the rich tradition of parallel computing applications through ``message passing'' interfaces which
+can maintain a synchronized analysis from a single program executing
+on multiple computers at the same time. Rather, we will focus on the manner in which
+most bioinformatic problems can be broken down into a series of smaller jobs,
+each of which can be run, independently, on its own processor without the
+need for maintaining synchrony between multiple processes.
+
+We start with an overview of what an HPCC consists of, defining a few important
+terms. Then we provide some background on the fundamental problem of cluster
+computing: namely that a lot of people want to use the computing power of the cluster,
+but it needs to be allocated to users in an equitable fashion. An understanding of this
+forms the basis for our discussion of \emph{job scheduling} and the methods you must
+use to tell the \emph{job scheduler} what resources you will need, so that those resources
+will eventually be allocated to you. We will cover a job scheduler called SLURM, which
+stands for the Simple Linux Utility for Resource Management. It is the scheduler used
+on the Summit supercomputer in Boulder and the Hummingbird and Sedna clusters deployed
+at UCSC and the NWFSC, respectively.
+
+After a discussion of SLURM, we will wrap up the chapter with a look at
+methods for installing software to use for your analyses.
+
+\hypertarget{an-oversimplified-but-useful-view-of-a-computing-cluster}{%
+\section{An oversimplified, but useful, view of a computing cluster}\label{an-oversimplified-but-useful-view-of-a-computing-cluster}}
+
+At its simplest, an HPCC can be thought of as a whole lot of computers that are all
+put in a room somewhere for the purposes of doing a lot of computations. Most of these
+computers do not possess all the elements that typically come to mind when you
+think of a ``computer.'' For example, none of them are attached to monitors---each
+computer resembles just the ``box'' part of a desktop computer. Each of these ``boxes'' is called
+a \emph{node}. The node is the unit in a cluster that corresponds most closely to what you think of
+as a ``computer.'' As is typical of most computers today, each of these nodes has some
+amount of Random Access Memory (RAM) that is \emph{only accessible by the node itself}. RAM
+is the space in memory that is used for active computation and calculation.
+
+Each of these
+nodes might also have a hard drive used for operating system software. The bulk of the
+hard drive space that each node can access, however, is in the form of a large array of hard disks
+that are connected to \emph{all} of the nodes by an interface that allows data to be transferred
+back and forth between each node and the hard-drive array at speeds that would be expected of
+an internal hard drive (i.e., this array of hard drives is not just plugged in with a USB
+cable). Memory on hard drives is used for storing data and the results of calculations, but
+is not used for active calculations the way RAM is used. In order for calculations to be done
+on data that are on the hard drive array, it must first be read into a node's RAM. After the calculations
+are done, the results are typically written back out onto the hard drive array.
+
+On a typical cluster, there are usually several different ``portions'' of the hard drive
+array attached to every \emph{node}. One part of the array holds \emph{home directories} of the
+different users. Each user typically has a limited amount of storage in their home directory, but
+the data in these home directories is usually safe or protected, meaning you can put a file there
+and expect that it will be there next week, month, or year, etc. It is also likely that the home directories are
+backed up (but check the docs for your cluster to confirm this!). Since the space in home directories is limited,
+you typically will not put large data sets in your home directory for long-term storage, but you will
+store scripts and programs, and such items as cloned GitHub repositories there. Another
+type of storage that exists on the hard drive array is called \emph{persistent long-term storage}. This type of storage
+is purchased for use by research groups to store large quantities of
+data on the cluster for long periods of time. As discussed in the last chapter, the rise of cloud-based storage solutions,
+like Google Drive, offering unlimited storage to institutional users makes persistent long-term storage less
+important (and less cost-effective) for many research groups. Finally, the third type of
+storage in the hard drive array is called \emph{scratch storage}. There are usually fairly
+light limits (if any at all) to how much data can be placed in scratch storage, but there
+will typically be Draconian \emph{time limits} placed on your scratch storage. For example, on the
+Hoffman2 cluster at UCLA, you are granted 2 Tb of \texttt{scratch} storage, but any files that
+have sat unmodified in \texttt{scratch} for more than 14 days will be deleted (and if space is tight, the
+system administrators may delete things from \texttt{scratch} in far fewer then 14 days.) Check
+your local cluster documentation for information about time and space limits on \texttt{scratch}.
+
+On many clusters, scratch space is also configured to be very fast for input and output
+(for example, on many systems, the scratch storage will be composed of solid state drives rather
+than spinning hard disks). On jobs that require that a lot of data be accessed from the
+drive or written to it (this includes most operations on BAM files), significant decreases
+in overall running time can be seen by using fast storage. Finally, scratch space exists on a cluster
+expressly as \emph{the place} to put data and outputs on the hard drive \emph{when running jobs}. For all these
+reasons, when you run jobs, you will always want to read and write data from and to \texttt{scratch}. We
+will talk more about the specifics of doing so, but for now, you should be developing a generic picture
+of your cluster computing workflow that looks like:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Download big data files from the cloud to \texttt{scratch}
+\item
+  Run analyses on those data files, writing output back to \texttt{scratch}.
+\item
+  When done, copy, to the cloud, any products that you wish to keep.
+\item
+  Remove data and outputs left on \texttt{scratch}.
+\end{enumerate}
+
+As is the case with virtually all modern desktop or laptop computers, within each node,
+there are multiple (typically between 16 and 48) \emph{cores}, which are the computer chip units that actually
+do the computations within a node. A \emph{serial job} is one that just runs on a single core
+within a \emph{node}, while a \emph{parallel job} might run on multiple cores, at the same time, within
+a single node. In such a parallel job, each core has access to the same data within the
+node's RAM (a ``shared-memory,'' parallel job). The \emph{core}
+is the fundamental unit of computing machinery that gets allocated to perform jobs in an HPCC.
+
+Most of the nodes in a cluster are there to hold the cores which are the computational workhorses,
+slogging through calculations for the HPCC's myriad users. However, some nodes
+are more appropriate to certain types of computations than others (for example, some
+might have lots of memory for doing genome assembly, while others will have
+big, hurkin', graphical processing units to be used for GPU calculations). Or, some nodes
+might be available preferentially for different users than for others. For these
+reasons, nodes are grouped into different collections. Depending on the system you are
+using, these collections of different nodes are called, either, \emph{partitions} or \emph{queues}.
+
+On every cluster, however, there will be one to several nodes that are reserved not for
+doing computation, but for allowing users to access the cluster. These are called the
+\emph{login} nodes or the \emph{head} nodes. These nodes are \emph{solely} for logging in, light editing of
+scripts, minor manipulation of directories, and scheduling and managing jobs. They are absolutely \emph{not}
+for doing major computations. For example, you should never login to the head node and immediately
+start using it, in an interactive \texttt{bash} session to, say, sort BAM files or run \texttt{bwa\ mem}
+to do alignments. Running commands that require a lot of computation, or a lot of
+input and output from the disk, on the login nodes is an egregious
+\emph{faux pas} of cluster computing. Doing so can
+negatively impact the ability of other users to login or otherwise get their work done. Therefore,
+never do it! All of your hardcore computation on a cluster \emph{has} to be done in scheduled manner on
+a \emph{compute node}. We will show how to do that shortly, but first we will talk about why.
+
+\hypertarget{cluster-computing-and-the-job-scheduler}{%
+\section{Cluster computing and the job scheduler}\label{cluster-computing-and-the-job-scheduler}}
+
+When you do work, or stream a video, or surf the web on your laptop computer, there are numerous
+different computer processes running, to make sure that your computer keeps working and doing what it
+is supposed to be doing. In the case of your laptop, the operating system, itself, orchestrates
+all these different processes, making sure that each one is given some compute time on your
+laptop in order to get its work done. Your laptop's operating system has a fair bit
+of flexibility in how it allocates resources to these different processes: it has multiple
+cores to assign different processes to, \emph{and} it
+allows multiple processes to run on a single core, alternating between these different processes over
+different \emph{cycles} of the central processing unit. Things work differently
+on a shared resource like an HPCC. The fundamental problem of cluster computing is basically
+this: lots of people want to use the cluster to run big jobs, but the cluster does not
+run like a single computer.
+
+The cluster is not happy to give lots of different jobs
+from lots of different users a chance to all run on the same core, sharing time by dividing up cycles.
+When a user wants to use the computational resources of an HPCC,
+she cannot just start a job and be confident that it will launch immediately and be granted
+at least a few CPU cycles every now and again. Rather, on an HPCC, every \emph{job} that is submitted
+by a user will be assigned to a dedicated core (or several cores, if requested, and granted)
+with a dedicated amount of memory.
+If a core is not available for use, the job ``gets in line'' where it sits and waits (doing nothing) until a core
+(with sufficient associated resources, like RAM memory) becomes available. When such a core
+becomes available in the cluster, the job gets launched on it. All of this is orchestrated by the job scheduler,
+of which SLURM is an example.
+
+In this computing model, a job, once it is launched, ties up the core and the memory
+that has been allocated to it until the job is finished. While that job is running, no one
+else's jobs or processes can run on the core or share the RAM memory that was allocated to the job.
+For this reason, the job scheduler, needs to know, \emph{ahead of time} how long each job might run and
+what resources will be required during that time. A simple contrived example illustrates things easily:
+imagine that Joe and Cheryl each have 1000 separate jobs to run. Each of Cheryl's jobs involves running
+a machine-learning algorithm to identify seabirds in high-resolution, aerial images of the ocean, and
+takes only about 20 minutes running on a single core. Each of Joe's jobs, on the other hand, involves mapping billions of
+sequencing reads, a task which requires about 36 hours when run on a single core.
+If their cluster has only 640 cores, and Joe submits his jobs first,
+then, if the job scheduler were naive, it might put all of his jobs in line first, requiring some 50 or 60 hours
+before the first of Cheryl's jobs even runs. This would be a huge buzz kill for Cheryl.
+However, if Cheryl and Joe both have to provide estimates to the scheduler of how
+long their jobs will run, the scheduler can make more equitable decisions, starting a few of Joe's jobs, but retaining
+many more cores for Cheryl's jobs, each of which runs much faster.
+
+Thus, when you want to run any jobs on a cluster, you must provide an estimate of the resources
+that the job will require. The three main axes upon which these resources are measured are:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The number of cores the job will require.
+\item
+  The maximum amount of RAM (memory) the job will require.
+\item
+  The amount of time for which the job will run.
+\end{enumerate}
+
+Requests for large amounts of resources for long periods of time generally take longer to start.
+There are two main reasons for this: either 1) the scheduler does not want to launch too many
+long-duration, high-memory jobs because it anticipates other users will want to use resources
+down the road and no single user should tie up the compute resources
+for too long; or 2) there are so many jobs running on myriad nodes and cores, that only
+infrequently do nodes with sufficient numbers of cores and RAM come available to start
+the new jobs.
+
+The second reason is a particular bane of new cluster users who unwittingly request more resources
+than actually exist (i.e.~52 cores, when no single node has more than 32, or 50 Gb of RAM when no single
+node has more than 48 Gb). Unfortunately (or, perhaps comically, if you have a sick sense of
+humor), most job schedulers will not notify you of this sort of transgression.
+Rather, your job will just sit in line waiting to be launched, but it never will be, because sufficient
+resources never become available!
+
+It is worth noting that regardless of whether reason 1 or reason 2 is the dominant cause influencing
+how long it takes to start a job, asking for fewer resources for less time will generally allow your
+jobs to start faster. Particularly because of reason \#2, however, breaking your jobs down (if possible) into
+small chunks that will run relatively quickly on a single core with low RAM needs can render many more
+opportunities for your jobs to start, letting you tap into resources that are not often fully utilized
+in a cluster. Since I started working on large cluster in which it took a long time to start a job
+that required all or most of the cores on a single node, but in which there were many nodes
+harboring a few cores that were not being used, I tend to endorse this approach\ldots{}
+
+Since the requested resources for a job play such a large role in wait times for jobs to start,
+you might wonder why people don't intentionally underestimate the resources they request for their
+jobs. The answer is simple: the job scheduler is a highly efficient and completely dispassionate
+manager. If you requested 2 hours for your job, but your job has not finished in that amount of time,
+the job scheduler will waste no time hemming and hawing or having an emotional struggle with itself
+about whether it should stop your job. No, at 2 hours and 0.2 seconds it WILL kill your job, regardless
+of whether it is just about to finish, or not. Similarly, if you requested 4 Gb or RAM, but five hours into
+your job, the program you are running ends up using 5 Gb or RAM to store a large chunk of data, your
+job WILL be killed, immediately.
+
+Thus, it is best to be able to accurately estimate the time and resources a job will
+require. You always want to request more time and resources than your job will
+actually need, but not too much more. A large part of getting good at computing
+in a shared cluster resource is gaining experience in predicting how long different jobs will
+run, and how much RAM they will require. Later we will describe how the records of your
+jobs, stored by the job scheduler, can be accessed and organized to aid in predicting
+the resource demand of future jobs.
+
+\hypertarget{the-slurm-commands}{%
+\section{The SLURM commands}\label{the-slurm-commands}}
+
+Requests for resources (and for information about the computing cluster) are made to the job scheduler
+using a few basic commands. As said, we will focus on the commands available in a SLURM-based system.
+Before launching ourselves into the commands used to \emph{launch} or \emph{schedule} jobs we will explore the SLURM commands that
+we can use to ``get to know'' our cluster, and to see how much of cluster's resources are allocated to
+currently running jobs.
+
+Maintaining focus
+on such ``poor-mans parallelization,'' as I like to call it, allows us to maximize our
+utilization of all the resources available on a computing cluster---not just those
+that must be
 
 Hey Eric! You might consider breaking this into two separate chatpers: 1 = working on remote computers
 and 2 = high-performance computing. The first could include all the stuff about scp, globus, rclone,
@@ -6271,6 +6535,13 @@ Here is a good page with a comparison: \url{https://confluence.csiro.au/display/
 And here is a good primer on SGE stuff: \url{https://confluence.si.edu/display/HPC/Monitoring+your+Jobs}
 
 I guess I'll have to see what the CSU students have access to.
+
+Quick note: Redefine IFS to break on TABs so you can have full commands in there.
+This is super useful for parsing job-array COMMLINES files.
+
+\begin{verbatim}
+IFS=$'\t\n'; BOP=($(echo boing | awk '{printf("first\tsecond\tthird that is long\tfourth\n");}')); IFS=$' \t\n';
+\end{verbatim}
 
 \hypertarget{activatinginstalling-software}{%
 \section{Activating/Installing software}\label{activatinginstalling-software}}
