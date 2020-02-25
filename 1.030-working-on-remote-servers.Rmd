@@ -146,7 +146,14 @@ Now, to connect to SUMMIT with `lftp`, you use this syntax (shown for my usernam
 ```sh
 lftp sftp://eriq@colostate.edu@login.rc.colorado.edu
 ```
-After this, you put in your password (on SUMMIT, followed by `,push`).  `lftp` then caches your
+That can be a lot to type, so I would recommend putting something this in your
+`.bashrc`:
+```sh
+alias summit_ftp='lftp sftp://eriq@colostate.edu@login.rc.colorado.edu'
+```
+so you can just type `summit_ftp` (which will TAB complete...) to launch that command.
+
+After you issue that command, you put in your password (on SUMMIT, followed by `,push`).  `lftp` then caches your
 password, and will re-issue it, if necessary, to execute commands.  It doesn't actually send your 
 password until you try a command like `cls`.  On the SUMMIT system, with the default `lftp` settings,
 after 3 minutes of idle time, when you issue an `sftp` command on the server, you will have to approve
