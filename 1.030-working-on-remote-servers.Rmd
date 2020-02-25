@@ -90,7 +90,202 @@ but using your own username.
 
 ## Transferring files to remote computers
 
-### sftp
+### `sftp` (via `lftp`)
+
+Most Unix systems have a command called `scp`, which works like `cp`, but which is
+designed for copying files to and from
+remote servers using the SSH protocol for security.  This works really well
+if you have set up a public/private key pair to allow SSH access to your server
+without constantly having to type in your password.  Use of public-private keypairs is unfortunately, not
+an option (as far as I can tell) on new NSF-funded clusters that use 2-factor authentication (like SUMMIT
+at CU Boulder).  Trying to use `scp` in such a context becomes an endless cycle of
+entering your password and checking your phone for a DUO push.  Fortunately, there are
+alternatives.
+
+The administrators of the SUMMIT supercomputer at CU Boulder recommend
+the `sftp` utility for transferring files from your laptop to the server.
+This works reasonably well.  The syntax for a CSU student or affiliate connecting to the server is
+```sh
+sftp csu_userEID@colostate.edu@login.rc.colorado.edu
+
+# for example, here is mine:
+sftp eriq@colostate.edu@login.rc.colorado.edu
+```
+After doing this you have to give your eID password followed by `,push`, and then
+approve the DUO push request on your phone.  Once that is done, you have a "line open"
+to the server and can use the commands of `sftp` to transfer files around.
+However, the vanilla version of `sftp` (at least on a Mac) is unbelievably limited,
+because there is simply no good support for TAB completion within
+the utility for navigating directories on the server or upon your laptop.
+It must have been developed by troglodytes...consequently, I won't describe
+vanilla `sftp` further.
+
+If you are on Windows, it looks like the makers of PuTTY also bring you
+[PSFTP](https://www.ssh.com/ssh/putty/putty-manuals/0.68/Chapter6.html#psftp) which
+might be useful for you for file transfer. Go for it!
+
+If you are on a Mac, you can install `lftp` (`brew install lftp`: note that I need to write
+a section about installing command line utilities via homebrew somewhere in this handbook).
+`lftp` provides the sort of TAB completion of paths that you, by now, will have come to
+know and love and expect.
+
+Before you connect to your server with `lftp` there are a few customizations that you will
+want to do in order to get nicely colored output, and to avoid having to login repeatedly
+during your `lftp` session. You must make a file on your laptop called `~/.lftprc` and put
+the following lines in it:
+```sh
+set color:dir-colors "rs=0:di=01;36:fi=01;32:ln=01;31:*.txt=01;35:*.html=00;35:"
+set color:use-color true
+
+set net:idle 5h
+set net:timeout 5h
+```
+
+
+Now, to connect to SUMMIT with `lftp`, you use this syntax (shown for my username):
+```sh
+lftp sftp://eriq@colostate.edu@login.rc.colorado.edu
+```
+After this, you put in your password (on SUMMIT, followed by `,push`).  `lftp` then caches your
+password, and will re-issue it, if necessary, to execute commands.  It doesn't actually send your 
+password until you try a command like `cls`.  On the SUMMIT system, with the default `lftp` settings,
+after 3 minutes of idle time, when you issue an `sftp` command on the server, you will have to approve
+access with the DUO app on your phone again.  However, the line last two lines in the
+`~/.lftprc` file listed above ensure that your connection to SUMMIT will stay active even
+through 5 hours of idle time, so you don't have to keep clicking DUO pushes on your phone.
+After 5 hours, if you try issuing a command to the server in `lftp`, it will use your cached
+password to reconnect to the server.  On SUMMIT, this means that you only need to deal with
+approving a DUO push again---not re-entering your password.  If you are working on SUMMIT daily,
+it makes sense to just keep one Terminal window open, running `lftp`, all the time.
+
+
+Once you have started your `lftp/sftp` session this way, there are some important things to keep in mind.
+The most important of which is that the `lftp` session you are in maintains a _current working directory_
+on both the server and on your laptop.  We will call these the _server working directory_ and
+the _laptop working directory_, respectively, (Technically, we ought to call the laptop working directory the _client working directory_
+but I find that is confusing for people, we we will stick with _laptop_.)
+There are two different commands to see what each
+current working directory is:
+
+- `pwd` : print the _server working directory_
+- `lpwd` : print _laptop working directory_ (the preceding `l` stands
+for _local_).
+
+If you want to change either the server or the laptop current working directory you use:
+
+- `cd` _path_ :  change the server working directory to _path_
+- `lcd` _path_ : change the laptop working directory to _path_. 
+
+Following `lcd`, TAB-completion is done for paths _on the laptop_, while following
+`cd`, TAB-completion is done for paths _on the server_.  
+
+If you want to list the contents of the different directories _on the servers_ you use:
+
+- `cls` : list things in the server working directory, or
+- `cls` _path_ : list things in _path_ on the server.  
+
+Note that `cls` is a little different than the `ls` command that comes
+with `sftp`.  The latter command always prints in long format and does not play
+nicely with colorized output.  By contrast, `cls` is part of `lftp` and it
+behaves mostly like your typical Unix `ls` command, taking options like `-a`, `-l` and `-d`, and
+it will even do `cls -lrt`.  Type `help cls` at the `lftp` prompt for more information.
+
+If you want to list the contents of the different directories on your laptop, you
+use `ls` _but you preface it with a_ `!`, which means "execute the following on my 
+laptop, not the server." So, we have:
+
+- `!ls` : list the contents of the laptop working directory.
+- `!ls` _path_ :  list the contents of the laptop path _path_.
+
+When you use the `!` at the beginning of the line, then all the TAB completion occurs
+in the context of the laptop current working directory.  Note that with the `!` 
+you can do all sorts of typical shell commands on your laptop from within the `lftp`
+session.  For example `!mkdir this_on_my_laptop` or `!cat that_file`, etc.
+
+If you wish to make a directory on the _server_, just use `mkdir`.  If you wish to
+remove a file from the server, just use `rm`. The latter works much like it does in
+bash, but does not seem to support globbing (use `mrm` for that!) In fact, you can
+do a lot of things (like `cat` and `less`) on the server
+_as if you had a bash shell running on it_ through an
+SSH connection.  Just type those commands at the `lftp` prompt.
+
+
+#### Transferring files using `lftp`
+
+To this point, we haven't even talked about our original goal with `lftp`, which
+was to _transfer files from our laptop to the server_ or from _the server to our laptop_.
+The main `lftp` commands for those tasks are: `get`, `put`, `mget`, `mput`, and `mirror`---it is
+not too much to have to remember.
+
+As the name suggests, `put` is for _putting_ files from your laptop onto the server. By default it
+puts files into the server working directory.  Here is an example:
+```sh
+put laptopFile_1 laptopFile_2
+```
+If you want to put the file into a different directory on the server (that must already exist)
+you can use the `-O` option:
+```sh
+put -O server_dest_dir laptopFile_1 laptopFile_2
+```
+
+The command `get` works in much the same way, but in reverse: you are _getting_ things
+_from the server to your laptop_. For example:
+```sh
+# copy to laptop working directory
+get serverFile_1 serverFile1_2
+
+# copy to existing directory laptop_dest_dir 
+get -O laptop_dest_dir serverFile_1 serverFile1_2
+```
+
+Neither of the commands `get` or `put` do any of the pathname expansion (or "globbing" as it
+we have called it) that you will be familiar with from the `bash` shell.  To effect that sort
+of functionality you must use `mput` and `mget`, which, as the `m` prefix in the
+command names suggests, are the "multi-file" versions of `put` and `get`.  Both of these
+commands also take the -O option, if desired, so that the above commands could be
+rewritten like this:
+```sh
+mput -O server_dest_dir laptopFile_[12]
+# and
+mget -O laptop_dest_dir serverFile_[12]
+```
+
+Finally, there is not a _recursive_ option, like there is with `cp`, to any of `get`, `put`, `mget`,
+or `mput`.  Thus, you cannot use any of those four to put/get entire directories on/from the
+server.  For that purpose, `lftp` has reserved the `mirror` command.  It does what it sounds like:
+it mirrors a directory from the server to the laptop.  The `mirror` command can actually
+be used in a lot of different configurations (between two remote servers, for example) and
+with different settings (for example to change only pre-existing files older than
+a certain date).
+However, here, we will demonstrate only its common use case
+of copying directories between a server and laptop here.  
+
+To copy a directory `dir`, and its contents, from your server to your
+laptop current directory you use:
+```sh
+mirror dir
+```
+To copy a directory `ldir` from your laptop to your server current directory you
+use `-R` which transmits the directory in the reverse direction:
+```sh
+mirror -R ldir
+```
+
+Learning to use `lftp` will require a little bit more of your time, but it is worth
+it, allowing you to keep a dedicated terminal window open for file transfers with sensible
+TAB-completion capability.
+
+
+
+
+
+
+
+
+
+
+
+
 ### git
 
 Most remote servers you work on will have `git` by default.
@@ -1215,6 +1410,38 @@ the hang of it, it's quite nice.
 
 
 
+## `vim`: it's time to get serious with text editing
+
+Introduce newbs to the `vimtutor`.
+
+
+
+### Using neovim and Nvim-R and tmux to use R well on the cluster
+
+These are currently just notes to myself.
+
+On Summit you can follow the directions install Neovim and Nvim-R etc, found
+at section 2 of [https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc](https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc).
+You can just do 2.1 to 2.6.  2.7 is the routine for user accounts.  You don't need to install Tmux.
+
+You need to get an interactive session on a compute node and then
+
+```sh
+module load R/3.5.0
+module load intel
+module load mkl  
+```
+The last two are needed to get a random number to start up client through R.
+It is amazing to me that they call a specific Intel library to do that, and apparently
+loading the R module alone doesn't get you that.
+
+Uncomment the lines:
+```
+let R_in_buffer = 0                                                       
+let R_tmux_split = 1 
+```
+in your `~/.config/nvim/init.vim`.  Wait! You don't want to do that, necessarily, because tmux with NVim-R
+is no longer supported (Neovim now has native terminal splitting support.)
 
 
 

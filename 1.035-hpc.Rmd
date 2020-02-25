@@ -137,7 +137,7 @@ to do alignments.  Running commands that require a lot of computation, or a lot 
 input and output from the disk, on the login nodes is an egregious
 _faux pas_ of cluster computing.  Doing so can
 negatively impact the ability of other users to login or otherwise get their work done.  Therefore,
-never do it!  All of your hardcore computation on a cluster _has_ to be done in scheduled manner on
+never do it!  All of your hardcore computation on a cluster _has_ to be done in a scheduled manner on
 a _compute node_.  We will show how to do that shortly, but first we will talk about why.
 
 ## Cluster computing and the job scheduler
@@ -240,7 +240,10 @@ Before launching ourselves into the commands used to _launch_ or _schedule_ jobs
 we can use to "get to know" our cluster, and to see how much of cluster's resources are allocated to
 currently running jobs.
 
-
+Note to self: this is a good one for the .bashrc:
+```sh
+alias myjobs='squeue -u eriq@colostate.edu'
+```
 
 
 
