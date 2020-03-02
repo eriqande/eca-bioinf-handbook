@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-02-25" />
+<meta name="date" content="2020-03-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -211,6 +211,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1.4" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#a-variety-of-tests"><i class="fa fa-check"></i><b>6.1.4</b> A variety of tests</a></li>
 <li class="chapter" data-level="6.1.5" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#code-in-the-action-blocks"><i class="fa fa-check"></i><b>6.1.5</b> Code in the action blocks</a></li>
 <li class="chapter" data-level="6.1.6" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#using-awk-to-assign-to-shell-variables"><i class="fa fa-check"></i><b>6.1.6</b> Using <code>awk</code> to assign to shell variables</a></li>
+<li class="chapter" data-level="6.1.7" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#passing-variables-into-awk-with--v"><i class="fa fa-check"></i><b>6.1.7</b> Passing Variables into <code>awk</code> with <code>-v</code></a></li>
+<li class="chapter" data-level="6.1.8" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#writing-awk-scripts-in-files"><i class="fa fa-check"></i><b>6.1.8</b> Writing awk scripts in files</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#sed"><i class="fa fa-check"></i><b>6.2</b> sed</a></li>
 </ul></li>
@@ -233,12 +235,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#first-steps-with-tmux"><i class="fa fa-check"></i><b>7.3.2</b> First steps with <code>tmux</code></a></li>
 <li class="chapter" data-level="7.3.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#further-steps-with-tmux"><i class="fa fa-check"></i><b>7.3.3</b> Further steps with <code>tmux</code></a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster"><i class="fa fa-check"></i><b>7.4</b> Using neovim and Nvim-R and tmux to use R well on the cluster</a></li>
+<li class="chapter" data-level="7.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#vim-its-time-to-get-serious-with-text-editing"><i class="fa fa-check"></i><b>7.4</b> <code>vim</code>: it’s time to get serious with text editing</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster"><i class="fa fa-check"></i><b>7.4.1</b> Using neovim and Nvim-R and tmux to use R well on the cluster</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html"><i class="fa fa-check"></i><b>8</b> High Performance Computing Clusters (HPCC’s)</a><ul>
 <li class="chapter" data-level="8.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#an-oversimplified-but-useful-view-of-a-computing-cluster"><i class="fa fa-check"></i><b>8.1</b> An oversimplified, but useful, view of a computing cluster</a></li>
 <li class="chapter" data-level="8.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#cluster-computing-and-the-job-scheduler"><i class="fa fa-check"></i><b>8.2</b> Cluster computing and the job scheduler</a></li>
-<li class="chapter" data-level="8.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#the-slurm-commands"><i class="fa fa-check"></i><b>8.3</b> The SLURM commands</a></li>
+<li class="chapter" data-level="8.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#learning-about-the-cluster-resources-and-getting-a-shell-on-a-compute-node"><i class="fa fa-check"></i><b>8.3</b> Learning about the cluster resources and getting a shell on a compute node</a></li>
 <li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#activatinginstalling-software"><i class="fa fa-check"></i><b>8.4</b> Activating/Installing software</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#modules"><i class="fa fa-check"></i><b>8.4.1</b> Modules</a></li>
 <li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#miniconda"><i class="fa fa-check"></i><b>8.4.2</b> Miniconda</a></li>
@@ -491,7 +495,11 @@ the following lines in it:</p>
 <a class="sourceLine" id="cb180-5" data-line-number="5"><span class="kw">set</span> <span class="ex">net</span>:timeout 5h</a></code></pre></div>
 <p>Now, to connect to SUMMIT with <code>lftp</code>, you use this syntax (shown for my username):</p>
 <div class="sourceCode" id="cb181"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb181-1" data-line-number="1"><span class="ex">lftp</span> sftp://eriq@colostate.edu@login.rc.colorado.edu</a></code></pre></div>
-<p>After this, you put in your password (on SUMMIT, followed by <code>,push</code>). <code>lftp</code> then caches your
+<p>That can be a lot to type, so I would recommend putting something this in your
+<code>.bashrc</code>:</p>
+<div class="sourceCode" id="cb182"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="bu">alias</span> summit_ftp=<span class="st">&#39;lftp sftp://eriq@colostate.edu@login.rc.colorado.edu&#39;</span></a></code></pre></div>
+<p>so you can just type <code>summit_ftp</code> (which will TAB complete…) to launch that command.</p>
+<p>After you issue that command, you put in your password (on SUMMIT, followed by <code>,push</code>). <code>lftp</code> then caches your
 password, and will re-issue it, if necessary, to execute commands. It doesn’t actually send your
 password until you try a command like <code>cls</code>. On the SUMMIT system, with the default <code>lftp</code> settings,
 after 3 minutes of idle time, when you issue an <code>sftp</code> command on the server, you will have to approve
@@ -556,26 +564,26 @@ The main <code>lftp</code> commands for those tasks are: <code>get</code>, <code
 not too much to have to remember.</p>
 <p>As the name suggests, <code>put</code> is for <em>putting</em> files from your laptop onto the server. By default it
 puts files into the server working directory. Here is an example:</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="ex">put</span> laptopFile_1 laptopFile_2</a></code></pre></div>
+<div class="sourceCode" id="cb183"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb183-1" data-line-number="1"><span class="ex">put</span> laptopFile_1 laptopFile_2</a></code></pre></div>
 <p>If you want to put the file into a different directory on the server (that must already exist)
 you can use the <code>-O</code> option:</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb183-1" data-line-number="1"><span class="ex">put</span> -O server_dest_dir laptopFile_1 laptopFile_2</a></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb184-1" data-line-number="1"><span class="ex">put</span> -O server_dest_dir laptopFile_1 laptopFile_2</a></code></pre></div>
 <p>The command <code>get</code> works in much the same way, but in reverse: you are <em>getting</em> things
 <em>from the server to your laptop</em>. For example:</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb184-1" data-line-number="1"><span class="co"># copy to laptop working directory</span></a>
-<a class="sourceLine" id="cb184-2" data-line-number="2"><span class="ex">get</span> serverFile_1 serverFile1_2</a>
-<a class="sourceLine" id="cb184-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb184-4" data-line-number="4"><span class="co"># copy to existing directory laptop_dest_dir </span></a>
-<a class="sourceLine" id="cb184-5" data-line-number="5"><span class="ex">get</span> -O laptop_dest_dir serverFile_1 serverFile1_2</a></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb185-1" data-line-number="1"><span class="co"># copy to laptop working directory</span></a>
+<a class="sourceLine" id="cb185-2" data-line-number="2"><span class="ex">get</span> serverFile_1 serverFile1_2</a>
+<a class="sourceLine" id="cb185-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb185-4" data-line-number="4"><span class="co"># copy to existing directory laptop_dest_dir </span></a>
+<a class="sourceLine" id="cb185-5" data-line-number="5"><span class="ex">get</span> -O laptop_dest_dir serverFile_1 serverFile1_2</a></code></pre></div>
 <p>Neither of the commands <code>get</code> or <code>put</code> do any of the pathname expansion (or “globbing” as it
 we have called it) that you will be familiar with from the <code>bash</code> shell. To effect that sort
 of functionality you must use <code>mput</code> and <code>mget</code>, which, as the <code>m</code> prefix in the
 command names suggests, are the “multi-file” versions of <code>put</code> and <code>get</code>. Both of these
 commands also take the -O option, if desired, so that the above commands could be
 rewritten like this:</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb185-1" data-line-number="1"><span class="ex">mput</span> -O server_dest_dir laptopFile_[12]</a>
-<a class="sourceLine" id="cb185-2" data-line-number="2"><span class="co"># and</span></a>
-<a class="sourceLine" id="cb185-3" data-line-number="3"><span class="ex">mget</span> -O laptop_dest_dir serverFile_[12]</a></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb186-1" data-line-number="1"><span class="ex">mput</span> -O server_dest_dir laptopFile_[12]</a>
+<a class="sourceLine" id="cb186-2" data-line-number="2"><span class="co"># and</span></a>
+<a class="sourceLine" id="cb186-3" data-line-number="3"><span class="ex">mget</span> -O laptop_dest_dir serverFile_[12]</a></code></pre></div>
 <p>Finally, there is not a <em>recursive</em> option, like there is with <code>cp</code>, to any of <code>get</code>, <code>put</code>, <code>mget</code>,
 or <code>mput</code>. Thus, you cannot use any of those four to put/get entire directories on/from the
 server. For that purpose, <code>lftp</code> has reserved the <code>mirror</code> command. It does what it sounds like:
@@ -587,10 +595,10 @@ However, here, we will demonstrate only its common use case
 of copying directories between a server and laptop here.</p>
 <p>To copy a directory <code>dir</code>, and its contents, from your server to your
 laptop current directory you use:</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb186-1" data-line-number="1"><span class="ex">mirror</span> dir</a></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb187-1" data-line-number="1"><span class="ex">mirror</span> dir</a></code></pre></div>
 <p>To copy a directory <code>ldir</code> from your laptop to your server current directory you
 use <code>-R</code> which transmits the directory in the reverse direction:</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb187-1" data-line-number="1"><span class="ex">mirror</span> -R ldir</a></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb188-1" data-line-number="1"><span class="ex">mirror</span> -R ldir</a></code></pre></div>
 <p>Learning to use <code>lftp</code> will require a little bit more of your time, but it is worth
 it, allowing you to keep a dedicated terminal window open for file transfers with sensible
 TAB-completion capability.</p>
@@ -638,10 +646,10 @@ the fact that the changes you are committing were made on the server.</p>
 <p>For example, for my own setup on the Summit cluster at Boulder, I might
 do my git configurations by issuing these commands on the
 command line on the server:</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb188-1" data-line-number="1"><span class="fu">git</span> config --global user.name <span class="st">&quot;Eric C. Anderson (From Summit)&quot;</span></a>
-<a class="sourceLine" id="cb188-2" data-line-number="2"><span class="fu">git</span> config --global user.email eriq@rams.colostate.edu</a>
-<a class="sourceLine" id="cb188-3" data-line-number="3"><span class="fu">git</span> config --global credential.helper cache</a>
-<a class="sourceLine" id="cb188-4" data-line-number="4"><span class="fu">git</span> config --global core.editor nano</a></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb189-1" data-line-number="1"><span class="fu">git</span> config --global user.name <span class="st">&quot;Eric C. Anderson (From Summit)&quot;</span></a>
+<a class="sourceLine" id="cb189-2" data-line-number="2"><span class="fu">git</span> config --global user.email eriq@rams.colostate.edu</a>
+<a class="sourceLine" id="cb189-3" data-line-number="3"><span class="fu">git</span> config --global credential.helper cache</a>
+<a class="sourceLine" id="cb189-4" data-line-number="4"><span class="fu">git</span> config --global core.editor nano</a></code></pre></div>
 <p>In all actuality, I would set my editor to be <code>vim</code> or <code>emacs</code>, because those are
 more powerful editors and I am familiar with then; however, if you are new to Unix,
 then <code>nano</code> is an easy-to-use editor.</p>
@@ -688,24 +696,24 @@ FIGURE 7.1: An example of what an RStudio git window might look like.
 <p>That view is merely showing you a graphical view of the output of
 the <code>git status</code> command run at the top level of the repository which
 looks like this:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb192-1" data-line-number="1"><span class="ex">%</span> git status</a>
-<a class="sourceLine" id="cb192-2" data-line-number="2"><span class="ex">On</span> branch master</a>
-<a class="sourceLine" id="cb192-3" data-line-number="3"><span class="ex">Changes</span> not staged for commit:</a>
-<a class="sourceLine" id="cb192-4" data-line-number="4">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed<span class="kw">)</span></a>
-<a class="sourceLine" id="cb192-5" data-line-number="5">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git checkout -- &lt;file&gt;...&quot;</span> to discard changes in working directory<span class="kw">)</span></a>
-<a class="sourceLine" id="cb192-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb192-7" data-line-number="7">    <span class="ex">modified</span>:   .gitignore</a>
-<a class="sourceLine" id="cb192-8" data-line-number="8">    <span class="ex">modified</span>:   002-homeologue-permutation-with-bedr.Rmd</a>
-<a class="sourceLine" id="cb192-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb192-10" data-line-number="10"><span class="ex">Untracked</span> files:</a>
-<a class="sourceLine" id="cb192-11" data-line-number="11">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git add &lt;file&gt;...&quot;</span> to include in what will be committed<span class="kw">)</span></a>
-<a class="sourceLine" id="cb192-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb192-13" data-line-number="13">    <span class="ex">002-homeologue-permutation-with-bedr.nb.html</span></a>
-<a class="sourceLine" id="cb192-14" data-line-number="14">    <span class="ex">data/</span></a>
-<a class="sourceLine" id="cb192-15" data-line-number="15">    <span class="ex">mykiss-rad-project-with-mac-and-devon.Rproj</span></a>
-<a class="sourceLine" id="cb192-16" data-line-number="16">    <span class="ex">reconcile/</span></a>
-<a class="sourceLine" id="cb192-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb192-18" data-line-number="18"><span class="ex">no</span> changes added to commit (use <span class="st">&quot;git add&quot;</span> and/or <span class="st">&quot;git commit -a&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb193-1" data-line-number="1"><span class="ex">%</span> git status</a>
+<a class="sourceLine" id="cb193-2" data-line-number="2"><span class="ex">On</span> branch master</a>
+<a class="sourceLine" id="cb193-3" data-line-number="3"><span class="ex">Changes</span> not staged for commit:</a>
+<a class="sourceLine" id="cb193-4" data-line-number="4">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed<span class="kw">)</span></a>
+<a class="sourceLine" id="cb193-5" data-line-number="5">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git checkout -- &lt;file&gt;...&quot;</span> to discard changes in working directory<span class="kw">)</span></a>
+<a class="sourceLine" id="cb193-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb193-7" data-line-number="7">    <span class="ex">modified</span>:   .gitignore</a>
+<a class="sourceLine" id="cb193-8" data-line-number="8">    <span class="ex">modified</span>:   002-homeologue-permutation-with-bedr.Rmd</a>
+<a class="sourceLine" id="cb193-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb193-10" data-line-number="10"><span class="ex">Untracked</span> files:</a>
+<a class="sourceLine" id="cb193-11" data-line-number="11">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git add &lt;file&gt;...&quot;</span> to include in what will be committed<span class="kw">)</span></a>
+<a class="sourceLine" id="cb193-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb193-13" data-line-number="13">    <span class="ex">002-homeologue-permutation-with-bedr.nb.html</span></a>
+<a class="sourceLine" id="cb193-14" data-line-number="14">    <span class="ex">data/</span></a>
+<a class="sourceLine" id="cb193-15" data-line-number="15">    <span class="ex">mykiss-rad-project-with-mac-and-devon.Rproj</span></a>
+<a class="sourceLine" id="cb193-16" data-line-number="16">    <span class="ex">reconcile/</span></a>
+<a class="sourceLine" id="cb193-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb193-18" data-line-number="18"><span class="ex">no</span> changes added to commit (use <span class="st">&quot;git add&quot;</span> and/or <span class="st">&quot;git commit -a&quot;</span>)</a></code></pre></div>
 <p>Aha! Be sure to read that and understand that the output tells you which
 files are tracked by git and Modified (blue M in RStudio) and which
 are untracked (Yellow ? in RStudio).</p>
@@ -727,30 +735,30 @@ FIGURE 7.2: An example of what an RStudio git window might look like.
 <p>In order to do the equivalent operations with <code>git</code> on the command line
 you would use the <code>git add</code> command, explicitly naming the files you wish to
 <em>stage</em> for committing:</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb193-1" data-line-number="1"><span class="fu">git</span> add .gitignore 002-homeologue-permutation-with-bedr.Rmd data</a></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb194-1" data-line-number="1"><span class="fu">git</span> add .gitignore 002-homeologue-permutation-with-bedr.Rmd data</a></code></pre></div>
 <p>Now, if you check <code>git status</code> you will see:</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb194-1" data-line-number="1"><span class="ex">%</span> git status</a>
-<a class="sourceLine" id="cb194-2" data-line-number="2"><span class="ex">On</span> branch master</a>
-<a class="sourceLine" id="cb194-3" data-line-number="3"><span class="ex">Changes</span> to be committed:</a>
-<a class="sourceLine" id="cb194-4" data-line-number="4">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git reset HEAD &lt;file&gt;...&quot;</span> to unstage<span class="kw">)</span></a>
-<a class="sourceLine" id="cb194-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb194-6" data-line-number="6">    <span class="ex">modified</span>:   .gitignore</a>
-<a class="sourceLine" id="cb194-7" data-line-number="7">    <span class="ex">modified</span>:   002-homeologue-permutation-with-bedr.Rmd</a>
-<a class="sourceLine" id="cb194-8" data-line-number="8">    <span class="ex">new</span> file:   data/Pearse_Barson_etal_Supp_Table_7.tsv</a>
-<a class="sourceLine" id="cb194-9" data-line-number="9">    <span class="ex">new</span> file:   data/high-fst-rad-locus-indices.txt</a>
-<a class="sourceLine" id="cb194-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb194-11" data-line-number="11"><span class="ex">Untracked</span> files:</a>
-<a class="sourceLine" id="cb194-12" data-line-number="12">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git add &lt;file&gt;...&quot;</span> to include in what will be committed<span class="kw">)</span></a>
-<a class="sourceLine" id="cb194-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb194-14" data-line-number="14">    <span class="ex">002-homeologue-permutation-with-bedr.nb.html</span></a>
-<a class="sourceLine" id="cb194-15" data-line-number="15">    <span class="ex">mykiss-rad-project-with-mac-and-devon.Rproj</span></a>
-<a class="sourceLine" id="cb194-16" data-line-number="16">    <span class="ex">reconcile/</span></a></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb195-1" data-line-number="1"><span class="ex">%</span> git status</a>
+<a class="sourceLine" id="cb195-2" data-line-number="2"><span class="ex">On</span> branch master</a>
+<a class="sourceLine" id="cb195-3" data-line-number="3"><span class="ex">Changes</span> to be committed:</a>
+<a class="sourceLine" id="cb195-4" data-line-number="4">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git reset HEAD &lt;file&gt;...&quot;</span> to unstage<span class="kw">)</span></a>
+<a class="sourceLine" id="cb195-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb195-6" data-line-number="6">    <span class="ex">modified</span>:   .gitignore</a>
+<a class="sourceLine" id="cb195-7" data-line-number="7">    <span class="ex">modified</span>:   002-homeologue-permutation-with-bedr.Rmd</a>
+<a class="sourceLine" id="cb195-8" data-line-number="8">    <span class="ex">new</span> file:   data/Pearse_Barson_etal_Supp_Table_7.tsv</a>
+<a class="sourceLine" id="cb195-9" data-line-number="9">    <span class="ex">new</span> file:   data/high-fst-rad-locus-indices.txt</a>
+<a class="sourceLine" id="cb195-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb195-11" data-line-number="11"><span class="ex">Untracked</span> files:</a>
+<a class="sourceLine" id="cb195-12" data-line-number="12">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git add &lt;file&gt;...&quot;</span> to include in what will be committed<span class="kw">)</span></a>
+<a class="sourceLine" id="cb195-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb195-14" data-line-number="14">    <span class="ex">002-homeologue-permutation-with-bedr.nb.html</span></a>
+<a class="sourceLine" id="cb195-15" data-line-number="15">    <span class="ex">mykiss-rad-project-with-mac-and-devon.Rproj</span></a>
+<a class="sourceLine" id="cb195-16" data-line-number="16">    <span class="ex">reconcile/</span></a></code></pre></div>
 <p>It tells you which files are ready to be committed!</p>
 <p>In order to commit the files to git you do:</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb195-1" data-line-number="1"><span class="fu">git</span> commit</a></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb196-1" data-line-number="1"><span class="fu">git</span> commit</a></code></pre></div>
 <p>And then, to push them back to GitHub (if you cloned this repository
 from GitHub), you can simply do:</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb196-1" data-line-number="1"><span class="fu">git</span> push origin master</a></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb197-1" data-line-number="1"><span class="fu">git</span> push origin master</a></code></pre></div>
 <p>That syntax is telling git to push the <code>master</code> branch (which is
 the default branch in a git repository), to the repository labeled as
 <code>origin</code>, which will be the GitHub repository if you cloned the repository
@@ -762,72 +770,72 @@ server, here are the steps involved in editing a file, committing the
 changes, and then pushing them back to GitHub. The command in the following
 is written as <code>[alignment-play]--%</code> which is telling us that we are in the
 <code>alignment-play</code> repository.</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb197-1" data-line-number="1"><span class="co"># check git status</span></a>
-<a class="sourceLine" id="cb197-2" data-line-number="2">[<span class="ex">alignment-play</span>]--% git status</a>
-<a class="sourceLine" id="cb197-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb197-4" data-line-number="4"><span class="co"># On branch master</span></a>
-<a class="sourceLine" id="cb197-5" data-line-number="5"><span class="ex">nothing</span> to commit, working directory clean</a>
-<a class="sourceLine" id="cb197-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb197-7" data-line-number="7"><span class="co"># Aha! That says nothing has been modified.</span></a>
-<a class="sourceLine" id="cb197-8" data-line-number="8"><span class="co"># But, now we edit the file alignment-play.Rmd</span></a>
-<a class="sourceLine" id="cb197-9" data-line-number="9">[<span class="ex">alignment-play</span>]--% nano alignment-play.Rmd</a>
-<a class="sourceLine" id="cb197-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb197-11" data-line-number="11"><span class="co"># In this case I merely added a line to the YAML header.</span></a>
-<a class="sourceLine" id="cb197-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb197-13" data-line-number="13"><span class="co"># Now, check status of the files:</span></a>
-<a class="sourceLine" id="cb197-14" data-line-number="14">[<span class="ex">alignment-play</span>]--% git status</a>
-<a class="sourceLine" id="cb197-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb197-16" data-line-number="16"><span class="co"># On branch master</span></a>
-<a class="sourceLine" id="cb197-17" data-line-number="17"><span class="co"># Changes not staged for commit:</span></a>
-<a class="sourceLine" id="cb197-18" data-line-number="18"><span class="co">#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span></a>
-<a class="sourceLine" id="cb197-19" data-line-number="19"><span class="co">#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span></a>
-<a class="sourceLine" id="cb197-20" data-line-number="20"><span class="co">#</span></a>
-<a class="sourceLine" id="cb197-21" data-line-number="21"><span class="co">#   modified:   alignment-play.Rmd</span></a>
-<a class="sourceLine" id="cb197-22" data-line-number="22"><span class="co">#</span></a>
-<a class="sourceLine" id="cb197-23" data-line-number="23"><span class="ex">no</span> changes added to commit (use <span class="st">&quot;git add&quot;</span> and/or <span class="st">&quot;git commit -a&quot;</span>)</a>
-<a class="sourceLine" id="cb197-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb197-25" data-line-number="25"><span class="co"># We see that the file has been modified.</span></a>
-<a class="sourceLine" id="cb197-26" data-line-number="26"></a>
-<a class="sourceLine" id="cb197-27" data-line-number="27"><span class="co"># Now we can use git diff to see what the changes were</span></a>
-<a class="sourceLine" id="cb197-28" data-line-number="28">[<span class="ex">alignment-play</span>]--% git diff alignment-play.Rmd </a>
-<a class="sourceLine" id="cb197-29" data-line-number="29"></a>
-<a class="sourceLine" id="cb197-30" data-line-number="30"><span class="fu">diff</span> --git a/alignment-play.Rmd b/alignment-play.Rmd</a>
-<a class="sourceLine" id="cb197-31" data-line-number="31"><span class="ex">index</span> 9f75ebb..b389fae 100644</a>
-<a class="sourceLine" id="cb197-32" data-line-number="32"><span class="ex">---</span> a/alignment-play.Rmd</a>
-<a class="sourceLine" id="cb197-33" data-line-number="33"><span class="ex">+++</span> b/alignment-play.Rmd</a>
-<a class="sourceLine" id="cb197-34" data-line-number="34"><span class="ex">@@</span> -3,6 +3,7 @@ title: <span class="st">&quot;Alignment Play!&quot;</span></a>
-<a class="sourceLine" id="cb197-35" data-line-number="35"> <span class="ex">output</span>: </a>
-<a class="sourceLine" id="cb197-36" data-line-number="36">   <span class="ex">html_notebook</span>:</a>
-<a class="sourceLine" id="cb197-37" data-line-number="37">     <span class="ex">toc</span>: true</a>
-<a class="sourceLine" id="cb197-38" data-line-number="38"><span class="ex">+</span>    toc_float: true</a>
-<a class="sourceLine" id="cb197-39" data-line-number="39"> <span class="ex">---</span></a>
-<a class="sourceLine" id="cb197-40" data-line-number="40"> </a>
-<a class="sourceLine" id="cb197-41" data-line-number="41"><span class="co"># The output above is a little hard to parse, but it shows</span></a>
-<a class="sourceLine" id="cb197-42" data-line-number="42"><span class="co"># the line that has been added: &quot;  toc_float: true&quot; with a</span></a>
-<a class="sourceLine" id="cb197-43" data-line-number="43"><span class="co"># &quot;+&quot; sign.</span></a>
-<a class="sourceLine" id="cb197-44" data-line-number="44"></a>
-<a class="sourceLine" id="cb197-45" data-line-number="45"><span class="co"># In order to commit the changes, we do:</span></a>
-<a class="sourceLine" id="cb197-46" data-line-number="46">[<span class="ex">alignment-play</span>]--% git add alignment-play.Rmd </a>
-<a class="sourceLine" id="cb197-47" data-line-number="47">[<span class="ex">alignment-play</span>]--% git commit</a>
-<a class="sourceLine" id="cb197-48" data-line-number="48"></a>
-<a class="sourceLine" id="cb197-49" data-line-number="49"><span class="co"># after that, we are bumped into the nano text editor</span></a>
-<a class="sourceLine" id="cb197-50" data-line-number="50"><span class="co"># to write a short message about the commit. After exiting</span></a>
-<a class="sourceLine" id="cb197-51" data-line-number="51"><span class="co"># from the editor, it tells us:</span></a>
-<a class="sourceLine" id="cb197-52" data-line-number="52">[<span class="ex">master</span> 001e650] yaml change</a>
-<a class="sourceLine" id="cb197-53" data-line-number="53"> <span class="ex">1</span> file changed, 1 insertion(+)</a>
-<a class="sourceLine" id="cb197-54" data-line-number="54"> </a>
-<a class="sourceLine" id="cb197-55" data-line-number="55"><span class="co"># Now, to send that new commit to GitHub, we use git push origin master</span></a>
-<a class="sourceLine" id="cb197-56" data-line-number="56">[<span class="ex">alignment-play</span>]--% git push origin master</a>
-<a class="sourceLine" id="cb197-57" data-line-number="57"><span class="ex">Password</span> for <span class="st">&#39;https://eriqande@github.com&#39;</span>:</a>
-<a class="sourceLine" id="cb197-58" data-line-number="58"></a>
-<a class="sourceLine" id="cb197-59" data-line-number="59"><span class="ex">Counting</span> objects: 5, done.</a>
-<a class="sourceLine" id="cb197-60" data-line-number="60"><span class="ex">Delta</span> compression using up to 24 threads.</a>
-<a class="sourceLine" id="cb197-61" data-line-number="61"><span class="ex">Compressing</span> objects: 100% (3/3), <span class="kw">done</span><span class="ex">.</span></a>
-<a class="sourceLine" id="cb197-62" data-line-number="62"><span class="ex">Writing</span> objects: 100% (3/3), <span class="ex">325</span> bytes <span class="kw">|</span> <span class="ex">0</span> bytes/s, done.</a>
-<a class="sourceLine" id="cb197-63" data-line-number="63"><span class="ex">Total</span> 3 (delta 2), <span class="ex">reused</span> 0 (delta 0)</a>
-<a class="sourceLine" id="cb197-64" data-line-number="64"><span class="ex">remote</span>: Resolving deltas: 100% (2/2), <span class="ex">completed</span> with 2 local objects.</a>
-<a class="sourceLine" id="cb197-65" data-line-number="65"><span class="ex">To</span> https://eriqande@github.com/eriqande/alignment-play</a>
-<a class="sourceLine" id="cb197-66" data-line-number="66">   <span class="ex">0c1707f..001e650</span>  master -<span class="op">&gt;</span> master</a></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb198-1" data-line-number="1"><span class="co"># check git status</span></a>
+<a class="sourceLine" id="cb198-2" data-line-number="2">[<span class="ex">alignment-play</span>]--% git status</a>
+<a class="sourceLine" id="cb198-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb198-4" data-line-number="4"><span class="co"># On branch master</span></a>
+<a class="sourceLine" id="cb198-5" data-line-number="5"><span class="ex">nothing</span> to commit, working directory clean</a>
+<a class="sourceLine" id="cb198-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb198-7" data-line-number="7"><span class="co"># Aha! That says nothing has been modified.</span></a>
+<a class="sourceLine" id="cb198-8" data-line-number="8"><span class="co"># But, now we edit the file alignment-play.Rmd</span></a>
+<a class="sourceLine" id="cb198-9" data-line-number="9">[<span class="ex">alignment-play</span>]--% nano alignment-play.Rmd</a>
+<a class="sourceLine" id="cb198-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb198-11" data-line-number="11"><span class="co"># In this case I merely added a line to the YAML header.</span></a>
+<a class="sourceLine" id="cb198-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb198-13" data-line-number="13"><span class="co"># Now, check status of the files:</span></a>
+<a class="sourceLine" id="cb198-14" data-line-number="14">[<span class="ex">alignment-play</span>]--% git status</a>
+<a class="sourceLine" id="cb198-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb198-16" data-line-number="16"><span class="co"># On branch master</span></a>
+<a class="sourceLine" id="cb198-17" data-line-number="17"><span class="co"># Changes not staged for commit:</span></a>
+<a class="sourceLine" id="cb198-18" data-line-number="18"><span class="co">#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span></a>
+<a class="sourceLine" id="cb198-19" data-line-number="19"><span class="co">#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span></a>
+<a class="sourceLine" id="cb198-20" data-line-number="20"><span class="co">#</span></a>
+<a class="sourceLine" id="cb198-21" data-line-number="21"><span class="co">#   modified:   alignment-play.Rmd</span></a>
+<a class="sourceLine" id="cb198-22" data-line-number="22"><span class="co">#</span></a>
+<a class="sourceLine" id="cb198-23" data-line-number="23"><span class="ex">no</span> changes added to commit (use <span class="st">&quot;git add&quot;</span> and/or <span class="st">&quot;git commit -a&quot;</span>)</a>
+<a class="sourceLine" id="cb198-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb198-25" data-line-number="25"><span class="co"># We see that the file has been modified.</span></a>
+<a class="sourceLine" id="cb198-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb198-27" data-line-number="27"><span class="co"># Now we can use git diff to see what the changes were</span></a>
+<a class="sourceLine" id="cb198-28" data-line-number="28">[<span class="ex">alignment-play</span>]--% git diff alignment-play.Rmd </a>
+<a class="sourceLine" id="cb198-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb198-30" data-line-number="30"><span class="fu">diff</span> --git a/alignment-play.Rmd b/alignment-play.Rmd</a>
+<a class="sourceLine" id="cb198-31" data-line-number="31"><span class="ex">index</span> 9f75ebb..b389fae 100644</a>
+<a class="sourceLine" id="cb198-32" data-line-number="32"><span class="ex">---</span> a/alignment-play.Rmd</a>
+<a class="sourceLine" id="cb198-33" data-line-number="33"><span class="ex">+++</span> b/alignment-play.Rmd</a>
+<a class="sourceLine" id="cb198-34" data-line-number="34"><span class="ex">@@</span> -3,6 +3,7 @@ title: <span class="st">&quot;Alignment Play!&quot;</span></a>
+<a class="sourceLine" id="cb198-35" data-line-number="35"> <span class="ex">output</span>: </a>
+<a class="sourceLine" id="cb198-36" data-line-number="36">   <span class="ex">html_notebook</span>:</a>
+<a class="sourceLine" id="cb198-37" data-line-number="37">     <span class="ex">toc</span>: true</a>
+<a class="sourceLine" id="cb198-38" data-line-number="38"><span class="ex">+</span>    toc_float: true</a>
+<a class="sourceLine" id="cb198-39" data-line-number="39"> <span class="ex">---</span></a>
+<a class="sourceLine" id="cb198-40" data-line-number="40"> </a>
+<a class="sourceLine" id="cb198-41" data-line-number="41"><span class="co"># The output above is a little hard to parse, but it shows</span></a>
+<a class="sourceLine" id="cb198-42" data-line-number="42"><span class="co"># the line that has been added: &quot;  toc_float: true&quot; with a</span></a>
+<a class="sourceLine" id="cb198-43" data-line-number="43"><span class="co"># &quot;+&quot; sign.</span></a>
+<a class="sourceLine" id="cb198-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb198-45" data-line-number="45"><span class="co"># In order to commit the changes, we do:</span></a>
+<a class="sourceLine" id="cb198-46" data-line-number="46">[<span class="ex">alignment-play</span>]--% git add alignment-play.Rmd </a>
+<a class="sourceLine" id="cb198-47" data-line-number="47">[<span class="ex">alignment-play</span>]--% git commit</a>
+<a class="sourceLine" id="cb198-48" data-line-number="48"></a>
+<a class="sourceLine" id="cb198-49" data-line-number="49"><span class="co"># after that, we are bumped into the nano text editor</span></a>
+<a class="sourceLine" id="cb198-50" data-line-number="50"><span class="co"># to write a short message about the commit. After exiting</span></a>
+<a class="sourceLine" id="cb198-51" data-line-number="51"><span class="co"># from the editor, it tells us:</span></a>
+<a class="sourceLine" id="cb198-52" data-line-number="52">[<span class="ex">master</span> 001e650] yaml change</a>
+<a class="sourceLine" id="cb198-53" data-line-number="53"> <span class="ex">1</span> file changed, 1 insertion(+)</a>
+<a class="sourceLine" id="cb198-54" data-line-number="54"> </a>
+<a class="sourceLine" id="cb198-55" data-line-number="55"><span class="co"># Now, to send that new commit to GitHub, we use git push origin master</span></a>
+<a class="sourceLine" id="cb198-56" data-line-number="56">[<span class="ex">alignment-play</span>]--% git push origin master</a>
+<a class="sourceLine" id="cb198-57" data-line-number="57"><span class="ex">Password</span> for <span class="st">&#39;https://eriqande@github.com&#39;</span>:</a>
+<a class="sourceLine" id="cb198-58" data-line-number="58"></a>
+<a class="sourceLine" id="cb198-59" data-line-number="59"><span class="ex">Counting</span> objects: 5, done.</a>
+<a class="sourceLine" id="cb198-60" data-line-number="60"><span class="ex">Delta</span> compression using up to 24 threads.</a>
+<a class="sourceLine" id="cb198-61" data-line-number="61"><span class="ex">Compressing</span> objects: 100% (3/3), <span class="kw">done</span><span class="ex">.</span></a>
+<a class="sourceLine" id="cb198-62" data-line-number="62"><span class="ex">Writing</span> objects: 100% (3/3), <span class="ex">325</span> bytes <span class="kw">|</span> <span class="ex">0</span> bytes/s, done.</a>
+<a class="sourceLine" id="cb198-63" data-line-number="63"><span class="ex">Total</span> 3 (delta 2), <span class="ex">reused</span> 0 (delta 0)</a>
+<a class="sourceLine" id="cb198-64" data-line-number="64"><span class="ex">remote</span>: Resolving deltas: 100% (2/2), <span class="ex">completed</span> with 2 local objects.</a>
+<a class="sourceLine" id="cb198-65" data-line-number="65"><span class="ex">To</span> https://eriqande@github.com/eriqande/alignment-play</a>
+<a class="sourceLine" id="cb198-66" data-line-number="66">   <span class="ex">0c1707f..001e650</span>  master -<span class="op">&gt;</span> master</a></code></pre></div>
 <p>When pushing to a GitHub repository for the first
 time from your remote server you
 will be asked for your GitHub password. Once you have successfully
@@ -838,7 +846,7 @@ down to our laptop, and make more changes on top of them and push those
 back to GitHub, we can retrieve from GitHub to the server those changes we
 made on our laptop with <code>git pull origin master</code>. In other words, from the
 server we simply issue the command:</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb198-1" data-line-number="1">[<span class="ex">alignment-play</span>]--% git pull origin master</a></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb199-1" data-line-number="1">[<span class="ex">alignment-play</span>]--% git pull origin master</a></code></pre></div>
 </div>
 </div>
 <div id="globus" class="section level3">
@@ -966,56 +974,56 @@ it looks like in clear text.</p>
 every time you make an rclone command, but it is worth it to have the
 security.</p>
 <p>Here is what it looks like when choosing to encrypt one’s config file:</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb200-1" data-line-number="1"><span class="ex">%</span> rclone config</a>
-<a class="sourceLine" id="cb200-2" data-line-number="2"><span class="ex">Current</span> remotes:</a>
-<a class="sourceLine" id="cb200-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb200-4" data-line-number="4"><span class="ex">Name</span>                 Type</a>
-<a class="sourceLine" id="cb200-5" data-line-number="5">====                 ====</a>
-<a class="sourceLine" id="cb200-6" data-line-number="6"><span class="ex">gdrive-rclone</span>        drive</a>
-<a class="sourceLine" id="cb200-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb200-8" data-line-number="8"><span class="ex">e</span>) <span class="ex">Edit</span> existing remote</a>
-<a class="sourceLine" id="cb200-9" data-line-number="9"><span class="ex">n</span>) <span class="ex">New</span> remote</a>
-<a class="sourceLine" id="cb200-10" data-line-number="10"><span class="ex">d</span>) <span class="ex">Delete</span> remote</a>
-<a class="sourceLine" id="cb200-11" data-line-number="11"><span class="ex">r</span>) <span class="ex">Rename</span> remote</a>
-<a class="sourceLine" id="cb200-12" data-line-number="12"><span class="ex">c</span>) <span class="ex">Copy</span> remote</a>
-<a class="sourceLine" id="cb200-13" data-line-number="13"><span class="ex">s</span>) <span class="ex">Set</span> configuration password</a>
-<a class="sourceLine" id="cb200-14" data-line-number="14"><span class="ex">q</span>) <span class="ex">Quit</span> config</a>
-<a class="sourceLine" id="cb200-15" data-line-number="15"><span class="ex">e/n/d/r/c/s</span>/<span class="ex">q</span><span class="op">&gt;</span> s </a>
-<a class="sourceLine" id="cb200-16" data-line-number="16"><span class="ex">Your</span> configuration is not encrypted.</a>
-<a class="sourceLine" id="cb200-17" data-line-number="17"><span class="ex">If</span> you add a password, you will protect your login information to cloud services.</a>
-<a class="sourceLine" id="cb200-18" data-line-number="18"><span class="ex">a</span>) <span class="ex">Add</span> Password</a>
-<a class="sourceLine" id="cb200-19" data-line-number="19"><span class="ex">q</span>) <span class="ex">Quit</span> to main menu</a>
-<a class="sourceLine" id="cb200-20" data-line-number="20"><span class="ex">a</span>/<span class="ex">q</span><span class="op">&gt;</span> a</a>
-<a class="sourceLine" id="cb200-21" data-line-number="21"><span class="ex">Enter</span> NEW configuration password:</a>
-<a class="sourceLine" id="cb200-22" data-line-number="22"><span class="ex">password</span>:</a>
-<a class="sourceLine" id="cb200-23" data-line-number="23"><span class="ex">Confirm</span> NEW configuration password:</a>
-<a class="sourceLine" id="cb200-24" data-line-number="24"><span class="ex">password</span>:</a>
-<a class="sourceLine" id="cb200-25" data-line-number="25"><span class="ex">Password</span> set</a>
-<a class="sourceLine" id="cb200-26" data-line-number="26"><span class="ex">Your</span> configuration is encrypted.</a>
-<a class="sourceLine" id="cb200-27" data-line-number="27"><span class="ex">c</span>) <span class="ex">Change</span> Password</a>
-<a class="sourceLine" id="cb200-28" data-line-number="28"><span class="ex">u</span>) <span class="ex">Unencrypt</span> configuration</a>
-<a class="sourceLine" id="cb200-29" data-line-number="29"><span class="ex">q</span>) <span class="ex">Quit</span> to main menu</a>
-<a class="sourceLine" id="cb200-30" data-line-number="30"><span class="ex">c/u</span>/<span class="ex">q</span><span class="op">&gt;</span> q</a>
-<a class="sourceLine" id="cb200-31" data-line-number="31"><span class="ex">Current</span> remotes:</a>
-<a class="sourceLine" id="cb200-32" data-line-number="32"></a>
-<a class="sourceLine" id="cb200-33" data-line-number="33"><span class="ex">Name</span>                 Type</a>
-<a class="sourceLine" id="cb200-34" data-line-number="34">====                 ====</a>
-<a class="sourceLine" id="cb200-35" data-line-number="35"><span class="ex">gdrive-rclone</span>        drive</a>
-<a class="sourceLine" id="cb200-36" data-line-number="36"></a>
-<a class="sourceLine" id="cb200-37" data-line-number="37"><span class="ex">e</span>) <span class="ex">Edit</span> existing remote</a>
-<a class="sourceLine" id="cb200-38" data-line-number="38"><span class="ex">n</span>) <span class="ex">New</span> remote</a>
-<a class="sourceLine" id="cb200-39" data-line-number="39"><span class="ex">d</span>) <span class="ex">Delete</span> remote</a>
-<a class="sourceLine" id="cb200-40" data-line-number="40"><span class="ex">r</span>) <span class="ex">Rename</span> remote</a>
-<a class="sourceLine" id="cb200-41" data-line-number="41"><span class="ex">c</span>) <span class="ex">Copy</span> remote</a>
-<a class="sourceLine" id="cb200-42" data-line-number="42"><span class="ex">s</span>) <span class="ex">Set</span> configuration password</a>
-<a class="sourceLine" id="cb200-43" data-line-number="43"><span class="ex">q</span>) <span class="ex">Quit</span> config</a>
-<a class="sourceLine" id="cb200-44" data-line-number="44"><span class="ex">e/n/d/r/c/s</span>/<span class="ex">q</span><span class="op">&gt;</span> q</a></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="ex">%</span> rclone config</a>
+<a class="sourceLine" id="cb201-2" data-line-number="2"><span class="ex">Current</span> remotes:</a>
+<a class="sourceLine" id="cb201-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb201-4" data-line-number="4"><span class="ex">Name</span>                 Type</a>
+<a class="sourceLine" id="cb201-5" data-line-number="5">====                 ====</a>
+<a class="sourceLine" id="cb201-6" data-line-number="6"><span class="ex">gdrive-rclone</span>        drive</a>
+<a class="sourceLine" id="cb201-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb201-8" data-line-number="8"><span class="ex">e</span>) <span class="ex">Edit</span> existing remote</a>
+<a class="sourceLine" id="cb201-9" data-line-number="9"><span class="ex">n</span>) <span class="ex">New</span> remote</a>
+<a class="sourceLine" id="cb201-10" data-line-number="10"><span class="ex">d</span>) <span class="ex">Delete</span> remote</a>
+<a class="sourceLine" id="cb201-11" data-line-number="11"><span class="ex">r</span>) <span class="ex">Rename</span> remote</a>
+<a class="sourceLine" id="cb201-12" data-line-number="12"><span class="ex">c</span>) <span class="ex">Copy</span> remote</a>
+<a class="sourceLine" id="cb201-13" data-line-number="13"><span class="ex">s</span>) <span class="ex">Set</span> configuration password</a>
+<a class="sourceLine" id="cb201-14" data-line-number="14"><span class="ex">q</span>) <span class="ex">Quit</span> config</a>
+<a class="sourceLine" id="cb201-15" data-line-number="15"><span class="ex">e/n/d/r/c/s</span>/<span class="ex">q</span><span class="op">&gt;</span> s </a>
+<a class="sourceLine" id="cb201-16" data-line-number="16"><span class="ex">Your</span> configuration is not encrypted.</a>
+<a class="sourceLine" id="cb201-17" data-line-number="17"><span class="ex">If</span> you add a password, you will protect your login information to cloud services.</a>
+<a class="sourceLine" id="cb201-18" data-line-number="18"><span class="ex">a</span>) <span class="ex">Add</span> Password</a>
+<a class="sourceLine" id="cb201-19" data-line-number="19"><span class="ex">q</span>) <span class="ex">Quit</span> to main menu</a>
+<a class="sourceLine" id="cb201-20" data-line-number="20"><span class="ex">a</span>/<span class="ex">q</span><span class="op">&gt;</span> a</a>
+<a class="sourceLine" id="cb201-21" data-line-number="21"><span class="ex">Enter</span> NEW configuration password:</a>
+<a class="sourceLine" id="cb201-22" data-line-number="22"><span class="ex">password</span>:</a>
+<a class="sourceLine" id="cb201-23" data-line-number="23"><span class="ex">Confirm</span> NEW configuration password:</a>
+<a class="sourceLine" id="cb201-24" data-line-number="24"><span class="ex">password</span>:</a>
+<a class="sourceLine" id="cb201-25" data-line-number="25"><span class="ex">Password</span> set</a>
+<a class="sourceLine" id="cb201-26" data-line-number="26"><span class="ex">Your</span> configuration is encrypted.</a>
+<a class="sourceLine" id="cb201-27" data-line-number="27"><span class="ex">c</span>) <span class="ex">Change</span> Password</a>
+<a class="sourceLine" id="cb201-28" data-line-number="28"><span class="ex">u</span>) <span class="ex">Unencrypt</span> configuration</a>
+<a class="sourceLine" id="cb201-29" data-line-number="29"><span class="ex">q</span>) <span class="ex">Quit</span> to main menu</a>
+<a class="sourceLine" id="cb201-30" data-line-number="30"><span class="ex">c/u</span>/<span class="ex">q</span><span class="op">&gt;</span> q</a>
+<a class="sourceLine" id="cb201-31" data-line-number="31"><span class="ex">Current</span> remotes:</a>
+<a class="sourceLine" id="cb201-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb201-33" data-line-number="33"><span class="ex">Name</span>                 Type</a>
+<a class="sourceLine" id="cb201-34" data-line-number="34">====                 ====</a>
+<a class="sourceLine" id="cb201-35" data-line-number="35"><span class="ex">gdrive-rclone</span>        drive</a>
+<a class="sourceLine" id="cb201-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb201-37" data-line-number="37"><span class="ex">e</span>) <span class="ex">Edit</span> existing remote</a>
+<a class="sourceLine" id="cb201-38" data-line-number="38"><span class="ex">n</span>) <span class="ex">New</span> remote</a>
+<a class="sourceLine" id="cb201-39" data-line-number="39"><span class="ex">d</span>) <span class="ex">Delete</span> remote</a>
+<a class="sourceLine" id="cb201-40" data-line-number="40"><span class="ex">r</span>) <span class="ex">Rename</span> remote</a>
+<a class="sourceLine" id="cb201-41" data-line-number="41"><span class="ex">c</span>) <span class="ex">Copy</span> remote</a>
+<a class="sourceLine" id="cb201-42" data-line-number="42"><span class="ex">s</span>) <span class="ex">Set</span> configuration password</a>
+<a class="sourceLine" id="cb201-43" data-line-number="43"><span class="ex">q</span>) <span class="ex">Quit</span> config</a>
+<a class="sourceLine" id="cb201-44" data-line-number="44"><span class="ex">e/n/d/r/c/s</span>/<span class="ex">q</span><span class="op">&gt;</span> q</a></code></pre></div>
 <p>Once that file is encrypted, you can copy it to other machines for use.</p>
 </div>
 <div id="basic-maneuvers" class="section level4">
 <h4><span class="header-section-number">7.2.4.2</span> Basic Maneuvers</h4>
 <p>The syntax for use is:</p>
-<div class="sourceCode" id="cb201"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="ex">rclone</span> [options] subcommand  parameter1 [parameter 2...]</a></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb202-1" data-line-number="1"><span class="ex">rclone</span> [options] subcommand  parameter1 [parameter 2...]</a></code></pre></div>
 <p>The “subcommand” part tells <code>rclone</code> what you want to do, like <code>copy</code> or <code>sync</code>, and
 the “parameter” part of the above syntax is typically a path
 specification to a directory or a file. In using rclone to access the
@@ -1027,21 +1035,21 @@ start a path with it. Thus <code>gdrive-rclone:this_dir/that_dir</code> is a
 valid path for <code>rclone</code> to a location on my Google Drive.</p>
 <p>Very often when moving, copying, or syncing files, the parameters
 consist of:</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><a class="sourceLine" id="cb202-1" data-line-number="1">source-directory  destination-directory</a></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><a class="sourceLine" id="cb203-1" data-line-number="1">source-directory  destination-directory</a></code></pre></div>
 <p>One very important point is that, unlike the Unix commands <code>cp</code> and <code>mv</code>, rclone
 likes to operate on directories, not on multiple named files.</p>
 <p>A few key subcommands:</p>
 <ul>
 <li><code>ls</code>, <code>lsd</code>, and <code>lsl</code> are like <code>ls</code>, <code>ls -d</code> and <code>ls -l</code></li>
 </ul>
-<div class="sourceCode" id="cb203"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="ex">rclone</span>  lsd gdrive-rclone:</a>
-<a class="sourceLine" id="cb203-2" data-line-number="2"><span class="ex">rclone</span>  lsd gdrive-rclone:NOFU</a></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb204-1" data-line-number="1"><span class="ex">rclone</span>  lsd gdrive-rclone:</a>
+<a class="sourceLine" id="cb204-2" data-line-number="2"><span class="ex">rclone</span>  lsd gdrive-rclone:NOFU</a></code></pre></div>
 <ul>
 <li><code>copy</code>: copy the <em>contents</em> of a source <em>directory</em> to a destination <em>directory</em>. One super cool
 thing about this is that <code>rclone</code> won’t re-copy files that are already on the destination and which
 are identical to those in the source directory.</li>
 </ul>
-<div class="sourceCode" id="cb204"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb204-1" data-line-number="1"><span class="ex">rclone</span> copy bams gdrive-rclone:NOFU/bams</a></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb205-1" data-line-number="1"><span class="ex">rclone</span> copy bams gdrive-rclone:NOFU/bams</a></code></pre></div>
 <p>Note that the destination directory will be created if it does not already exist.<br />
 - <code>sync</code>: make the contents of the destination directory look just like the
 contents of the source directory. <em>WARNING</em> This will delete files in the destination
@@ -1058,7 +1066,7 @@ of the Google Drive folders that people have shared with you. This is key for ac
 folders that have been shared with you.</li>
 </ul>
 <p>For example, try something like:</p>
-<div class="sourceCode" id="cb205"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb205-1" data-line-number="1"><span class="ex">rclone</span> --drive-shared-with-me lsd gdrive-rclone:</a></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb206-1" data-line-number="1"><span class="ex">rclone</span> --drive-shared-with-me lsd gdrive-rclone:</a></code></pre></div>
 </div>
 <div id="rclone-filter" class="section level4">
 <h4><span class="header-section-number">7.2.4.3</span> filtering: Be particular about the files you transfer</h4>
@@ -1067,7 +1075,7 @@ folders that have been shared with you.</li>
 an <code>rclone</code> command known as <code>copyto</code> that will allow you copy a single file,
 you cannot (apparently) specify multiple, individual files that you wish to copy.</p>
 <p>In other words, you can’t do:</p>
-<div class="sourceCode" id="cb206"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb206-1" data-line-number="1"><span class="ex">rclone</span> copyto this_file.txt that_file.txt another_file.bam gdrive-rclone:dest_dir</a></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="ex">rclone</span> copyto this_file.txt that_file.txt another_file.bam gdrive-rclone:dest_dir</a></code></pre></div>
 <p>In general, you will be better off using <code>rclone</code> to copy the <em>contents</em> of a directory
 to the inside of the destination directory. However, there are options in <code>rclone</code> that
 can keep you from being totally indiscriminate about the files you transfer. In other words,
@@ -1076,12 +1084,12 @@ you can <em>filter</em> the files that get transferred. You can read about that 
 <p>For a quick example, imagine that you have a directory called <code>Data</code> on you Google Drive
 that contains both VCF and BAM files. You want to get only the VCF files (ending with <code>.vcf.gz</code>, say)
 onto the current working directory on your cluster. Then something like this works:</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="ex">rclone</span> copy --include *.vcf.gz gdrive-rclone:Data ./</a></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb208-1" data-line-number="1"><span class="ex">rclone</span> copy --include *.vcf.gz gdrive-rclone:Data ./</a></code></pre></div>
 <p>Note that, if you are issuing this command on a Unix system in a directory
 where the pattern <code>*.vcf.gz</code> will expand (by globbing) to multiple files, you will
 get an error. In that case, wrap the pattern in a pair of single quotes to keep
 the shell from expanding it, like this:</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb208-1" data-line-number="1"><span class="ex">rclone</span> copy --include <span class="st">&#39;*.vcf.gz&#39;</span> gdrive-rclone:Data ./</a></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb209-1" data-line-number="1"><span class="ex">rclone</span> copy --include <span class="st">&#39;*.vcf.gz&#39;</span> gdrive-rclone:Data ./</a></code></pre></div>
 </div>
 <div id="feel-free-to-make-lots-of-configurations" class="section level4">
 <h4><span class="header-section-number">7.2.4.4</span> Feel free to make lots of configurations</h4>
@@ -1109,7 +1117,7 @@ client_secret = MMq3jdsjdjgKTGH4rNV_y-NbbG</code></pre>
 <p>As long as the directory is still within the same Google Drive account, you can re-use
 all the authorization information, and just change the <code>[name]</code> part and the <code>root_folder_id</code>.
 Now this:</p>
-<div class="sourceCode" id="cb210"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb210-1" data-line-number="1"><span class="ex">rclone</span> copy src_dir gdrive-winter-run: </a></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="ex">rclone</span> copy src_dir gdrive-winter-run: </a></code></pre></div>
 <p>puts items into <code>Projects/NGS/Species/Salmon/Chinook/CentralValley/WinterRun</code> on the Google Drive
 without having to type that God-awful long path name.</p>
 </div>
@@ -1130,7 +1138,7 @@ cp rclone-current-linux-amd64/rclone ~/bin</code></pre>
 <h4><span class="header-section-number">7.2.4.6</span> Setting up configurations on the remote machine…</h4>
 <p>Is as easy as copying your config file to where it should go, which
 is easy to find using the command:</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb212-1" data-line-number="1"><span class="ex">rclone</span> config file</a></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb213-1" data-line-number="1"><span class="ex">rclone</span> config file</a></code></pre></div>
 </div>
 <div id="some-other-usage-tips" class="section level4">
 <h4><span class="header-section-number">7.2.4.7</span> Some other usage tips</h4>
@@ -1161,45 +1169,45 @@ done by passing <code>rclone</code> the URL address via the <code>--http-url</co
 then, after that, telling it what protocol to use by adding <code>:http:</code> to
 the command. Here is what you would use to list the directories available
 at the sequencing center URL:</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb213-1" data-line-number="1"><span class="co"># here is the command</span></a>
-<a class="sourceLine" id="cb213-2" data-line-number="2"><span class="ex">%</span> rclone lsd --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:</a>
-<a class="sourceLine" id="cb213-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb213-4" data-line-number="4"><span class="co"># and here is the output</span></a>
-<a class="sourceLine" id="cb213-5" data-line-number="5">          <span class="ex">-1</span> 1969-12-31 16:00:00        -1 sjg73_fqs</a>
-<a class="sourceLine" id="cb213-6" data-line-number="6">          <span class="ex">-1</span> 1969-12-31 16:00:00        -1 sjg73_supernova_fqs</a></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb214-1" data-line-number="1"><span class="co"># here is the command</span></a>
+<a class="sourceLine" id="cb214-2" data-line-number="2"><span class="ex">%</span> rclone lsd --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:</a>
+<a class="sourceLine" id="cb214-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb214-4" data-line-number="4"><span class="co"># and here is the output</span></a>
+<a class="sourceLine" id="cb214-5" data-line-number="5">          <span class="ex">-1</span> 1969-12-31 16:00:00        -1 sjg73_fqs</a>
+<a class="sourceLine" id="cb214-6" data-line-number="6">          <span class="ex">-1</span> 1969-12-31 16:00:00        -1 sjg73_supernova_fqs</a></code></pre></div>
 <p>Aha! There are two directories that might hold our sequencing data.
 I wonder what is in those diretories? The <code>rclone tree</code> command is the
 perfect way to drill down into those diretories and look at their contents:</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb214-1" data-line-number="1"><span class="ex">%</span> rclone tree --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:</a>
-<a class="sourceLine" id="cb214-2" data-line-number="2"><span class="ex">/</span></a>
-<a class="sourceLine" id="cb214-3" data-line-number="3">├── <span class="ex">sjg73_fqs</span></a>
-<a class="sourceLine" id="cb214-4" data-line-number="4">│   ├── <span class="ex">AW_F1</span></a>
-<a class="sourceLine" id="cb214-5" data-line-number="5">│   │   ├── <span class="ex">AW_F1_S2_L001_I1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-6" data-line-number="6">│   │   ├── <span class="ex">AW_F1_S2_L001_R1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-7" data-line-number="7">│   │   └── <span class="ex">AW_F1_S2_L001_R2_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-8" data-line-number="8">│   ├── <span class="ex">AW_M1</span></a>
-<a class="sourceLine" id="cb214-9" data-line-number="9">│   │   ├── <span class="ex">AW_M1_S3_L001_I1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-10" data-line-number="10">│   │   ├── <span class="ex">AW_M1_S3_L001_R1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-11" data-line-number="11">│   │   └── <span class="ex">AW_M1_S3_L001_R2_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-12" data-line-number="12">│   └── <span class="ex">ESP_A1</span></a>
-<a class="sourceLine" id="cb214-13" data-line-number="13">│       ├── <span class="ex">ESP_A1_S1_L001_I1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-14" data-line-number="14">│       ├── <span class="ex">ESP_A1_S1_L001_R1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-15" data-line-number="15">│       └── <span class="ex">ESP_A1_S1_L001_R2_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-16" data-line-number="16">└── <span class="ex">sjg73_supernova_fqs</span></a>
-<a class="sourceLine" id="cb214-17" data-line-number="17">    ├── <span class="ex">AW_F1</span></a>
-<a class="sourceLine" id="cb214-18" data-line-number="18">    │   ├── <span class="ex">AW_F1_S2_L001_I1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-19" data-line-number="19">    │   ├── <span class="ex">AW_F1_S2_L001_R1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-20" data-line-number="20">    │   └── <span class="ex">AW_F1_S2_L001_R2_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-21" data-line-number="21">    ├── <span class="ex">AW_M1</span></a>
-<a class="sourceLine" id="cb214-22" data-line-number="22">    │   ├── <span class="ex">AW_M1_S3_L001_I1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-23" data-line-number="23">    │   ├── <span class="ex">AW_M1_S3_L001_R1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-24" data-line-number="24">    │   └── <span class="ex">AW_M1_S3_L001_R2_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-25" data-line-number="25">    └── <span class="ex">ESP_A1</span></a>
-<a class="sourceLine" id="cb214-26" data-line-number="26">        ├── <span class="ex">ESP_A1_S1_L001_I1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-27" data-line-number="27">        ├── <span class="ex">ESP_A1_S1_L001_R1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-28" data-line-number="28">        └── <span class="ex">ESP_A1_S1_L001_R2_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb214-29" data-line-number="29"></a>
-<a class="sourceLine" id="cb214-30" data-line-number="30"><span class="ex">8</span> directories, 18 files</a></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="ex">%</span> rclone tree --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:</a>
+<a class="sourceLine" id="cb215-2" data-line-number="2"><span class="ex">/</span></a>
+<a class="sourceLine" id="cb215-3" data-line-number="3">├── <span class="ex">sjg73_fqs</span></a>
+<a class="sourceLine" id="cb215-4" data-line-number="4">│   ├── <span class="ex">AW_F1</span></a>
+<a class="sourceLine" id="cb215-5" data-line-number="5">│   │   ├── <span class="ex">AW_F1_S2_L001_I1_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-6" data-line-number="6">│   │   ├── <span class="ex">AW_F1_S2_L001_R1_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-7" data-line-number="7">│   │   └── <span class="ex">AW_F1_S2_L001_R2_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-8" data-line-number="8">│   ├── <span class="ex">AW_M1</span></a>
+<a class="sourceLine" id="cb215-9" data-line-number="9">│   │   ├── <span class="ex">AW_M1_S3_L001_I1_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-10" data-line-number="10">│   │   ├── <span class="ex">AW_M1_S3_L001_R1_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-11" data-line-number="11">│   │   └── <span class="ex">AW_M1_S3_L001_R2_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-12" data-line-number="12">│   └── <span class="ex">ESP_A1</span></a>
+<a class="sourceLine" id="cb215-13" data-line-number="13">│       ├── <span class="ex">ESP_A1_S1_L001_I1_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-14" data-line-number="14">│       ├── <span class="ex">ESP_A1_S1_L001_R1_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-15" data-line-number="15">│       └── <span class="ex">ESP_A1_S1_L001_R2_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-16" data-line-number="16">└── <span class="ex">sjg73_supernova_fqs</span></a>
+<a class="sourceLine" id="cb215-17" data-line-number="17">    ├── <span class="ex">AW_F1</span></a>
+<a class="sourceLine" id="cb215-18" data-line-number="18">    │   ├── <span class="ex">AW_F1_S2_L001_I1_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-19" data-line-number="19">    │   ├── <span class="ex">AW_F1_S2_L001_R1_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-20" data-line-number="20">    │   └── <span class="ex">AW_F1_S2_L001_R2_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-21" data-line-number="21">    ├── <span class="ex">AW_M1</span></a>
+<a class="sourceLine" id="cb215-22" data-line-number="22">    │   ├── <span class="ex">AW_M1_S3_L001_I1_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-23" data-line-number="23">    │   ├── <span class="ex">AW_M1_S3_L001_R1_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-24" data-line-number="24">    │   └── <span class="ex">AW_M1_S3_L001_R2_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-25" data-line-number="25">    └── <span class="ex">ESP_A1</span></a>
+<a class="sourceLine" id="cb215-26" data-line-number="26">        ├── <span class="ex">ESP_A1_S1_L001_I1_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-27" data-line-number="27">        ├── <span class="ex">ESP_A1_S1_L001_R1_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-28" data-line-number="28">        └── <span class="ex">ESP_A1_S1_L001_R2_001.fastq.gz</span></a>
+<a class="sourceLine" id="cb215-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb215-30" data-line-number="30"><span class="ex">8</span> directories, 18 files</a></code></pre></div>
 <p>Whoa! That is pretty cool!. From this output we see that there are
 subdirectories named <code>AW_F1</code> and <code>AW_M1</code> that hold the files that
 we want. And, of course, the <code>ESP_A1</code> samples must belong to someone
@@ -1210,43 +1218,43 @@ patterns (see Section <a href="working-on-remote-servers.html#rclone-filter">7.2
 experiment by giving <code>rclone copy</code> the <code>--dry-run</code> command to see which
 files will be transferred. If we don’t do any filtering, we see this
 when we try to dry-run copy the directories to our local directory <code>Alewife/fastqs</code>:</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="ex">%</span> rclone copy --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</a>
-<a class="sourceLine" id="cb215-2" data-line-number="2"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-3" data-line-number="3"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-4" data-line-number="4"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-5" data-line-number="5"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-6" data-line-number="6"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-7" data-line-number="7"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-8" data-line-number="8"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-9" data-line-number="9"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-10" data-line-number="10"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-11" data-line-number="11"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-12" data-line-number="12"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-13" data-line-number="13"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-14" data-line-number="14"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-15" data-line-number="15"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-16" data-line-number="16"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-17" data-line-number="17"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-18" data-line-number="18"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb215-19" data-line-number="19"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</a></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb216-1" data-line-number="1"><span class="ex">%</span> rclone copy --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</a>
+<a class="sourceLine" id="cb216-2" data-line-number="2"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-3" data-line-number="3"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-4" data-line-number="4"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-5" data-line-number="5"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-6" data-line-number="6"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-7" data-line-number="7"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-8" data-line-number="8"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-9" data-line-number="9"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-10" data-line-number="10"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-11" data-line-number="11"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-12" data-line-number="12"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-13" data-line-number="13"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-14" data-line-number="14"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-15" data-line-number="15"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-16" data-line-number="16"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-17" data-line-number="17"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-18" data-line-number="18"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb216-19" data-line-number="19"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</a></code></pre></div>
 <p>Since we do not want to copy the <code>ESP_A1</code> files we see if we can exclude
 them:</p>
-<div class="sourceCode" id="cb216"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb216-1" data-line-number="1"><span class="ex">%</span> rclone copy --exclude */ESP_A1/* --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</a>
-<a class="sourceLine" id="cb216-2" data-line-number="2"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb216-3" data-line-number="3"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb216-4" data-line-number="4"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb216-5" data-line-number="5"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb216-6" data-line-number="6"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb216-7" data-line-number="7"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb216-8" data-line-number="8"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb216-9" data-line-number="9"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb216-10" data-line-number="10"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb216-11" data-line-number="11"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb216-12" data-line-number="12"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb216-13" data-line-number="13"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</a></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="ex">%</span> rclone copy --exclude */ESP_A1/* --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</a>
+<a class="sourceLine" id="cb217-2" data-line-number="2"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb217-3" data-line-number="3"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb217-4" data-line-number="4"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb217-5" data-line-number="5"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb217-6" data-line-number="6"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb217-7" data-line-number="7"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb217-8" data-line-number="8"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb217-9" data-line-number="9"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb217-10" data-line-number="10"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb217-11" data-line-number="11"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb217-12" data-line-number="12"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
+<a class="sourceLine" id="cb217-13" data-line-number="13"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</a></code></pre></div>
 <p>Booyah! That gets us just what we want. So, then we remove the <code>--dry-run</code> option,
 and maybe add <code>-v -P</code> to give us verbose output and progress information, and copy all of our files:</p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="ex">%</span> rclone copy --exclude */ESP_A1/* -v -P  --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</a></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb218-1" data-line-number="1"><span class="ex">%</span> rclone copy --exclude */ESP_A1/* -v -P  --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</a></code></pre></div>
 </div>
 </div>
 <div id="tmux" class="section level2">
@@ -1355,7 +1363,7 @@ if you want to start another <em>session</em> with him.</p>
 <h3><span class="header-section-number">7.3.2</span> First steps with <code>tmux</code></h3>
 <p>The first thing you want to
 do to make sure Tmux is ready to help you is to simply type:</p>
-<div class="sourceCode" id="cb218"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb218-1" data-line-number="1"><span class="ex">%</span> which tmux</a></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb219-1" data-line-number="1"><span class="ex">%</span> which tmux</a></code></pre></div>
 <p>This should return something like:</p>
 <pre><code>/usr/bin/tmux</code></pre>
 <p>If, instead, you get a response like <code>tmux: Command not found.</code> then <code>tmux</code>
@@ -1373,7 +1381,7 @@ a <em>session</em>. In order to be able to tell Tmux that you want to reconnect
 to a session, you
 will <em>always</em> want to name your sessions so you will request a new
 session with this syntax:</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb220-1" data-line-number="1"><span class="ex">%</span> tmux new -s froggies</a></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="ex">%</span> tmux new -s froggies</a></code></pre></div>
 <p>You can think of the <code>-s</code> as being short for “session.” So it is basically a short
 way of saying, “Hey Tmux, give me a new session named <code>froggies</code>.”
 That creates a new session called <code>froggies</code>, and you can imagine we’ve
@@ -1467,26 +1475,26 @@ on his mustard stained shirt.</p>
 tell Tmux that you want to be attached again via his miracle-mirroring device. Since we
 are no longer in a <code>tmux</code> window, we don’t use our <code>&lt;cntrl-b&gt;</code> bell to get Tmux’s attention.
 We have to shout:</p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb225-1" data-line-number="1"><span class="ex">%</span> tmux attach -t froggies</a></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb226-1" data-line-number="1"><span class="ex">%</span> tmux attach -t froggies</a></code></pre></div>
 <p>The <code>-t</code> flag stands for “target.” The <code>froggies</code> session is the target of our
 attach request. Note that if you don’t like typing that much, you can shorten this to:</p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb226-1" data-line-number="1"><span class="ex">%</span> tmux a -t froggies</a></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb227-1" data-line-number="1"><span class="ex">%</span> tmux a -t froggies</a></code></pre></div>
 <p>Of course, sometimes, when you log back onto the server, you won’t remember the name
 of the <code>tmux</code> session(s) you started. Use this command to list them all:</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb227-1" data-line-number="1"><span class="ex">%</span> tmux ls</a></code></pre></div>
+<div class="sourceCode" id="cb228"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb228-1" data-line-number="1"><span class="ex">%</span> tmux ls</a></code></pre></div>
 <p>The <code>ls</code> here stands for “list-sessions.” This can be particularly useful if you
 actually have multiple sessions. For example, suppose you are a poly-taxa genomicist,
 with projects not only on a frog species, but also on a fish and a bird species. You
 might have a separate session for each of those, so that when you issue <code>tmux ls</code> the
 result could look something like:</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb228-1" data-line-number="1"><span class="ex">%</span> tmux ls</a>
-<a class="sourceLine" id="cb228-2" data-line-number="2"><span class="ex">birdies</span>: 4 windows (created Sun Feb 16 07:23:30 2020) [<span class="ex">203x59</span>]</a>
-<a class="sourceLine" id="cb228-3" data-line-number="3"><span class="ex">fishies</span>: 2 windows (created Sun Feb 16 07:23:55 2020) [<span class="ex">203x59</span>]</a>
-<a class="sourceLine" id="cb228-4" data-line-number="4"><span class="ex">froggies</span>: 3 windows (created Sun Feb 16 07:22:36 2020) [<span class="ex">203x59</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb229-1" data-line-number="1"><span class="ex">%</span> tmux ls</a>
+<a class="sourceLine" id="cb229-2" data-line-number="2"><span class="ex">birdies</span>: 4 windows (created Sun Feb 16 07:23:30 2020) [<span class="ex">203x59</span>]</a>
+<a class="sourceLine" id="cb229-3" data-line-number="3"><span class="ex">fishies</span>: 2 windows (created Sun Feb 16 07:23:55 2020) [<span class="ex">203x59</span>]</a>
+<a class="sourceLine" id="cb229-4" data-line-number="4"><span class="ex">froggies</span>: 3 windows (created Sun Feb 16 07:22:36 2020) [<span class="ex">203x59</span>]</a></code></pre></div>
 <p>That is enough to remind you of which session you might wish to reattach to.</p>
 <p>Finally, if you are all done with a <code>tmux</code> session, and you have detached from it,
 then from your shell prompt (not within a <code>tmux</code> session) you can do, for example:</p>
-<div class="sourceCode" id="cb229"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb229-1" data-line-number="1"><span class="ex">tmux</span> kill-session -t  birdies</a></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb230-1" data-line-number="1"><span class="ex">tmux</span> kill-session -t  birdies</a></code></pre></div>
 <p>to kill the session. There are other ways to kill sessions while you
 are in them, but that is not so much needed.</p>
 <p>Table <a href="working-on-remote-servers.html#tab:minimal-tmux">7.1</a> reviews the minimal set of
@@ -1582,15 +1590,15 @@ sections, each one running its own bash shell.</p>
 establishment of panes more intuitive (by using keystrokes that are easier
 to remember) and others that make it easier to quickly adjust the size of the panes.
 So, first, add these lines to <code>~/.tmux.conf</code>:</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb230-1" data-line-number="1"><span class="co"># splitting panes</span></a>
-<a class="sourceLine" id="cb230-2" data-line-number="2"><span class="bu">bind</span> <span class="dt">\ </span>split-window -h -c <span class="st">&#39;#{pane_current_path}&#39;</span></a>
-<a class="sourceLine" id="cb230-3" data-line-number="3"><span class="bu">bind</span> - split-window -v -c <span class="st">&#39;#{pane_current_path}&#39;</span></a>
-<a class="sourceLine" id="cb230-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb230-5" data-line-number="5"><span class="co"># easily resize panes with &lt;C-b&gt; + one of j, k, h, l</span></a>
-<a class="sourceLine" id="cb230-6" data-line-number="6"><span class="ex">bind-key</span> j resize-pane -D 10</a>
-<a class="sourceLine" id="cb230-7" data-line-number="7"><span class="ex">bind-key</span> k resize-pane -U 10</a>
-<a class="sourceLine" id="cb230-8" data-line-number="8"><span class="ex">bind-key</span> h resize-pane -L 10</a>
-<a class="sourceLine" id="cb230-9" data-line-number="9"><span class="ex">bind-key</span> l resize-pane -R 10</a></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb231-1" data-line-number="1"><span class="co"># splitting panes</span></a>
+<a class="sourceLine" id="cb231-2" data-line-number="2"><span class="bu">bind</span> <span class="dt">\ </span>split-window -h -c <span class="st">&#39;#{pane_current_path}&#39;</span></a>
+<a class="sourceLine" id="cb231-3" data-line-number="3"><span class="bu">bind</span> - split-window -v -c <span class="st">&#39;#{pane_current_path}&#39;</span></a>
+<a class="sourceLine" id="cb231-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb231-5" data-line-number="5"><span class="co"># easily resize panes with &lt;C-b&gt; + one of j, k, h, l</span></a>
+<a class="sourceLine" id="cb231-6" data-line-number="6"><span class="ex">bind-key</span> j resize-pane -D 10</a>
+<a class="sourceLine" id="cb231-7" data-line-number="7"><span class="ex">bind-key</span> k resize-pane -U 10</a>
+<a class="sourceLine" id="cb231-8" data-line-number="8"><span class="ex">bind-key</span> h resize-pane -L 10</a>
+<a class="sourceLine" id="cb231-9" data-line-number="9"><span class="ex">bind-key</span> l resize-pane -R 10</a></code></pre></div>
 <p>Once you have updated <code>~/.tmux.conf</code> you need to reload that
 configuration file in <code>tmux</code>. So, from within a <code>tmux</code> session,
 you do <code>&lt;cntrl&gt;-b :</code>. This let’s you type a <code>tmux</code> command in the lower
@@ -1690,16 +1698,19 @@ up into a few panes and try them out. It takes a while to get used to it, but on
 the hang of it, it’s quite nice.</p>
 </div>
 </div>
-<div id="using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster" class="section level2">
-<h2><span class="header-section-number">7.4</span> Using neovim and Nvim-R and tmux to use R well on the cluster</h2>
+<div id="vim-its-time-to-get-serious-with-text-editing" class="section level2">
+<h2><span class="header-section-number">7.4</span> <code>vim</code>: it’s time to get serious with text editing</h2>
+<p>Introduce newbs to the <code>vimtutor</code>.</p>
+<div id="using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster" class="section level3">
+<h3><span class="header-section-number">7.4.1</span> Using neovim and Nvim-R and tmux to use R well on the cluster</h3>
 <p>These are currently just notes to myself.</p>
 <p>On Summit you can follow the directions install Neovim and Nvim-R etc, found
 at section 2 of <a href="https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc">https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc</a>.
 You can just do 2.1 to 2.6. 2.7 is the routine for user accounts. You don’t need to install Tmux.</p>
 <p>You need to get an interactive session on a compute node and then</p>
-<div class="sourceCode" id="cb231"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb231-1" data-line-number="1"><span class="ex">module</span> load R/3.5.0</a>
-<a class="sourceLine" id="cb231-2" data-line-number="2"><span class="ex">module</span> load intel</a>
-<a class="sourceLine" id="cb231-3" data-line-number="3"><span class="ex">module</span> load mkl  </a></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb232-1" data-line-number="1"><span class="ex">module</span> load R/3.5.0</a>
+<a class="sourceLine" id="cb232-2" data-line-number="2"><span class="ex">module</span> load intel</a>
+<a class="sourceLine" id="cb232-3" data-line-number="3"><span class="ex">module</span> load mkl  </a></code></pre></div>
 <p>The last two are needed to get a random number to start up client through R.
 It is amazing to me that they call a specific Intel library to do that, and apparently
 loading the R module alone doesn’t get you that.</p>
@@ -1709,6 +1720,7 @@ let R_tmux_split = 1 </code></pre>
 <p>in your <code>~/.config/nvim/init.vim</code>. Wait! You don’t want to do that, necessarily, because tmux with NVim-R
 is no longer supported (Neovim now has native terminal splitting support.)</p>
 
+</div>
 </div>
 </div>
             </section>

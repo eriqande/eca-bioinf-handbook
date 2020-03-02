@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-02-25" />
+<meta name="date" content="2020-03-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -211,6 +211,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1.4" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#a-variety-of-tests"><i class="fa fa-check"></i><b>6.1.4</b> A variety of tests</a></li>
 <li class="chapter" data-level="6.1.5" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#code-in-the-action-blocks"><i class="fa fa-check"></i><b>6.1.5</b> Code in the action blocks</a></li>
 <li class="chapter" data-level="6.1.6" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#using-awk-to-assign-to-shell-variables"><i class="fa fa-check"></i><b>6.1.6</b> Using <code>awk</code> to assign to shell variables</a></li>
+<li class="chapter" data-level="6.1.7" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#passing-variables-into-awk-with--v"><i class="fa fa-check"></i><b>6.1.7</b> Passing Variables into <code>awk</code> with <code>-v</code></a></li>
+<li class="chapter" data-level="6.1.8" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#writing-awk-scripts-in-files"><i class="fa fa-check"></i><b>6.1.8</b> Writing awk scripts in files</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#sed"><i class="fa fa-check"></i><b>6.2</b> sed</a></li>
 </ul></li>
@@ -233,12 +235,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#first-steps-with-tmux"><i class="fa fa-check"></i><b>7.3.2</b> First steps with <code>tmux</code></a></li>
 <li class="chapter" data-level="7.3.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#further-steps-with-tmux"><i class="fa fa-check"></i><b>7.3.3</b> Further steps with <code>tmux</code></a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster"><i class="fa fa-check"></i><b>7.4</b> Using neovim and Nvim-R and tmux to use R well on the cluster</a></li>
+<li class="chapter" data-level="7.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#vim-its-time-to-get-serious-with-text-editing"><i class="fa fa-check"></i><b>7.4</b> <code>vim</code>: it’s time to get serious with text editing</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster"><i class="fa fa-check"></i><b>7.4.1</b> Using neovim and Nvim-R and tmux to use R well on the cluster</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html"><i class="fa fa-check"></i><b>8</b> High Performance Computing Clusters (HPCC’s)</a><ul>
 <li class="chapter" data-level="8.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#an-oversimplified-but-useful-view-of-a-computing-cluster"><i class="fa fa-check"></i><b>8.1</b> An oversimplified, but useful, view of a computing cluster</a></li>
 <li class="chapter" data-level="8.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#cluster-computing-and-the-job-scheduler"><i class="fa fa-check"></i><b>8.2</b> Cluster computing and the job scheduler</a></li>
-<li class="chapter" data-level="8.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#the-slurm-commands"><i class="fa fa-check"></i><b>8.3</b> The SLURM commands</a></li>
+<li class="chapter" data-level="8.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#learning-about-the-cluster-resources-and-getting-a-shell-on-a-compute-node"><i class="fa fa-check"></i><b>8.3</b> Learning about the cluster resources and getting a shell on a compute node</a></li>
 <li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#activatinginstalling-software"><i class="fa fa-check"></i><b>8.4</b> Activating/Installing software</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#modules"><i class="fa fa-check"></i><b>8.4.1</b> Modules</a></li>
 <li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#miniconda"><i class="fa fa-check"></i><b>8.4.2</b> Miniconda</a></li>
@@ -518,33 +522,33 @@ data into memory.</p>
 <div id="reading-fastqs-with-read_lines" class="section level4">
 <h4><span class="header-section-number">17.2.3.1</span> Reading FASTQs with <code>read_lines</code></h4>
 <p>Load packages:</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb266-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb266-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb266-3" data-line-number="3"><span class="co"># if you don&#39;t have this package, get it</span></a>
-<a class="sourceLine" id="cb266-4" data-line-number="4"><span class="co"># install.packages(&quot;viridis&quot;)</span></a>
-<a class="sourceLine" id="cb266-5" data-line-number="5"><span class="kw">library</span>(viridis)</a></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" data-line-number="1"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb276-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb276-3" data-line-number="3"><span class="co"># if you don&#39;t have this package, get it</span></a>
+<a class="sourceLine" id="cb276-4" data-line-number="4"><span class="co"># install.packages(&quot;viridis&quot;)</span></a>
+<a class="sourceLine" id="cb276-5" data-line-number="5"><span class="kw">library</span>(viridis)</a></code></pre></div>
 <p>Read the FASTQ, make it a matrix, then make it a tibble</p>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb267-1" data-line-number="1"><span class="co"># use read_lines to read the R1 fastq file line by line;</span></a>
-<a class="sourceLine" id="cb267-2" data-line-number="2"><span class="co"># then make a 4 column matrix, filling by rows</span></a>
-<a class="sourceLine" id="cb267-3" data-line-number="3"><span class="co"># then drop column 3, which corresponds to the &quot;+&quot; line</span></a>
-<a class="sourceLine" id="cb267-4" data-line-number="4">R1 &lt;-<span class="st"> </span><span class="kw">read_lines</span>(<span class="st">&quot;data/Battle_Creek_01_chinook_R1.fq.gz&quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb267-5" data-line-number="5"><span class="st">  </span><span class="kw">matrix</span>(<span class="dt">ncol =</span> <span class="dv">4</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb267-6" data-line-number="6"><span class="st">  </span>.[,<span class="op">-</span><span class="dv">3</span>]</a>
-<a class="sourceLine" id="cb267-7" data-line-number="7">  </a>
-<a class="sourceLine" id="cb267-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb267-9" data-line-number="9"><span class="co"># add colnames</span></a>
-<a class="sourceLine" id="cb267-10" data-line-number="10"><span class="kw">colnames</span>(R1) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;seq&quot;</span>, <span class="st">&quot;qual&quot;</span>)</a>
-<a class="sourceLine" id="cb267-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb267-12" data-line-number="12"><span class="co"># now make a tibble out that.  We will assign</span></a>
-<a class="sourceLine" id="cb267-13" data-line-number="13"><span class="co"># it back to the variable R1, to note carry</span></a>
-<a class="sourceLine" id="cb267-14" data-line-number="14"><span class="co"># extra memory around</span></a>
-<a class="sourceLine" id="cb267-15" data-line-number="15">R1 &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(R1)</a>
-<a class="sourceLine" id="cb267-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb267-17" data-line-number="17"><span class="co"># Look at it:</span></a>
-<a class="sourceLine" id="cb267-18" data-line-number="18">R1</a>
-<a class="sourceLine" id="cb267-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb267-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb267-21" data-line-number="21"><span class="co"># OK, 1 million reads.</span></a></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" data-line-number="1"><span class="co"># use read_lines to read the R1 fastq file line by line;</span></a>
+<a class="sourceLine" id="cb277-2" data-line-number="2"><span class="co"># then make a 4 column matrix, filling by rows</span></a>
+<a class="sourceLine" id="cb277-3" data-line-number="3"><span class="co"># then drop column 3, which corresponds to the &quot;+&quot; line</span></a>
+<a class="sourceLine" id="cb277-4" data-line-number="4">R1 &lt;-<span class="st"> </span><span class="kw">read_lines</span>(<span class="st">&quot;data/Battle_Creek_01_chinook_R1.fq.gz&quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb277-5" data-line-number="5"><span class="st">  </span><span class="kw">matrix</span>(<span class="dt">ncol =</span> <span class="dv">4</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb277-6" data-line-number="6"><span class="st">  </span>.[,<span class="op">-</span><span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb277-7" data-line-number="7">  </a>
+<a class="sourceLine" id="cb277-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb277-9" data-line-number="9"><span class="co"># add colnames</span></a>
+<a class="sourceLine" id="cb277-10" data-line-number="10"><span class="kw">colnames</span>(R1) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;seq&quot;</span>, <span class="st">&quot;qual&quot;</span>)</a>
+<a class="sourceLine" id="cb277-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb277-12" data-line-number="12"><span class="co"># now make a tibble out that.  We will assign</span></a>
+<a class="sourceLine" id="cb277-13" data-line-number="13"><span class="co"># it back to the variable R1, to note carry</span></a>
+<a class="sourceLine" id="cb277-14" data-line-number="14"><span class="co"># extra memory around</span></a>
+<a class="sourceLine" id="cb277-15" data-line-number="15">R1 &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(R1)</a>
+<a class="sourceLine" id="cb277-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb277-17" data-line-number="17"><span class="co"># Look at it:</span></a>
+<a class="sourceLine" id="cb277-18" data-line-number="18">R1</a>
+<a class="sourceLine" id="cb277-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb277-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb277-21" data-line-number="21"><span class="co"># OK, 1 million reads.</span></a></code></pre></div>
 <p>Look at the first ID line:</p>
 <pre><code> @E00430:101:HKT7WCCXY:1:1101:6411:1204 1:N:0:NGATGT</code></pre>
 <p>Aha! This is a slightly different format than the above. The part after the
@@ -565,67 +569,67 @@ column.</p>
 columns in a tibble.</p>
 <p>Here we can use it to break the ID into two parts split on the space, and then
 break the first part of the ID into its constituent parts:</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb270-1" data-line-number="1"><span class="co"># first we break on the space,</span></a>
-<a class="sourceLine" id="cb270-2" data-line-number="2"><span class="co"># then we break the ID on the colons, but keep the original &quot;id&quot; for later</span></a>
-<a class="sourceLine" id="cb270-3" data-line-number="3">R1 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb270-4" data-line-number="4"><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb270-5" data-line-number="5"><span class="st">  </span><span class="kw">separate</span>(</a>
-<a class="sourceLine" id="cb270-6" data-line-number="6">    id, </a>
-<a class="sourceLine" id="cb270-7" data-line-number="7">    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </a>
-<a class="sourceLine" id="cb270-8" data-line-number="8">    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</a>
-<a class="sourceLine" id="cb270-9" data-line-number="9">    <span class="dt">remove =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb270-10" data-line-number="10">    )</a></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb280-1" data-line-number="1"><span class="co"># first we break on the space,</span></a>
+<a class="sourceLine" id="cb280-2" data-line-number="2"><span class="co"># then we break the ID on the colons, but keep the original &quot;id&quot; for later</span></a>
+<a class="sourceLine" id="cb280-3" data-line-number="3">R1 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb280-4" data-line-number="4"><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb280-5" data-line-number="5"><span class="st">  </span><span class="kw">separate</span>(</a>
+<a class="sourceLine" id="cb280-6" data-line-number="6">    id, </a>
+<a class="sourceLine" id="cb280-7" data-line-number="7">    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </a>
+<a class="sourceLine" id="cb280-8" data-line-number="8">    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</a>
+<a class="sourceLine" id="cb280-9" data-line-number="9">    <span class="dt">remove =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb280-10" data-line-number="10">    )</a></code></pre></div>
 <p>Wow! That was cool. Now, your mission is to pipe that (with <code>%&gt;%</code>)
 into another <code>separate()</code> command that breaks part2 into
 <code>read</code>, <code>filter</code>, <code>cnum</code>, and <code>barcode</code>, and save that into <code>R1_sep</code></p>
 <p>Here is a starter:</p>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" data-line-number="1">R1_sep &lt;-<span class="st"> </span>R1 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb271-2" data-line-number="2"><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb271-3" data-line-number="3"><span class="st">  </span><span class="kw">separate</span>(</a>
-<a class="sourceLine" id="cb271-4" data-line-number="4">    id, </a>
-<a class="sourceLine" id="cb271-5" data-line-number="5">    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </a>
-<a class="sourceLine" id="cb271-6" data-line-number="6">    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</a>
-<a class="sourceLine" id="cb271-7" data-line-number="7">    <span class="dt">remove =</span> <span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb271-8" data-line-number="8">    ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb271-9" data-line-number="9"><span class="st">    </span>...your code here...</a>
-<a class="sourceLine" id="cb271-10" data-line-number="10">    </a>
-<a class="sourceLine" id="cb271-11" data-line-number="11"><span class="co"># when you are done with that, look at it</span></a>
-<a class="sourceLine" id="cb271-12" data-line-number="12">R1_sep</a>
-<a class="sourceLine" id="cb271-13" data-line-number="13">    </a></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" data-line-number="1">R1_sep &lt;-<span class="st"> </span>R1 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb281-2" data-line-number="2"><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb281-3" data-line-number="3"><span class="st">  </span><span class="kw">separate</span>(</a>
+<a class="sourceLine" id="cb281-4" data-line-number="4">    id, </a>
+<a class="sourceLine" id="cb281-5" data-line-number="5">    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </a>
+<a class="sourceLine" id="cb281-6" data-line-number="6">    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</a>
+<a class="sourceLine" id="cb281-7" data-line-number="7">    <span class="dt">remove =</span> <span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb281-8" data-line-number="8">    ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb281-9" data-line-number="9"><span class="st">    </span>...your code here...</a>
+<a class="sourceLine" id="cb281-10" data-line-number="10">    </a>
+<a class="sourceLine" id="cb281-11" data-line-number="11"><span class="co"># when you are done with that, look at it</span></a>
+<a class="sourceLine" id="cb281-12" data-line-number="12">R1_sep</a>
+<a class="sourceLine" id="cb281-13" data-line-number="13">    </a></code></pre></div>
 <p>Doh! There is one thing to note. Look at the first few columns of that:</p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb272-1" data-line-number="1"><span class="co"># A tibble: 1,000,000 x 11</span></a>
-<a class="sourceLine" id="cb272-2" data-line-number="2">   id          machine run   flow_cell lane  tile  x     y   </a>
-<a class="sourceLine" id="cb272-3" data-line-number="3">   <span class="op">&lt;</span>chr<span class="op">&gt;</span><span class="st">       </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">   </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">     </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">      </span></a>
-<a class="sourceLine" id="cb272-4" data-line-number="4"><span class="st"> </span><span class="dv">1</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">6411</span>  <span class="dv">1204</span></a>
-<a class="sourceLine" id="cb272-5" data-line-number="5"> <span class="dv">2</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">7324</span>  <span class="dv">1204</span></a>
-<a class="sourceLine" id="cb272-6" data-line-number="6"> <span class="dv">3</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">8582</span>  <span class="dv">1204</span></a>
-<a class="sourceLine" id="cb272-7" data-line-number="7"> <span class="dv">4</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">9841</span>  <span class="dv">1204</span></a>
-<a class="sourceLine" id="cb272-8" data-line-number="8"> <span class="dv">5</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">10186</span> <span class="dv">1204</span> </a></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb282-1" data-line-number="1"><span class="co"># A tibble: 1,000,000 x 11</span></a>
+<a class="sourceLine" id="cb282-2" data-line-number="2">   id          machine run   flow_cell lane  tile  x     y   </a>
+<a class="sourceLine" id="cb282-3" data-line-number="3">   <span class="op">&lt;</span>chr<span class="op">&gt;</span><span class="st">       </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">   </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">     </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">      </span></a>
+<a class="sourceLine" id="cb282-4" data-line-number="4"><span class="st"> </span><span class="dv">1</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">6411</span>  <span class="dv">1204</span></a>
+<a class="sourceLine" id="cb282-5" data-line-number="5"> <span class="dv">2</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">7324</span>  <span class="dv">1204</span></a>
+<a class="sourceLine" id="cb282-6" data-line-number="6"> <span class="dv">3</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">8582</span>  <span class="dv">1204</span></a>
+<a class="sourceLine" id="cb282-7" data-line-number="7"> <span class="dv">4</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">9841</span>  <span class="dv">1204</span></a>
+<a class="sourceLine" id="cb282-8" data-line-number="8"> <span class="dv">5</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">10186</span> <span class="dv">1204</span> </a></code></pre></div>
 <p>The x- and the y-coordinates are listed as characters (<code>&lt;chr&gt;</code>) but they should
 be numeric. This shows the default behavior of <code>separate()</code>: it just breaks each
 field into a column of strings. However, you can ask <code>separate()</code> to make a good-faith
 guess of the type of each column and convert it to that. This works suitably in this
 situation, so, let’s repeat the last command, but convert types automatically:</p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb273-1" data-line-number="1">R1_sep &lt;-<span class="st"> </span>R1 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb273-2" data-line-number="2"><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb273-3" data-line-number="3"><span class="st">  </span><span class="kw">separate</span>(</a>
-<a class="sourceLine" id="cb273-4" data-line-number="4">    id, </a>
-<a class="sourceLine" id="cb273-5" data-line-number="5">    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </a>
-<a class="sourceLine" id="cb273-6" data-line-number="6">    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</a>
-<a class="sourceLine" id="cb273-7" data-line-number="7">    <span class="dt">remove =</span> <span class="ot">FALSE</span>,</a>
-<a class="sourceLine" id="cb273-8" data-line-number="8">    <span class="dt">convert =</span> <span class="ot">TRUE</span></a>
-<a class="sourceLine" id="cb273-9" data-line-number="9">  ) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb273-10" data-line-number="10"><span class="st">  </span><span class="kw">separate</span>(part2, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;read&quot;</span>, <span class="st">&quot;filter&quot;</span>, <span class="st">&quot;cnum&quot;</span>, <span class="st">&quot;barcode&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" data-line-number="1">R1_sep &lt;-<span class="st"> </span>R1 <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb283-2" data-line-number="2"><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb283-3" data-line-number="3"><span class="st">  </span><span class="kw">separate</span>(</a>
+<a class="sourceLine" id="cb283-4" data-line-number="4">    id, </a>
+<a class="sourceLine" id="cb283-5" data-line-number="5">    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </a>
+<a class="sourceLine" id="cb283-6" data-line-number="6">    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</a>
+<a class="sourceLine" id="cb283-7" data-line-number="7">    <span class="dt">remove =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb283-8" data-line-number="8">    <span class="dt">convert =</span> <span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb283-9" data-line-number="9">  ) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb283-10" data-line-number="10"><span class="st">  </span><span class="kw">separate</span>(part2, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;read&quot;</span>, <span class="st">&quot;filter&quot;</span>, <span class="st">&quot;cnum&quot;</span>, <span class="st">&quot;barcode&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 </div>
 <div id="counting-tiles" class="section level4">
 <h4><span class="header-section-number">17.2.3.3</span> Counting tiles</h4>
 <p>Let’s see how many tiles these reads came from. Basically we just want to count the
 number of rows with different values for tile. Read the documentation for
 <code>dplyr::count</code> with</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" data-line-number="1">?count</a></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb284-1" data-line-number="1">?count</a></code></pre></div>
 <p>and when you are done count up the number of reads in each tile:</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb275-1" data-line-number="1">R1_sep <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb275-2" data-line-number="2"><span class="st">  </span>...your code here...</a></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb285-1" data-line-number="1">R1_sep <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb285-2" data-line-number="2"><span class="st">  </span>...your code here...</a></code></pre></div>
 <p>Turns out they are all from the same tile…</p>
 </div>
 <div id="parsing-quality-scores" class="section level4">
@@ -633,10 +637,10 @@ number of rows with different values for tile. Read the documentation for
 <p>Now, we want to turn the quality-score ASCII-characters into Phred-scaled
 qualities, ultimately taking the average over each sequence of those.</p>
 <p>Check out this function:</p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" data-line-number="1"><span class="kw">utf8ToInt</span>(<span class="st">&quot;!*JGH&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb286-1" data-line-number="1"><span class="kw">utf8ToInt</span>(<span class="st">&quot;!*JGH&quot;</span>)</a></code></pre></div>
 <pre><code>## [1] 33 42 74 71 72</code></pre>
 <p>We can use that to get Phred-scaled values by subtracting 33 from the result. Let’s check:</p>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb278-1" data-line-number="1"><span class="kw">utf8ToInt</span>(<span class="st">&quot;!+5?IJ&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="dv">33</span></a></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb288-1" data-line-number="1"><span class="kw">utf8ToInt</span>(<span class="st">&quot;!+5?IJ&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="dv">33</span></a></code></pre></div>
 <pre><code>## [1]  0 10 20 30 40 41</code></pre>
 <p>Note that <code>J</code> seems to be used for “below 1 in 10,000” as it is the highest I have ever seen.</p>
 <p>So, what we want to do is make a new column called <code>mean_qual</code> that gives the
@@ -647,36 +651,36 @@ in that same row, that is a job for <code>mutate()</code>.</p>
 computing the <code>mean_qual</code> for every row requres using one of the <code>map()</code> family of functions.
 It is a little beyond
 what we want to delve into at the moment. But here is what it looks like:</p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb280-1" data-line-number="1">R1_sepq &lt;-<span class="st"> </span>R1_sep <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb280-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mean_qual =</span> <span class="kw">map_dbl</span>(<span class="dt">.x =</span> qual, <span class="dt">.f =</span> <span class="cf">function</span>(x) <span class="kw">mean</span>(<span class="kw">utf8ToInt</span>(x) <span class="op">-</span><span class="st"> </span><span class="dv">33</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb290-1" data-line-number="1">R1_sepq &lt;-<span class="st"> </span>R1_sep <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb290-2" data-line-number="2"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mean_qual =</span> <span class="kw">map_dbl</span>(<span class="dt">.x =</span> qual, <span class="dt">.f =</span> <span class="cf">function</span>(x) <span class="kw">mean</span>(<span class="kw">utf8ToInt</span>(x) <span class="op">-</span><span class="st"> </span><span class="dv">33</span>))</a></code></pre></div>
 <p>Check out the distribution of those mean quality scores:</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" data-line-number="1"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> mean_qual)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb281-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb291-1" data-line-number="1"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> mean_qual)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb291-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>)</a></code></pre></div>
 </div>
 <div id="investigating-the-spatial-distribution-of-reads-and-quality-scores" class="section level4">
 <h4><span class="header-section-number">17.2.3.5</span> Investigating the spatial distribution of reads and quality scores</h4>
 <p>Now, use the above as a template to investigate the distribution of the
 x-values:</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb282-1" data-line-number="1"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(...your code here...)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb282-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">500</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb292-1" data-line-number="1"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(...your code here...)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb292-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">500</span>)</a></code></pre></div>
 <p>And, do the same for the y-values.</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" data-line-number="1"><span class="co"># Dsn of y</span></a>
-<a class="sourceLine" id="cb283-2" data-line-number="2"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb283-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">500</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb283-4" data-line-number="4"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb293-1" data-line-number="1"><span class="co"># Dsn of y</span></a>
+<a class="sourceLine" id="cb293-2" data-line-number="2"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb293-3" data-line-number="3"><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">500</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb293-4" data-line-number="4"><span class="st">  </span><span class="kw">coord_flip</span>()</a></code></pre></div>
 <p>Hmm… for fun, make a 2-D hex-bin plot</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb284-1" data-line-number="1"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb284-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_hex</span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb284-3" data-line-number="3"><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb294-1" data-line-number="1"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb294-2" data-line-number="2"><span class="st">  </span><span class="kw">geom_hex</span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb294-3" data-line-number="3"><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>()</a></code></pre></div>
 <p>That is super interesting. It looks like the flowcell or camera must have a mild
 issue where the smears are between y = 20,000 and 30,000.</p>
 <p>It is natural to wonder if the quality scores of the reads that did actually get
 recovered from those regions have lower quality scores. This makes a hexbin plot
 of the mean quality scores:</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb285-1" data-line-number="1"><span class="co"># hexbin of the mean quality score</span></a>
-<a class="sourceLine" id="cb285-2" data-line-number="2"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">z =</span> mean_qual)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb285-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary_hex</span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb285-4" data-line-number="4"><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" data-line-number="1"><span class="co"># hexbin of the mean quality score</span></a>
+<a class="sourceLine" id="cb295-2" data-line-number="2"><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">z =</span> mean_qual)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb295-3" data-line-number="3"><span class="st">  </span><span class="kw">stat_summary_hex</span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb295-4" data-line-number="4"><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>()</a></code></pre></div>
 <p>Cool.</p>
 </div>
 </div>
@@ -786,39 +790,39 @@ specific genomic coordinates, returning them in a new FASTA file with
 identifiers giving the genomic ranges. Here is an example using <code>samtools faidx</code> to
 extract four DNA sequences of length 150 from within the Chinook salmon genome
 excerpted above:</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb289-1" data-line-number="1"><span class="co"># assume the working directory is where the fasta file resides</span></a>
-<a class="sourceLine" id="cb289-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb289-3" data-line-number="3"><span class="co"># create the index</span></a>
-<a class="sourceLine" id="cb289-4" data-line-number="4"><span class="ex">samtools</span> faidx GCA_002831465.1_CHI06_genomic.fna</a>
-<a class="sourceLine" id="cb289-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb289-6" data-line-number="6"><span class="co"># that created the file: GCA_002831465.1_CHI06_genomic.fna.fai</span></a>
-<a class="sourceLine" id="cb289-7" data-line-number="7"><span class="co"># which holds four columns that constitute the index</span></a>
-<a class="sourceLine" id="cb289-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb289-9" data-line-number="9"><span class="co"># now we extract the four sequences:</span></a>
-<a class="sourceLine" id="cb289-10" data-line-number="10"><span class="ex">samtools</span> faidx \</a>
-<a class="sourceLine" id="cb289-11" data-line-number="11">    GCA_002831465.1_CHI06_genomic.fna \</a>
-<a class="sourceLine" id="cb289-12" data-line-number="12">    CM009007.1:3913989-3914138 \</a>
-<a class="sourceLine" id="cb289-13" data-line-number="13">    CM009011.1:2392339-2392488 \</a>
-<a class="sourceLine" id="cb289-14" data-line-number="14">    CM009013.1:11855194-11855343 \</a>
-<a class="sourceLine" id="cb289-15" data-line-number="15">    CM009019.1:1760297-1760446</a>
-<a class="sourceLine" id="cb289-16" data-line-number="16">    </a>
-<a class="sourceLine" id="cb289-17" data-line-number="17"><span class="co"># the output is like so:</span></a>
-<a class="sourceLine" id="cb289-18" data-line-number="18"><span class="op">&gt;</span><span class="ex">CM009007.1</span>:3913989-3914138</a>
-<a class="sourceLine" id="cb289-19" data-line-number="19"><span class="ex">TTACCGAtggaacattttgaaaaacacaaCAATAAAGCCTTGTGTCCTATTGTTTGTATT</span></a>
-<a class="sourceLine" id="cb289-20" data-line-number="20"><span class="ex">TGCTTCGTGCTGTTAATGGTAgttgcacttgattcagcagccgtAGCGCCGGGAAggcag</span></a>
-<a class="sourceLine" id="cb289-21" data-line-number="21"><span class="ex">tgttcccattttgaaaaaTGTCATGTCTGA</span></a>
-<a class="sourceLine" id="cb289-22" data-line-number="22"><span class="op">&gt;</span><span class="ex">CM009011.1</span>:2392339-2392488</a>
-<a class="sourceLine" id="cb289-23" data-line-number="23"><span class="ex">gatgcctctagcactgaggatgccttagaccgctgtgccactcgggaggccttcaGCCTA</span></a>
-<a class="sourceLine" id="cb289-24" data-line-number="24"><span class="ex">ACTCTAACTGTAAGTAAATTGTGTGTATTTTTGGGTACATTTCGCTGGTCCCCACAAGGG</span></a>
-<a class="sourceLine" id="cb289-25" data-line-number="25"><span class="ex">GAAAGggctattttaggtttagggttaagg</span></a>
-<a class="sourceLine" id="cb289-26" data-line-number="26"><span class="op">&gt;</span><span class="ex">CM009013.1</span>:11855194-11855343</a>
-<a class="sourceLine" id="cb289-27" data-line-number="27"><span class="ex">TGAGGTTTCTGACTTCATTTTCATTCACAGCAGTTACTGTATGCCTCGGTCAAATTGAAA</span></a>
-<a class="sourceLine" id="cb289-28" data-line-number="28"><span class="ex">GGAAAGTAAAGTAACCATGTGGAGCTGtatggtgtactgtactgtactgtattgtactgt</span></a>
-<a class="sourceLine" id="cb289-29" data-line-number="29"><span class="ex">attgtgtgGGACGTGAGGCAGGTCCAGATA</span></a>
-<a class="sourceLine" id="cb289-30" data-line-number="30"><span class="op">&gt;</span><span class="ex">CM009019.1</span>:1760297-1760446</a>
-<a class="sourceLine" id="cb289-31" data-line-number="31"><span class="ex">ttcccagaatctctatgttaaccaaggtgtttgcaaatgtaacatcagtaggggagagag</span></a>
-<a class="sourceLine" id="cb289-32" data-line-number="32"><span class="ex">aggaaataaagggggaagaggtatttatgactgtcataaacctacccctcaggccaacgt</span></a>
-<a class="sourceLine" id="cb289-33" data-line-number="33"><span class="ex">catgacactcccgttaatcacacagactGG</span></a></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb299-1" data-line-number="1"><span class="co"># assume the working directory is where the fasta file resides</span></a>
+<a class="sourceLine" id="cb299-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb299-3" data-line-number="3"><span class="co"># create the index</span></a>
+<a class="sourceLine" id="cb299-4" data-line-number="4"><span class="ex">samtools</span> faidx GCA_002831465.1_CHI06_genomic.fna</a>
+<a class="sourceLine" id="cb299-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb299-6" data-line-number="6"><span class="co"># that created the file: GCA_002831465.1_CHI06_genomic.fna.fai</span></a>
+<a class="sourceLine" id="cb299-7" data-line-number="7"><span class="co"># which holds four columns that constitute the index</span></a>
+<a class="sourceLine" id="cb299-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb299-9" data-line-number="9"><span class="co"># now we extract the four sequences:</span></a>
+<a class="sourceLine" id="cb299-10" data-line-number="10"><span class="ex">samtools</span> faidx \</a>
+<a class="sourceLine" id="cb299-11" data-line-number="11">    GCA_002831465.1_CHI06_genomic.fna \</a>
+<a class="sourceLine" id="cb299-12" data-line-number="12">    CM009007.1:3913989-3914138 \</a>
+<a class="sourceLine" id="cb299-13" data-line-number="13">    CM009011.1:2392339-2392488 \</a>
+<a class="sourceLine" id="cb299-14" data-line-number="14">    CM009013.1:11855194-11855343 \</a>
+<a class="sourceLine" id="cb299-15" data-line-number="15">    CM009019.1:1760297-1760446</a>
+<a class="sourceLine" id="cb299-16" data-line-number="16">    </a>
+<a class="sourceLine" id="cb299-17" data-line-number="17"><span class="co"># the output is like so:</span></a>
+<a class="sourceLine" id="cb299-18" data-line-number="18"><span class="op">&gt;</span><span class="ex">CM009007.1</span>:3913989-3914138</a>
+<a class="sourceLine" id="cb299-19" data-line-number="19"><span class="ex">TTACCGAtggaacattttgaaaaacacaaCAATAAAGCCTTGTGTCCTATTGTTTGTATT</span></a>
+<a class="sourceLine" id="cb299-20" data-line-number="20"><span class="ex">TGCTTCGTGCTGTTAATGGTAgttgcacttgattcagcagccgtAGCGCCGGGAAggcag</span></a>
+<a class="sourceLine" id="cb299-21" data-line-number="21"><span class="ex">tgttcccattttgaaaaaTGTCATGTCTGA</span></a>
+<a class="sourceLine" id="cb299-22" data-line-number="22"><span class="op">&gt;</span><span class="ex">CM009011.1</span>:2392339-2392488</a>
+<a class="sourceLine" id="cb299-23" data-line-number="23"><span class="ex">gatgcctctagcactgaggatgccttagaccgctgtgccactcgggaggccttcaGCCTA</span></a>
+<a class="sourceLine" id="cb299-24" data-line-number="24"><span class="ex">ACTCTAACTGTAAGTAAATTGTGTGTATTTTTGGGTACATTTCGCTGGTCCCCACAAGGG</span></a>
+<a class="sourceLine" id="cb299-25" data-line-number="25"><span class="ex">GAAAGggctattttaggtttagggttaagg</span></a>
+<a class="sourceLine" id="cb299-26" data-line-number="26"><span class="op">&gt;</span><span class="ex">CM009013.1</span>:11855194-11855343</a>
+<a class="sourceLine" id="cb299-27" data-line-number="27"><span class="ex">TGAGGTTTCTGACTTCATTTTCATTCACAGCAGTTACTGTATGCCTCGGTCAAATTGAAA</span></a>
+<a class="sourceLine" id="cb299-28" data-line-number="28"><span class="ex">GGAAAGTAAAGTAACCATGTGGAGCTGtatggtgtactgtactgtactgtattgtactgt</span></a>
+<a class="sourceLine" id="cb299-29" data-line-number="29"><span class="ex">attgtgtgGGACGTGAGGCAGGTCCAGATA</span></a>
+<a class="sourceLine" id="cb299-30" data-line-number="30"><span class="op">&gt;</span><span class="ex">CM009019.1</span>:1760297-1760446</a>
+<a class="sourceLine" id="cb299-31" data-line-number="31"><span class="ex">ttcccagaatctctatgttaaccaaggtgtttgcaaatgtaacatcagtaggggagagag</span></a>
+<a class="sourceLine" id="cb299-32" data-line-number="32"><span class="ex">aggaaataaagggggaagaggtatttatgactgtcataaacctacccctcaggccaacgt</span></a>
+<a class="sourceLine" id="cb299-33" data-line-number="33"><span class="ex">catgacactcccgttaatcacacagactGG</span></a></code></pre></div>
 </div>
 <div id="downloading-reference-genomes-from-ncbi" class="section level3">
 <h3><span class="header-section-number">17.3.3</span> Downloading reference genomes from NCBI</h3>

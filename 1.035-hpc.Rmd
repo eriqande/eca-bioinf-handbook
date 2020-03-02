@@ -232,50 +232,161 @@ run, and how much RAM they will require. Later we will describe how the records 
 jobs, stored by the job scheduler, can be accessed and organized to aid in predicting
 the resource demand of future jobs.  
 
-## The SLURM commands
+## Learning about the cluster resources and getting a shell on a compute node
 
-Requests for resources (and for information about the computing cluster) are made to the job scheduler
+Requests for resources, and for _information_ about the computing cluster, are made to the job scheduler
 using a few basic commands.  As said, we will focus on the commands available in a SLURM-based system.
-Before launching ourselves into the commands used to _launch_ or _schedule_ jobs we will explore the SLURM commands that
-we can use to "get to know" our cluster, and to see how much of cluster's resources are allocated to
-currently running jobs.
+In a later section, (after a discussion of installing software that you might need on your cluster)
+we will more fully cover the commands used to _launch_, _schedule_, and manage jobs.  Here
+we will first explore the SLURM commands that
+we can use to "get to know" our cluster, and we will leave this section seeing how
+(and why) you should get resources on a compute node on your cluster.
 
-Note to self: this is a good one for the .bashrc:
+All SLURM commands begin with an `s`, and all SLURM systems support the `sinfo` command
+that gives you information about the cluster's nodes and their status (whether they are currently
+running jobs or not.)  On your cluster, `man sinfo` will tell you about this command.
+On the `Sedna` cluster, which just got installed and therefore does not
+have many users, we see:
+```sh
+% sinfo
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+nodes*       up   infinite     28   idle node[01-28]
+himem        up   infinite      1  alloc himem01
+himem        up   infinite      2   idle himem[02-03]
+```
+which tells us that there are two _partitions_ (collection of nodes)
+named `nodes` and `himem`.  The `himem` partition has one node which is
+currently allocated to a job (`STATE` = `alloc`), and two more that
+are not currently allocated to jobs. The `himem` partition holds machines
+with lots of RAM memory for tasks like sequence assembly.  It also has 28 compute nodes in the 
+nodes partition that are free.  This is a very small cluster.
+
+If you did the same command on SUMMIT you get many more lines of output.  There
+are many more different partitions, and there is a lot of information about how many
+nodes are in each:
+```sh
+% sinfo
+PARTITION        AVAIL  TIMELIMIT  NODES  STATE NODELIST
+shas*               up 1-00:00:00      2 drain* shas[0136-0137]
+shas*               up 1-00:00:00      2  down* shas[0404,0506]
+shas*               up 1-00:00:00      1  drain shas0101
+shas*               up 1-00:00:00      3   resv shas[0102,0521,0853]
+shas*               up 1-00:00:00     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]
+shas*               up 1-00:00:00    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]
+shas*               up 1-00:00:00     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]
+shas-testing        up   infinite      2 drain* shas[0136-0137]
+shas-testing        up   infinite      2  down* shas[0404,0506]
+shas-testing        up   infinite      1  drain shas0101
+shas-testing        up   infinite      3   resv shas[0102,0521,0853]
+shas-testing        up   infinite     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]
+shas-testing        up   infinite    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]
+shas-testing        up   infinite     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]
+shas-interactive    up   infinite      2 drain* shas[0136-0137]
+shas-interactive    up   infinite      2  down* shas[0404,0506]
+shas-interactive    up   infinite      1  drain shas0101
+shas-interactive    up   infinite      3   resv shas[0102,0521,0853]
+shas-interactive    up   infinite     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]
+shas-interactive    up   infinite    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]
+shas-interactive    up   infinite     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]
+sgpu                up 1-00:00:00      1   resv sgpu0501
+sgpu                up 1-00:00:00      1  alloc sgpu0502
+sgpu                up 1-00:00:00      9   idle sgpu[0101-0102,0201-0202,0301-0302,0401-0402,0801]
+sgpu-testing        up   infinite      1   resv sgpu0501
+sgpu-testing        up   infinite      1  alloc sgpu0502
+sgpu-testing        up   infinite      9   idle sgpu[0101-0102,0201-0202,0301-0302,0401-0402,0801]
+sknl                up 1-00:00:00      1  drain sknl0710
+sknl                up 1-00:00:00      1   resv sknl0706
+sknl                up 1-00:00:00     18  alloc sknl[0701-0705,0707-0709,0711-0720]
+sknl-testing        up   infinite      1  drain sknl0710
+sknl-testing        up   infinite      1   resv sknl0706
+sknl-testing        up   infinite     18  alloc sknl[0701-0705,0707-0709,0711-0720]
+smem                up 7-00:00:00      1   drng smem0201
+smem                up 7-00:00:00      4  alloc smem[0101,0301,0401,0501]
+ssky                up 1-00:00:00      1   drng ssky0944
+ssky                up 1-00:00:00      1    mix ssky0952
+ssky                up 1-00:00:00      3  alloc ssky[0942-0943,0951]
+ssky-preemptable    up 1-00:00:00      1   drng ssky0944
+ssky-preemptable    up 1-00:00:00      1    mix ssky0952
+ssky-preemptable    up 1-00:00:00      9  alloc ssky[0933-0934,0937-0940,0942-0943,0951]
+ssky-preemptable    up 1-00:00:00      9   idle ssky[0935-0936,0941,0945-0950]
+ssky-ucb-aos        up 7-00:00:00      6  alloc ssky[0933-0934,0937-0940]
+ssky-ucb-aos        up 7-00:00:00      3   idle ssky[0935-0936,0941]
+ssky-csu-mbp        up 7-00:00:00      1   idle ssky0945
+ssky-csu-asb        up 7-00:00:00      1   idle ssky0946
+ssky-csu-rsp        up 7-00:00:00      4   idle ssky[0947-0950]
+```
+
+Yikes!  That is a lot of info.  The numbers that you see on the ends of the lines there
+are node numbers.
+
+If you wanted to see information about each node in the `shas` partition, you could
+print long information for each node  like this:
+```sh
+% sinfo -l -N
+```
+On Summit, that creates almost 1500 lines of output.  Some nodes are listed several times
+because they belong to different partitions.  To look at results for just the standard
+parition (`shas`) you can use
+```sh
+% sinfo -l -n -p shas
+```
+Try that command.  (Or try a similar command with an appropriate partition name on your
+own cluster.)  If you want to see explicitly how many cores are available vs allocated
+on each node, how much total memory each node has, and how much of that total
+memory is free, in that partition you can do:
+```sh
+% sinfo -N -p shas -O nodelist,cpusstate,memory,allocmem,freemem
+```
+The top part of that output looks like:
+```
+NODELIST            CPUS(A/I/O/T)       MEMORY              ALLOCMEM            FREE_MEM            
+shas0101            0/0/24/24           116368              0                   125156              
+shas0102            0/24/0/24           116368              0                   112325              
+shas0103            24/0/0/24           116368              116352              87228               
+shas0104            24/0/0/24           116368              116352              80769  
+```
+This says `shas0101` has 24 CPUs that are _Out_ (not functional at this point). 
+`shas0102`, on the other hand, has 24 CPUs that are _Idle_, while `shas0103` has
+24 CPUs that are allocated, and so forth. (In our parlance here, 
+CPU is being used to mean "core").  All of the nodes have
+116 Gb of memory total. Most of them have about that much memory allocated to
+the jobs they are running.  
+
+We can throw down some `awk` to count the total number of available cores
+(and the total number of all the cores):
+```sh
+% sinfo -N -p shas -O  nodelist,cpusstate | awk -F"/" '{avail+=$2; tots+=$4} END {print "Out of", tots, "cores, there are", avail, "available"}' 
+Out of 10848 cores, there are 331 available
+```
+That could explain why it can be hard to get time on the supercomputer: only about 3% of the cores in the system
+are idle, waiting for jobs to go on them.
+
+If you want to see how many jobs are in line, waiting to be launched, you can use the
+`squeue` command.  Simply issuing the command `squeue` will give a (very long)
+list of all jobs that are either currently running or are in the queue,
+waiting to be launched. This is worth doing in order to see how many 
+different people are using the resources.  The output can be filtered to just PENDING
+or RUNNING jobs using the `-t` option. So,
+```sh
+squeue -t PENDING
+```
+lists all jobs waiting to be launched.  If you wanted to see jobs that a particular
+user (like yourself) has running or pending, you can use the `-u` option. For example,
+```sh
+squeue -u eriq@colostate.edu
+```
+In fact that is such a worthwhile command that it is worth creating an alias
+for it by adding a line such as the following to your `~/.bashrc`:
 ```sh
 alias myjobs='squeue -u eriq@colostate.edu'
 ```
+Then, typing `myjobs` shows all of the jobs that you have running, or waiting to be launched
+on the cluster.
 
 
 
-Maintaining focus
-on such "poor-mans parallelization," as I like to call it, allows us to maximize our
-utilization of all the resources available on a computing cluster---not just those
-that must be 
 
 
-
-Hey Eric!  You might consider breaking this into two separate chatpers: 1 = working on remote computers
-and 2 = high-performance computing.  The first could include all the stuff about scp, globus, rclone,
-and google drive.
-
-
-This is going to be a chapter on using High Performance Computing clusters.
-
-There is a lot to convey here about using queues and things.
-
-I know SGE pretty well at this point, but others might use slurm. 
-
-Here is a good page with a comparison:  [https://confluence.csiro.au/display/SC/Reference+Guide%3A+Migrating+from+SGE+to+SLURM](https://confluence.csiro.au/display/SC/Reference+Guide%3A+Migrating+from+SGE+to+SLURM)
-
-And here is a good primer on SGE stuff: [https://confluence.si.edu/display/HPC/Monitoring+your+Jobs](https://confluence.si.edu/display/HPC/Monitoring+your+Jobs)
-
-I guess I'll have to see what the CSU students have access to.
-
-Quick note: Redefine IFS to break on TABs so you can have full commands in there.
-This is super useful for parsing job-array COMMLINES files.  
-```
-IFS=$'\t\n'; BOP=($(echo boing | awk '{printf("first\tsecond\tthird that is long\tfourth\n");}')); IFS=$' \t\n';
-```
 
 ## Activating/Installing software
 
@@ -684,6 +795,14 @@ named libxxx.a) and CPATH (for failure to find xxxx.h), etc.
 
 
 ## Job arrays
+
+
+Quick note: Redefine IFS to break on TABs so you can have full commands in there.
+This is super useful for parsing job-array COMMLINES files.  
+```
+IFS=$'\t\n'; BOP=($(echo boing | awk '{printf("first\tsecond\tthird that is long\tfourth\n");}')); IFS=$' \t\n';
+```
+
 
 Definitely mention the `eval` keyword in bash for when you want to print 
 command lines with redirects.  

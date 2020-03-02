@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-02-25" />
+<meta name="date" content="2020-03-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -211,6 +211,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1.4" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#a-variety-of-tests"><i class="fa fa-check"></i><b>6.1.4</b> A variety of tests</a></li>
 <li class="chapter" data-level="6.1.5" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#code-in-the-action-blocks"><i class="fa fa-check"></i><b>6.1.5</b> Code in the action blocks</a></li>
 <li class="chapter" data-level="6.1.6" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#using-awk-to-assign-to-shell-variables"><i class="fa fa-check"></i><b>6.1.6</b> Using <code>awk</code> to assign to shell variables</a></li>
+<li class="chapter" data-level="6.1.7" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#passing-variables-into-awk-with--v"><i class="fa fa-check"></i><b>6.1.7</b> Passing Variables into <code>awk</code> with <code>-v</code></a></li>
+<li class="chapter" data-level="6.1.8" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#writing-awk-scripts-in-files"><i class="fa fa-check"></i><b>6.1.8</b> Writing awk scripts in files</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#sed"><i class="fa fa-check"></i><b>6.2</b> sed</a></li>
 </ul></li>
@@ -233,12 +235,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#first-steps-with-tmux"><i class="fa fa-check"></i><b>7.3.2</b> First steps with <code>tmux</code></a></li>
 <li class="chapter" data-level="7.3.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#further-steps-with-tmux"><i class="fa fa-check"></i><b>7.3.3</b> Further steps with <code>tmux</code></a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster"><i class="fa fa-check"></i><b>7.4</b> Using neovim and Nvim-R and tmux to use R well on the cluster</a></li>
+<li class="chapter" data-level="7.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#vim-its-time-to-get-serious-with-text-editing"><i class="fa fa-check"></i><b>7.4</b> <code>vim</code>: it’s time to get serious with text editing</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster"><i class="fa fa-check"></i><b>7.4.1</b> Using neovim and Nvim-R and tmux to use R well on the cluster</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html"><i class="fa fa-check"></i><b>8</b> High Performance Computing Clusters (HPCC’s)</a><ul>
 <li class="chapter" data-level="8.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#an-oversimplified-but-useful-view-of-a-computing-cluster"><i class="fa fa-check"></i><b>8.1</b> An oversimplified, but useful, view of a computing cluster</a></li>
 <li class="chapter" data-level="8.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#cluster-computing-and-the-job-scheduler"><i class="fa fa-check"></i><b>8.2</b> Cluster computing and the job scheduler</a></li>
-<li class="chapter" data-level="8.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#the-slurm-commands"><i class="fa fa-check"></i><b>8.3</b> The SLURM commands</a></li>
+<li class="chapter" data-level="8.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#learning-about-the-cluster-resources-and-getting-a-shell-on-a-compute-node"><i class="fa fa-check"></i><b>8.3</b> Learning about the cluster resources and getting a shell on a compute node</a></li>
 <li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#activatinginstalling-software"><i class="fa fa-check"></i><b>8.4</b> Activating/Installing software</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#modules"><i class="fa fa-check"></i><b>8.4.1</b> Modules</a></li>
 <li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#miniconda"><i class="fa fa-check"></i><b>8.4.2</b> Miniconda</a></li>
@@ -907,6 +911,14 @@ get all their IDs using command substitution and then cycle over them in the she
 <a class="sourceLine" id="cb171-3" data-line-number="3"><span class="kw">for</span> <span class="ex">i</span> in <span class="va">$WINTERS</span><span class="kw">;</span> <span class="kw">do</span></a>
 <a class="sourceLine" id="cb171-4" data-line-number="4">  <span class="bu">echo</span> <span class="st">&quot;FASTQS are: </span><span class="va">$i</span><span class="st">.R1.fq.gz     </span><span class="va">$i</span><span class="st">.R2.fq.gz&quot;</span></a>
 <a class="sourceLine" id="cb171-5" data-line-number="5"><span class="kw">done</span></a></code></pre></div>
+</div>
+<div id="passing-variables-into-awk-with--v" class="section level3">
+<h3><span class="header-section-number">6.1.7</span> Passing Variables into <code>awk</code> with <code>-v</code></h3>
+<p>Gotta let people know about this!</p>
+</div>
+<div id="writing-awk-scripts-in-files" class="section level3">
+<h3><span class="header-section-number">6.1.8</span> Writing awk scripts in files</h3>
+<p>Need to do this.</p>
 </div>
 </div>
 <div id="sed" class="section level2">

@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-02-25" />
+<meta name="date" content="2020-03-02" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -211,6 +211,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="6.1.4" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#a-variety-of-tests"><i class="fa fa-check"></i><b>6.1.4</b> A variety of tests</a></li>
 <li class="chapter" data-level="6.1.5" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#code-in-the-action-blocks"><i class="fa fa-check"></i><b>6.1.5</b> Code in the action blocks</a></li>
 <li class="chapter" data-level="6.1.6" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#using-awk-to-assign-to-shell-variables"><i class="fa fa-check"></i><b>6.1.6</b> Using <code>awk</code> to assign to shell variables</a></li>
+<li class="chapter" data-level="6.1.7" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#passing-variables-into-awk-with--v"><i class="fa fa-check"></i><b>6.1.7</b> Passing Variables into <code>awk</code> with <code>-v</code></a></li>
+<li class="chapter" data-level="6.1.8" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#writing-awk-scripts-in-files"><i class="fa fa-check"></i><b>6.1.8</b> Writing awk scripts in files</a></li>
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#sed"><i class="fa fa-check"></i><b>6.2</b> sed</a></li>
 </ul></li>
@@ -233,12 +235,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#first-steps-with-tmux"><i class="fa fa-check"></i><b>7.3.2</b> First steps with <code>tmux</code></a></li>
 <li class="chapter" data-level="7.3.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#further-steps-with-tmux"><i class="fa fa-check"></i><b>7.3.3</b> Further steps with <code>tmux</code></a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster"><i class="fa fa-check"></i><b>7.4</b> Using neovim and Nvim-R and tmux to use R well on the cluster</a></li>
+<li class="chapter" data-level="7.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#vim-its-time-to-get-serious-with-text-editing"><i class="fa fa-check"></i><b>7.4</b> <code>vim</code>: it’s time to get serious with text editing</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster"><i class="fa fa-check"></i><b>7.4.1</b> Using neovim and Nvim-R and tmux to use R well on the cluster</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html"><i class="fa fa-check"></i><b>8</b> High Performance Computing Clusters (HPCC’s)</a><ul>
 <li class="chapter" data-level="8.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#an-oversimplified-but-useful-view-of-a-computing-cluster"><i class="fa fa-check"></i><b>8.1</b> An oversimplified, but useful, view of a computing cluster</a></li>
 <li class="chapter" data-level="8.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#cluster-computing-and-the-job-scheduler"><i class="fa fa-check"></i><b>8.2</b> Cluster computing and the job scheduler</a></li>
-<li class="chapter" data-level="8.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#the-slurm-commands"><i class="fa fa-check"></i><b>8.3</b> The SLURM commands</a></li>
+<li class="chapter" data-level="8.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#learning-about-the-cluster-resources-and-getting-a-shell-on-a-compute-node"><i class="fa fa-check"></i><b>8.3</b> Learning about the cluster resources and getting a shell on a compute node</a></li>
 <li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#activatinginstalling-software"><i class="fa fa-check"></i><b>8.4</b> Activating/Installing software</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#modules"><i class="fa fa-check"></i><b>8.4.1</b> Modules</a></li>
 <li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#miniconda"><i class="fa fa-check"></i><b>8.4.2</b> Miniconda</a></li>
@@ -585,31 +589,130 @@ run, and how much RAM they will require. Later we will describe how the records 
 jobs, stored by the job scheduler, can be accessed and organized to aid in predicting
 the resource demand of future jobs.</p>
 </div>
-<div id="the-slurm-commands" class="section level2">
-<h2><span class="header-section-number">8.3</span> The SLURM commands</h2>
-<p>Requests for resources (and for information about the computing cluster) are made to the job scheduler
+<div id="learning-about-the-cluster-resources-and-getting-a-shell-on-a-compute-node" class="section level2">
+<h2><span class="header-section-number">8.3</span> Learning about the cluster resources and getting a shell on a compute node</h2>
+<p>Requests for resources, and for <em>information</em> about the computing cluster, are made to the job scheduler
 using a few basic commands. As said, we will focus on the commands available in a SLURM-based system.
-Before launching ourselves into the commands used to <em>launch</em> or <em>schedule</em> jobs we will explore the SLURM commands that
-we can use to “get to know” our cluster, and to see how much of cluster’s resources are allocated to
-currently running jobs.</p>
-<p>Note to self: this is a good one for the .bashrc:</p>
-<div class="sourceCode" id="cb233"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb233-1" data-line-number="1"><span class="bu">alias</span> myjobs=<span class="st">&#39;squeue -u eriq@colostate.edu&#39;</span></a></code></pre></div>
-<p>Maintaining focus
-on such “poor-mans parallelization,” as I like to call it, allows us to maximize our
-utilization of all the resources available on a computing cluster—not just those
-that must be</p>
-<p>Hey Eric! You might consider breaking this into two separate chatpers: 1 = working on remote computers
-and 2 = high-performance computing. The first could include all the stuff about scp, globus, rclone,
-and google drive.</p>
-<p>This is going to be a chapter on using High Performance Computing clusters.</p>
-<p>There is a lot to convey here about using queues and things.</p>
-<p>I know SGE pretty well at this point, but others might use slurm.</p>
-<p>Here is a good page with a comparison: <a href="https://confluence.csiro.au/display/SC/Reference+Guide%3A+Migrating+from+SGE+to+SLURM">https://confluence.csiro.au/display/SC/Reference+Guide%3A+Migrating+from+SGE+to+SLURM</a></p>
-<p>And here is a good primer on SGE stuff: <a href="https://confluence.si.edu/display/HPC/Monitoring+your+Jobs">https://confluence.si.edu/display/HPC/Monitoring+your+Jobs</a></p>
-<p>I guess I’ll have to see what the CSU students have access to.</p>
-<p>Quick note: Redefine IFS to break on TABs so you can have full commands in there.
-This is super useful for parsing job-array COMMLINES files.</p>
-<pre><code>IFS=$&#39;\t\n&#39;; BOP=($(echo boing | awk &#39;{printf(&quot;first\tsecond\tthird that is long\tfourth\n&quot;);}&#39;)); IFS=$&#39; \t\n&#39;;</code></pre>
+In a later section, (after a discussion of installing software that you might need on your cluster)
+we will more fully cover the commands used to <em>launch</em>, <em>schedule</em>, and manage jobs. Here
+we will first explore the SLURM commands that
+we can use to “get to know” our cluster, and we will leave this section seeing how
+(and why) you should get resources on a compute node on your cluster.</p>
+<p>All SLURM commands begin with an <code>s</code>, and all SLURM systems support the <code>sinfo</code> command
+that gives you information about the cluster’s nodes and their status (whether they are currently
+running jobs or not.) On your cluster, <code>man sinfo</code> will tell you about this command.
+On the <code>Sedna</code> cluster, which just got installed and therefore does not
+have many users, we see:</p>
+<div class="sourceCode" id="cb234"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb234-1" data-line-number="1"><span class="ex">%</span> sinfo</a>
+<a class="sourceLine" id="cb234-2" data-line-number="2"><span class="ex">PARTITION</span> AVAIL  TIMELIMIT  NODES  STATE NODELIST</a>
+<a class="sourceLine" id="cb234-3" data-line-number="3"><span class="ex">nodes*</span>       up   infinite     28   idle node[01-28]</a>
+<a class="sourceLine" id="cb234-4" data-line-number="4"><span class="ex">himem</span>        up   infinite      1  alloc himem01</a>
+<a class="sourceLine" id="cb234-5" data-line-number="5"><span class="ex">himem</span>        up   infinite      2   idle himem[02-03]</a></code></pre></div>
+<p>which tells us that there are two <em>partitions</em> (collection of nodes)
+named <code>nodes</code> and <code>himem</code>. The <code>himem</code> partition has one node which is
+currently allocated to a job (<code>STATE</code> = <code>alloc</code>), and two more that
+are not currently allocated to jobs. The <code>himem</code> partition holds machines
+with lots of RAM memory for tasks like sequence assembly. It also has 28 compute nodes in the
+nodes partition that are free. This is a very small cluster.</p>
+<p>If you did the same command on SUMMIT you get many more lines of output. There
+are many more different partitions, and there is a lot of information about how many
+nodes are in each:</p>
+<div class="sourceCode" id="cb235"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb235-1" data-line-number="1"><span class="ex">%</span> sinfo</a>
+<a class="sourceLine" id="cb235-2" data-line-number="2"><span class="ex">PARTITION</span>        AVAIL  TIMELIMIT  NODES  STATE NODELIST</a>
+<a class="sourceLine" id="cb235-3" data-line-number="3"><span class="ex">shas*</span>               up 1-00:00:00      2 drain* shas[0136-0137]</a>
+<a class="sourceLine" id="cb235-4" data-line-number="4"><span class="ex">shas*</span>               up 1-00:00:00      2  down* shas[0404,0506]</a>
+<a class="sourceLine" id="cb235-5" data-line-number="5"><span class="ex">shas*</span>               up 1-00:00:00      1  drain shas0101</a>
+<a class="sourceLine" id="cb235-6" data-line-number="6"><span class="ex">shas*</span>               up 1-00:00:00      3   resv shas[0102,0521,0853]</a>
+<a class="sourceLine" id="cb235-7" data-line-number="7"><span class="ex">shas*</span>               up 1-00:00:00     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]</a>
+<a class="sourceLine" id="cb235-8" data-line-number="8"><span class="ex">shas*</span>               up 1-00:00:00    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]</a>
+<a class="sourceLine" id="cb235-9" data-line-number="9"><span class="ex">shas*</span>               up 1-00:00:00     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]</a>
+<a class="sourceLine" id="cb235-10" data-line-number="10"><span class="ex">shas-testing</span>        up   infinite      2 drain* shas[0136-0137]</a>
+<a class="sourceLine" id="cb235-11" data-line-number="11"><span class="ex">shas-testing</span>        up   infinite      2  down* shas[0404,0506]</a>
+<a class="sourceLine" id="cb235-12" data-line-number="12"><span class="ex">shas-testing</span>        up   infinite      1  drain shas0101</a>
+<a class="sourceLine" id="cb235-13" data-line-number="13"><span class="ex">shas-testing</span>        up   infinite      3   resv shas[0102,0521,0853]</a>
+<a class="sourceLine" id="cb235-14" data-line-number="14"><span class="ex">shas-testing</span>        up   infinite     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]</a>
+<a class="sourceLine" id="cb235-15" data-line-number="15"><span class="ex">shas-testing</span>        up   infinite    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]</a>
+<a class="sourceLine" id="cb235-16" data-line-number="16"><span class="ex">shas-testing</span>        up   infinite     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]</a>
+<a class="sourceLine" id="cb235-17" data-line-number="17"><span class="ex">shas-interactive</span>    up   infinite      2 drain* shas[0136-0137]</a>
+<a class="sourceLine" id="cb235-18" data-line-number="18"><span class="ex">shas-interactive</span>    up   infinite      2  down* shas[0404,0506]</a>
+<a class="sourceLine" id="cb235-19" data-line-number="19"><span class="ex">shas-interactive</span>    up   infinite      1  drain shas0101</a>
+<a class="sourceLine" id="cb235-20" data-line-number="20"><span class="ex">shas-interactive</span>    up   infinite      3   resv shas[0102,0521,0853]</a>
+<a class="sourceLine" id="cb235-21" data-line-number="21"><span class="ex">shas-interactive</span>    up   infinite     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]</a>
+<a class="sourceLine" id="cb235-22" data-line-number="22"><span class="ex">shas-interactive</span>    up   infinite    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]</a>
+<a class="sourceLine" id="cb235-23" data-line-number="23"><span class="ex">shas-interactive</span>    up   infinite     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]</a>
+<a class="sourceLine" id="cb235-24" data-line-number="24"><span class="ex">sgpu</span>                up 1-00:00:00      1   resv sgpu0501</a>
+<a class="sourceLine" id="cb235-25" data-line-number="25"><span class="ex">sgpu</span>                up 1-00:00:00      1  alloc sgpu0502</a>
+<a class="sourceLine" id="cb235-26" data-line-number="26"><span class="ex">sgpu</span>                up 1-00:00:00      9   idle sgpu[0101-0102,0201-0202,0301-0302,0401-0402,0801]</a>
+<a class="sourceLine" id="cb235-27" data-line-number="27"><span class="ex">sgpu-testing</span>        up   infinite      1   resv sgpu0501</a>
+<a class="sourceLine" id="cb235-28" data-line-number="28"><span class="ex">sgpu-testing</span>        up   infinite      1  alloc sgpu0502</a>
+<a class="sourceLine" id="cb235-29" data-line-number="29"><span class="ex">sgpu-testing</span>        up   infinite      9   idle sgpu[0101-0102,0201-0202,0301-0302,0401-0402,0801]</a>
+<a class="sourceLine" id="cb235-30" data-line-number="30"><span class="ex">sknl</span>                up 1-00:00:00      1  drain sknl0710</a>
+<a class="sourceLine" id="cb235-31" data-line-number="31"><span class="ex">sknl</span>                up 1-00:00:00      1   resv sknl0706</a>
+<a class="sourceLine" id="cb235-32" data-line-number="32"><span class="ex">sknl</span>                up 1-00:00:00     18  alloc sknl[0701-0705,0707-0709,0711-0720]</a>
+<a class="sourceLine" id="cb235-33" data-line-number="33"><span class="ex">sknl-testing</span>        up   infinite      1  drain sknl0710</a>
+<a class="sourceLine" id="cb235-34" data-line-number="34"><span class="ex">sknl-testing</span>        up   infinite      1   resv sknl0706</a>
+<a class="sourceLine" id="cb235-35" data-line-number="35"><span class="ex">sknl-testing</span>        up   infinite     18  alloc sknl[0701-0705,0707-0709,0711-0720]</a>
+<a class="sourceLine" id="cb235-36" data-line-number="36"><span class="ex">smem</span>                up 7-00:00:00      1   drng smem0201</a>
+<a class="sourceLine" id="cb235-37" data-line-number="37"><span class="ex">smem</span>                up 7-00:00:00      4  alloc smem[0101,0301,0401,0501]</a>
+<a class="sourceLine" id="cb235-38" data-line-number="38"><span class="ex">ssky</span>                up 1-00:00:00      1   drng ssky0944</a>
+<a class="sourceLine" id="cb235-39" data-line-number="39"><span class="ex">ssky</span>                up 1-00:00:00      1    mix ssky0952</a>
+<a class="sourceLine" id="cb235-40" data-line-number="40"><span class="ex">ssky</span>                up 1-00:00:00      3  alloc ssky[0942-0943,0951]</a>
+<a class="sourceLine" id="cb235-41" data-line-number="41"><span class="ex">ssky-preemptable</span>    up 1-00:00:00      1   drng ssky0944</a>
+<a class="sourceLine" id="cb235-42" data-line-number="42"><span class="ex">ssky-preemptable</span>    up 1-00:00:00      1    mix ssky0952</a>
+<a class="sourceLine" id="cb235-43" data-line-number="43"><span class="ex">ssky-preemptable</span>    up 1-00:00:00      9  alloc ssky[0933-0934,0937-0940,0942-0943,0951]</a>
+<a class="sourceLine" id="cb235-44" data-line-number="44"><span class="ex">ssky-preemptable</span>    up 1-00:00:00      9   idle ssky[0935-0936,0941,0945-0950]</a>
+<a class="sourceLine" id="cb235-45" data-line-number="45"><span class="ex">ssky-ucb-aos</span>        up 7-00:00:00      6  alloc ssky[0933-0934,0937-0940]</a>
+<a class="sourceLine" id="cb235-46" data-line-number="46"><span class="ex">ssky-ucb-aos</span>        up 7-00:00:00      3   idle ssky[0935-0936,0941]</a>
+<a class="sourceLine" id="cb235-47" data-line-number="47"><span class="ex">ssky-csu-mbp</span>        up 7-00:00:00      1   idle ssky0945</a>
+<a class="sourceLine" id="cb235-48" data-line-number="48"><span class="ex">ssky-csu-asb</span>        up 7-00:00:00      1   idle ssky0946</a>
+<a class="sourceLine" id="cb235-49" data-line-number="49"><span class="ex">ssky-csu-rsp</span>        up 7-00:00:00      4   idle ssky[0947-0950]</a></code></pre></div>
+<p>Yikes! That is a lot of info. The numbers that you see on the ends of the lines there
+are node numbers.</p>
+<p>If you wanted to see information about each node in the <code>shas</code> partition, you could
+print long information for each node like this:</p>
+<div class="sourceCode" id="cb236"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb236-1" data-line-number="1"><span class="ex">%</span> sinfo -l -N</a></code></pre></div>
+<p>On Summit, that creates almost 1500 lines of output. Some nodes are listed several times
+because they belong to different partitions. To look at results for just the standard
+parition (<code>shas</code>) you can use</p>
+<div class="sourceCode" id="cb237"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb237-1" data-line-number="1"><span class="ex">%</span> sinfo -l -n -p shas</a></code></pre></div>
+<p>Try that command. (Or try a similar command with an appropriate partition name on your
+own cluster.) If you want to see explicitly how many cores are available vs allocated
+on each node, how much total memory each node has, and how much of that total
+memory is free, in that partition you can do:</p>
+<div class="sourceCode" id="cb238"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb238-1" data-line-number="1"><span class="ex">%</span> sinfo -N -p shas -O nodelist,cpusstate,memory,allocmem,freemem</a></code></pre></div>
+<p>The top part of that output looks like:</p>
+<pre><code>NODELIST            CPUS(A/I/O/T)       MEMORY              ALLOCMEM            FREE_MEM            
+shas0101            0/0/24/24           116368              0                   125156              
+shas0102            0/24/0/24           116368              0                   112325              
+shas0103            24/0/0/24           116368              116352              87228               
+shas0104            24/0/0/24           116368              116352              80769  </code></pre>
+<p>This says <code>shas0101</code> has 24 CPUs that are <em>Out</em> (not functional at this point).
+<code>shas0102</code>, on the other hand, has 24 CPUs that are <em>Idle</em>, while <code>shas0103</code> has
+24 CPUs that are allocated, and so forth. (In our parlance here,
+CPU is being used to mean “core”). All of the nodes have
+116 Gb of memory total. Most of them have about that much memory allocated to
+the jobs they are running.</p>
+<p>We can throw down some <code>awk</code> to count the total number of available cores
+(and the total number of all the cores):</p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb240-1" data-line-number="1"><span class="ex">%</span> sinfo -N -p shas -O  nodelist,cpusstate <span class="kw">|</span> <span class="fu">awk</span> -F<span class="st">&quot;/&quot;</span> <span class="st">&#39;{avail+=$2; tots+=$4} END {print &quot;Out of&quot;, tots, &quot;cores, there are&quot;, avail, &quot;available&quot;}&#39;</span> </a>
+<a class="sourceLine" id="cb240-2" data-line-number="2"><span class="ex">Out</span> of 10848 cores, there are 331 available</a></code></pre></div>
+<p>That could explain why it can be hard to get time on the supercomputer: only about 3% of the cores in the system
+are idle, waiting for jobs to go on them.</p>
+<p>If you want to see how many jobs are in line, waiting to be launched, you can use the
+<code>squeue</code> command. Simply issuing the command <code>squeue</code> will give a (very long)
+list of all jobs that are either currently running or are in the queue,
+waiting to be launched. This is worth doing in order to see how many
+different people are using the resources. The output can be filtered to just PENDING
+or RUNNING jobs using the <code>-t</code> option. So,</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb241-1" data-line-number="1"><span class="ex">squeue</span> -t PENDING</a></code></pre></div>
+<p>lists all jobs waiting to be launched. If you wanted to see jobs that a particular
+user (like yourself) has running or pending, you can use the <code>-u</code> option. For example,</p>
+<div class="sourceCode" id="cb242"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb242-1" data-line-number="1"><span class="ex">squeue</span> -u eriq@colostate.edu</a></code></pre></div>
+<p>In fact that is such a worthwhile command that it is worth creating an alias
+for it by adding a line such as the following to your <code>~/.bashrc</code>:</p>
+<div class="sourceCode" id="cb243"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb243-1" data-line-number="1"><span class="bu">alias</span> myjobs=<span class="st">&#39;squeue -u eriq@colostate.edu&#39;</span></a></code></pre></div>
+<p>Then, typing <code>myjobs</code> shows all of the jobs that you have running, or waiting to be launched
+on the cluster.</p>
 </div>
 <div id="activatinginstalling-software" class="section level2">
 <h2><span class="header-section-number">8.4</span> Activating/Installing software</h2>
@@ -623,49 +726,49 @@ This is super useful for parsing job-array COMMLINES files.</p>
 <div id="testing-this-on-summit" class="section level4">
 <h4><span class="header-section-number">8.4.2.1</span> Testing this on Summit</h4>
 <p>I just want to quickly try this:</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb235-1" data-line-number="1"><span class="fu">ssh</span> eriq@colostate.edu@login.rc.colorado.edu</a>
-<a class="sourceLine" id="cb235-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb235-3" data-line-number="3"><span class="co"># get on compile nodes</span></a>
-<a class="sourceLine" id="cb235-4" data-line-number="4"><span class="fu">ssh</span> scompile</a>
-<a class="sourceLine" id="cb235-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb235-6" data-line-number="6"><span class="co"># I checked modules and found no samtools, bcftools, etc.</span></a>
-<a class="sourceLine" id="cb235-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb235-8" data-line-number="8"><span class="co"># Now install miniconda</span></a>
-<a class="sourceLine" id="cb235-9" data-line-number="9"><span class="fu">mkdir</span> conda_install</a>
-<a class="sourceLine" id="cb235-10" data-line-number="10"><span class="bu">cd</span> conda_install/</a>
-<a class="sourceLine" id="cb235-11" data-line-number="11"><span class="fu">wget</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</a>
-<a class="sourceLine" id="cb235-12" data-line-number="12"><span class="fu">chmod</span> u+x Miniconda3-latest-Linux-x86_64.sh </a>
-<a class="sourceLine" id="cb235-13" data-line-number="13"><span class="ex">./Miniconda3-latest-Linux-x86_64.sh</span> </a>
-<a class="sourceLine" id="cb235-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb235-15" data-line-number="15"><span class="co"># then you follow the prompts and agree to the license and the </span></a>
-<a class="sourceLine" id="cb235-16" data-line-number="16"><span class="co"># default install location.</span></a>
-<a class="sourceLine" id="cb235-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb235-18" data-line-number="18"><span class="co">## </span><span class="al">NOTE</span><span class="co">: Might want to install to a different location if there</span></a>
-<a class="sourceLine" id="cb235-19" data-line-number="19"><span class="co">## are serious caps on hard disk usage in home directory..</span></a>
-<a class="sourceLine" id="cb235-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb235-21" data-line-number="21"><span class="bu">source</span> ~/.bashrc</a>
-<a class="sourceLine" id="cb235-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb235-23" data-line-number="23"><span class="co"># after that I have it!</span></a>
-<a class="sourceLine" id="cb235-24" data-line-number="24"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">eriq@colostate.edu@shas0136</span> conda_install]$</a></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb244-1" data-line-number="1"><span class="fu">ssh</span> eriq@colostate.edu@login.rc.colorado.edu</a>
+<a class="sourceLine" id="cb244-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb244-3" data-line-number="3"><span class="co"># get on compile nodes</span></a>
+<a class="sourceLine" id="cb244-4" data-line-number="4"><span class="fu">ssh</span> scompile</a>
+<a class="sourceLine" id="cb244-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb244-6" data-line-number="6"><span class="co"># I checked modules and found no samtools, bcftools, etc.</span></a>
+<a class="sourceLine" id="cb244-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb244-8" data-line-number="8"><span class="co"># Now install miniconda</span></a>
+<a class="sourceLine" id="cb244-9" data-line-number="9"><span class="fu">mkdir</span> conda_install</a>
+<a class="sourceLine" id="cb244-10" data-line-number="10"><span class="bu">cd</span> conda_install/</a>
+<a class="sourceLine" id="cb244-11" data-line-number="11"><span class="fu">wget</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</a>
+<a class="sourceLine" id="cb244-12" data-line-number="12"><span class="fu">chmod</span> u+x Miniconda3-latest-Linux-x86_64.sh </a>
+<a class="sourceLine" id="cb244-13" data-line-number="13"><span class="ex">./Miniconda3-latest-Linux-x86_64.sh</span> </a>
+<a class="sourceLine" id="cb244-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb244-15" data-line-number="15"><span class="co"># then you follow the prompts and agree to the license and the </span></a>
+<a class="sourceLine" id="cb244-16" data-line-number="16"><span class="co"># default install location.</span></a>
+<a class="sourceLine" id="cb244-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb244-18" data-line-number="18"><span class="co">## </span><span class="al">NOTE</span><span class="co">: Might want to install to a different location if there</span></a>
+<a class="sourceLine" id="cb244-19" data-line-number="19"><span class="co">## are serious caps on hard disk usage in home directory..</span></a>
+<a class="sourceLine" id="cb244-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb244-21" data-line-number="21"><span class="bu">source</span> ~/.bashrc</a>
+<a class="sourceLine" id="cb244-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb244-23" data-line-number="23"><span class="co"># after that I have it!</span></a>
+<a class="sourceLine" id="cb244-24" data-line-number="24"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">eriq@colostate.edu@shas0136</span> conda_install]$</a></code></pre></div>
 <p>Now, let’s see if we can get samtools. Just google “samtools conda” to
 get an idea of how to do it:</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb236-1" data-line-number="1"><span class="ex">conda</span> install -c bioconda samtools</a></code></pre></div>
+<div class="sourceCode" id="cb245"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb245-1" data-line-number="1"><span class="ex">conda</span> install -c bioconda samtools</a></code></pre></div>
 <p>AFter that, it just works! Cool!</p>
-<div class="sourceCode" id="cb237"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb237-1" data-line-number="1"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">eriq@colostate.edu@shas0136</span> ~]$ samtools</a>
-<a class="sourceLine" id="cb237-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb237-3" data-line-number="3"><span class="ex">Program</span>: samtools (Tools for alignments in the SAM format)</a>
-<a class="sourceLine" id="cb237-4" data-line-number="4"><span class="ex">Version</span>: 1.9 (using htslib 1.9)</a>
-<a class="sourceLine" id="cb237-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb237-6" data-line-number="6"><span class="ex">Usage</span>:   samtools <span class="op">&lt;</span>command<span class="op">&gt;</span> [options]</a>
-<a class="sourceLine" id="cb237-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb237-8" data-line-number="8"><span class="ex">Commands</span>:</a>
-<a class="sourceLine" id="cb237-9" data-line-number="9">  <span class="ex">--</span> Indexing</a>
-<a class="sourceLine" id="cb237-10" data-line-number="10">     <span class="ex">dict</span>           create a sequence dictionary file</a>
-<a class="sourceLine" id="cb237-11" data-line-number="11">     <span class="ex">faidx</span>          index/extract FASTA</a>
-<a class="sourceLine" id="cb237-12" data-line-number="12">     <span class="ex">fqidx</span>          index/extract FASTQ</a>
-<a class="sourceLine" id="cb237-13" data-line-number="13">     <span class="ex">index</span>          index alignment</a>
-<a class="sourceLine" id="cb237-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb237-15" data-line-number="15"><span class="ex">...</span></a></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb246-1" data-line-number="1"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">eriq@colostate.edu@shas0136</span> ~]$ samtools</a>
+<a class="sourceLine" id="cb246-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb246-3" data-line-number="3"><span class="ex">Program</span>: samtools (Tools for alignments in the SAM format)</a>
+<a class="sourceLine" id="cb246-4" data-line-number="4"><span class="ex">Version</span>: 1.9 (using htslib 1.9)</a>
+<a class="sourceLine" id="cb246-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb246-6" data-line-number="6"><span class="ex">Usage</span>:   samtools <span class="op">&lt;</span>command<span class="op">&gt;</span> [options]</a>
+<a class="sourceLine" id="cb246-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb246-8" data-line-number="8"><span class="ex">Commands</span>:</a>
+<a class="sourceLine" id="cb246-9" data-line-number="9">  <span class="ex">--</span> Indexing</a>
+<a class="sourceLine" id="cb246-10" data-line-number="10">     <span class="ex">dict</span>           create a sequence dictionary file</a>
+<a class="sourceLine" id="cb246-11" data-line-number="11">     <span class="ex">faidx</span>          index/extract FASTA</a>
+<a class="sourceLine" id="cb246-12" data-line-number="12">     <span class="ex">fqidx</span>          index/extract FASTQ</a>
+<a class="sourceLine" id="cb246-13" data-line-number="13">     <span class="ex">index</span>          index alignment</a>
+<a class="sourceLine" id="cb246-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb246-15" data-line-number="15"><span class="ex">...</span></a></code></pre></div>
 <p>All right! That is amazing. Next steps:</p>
 <ol style="list-style-type: decimal">
 <li>Tell students about establishing different environments.</li>
@@ -674,100 +777,100 @@ record that and be able to distribute/propagate it.</li>
 </ol>
 <p>Along those lines, I want to see if, when I install samtools into a new environment,
 it re-downloads it or not…</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb238-1" data-line-number="1"><span class="ex">conda</span> create --name quick-test</a>
-<a class="sourceLine" id="cb238-2" data-line-number="2"><span class="ex">conda</span> activate quick-test</a>
-<a class="sourceLine" id="cb238-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb238-4" data-line-number="4"><span class="co"># i also made an environment in a specified directory (you</span></a>
-<a class="sourceLine" id="cb238-5" data-line-number="5"><span class="co"># could put these within a project directory)</span></a>
-<a class="sourceLine" id="cb238-6" data-line-number="6"><span class="ex">conda</span> create --prefix ./test-envs-dir </a>
-<a class="sourceLine" id="cb238-7" data-line-number="7"><span class="ex">conda</span> activate ./test-envs-dir</a>
-<a class="sourceLine" id="cb238-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb238-9" data-line-number="9"><span class="co"># now, let&#39;s install bcftools there</span></a>
-<a class="sourceLine" id="cb238-10" data-line-number="10"><span class="ex">conda</span> install -c bioconda bcftools</a>
-<a class="sourceLine" id="cb238-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb238-12" data-line-number="12"><span class="co"># note that it doesn&#39;t re-download the dependencies, as far as I can tell.</span></a>
-<a class="sourceLine" id="cb238-13" data-line-number="13"><span class="ex">conda</span> activate base</a>
-<a class="sourceLine" id="cb238-14" data-line-number="14"><span class="ex">bcftools</span> <span class="co"># not found in environment base</span></a>
-<a class="sourceLine" id="cb238-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb238-16" data-line-number="16"><span class="ex">conda</span> activate ./test-envs-dir</a>
-<a class="sourceLine" id="cb238-17" data-line-number="17"><span class="ex">bcftools</span>  # it is found in this environment.  Cool.</a>
-<a class="sourceLine" id="cb238-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb238-19" data-line-number="19"><span class="ex">conda</span> activate quick-test</a>
-<a class="sourceLine" id="cb238-20" data-line-number="20"><span class="ex">bcftools</span>  # it ain<span class="st">&#39;t here</span></a></code></pre></div>
+<div class="sourceCode" id="cb247"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb247-1" data-line-number="1"><span class="ex">conda</span> create --name quick-test</a>
+<a class="sourceLine" id="cb247-2" data-line-number="2"><span class="ex">conda</span> activate quick-test</a>
+<a class="sourceLine" id="cb247-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb247-4" data-line-number="4"><span class="co"># i also made an environment in a specified directory (you</span></a>
+<a class="sourceLine" id="cb247-5" data-line-number="5"><span class="co"># could put these within a project directory)</span></a>
+<a class="sourceLine" id="cb247-6" data-line-number="6"><span class="ex">conda</span> create --prefix ./test-envs-dir </a>
+<a class="sourceLine" id="cb247-7" data-line-number="7"><span class="ex">conda</span> activate ./test-envs-dir</a>
+<a class="sourceLine" id="cb247-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb247-9" data-line-number="9"><span class="co"># now, let&#39;s install bcftools there</span></a>
+<a class="sourceLine" id="cb247-10" data-line-number="10"><span class="ex">conda</span> install -c bioconda bcftools</a>
+<a class="sourceLine" id="cb247-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb247-12" data-line-number="12"><span class="co"># note that it doesn&#39;t re-download the dependencies, as far as I can tell.</span></a>
+<a class="sourceLine" id="cb247-13" data-line-number="13"><span class="ex">conda</span> activate base</a>
+<a class="sourceLine" id="cb247-14" data-line-number="14"><span class="ex">bcftools</span> <span class="co"># not found in environment base</span></a>
+<a class="sourceLine" id="cb247-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb247-16" data-line-number="16"><span class="ex">conda</span> activate ./test-envs-dir</a>
+<a class="sourceLine" id="cb247-17" data-line-number="17"><span class="ex">bcftools</span>  # it is found in this environment.  Cool.</a>
+<a class="sourceLine" id="cb247-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb247-19" data-line-number="19"><span class="ex">conda</span> activate quick-test</a>
+<a class="sourceLine" id="cb247-20" data-line-number="20"><span class="ex">bcftools</span>  # it ain<span class="st">&#39;t here</span></a></code></pre></div>
 <p>Now, after that, bcftools is in ./test-envs-dir/bcftools</p>
 <p>So, what if we install it into another environment. Does it symlink it?</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb239-1" data-line-number="1"><span class="ex">conda</span> activate base</a>
-<a class="sourceLine" id="cb239-2" data-line-number="2"><span class="ex">conda</span> install -c bioconda bcftools</a>
-<a class="sourceLine" id="cb239-3" data-line-number="3"><span class="ex">bcftools</span></a>
-<a class="sourceLine" id="cb239-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb239-5" data-line-number="5"><span class="co"># whoa! That errored out!</span></a>
-<a class="sourceLine" id="cb239-6" data-line-number="6"><span class="ex">bcftools</span>: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory</a>
-<a class="sourceLine" id="cb239-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb239-8" data-line-number="8"><span class="co"># that is a serious problem.  </span></a>
-<a class="sourceLine" id="cb239-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb239-10" data-line-number="10"><span class="co"># Can I get it in my other environment?</span></a>
-<a class="sourceLine" id="cb239-11" data-line-number="11"><span class="ex">conda</span> activate quick-test</a>
-<a class="sourceLine" id="cb239-12" data-line-number="12"><span class="ex">conda</span> install -c bioconda bcftools</a>
-<a class="sourceLine" id="cb239-13" data-line-number="13"><span class="ex">bcftools</span></a>
-<a class="sourceLine" id="cb239-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb239-15" data-line-number="15"><span class="co"># that totally works, but it still doesn&#39;t in base...</span></a>
-<a class="sourceLine" id="cb239-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb239-17" data-line-number="17"><span class="co"># so, what if we add samtools to our other environments?</span></a>
-<a class="sourceLine" id="cb239-18" data-line-number="18"><span class="co"># that works fine.</span></a></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb248-1" data-line-number="1"><span class="ex">conda</span> activate base</a>
+<a class="sourceLine" id="cb248-2" data-line-number="2"><span class="ex">conda</span> install -c bioconda bcftools</a>
+<a class="sourceLine" id="cb248-3" data-line-number="3"><span class="ex">bcftools</span></a>
+<a class="sourceLine" id="cb248-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb248-5" data-line-number="5"><span class="co"># whoa! That errored out!</span></a>
+<a class="sourceLine" id="cb248-6" data-line-number="6"><span class="ex">bcftools</span>: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory</a>
+<a class="sourceLine" id="cb248-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb248-8" data-line-number="8"><span class="co"># that is a serious problem.  </span></a>
+<a class="sourceLine" id="cb248-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb248-10" data-line-number="10"><span class="co"># Can I get it in my other environment?</span></a>
+<a class="sourceLine" id="cb248-11" data-line-number="11"><span class="ex">conda</span> activate quick-test</a>
+<a class="sourceLine" id="cb248-12" data-line-number="12"><span class="ex">conda</span> install -c bioconda bcftools</a>
+<a class="sourceLine" id="cb248-13" data-line-number="13"><span class="ex">bcftools</span></a>
+<a class="sourceLine" id="cb248-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb248-15" data-line-number="15"><span class="co"># that totally works, but it still doesn&#39;t in base...</span></a>
+<a class="sourceLine" id="cb248-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb248-17" data-line-number="17"><span class="co"># so, what if we add samtools to our other environments?</span></a>
+<a class="sourceLine" id="cb248-18" data-line-number="18"><span class="co"># that works fine.</span></a></code></pre></div>
 <p>But, samtools/bcftools dependency issues are a known problem: <a href="https://github.com/sunbeam-labs/sunbeam/issues/181" class="uri">https://github.com/sunbeam-labs/sunbeam/issues/181</a>
 Basically they rely on different versions of some ssh libs.</p>
 <p>Note that installing bcftools first things work. But what if we make another environment
 and install samtools first again?</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb240-1" data-line-number="1"><span class="ex">conda</span> create --name samtools-first</a>
-<a class="sourceLine" id="cb240-2" data-line-number="2"><span class="ex">conda</span> activate samtools-first</a>
-<a class="sourceLine" id="cb240-3" data-line-number="3"><span class="ex">conda</span> install -c bioconda samtools  # this didn<span class="st">&#39;t download anything new</span></a>
-<a class="sourceLine" id="cb240-4" data-line-number="4"><span class="st">conda install -c bioconda bcftools</span></a>
-<a class="sourceLine" id="cb240-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb240-6" data-line-number="6"><span class="st"># BOOM! THIS CREATES A FAIL.  SO, YOU GOTTA INSTALL BCFTOOLS</span></a>
-<a class="sourceLine" id="cb240-7" data-line-number="7"><span class="st"># FIRST.  FAR OUT.</span></a></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb249-1" data-line-number="1"><span class="ex">conda</span> create --name samtools-first</a>
+<a class="sourceLine" id="cb249-2" data-line-number="2"><span class="ex">conda</span> activate samtools-first</a>
+<a class="sourceLine" id="cb249-3" data-line-number="3"><span class="ex">conda</span> install -c bioconda samtools  # this didn<span class="st">&#39;t download anything new</span></a>
+<a class="sourceLine" id="cb249-4" data-line-number="4"><span class="st">conda install -c bioconda bcftools</span></a>
+<a class="sourceLine" id="cb249-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb249-6" data-line-number="6"><span class="st"># BOOM! THIS CREATES A FAIL.  SO, YOU GOTTA INSTALL BCFTOOLS</span></a>
+<a class="sourceLine" id="cb249-7" data-line-number="7"><span class="st"># FIRST.  FAR OUT.</span></a></code></pre></div>
 </div>
 </div>
 <div id="exporting-environments" class="section level3">
 <h3><span class="header-section-number">8.4.3</span> Exporting environments</h3>
 <p>Looks like we should be able to do this. Let’s do the one that works:</p>
-<div class="sourceCode" id="cb241"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb241-1" data-line-number="1"><span class="kw">(</span><span class="ex">quick-test</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> conda env export <span class="op">&gt;</span> quick-test-env.yml</a>
-<a class="sourceLine" id="cb241-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb241-3" data-line-number="3"><span class="kw">(</span><span class="ex">quick-test</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> cat quick-test-env.yml </a>
-<a class="sourceLine" id="cb241-4" data-line-number="4"><span class="ex">name</span>: quick-test</a>
-<a class="sourceLine" id="cb241-5" data-line-number="5"><span class="ex">channels</span>:</a>
-<a class="sourceLine" id="cb241-6" data-line-number="6">  <span class="ex">-</span> bioconda</a>
-<a class="sourceLine" id="cb241-7" data-line-number="7">  <span class="ex">-</span> defaults</a>
-<a class="sourceLine" id="cb241-8" data-line-number="8"><span class="ex">dependencies</span>:</a>
-<a class="sourceLine" id="cb241-9" data-line-number="9">  <span class="ex">-</span> _libgcc_mutex=0.1=main</a>
-<a class="sourceLine" id="cb241-10" data-line-number="10">  <span class="ex">-</span> bcftools=1.9=ha228f0b_4</a>
-<a class="sourceLine" id="cb241-11" data-line-number="11">  <span class="ex">-</span> bzip2=1.0.8=h7b6447c_0</a>
-<a class="sourceLine" id="cb241-12" data-line-number="12">  <span class="ex">-</span> ca-certificates=2019.5.15=1</a>
-<a class="sourceLine" id="cb241-13" data-line-number="13">  <span class="ex">-</span> curl=7.65.3=hbc83047_0</a>
-<a class="sourceLine" id="cb241-14" data-line-number="14">  <span class="ex">-</span> htslib=1.9=ha228f0b_7</a>
-<a class="sourceLine" id="cb241-15" data-line-number="15">  <span class="ex">-</span> krb5=1.16.1=h173b8e3_7</a>
-<a class="sourceLine" id="cb241-16" data-line-number="16">  <span class="ex">-</span> libcurl=7.65.3=h20c2e04_0</a>
-<a class="sourceLine" id="cb241-17" data-line-number="17">  <span class="ex">-</span> libdeflate=1.0=h14c3975_1</a>
-<a class="sourceLine" id="cb241-18" data-line-number="18">  <span class="ex">-</span> libedit=3.1.20181209=hc058e9b_0</a>
-<a class="sourceLine" id="cb241-19" data-line-number="19">  <span class="ex">-</span> libgcc-ng=9.1.0=hdf63c60_0</a>
-<a class="sourceLine" id="cb241-20" data-line-number="20">  <span class="ex">-</span> libssh2=1.8.2=h1ba5d50_0</a>
-<a class="sourceLine" id="cb241-21" data-line-number="21">  <span class="ex">-</span> libstdcxx-ng=9.1.0=hdf63c60_0</a>
-<a class="sourceLine" id="cb241-22" data-line-number="22">  <span class="ex">-</span> ncurses=6.1=he6710b0_1</a>
-<a class="sourceLine" id="cb241-23" data-line-number="23">  <span class="ex">-</span> openssl=1.1.1c=h7b6447c_1</a>
-<a class="sourceLine" id="cb241-24" data-line-number="24">  <span class="ex">-</span> samtools=1.9=h10a08f8_12</a>
-<a class="sourceLine" id="cb241-25" data-line-number="25">  <span class="ex">-</span> tk=8.6.8=hbc83047_0</a>
-<a class="sourceLine" id="cb241-26" data-line-number="26">  <span class="ex">-</span> xz=5.2.4=h14c3975_4</a>
-<a class="sourceLine" id="cb241-27" data-line-number="27">  <span class="ex">-</span> zlib=1.2.11=h7b6447c_3</a>
-<a class="sourceLine" id="cb241-28" data-line-number="28"><span class="ex">prefix</span>: /home/eriq@colostate.edu/miniconda3/envs/quick-test</a>
-<a class="sourceLine" id="cb241-29" data-line-number="29"></a>
-<a class="sourceLine" id="cb241-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb241-31" data-line-number="31"><span class="co"># OK, that is cool.  Now, if we wanted to email that to someone,</span></a>
-<a class="sourceLine" id="cb241-32" data-line-number="32"><span class="co"># we could, and then they could do this:</span></a>
-<a class="sourceLine" id="cb241-33" data-line-number="33"><span class="ex">conda</span> env create --name dupie-quick -f quick-test-env.yml </a>
-<a class="sourceLine" id="cb241-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb241-35" data-line-number="35"><span class="co"># that environment then has samtools and bcftools</span></a>
-<a class="sourceLine" id="cb241-36" data-line-number="36"></a>
-<a class="sourceLine" id="cb241-37" data-line-number="37"><span class="co"># note that it probably would try to name it quick-test if we didn&#39;t</span></a>
-<a class="sourceLine" id="cb241-38" data-line-number="38"><span class="co"># pass in the name there...</span></a></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb250-1" data-line-number="1"><span class="kw">(</span><span class="ex">quick-test</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> conda env export <span class="op">&gt;</span> quick-test-env.yml</a>
+<a class="sourceLine" id="cb250-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb250-3" data-line-number="3"><span class="kw">(</span><span class="ex">quick-test</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> cat quick-test-env.yml </a>
+<a class="sourceLine" id="cb250-4" data-line-number="4"><span class="ex">name</span>: quick-test</a>
+<a class="sourceLine" id="cb250-5" data-line-number="5"><span class="ex">channels</span>:</a>
+<a class="sourceLine" id="cb250-6" data-line-number="6">  <span class="ex">-</span> bioconda</a>
+<a class="sourceLine" id="cb250-7" data-line-number="7">  <span class="ex">-</span> defaults</a>
+<a class="sourceLine" id="cb250-8" data-line-number="8"><span class="ex">dependencies</span>:</a>
+<a class="sourceLine" id="cb250-9" data-line-number="9">  <span class="ex">-</span> _libgcc_mutex=0.1=main</a>
+<a class="sourceLine" id="cb250-10" data-line-number="10">  <span class="ex">-</span> bcftools=1.9=ha228f0b_4</a>
+<a class="sourceLine" id="cb250-11" data-line-number="11">  <span class="ex">-</span> bzip2=1.0.8=h7b6447c_0</a>
+<a class="sourceLine" id="cb250-12" data-line-number="12">  <span class="ex">-</span> ca-certificates=2019.5.15=1</a>
+<a class="sourceLine" id="cb250-13" data-line-number="13">  <span class="ex">-</span> curl=7.65.3=hbc83047_0</a>
+<a class="sourceLine" id="cb250-14" data-line-number="14">  <span class="ex">-</span> htslib=1.9=ha228f0b_7</a>
+<a class="sourceLine" id="cb250-15" data-line-number="15">  <span class="ex">-</span> krb5=1.16.1=h173b8e3_7</a>
+<a class="sourceLine" id="cb250-16" data-line-number="16">  <span class="ex">-</span> libcurl=7.65.3=h20c2e04_0</a>
+<a class="sourceLine" id="cb250-17" data-line-number="17">  <span class="ex">-</span> libdeflate=1.0=h14c3975_1</a>
+<a class="sourceLine" id="cb250-18" data-line-number="18">  <span class="ex">-</span> libedit=3.1.20181209=hc058e9b_0</a>
+<a class="sourceLine" id="cb250-19" data-line-number="19">  <span class="ex">-</span> libgcc-ng=9.1.0=hdf63c60_0</a>
+<a class="sourceLine" id="cb250-20" data-line-number="20">  <span class="ex">-</span> libssh2=1.8.2=h1ba5d50_0</a>
+<a class="sourceLine" id="cb250-21" data-line-number="21">  <span class="ex">-</span> libstdcxx-ng=9.1.0=hdf63c60_0</a>
+<a class="sourceLine" id="cb250-22" data-line-number="22">  <span class="ex">-</span> ncurses=6.1=he6710b0_1</a>
+<a class="sourceLine" id="cb250-23" data-line-number="23">  <span class="ex">-</span> openssl=1.1.1c=h7b6447c_1</a>
+<a class="sourceLine" id="cb250-24" data-line-number="24">  <span class="ex">-</span> samtools=1.9=h10a08f8_12</a>
+<a class="sourceLine" id="cb250-25" data-line-number="25">  <span class="ex">-</span> tk=8.6.8=hbc83047_0</a>
+<a class="sourceLine" id="cb250-26" data-line-number="26">  <span class="ex">-</span> xz=5.2.4=h14c3975_4</a>
+<a class="sourceLine" id="cb250-27" data-line-number="27">  <span class="ex">-</span> zlib=1.2.11=h7b6447c_3</a>
+<a class="sourceLine" id="cb250-28" data-line-number="28"><span class="ex">prefix</span>: /home/eriq@colostate.edu/miniconda3/envs/quick-test</a>
+<a class="sourceLine" id="cb250-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb250-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb250-31" data-line-number="31"><span class="co"># OK, that is cool.  Now, if we wanted to email that to someone,</span></a>
+<a class="sourceLine" id="cb250-32" data-line-number="32"><span class="co"># we could, and then they could do this:</span></a>
+<a class="sourceLine" id="cb250-33" data-line-number="33"><span class="ex">conda</span> env create --name dupie-quick -f quick-test-env.yml </a>
+<a class="sourceLine" id="cb250-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb250-35" data-line-number="35"><span class="co"># that environment then has samtools and bcftools</span></a>
+<a class="sourceLine" id="cb250-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb250-37" data-line-number="37"><span class="co"># note that it probably would try to name it quick-test if we didn&#39;t</span></a>
+<a class="sourceLine" id="cb250-38" data-line-number="38"><span class="co"># pass in the name there...</span></a></code></pre></div>
 </div>
 </div>
 <div id="boneyard" class="section level2">
@@ -786,33 +889,33 @@ to backup some of my workstuff on my laptop to Google Drive (and maybe also for 
 rclone copy -P --tpslimit 10 --fast-list  rubias  gdrive-rclone:rubias</code></pre>
 <p>However, once that is done, you can sync it and it finds that parts that have changed pretty quickly.</p>
 <p>it appears to do that by file modification times:</p>
-<div class="sourceCode" id="cb244"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb244-1" data-line-number="1"><span class="ex">2019-04-19</span> 23:21 /Otsh_v1.0/--% rclone sync -vv --tpslimit 10 --fast-list Otsh_v1.0_genomic.fna  gdrive-rclone:spoogee-spoogee</a>
-<a class="sourceLine" id="cb244-2" data-line-number="2"><span class="ex">2019/04/19</span> 23:21:36 DEBUG : rclone: Version <span class="st">&quot;v1.47.0&quot;</span> starting with parameters [<span class="st">&quot;rclone&quot;</span> <span class="st">&quot;sync&quot;</span> <span class="st">&quot;-vv&quot;</span> <span class="st">&quot;--tpslimit&quot;</span> <span class="st">&quot;10&quot;</span> <span class="st">&quot;--fast-list&quot;</span> <span class="st">&quot;Otsh_v1.0_genomic.fna&quot;</span> <span class="st">&quot;gdrive-rclone:spoogee-spoogee&quot;</span>]</a>
-<a class="sourceLine" id="cb244-3" data-line-number="3"><span class="ex">2019/04/19</span> 23:21:36 DEBUG : Using config file from <span class="st">&quot;/Users/eriq/.config/rclone/rclone.conf&quot;</span></a>
-<a class="sourceLine" id="cb244-4" data-line-number="4"><span class="ex">2019/04/19</span> 23:21:36 INFO  : Starting HTTP transaction limiter: max 10 transactions/s with burst 1</a>
-<a class="sourceLine" id="cb244-5" data-line-number="5"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : GCF_002872995.1_Otsh_v1.0_genomic.gff.gz: Excluded</a>
-<a class="sourceLine" id="cb244-6" data-line-number="6"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.dict: Excluded</a>
-<a class="sourceLine" id="cb244-7" data-line-number="7"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.amb: Excluded</a>
-<a class="sourceLine" id="cb244-8" data-line-number="8"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.ann: Excluded</a>
-<a class="sourceLine" id="cb244-9" data-line-number="9"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.bwt: Excluded</a>
-<a class="sourceLine" id="cb244-10" data-line-number="10"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.fai: Excluded</a>
-<a class="sourceLine" id="cb244-11" data-line-number="11"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.pac: Excluded</a>
-<a class="sourceLine" id="cb244-12" data-line-number="12"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.sa: Excluded</a>
-<a class="sourceLine" id="cb244-13" data-line-number="13"><span class="ex">2019/04/19</span> 23:21:37 INFO  : Google drive root <span class="st">&#39;spoogee-spoogee&#39;</span>: Waiting for checks to finish</a>
-<a class="sourceLine" id="cb244-14" data-line-number="14"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna: Size and modification time the same (differ by 0s, within tolerance 1s)</a>
-<a class="sourceLine" id="cb244-15" data-line-number="15"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna: Unchanged skipping</a>
-<a class="sourceLine" id="cb244-16" data-line-number="16"><span class="ex">2019/04/19</span> 23:21:37 INFO  : Google drive root <span class="st">&#39;spoogee-spoogee&#39;</span>: Waiting for transfers to finish</a>
-<a class="sourceLine" id="cb244-17" data-line-number="17"><span class="ex">2019/04/19</span> 23:21:37 INFO  : Waiting for deletions to finish</a>
-<a class="sourceLine" id="cb244-18" data-line-number="18"><span class="ex">2019/04/19</span> 23:21:37 INFO  : </a>
-<a class="sourceLine" id="cb244-19" data-line-number="19"><span class="ex">Transferred</span>:             0 / 0 Bytes, -, 0 Bytes/s, ETA -</a>
-<a class="sourceLine" id="cb244-20" data-line-number="20"><span class="ex">Errors</span>:                 0</a>
-<a class="sourceLine" id="cb244-21" data-line-number="21"><span class="ex">Checks</span>:                 1 / 1, 100%</a>
-<a class="sourceLine" id="cb244-22" data-line-number="22"><span class="ex">Transferred</span>:            0 / 0, -</a>
-<a class="sourceLine" id="cb244-23" data-line-number="23"><span class="ex">Elapsed</span> time:        1.3s</a>
-<a class="sourceLine" id="cb244-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb244-25" data-line-number="25"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : 5 go routines active</a>
-<a class="sourceLine" id="cb244-26" data-line-number="26"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : rclone: Version <span class="st">&quot;v1.47.0&quot;</span> finishing with parameters [<span class="st">&quot;rclone&quot;</span> <span class="st">&quot;sync&quot;</span> <span class="st">&quot;-vv&quot;</span> <span class="st">&quot;--tpslimit&quot;</span> <span class="st">&quot;10&quot;</span> <span class="st">&quot;--fast-list&quot;</span> <span class="st">&quot;Otsh_v1.0_genomic.fna&quot;</span> <span class="st">&quot;gdrive-rclone:spoogee-spoogee&quot;</span>]</a>
-<a class="sourceLine" id="cb244-27" data-line-number="27"><span class="ex">2</span></a></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb253-1" data-line-number="1"><span class="ex">2019-04-19</span> 23:21 /Otsh_v1.0/--% rclone sync -vv --tpslimit 10 --fast-list Otsh_v1.0_genomic.fna  gdrive-rclone:spoogee-spoogee</a>
+<a class="sourceLine" id="cb253-2" data-line-number="2"><span class="ex">2019/04/19</span> 23:21:36 DEBUG : rclone: Version <span class="st">&quot;v1.47.0&quot;</span> starting with parameters [<span class="st">&quot;rclone&quot;</span> <span class="st">&quot;sync&quot;</span> <span class="st">&quot;-vv&quot;</span> <span class="st">&quot;--tpslimit&quot;</span> <span class="st">&quot;10&quot;</span> <span class="st">&quot;--fast-list&quot;</span> <span class="st">&quot;Otsh_v1.0_genomic.fna&quot;</span> <span class="st">&quot;gdrive-rclone:spoogee-spoogee&quot;</span>]</a>
+<a class="sourceLine" id="cb253-3" data-line-number="3"><span class="ex">2019/04/19</span> 23:21:36 DEBUG : Using config file from <span class="st">&quot;/Users/eriq/.config/rclone/rclone.conf&quot;</span></a>
+<a class="sourceLine" id="cb253-4" data-line-number="4"><span class="ex">2019/04/19</span> 23:21:36 INFO  : Starting HTTP transaction limiter: max 10 transactions/s with burst 1</a>
+<a class="sourceLine" id="cb253-5" data-line-number="5"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : GCF_002872995.1_Otsh_v1.0_genomic.gff.gz: Excluded</a>
+<a class="sourceLine" id="cb253-6" data-line-number="6"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.dict: Excluded</a>
+<a class="sourceLine" id="cb253-7" data-line-number="7"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.amb: Excluded</a>
+<a class="sourceLine" id="cb253-8" data-line-number="8"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.ann: Excluded</a>
+<a class="sourceLine" id="cb253-9" data-line-number="9"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.bwt: Excluded</a>
+<a class="sourceLine" id="cb253-10" data-line-number="10"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.fai: Excluded</a>
+<a class="sourceLine" id="cb253-11" data-line-number="11"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.pac: Excluded</a>
+<a class="sourceLine" id="cb253-12" data-line-number="12"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.sa: Excluded</a>
+<a class="sourceLine" id="cb253-13" data-line-number="13"><span class="ex">2019/04/19</span> 23:21:37 INFO  : Google drive root <span class="st">&#39;spoogee-spoogee&#39;</span>: Waiting for checks to finish</a>
+<a class="sourceLine" id="cb253-14" data-line-number="14"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna: Size and modification time the same (differ by 0s, within tolerance 1s)</a>
+<a class="sourceLine" id="cb253-15" data-line-number="15"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : Otsh_v1.0_genomic.fna: Unchanged skipping</a>
+<a class="sourceLine" id="cb253-16" data-line-number="16"><span class="ex">2019/04/19</span> 23:21:37 INFO  : Google drive root <span class="st">&#39;spoogee-spoogee&#39;</span>: Waiting for transfers to finish</a>
+<a class="sourceLine" id="cb253-17" data-line-number="17"><span class="ex">2019/04/19</span> 23:21:37 INFO  : Waiting for deletions to finish</a>
+<a class="sourceLine" id="cb253-18" data-line-number="18"><span class="ex">2019/04/19</span> 23:21:37 INFO  : </a>
+<a class="sourceLine" id="cb253-19" data-line-number="19"><span class="ex">Transferred</span>:             0 / 0 Bytes, -, 0 Bytes/s, ETA -</a>
+<a class="sourceLine" id="cb253-20" data-line-number="20"><span class="ex">Errors</span>:                 0</a>
+<a class="sourceLine" id="cb253-21" data-line-number="21"><span class="ex">Checks</span>:                 1 / 1, 100%</a>
+<a class="sourceLine" id="cb253-22" data-line-number="22"><span class="ex">Transferred</span>:            0 / 0, -</a>
+<a class="sourceLine" id="cb253-23" data-line-number="23"><span class="ex">Elapsed</span> time:        1.3s</a>
+<a class="sourceLine" id="cb253-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb253-25" data-line-number="25"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : 5 go routines active</a>
+<a class="sourceLine" id="cb253-26" data-line-number="26"><span class="ex">2019/04/19</span> 23:21:37 DEBUG : rclone: Version <span class="st">&quot;v1.47.0&quot;</span> finishing with parameters [<span class="st">&quot;rclone&quot;</span> <span class="st">&quot;sync&quot;</span> <span class="st">&quot;-vv&quot;</span> <span class="st">&quot;--tpslimit&quot;</span> <span class="st">&quot;10&quot;</span> <span class="st">&quot;--fast-list&quot;</span> <span class="st">&quot;Otsh_v1.0_genomic.fna&quot;</span> <span class="st">&quot;gdrive-rclone:spoogee-spoogee&quot;</span>]</a>
+<a class="sourceLine" id="cb253-27" data-line-number="27"><span class="ex">2</span></a></code></pre></div>
 <p>So, for moving big files around that might be a good way forward. I will have to do a test with some big files.</p>
 <p>And I need to test it with team drives so that multiple individuals can pull stuff off of the Bird Genoscape drive for example.</p>
 <p>It would be nice to have safeguards so people don’t trash stuff accidentally….</p>
@@ -821,54 +924,54 @@ rclone copy -P --tpslimit 10 --fast-list  rubias  gdrive-rclone:rubias</code></p
 <p>Their default install script expects sudo access to put it in /usr/local
 but I don’t on hoffman, obviously, so I just downloaded the the install script and edited
 the section for Linux to look like this at the relevant part</p>
-<div class="sourceCode" id="cb245"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb245-1" data-line-number="1"><span class="kw">case</span> <span class="va">$OS</span><span class="kw"> in</span></a>
-<a class="sourceLine" id="cb245-2" data-line-number="2">  <span class="st">&#39;linux&#39;</span><span class="kw">)</span></a>
-<a class="sourceLine" id="cb245-3" data-line-number="3">    <span class="co">#binary</span></a>
-<a class="sourceLine" id="cb245-4" data-line-number="4">    <span class="fu">cp</span> rclone ~/bin/rclone.new</a>
-<a class="sourceLine" id="cb245-5" data-line-number="5">    <span class="fu">chmod</span> 755 ~/bin/rclone.new</a>
-<a class="sourceLine" id="cb245-6" data-line-number="6">    <span class="co">#chown root:root /usr/bin/rclone.new</span></a>
-<a class="sourceLine" id="cb245-7" data-line-number="7">    <span class="fu">mv</span> ~/bin/rclone.new ~/bin/rclone</a>
-<a class="sourceLine" id="cb245-8" data-line-number="8">    <span class="co">#manuals</span></a>
-<a class="sourceLine" id="cb245-9" data-line-number="9">    <span class="co">#mkdir -p /usr/local/share/man/man1</span></a>
-<a class="sourceLine" id="cb245-10" data-line-number="10">    <span class="co">#cp rclone.1 /usr/local/share/man/man1/</span></a>
-<a class="sourceLine" id="cb245-11" data-line-number="11">    <span class="co">#mandb</span></a>
-<a class="sourceLine" id="cb245-12" data-line-number="12">    <span class="kw">;;</span></a></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb254-1" data-line-number="1"><span class="kw">case</span> <span class="va">$OS</span><span class="kw"> in</span></a>
+<a class="sourceLine" id="cb254-2" data-line-number="2">  <span class="st">&#39;linux&#39;</span><span class="kw">)</span></a>
+<a class="sourceLine" id="cb254-3" data-line-number="3">    <span class="co">#binary</span></a>
+<a class="sourceLine" id="cb254-4" data-line-number="4">    <span class="fu">cp</span> rclone ~/bin/rclone.new</a>
+<a class="sourceLine" id="cb254-5" data-line-number="5">    <span class="fu">chmod</span> 755 ~/bin/rclone.new</a>
+<a class="sourceLine" id="cb254-6" data-line-number="6">    <span class="co">#chown root:root /usr/bin/rclone.new</span></a>
+<a class="sourceLine" id="cb254-7" data-line-number="7">    <span class="fu">mv</span> ~/bin/rclone.new ~/bin/rclone</a>
+<a class="sourceLine" id="cb254-8" data-line-number="8">    <span class="co">#manuals</span></a>
+<a class="sourceLine" id="cb254-9" data-line-number="9">    <span class="co">#mkdir -p /usr/local/share/man/man1</span></a>
+<a class="sourceLine" id="cb254-10" data-line-number="10">    <span class="co">#cp rclone.1 /usr/local/share/man/man1/</span></a>
+<a class="sourceLine" id="cb254-11" data-line-number="11">    <span class="co">#mandb</span></a>
+<a class="sourceLine" id="cb254-12" data-line-number="12">    <span class="kw">;;</span></a></code></pre></div>
 <p>I don’t get man pages, but I get it in ~/bin no problem.</p>
 <p>To set up the configuration, check where it belongs:</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb246-1" data-line-number="1"><span class="ex">%</span> rclone config file</a>
-<a class="sourceLine" id="cb246-2" data-line-number="2"><span class="ex">Configuration</span> file doesn<span class="st">&#39;t exist, but rclone will use this path:</span></a>
-<a class="sourceLine" id="cb246-3" data-line-number="3"><span class="st">/u/home/e/eriq/.config/rclone/rclone.conf</span></a></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb255-1" data-line-number="1"><span class="ex">%</span> rclone config file</a>
+<a class="sourceLine" id="cb255-2" data-line-number="2"><span class="ex">Configuration</span> file doesn<span class="st">&#39;t exist, but rclone will use this path:</span></a>
+<a class="sourceLine" id="cb255-3" data-line-number="3"><span class="st">/u/home/e/eriq/.config/rclone/rclone.conf</span></a></code></pre></div>
 <p>And then I just put my config file from my laptop on there. I just pasted the stuff
 in whilst emacsing it. Holy cow! That is super easy.</p>
 <p>Note that the config file is where you can also set default options like tpslimit and fast-list I think.</p>
 <p>So, the OAuth stuff is all stored in that config file. And if you can set it up on one machine you can
 go put it on any others that you want. That is awesome.</p>
 <p>When it was done, I tested it:</p>
-<div class="sourceCode" id="cb247"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb247-1" data-line-number="1"><span class="ex">%</span> rclone sync -vv  --drive-shared-with-me  gdrive-rclone:BaselinePaper  BaselinePaper_here</a>
-<a class="sourceLine" id="cb247-2" data-line-number="2"><span class="ex">2019/04/29</span> 14:49:24 DEBUG : rclone: Version <span class="st">&quot;v1.47.0&quot;</span> starting with parameters [<span class="st">&quot;rclone&quot;</span> <span class="st">&quot;sync&quot;</span> <span class="st">&quot;-vv&quot;</span> <span class="st">&quot;--drive-shared-with-me&quot;</span> <span class="st">&quot;gdrive-rclone:BaselinePaper&quot;</span> <span class="st">&quot;BaselinePaper_here&quot;</span>]</a>
-<a class="sourceLine" id="cb247-3" data-line-number="3"><span class="ex">2019/04/29</span> 14:49:24 DEBUG : Using config file from <span class="st">&quot;/u/home/e/eriq/.config/rclone/rclone.conf&quot;</span></a>
-<a class="sourceLine" id="cb247-4" data-line-number="4"><span class="ex">2019/04/29</span> 14:49:25 INFO  : Local file system at /u/home/e/eriq/BaselinePaper_here: Waiting for checks to finish</a>
-<a class="sourceLine" id="cb247-5" data-line-number="5"><span class="ex">2019/04/29</span> 14:49:25 INFO  : Local file system at /u/home/e/eriq/BaselinePaper_here: Waiting for transfers to finish</a>
-<a class="sourceLine" id="cb247-6" data-line-number="6"><span class="ex">2019/04/29</span> 14:49:26 DEBUG : Local file system at /u/home/e/eriq/BaselinePaper_here: File to upload is small (41922 bytes), <span class="ex">uploading</span> instead of streaming</a>
-<a class="sourceLine" id="cb247-7" data-line-number="7"><span class="ex">2019/04/29</span> 14:49:26 DEBUG : BaselinePaper_Body.docx: Failed to pre-allocate: operation not supported</a>
-<a class="sourceLine" id="cb247-8" data-line-number="8"><span class="ex">2019/04/29</span> 14:49:26 INFO  : BaselinePaper_Body.docx: Copied (new)</a>
-<a class="sourceLine" id="cb247-9" data-line-number="9"><span class="ex">2019/04/29</span> 14:49:26 DEBUG : BaselinePaper_Body.docx: Updating size of doc after download to 41922</a>
-<a class="sourceLine" id="cb247-10" data-line-number="10"><span class="ex">2019/04/29</span> 14:49:26 INFO  : BaselinePaper_Body.docx: Copied (Rcat, new)</a>
-<a class="sourceLine" id="cb247-11" data-line-number="11"><span class="ex">2019/04/29</span> 14:49:27 DEBUG : Local file system at /u/home/e/eriq/BaselinePaper_here: File to upload is small (57172 bytes), <span class="ex">uploading</span> instead of streaming</a>
-<a class="sourceLine" id="cb247-12" data-line-number="12"><span class="ex">2019/04/29</span> 14:49:27 DEBUG : ResponseToReviewers_eca.docx: Failed to pre-allocate: operation not supported</a>
-<a class="sourceLine" id="cb247-13" data-line-number="13"><span class="ex">2019/04/29</span> 14:49:27 INFO  : ResponseToReviewers_eca.docx: Copied (new)</a>
-<a class="sourceLine" id="cb247-14" data-line-number="14"><span class="ex">2019/04/29</span> 14:49:27 DEBUG : ResponseToReviewers_eca.docx: Updating size of doc after download to 57172</a>
-<a class="sourceLine" id="cb247-15" data-line-number="15"><span class="ex">2019/04/29</span> 14:49:27 INFO  : ResponseToReviewers_eca.docx: Copied (Rcat, new)</a>
-<a class="sourceLine" id="cb247-16" data-line-number="16"><span class="ex">2019/04/29</span> 14:49:27 INFO  : Waiting for deletions to finish</a>
-<a class="sourceLine" id="cb247-17" data-line-number="17"><span class="ex">2019/04/29</span> 14:49:27 INFO  : </a>
-<a class="sourceLine" id="cb247-18" data-line-number="18"><span class="ex">Transferred</span>:      193.543k / 193.543 kBytes, 100%, 79.377 kBytes/s, ETA 0s</a>
-<a class="sourceLine" id="cb247-19" data-line-number="19"><span class="ex">Errors</span>:                 0</a>
-<a class="sourceLine" id="cb247-20" data-line-number="20"><span class="ex">Checks</span>:                 0 / 0, -</a>
-<a class="sourceLine" id="cb247-21" data-line-number="21"><span class="ex">Transferred</span>:            4 / 4, 100%</a>
-<a class="sourceLine" id="cb247-22" data-line-number="22"><span class="ex">Elapsed</span> time:        2.4s</a>
-<a class="sourceLine" id="cb247-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb247-24" data-line-number="24"><span class="ex">2019/04/29</span> 14:49:27 DEBUG : 6 go routines active</a>
-<a class="sourceLine" id="cb247-25" data-line-number="25"><span class="ex">2019/04/29</span> 14:49:27 DEBUG : rclone: Version <span class="st">&quot;v1.47.0&quot;</span> finishing with parameters [<span class="st">&quot;rclone&quot;</span> <span class="st">&quot;sync&quot;</span> <span class="st">&quot;-vv&quot;</span> <span class="st">&quot;--drive-shared-with-me&quot;</span> <span class="st">&quot;gdrive-rclone:BaselinePaper&quot;</span> <span class="st">&quot;BaselinePaper_here&quot;</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb256-1" data-line-number="1"><span class="ex">%</span> rclone sync -vv  --drive-shared-with-me  gdrive-rclone:BaselinePaper  BaselinePaper_here</a>
+<a class="sourceLine" id="cb256-2" data-line-number="2"><span class="ex">2019/04/29</span> 14:49:24 DEBUG : rclone: Version <span class="st">&quot;v1.47.0&quot;</span> starting with parameters [<span class="st">&quot;rclone&quot;</span> <span class="st">&quot;sync&quot;</span> <span class="st">&quot;-vv&quot;</span> <span class="st">&quot;--drive-shared-with-me&quot;</span> <span class="st">&quot;gdrive-rclone:BaselinePaper&quot;</span> <span class="st">&quot;BaselinePaper_here&quot;</span>]</a>
+<a class="sourceLine" id="cb256-3" data-line-number="3"><span class="ex">2019/04/29</span> 14:49:24 DEBUG : Using config file from <span class="st">&quot;/u/home/e/eriq/.config/rclone/rclone.conf&quot;</span></a>
+<a class="sourceLine" id="cb256-4" data-line-number="4"><span class="ex">2019/04/29</span> 14:49:25 INFO  : Local file system at /u/home/e/eriq/BaselinePaper_here: Waiting for checks to finish</a>
+<a class="sourceLine" id="cb256-5" data-line-number="5"><span class="ex">2019/04/29</span> 14:49:25 INFO  : Local file system at /u/home/e/eriq/BaselinePaper_here: Waiting for transfers to finish</a>
+<a class="sourceLine" id="cb256-6" data-line-number="6"><span class="ex">2019/04/29</span> 14:49:26 DEBUG : Local file system at /u/home/e/eriq/BaselinePaper_here: File to upload is small (41922 bytes), <span class="ex">uploading</span> instead of streaming</a>
+<a class="sourceLine" id="cb256-7" data-line-number="7"><span class="ex">2019/04/29</span> 14:49:26 DEBUG : BaselinePaper_Body.docx: Failed to pre-allocate: operation not supported</a>
+<a class="sourceLine" id="cb256-8" data-line-number="8"><span class="ex">2019/04/29</span> 14:49:26 INFO  : BaselinePaper_Body.docx: Copied (new)</a>
+<a class="sourceLine" id="cb256-9" data-line-number="9"><span class="ex">2019/04/29</span> 14:49:26 DEBUG : BaselinePaper_Body.docx: Updating size of doc after download to 41922</a>
+<a class="sourceLine" id="cb256-10" data-line-number="10"><span class="ex">2019/04/29</span> 14:49:26 INFO  : BaselinePaper_Body.docx: Copied (Rcat, new)</a>
+<a class="sourceLine" id="cb256-11" data-line-number="11"><span class="ex">2019/04/29</span> 14:49:27 DEBUG : Local file system at /u/home/e/eriq/BaselinePaper_here: File to upload is small (57172 bytes), <span class="ex">uploading</span> instead of streaming</a>
+<a class="sourceLine" id="cb256-12" data-line-number="12"><span class="ex">2019/04/29</span> 14:49:27 DEBUG : ResponseToReviewers_eca.docx: Failed to pre-allocate: operation not supported</a>
+<a class="sourceLine" id="cb256-13" data-line-number="13"><span class="ex">2019/04/29</span> 14:49:27 INFO  : ResponseToReviewers_eca.docx: Copied (new)</a>
+<a class="sourceLine" id="cb256-14" data-line-number="14"><span class="ex">2019/04/29</span> 14:49:27 DEBUG : ResponseToReviewers_eca.docx: Updating size of doc after download to 57172</a>
+<a class="sourceLine" id="cb256-15" data-line-number="15"><span class="ex">2019/04/29</span> 14:49:27 INFO  : ResponseToReviewers_eca.docx: Copied (Rcat, new)</a>
+<a class="sourceLine" id="cb256-16" data-line-number="16"><span class="ex">2019/04/29</span> 14:49:27 INFO  : Waiting for deletions to finish</a>
+<a class="sourceLine" id="cb256-17" data-line-number="17"><span class="ex">2019/04/29</span> 14:49:27 INFO  : </a>
+<a class="sourceLine" id="cb256-18" data-line-number="18"><span class="ex">Transferred</span>:      193.543k / 193.543 kBytes, 100%, 79.377 kBytes/s, ETA 0s</a>
+<a class="sourceLine" id="cb256-19" data-line-number="19"><span class="ex">Errors</span>:                 0</a>
+<a class="sourceLine" id="cb256-20" data-line-number="20"><span class="ex">Checks</span>:                 0 / 0, -</a>
+<a class="sourceLine" id="cb256-21" data-line-number="21"><span class="ex">Transferred</span>:            4 / 4, 100%</a>
+<a class="sourceLine" id="cb256-22" data-line-number="22"><span class="ex">Elapsed</span> time:        2.4s</a>
+<a class="sourceLine" id="cb256-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb256-24" data-line-number="24"><span class="ex">2019/04/29</span> 14:49:27 DEBUG : 6 go routines active</a>
+<a class="sourceLine" id="cb256-25" data-line-number="25"><span class="ex">2019/04/29</span> 14:49:27 DEBUG : rclone: Version <span class="st">&quot;v1.47.0&quot;</span> finishing with parameters [<span class="st">&quot;rclone&quot;</span> <span class="st">&quot;sync&quot;</span> <span class="st">&quot;-vv&quot;</span> <span class="st">&quot;--drive-shared-with-me&quot;</span> <span class="st">&quot;gdrive-rclone:BaselinePaper&quot;</span> <span class="st">&quot;BaselinePaper_here&quot;</span>]</a></code></pre></div>
 <p>That was fast and super solid.</p>
 </div>
 <div id="encrypt-the-config-file" class="section level4">
@@ -879,7 +982,7 @@ provide your password to do any of the rclone commands. If you want to see the
 config file use <code>rclone config show</code>. You could always copy that elsewhere, and then
 re-encrypt it.</p>
 <p>Here is some nice stuff for summarizing all the information from the different runs from the chinook-wgs project:</p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb248-1" data-line-number="1"><span class="ex">qacct</span> -o eriq -b 09271925 -j ml <span class="kw">|</span> <span class="ex">tidy-qacct</span></a></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb257-1" data-line-number="1"><span class="ex">qacct</span> -o eriq -b 09271925 -j ml <span class="kw">|</span> <span class="ex">tidy-qacct</span></a></code></pre></div>
 <p>Explain scratch space and how clusters are configured with respect to storage, etc.</p>
 <p>Strategies—break names up with consistent characters:</p>
 <ul>
@@ -912,35 +1015,38 @@ that, you need to let your system know where to look for these packages when it 
 as a dependency.</p>
 <p>Hoffman2 runs CentOS. Turns out that CentOS uses <code>yum</code> as a package manager.</p>
 <p>Let’s see if we can install llvm using yum.</p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb249-1" data-line-number="1"><span class="ex">yum</span> search all llvm <span class="co"># &lt;- this got me to devtoolset-7-all.x86_64 : Package shipping all available toolsets.</span></a>
-<a class="sourceLine" id="cb249-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb249-3" data-line-number="3"><span class="co"># a little web searching made it look like llvm-toolset-7-5.0.1-4.el7.x86_64.rpm or devtoolset-7-llvm-7.0-5.el7.x86_64.rpm</span></a>
-<a class="sourceLine" id="cb249-4" data-line-number="4"><span class="co"># might be what we want.  The first is a dependency of the second...</span></a>
-<a class="sourceLine" id="cb249-5" data-line-number="5"><span class="fu">mkdir</span> ~/centos</a></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb258-1" data-line-number="1"><span class="ex">yum</span> search all llvm <span class="co"># &lt;- this got me to devtoolset-7-all.x86_64 : Package shipping all available toolsets.</span></a>
+<a class="sourceLine" id="cb258-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb258-3" data-line-number="3"><span class="co"># a little web searching made it look like llvm-toolset-7-5.0.1-4.el7.x86_64.rpm or devtoolset-7-llvm-7.0-5.el7.x86_64.rpm</span></a>
+<a class="sourceLine" id="cb258-4" data-line-number="4"><span class="co"># might be what we want.  The first is a dependency of the second...</span></a>
+<a class="sourceLine" id="cb258-5" data-line-number="5"><span class="fu">mkdir</span> ~/centos</a></code></pre></div>
 <p>Was using instructions at <a href="https://stackoverflow.com/questions/36651091/how-to-install-packages-in-linux-centos-without-root-user-with-automatic-depen">https://stackoverflow.com/questions/36651091/how-to-install-packages-in-linux-centos-without-root-user-with-automatic-depen</a></p>
 <p>Couldn’t get yum downloader to download any packages. The whole thing looked like it was going to
 be a mess, so I thought I would try with miniconda.</p>
 <p>I installed miniconda (python 2.7 version) into <code>/u/nobackup/kruegg/eriq/programs/miniconda/</code> and then did this:</p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb250-1" data-line-number="1"><span class="co"># probably could have listed them all at once, but wanted to watch them go </span></a>
-<a class="sourceLine" id="cb250-2" data-line-number="2"><span class="co"># one at a time...</span></a>
-<a class="sourceLine" id="cb250-3" data-line-number="3"><span class="ex">conda</span> install numpy</a>
-<a class="sourceLine" id="cb250-4" data-line-number="4"><span class="ex">conda</span> install scipy</a>
-<a class="sourceLine" id="cb250-5" data-line-number="5"><span class="ex">conda</span> install pandas</a>
-<a class="sourceLine" id="cb250-6" data-line-number="6"><span class="ex">conda</span> install numba</a>
-<a class="sourceLine" id="cb250-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb250-8" data-line-number="8"><span class="co"># those all ran great.</span></a>
-<a class="sourceLine" id="cb250-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb250-10" data-line-number="10"><span class="ex">conda</span> install pysnptools</a>
-<a class="sourceLine" id="cb250-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb250-12" data-line-number="12"><span class="co"># that one didn&#39;t find a match, but I found on the web that I should try:</span></a>
-<a class="sourceLine" id="cb250-13" data-line-number="13"><span class="ex">conda</span> install -c bioconda pysnptools </a>
-<a class="sourceLine" id="cb250-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb250-15" data-line-number="15"><span class="co"># that worked!</span></a></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb259-1" data-line-number="1"><span class="co"># probably could have listed them all at once, but wanted to watch them go </span></a>
+<a class="sourceLine" id="cb259-2" data-line-number="2"><span class="co"># one at a time...</span></a>
+<a class="sourceLine" id="cb259-3" data-line-number="3"><span class="ex">conda</span> install numpy</a>
+<a class="sourceLine" id="cb259-4" data-line-number="4"><span class="ex">conda</span> install scipy</a>
+<a class="sourceLine" id="cb259-5" data-line-number="5"><span class="ex">conda</span> install pandas</a>
+<a class="sourceLine" id="cb259-6" data-line-number="6"><span class="ex">conda</span> install numba</a>
+<a class="sourceLine" id="cb259-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb259-8" data-line-number="8"><span class="co"># those all ran great.</span></a>
+<a class="sourceLine" id="cb259-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb259-10" data-line-number="10"><span class="ex">conda</span> install pysnptools</a>
+<a class="sourceLine" id="cb259-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb259-12" data-line-number="12"><span class="co"># that one didn&#39;t find a match, but I found on the web that I should try:</span></a>
+<a class="sourceLine" id="cb259-13" data-line-number="13"><span class="ex">conda</span> install -c bioconda pysnptools </a>
+<a class="sourceLine" id="cb259-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb259-15" data-line-number="15"><span class="co"># that worked!</span></a></code></pre></div>
 <p>Also we want to touch briefly on LD_PATH (linking failures—and note that libraries are often
 named libxxx.a) and CPATH (for failure to find xxxx.h), etc.</p>
 </div>
 <div id="job-arrays" class="section level2">
 <h2><span class="header-section-number">8.9</span> Job arrays</h2>
+<p>Quick note: Redefine IFS to break on TABs so you can have full commands in there.
+This is super useful for parsing job-array COMMLINES files.</p>
+<pre><code>IFS=$&#39;\t\n&#39;; BOP=($(echo boing | awk &#39;{printf(&quot;first\tsecond\tthird that is long\tfourth\n&quot;);}&#39;)); IFS=$&#39; \t\n&#39;;</code></pre>
 <p>Definitely mention the <code>eval</code> keyword in bash for when you want to print
 command lines with redirects.</p>
 <p>Show the routine for it, and develop a good approach to efficiently

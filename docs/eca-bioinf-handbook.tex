@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-02-24}
+\date{2020-03-02}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -4594,6 +4594,16 @@ get all their IDs using command substitution and then cycle over them in the she
 \end{Highlighting}
 \end{Shaded}
 
+\hypertarget{passing-variables-into-awk-with--v}{%
+\subsection{\texorpdfstring{Passing Variables into \texttt{awk} with \texttt{-v}}{Passing Variables into awk with -v}}\label{passing-variables-into-awk-with--v}}
+
+Gotta let people know about this!
+
+\hypertarget{writing-awk-scripts-in-files}{%
+\subsection{Writing awk scripts in files}\label{writing-awk-scripts-in-files}}
+
+Need to do this.
+
 \hypertarget{sed}{%
 \section{sed}\label{sed}}
 
@@ -4754,8 +4764,251 @@ but using your own username.
 \hypertarget{transferring-files-to-remote-computers}{%
 \section{Transferring files to remote computers}\label{transferring-files-to-remote-computers}}
 
-\hypertarget{sftp}{%
-\subsection{sftp}\label{sftp}}
+\hypertarget{sftp-via-lftp}{%
+\subsection{\texorpdfstring{\texttt{sftp} (via \texttt{lftp})}{sftp (via lftp)}}\label{sftp-via-lftp}}
+
+Most Unix systems have a command called \texttt{scp}, which works like \texttt{cp}, but which is
+designed for copying files to and from
+remote servers using the SSH protocol for security. This works really well
+if you have set up a public/private key pair to allow SSH access to your server
+without constantly having to type in your password. Use of public-private keypairs is unfortunately, not
+an option (as far as I can tell) on new NSF-funded clusters that use 2-factor authentication (like SUMMIT
+at CU Boulder). Trying to use \texttt{scp} in such a context becomes an endless cycle of
+entering your password and checking your phone for a DUO push. Fortunately, there are
+alternatives.
+
+The administrators of the SUMMIT supercomputer at CU Boulder recommend
+the \texttt{sftp} utility for transferring files from your laptop to the server.
+This works reasonably well. The syntax for a CSU student or affiliate connecting to the server is
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{sftp}\NormalTok{ csu_userEID@colostate.edu@login.rc.colorado.edu}
+
+\CommentTok{# for example, here is mine:}
+\ExtensionTok{sftp}\NormalTok{ eriq@colostate.edu@login.rc.colorado.edu}
+\end{Highlighting}
+\end{Shaded}
+
+After doing this you have to give your eID password followed by \texttt{,push}, and then
+approve the DUO push request on your phone. Once that is done, you have a ``line open''
+to the server and can use the commands of \texttt{sftp} to transfer files around.
+However, the vanilla version of \texttt{sftp} (at least on a Mac) is unbelievably limited,
+because there is simply no good support for TAB completion within
+the utility for navigating directories on the server or upon your laptop.
+It must have been developed by troglodytes\ldots{}consequently, I won't describe
+vanilla \texttt{sftp} further.
+
+If you are on Windows, it looks like the makers of PuTTY also bring you
+\href{https://www.ssh.com/ssh/putty/putty-manuals/0.68/Chapter6.html\#psftp}{PSFTP} which
+might be useful for you for file transfer. Go for it!
+
+If you are on a Mac, you can install \texttt{lftp} (\texttt{brew\ install\ lftp}: note that I need to write
+a section about installing command line utilities via homebrew somewhere in this handbook).
+\texttt{lftp} provides the sort of TAB completion of paths that you, by now, will have come to
+know and love and expect.
+
+Before you connect to your server with \texttt{lftp} there are a few customizations that you will
+want to do in order to get nicely colored output, and to avoid having to login repeatedly
+during your \texttt{lftp} session. You must make a file on your laptop called \texttt{\textasciitilde{}/.lftprc} and put
+the following lines in it:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set} \ExtensionTok{color}\NormalTok{:dir-colors }\StringTok{"rs=0:di=01;36:fi=01;32:ln=01;31:*.txt=01;35:*.html=00;35:"}
+\KeywordTok{set} \ExtensionTok{color}\NormalTok{:use-color true}
+
+\KeywordTok{set} \ExtensionTok{net}\NormalTok{:idle 5h}
+\KeywordTok{set} \ExtensionTok{net}\NormalTok{:timeout 5h}
+\end{Highlighting}
+\end{Shaded}
+
+Now, to connect to SUMMIT with \texttt{lftp}, you use this syntax (shown for my username):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{lftp}\NormalTok{ sftp://eriq@colostate.edu@login.rc.colorado.edu}
+\end{Highlighting}
+\end{Shaded}
+
+That can be a lot to type, so I would recommend putting something this in your
+\texttt{.bashrc}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{alias}\NormalTok{ summit_ftp=}\StringTok{'lftp sftp://eriq@colostate.edu@login.rc.colorado.edu'}
+\end{Highlighting}
+\end{Shaded}
+
+so you can just type \texttt{summit\_ftp} (which will TAB complete\ldots{}) to launch that command.
+
+After you issue that command, you put in your password (on SUMMIT, followed by \texttt{,push}). \texttt{lftp} then caches your
+password, and will re-issue it, if necessary, to execute commands. It doesn't actually send your
+password until you try a command like \texttt{cls}. On the SUMMIT system, with the default \texttt{lftp} settings,
+after 3 minutes of idle time, when you issue an \texttt{sftp} command on the server, you will have to approve
+access with the DUO app on your phone again. However, the line last two lines in the
+\texttt{\textasciitilde{}/.lftprc} file listed above ensure that your connection to SUMMIT will stay active even
+through 5 hours of idle time, so you don't have to keep clicking DUO pushes on your phone.
+After 5 hours, if you try issuing a command to the server in \texttt{lftp}, it will use your cached
+password to reconnect to the server. On SUMMIT, this means that you only need to deal with
+approving a DUO push again---not re-entering your password. If you are working on SUMMIT daily,
+it makes sense to just keep one Terminal window open, running \texttt{lftp}, all the time.
+
+Once you have started your \texttt{lftp/sftp} session this way, there are some important things to keep in mind.
+The most important of which is that the \texttt{lftp} session you are in maintains a \emph{current working directory}
+on both the server and on your laptop. We will call these the \emph{server working directory} and
+the \emph{laptop working directory}, respectively, (Technically, we ought to call the laptop working directory the \emph{client working directory}
+but I find that is confusing for people, we we will stick with \emph{laptop}.)
+There are two different commands to see what each
+current working directory is:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{pwd} : print the \emph{server working directory}
+\item
+  \texttt{lpwd} : print \emph{laptop working directory} (the preceding \texttt{l} stands
+  for \emph{local}).
+\end{itemize}
+
+If you want to change either the server or the laptop current working directory you use:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{cd} \emph{path} : change the server working directory to \emph{path}
+\item
+  \texttt{lcd} \emph{path} : change the laptop working directory to \emph{path}.
+\end{itemize}
+
+Following \texttt{lcd}, TAB-completion is done for paths \emph{on the laptop}, while following
+\texttt{cd}, TAB-completion is done for paths \emph{on the server}.
+
+If you want to list the contents of the different directories \emph{on the servers} you use:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{cls} : list things in the server working directory, or
+\item
+  \texttt{cls} \emph{path} : list things in \emph{path} on the server.
+\end{itemize}
+
+Note that \texttt{cls} is a little different than the \texttt{ls} command that comes
+with \texttt{sftp}. The latter command always prints in long format and does not play
+nicely with colorized output. By contrast, \texttt{cls} is part of \texttt{lftp} and it
+behaves mostly like your typical Unix \texttt{ls} command, taking options like \texttt{-a}, \texttt{-l} and \texttt{-d}, and
+it will even do \texttt{cls\ -lrt}. Type \texttt{help\ cls} at the \texttt{lftp} prompt for more information.
+
+If you want to list the contents of the different directories on your laptop, you
+use \texttt{ls} \emph{but you preface it with a} \texttt{!}, which means ``execute the following on my
+laptop, not the server.'' So, we have:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{!ls} : list the contents of the laptop working directory.
+\item
+  \texttt{!ls} \emph{path} : list the contents of the laptop path \emph{path}.
+\end{itemize}
+
+When you use the \texttt{!} at the beginning of the line, then all the TAB completion occurs
+in the context of the laptop current working directory. Note that with the \texttt{!}
+you can do all sorts of typical shell commands on your laptop from within the \texttt{lftp}
+session. For example \texttt{!mkdir\ this\_on\_my\_laptop} or \texttt{!cat\ that\_file}, etc.
+
+If you wish to make a directory on the \emph{server}, just use \texttt{mkdir}. If you wish to
+remove a file from the server, just use \texttt{rm}. The latter works much like it does in
+bash, but does not seem to support globbing (use \texttt{mrm} for that!) In fact, you can
+do a lot of things (like \texttt{cat} and \texttt{less}) on the server
+\emph{as if you had a bash shell running on it} through an
+SSH connection. Just type those commands at the \texttt{lftp} prompt.
+
+\hypertarget{transferring-files-using-lftp}{%
+\subsubsection{\texorpdfstring{Transferring files using \texttt{lftp}}{Transferring files using lftp}}\label{transferring-files-using-lftp}}
+
+To this point, we haven't even talked about our original goal with \texttt{lftp}, which
+was to \emph{transfer files from our laptop to the server} or from \emph{the server to our laptop}.
+The main \texttt{lftp} commands for those tasks are: \texttt{get}, \texttt{put}, \texttt{mget}, \texttt{mput}, and \texttt{mirror}---it is
+not too much to have to remember.
+
+As the name suggests, \texttt{put} is for \emph{putting} files from your laptop onto the server. By default it
+puts files into the server working directory. Here is an example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{put}\NormalTok{ laptopFile_1 laptopFile_2}
+\end{Highlighting}
+\end{Shaded}
+
+If you want to put the file into a different directory on the server (that must already exist)
+you can use the \texttt{-O} option:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{put}\NormalTok{ -O server_dest_dir laptopFile_1 laptopFile_2}
+\end{Highlighting}
+\end{Shaded}
+
+The command \texttt{get} works in much the same way, but in reverse: you are \emph{getting} things
+\emph{from the server to your laptop}. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# copy to laptop working directory}
+\ExtensionTok{get}\NormalTok{ serverFile_1 serverFile1_2}
+
+\CommentTok{# copy to existing directory laptop_dest_dir }
+\ExtensionTok{get}\NormalTok{ -O laptop_dest_dir serverFile_1 serverFile1_2}
+\end{Highlighting}
+\end{Shaded}
+
+Neither of the commands \texttt{get} or \texttt{put} do any of the pathname expansion (or ``globbing'' as it
+we have called it) that you will be familiar with from the \texttt{bash} shell. To effect that sort
+of functionality you must use \texttt{mput} and \texttt{mget}, which, as the \texttt{m} prefix in the
+command names suggests, are the ``multi-file'' versions of \texttt{put} and \texttt{get}. Both of these
+commands also take the -O option, if desired, so that the above commands could be
+rewritten like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{mput}\NormalTok{ -O server_dest_dir laptopFile_[12]}
+\CommentTok{# and}
+\ExtensionTok{mget}\NormalTok{ -O laptop_dest_dir serverFile_[12]}
+\end{Highlighting}
+\end{Shaded}
+
+Finally, there is not a \emph{recursive} option, like there is with \texttt{cp}, to any of \texttt{get}, \texttt{put}, \texttt{mget},
+or \texttt{mput}. Thus, you cannot use any of those four to put/get entire directories on/from the
+server. For that purpose, \texttt{lftp} has reserved the \texttt{mirror} command. It does what it sounds like:
+it mirrors a directory from the server to the laptop. The \texttt{mirror} command can actually
+be used in a lot of different configurations (between two remote servers, for example) and
+with different settings (for example to change only pre-existing files older than
+a certain date).
+However, here, we will demonstrate only its common use case
+of copying directories between a server and laptop here.
+
+To copy a directory \texttt{dir}, and its contents, from your server to your
+laptop current directory you use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{mirror}\NormalTok{ dir}
+\end{Highlighting}
+\end{Shaded}
+
+To copy a directory \texttt{ldir} from your laptop to your server current directory you
+use \texttt{-R} which transmits the directory in the reverse direction:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{mirror}\NormalTok{ -R ldir}
+\end{Highlighting}
+\end{Shaded}
+
+Learning to use \texttt{lftp} will require a little bit more of your time, but it is worth
+it, allowing you to keep a dedicated terminal window open for file transfers with sensible
+TAB-completion capability.
 
 \hypertarget{git}{%
 \subsection{git}\label{git}}
@@ -6259,6 +6512,44 @@ Now that you have seen all these keystrokes, use \texttt{\textless{}cntrl\textgr
 up into a few panes and try them out. It takes a while to get used to it, but once you get
 the hang of it, it's quite nice.
 
+\hypertarget{vim-its-time-to-get-serious-with-text-editing}{%
+\section{\texorpdfstring{\texttt{vim}: it's time to get serious with text editing}{vim: it's time to get serious with text editing}}\label{vim-its-time-to-get-serious-with-text-editing}}
+
+Introduce newbs to the \texttt{vimtutor}.
+
+\hypertarget{using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster}{%
+\subsection{Using neovim and Nvim-R and tmux to use R well on the cluster}\label{using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster}}
+
+These are currently just notes to myself.
+
+On Summit you can follow the directions install Neovim and Nvim-R etc, found
+at section 2 of \url{https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899\#ucrhpcc}.
+You can just do 2.1 to 2.6. 2.7 is the routine for user accounts. You don't need to install Tmux.
+
+You need to get an interactive session on a compute node and then
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{module}\NormalTok{ load R/3.5.0}
+\ExtensionTok{module}\NormalTok{ load intel}
+\ExtensionTok{module}\NormalTok{ load mkl  }
+\end{Highlighting}
+\end{Shaded}
+
+The last two are needed to get a random number to start up client through R.
+It is amazing to me that they call a specific Intel library to do that, and apparently
+loading the R module alone doesn't get you that.
+
+Uncomment the lines:
+
+\begin{verbatim}
+let R_in_buffer = 0                                                       
+let R_tmux_split = 1 
+\end{verbatim}
+
+in your \texttt{\textasciitilde{}/.config/nvim/init.vim}. Wait! You don't want to do that, necessarily, because tmux with NVim-R
+is no longer supported (Neovim now has native terminal splitting support.)
+
 \hypertarget{high-performance-computing-clusters-hpccs}{%
 \chapter{High Performance Computing Clusters (HPCC's)}\label{high-performance-computing-clusters-hpccs}}
 
@@ -6403,7 +6694,7 @@ to do alignments. Running commands that require a lot of computation, or a lot o
 input and output from the disk, on the login nodes is an egregious
 \emph{faux pas} of cluster computing. Doing so can
 negatively impact the ability of other users to login or otherwise get their work done. Therefore,
-never do it! All of your hardcore computation on a cluster \emph{has} to be done in scheduled manner on
+never do it! All of your hardcore computation on a cluster \emph{has} to be done in a scheduled manner on
 a \emph{compute node}. We will show how to do that shortly, but first we will talk about why.
 
 \hypertarget{cluster-computing-and-the-job-scheduler}{%
@@ -6506,42 +6797,194 @@ run, and how much RAM they will require. Later we will describe how the records 
 jobs, stored by the job scheduler, can be accessed and organized to aid in predicting
 the resource demand of future jobs.
 
-\hypertarget{the-slurm-commands}{%
-\section{The SLURM commands}\label{the-slurm-commands}}
+\hypertarget{learning-about-the-cluster-resources-and-getting-a-shell-on-a-compute-node}{%
+\section{Learning about the cluster resources and getting a shell on a compute node}\label{learning-about-the-cluster-resources-and-getting-a-shell-on-a-compute-node}}
 
-Requests for resources (and for information about the computing cluster) are made to the job scheduler
+Requests for resources, and for \emph{information} about the computing cluster, are made to the job scheduler
 using a few basic commands. As said, we will focus on the commands available in a SLURM-based system.
-Before launching ourselves into the commands used to \emph{launch} or \emph{schedule} jobs we will explore the SLURM commands that
-we can use to ``get to know'' our cluster, and to see how much of cluster's resources are allocated to
-currently running jobs.
+In a later section, (after a discussion of installing software that you might need on your cluster)
+we will more fully cover the commands used to \emph{launch}, \emph{schedule}, and manage jobs. Here
+we will first explore the SLURM commands that
+we can use to ``get to know'' our cluster, and we will leave this section seeing how
+(and why) you should get resources on a compute node on your cluster.
 
-Maintaining focus
-on such ``poor-mans parallelization,'' as I like to call it, allows us to maximize our
-utilization of all the resources available on a computing cluster---not just those
-that must be
+All SLURM commands begin with an \texttt{s}, and all SLURM systems support the \texttt{sinfo} command
+that gives you information about the cluster's nodes and their status (whether they are currently
+running jobs or not.) On your cluster, \texttt{man\ sinfo} will tell you about this command.
+On the \texttt{Sedna} cluster, which just got installed and therefore does not
+have many users, we see:
 
-Hey Eric! You might consider breaking this into two separate chatpers: 1 = working on remote computers
-and 2 = high-performance computing. The first could include all the stuff about scp, globus, rclone,
-and google drive.
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ sinfo}
+\ExtensionTok{PARTITION}\NormalTok{ AVAIL  TIMELIMIT  NODES  STATE NODELIST}
+\ExtensionTok{nodes*}\NormalTok{       up   infinite     28   idle node[01-28]}
+\ExtensionTok{himem}\NormalTok{        up   infinite      1  alloc himem01}
+\ExtensionTok{himem}\NormalTok{        up   infinite      2   idle himem[02-03]}
+\end{Highlighting}
+\end{Shaded}
 
-This is going to be a chapter on using High Performance Computing clusters.
+which tells us that there are two \emph{partitions} (collection of nodes)
+named \texttt{nodes} and \texttt{himem}. The \texttt{himem} partition has one node which is
+currently allocated to a job (\texttt{STATE} = \texttt{alloc}), and two more that
+are not currently allocated to jobs. The \texttt{himem} partition holds machines
+with lots of RAM memory for tasks like sequence assembly. It also has 28 compute nodes in the
+nodes partition that are free. This is a very small cluster.
 
-There is a lot to convey here about using queues and things.
+If you did the same command on SUMMIT you get many more lines of output. There
+are many more different partitions, and there is a lot of information about how many
+nodes are in each:
 
-I know SGE pretty well at this point, but others might use slurm.
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ sinfo}
+\ExtensionTok{PARTITION}\NormalTok{        AVAIL  TIMELIMIT  NODES  STATE NODELIST}
+\ExtensionTok{shas*}\NormalTok{               up 1-00:00:00      2 drain* shas[0136-0137]}
+\ExtensionTok{shas*}\NormalTok{               up 1-00:00:00      2  down* shas[0404,0506]}
+\ExtensionTok{shas*}\NormalTok{               up 1-00:00:00      1  drain shas0101}
+\ExtensionTok{shas*}\NormalTok{               up 1-00:00:00      3   resv shas[0102,0521,0853]}
+\ExtensionTok{shas*}\NormalTok{               up 1-00:00:00     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]}
+\ExtensionTok{shas*}\NormalTok{               up 1-00:00:00    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]}
+\ExtensionTok{shas*}\NormalTok{               up 1-00:00:00     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]}
+\ExtensionTok{shas-testing}\NormalTok{        up   infinite      2 drain* shas[0136-0137]}
+\ExtensionTok{shas-testing}\NormalTok{        up   infinite      2  down* shas[0404,0506]}
+\ExtensionTok{shas-testing}\NormalTok{        up   infinite      1  drain shas0101}
+\ExtensionTok{shas-testing}\NormalTok{        up   infinite      3   resv shas[0102,0521,0853]}
+\ExtensionTok{shas-testing}\NormalTok{        up   infinite     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]}
+\ExtensionTok{shas-testing}\NormalTok{        up   infinite    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]}
+\ExtensionTok{shas-testing}\NormalTok{        up   infinite     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]}
+\ExtensionTok{shas-interactive}\NormalTok{    up   infinite      2 drain* shas[0136-0137]}
+\ExtensionTok{shas-interactive}\NormalTok{    up   infinite      2  down* shas[0404,0506]}
+\ExtensionTok{shas-interactive}\NormalTok{    up   infinite      1  drain shas0101}
+\ExtensionTok{shas-interactive}\NormalTok{    up   infinite      3   resv shas[0102,0521,0853]}
+\ExtensionTok{shas-interactive}\NormalTok{    up   infinite     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]}
+\ExtensionTok{shas-interactive}\NormalTok{    up   infinite    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]}
+\ExtensionTok{shas-interactive}\NormalTok{    up   infinite     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]}
+\ExtensionTok{sgpu}\NormalTok{                up 1-00:00:00      1   resv sgpu0501}
+\ExtensionTok{sgpu}\NormalTok{                up 1-00:00:00      1  alloc sgpu0502}
+\ExtensionTok{sgpu}\NormalTok{                up 1-00:00:00      9   idle sgpu[0101-0102,0201-0202,0301-0302,0401-0402,0801]}
+\ExtensionTok{sgpu-testing}\NormalTok{        up   infinite      1   resv sgpu0501}
+\ExtensionTok{sgpu-testing}\NormalTok{        up   infinite      1  alloc sgpu0502}
+\ExtensionTok{sgpu-testing}\NormalTok{        up   infinite      9   idle sgpu[0101-0102,0201-0202,0301-0302,0401-0402,0801]}
+\ExtensionTok{sknl}\NormalTok{                up 1-00:00:00      1  drain sknl0710}
+\ExtensionTok{sknl}\NormalTok{                up 1-00:00:00      1   resv sknl0706}
+\ExtensionTok{sknl}\NormalTok{                up 1-00:00:00     18  alloc sknl[0701-0705,0707-0709,0711-0720]}
+\ExtensionTok{sknl-testing}\NormalTok{        up   infinite      1  drain sknl0710}
+\ExtensionTok{sknl-testing}\NormalTok{        up   infinite      1   resv sknl0706}
+\ExtensionTok{sknl-testing}\NormalTok{        up   infinite     18  alloc sknl[0701-0705,0707-0709,0711-0720]}
+\ExtensionTok{smem}\NormalTok{                up 7-00:00:00      1   drng smem0201}
+\ExtensionTok{smem}\NormalTok{                up 7-00:00:00      4  alloc smem[0101,0301,0401,0501]}
+\ExtensionTok{ssky}\NormalTok{                up 1-00:00:00      1   drng ssky0944}
+\ExtensionTok{ssky}\NormalTok{                up 1-00:00:00      1    mix ssky0952}
+\ExtensionTok{ssky}\NormalTok{                up 1-00:00:00      3  alloc ssky[0942-0943,0951]}
+\ExtensionTok{ssky-preemptable}\NormalTok{    up 1-00:00:00      1   drng ssky0944}
+\ExtensionTok{ssky-preemptable}\NormalTok{    up 1-00:00:00      1    mix ssky0952}
+\ExtensionTok{ssky-preemptable}\NormalTok{    up 1-00:00:00      9  alloc ssky[0933-0934,0937-0940,0942-0943,0951]}
+\ExtensionTok{ssky-preemptable}\NormalTok{    up 1-00:00:00      9   idle ssky[0935-0936,0941,0945-0950]}
+\ExtensionTok{ssky-ucb-aos}\NormalTok{        up 7-00:00:00      6  alloc ssky[0933-0934,0937-0940]}
+\ExtensionTok{ssky-ucb-aos}\NormalTok{        up 7-00:00:00      3   idle ssky[0935-0936,0941]}
+\ExtensionTok{ssky-csu-mbp}\NormalTok{        up 7-00:00:00      1   idle ssky0945}
+\ExtensionTok{ssky-csu-asb}\NormalTok{        up 7-00:00:00      1   idle ssky0946}
+\ExtensionTok{ssky-csu-rsp}\NormalTok{        up 7-00:00:00      4   idle ssky[0947-0950]}
+\end{Highlighting}
+\end{Shaded}
 
-Here is a good page with a comparison: \url{https://confluence.csiro.au/display/SC/Reference+Guide\%3A+Migrating+from+SGE+to+SLURM}
+Yikes! That is a lot of info. The numbers that you see on the ends of the lines there
+are node numbers.
 
-And here is a good primer on SGE stuff: \url{https://confluence.si.edu/display/HPC/Monitoring+your+Jobs}
+If you wanted to see information about each node in the \texttt{shas} partition, you could
+print long information for each node like this:
 
-I guess I'll have to see what the CSU students have access to.
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ sinfo -l -N}
+\end{Highlighting}
+\end{Shaded}
 
-Quick note: Redefine IFS to break on TABs so you can have full commands in there.
-This is super useful for parsing job-array COMMLINES files.
+On Summit, that creates almost 1500 lines of output. Some nodes are listed several times
+because they belong to different partitions. To look at results for just the standard
+parition (\texttt{shas}) you can use
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ sinfo -l -n -p shas}
+\end{Highlighting}
+\end{Shaded}
+
+Try that command. (Or try a similar command with an appropriate partition name on your
+own cluster.) If you want to see explicitly how many cores are available vs allocated
+on each node, how much total memory each node has, and how much of that total
+memory is free, in that partition you can do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ sinfo -N -p shas -O nodelist,cpusstate,memory,allocmem,freemem}
+\end{Highlighting}
+\end{Shaded}
+
+The top part of that output looks like:
 
 \begin{verbatim}
-IFS=$'\t\n'; BOP=($(echo boing | awk '{printf("first\tsecond\tthird that is long\tfourth\n");}')); IFS=$' \t\n';
+NODELIST            CPUS(A/I/O/T)       MEMORY              ALLOCMEM            FREE_MEM            
+shas0101            0/0/24/24           116368              0                   125156              
+shas0102            0/24/0/24           116368              0                   112325              
+shas0103            24/0/0/24           116368              116352              87228               
+shas0104            24/0/0/24           116368              116352              80769  
 \end{verbatim}
+
+This says \texttt{shas0101} has 24 CPUs that are \emph{Out} (not functional at this point).
+\texttt{shas0102}, on the other hand, has 24 CPUs that are \emph{Idle}, while \texttt{shas0103} has
+24 CPUs that are allocated, and so forth. (In our parlance here,
+CPU is being used to mean ``core''). All of the nodes have
+116 Gb of memory total. Most of them have about that much memory allocated to
+the jobs they are running.
+
+We can throw down some \texttt{awk} to count the total number of available cores
+(and the total number of all the cores):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ sinfo -N -p shas -O  nodelist,cpusstate }\KeywordTok{|} \FunctionTok{awk}\NormalTok{ -F}\StringTok{"/"} \StringTok{'\{avail+=$2; tots+=$4\} END \{print "Out of", tots, "cores, there are", avail, "available"\}'} 
+\ExtensionTok{Out}\NormalTok{ of 10848 cores, there are 331 available}
+\end{Highlighting}
+\end{Shaded}
+
+That could explain why it can be hard to get time on the supercomputer: only about 3\% of the cores in the system
+are idle, waiting for jobs to go on them.
+
+If you want to see how many jobs are in line, waiting to be launched, you can use the
+\texttt{squeue} command. Simply issuing the command \texttt{squeue} will give a (very long)
+list of all jobs that are either currently running or are in the queue,
+waiting to be launched. This is worth doing in order to see how many
+different people are using the resources. The output can be filtered to just PENDING
+or RUNNING jobs using the \texttt{-t} option. So,
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{squeue}\NormalTok{ -t PENDING}
+\end{Highlighting}
+\end{Shaded}
+
+lists all jobs waiting to be launched. If you wanted to see jobs that a particular
+user (like yourself) has running or pending, you can use the \texttt{-u} option. For example,
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{squeue}\NormalTok{ -u eriq@colostate.edu}
+\end{Highlighting}
+\end{Shaded}
+
+In fact that is such a worthwhile command that it is worth creating an alias
+for it by adding a line such as the following to your \texttt{\textasciitilde{}/.bashrc}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{alias}\NormalTok{ myjobs=}\StringTok{'squeue -u eriq@colostate.edu'}
+\end{Highlighting}
+\end{Shaded}
+
+Then, typing \texttt{myjobs} shows all of the jobs that you have running, or waiting to be launched
+on the cluster.
 
 \hypertarget{activatinginstalling-software}{%
 \section{Activating/Installing software}\label{activatinginstalling-software}}
@@ -7004,6 +7447,13 @@ named libxxx.a) and CPATH (for failure to find xxxx.h), etc.
 
 \hypertarget{job-arrays}{%
 \section{Job arrays}\label{job-arrays}}
+
+Quick note: Redefine IFS to break on TABs so you can have full commands in there.
+This is super useful for parsing job-array COMMLINES files.
+
+\begin{verbatim}
+IFS=$'\t\n'; BOP=($(echo boing | awk '{printf("first\tsecond\tthird that is long\tfourth\n");}')); IFS=$' \t\n';
+\end{verbatim}
 
 Definitely mention the \texttt{eval} keyword in bash for when you want to print
 command lines with redirects.

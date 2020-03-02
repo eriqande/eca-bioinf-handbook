@@ -559,6 +559,14 @@ for i in $WINTERS; do
 done
 ```
 
+### Passing Variables into `awk` with `-v`
+
+Gotta let people know about this!
+
+### Writing awk scripts in files
+
+Need to do this.
+
 
 ## sed
 
