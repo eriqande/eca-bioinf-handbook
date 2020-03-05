@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-03-03" />
+<meta name="date" content="2020-03-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -246,10 +246,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#installing-software-on-an-hpcc"><i class="fa fa-check"></i><b>8.4</b> Installing Software on an HPCC</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#miniconda"><i class="fa fa-check"></i><b>8.4.1</b> Miniconda</a></li>
 <li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#modules"><i class="fa fa-check"></i><b>8.4.2</b> Modules</a></li>
-<li class="chapter" data-level="8.4.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#miniconda-failures-when-installing-programs-one-at-a-time"><i class="fa fa-check"></i><b>8.4.3</b> Miniconda failures when installing programs one at a time</a></li>
-<li class="chapter" data-level="8.4.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#exporting-environments"><i class="fa fa-check"></i><b>8.4.4</b> Exporting environments</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#boneyard"><i class="fa fa-check"></i><b>8.5</b> Boneyard</a></li>
+<li class="chapter" data-level="8.5" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#getting-compute-resources-allocated-to-your-jobs-on-an-hpcc"><i class="fa fa-check"></i><b>8.5</b> Getting compute resources allocated to your jobs on an HPCC</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#interactive-sessions"><i class="fa fa-check"></i><b>8.5.1</b> Interactive sessions</a></li>
+</ul></li>
 <li class="chapter" data-level="8.6" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#the-queue-slurmsgeuge"><i class="fa fa-check"></i><b>8.6</b> The Queue (SLURM/SGE/UGE)</a></li>
 <li class="chapter" data-level="8.7" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#modules-package"><i class="fa fa-check"></i><b>8.7</b> Modules package</a></li>
 <li class="chapter" data-level="8.8" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#compiling-programs-without-admin-privileges"><i class="fa fa-check"></i><b>8.8</b> Compiling programs without admin privileges</a></li>
@@ -420,78 +420,78 @@ everything in NGS analysis, but in many cases people just use the defaults….)<
 <div id="using-lastz-to-align-coho-to-the-chinook-genome" class="section level3">
 <h3><span class="header-section-number">24.2.1</span> Using LASTZ to align coho to the chinook genome</h3>
 <p>First, compile it:</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb330-1" data-line-number="1"><span class="co"># in: /Users/eriq/Documents/others_code/lastz-1.04.00</span></a>
-<a class="sourceLine" id="cb330-2" data-line-number="2"><span class="fu">make</span></a>
-<a class="sourceLine" id="cb330-3" data-line-number="3"><span class="fu">make</span> install</a>
-<a class="sourceLine" id="cb330-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb330-5" data-line-number="5"><span class="co"># then I linked those (in bin) to myaliases</span></a></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb348-1" data-line-number="1"><span class="co"># in: /Users/eriq/Documents/others_code/lastz-1.04.00</span></a>
+<a class="sourceLine" id="cb348-2" data-line-number="2"><span class="fu">make</span></a>
+<a class="sourceLine" id="cb348-3" data-line-number="3"><span class="fu">make</span> install</a>
+<a class="sourceLine" id="cb348-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb348-5" data-line-number="5"><span class="co"># then I linked those (in bin) to myaliases</span></a></code></pre></div>
 <p>Refreshingly, this has almost no dependencies, and the compilation is super easy.</p>
 <p>Now, let’s find the coho chromomsome that corresponds to omy28 on NCBI. We can get this
 with curl:</p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="co"># in: /tmp</span></a>
-<a class="sourceLine" id="cb331-2" data-line-number="2"><span class="ex">curl</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/021/735/GCA_002021735.1_Okis_V1/GCA_002021735.1_Okis_V1_assembly_structure/Primary_Assembly/assembled_chromosomes/FASTA/chrLG28.fna.gz -o coho-28.fna.gz</a>
-<a class="sourceLine" id="cb331-3" data-line-number="3"><span class="fu">gunzip</span> coho-28.fna.gz</a></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb349-1" data-line-number="1"><span class="co"># in: /tmp</span></a>
+<a class="sourceLine" id="cb349-2" data-line-number="2"><span class="ex">curl</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/021/735/GCA_002021735.1_Okis_V1/GCA_002021735.1_Okis_V1_assembly_structure/Primary_Assembly/assembled_chromosomes/FASTA/chrLG28.fna.gz -o coho-28.fna.gz</a>
+<a class="sourceLine" id="cb349-3" data-line-number="3"><span class="fu">gunzip</span> coho-28.fna.gz</a></code></pre></div>
 <p>Then, let’s also pull that chromosome out of the chinook genome we have:</p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb332-1" data-line-number="1"><span class="co"># in /tmp</span></a>
-<a class="sourceLine" id="cb332-2" data-line-number="2"><span class="ex">samtools</span> faidx  ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna NC_037124.1 <span class="op">&gt;</span> chinook-28.fna </a></code></pre></div>
+<div class="sourceCode" id="cb350"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb350-1" data-line-number="1"><span class="co"># in /tmp</span></a>
+<a class="sourceLine" id="cb350-2" data-line-number="2"><span class="ex">samtools</span> faidx  ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna NC_037124.1 <span class="op">&gt;</span> chinook-28.fna </a></code></pre></div>
 <p>Cool, now we should be able to run that:</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb333-1" data-line-number="1"><span class="bu">time</span> lastz chinook-28.fna coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=maf <span class="op">&gt;</span> chin28_vs_coho28.maf</a>
-<a class="sourceLine" id="cb333-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb333-3" data-line-number="3"><span class="ex">real</span>    0m14.449s</a>
-<a class="sourceLine" id="cb333-4" data-line-number="4"><span class="ex">user</span>    0m14.198s</a>
-<a class="sourceLine" id="cb333-5" data-line-number="5"><span class="ex">sys</span> 0m0.193s</a></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb351-1" data-line-number="1"><span class="bu">time</span> lastz chinook-28.fna coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=maf <span class="op">&gt;</span> chin28_vs_coho28.maf</a>
+<a class="sourceLine" id="cb351-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb351-3" data-line-number="3"><span class="ex">real</span>    0m14.449s</a>
+<a class="sourceLine" id="cb351-4" data-line-number="4"><span class="ex">user</span>    0m14.198s</a>
+<a class="sourceLine" id="cb351-5" data-line-number="5"><span class="ex">sys</span> 0m0.193s</a></code></pre></div>
 <p>OK, that is ridiculously fast. How about we make a file that we can plot in R?</p>
-<div class="sourceCode" id="cb334"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb334-1" data-line-number="1"><span class="bu">time</span> lastz chinook-28.fna coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chin28_vs_coho28.rdp</a></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb352-1" data-line-number="1"><span class="bu">time</span> lastz chinook-28.fna coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chin28_vs_coho28.rdp</a></code></pre></div>
 <p>I copied that to <code>inputs</code> so we can plot it:</p>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb335-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chin28_vs_coho28.rdp.gz&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb353-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chin28_vs_coho28.rdp.gz&quot;</span>)</a></code></pre></div>
 <pre><code>## Parsed with column specification:
 ## cols(
 ##   NC_037124.1 = col_double(),
 ##   CM007745.1 = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb337-1" data-line-number="1"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
-<p><img src="eca-bioinf-handbook_files/figure-html/unnamed-chunk-42-1.png" width="672" /></p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb355-1" data-line-number="1"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<p><img src="eca-bioinf-handbook_files/figure-html/unnamed-chunk-56-1.png" width="672" /></p>
 <p>OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.</p>
 <p>So, let’s put LG28 in coho against the whole chinook genome. Note the use of the
 bracketed “multiple” in there to let it know that there are multiple sequences in there
 that should get catenated together.</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb338-1" data-line-number="1"><span class="bu">time</span> lastz ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna[multiple]  coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=maf <span class="op">&gt;</span> chin_vs_coho28.maf</a>
-<a class="sourceLine" id="cb338-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb338-3" data-line-number="3"><span class="ex">FAILURE</span>: in load_fasta_sequence for /Users/eriq/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna, sequence length 2,147,437,804+64,310 exceeds maximum (2,147,483,637)</a></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb356-1" data-line-number="1"><span class="bu">time</span> lastz ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna[multiple]  coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=maf <span class="op">&gt;</span> chin_vs_coho28.maf</a>
+<a class="sourceLine" id="cb356-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb356-3" data-line-number="3"><span class="ex">FAILURE</span>: in load_fasta_sequence for /Users/eriq/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna, sequence length 2,147,437,804+64,310 exceeds maximum (2,147,483,637)</a></code></pre></div>
 <p>No love there. But that chinook genome has a lot of short scaffolds in there too, I think.</p>
 <p>Maybe we could just try LG1. Nope. How about we toss every coho LG against LG1 from chinook…</p>
-<div class="sourceCode" id="cb339"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb339-1" data-line-number="1"><span class="co"># let&#39;s get the first 10 linkage groups from coho:</span></a>
-<a class="sourceLine" id="cb339-2" data-line-number="2"><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..10}</span><span class="kw">;</span> <span class="kw">do</span> <span class="ex">curl</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/021/735/GCA_002021735.1_Okis_V1/GCA_002021735.1_Okis_V1_assembly_structure/Primary_Assembly/assembled_chromosomes/FASTA/chrLG<span class="va">${i}</span>.fna.gz -o coho-<span class="va">${i}</span>.fna.gz<span class="kw">;</span> <span class="fu">gunzip</span> coho-<span class="va">${i}</span>.fna.gz<span class="kw">;</span> <span class="bu">echo</span> <span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span> </a>
-<a class="sourceLine" id="cb339-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb339-4" data-line-number="4"><span class="co"># now lets try aligning those to the chinook</span></a>
-<a class="sourceLine" id="cb339-5" data-line-number="5"><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..10}</span><span class="kw">;</span> <span class="kw">do</span> <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;Done with </span><span class="va">$i</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">done</span></a></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb357-1" data-line-number="1"><span class="co"># let&#39;s get the first 10 linkage groups from coho:</span></a>
+<a class="sourceLine" id="cb357-2" data-line-number="2"><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..10}</span><span class="kw">;</span> <span class="kw">do</span> <span class="ex">curl</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/021/735/GCA_002021735.1_Okis_V1/GCA_002021735.1_Okis_V1_assembly_structure/Primary_Assembly/assembled_chromosomes/FASTA/chrLG<span class="va">${i}</span>.fna.gz -o coho-<span class="va">${i}</span>.fna.gz<span class="kw">;</span> <span class="fu">gunzip</span> coho-<span class="va">${i}</span>.fna.gz<span class="kw">;</span> <span class="bu">echo</span> <span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span> </a>
+<a class="sourceLine" id="cb357-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb357-4" data-line-number="4"><span class="co"># now lets try aligning those to the chinook</span></a>
+<a class="sourceLine" id="cb357-5" data-line-number="5"><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..10}</span><span class="kw">;</span> <span class="kw">do</span> <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;Done with </span><span class="va">$i</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">done</span></a></code></pre></div>
 <p>Nothing looked good until I got to coho LG10:</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb340-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chinook1_vs_coho10.rdp.gz&quot;</span>)</a>
-<a class="sourceLine" id="cb340-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb340-3" data-line-number="3"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb358-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chinook1_vs_coho10.rdp.gz&quot;</span>)</a>
+<a class="sourceLine" id="cb358-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb358-3" data-line-number="3"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
 <p>There is clearly a big section that aligns there. But, we clearly are going to need to
 clean up all the repetive crap, etc on these alignments.</p>
 </div>
 <div id="try-on-the-chinook-chromosomes" class="section level3">
 <h3><span class="header-section-number">24.2.2</span> Try on the chinook chromosomes</h3>
 <p>So, it crapped out on the full Chinook fasta. Note that I could modify the code (or compile it with a <code>-D</code>): check this out in sequences.h:</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb341-1" data-line-number="1"><span class="co">//  Sequence lengths are normally assumed to be small enough to fit into a</span></a>
-<a class="sourceLine" id="cb341-2" data-line-number="2"><span class="co">//  31-bit integer.  This gives a maximum length of about 2.1 billion bp, which</span></a>
-<a class="sourceLine" id="cb341-3" data-line-number="3"><span class="co">//  is half the length of a (hypothetical) monoploid human genome.  The</span></a>
-<a class="sourceLine" id="cb341-4" data-line-number="4"><span class="co">//  programmer can override this at compile time by defining max_sequence_index</span></a>
-<a class="sourceLine" id="cb341-5" data-line-number="5"><span class="co">//  as 32 or 63.</span></a></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode c"><code class="sourceCode c"><a class="sourceLine" id="cb359-1" data-line-number="1"><span class="co">//  Sequence lengths are normally assumed to be small enough to fit into a</span></a>
+<a class="sourceLine" id="cb359-2" data-line-number="2"><span class="co">//  31-bit integer.  This gives a maximum length of about 2.1 billion bp, which</span></a>
+<a class="sourceLine" id="cb359-3" data-line-number="3"><span class="co">//  is half the length of a (hypothetical) monoploid human genome.  The</span></a>
+<a class="sourceLine" id="cb359-4" data-line-number="4"><span class="co">//  programmer can override this at compile time by defining max_sequence_index</span></a>
+<a class="sourceLine" id="cb359-5" data-line-number="5"><span class="co">//  as 32 or 63.</span></a></code></pre></div>
 <p>But, for now, I think I will just go for the assembled chromosomes only:</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb342-1" data-line-number="1"><span class="co"># just get the well assembled chromosomes (about 1.7 Gb)</span></a>
-<a class="sourceLine" id="cb342-2" data-line-number="2"><span class="co"># in /tmp</span></a>
-<a class="sourceLine" id="cb342-3" data-line-number="3"><span class="ex">samtools</span> faidx ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna <span class="va">$(</span><span class="fu">awk</span> <span class="st">&#39;/^NC/ {printf(&quot;%s &quot;, $1)}&#39;</span>  ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna.fai<span class="va">)</span> <span class="op">&gt;</span> chinook_nc_chroms.fna</a>
-<a class="sourceLine" id="cb342-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb342-5" data-line-number="5"><span class="co"># then try tossing coho 1 against that:</span></a>
-<a class="sourceLine" id="cb342-6" data-line-number="6"><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chin_nc_vs_coho1.rdp</a>
-<a class="sourceLine" id="cb342-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb342-8" data-line-number="8"><span class="co"># that took about 7 minutes</span></a>
-<a class="sourceLine" id="cb342-9" data-line-number="9"><span class="ex">real</span>    6m33.411s</a>
-<a class="sourceLine" id="cb342-10" data-line-number="10"><span class="ex">user</span>    6m28.391s</a>
-<a class="sourceLine" id="cb342-11" data-line-number="11"><span class="ex">sys</span> 0m4.121s</a></code></pre></div>
+<div class="sourceCode" id="cb360"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb360-1" data-line-number="1"><span class="co"># just get the well assembled chromosomes (about 1.7 Gb)</span></a>
+<a class="sourceLine" id="cb360-2" data-line-number="2"><span class="co"># in /tmp</span></a>
+<a class="sourceLine" id="cb360-3" data-line-number="3"><span class="ex">samtools</span> faidx ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna <span class="va">$(</span><span class="fu">awk</span> <span class="st">&#39;/^NC/ {printf(&quot;%s &quot;, $1)}&#39;</span>  ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna.fai<span class="va">)</span> <span class="op">&gt;</span> chinook_nc_chroms.fna</a>
+<a class="sourceLine" id="cb360-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb360-5" data-line-number="5"><span class="co"># then try tossing coho 1 against that:</span></a>
+<a class="sourceLine" id="cb360-6" data-line-number="6"><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chin_nc_vs_coho1.rdp</a>
+<a class="sourceLine" id="cb360-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb360-8" data-line-number="8"><span class="co"># that took about 7 minutes</span></a>
+<a class="sourceLine" id="cb360-9" data-line-number="9"><span class="ex">real</span>    6m33.411s</a>
+<a class="sourceLine" id="cb360-10" data-line-number="10"><span class="ex">user</span>    6m28.391s</a>
+<a class="sourceLine" id="cb360-11" data-line-number="11"><span class="ex">sys</span> 0m4.121s</a></code></pre></div>
 <p>Here is what the figure looks like. It is clear that the bulk of Chromosome 1
 in coho aligns for long distances to two different chromosomes in Chinoook (likely
 paralogs?). This is complex!</p>
@@ -504,98 +504,98 @@ paralogs?). This is complex!</p>
 <h3><span class="header-section-number">24.2.3</span> Explore the other parameters more</h3>
 <p>I am going to use the chinook chromosome 1 and coho 10 to explore things that will
 clean up the results a little bit.</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb343-1" data-line-number="1"><span class="co"># in /tmp</span></a>
-<a class="sourceLine" id="cb343-2" data-line-number="2"> <span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></a>
-<a class="sourceLine" id="cb343-3" data-line-number="3"><span class="ex">real</span>    0m29.055s</a>
-<a class="sourceLine" id="cb343-4" data-line-number="4"><span class="ex">user</span>    0m28.497s</a>
-<a class="sourceLine" id="cb343-5" data-line-number="5"><span class="ex">sys</span> 0m0.413s</a></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb361-1" data-line-number="1"><span class="co"># in /tmp</span></a>
+<a class="sourceLine" id="cb361-2" data-line-number="2"> <span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></a>
+<a class="sourceLine" id="cb361-3" data-line-number="3"><span class="ex">real</span>    0m29.055s</a>
+<a class="sourceLine" id="cb361-4" data-line-number="4"><span class="ex">user</span>    0m28.497s</a>
+<a class="sourceLine" id="cb361-5" data-line-number="5"><span class="ex">sys</span> 0m0.413s</a></code></pre></div>
 <p>That is quick enough to explore a few things. Note that we are already doing gap-free extension, because
 “By default seeds are extended to HSPs using x-drop extension, with entropy adjustment.” However, by
 default, chaining is not done, and that is the key step in which a path is found through the
 high-scoring pairs (HSPs). That doesn’t take much (any) extra time and totally cleans things up.</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb344-1" data-line-number="1"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></a>
-<a class="sourceLine" id="cb344-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb344-3" data-line-number="3"><span class="ex">real</span>    0m28.704s</a></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb362-1" data-line-number="1"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></a>
+<a class="sourceLine" id="cb362-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb362-3" data-line-number="3"><span class="ex">real</span>    0m28.704s</a></code></pre></div>
 <p>So, that is greatly improved:</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb345-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chain-chinook1_vs_coho10.rdp.gz&quot;</span>)</a>
-<a class="sourceLine" id="cb345-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb345-3" data-line-number="3"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chain-chinook1_vs_coho10.rdp.gz&quot;</span>)</a>
+<a class="sourceLine" id="cb363-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb363-3" data-line-number="3"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
 <p>So, it would be worth seeing if chaining also cleans up the multi-chrom alignment:</p>
-<div class="sourceCode" id="cb346"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb346-1" data-line-number="1"><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain <span class="op">&gt;</span> chin_nc_vs_coho1.rdp</a>
-<a class="sourceLine" id="cb346-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb346-3" data-line-number="3"><span class="ex">real</span>    6m42.835s</a>
-<a class="sourceLine" id="cb346-4" data-line-number="4"><span class="ex">user</span>    6m35.042s</a>
-<a class="sourceLine" id="cb346-5" data-line-number="5"><span class="ex">sys</span> 0m6.207s</a></code></pre></div>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb347-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chin_nc_vs_coho1-chain.rdp.gz&quot;</span>)</a>
-<a class="sourceLine" id="cb347-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb347-3" data-line-number="3"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb364-1" data-line-number="1"><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain <span class="op">&gt;</span> chin_nc_vs_coho1.rdp</a>
+<a class="sourceLine" id="cb364-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb364-3" data-line-number="3"><span class="ex">real</span>    6m42.835s</a>
+<a class="sourceLine" id="cb364-4" data-line-number="4"><span class="ex">user</span>    6m35.042s</a>
+<a class="sourceLine" id="cb364-5" data-line-number="5"><span class="ex">sys</span> 0m6.207s</a></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chin_nc_vs_coho1-chain.rdp.gz&quot;</span>)</a>
+<a class="sourceLine" id="cb365-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb365-3" data-line-number="3"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
 <p>OK, that shows that it will find crappy chains if given the chance. But if you
 zoom in on that stuff you see that some of the spots are pretty short, and some are super
 robust. So, we will want some further filtering
 to make this work. So, we need to check out the “back-end filtering.” that is possible.
 Back-end filtering does not happen by default.</p>
 <p>Let’s say that we want 70 Kb alignment blocks. That is .001 of the total input sequence.</p>
-<div class="sourceCode" id="cb348"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb348-1" data-line-number="1"><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain --coverage=0.1 <span class="op">&gt;</span> chin_nc_vs_coho1-cov-0.1.rdp</a></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb366-1" data-line-number="1"><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain --coverage=0.1 <span class="op">&gt;</span> chin_nc_vs_coho1-cov-0.1.rdp</a></code></pre></div>
 <p>That took 6.5 minutes again. But, it also produced no output whatsoever. We probably
 want to filter on identity first anyway. Because that takes so long, maybe we could
 do it with our single chromosome first.</p>
-<div class="sourceCode" id="cb349"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb349-1" data-line-number="1"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></a></code></pre></div>
-<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb350-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95.rdp&quot;</span>)</a>
-<a class="sourceLine" id="cb350-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb350-3" data-line-number="3"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb367-1" data-line-number="1"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95.rdp&quot;</span>)</a>
+<a class="sourceLine" id="cb368-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb368-3" data-line-number="3"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
 <p>That keeps things very clean, but the alignment blocks are all pretty short (like 50 to 300
 bp long). So perhaps we need to do gapped extension here to make these things better. This
 turns out to take a good deal longer.</p>
-<div class="sourceCode" id="cb351"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb351-1" data-line-number="1"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=maf --chain --identity=95  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped.maf<span class="kw">;</span></a>
-<a class="sourceLine" id="cb351-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb351-3" data-line-number="3"><span class="ex">real</span>    3m15.575s</a>
-<a class="sourceLine" id="cb351-4" data-line-number="4"><span class="ex">user</span>    3m14.048s</a>
-<a class="sourceLine" id="cb351-5" data-line-number="5"><span class="ex">sys</span> 0m0.936s</a></code></pre></div>
-<div class="sourceCode" id="cb352"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb352-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95-gapped.rdp&quot;</span>)</a>
-<a class="sourceLine" id="cb352-2" data-line-number="2"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb369"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb369-1" data-line-number="1"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=maf --chain --identity=95  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped.maf<span class="kw">;</span></a>
+<a class="sourceLine" id="cb369-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb369-3" data-line-number="3"><span class="ex">real</span>    3m15.575s</a>
+<a class="sourceLine" id="cb369-4" data-line-number="4"><span class="ex">user</span>    3m14.048s</a>
+<a class="sourceLine" id="cb369-5" data-line-number="5"><span class="ex">sys</span> 0m0.936s</a></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95-gapped.rdp&quot;</span>)</a>
+<a class="sourceLine" id="cb370-2" data-line-number="2"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
 <p>That is pretty clean and slick.</p>
 <p>Now, this has got me to thinking that maybe I <em>can</em> do this on a chromosome by chromosome basis.</p>
 <p>Check what 97% identity looks like:</p>
-<div class="sourceCode" id="cb353"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb353-1" data-line-number="1"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain --identity=97  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident97-gapped.rdp<span class="kw">;</span></a></code></pre></div>
-<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident97-gapped.rdp&quot;</span>)</a>
-<a class="sourceLine" id="cb354-2" data-line-number="2"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb371-1" data-line-number="1"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain --identity=97  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident97-gapped.rdp<span class="kw">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident97-gapped.rdp&quot;</span>)</a>
+<a class="sourceLine" id="cb372-2" data-line-number="2"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
 <p>That looks to have a few more holes in it.</p>
 <p>Final test. Let’s see what happens when we chain it on a chromosome that doesn’t have
 any homology:</p>
-<div class="sourceCode" id="cb355"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb355-1" data-line-number="1"><span class="co"># first with no backend filtering</span></a>
-<a class="sourceLine" id="cb355-2" data-line-number="2"><span class="va">i=</span>1; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-gapped.rdp<span class="kw">;</span></a>
-<a class="sourceLine" id="cb355-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb355-4" data-line-number="4"><span class="ex">real</span>    0m35.130s</a>
-<a class="sourceLine" id="cb355-5" data-line-number="5"><span class="ex">user</span>    0m34.642s</a>
-<a class="sourceLine" id="cb355-6" data-line-number="6"><span class="ex">sys</span> 0m0.413s</a>
-<a class="sourceLine" id="cb355-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb355-8" data-line-number="8"><span class="co"># Hey! That is cool.  When there are no HSPs to chain, this doesn&#39;t take very long</span></a>
-<a class="sourceLine" id="cb355-9" data-line-number="9"><span class="va">i=</span>1; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain --identity=95 <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-gapped-ident95.rdp<span class="kw">;</span></a></code></pre></div>
-<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb356-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho1-gapped.rdp&quot;</span>)</a>
-<a class="sourceLine" id="cb356-2" data-line-number="2"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb373-1" data-line-number="1"><span class="co"># first with no backend filtering</span></a>
+<a class="sourceLine" id="cb373-2" data-line-number="2"><span class="va">i=</span>1; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-gapped.rdp<span class="kw">;</span></a>
+<a class="sourceLine" id="cb373-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb373-4" data-line-number="4"><span class="ex">real</span>    0m35.130s</a>
+<a class="sourceLine" id="cb373-5" data-line-number="5"><span class="ex">user</span>    0m34.642s</a>
+<a class="sourceLine" id="cb373-6" data-line-number="6"><span class="ex">sys</span> 0m0.413s</a>
+<a class="sourceLine" id="cb373-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb373-8" data-line-number="8"><span class="co"># Hey! That is cool.  When there are no HSPs to chain, this doesn&#39;t take very long</span></a>
+<a class="sourceLine" id="cb373-9" data-line-number="9"><span class="va">i=</span>1; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain --identity=95 <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-gapped-ident95.rdp<span class="kw">;</span></a></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb374-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho1-gapped.rdp&quot;</span>)</a>
+<a class="sourceLine" id="cb374-2" data-line-number="2"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
 <p>OK, it finds something nice and crappy there.</p>
 <p>What about if we require 95% identity?</p>
-<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb357-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho1-gapped-ident95.rdp&quot;</span>)</a>
-<a class="sourceLine" id="cb357-2" data-line-number="2"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb375-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho1-gapped-ident95.rdp&quot;</span>)</a>
+<a class="sourceLine" id="cb375-2" data-line-number="2"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
 <p>That leaves us with very little.</p>
 <p>Let’s also try interpolation at the end to see how that does. Note that here we also produce the
 rdotplot at the same time as the maf.</p>
-<div class="sourceCode" id="cb358"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb358-1" data-line-number="1"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=maf --rdotplot=chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped-inner1000.rdp --chain --identity=95 --inner=1000 <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped-inner1000.maf<span class="kw">;</span></a>
-<a class="sourceLine" id="cb358-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb358-3" data-line-number="3"><span class="ex">real</span>    4m25.625s</a>
-<a class="sourceLine" id="cb358-4" data-line-number="4"><span class="ex">user</span>    4m22.957s</a>
-<a class="sourceLine" id="cb358-5" data-line-number="5"><span class="ex">sys</span> 0m1.478s</a></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb376-1" data-line-number="1"><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=maf --rdotplot=chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped-inner1000.rdp --chain --identity=95 --inner=1000 <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped-inner1000.maf<span class="kw">;</span></a>
+<a class="sourceLine" id="cb376-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb376-3" data-line-number="3"><span class="ex">real</span>    4m25.625s</a>
+<a class="sourceLine" id="cb376-4" data-line-number="4"><span class="ex">user</span>    4m22.957s</a>
+<a class="sourceLine" id="cb376-5" data-line-number="5"><span class="ex">sys</span> 0m1.478s</a></code></pre></div>
 <p>That took an extra minute, but was not so bad.</p>
-<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb359-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95-gapped-inner1000.rdp&quot;</span>)</a>
-<a class="sourceLine" id="cb359-2" data-line-number="2"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb377"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb377-1" data-line-number="1">dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95-gapped-inner1000.rdp&quot;</span>)</a>
+<a class="sourceLine" id="cb377-2" data-line-number="2"><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</a></code></pre></div>
 <div id="repeat-masking-the-coho-genome" class="section level4">
 <h4><span class="header-section-number">24.2.3.1</span> Repeat Masking the Coho genome</h4>
 <p>Turns out that NCBI site has the repeat masker output in GCF_002021735.1_Okis_V1_rm.out.gz.
 I save that to a shorter name. Now I will make a bed file of the repeat regions. Then I use bedtools maskfasta to softmask that fasta file.</p>
-<div class="sourceCode" id="cb360"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb360-1" data-line-number="1"><span class="co"># in: /Users/eriq/Documents/UnsyncedData/Okis_v1</span></a>
-<a class="sourceLine" id="cb360-2" data-line-number="2"><span class="ex">gzcat</span> Okis_V1_rm.out.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;NR&gt;3 {printf(&quot;%s\t%s\t%s\n&quot;, $5, $6, $7)}&#39;</span> <span class="op">&gt;</span> repeat-regions.bed </a>
-<a class="sourceLine" id="cb360-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb360-4" data-line-number="4"><span class="ex">bedtools</span> maskfasta -fi Okis_V1.fna -bed repeat-regions.bed  -fo Okis_V1-soft-masked.fna  -soft</a></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb378-1" data-line-number="1"><span class="co"># in: /Users/eriq/Documents/UnsyncedData/Okis_v1</span></a>
+<a class="sourceLine" id="cb378-2" data-line-number="2"><span class="ex">gzcat</span> Okis_V1_rm.out.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;NR&gt;3 {printf(&quot;%s\t%s\t%s\n&quot;, $5, $6, $7)}&#39;</span> <span class="op">&gt;</span> repeat-regions.bed </a>
+<a class="sourceLine" id="cb378-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb378-4" data-line-number="4"><span class="ex">bedtools</span> maskfasta -fi Okis_V1.fna -bed repeat-regions.bed  -fo Okis_V1-soft-masked.fna  -soft</a></code></pre></div>
 <p>That works great. But it turns out that the coho genome is already softmasked.</p>
 <p>But, it is good to now that I can use a repeat mask output file to toss repeat
 sites if I want to for ANGSD analyses, etc.</p>
@@ -614,8 +614,8 @@ for later analysis in ANGSD.</p>
 bit right now. It looks like when you crank the identity requirement up, the paralogs
 get pretty spotty so they can be easily recognized. For example setting the identity
 at 99.5 makes it clear which is the paralog:</p>
-<div class="sourceCode" id="cb361"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb361-1" data-line-number="1"><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain --identity=99.5 <span class="op">&gt;</span> chin_nc_vs_coho1-chain-ident-99.5.rdp</a>
-<a class="sourceLine" id="cb361-2" data-line-number="2"><span class="co"># takes about 6 minutes</span></a></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb379-1" data-line-number="1"><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain --identity=99.5 <span class="op">&gt;</span> chin_nc_vs_coho1-chain-ident-99.5.rdp</a>
+<a class="sourceLine" id="cb379-2" data-line-number="2"><span class="co"># takes about 6 minutes</span></a></code></pre></div>
 <p>And the figure is here.</p>
 <div class="figure">
 <img src="figs/quickie.jpg" alt="Coho Chromo 1 on catenated chinook chromos. Ident=99.5" />
@@ -640,14 +640,14 @@ chinook reference are removed from both the chinook reference and the aligned co
 sequence. _Actually, one can just pump each sequence out to a separate file in which
 each site occupies one line. Then paste those and do the comparison…</li>
 </ol>
-<div class="sourceCode" id="cb362"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb362-1" data-line-number="1"><span class="ex">2018-10-18</span> 11:15 /tmp/--% time (awk <span class="st">&#39;NR==2&#39;</span> splud <span class="kw">|</span> <span class="ex">fold</span> -w1 <span class="op">&gt;</span> spp1.text)</a>
-<a class="sourceLine" id="cb362-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb362-3" data-line-number="3"><span class="ex">real</span>    0m23.244s</a>
-<a class="sourceLine" id="cb362-4" data-line-number="4"><span class="ex">user</span>    0m22.537s</a>
-<a class="sourceLine" id="cb362-5" data-line-number="5"><span class="ex">sys</span> 0m0.685s</a>
-<a class="sourceLine" id="cb362-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb362-7" data-line-number="7"><span class="co"># then you can use awk easily like this:</span></a>
-<a class="sourceLine" id="cb362-8" data-line-number="8"><span class="ex">paste</span> spp1.text spp2.text <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;BEGIN {SUBSEP = &quot; &quot;} {n[$1,$2]++} END {for(i in n) print i, n[i]}&#39;</span> </a></code></pre></div>
+<div class="sourceCode" id="cb380"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb380-1" data-line-number="1"><span class="ex">2018-10-18</span> 11:15 /tmp/--% time (awk <span class="st">&#39;NR==2&#39;</span> splud <span class="kw">|</span> <span class="ex">fold</span> -w1 <span class="op">&gt;</span> spp1.text)</a>
+<a class="sourceLine" id="cb380-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb380-3" data-line-number="3"><span class="ex">real</span>    0m23.244s</a>
+<a class="sourceLine" id="cb380-4" data-line-number="4"><span class="ex">user</span>    0m22.537s</a>
+<a class="sourceLine" id="cb380-5" data-line-number="5"><span class="ex">sys</span> 0m0.685s</a>
+<a class="sourceLine" id="cb380-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb380-7" data-line-number="7"><span class="co"># then you can use awk easily like this:</span></a>
+<a class="sourceLine" id="cb380-8" data-line-number="8"><span class="ex">paste</span> spp1.text spp2.text <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;BEGIN {SUBSEP = &quot; &quot;} {n[$1,$2]++} END {for(i in n) print i, n[i]}&#39;</span> </a></code></pre></div>
 <ol start="7" style="list-style-type: decimal">
 <li>The coho sequence thus obtained will have dashes anywhere there isn’t coho aligned
 to the chinook. So, first, for each chromosome I can count the number of dashes, which

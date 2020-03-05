@@ -554,322 +554,392 @@ samtools
 bcftools
 ```
 
+#### Uninstalling Miniconda and its associated environments
 
+It may become necessary at some point to uninstall Miniconda.  One important case of this
+is if you end up overflowing your home directory with conda-installed software.  In this case,
+unless you have installed numerous, complex environments, the simplest thing to do is
+to "uninstall" Miniconda, reinstall it in a location with fewer hard-drive space constraints,
+and then simply recreate the environments you need, as you did originally.  
 
+This is actually quite germane to SUMMIT users.  The size quota on home directories on SUMMIT is
+only 2 Gb, so you can easily fill up your home directory by installing a few conda environments.
+To check how much of the hard
+drive space allocated to you is in use on SUMMIT, use the `curc-quota` command. (Check the documentation
+for how to check space on other HPCCs, but note that Hummingbird users get 1 TB on their home
+directories).  Instead of
+using your home directory to house your Miniconda software, on SUMMIT you can put it in your
+`projects` storage area.  Each user gets more storage (like 250 Gb) in a directory
+called `/projects/username` where `username` is replaced by your SUMMIT username,
+for example: `/projects/eriq@colostate.edu`
 
-### Modules 
-
-This is if your sys admin has made it easy.
-
-
-### Miniconda failures when installing programs one at a time
-
-I just want to quickly try this:
+To "uninstall" Miniconda, you first must delete the `miniconda3` directory in your
+home directory (if that is where it got installed to).  This can take a while.  It is done with:
 ```sh
-ssh eriq@colostate.edu@login.rc.colorado.edu
+rm -rf ~/miniconda3
+```
+Then you have to delete the lines between `# >>>` and `# <<<`, wherever they occur in your `~/.bashrc` and `~/bash_profile`
+files, i.e., you will have to remove all of the lines that look
+something like thius:
+```sh
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/eriq/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/eriq/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/eriq/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/eriq/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+```
+After all those conda lines are removed from your `~/.bashrc` and `~/bash_profile`, logging out
+and logging back in, you should be free from conda and ready to reinstall it in
+a different location.  
 
-# get on compile nodes
-ssh scompile
+To reinstall miniconda in a different location, just follow the
+installation instructions above, but when you are running the
+`./Miniconda3-latest-Linux-x86_64.sh` script, instead of choosing the default
+install location, use a location in your project directory. For example, for me, that is:
+`/projects/eriq@colostate.edu/miniconda3`.
 
-# I checked modules and found no samtools, bcftools, etc.
+Then, recreate the `bioinf` environment described above.
 
-# Now install miniconda
-mkdir conda_install
-cd conda_install/
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-chmod u+x Miniconda3-latest-Linux-x86_64.sh 
-./Miniconda3-latest-Linux-x86_64.sh 
+If you are having fun making environments and you think that you might like to use R on
+the cluster, then you might want to make an environment with some bioinformatics software
+that also has
+the latest version of R on miniconda installed.  At the time of writing that was R 3.6.1. So,
+do:
+```sh
+conda create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials
+```
+That makes an environment called `binfr` (which turns out to also be **way** easier to type that `bioinfr`).
+The `r-essentials` in the above command line is the name for a collection of 200 commonly used R packages (including
+the `tidyverse`).  This procedure takes a little while, but it is still far less painful than using the
+version of R that is installed on SUMMIT with the `modules` packages, and then trying to build the tidyverse
+from source with `install.packages()`.
 
-# then you follow the prompts and agree to the license and the 
-# default install location.
+#### What is Miniconda doing?
 
-## NOTE: Might want to install to a different location if there
-## are serious caps on hard disk usage in home directory..
+This is a good question.  We won't go deeply into the specifics, but will skim the
+surface of a few topics that can help you understand what Miniconda is doing.
 
-source ~/.bashrc
+First, Miniconda is downloading programs and their dependencies into the `miniconda3`
+directory. Based on the lists of dependencies and conflicts for each program that is being
+installed, it makes a sort of "equation," which it can "solve" to find the versions of
+different programs and libraries that can be installed and which should "play nicely with
+one another (and with your specific computer architecture." While it is solving this
+"equation" it is doing so while also doing its best
+to optimize features of the programs (like using the latest versions, if possible).
+Solving this "equation" is an example of a Boolean Satisfiability problem, which is a known
+class of difficult (time-consuming) problems.  If you are requesting a lot of programs, and
+especially if you do not constrain your request (by demanding a certain version of
+the program) then "solving" the request may take a long time.  However, when installing
+just a few bioinformatics programs it is unlikely to every take too terribly long.
 
-# after that I have it!
-(base) [eriq@colostate.edu@shas0136 conda_install]$
+Once miniconda has decided on which versions of which programs and dependencies to install,
+it downloads them and then places them into the requested environment (or the active environment
+if no environment is specifically requested).  If program is installed into an environment,  then you
+can access that program by activating the environment (i.e. `conda activate bioinf`).  Importantly,
+if you don't activate the environment, you won't be able to use the programs installed there.
+We will see later in writing bioinformatic scripts, you will always have to explicitly
+activate a desired conda environment when you run a script on a compute node through the job
+scheduler.
+
+The way that Miniconda delivers programs in an environment is by storing all the programs
+in a special environment directory (within the `miniconda3/envs` directory), and then, when
+the environment is activated, all that is really happening is that `conda` is manipulating your
+PATH variable (and likely a few others) to include directories with the environment's directory
+within the `miniconda3/envs` directory.  An easy way to see this is simply by
+inspecting your path variable while in differnt environments.  Here we compare the PATH
+variable in the `base` environment, versus in the `bioinf` environment, versus in the
+`binfr` environment:
+```sh
+(base) [~]--% echo $PATH
+/projects/eriq@colostate.edu/miniconda3/bin:/projects/eriq@colostate.edu/miniconda3/condabin:/usr/local/bin:/bin:/usr/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/eriq@colostate.edu/bin:/home/eriq@colostate.edu/bin
+(base) [~]--% conda activate bioinf
+(bioinf) [~]--% echo $PATH
+/projects/eriq@colostate.edu/miniconda3/envs/bioinf/bin:/projects/eriq@colostate.edu/miniconda3/condabin:/usr/local/bin:/bin:/usr/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/eriq@colostate.edu/bin:/home/eriq@colostate.edu/bin
+(bioinf) [~]--% conda activate binfr
+(binfr) [~]--% echo $PATH
+/projects/eriq@colostate.edu/miniconda3/envs/binfr/bin:/projects/eriq@colostate.edu/miniconda3/condabin:/usr/local/bin:/bin:/usr/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/eriq@colostate.edu/bin:/home/eriq@colostate.edu/bin
 ```
 
-Now, let's see if we can get samtools.  Just google "samtools conda" to
-get an idea of how to do it:
+
+#### What programs are available on Minconda?
+
+There are quite a few programs for multiple platforms.  If you are wondering
+whether a particular program is available from Miniconda, the easiest first
+step is to Google it.  For example, search for `miniconda bowtie`.
+
+You can also search from the command line using `conda search`.  Note that most
+bioinformatics programs you will be interested in are available on a conda
+_channel_ called `bioconda`.  You probably saw the `-c bioconda` option
+applied to the `conda create` commands above. That options tells conda to search
+the Bioconda channel for programs and packages.
+
+Here, you can try searching for a couple of packages that you might
+end up using to analyze genomic data:
 ```sh
-conda install -c bioconda samtools
+conda search -c bioconda plink
+
+# and next:
+
+conda search -c bioconda angsd
 ```
-AFter that, it just works! Cool!
+
+
+#### Can I add more programs to an environment?
+
+This is a worthwhile question.  Imagine that we have been happily working in our `bioinf` conda environment
+for a few months.  We have finished all our tasks with `bwa`, `samtools`, and `bcftools`, but perhaps now we
+want to analyze some of the data with `angsd` or `plink`.  Can we add those programs to our
+`bioinf` environment?  The short answer is "Yes!".  The steps are easy.
+
+1. Activate the environment you wish to add the programs to (i.e. `conda activate bioinf` for example).
+2. Then use `conda install`.  For example to install specific versions of `plink` and `angsd` that we
+saw above while searching for those packages we might do:
+    ```{sh, eval=FALSE}
+    conda install -c bioconda plink=1.90b6.12 angsd=0.931
+    ```
+
+Now, the longer answer is "Yes, but..."   The big "but" there occurs because if different
+programs require the same dependencies, but rely on different versions of the dependencies,
+installing programs over different commands can cause miniconda to not identify some
+incompatibilities between program dependencies.  A germane example occurs if you first install
+`samtools` into an environment, and then, after that, you install `bcftools`, like this:
 ```sh
-(base) [eriq@colostate.edu@shas0136 ~]$ samtools
-
-Program: samtools (Tools for alignments in the SAM format)
-Version: 1.9 (using htslib 1.9)
-
-Usage:   samtools <command> [options]
-
-Commands:
-  -- Indexing
-     dict           create a sequence dictionary file
-     faidx          index/extract FASTA
-     fqidx          index/extract FASTQ
-     index          index alignment
-
-...
+conda create -n samtools-first        # create an empty environment
+conda activate samtools-first         # activate the environment
+conda install -c bioconda samtools    # install samtools
+conda install -c bioconda bcftools    # install bcftools
+bcftools                              # try running bcftools
 ```
-
-All right! That is amazing.  Next steps:
-
-1. Tell students about establishing different environments.
-2. Learn about how to make a minimal environment for a project and how to 
-record that and be able to distribute/propagate it.
-
-Along those lines, I want to see if, when I install samtools into a new environment,
-it re-downloads it or not...
+When you try running the last line, `bcftools` barfs on you like so:
 ```sh
-conda create --name quick-test
-conda activate quick-test
-
-# i also made an environment in a specified directory (you
-# could put these within a project directory)
-conda create --prefix ./test-envs-dir 
-conda activate ./test-envs-dir
-
-# now, let's install bcftools there
-conda install -c bioconda bcftools
-
-# note that it doesn't re-download the dependencies, as far as I can tell.
-conda activate base
-bcftools # not found in environment base
-
-conda activate ./test-envs-dir
-bcftools  # it is found in this environment.  Cool.
-
-conda activate quick-test
-bcftools  # it ain't here
-```
-Now, after that, bcftools is in ./test-envs-dir/bcftools
-
-So, what if we install it into another environment.  Does it symlink it?
-```sh
-conda activate base
-conda install -c bioconda bcftools
-bcftools
-
-# whoa! That errored out!
 bcftools: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory
-
-# that is a serious problem.  
-
-# Can I get it in my other environment?
-conda activate quick-test
-conda install -c bioconda bcftools
-bcftools
-
-# that totally works, but it still doesn't in base...
-
-# so, what if we add samtools to our other environments?
-# that works fine.
+```
+So, often, installing extra programs does not create problems, but it can.  If you find yourself battling
+errors from conda-installed programs, see if you can correct that by creating a new environment and installing all the programs
+you want at the same time, in one fell swoop, using `conda create`, as in:
+```sh
+conda create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials
 ```
 
-But, samtools/bcftools dependency issues are a known problem:  https://github.com/sunbeam-labs/sunbeam/issues/181
-Basically they rely on different versions of some ssh libs.  
 
-Note that installing bcftools first things work.  But what if we make another environment
-and install samtools first again?
+#### Exporting environments
+
+In our introduction to Miniconda, we mentioned that it is a great boon to
+reproducibility.  Clearly, your analyses will be more reproducible if it is
+easier for others to install software to repeat your analyses.  However, Miniconda
+takes that one step further, allowing you to generate a list of
+the specific versions of
+all software and dependencies in a conda environment.  This list is a complete
+record of your environment, and, supplied to conda, it is a specification of
+exactly how to recreate that environment. 
+
+The process of creating such a list is called _exporting_ the conda
+environment.  Here we demonstrate its use by exporting the `bioinf`
+environment from SUMMIT to a simple text file.  Then we use that text file
+to recreate the environment on my laptop.
 ```sh
-conda create --name samtools-first
-conda activate samtools-first
-conda install -c bioconda samtools  # this didn't download anything new
-conda install -c bioconda bcftools
-
-# BOOM! THIS CREATES A FAIL.  SO, YOU GOTTA INSTALL BCFTOOLS
-# FIRST.  FAR OUT.
+# on summit:
+conda activate bioinf          # activate the environment
+conda env export               # export the environment
 ```
-
-### Exporting environments
-
-Looks like we should be able to do this.  Let's do the one that works:
-```sh
-(quick-test) [~]--% conda env export > quick-test-env.yml
-
-(quick-test) [~]--% cat quick-test-env.yml 
-name: quick-test
+The last command above just sends the exported environment
+to stdout, looking like this:
+```
+name: bioinf
 channels:
   - bioconda
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=main
   - bcftools=1.9=ha228f0b_4
+  - bwa=0.7.17=hed695b0_7
   - bzip2=1.0.8=h7b6447c_0
-  - ca-certificates=2019.5.15=1
-  - curl=7.65.3=hbc83047_0
+  - ca-certificates=2020.1.1=0
+  - curl=7.68.0=hbc83047_0
   - htslib=1.9=ha228f0b_7
-  - krb5=1.16.1=h173b8e3_7
-  - libcurl=7.65.3=h20c2e04_0
+  - krb5=1.17.1=h173b8e3_0
+  - libcurl=7.68.0=h20c2e04_0
   - libdeflate=1.0=h14c3975_1
   - libedit=3.1.20181209=hc058e9b_0
   - libgcc-ng=9.1.0=hdf63c60_0
   - libssh2=1.8.2=h1ba5d50_0
   - libstdcxx-ng=9.1.0=hdf63c60_0
   - ncurses=6.1=he6710b0_1
-  - openssl=1.1.1c=h7b6447c_1
+  - openssl=1.1.1d=h7b6447c_4
+  - perl=5.26.2=h14c3975_0
   - samtools=1.9=h10a08f8_12
   - tk=8.6.8=hbc83047_0
   - xz=5.2.4=h14c3975_4
   - zlib=1.2.11=h7b6447c_3
-prefix: /home/eriq@colostate.edu/miniconda3/envs/quick-test
-
-
-# OK, that is cool.  Now, if we wanted to email that to someone,
-# we could, and then they could do this:
-conda env create --name dupie-quick -f quick-test-env.yml 
-
-# that environment then has samtools and bcftools
-
-# note that it probably would try to name it quick-test if we didn't
-# pass in the name there...
-
+prefix: /projects/eriq@colostate.edu/miniconda3/envs/bioinf
 ```
+The format of this information is YAML (Yet Another Markup Language),
+(which we saw in the headers of RMarkdown documents, too).
 
-## Boneyard
-
-
-
-
-
-
-
-This is a variant of rsync that let's you sync stuff up to google drive.  It might be a better
-solution than rcp for getting stuff onto and off of google drive.  Here is a link:
-[https://rclone.org/](https://rclone.org/).  I need to evaluate it.  It might also be a good way
-to backup some of my workstuff on my laptop to Google Drive (and maybe also for other people to create replicas and have a decent backup if they have unlimited Google Drive storage).
-
-
-I got this working.  It is important to set your own OAuth client ID:
-[https://forum.rclone.org/t/very-slow-sync-to-google-drive/6903](https://forum.rclone.org/t/very-slow-sync-to-google-drive/6903)
-
-After that I did like this:
-```
-rclone sync -vv --tpslimit 10 --fast-list Otsh_v1.0_genomic.fna  gdrive-rclone:spoogee-spoogee
-```
-which did 2 Gb of fasta into the spoogee-spoogee directory pretty quickly.
-
-But, with something that has lots of files, it took longer:
-```
-# this is only about 100 Mb but took a long time
-rclone copy -P --tpslimit 10 --fast-list  rubias  gdrive-rclone:rubias
-```
-However, once that is done, you can sync it and it finds that parts that have changed pretty quickly.
-
-it appears to do that by file modification times:
+If we stored that output in a file:
 ```sh
-2019-04-19 23:21 /Otsh_v1.0/--% rclone sync -vv --tpslimit 10 --fast-list Otsh_v1.0_genomic.fna  gdrive-rclone:spoogee-spoogee
-2019/04/19 23:21:36 DEBUG : rclone: Version "v1.47.0" starting with parameters ["rclone" "sync" "-vv" "--tpslimit" "10" "--fast-list" "Otsh_v1.0_genomic.fna" "gdrive-rclone:spoogee-spoogee"]
-2019/04/19 23:21:36 DEBUG : Using config file from "/Users/eriq/.config/rclone/rclone.conf"
-2019/04/19 23:21:36 INFO  : Starting HTTP transaction limiter: max 10 transactions/s with burst 1
-2019/04/19 23:21:37 DEBUG : GCF_002872995.1_Otsh_v1.0_genomic.gff.gz: Excluded
-2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.dict: Excluded
-2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.amb: Excluded
-2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.ann: Excluded
-2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.bwt: Excluded
-2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.fai: Excluded
-2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.pac: Excluded
-2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.sa: Excluded
-2019/04/19 23:21:37 INFO  : Google drive root 'spoogee-spoogee': Waiting for checks to finish
-2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna: Size and modification time the same (differ by 0s, within tolerance 1s)
-2019/04/19 23:21:37 DEBUG : Otsh_v1.0_genomic.fna: Unchanged skipping
-2019/04/19 23:21:37 INFO  : Google drive root 'spoogee-spoogee': Waiting for transfers to finish
-2019/04/19 23:21:37 INFO  : Waiting for deletions to finish
-2019/04/19 23:21:37 INFO  : 
-Transferred:   	         0 / 0 Bytes, -, 0 Bytes/s, ETA -
-Errors:                 0
-Checks:                 1 / 1, 100%
-Transferred:            0 / 0, -
-Elapsed time:        1.3s
-
-2019/04/19 23:21:37 DEBUG : 5 go routines active
-2019/04/19 23:21:37 DEBUG : rclone: Version "v1.47.0" finishing with parameters ["rclone" "sync" "-vv" "--tpslimit" "10" "--fast-list" "Otsh_v1.0_genomic.fna" "gdrive-rclone:spoogee-spoogee"]
-2
+conda env export > bioinf.yml
 ```
-
-So, for moving big files around that might be a good way forward.  I will have to do a test with some big files.
-
-And I need to test it with team drives so that multiple individuals can pull stuff off of the Bird Genoscape drive for example.
-
-It would be nice to have safeguards so people don't trash stuff accidentally....
-
-#### rclone on Hoffman
-
-Their default install script expects sudo access to put it in /usr/local
-but I don't on hoffman, obviously, so I just downloaded the the install script and edited
-the section for Linux to look like this at the relevant part
+And then copied that file to another computer, then we can recreate
+the environment on that other computer with:
 ```sh
-case $OS in
-  'linux')
-    #binary
-    cp rclone ~/bin/rclone.new
-    chmod 755 ~/bin/rclone.new
-    #chown root:root /usr/bin/rclone.new
-    mv ~/bin/rclone.new ~/bin/rclone
-    #manuals
-    #mkdir -p /usr/local/share/man/man1
-    #cp rclone.1 /usr/local/share/man/man1/
-    #mandb
-    ;;
+conda env create -f bioinf.yml
 ```
-I don't get man pages, but I get it in ~/bin no problem.
-
-To set up the configuration, check where it belongs:
+That should work fine if the new computer is of the same architecture (i.e., both
+are Linux computers, or both are Macs).  However, the specific build numbers
+referenced in the YAML (i.e. things like the `h7b6447c_3` part of the program name)
+can create problems when installing on other architectures. In that case, we must
+export without the build names:
 ```sh
-% rclone config file
-Configuration file doesn't exist, but rclone will use this path:
-/u/home/e/eriq/.config/rclone/rclone.conf
+conda env export --no-builds > bioinf.yml
 ```
-And then I just put my config file from my laptop on there.  I just pasted the stuff 
-in whilst emacsing it.  Holy cow!  That is super easy.
-
-Note that the config file is where you can also set default options like tpslimit and fast-list I think.
-
-So, the OAuth stuff is all stored in that config file. And if you can set it up on one machine you can
-go put it on any others that you want.  That is awesome.
-
-When it was done, I tested it:
+Even that might fail if the dependencies differ on different architectures,
+in which case you can export just the list of the actual programs that
+you reqested be installed, by using the `--from-history` option.  For example:
 ```sh
-% rclone sync -vv  --drive-shared-with-me  gdrive-rclone:BaselinePaper  BaselinePaper_here
-2019/04/29 14:49:24 DEBUG : rclone: Version "v1.47.0" starting with parameters ["rclone" "sync" "-vv" "--drive-shared-with-me" "gdrive-rclone:BaselinePaper" "BaselinePaper_here"]
-2019/04/29 14:49:24 DEBUG : Using config file from "/u/home/e/eriq/.config/rclone/rclone.conf"
-2019/04/29 14:49:25 INFO  : Local file system at /u/home/e/eriq/BaselinePaper_here: Waiting for checks to finish
-2019/04/29 14:49:25 INFO  : Local file system at /u/home/e/eriq/BaselinePaper_here: Waiting for transfers to finish
-2019/04/29 14:49:26 DEBUG : Local file system at /u/home/e/eriq/BaselinePaper_here: File to upload is small (41922 bytes), uploading instead of streaming
-2019/04/29 14:49:26 DEBUG : BaselinePaper_Body.docx: Failed to pre-allocate: operation not supported
-2019/04/29 14:49:26 INFO  : BaselinePaper_Body.docx: Copied (new)
-2019/04/29 14:49:26 DEBUG : BaselinePaper_Body.docx: Updating size of doc after download to 41922
-2019/04/29 14:49:26 INFO  : BaselinePaper_Body.docx: Copied (Rcat, new)
-2019/04/29 14:49:27 DEBUG : Local file system at /u/home/e/eriq/BaselinePaper_here: File to upload is small (57172 bytes), uploading instead of streaming
-2019/04/29 14:49:27 DEBUG : ResponseToReviewers_eca.docx: Failed to pre-allocate: operation not supported
-2019/04/29 14:49:27 INFO  : ResponseToReviewers_eca.docx: Copied (new)
-2019/04/29 14:49:27 DEBUG : ResponseToReviewers_eca.docx: Updating size of doc after download to 57172
-2019/04/29 14:49:27 INFO  : ResponseToReviewers_eca.docx: Copied (Rcat, new)
-2019/04/29 14:49:27 INFO  : Waiting for deletions to finish
-2019/04/29 14:49:27 INFO  : 
-Transferred:   	  193.543k / 193.543 kBytes, 100%, 79.377 kBytes/s, ETA 0s
-Errors:                 0
-Checks:                 0 / 0, -
-Transferred:            4 / 4, 100%
-Elapsed time:        2.4s
-
-2019/04/29 14:49:27 DEBUG : 6 go routines active
-2019/04/29 14:49:27 DEBUG : rclone: Version "v1.47.0" finishing with parameters ["rclone" "sync" "-vv" "--drive-shared-with-me" "gdrive-rclone:BaselinePaper" "BaselinePaper_here"]
+% conda env export --from-history
+name: bioinf
+channels:
+  - defaults
+dependencies:
+  - bwa
+  - bcftools
+  - samtools
+prefix: /projects/eriq@colostate.edu/miniconda3/envs/bioinf
 ```
-That was fast and super solid.
+Though, even that fails, cuz it doesn't list bioconda in there.
+
+### Modules 
+
+This is if your sys admin has made it easy.
+
+The big point I must make here is that these don't work like conda environments.
+Environments are "all-or-nothing," whereas modules are "cumulative" and can be
+layered atop one another.  (If doing so creates conflicts, then the sysadmins have to
+figure that out...perhaps this is one reason that modules will often carry older (if not
+completely antiquated) versions of software.)
 
 
-#### Encrypt the config file
 
-You can use `rclone config edit` to set a password for the config file.  Then it
-encrypts that so no one is able to run wild if they just get that file.  You have to
-provide your password to do any of the rclone commands.  If you want to see the
-config file use `rclone config show`.  You could always copy that elsewhere, and then
-re-encrypt it.
+
+## Getting compute resources allocated to your jobs on an HPCC
+
+### Interactive sessions
+
+Although most of your serious computing on the cluster will occur in _batch_ jobs
+that get submitted to the scheduler and run without any further interaction from you, the user,
+you will begin our foray into the SLURM job scheduling commands with getting an interactive
+shell on a compute node.  "Why?" you might ask?  Well, before you launch any newly-written
+script as a _batch_ job
+on the cluster, you really should run through the code inside that script and ensure that
+things work as they should.  Since your script likely does some heavy computing, you can't do this on the 
+head nodes of the cluster.
+
+The standard way to get a shell on a compute node of a cluster is to request it with:
+```sh
+srun --pty /bin/bash
+```
+This tells slurm to run `bash` (which is typically found at `/bin/bash` on all Unix system) within
+a pseodo-terminal (the `--pty` part).  If you run this command you will be given a bash shell on a compute
+node (usually).  Check which node you are on, by following up with:
+```sh
+hostname
+```
+
+Now, on summit, there is a different way of getting an interactive shell that is recommended.  The
+sysadmins have written their own script to do it, called `sinteractive`.
+So, you could do:
+```sh
+sinteractive
+```
+
+Now, try this.
+
+1. If you are not already in a tmux session, start a new `tmux` session called `inclass` on the login node.
+    ```{sh, eval=FALSE}
+    tmux new -s inclass
+    ```
+
+1. Get a bash shell on a compute node
+    ```{sh, eval=FALSE}
+    sinteractive
+    # or
+    srun --pty /bin/bash
+    ```
+2. Check what host you are on with `hostname`
+    ```{sh, eval=FALSE}
+    hostname
+    ```
+    Do not proceed if you are on a login node still.
+3. Use your alias `myjobs` (if you have created it) to see what jobs you have running.
+    ```{sh, eval=FALSE}
+    myjobs
+    
+    # or, if you don't have that aliased:
+    squeue -u your_username
+    ```
+4. Navigate to your scratch directory.  On SUMMIT there is a symbolic link called `scratch` in your home directory.
+    ```{sh, eval=FALSE}
+    cd scratch
+    ```
+5. Make sure you have followed the link in your email to the shared google drive folder I sent you last night.
+6. Now, use rclone to list the files in the folder I shared with you:
+    ```{sh, eval=FALSE}
+    rclone ls --drive-shared-with-me gdrive-pers:CSU-con-gen-2020
+    ```
+    Note that `gdrive-pers` above is the name of my rclone configuration associated with the gmail account where
+    I got an email (from myself at my CSU account) about the shared folder.  You will have to change `gdrive-pers`
+    to be appropriate to your config, depending on how you set it up. Note also how you access folders shared with
+    you using `--drive-shared-with-me`. 
+7. After you get the above command to work, you should see:
+    ```{sh, eval=FALSE}
+    416265040 tiny-genomic-data.zip
+    179506752 big-fastq-play.zip
+    ```
+8. Use rclone to download `tiny-genomic-data.zip` (about 416 MB):
+    ```{sh, eval=FALSE}
+    rclone copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/tiny-genomic-data.zip ./
+    ```
+9. Unzip the file you just downloaded:
+    ```{sh, eval=FALSE}
+    unzip tiny-genomic-data.zip
+    ```
+10. Change directories into `tiny-genomic-data`
+    ```{sh, eval=FALSE}
+    unzip tiny-genomic-data.zip
+    ```
+11. Download the Chinook salmon genome into a directory called `genome`
+    ```{sh, eval=FALSE}
+     mkdir genome
+     cd genome
+     wget ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_other/Oncorhynchus_tshawytscha/all_assembly_versions/GCA_002872995.1_Otsh_v1.0/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz
+    ```
+    That dude is 760 Mb, but it goes really quickly.
+12. Activate your `bioinf` conda environment to be able to use `bwa`:
+    ```{sh, eval=FALSE}
+    conda activate bioinf
+    ```
+13. Index the genome with `bwa` in order to align reads to it:
+    ```{sh, eval=FALSE}
+    bwa index GCA_002872995.1_Otsh_v1.0_genomic.fna.gz 
+    ```
+    This will take about 10 to 15 minutes.  During that time, do this:
+    - If you are doing this within a `tmux` session, create a new tmux window (`cntrl-b c`). Note that this shell opens on the login node (the one that you started your tmux session on.)
+    - Rename this new tmux window "browse" (`cntrl-b ,`)
+    - Navigate to `~/scratch/cd tiny-genomic-data/genome/` and list the files there.  These new files
+    are being created by bwa.
+    - Switch back to your original tmux window.
+14. If `bwa` is still running, ask me some questions.  Or maybe I will tell you more about how conda works...
+15. If `bwa` is still running after that, ask me about _nested tmux sessions_.
 
 
 

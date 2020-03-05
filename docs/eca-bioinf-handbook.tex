@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-03-03}
+\date{2020-03-05}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -7193,363 +7193,532 @@ active conda environment is \texttt{bioinf}. Now, try these commands:
 \end{Highlighting}
 \end{Shaded}
 
+\hypertarget{uninstalling-miniconda-and-its-associated-environments}{%
+\subsubsection{Uninstalling Miniconda and its associated environments}\label{uninstalling-miniconda-and-its-associated-environments}}
+
+It may become necessary at some point to uninstall Miniconda. One important case of this
+is if you end up overflowing your home directory with conda-installed software. In this case,
+unless you have installed numerous, complex environments, the simplest thing to do is
+to ``uninstall'' Miniconda, reinstall it in a location with fewer hard-drive space constraints,
+and then simply recreate the environments you need, as you did originally.
+
+This is actually quite germane to SUMMIT users. The size quota on home directories on SUMMIT is
+only 2 Gb, so you can easily fill up your home directory by installing a few conda environments.
+To check how much of the hard
+drive space allocated to you is in use on SUMMIT, use the \texttt{curc-quota} command. (Check the documentation
+for how to check space on other HPCCs, but note that Hummingbird users get 1 TB on their home
+directories). Instead of
+using your home directory to house your Miniconda software, on SUMMIT you can put it in your
+\texttt{projects} storage area. Each user gets more storage (like 250 Gb) in a directory
+called \texttt{/projects/username} where \texttt{username} is replaced by your SUMMIT username,
+for example: \texttt{/projects/eriq@colostate.edu}
+
+To ``uninstall'' Miniconda, you first must delete the \texttt{miniconda3} directory in your
+home directory (if that is where it got installed to). This can take a while. It is done with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{rm}\NormalTok{ -rf ~/miniconda3}
+\end{Highlighting}
+\end{Shaded}
+
+Then you have to delete the lines between \texttt{\#\ \textgreater{}\textgreater{}\textgreater{}} and \texttt{\#\ \textless{}\textless{}\textless{}}, wherever they occur in your \texttt{\textasciitilde{}/.bashrc} and \texttt{\textasciitilde{}/bash\_profile}
+files, i.e., you will have to remove all of the lines that look
+something like thius:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# >>> conda initialize >>>}
+\CommentTok{# !! Contents within this block are managed by 'conda init' !!}
+\VariableTok{__conda_setup=}\StringTok{"}\VariableTok{$(}\StringTok{'/Users/eriq/miniconda3/bin/conda'} \StringTok{'shell.bash'} \StringTok{'hook'} \OperatorTok{2>} \ExtensionTok{/dev/null}\VariableTok{)}\StringTok{"}
+\KeywordTok{if}\BuiltInTok{ [} \VariableTok{$?} \OtherTok{-eq}\NormalTok{ 0}\BuiltInTok{ ]}\NormalTok{; }\KeywordTok{then}
+    \BuiltInTok{eval} \StringTok{"}\VariableTok{$__conda_setup}\StringTok{"}
+\KeywordTok{else}
+    \KeywordTok{if}\BuiltInTok{ [} \OtherTok{-f} \StringTok{"/Users/eriq/miniconda3/etc/profile.d/conda.sh"}\BuiltInTok{ ]}\NormalTok{; }\KeywordTok{then}
+        \BuiltInTok{.} \StringTok{"/Users/eriq/miniconda3/etc/profile.d/conda.sh"}
+    \KeywordTok{else}
+        \BuiltInTok{export} \VariableTok{PATH=}\StringTok{"/Users/eriq/miniconda3/bin:}\VariableTok{$PATH}\StringTok{"}
+    \KeywordTok{fi}
+\KeywordTok{fi}
+\BuiltInTok{unset} \VariableTok{__conda_setup}
+\CommentTok{# <<< conda initialize <<<}
+\end{Highlighting}
+\end{Shaded}
+
+After all those conda lines are removed from your \texttt{\textasciitilde{}/.bashrc} and \texttt{\textasciitilde{}/bash\_profile}, logging out
+and logging back in, you should be free from conda and ready to reinstall it in
+a different location.
+
+To reinstall miniconda in a different location, just follow the
+installation instructions above, but when you are running the
+\texttt{./Miniconda3-latest-Linux-x86\_64.sh} script, instead of choosing the default
+install location, use a location in your project directory. For example, for me, that is:
+\texttt{/projects/eriq@colostate.edu/miniconda3}.
+
+Then, recreate the \texttt{bioinf} environment described above.
+
+If you are having fun making environments and you think that you might like to use R on
+the cluster, then you might want to make an environment with some bioinformatics software
+that also has
+the latest version of R on miniconda installed. At the time of writing that was R 3.6.1. So,
+do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{conda}\NormalTok{ create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials}
+\end{Highlighting}
+\end{Shaded}
+
+That makes an environment called \texttt{binfr} (which turns out to also be \textbf{way} easier to type that \texttt{bioinfr}).
+The \texttt{r-essentials} in the above command line is the name for a collection of 200 commonly used R packages (including
+the \texttt{tidyverse}). This procedure takes a little while, but it is still far less painful than using the
+version of R that is installed on SUMMIT with the \texttt{modules} packages, and then trying to build the tidyverse
+from source with \texttt{install.packages()}.
+
+\hypertarget{what-is-miniconda-doing}{%
+\subsubsection{What is Miniconda doing?}\label{what-is-miniconda-doing}}
+
+This is a good question. We won't go deeply into the specifics, but will skim the
+surface of a few topics that can help you understand what Miniconda is doing.
+
+First, Miniconda is downloading programs and their dependencies into the \texttt{miniconda3}
+directory. Based on the lists of dependencies and conflicts for each program that is being
+installed, it makes a sort of ``equation,'' which it can ``solve'' to find the versions of
+different programs and libraries that can be installed and which should ``play nicely with
+one another (and with your specific computer architecture.'' While it is solving this
+``equation'' it is doing so while also doing its best
+to optimize features of the programs (like using the latest versions, if possible).
+Solving this ``equation'' is an example of a Boolean Satisfiability problem, which is a known
+class of difficult (time-consuming) problems. If you are requesting a lot of programs, and
+especially if you do not constrain your request (by demanding a certain version of
+the program) then ``solving'' the request may take a long time. However, when installing
+just a few bioinformatics programs it is unlikely to every take too terribly long.
+
+Once miniconda has decided on which versions of which programs and dependencies to install,
+it downloads them and then places them into the requested environment (or the active environment
+if no environment is specifically requested). If program is installed into an environment, then you
+can access that program by activating the environment (i.e. \texttt{conda\ activate\ bioinf}). Importantly,
+if you don't activate the environment, you won't be able to use the programs installed there.
+We will see later in writing bioinformatic scripts, you will always have to explicitly
+activate a desired conda environment when you run a script on a compute node through the job
+scheduler.
+
+The way that Miniconda delivers programs in an environment is by storing all the programs
+in a special environment directory (within the \texttt{miniconda3/envs} directory), and then, when
+the environment is activated, all that is really happening is that \texttt{conda} is manipulating your
+PATH variable (and likely a few others) to include directories with the environment's directory
+within the \texttt{miniconda3/envs} directory. An easy way to see this is simply by
+inspecting your path variable while in differnt environments. Here we compare the PATH
+variable in the \texttt{base} environment, versus in the \texttt{bioinf} environment, versus in the
+\texttt{binfr} environment:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{(}\ExtensionTok{base}\KeywordTok{)}\NormalTok{ [}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ echo }\VariableTok{$PATH}
+\ExtensionTok{/projects/eriq@colostate.edu/miniconda3}\NormalTok{/bin:}\ExtensionTok{/projects/eriq@colostate.edu/miniconda3}\NormalTok{/condabin:}\ExtensionTok{/usr/local}\NormalTok{/bin:/bin:}\ExtensionTok{/usr}\NormalTok{/bin:}\ExtensionTok{/usr}\NormalTok{/bin:}\ExtensionTok{/usr/local}\NormalTok{/sbin:}\ExtensionTok{/usr}\NormalTok{/sbin:}\ExtensionTok{/home/eriq@colostate.edu}\NormalTok{/bin:}\ExtensionTok{/home/eriq@colostate.edu/bin}
+\KeywordTok{(}\ExtensionTok{base}\KeywordTok{)}\NormalTok{ [}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ conda activate bioinf}
+\KeywordTok{(}\ExtensionTok{bioinf}\KeywordTok{)}\NormalTok{ [}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ echo }\VariableTok{$PATH}
+\ExtensionTok{/projects/eriq@colostate.edu/miniconda3/envs/bioinf}\NormalTok{/bin:}\ExtensionTok{/projects/eriq@colostate.edu/miniconda3}\NormalTok{/condabin:}\ExtensionTok{/usr/local}\NormalTok{/bin:/bin:}\ExtensionTok{/usr}\NormalTok{/bin:}\ExtensionTok{/usr}\NormalTok{/bin:}\ExtensionTok{/usr/local}\NormalTok{/sbin:}\ExtensionTok{/usr}\NormalTok{/sbin:}\ExtensionTok{/home/eriq@colostate.edu}\NormalTok{/bin:}\ExtensionTok{/home/eriq@colostate.edu/bin}
+\KeywordTok{(}\ExtensionTok{bioinf}\KeywordTok{)}\NormalTok{ [}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ conda activate binfr}
+\KeywordTok{(}\ExtensionTok{binfr}\KeywordTok{)}\NormalTok{ [}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ echo }\VariableTok{$PATH}
+\ExtensionTok{/projects/eriq@colostate.edu/miniconda3/envs/binfr}\NormalTok{/bin:}\ExtensionTok{/projects/eriq@colostate.edu/miniconda3}\NormalTok{/condabin:}\ExtensionTok{/usr/local}\NormalTok{/bin:/bin:}\ExtensionTok{/usr}\NormalTok{/bin:}\ExtensionTok{/usr}\NormalTok{/bin:}\ExtensionTok{/usr/local}\NormalTok{/sbin:}\ExtensionTok{/usr}\NormalTok{/sbin:}\ExtensionTok{/home/eriq@colostate.edu}\NormalTok{/bin:}\ExtensionTok{/home/eriq@colostate.edu/bin}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{what-programs-are-available-on-minconda}{%
+\subsubsection{What programs are available on Minconda?}\label{what-programs-are-available-on-minconda}}
+
+There are quite a few programs for multiple platforms. If you are wondering
+whether a particular program is available from Miniconda, the easiest first
+step is to Google it. For example, search for \texttt{miniconda\ bowtie}.
+
+You can also search from the command line using \texttt{conda\ search}. Note that most
+bioinformatics programs you will be interested in are available on a conda
+\emph{channel} called \texttt{bioconda}. You probably saw the \texttt{-c\ bioconda} option
+applied to the \texttt{conda\ create} commands above. That options tells conda to search
+the Bioconda channel for programs and packages.
+
+Here, you can try searching for a couple of packages that you might
+end up using to analyze genomic data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{conda}\NormalTok{ search -c bioconda plink}
+
+\CommentTok{# and next:}
+
+\ExtensionTok{conda}\NormalTok{ search -c bioconda angsd}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{can-i-add-more-programs-to-an-environment}{%
+\subsubsection{Can I add more programs to an environment?}\label{can-i-add-more-programs-to-an-environment}}
+
+This is a worthwhile question. Imagine that we have been happily working in our \texttt{bioinf} conda environment
+for a few months. We have finished all our tasks with \texttt{bwa}, \texttt{samtools}, and \texttt{bcftools}, but perhaps now we
+want to analyze some of the data with \texttt{angsd} or \texttt{plink}. Can we add those programs to our
+\texttt{bioinf} environment? The short answer is ``Yes!''. The steps are easy.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Activate the environment you wish to add the programs to (i.e. \texttt{conda\ activate\ bioinf} for example).
+\item
+  Then use \texttt{conda\ install}. For example to install specific versions of \texttt{plink} and \texttt{angsd} that we
+  saw above while searching for those packages we might do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{conda}\NormalTok{ install -c bioconda plink=1.90b6.12 angsd=0.931}
+\end{Highlighting}
+\end{Shaded}
+\end{enumerate}
+
+Now, the longer answer is ``Yes, but\ldots{}'' The big ``but'' there occurs because if different
+programs require the same dependencies, but rely on different versions of the dependencies,
+installing programs over different commands can cause miniconda to not identify some
+incompatibilities between program dependencies. A germane example occurs if you first install
+\texttt{samtools} into an environment, and then, after that, you install \texttt{bcftools}, like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{conda}\NormalTok{ create -n samtools-first        # create an empty environment}
+\ExtensionTok{conda}\NormalTok{ activate samtools-first         # activate the environment}
+\ExtensionTok{conda}\NormalTok{ install -c bioconda samtools    # install samtools}
+\ExtensionTok{conda}\NormalTok{ install -c bioconda bcftools    # install bcftools}
+\ExtensionTok{bcftools}\NormalTok{                              # try running bcftools}
+\end{Highlighting}
+\end{Shaded}
+
+When you try running the last line, \texttt{bcftools} barfs on you like so:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bcftools}\NormalTok{: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory}
+\end{Highlighting}
+\end{Shaded}
+
+So, often, installing extra programs does not create problems, but it can. If you find yourself battling
+errors from conda-installed programs, see if you can correct that by creating a new environment and installing all the programs
+you want at the same time, in one fell swoop, using \texttt{conda\ create}, as in:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{conda}\NormalTok{ create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exporting-environments}{%
+\subsubsection{Exporting environments}\label{exporting-environments}}
+
+In our introduction to Miniconda, we mentioned that it is a great boon to
+reproducibility. Clearly, your analyses will be more reproducible if it is
+easier for others to install software to repeat your analyses. However, Miniconda
+takes that one step further, allowing you to generate a list of
+the specific versions of
+all software and dependencies in a conda environment. This list is a complete
+record of your environment, and, supplied to conda, it is a specification of
+exactly how to recreate that environment.
+
+The process of creating such a list is called \emph{exporting} the conda
+environment. Here we demonstrate its use by exporting the \texttt{bioinf}
+environment from SUMMIT to a simple text file. Then we use that text file
+to recreate the environment on my laptop.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# on summit:}
+\ExtensionTok{conda}\NormalTok{ activate bioinf          # activate the environment}
+\ExtensionTok{conda}\NormalTok{ env export               # export the environment}
+\end{Highlighting}
+\end{Shaded}
+
+The last command above just sends the exported environment
+to stdout, looking like this:
+
+\begin{verbatim}
+name: bioinf
+channels:
+  - bioconda
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - bcftools=1.9=ha228f0b_4
+  - bwa=0.7.17=hed695b0_7
+  - bzip2=1.0.8=h7b6447c_0
+  - ca-certificates=2020.1.1=0
+  - curl=7.68.0=hbc83047_0
+  - htslib=1.9=ha228f0b_7
+  - krb5=1.17.1=h173b8e3_0
+  - libcurl=7.68.0=h20c2e04_0
+  - libdeflate=1.0=h14c3975_1
+  - libedit=3.1.20181209=hc058e9b_0
+  - libgcc-ng=9.1.0=hdf63c60_0
+  - libssh2=1.8.2=h1ba5d50_0
+  - libstdcxx-ng=9.1.0=hdf63c60_0
+  - ncurses=6.1=he6710b0_1
+  - openssl=1.1.1d=h7b6447c_4
+  - perl=5.26.2=h14c3975_0
+  - samtools=1.9=h10a08f8_12
+  - tk=8.6.8=hbc83047_0
+  - xz=5.2.4=h14c3975_4
+  - zlib=1.2.11=h7b6447c_3
+prefix: /projects/eriq@colostate.edu/miniconda3/envs/bioinf
+\end{verbatim}
+
+The format of this information is YAML (Yet Another Markup Language),
+(which we saw in the headers of RMarkdown documents, too).
+
+If we stored that output in a file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{conda}\NormalTok{ env export }\OperatorTok{>}\NormalTok{ bioinf.yml}
+\end{Highlighting}
+\end{Shaded}
+
+And then copied that file to another computer, then we can recreate
+the environment on that other computer with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{conda}\NormalTok{ env create -f bioinf.yml}
+\end{Highlighting}
+\end{Shaded}
+
+That should work fine if the new computer is of the same architecture (i.e., both
+are Linux computers, or both are Macs). However, the specific build numbers
+referenced in the YAML (i.e.~things like the \texttt{h7b6447c\_3} part of the program name)
+can create problems when installing on other architectures. In that case, we must
+export without the build names:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{conda}\NormalTok{ env export --no-builds }\OperatorTok{>}\NormalTok{ bioinf.yml}
+\end{Highlighting}
+\end{Shaded}
+
+Even that might fail if the dependencies differ on different architectures,
+in which case you can export just the list of the actual programs that
+you reqested be installed, by using the \texttt{-\/-from-history} option. For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ conda env export --from-history}
+\ExtensionTok{name}\NormalTok{: bioinf}
+\ExtensionTok{channels}\NormalTok{:}
+  \ExtensionTok{-}\NormalTok{ defaults}
+\ExtensionTok{dependencies}\NormalTok{:}
+  \ExtensionTok{-}\NormalTok{ bwa}
+  \ExtensionTok{-}\NormalTok{ bcftools}
+  \ExtensionTok{-}\NormalTok{ samtools}
+\ExtensionTok{prefix}\NormalTok{: /projects/eriq@colostate.edu/miniconda3/envs/bioinf}
+\end{Highlighting}
+\end{Shaded}
+
+Though, even that fails, cuz it doesn't list bioconda in there.
+
 \hypertarget{modules}{%
 \subsection{Modules}\label{modules}}
 
 This is if your sys admin has made it easy.
 
-\hypertarget{miniconda-failures-when-installing-programs-one-at-a-time}{%
-\subsection{Miniconda failures when installing programs one at a time}\label{miniconda-failures-when-installing-programs-one-at-a-time}}
+The big point I must make here is that these don't work like conda environments.
+Environments are ``all-or-nothing,'' whereas modules are ``cumulative'' and can be
+layered atop one another. (If doing so creates conflicts, then the sysadmins have to
+figure that out\ldots{}perhaps this is one reason that modules will often carry older (if not
+completely antiquated) versions of software.)
 
-I just want to quickly try this:
+\hypertarget{getting-compute-resources-allocated-to-your-jobs-on-an-hpcc}{%
+\section{Getting compute resources allocated to your jobs on an HPCC}\label{getting-compute-resources-allocated-to-your-jobs-on-an-hpcc}}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{ssh}\NormalTok{ eriq@colostate.edu@login.rc.colorado.edu}
+\hypertarget{interactive-sessions}{%
+\subsection{Interactive sessions}\label{interactive-sessions}}
 
-\CommentTok{# get on compile nodes}
-\FunctionTok{ssh}\NormalTok{ scompile}
+Although most of your serious computing on the cluster will occur in \emph{batch} jobs
+that get submitted to the scheduler and run without any further interaction from you, the user,
+you will begin our foray into the SLURM job scheduling commands with getting an interactive
+shell on a compute node. ``Why?'' you might ask? Well, before you launch any newly-written
+script as a \emph{batch} job
+on the cluster, you really should run through the code inside that script and ensure that
+things work as they should. Since your script likely does some heavy computing, you can't do this on the
+head nodes of the cluster.
 
-\CommentTok{# I checked modules and found no samtools, bcftools, etc.}
-
-\CommentTok{# Now install miniconda}
-\FunctionTok{mkdir}\NormalTok{ conda_install}
-\BuiltInTok{cd}\NormalTok{ conda_install/}
-\FunctionTok{wget}\NormalTok{ https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh}
-\FunctionTok{chmod}\NormalTok{ u+x Miniconda3-latest-Linux-x86_64.sh }
-\ExtensionTok{./Miniconda3-latest-Linux-x86_64.sh} 
-
-\CommentTok{# then you follow the prompts and agree to the license and the }
-\CommentTok{# default install location.}
-
-\CommentTok{## }\AlertTok{NOTE}\CommentTok{: Might want to install to a different location if there}
-\CommentTok{## are serious caps on hard disk usage in home directory..}
-
-\BuiltInTok{source}\NormalTok{ ~/.bashrc}
-
-\CommentTok{# after that I have it!}
-\KeywordTok{(}\ExtensionTok{base}\KeywordTok{)}\NormalTok{ [}\ExtensionTok{eriq@colostate.edu@shas0136}\NormalTok{ conda_install]$}
-\end{Highlighting}
-\end{Shaded}
-
-Now, let's see if we can get samtools. Just google ``samtools conda'' to
-get an idea of how to do it:
+The standard way to get a shell on a compute node of a cluster is to request it with:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\ExtensionTok{conda}\NormalTok{ install -c bioconda samtools}
+\ExtensionTok{srun}\NormalTok{ --pty /bin/bash}
 \end{Highlighting}
 \end{Shaded}
 
-AFter that, it just works! Cool!
+This tells slurm to run \texttt{bash} (which is typically found at \texttt{/bin/bash} on all Unix system) within
+a pseodo-terminal (the \texttt{-\/-pty} part). If you run this command you will be given a bash shell on a compute
+node (usually). Check which node you are on, by following up with:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{(}\ExtensionTok{base}\KeywordTok{)}\NormalTok{ [}\ExtensionTok{eriq@colostate.edu@shas0136}\NormalTok{ ~]$ samtools}
-
-\ExtensionTok{Program}\NormalTok{: samtools (Tools for alignments in the SAM format)}
-\ExtensionTok{Version}\NormalTok{: 1.9 (using htslib 1.9)}
-
-\ExtensionTok{Usage}\NormalTok{:   samtools }\OperatorTok{<}\NormalTok{command}\OperatorTok{>}\NormalTok{ [options]}
-
-\ExtensionTok{Commands}\NormalTok{:}
-  \ExtensionTok{--}\NormalTok{ Indexing}
-     \ExtensionTok{dict}\NormalTok{           create a sequence dictionary file}
-     \ExtensionTok{faidx}\NormalTok{          index/extract FASTA}
-     \ExtensionTok{fqidx}\NormalTok{          index/extract FASTQ}
-     \ExtensionTok{index}\NormalTok{          index alignment}
-
-\ExtensionTok{...}
+\FunctionTok{hostname}
 \end{Highlighting}
 \end{Shaded}
 
-All right! That is amazing. Next steps:
+Now, on summit, there is a different way of getting an interactive shell that is recommended. The
+sysadmins have written their own script to do it, called \texttt{sinteractive}.
+So, you could do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{sinteractive}
+\end{Highlighting}
+\end{Shaded}
+
+Now, try this.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\tightlist
 \item
-  Tell students about establishing different environments.
+  If you are not already in a tmux session, start a new \texttt{tmux} session called \texttt{inclass} on the login node.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{tmux}\NormalTok{ new -s inclass}
+\end{Highlighting}
+\end{Shaded}
 \item
-  Learn about how to make a minimal environment for a project and how to
-  record that and be able to distribute/propagate it.
+  Get a bash shell on a compute node
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{sinteractive}
+\CommentTok{# or}
+\ExtensionTok{srun}\NormalTok{ --pty /bin/bash}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Check what host you are on with \texttt{hostname}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hostname}
+\end{Highlighting}
+\end{Shaded}
+
+  Do not proceed if you are on a login node still.
+\item
+  Use your alias \texttt{myjobs} (if you have created it) to see what jobs you have running.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{myjobs}
+
+\CommentTok{# or, if you don't have that aliased:}
+\ExtensionTok{squeue}\NormalTok{ -u your_username}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Navigate to your scratch directory. On SUMMIT there is a symbolic link called \texttt{scratch} in your home directory.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{cd}\NormalTok{ scratch}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Make sure you have followed the link in your email to the shared google drive folder I sent you last night.
+\item
+  Now, use rclone to list the files in the folder I shared with you:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{rclone}\NormalTok{ ls --drive-shared-with-me gdrive-pers:CSU-con-gen-2020}
+\end{Highlighting}
+\end{Shaded}
+
+  Note that \texttt{gdrive-pers} above is the name of my rclone configuration associated with the gmail account where
+  I got an email (from myself at my CSU account) about the shared folder. You will have to change \texttt{gdrive-pers}
+  to be appropriate to your config, depending on how you set it up. Note also how you access folders shared with
+  you using \texttt{-\/-drive-shared-with-me}.
+\item
+  After you get the above command to work, you should see:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{416265040}\NormalTok{ tiny-genomic-data.zip}
+\ExtensionTok{179506752}\NormalTok{ big-fastq-play.zip}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Use rclone to download \texttt{tiny-genomic-data.zip} (about 416 MB):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{rclone}\NormalTok{ copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/tiny-genomic-data.zip ./}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Unzip the file you just downloaded:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unzip}\NormalTok{ tiny-genomic-data.zip}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Change directories into \texttt{tiny-genomic-data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{unzip}\NormalTok{ tiny-genomic-data.zip}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Download the Chinook salmon genome into a directory called \texttt{genome}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \FunctionTok{mkdir}\NormalTok{ genome}
+ \BuiltInTok{cd}\NormalTok{ genome}
+ \FunctionTok{wget}\NormalTok{ ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_other/Oncorhynchus_tshawytscha/all_assembly_versions/GCA_002872995.1_Otsh_v1.0/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz}
+\end{Highlighting}
+\end{Shaded}
+
+  That dude is 760 Mb, but it goes really quickly.
+\item
+  Activate your \texttt{bioinf} conda environment to be able to use \texttt{bwa}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{conda}\NormalTok{ activate bioinf}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Index the genome with \texttt{bwa} in order to align reads to it:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bwa}\NormalTok{ index GCA_002872995.1_Otsh_v1.0_genomic.fna.gz }
+\end{Highlighting}
+\end{Shaded}
+
+  This will take about 10 to 15 minutes. During that time, do this:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    If you are doing this within a \texttt{tmux} session, create a new tmux window (\texttt{cntrl-b\ c}). Note that this shell opens on the login node (the one that you started your tmux session on.)
+  \item
+    Rename this new tmux window ``browse'' (\texttt{cntrl-b\ ,})
+  \item
+    Navigate to \texttt{\textasciitilde{}/scratch/cd\ tiny-genomic-data/genome/} and list the files there. These new files
+    are being created by bwa.
+  \item
+    Switch back to your original tmux window.
+  \end{itemize}
+\item
+  If \texttt{bwa} is still running, ask me some questions. Or maybe I will tell you more about how conda works\ldots{}
+\item
+  If \texttt{bwa} is still running after that, ask me about \emph{nested tmux sessions}.
 \end{enumerate}
-
-Along those lines, I want to see if, when I install samtools into a new environment,
-it re-downloads it or not\ldots{}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ExtensionTok{conda}\NormalTok{ create --name quick-test}
-\ExtensionTok{conda}\NormalTok{ activate quick-test}
-
-\CommentTok{# i also made an environment in a specified directory (you}
-\CommentTok{# could put these within a project directory)}
-\ExtensionTok{conda}\NormalTok{ create --prefix ./test-envs-dir }
-\ExtensionTok{conda}\NormalTok{ activate ./test-envs-dir}
-
-\CommentTok{# now, let's install bcftools there}
-\ExtensionTok{conda}\NormalTok{ install -c bioconda bcftools}
-
-\CommentTok{# note that it doesn't re-download the dependencies, as far as I can tell.}
-\ExtensionTok{conda}\NormalTok{ activate base}
-\ExtensionTok{bcftools} \CommentTok{# not found in environment base}
-
-\ExtensionTok{conda}\NormalTok{ activate ./test-envs-dir}
-\ExtensionTok{bcftools}\NormalTok{  # it is found in this environment.  Cool.}
-
-\ExtensionTok{conda}\NormalTok{ activate quick-test}
-\ExtensionTok{bcftools}\NormalTok{  # it ain}\StringTok{'t here}
-\end{Highlighting}
-\end{Shaded}
-
-Now, after that, bcftools is in ./test-envs-dir/bcftools
-
-So, what if we install it into another environment. Does it symlink it?
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ExtensionTok{conda}\NormalTok{ activate base}
-\ExtensionTok{conda}\NormalTok{ install -c bioconda bcftools}
-\ExtensionTok{bcftools}
-
-\CommentTok{# whoa! That errored out!}
-\ExtensionTok{bcftools}\NormalTok{: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory}
-
-\CommentTok{# that is a serious problem.  }
-
-\CommentTok{# Can I get it in my other environment?}
-\ExtensionTok{conda}\NormalTok{ activate quick-test}
-\ExtensionTok{conda}\NormalTok{ install -c bioconda bcftools}
-\ExtensionTok{bcftools}
-
-\CommentTok{# that totally works, but it still doesn't in base...}
-
-\CommentTok{# so, what if we add samtools to our other environments?}
-\CommentTok{# that works fine.}
-\end{Highlighting}
-\end{Shaded}
-
-But, samtools/bcftools dependency issues are a known problem: \url{https://github.com/sunbeam-labs/sunbeam/issues/181}
-Basically they rely on different versions of some ssh libs.
-
-Note that installing bcftools first things work. But what if we make another environment
-and install samtools first again?
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ExtensionTok{conda}\NormalTok{ create --name samtools-first}
-\ExtensionTok{conda}\NormalTok{ activate samtools-first}
-\ExtensionTok{conda}\NormalTok{ install -c bioconda samtools  # this didn}\StringTok{'t download anything new}
-\StringTok{conda install -c bioconda bcftools}
-
-\StringTok{# BOOM! THIS CREATES A FAIL.  SO, YOU GOTTA INSTALL BCFTOOLS}
-\StringTok{# FIRST.  FAR OUT.}
-\end{Highlighting}
-\end{Shaded}
-
-\hypertarget{exporting-environments}{%
-\subsection{Exporting environments}\label{exporting-environments}}
-
-Looks like we should be able to do this. Let's do the one that works:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{(}\ExtensionTok{quick-test}\KeywordTok{)}\NormalTok{ [}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ conda env export }\OperatorTok{>}\NormalTok{ quick-test-env.yml}
-
-\KeywordTok{(}\ExtensionTok{quick-test}\KeywordTok{)}\NormalTok{ [}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ cat quick-test-env.yml }
-\ExtensionTok{name}\NormalTok{: quick-test}
-\ExtensionTok{channels}\NormalTok{:}
-  \ExtensionTok{-}\NormalTok{ bioconda}
-  \ExtensionTok{-}\NormalTok{ defaults}
-\ExtensionTok{dependencies}\NormalTok{:}
-  \ExtensionTok{-}\NormalTok{ _libgcc_mutex=0.1=main}
-  \ExtensionTok{-}\NormalTok{ bcftools=1.9=ha228f0b_4}
-  \ExtensionTok{-}\NormalTok{ bzip2=1.0.8=h7b6447c_0}
-  \ExtensionTok{-}\NormalTok{ ca-certificates=2019.5.15=1}
-  \ExtensionTok{-}\NormalTok{ curl=7.65.3=hbc83047_0}
-  \ExtensionTok{-}\NormalTok{ htslib=1.9=ha228f0b_7}
-  \ExtensionTok{-}\NormalTok{ krb5=1.16.1=h173b8e3_7}
-  \ExtensionTok{-}\NormalTok{ libcurl=7.65.3=h20c2e04_0}
-  \ExtensionTok{-}\NormalTok{ libdeflate=1.0=h14c3975_1}
-  \ExtensionTok{-}\NormalTok{ libedit=3.1.20181209=hc058e9b_0}
-  \ExtensionTok{-}\NormalTok{ libgcc-ng=9.1.0=hdf63c60_0}
-  \ExtensionTok{-}\NormalTok{ libssh2=1.8.2=h1ba5d50_0}
-  \ExtensionTok{-}\NormalTok{ libstdcxx-ng=9.1.0=hdf63c60_0}
-  \ExtensionTok{-}\NormalTok{ ncurses=6.1=he6710b0_1}
-  \ExtensionTok{-}\NormalTok{ openssl=1.1.1c=h7b6447c_1}
-  \ExtensionTok{-}\NormalTok{ samtools=1.9=h10a08f8_12}
-  \ExtensionTok{-}\NormalTok{ tk=8.6.8=hbc83047_0}
-  \ExtensionTok{-}\NormalTok{ xz=5.2.4=h14c3975_4}
-  \ExtensionTok{-}\NormalTok{ zlib=1.2.11=h7b6447c_3}
-\ExtensionTok{prefix}\NormalTok{: /home/eriq@colostate.edu/miniconda3/envs/quick-test}
-
-
-\CommentTok{# OK, that is cool.  Now, if we wanted to email that to someone,}
-\CommentTok{# we could, and then they could do this:}
-\ExtensionTok{conda}\NormalTok{ env create --name dupie-quick -f quick-test-env.yml }
-
-\CommentTok{# that environment then has samtools and bcftools}
-
-\CommentTok{# note that it probably would try to name it quick-test if we didn't}
-\CommentTok{# pass in the name there...}
-\end{Highlighting}
-\end{Shaded}
-
-\hypertarget{boneyard}{%
-\section{Boneyard}\label{boneyard}}
-
-This is a variant of rsync that let's you sync stuff up to google drive. It might be a better
-solution than rcp for getting stuff onto and off of google drive. Here is a link:
-\url{https://rclone.org/}. I need to evaluate it. It might also be a good way
-to backup some of my workstuff on my laptop to Google Drive (and maybe also for other people to create replicas and have a decent backup if they have unlimited Google Drive storage).
-
-I got this working. It is important to set your own OAuth client ID:
-\url{https://forum.rclone.org/t/very-slow-sync-to-google-drive/6903}
-
-After that I did like this:
-
-\begin{verbatim}
-rclone sync -vv --tpslimit 10 --fast-list Otsh_v1.0_genomic.fna  gdrive-rclone:spoogee-spoogee
-\end{verbatim}
-
-which did 2 Gb of fasta into the spoogee-spoogee directory pretty quickly.
-
-But, with something that has lots of files, it took longer:
-
-\begin{verbatim}
-# this is only about 100 Mb but took a long time
-rclone copy -P --tpslimit 10 --fast-list  rubias  gdrive-rclone:rubias
-\end{verbatim}
-
-However, once that is done, you can sync it and it finds that parts that have changed pretty quickly.
-
-it appears to do that by file modification times:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ExtensionTok{2019-04-19}\NormalTok{ 23:21 /Otsh_v1.0/--% rclone sync -vv --tpslimit 10 --fast-list Otsh_v1.0_genomic.fna  gdrive-rclone:spoogee-spoogee}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:36 DEBUG : rclone: Version }\StringTok{"v1.47.0"}\NormalTok{ starting with parameters [}\StringTok{"rclone"} \StringTok{"sync"} \StringTok{"-vv"} \StringTok{"--tpslimit"} \StringTok{"10"} \StringTok{"--fast-list"} \StringTok{"Otsh_v1.0_genomic.fna"} \StringTok{"gdrive-rclone:spoogee-spoogee"}\NormalTok{]}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:36 DEBUG : Using config file from }\StringTok{"/Users/eriq/.config/rclone/rclone.conf"}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:36 INFO  : Starting HTTP transaction limiter: max 10 transactions/s with burst 1}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 DEBUG : GCF_002872995.1_Otsh_v1.0_genomic.gff.gz: Excluded}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 DEBUG : Otsh_v1.0_genomic.dict: Excluded}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.amb: Excluded}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.ann: Excluded}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.bwt: Excluded}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.fai: Excluded}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.pac: Excluded}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 DEBUG : Otsh_v1.0_genomic.fna.sa: Excluded}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 INFO  : Google drive root }\StringTok{'spoogee-spoogee'}\NormalTok{: Waiting for checks to finish}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 DEBUG : Otsh_v1.0_genomic.fna: Size and modification time the same (differ by 0s, within tolerance 1s)}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 DEBUG : Otsh_v1.0_genomic.fna: Unchanged skipping}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 INFO  : Google drive root }\StringTok{'spoogee-spoogee'}\NormalTok{: Waiting for transfers to finish}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 INFO  : Waiting for deletions to finish}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 INFO  : }
-\ExtensionTok{Transferred}\NormalTok{:             0 / 0 Bytes, -, 0 Bytes/s, ETA -}
-\ExtensionTok{Errors}\NormalTok{:                 0}
-\ExtensionTok{Checks}\NormalTok{:                 1 / 1, 100%}
-\ExtensionTok{Transferred}\NormalTok{:            0 / 0, -}
-\ExtensionTok{Elapsed}\NormalTok{ time:        1.3s}
-
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 DEBUG : 5 go routines active}
-\ExtensionTok{2019/04/19}\NormalTok{ 23:21:37 DEBUG : rclone: Version }\StringTok{"v1.47.0"}\NormalTok{ finishing with parameters [}\StringTok{"rclone"} \StringTok{"sync"} \StringTok{"-vv"} \StringTok{"--tpslimit"} \StringTok{"10"} \StringTok{"--fast-list"} \StringTok{"Otsh_v1.0_genomic.fna"} \StringTok{"gdrive-rclone:spoogee-spoogee"}\NormalTok{]}
-\ExtensionTok{2}
-\end{Highlighting}
-\end{Shaded}
-
-So, for moving big files around that might be a good way forward. I will have to do a test with some big files.
-
-And I need to test it with team drives so that multiple individuals can pull stuff off of the Bird Genoscape drive for example.
-
-It would be nice to have safeguards so people don't trash stuff accidentally\ldots{}.
-
-\hypertarget{rclone-on-hoffman}{%
-\subsubsection{rclone on Hoffman}\label{rclone-on-hoffman}}
-
-Their default install script expects sudo access to put it in /usr/local
-but I don't on hoffman, obviously, so I just downloaded the the install script and edited
-the section for Linux to look like this at the relevant part
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\KeywordTok{case} \VariableTok{$OS}\KeywordTok{ in}
-  \StringTok{'linux'}\KeywordTok{)}
-    \CommentTok{#binary}
-    \FunctionTok{cp}\NormalTok{ rclone ~/bin/rclone.new}
-    \FunctionTok{chmod}\NormalTok{ 755 ~/bin/rclone.new}
-    \CommentTok{#chown root:root /usr/bin/rclone.new}
-    \FunctionTok{mv}\NormalTok{ ~/bin/rclone.new ~/bin/rclone}
-    \CommentTok{#manuals}
-    \CommentTok{#mkdir -p /usr/local/share/man/man1}
-    \CommentTok{#cp rclone.1 /usr/local/share/man/man1/}
-    \CommentTok{#mandb}
-    \KeywordTok{;;}
-\end{Highlighting}
-\end{Shaded}
-
-I don't get man pages, but I get it in \textasciitilde{}/bin no problem.
-
-To set up the configuration, check where it belongs:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ExtensionTok{%}\NormalTok{ rclone config file}
-\ExtensionTok{Configuration}\NormalTok{ file doesn}\StringTok{'t exist, but rclone will use this path:}
-\StringTok{/u/home/e/eriq/.config/rclone/rclone.conf}
-\end{Highlighting}
-\end{Shaded}
-
-And then I just put my config file from my laptop on there. I just pasted the stuff
-in whilst emacsing it. Holy cow! That is super easy.
-
-Note that the config file is where you can also set default options like tpslimit and fast-list I think.
-
-So, the OAuth stuff is all stored in that config file. And if you can set it up on one machine you can
-go put it on any others that you want. That is awesome.
-
-When it was done, I tested it:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\ExtensionTok{%}\NormalTok{ rclone sync -vv  --drive-shared-with-me  gdrive-rclone:BaselinePaper  BaselinePaper_here}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:24 DEBUG : rclone: Version }\StringTok{"v1.47.0"}\NormalTok{ starting with parameters [}\StringTok{"rclone"} \StringTok{"sync"} \StringTok{"-vv"} \StringTok{"--drive-shared-with-me"} \StringTok{"gdrive-rclone:BaselinePaper"} \StringTok{"BaselinePaper_here"}\NormalTok{]}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:24 DEBUG : Using config file from }\StringTok{"/u/home/e/eriq/.config/rclone/rclone.conf"}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:25 INFO  : Local file system at /u/home/e/eriq/BaselinePaper_here: Waiting for checks to finish}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:25 INFO  : Local file system at /u/home/e/eriq/BaselinePaper_here: Waiting for transfers to finish}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:26 DEBUG : Local file system at /u/home/e/eriq/BaselinePaper_here: File to upload is small (41922 bytes), }\ExtensionTok{uploading}\NormalTok{ instead of streaming}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:26 DEBUG : BaselinePaper_Body.docx: Failed to pre-allocate: operation not supported}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:26 INFO  : BaselinePaper_Body.docx: Copied (new)}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:26 DEBUG : BaselinePaper_Body.docx: Updating size of doc after download to 41922}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:26 INFO  : BaselinePaper_Body.docx: Copied (Rcat, new)}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:27 DEBUG : Local file system at /u/home/e/eriq/BaselinePaper_here: File to upload is small (57172 bytes), }\ExtensionTok{uploading}\NormalTok{ instead of streaming}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:27 DEBUG : ResponseToReviewers_eca.docx: Failed to pre-allocate: operation not supported}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:27 INFO  : ResponseToReviewers_eca.docx: Copied (new)}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:27 DEBUG : ResponseToReviewers_eca.docx: Updating size of doc after download to 57172}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:27 INFO  : ResponseToReviewers_eca.docx: Copied (Rcat, new)}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:27 INFO  : Waiting for deletions to finish}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:27 INFO  : }
-\ExtensionTok{Transferred}\NormalTok{:      193.543k / 193.543 kBytes, 100%, 79.377 kBytes/s, ETA 0s}
-\ExtensionTok{Errors}\NormalTok{:                 0}
-\ExtensionTok{Checks}\NormalTok{:                 0 / 0, -}
-\ExtensionTok{Transferred}\NormalTok{:            4 / 4, 100%}
-\ExtensionTok{Elapsed}\NormalTok{ time:        2.4s}
-
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:27 DEBUG : 6 go routines active}
-\ExtensionTok{2019/04/29}\NormalTok{ 14:49:27 DEBUG : rclone: Version }\StringTok{"v1.47.0"}\NormalTok{ finishing with parameters [}\StringTok{"rclone"} \StringTok{"sync"} \StringTok{"-vv"} \StringTok{"--drive-shared-with-me"} \StringTok{"gdrive-rclone:BaselinePaper"} \StringTok{"BaselinePaper_here"}\NormalTok{]}
-\end{Highlighting}
-\end{Shaded}
-
-That was fast and super solid.
-
-\hypertarget{encrypt-the-config-file}{%
-\subsubsection{Encrypt the config file}\label{encrypt-the-config-file}}
-
-You can use \texttt{rclone\ config\ edit} to set a password for the config file. Then it
-encrypts that so no one is able to run wild if they just get that file. You have to
-provide your password to do any of the rclone commands. If you want to see the
-config file use \texttt{rclone\ config\ show}. You could always copy that elsewhere, and then
-re-encrypt it.
 
 Here is some nice stuff for summarizing all the information from the different runs from the chinook-wgs project:
 
@@ -10419,7 +10588,7 @@ I copied that to \texttt{inputs} so we can plot it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-42-1.pdf}
+\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-56-1.pdf}
 
 OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.
 

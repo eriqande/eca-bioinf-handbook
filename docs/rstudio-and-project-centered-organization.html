@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-03-03" />
+<meta name="date" content="2020-03-05" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -246,10 +246,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#installing-software-on-an-hpcc"><i class="fa fa-check"></i><b>8.4</b> Installing Software on an HPCC</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#miniconda"><i class="fa fa-check"></i><b>8.4.1</b> Miniconda</a></li>
 <li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#modules"><i class="fa fa-check"></i><b>8.4.2</b> Modules</a></li>
-<li class="chapter" data-level="8.4.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#miniconda-failures-when-installing-programs-one-at-a-time"><i class="fa fa-check"></i><b>8.4.3</b> Miniconda failures when installing programs one at a time</a></li>
-<li class="chapter" data-level="8.4.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#exporting-environments"><i class="fa fa-check"></i><b>8.4.4</b> Exporting environments</a></li>
 </ul></li>
-<li class="chapter" data-level="8.5" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#boneyard"><i class="fa fa-check"></i><b>8.5</b> Boneyard</a></li>
+<li class="chapter" data-level="8.5" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#getting-compute-resources-allocated-to-your-jobs-on-an-hpcc"><i class="fa fa-check"></i><b>8.5</b> Getting compute resources allocated to your jobs on an HPCC</a><ul>
+<li class="chapter" data-level="8.5.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#interactive-sessions"><i class="fa fa-check"></i><b>8.5.1</b> Interactive sessions</a></li>
+</ul></li>
 <li class="chapter" data-level="8.6" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#the-queue-slurmsgeuge"><i class="fa fa-check"></i><b>8.6</b> The Queue (SLURM/SGE/UGE)</a></li>
 <li class="chapter" data-level="8.7" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#modules-package"><i class="fa fa-check"></i><b>8.7</b> Modules package</a></li>
 <li class="chapter" data-level="8.8" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#compiling-programs-without-admin-privileges"><i class="fa fa-check"></i><b>8.8</b> Compiling programs without admin privileges</a></li>
@@ -388,7 +388,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 a chapter in a dissertation or a paper.</p>
 <p>I think it is useful for number things in order on a three-digit system, and
 at the top of each make directories <code>outputs</code> and <code>intermediates</code>, like this:</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb270-1" data-line-number="1"><span class="kw">dir.create</span>(<span class="kw">file.path</span>(<span class="kw">c</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;intermediates&quot;</span>), <span class="st">&quot;203&quot;</span>), <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb288-1" data-line-number="1"><span class="kw">dir.create</span>(<span class="kw">file.path</span>(<span class="kw">c</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;intermediates&quot;</span>), <span class="st">&quot;203&quot;</span>), <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>I had previously used two variables <code>output_dir</code> and <code>interm_dir</code> to specify these in each
 notebook, but now I think it would be better to just hardwire those, for a few reasons:</p>
 <ul>
