@@ -7292,11 +7292,11 @@ Solving this ``equation'' is an example of a Boolean Satisfiability problem, whi
 class of difficult (time-consuming) problems. If you are requesting a lot of programs, and
 especially if you do not constrain your request (by demanding a certain version of
 the program) then ``solving'' the request may take a long time. However, when installing
-just a few bioinformatics programs it is unlikely to every take too terribly long.
+just a few bioinformatics programs it is unlikely to ever take too terribly long.
 
 Once miniconda has decided on which versions of which programs and dependencies to install,
 it downloads them and then places them into the requested environment (or the active environment
-if no environment is specifically requested). If program is installed into an environment, then you
+if no environment is specifically requested). If a program is installed into an environment, then you
 can access that program by activating the environment (i.e. \texttt{conda\ activate\ bioinf}). Importantly,
 if you don't activate the environment, you won't be able to use the programs installed there.
 We will see later in writing bioinformatic scripts, you will always have to explicitly
@@ -7305,10 +7305,10 @@ scheduler.
 
 The way that Miniconda delivers programs in an environment is by storing all the programs
 in a special environment directory (within the \texttt{miniconda3/envs} directory), and then, when
-the environment is activated, all that is really happening is that \texttt{conda} is manipulating your
-PATH variable (and likely a few others) to include directories with the environment's directory
+the environment is activated, the main thing that is happening is that \texttt{conda} is manipulating your
+PATH variable to include directories within the environment's directory
 within the \texttt{miniconda3/envs} directory. An easy way to see this is simply by
-inspecting your path variable while in differnt environments. Here we compare the PATH
+inspecting your path variable while in different environments. Here we compare the PATH
 variable in the \texttt{base} environment, versus in the \texttt{bioinf} environment, versus in the
 \texttt{binfr} environment:
 
@@ -7324,6 +7324,9 @@ variable in the \texttt{base} environment, versus in the \texttt{bioinf} environ
 \ExtensionTok{/projects/eriq@colostate.edu/miniconda3/envs/binfr}\NormalTok{/bin:}\ExtensionTok{/projects/eriq@colostate.edu/miniconda3}\NormalTok{/condabin:}\ExtensionTok{/usr/local}\NormalTok{/bin:/bin:}\ExtensionTok{/usr}\NormalTok{/bin:}\ExtensionTok{/usr}\NormalTok{/bin:}\ExtensionTok{/usr/local}\NormalTok{/sbin:}\ExtensionTok{/usr}\NormalTok{/sbin:}\ExtensionTok{/home/eriq@colostate.edu}\NormalTok{/bin:}\ExtensionTok{/home/eriq@colostate.edu/bin}
 \end{Highlighting}
 \end{Shaded}
+
+(To be sure, \texttt{miniconda} can change a few more things than just your PATH variable when you activate an environment, but
+for the typical user, the changes to PATH are most important.)
 
 \hypertarget{what-programs-are-available-on-minconda}{%
 \subsubsection{What programs are available on Minconda?}\label{what-programs-are-available-on-minconda}}
@@ -7537,12 +7540,12 @@ completely antiquated) versions of software.)
 
 Although most of your serious computing on the cluster will occur in \emph{batch} jobs
 that get submitted to the scheduler and run without any further interaction from you, the user,
-you will begin our foray into the SLURM job scheduling commands with getting an interactive
-shell on a compute node. ``Why?'' you might ask? Well, before you launch any newly-written
+we will begin our foray into the SLURM job scheduling commands by getting an \emph{interactive shell}
+on a compute node. ``Why?'' you might ask? Well, before you launch any newly-written
 script as a \emph{batch} job
 on the cluster, you really should run through the code inside that script and ensure that
 things work as they should. Since your script likely does some heavy computing, you can't do this on the
-head nodes of the cluster.
+head nodes (i.e., login nodes) of the cluster.
 
 The standard way to get a shell on a compute node of a cluster is to request it with:
 
@@ -7562,7 +7565,7 @@ node (usually). Check which node you are on, by following up with:
 \end{Highlighting}
 \end{Shaded}
 
-Now, on summit, there is a different way of getting an interactive shell that is recommended. The
+Now, on SUMMIT, there is a different way of getting an interactive shell that is recommended. The
 sysadmins have written their own script to do it, called \texttt{sinteractive}.
 So, you could do:
 
@@ -7589,6 +7592,7 @@ Now, try this.
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{# on summit:}
 \ExtensionTok{sinteractive}
 \CommentTok{# or}
 \ExtensionTok{srun}\NormalTok{ --pty /bin/bash}
@@ -7624,7 +7628,18 @@ Now, try this.
 \end{Highlighting}
 \end{Shaded}
 \item
-  Make sure you have followed the link in your email to the shared google drive folder I sent you last night.
+  Make a directory called \texttt{chinook-play} and \texttt{cd} into it:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mkdir}\NormalTok{ chinook-play}
+\BuiltInTok{cd}\NormalTok{ chinook-play/}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Make sure you have followed the link in your email to the shared google drive folder I sent you last night. If the email
+  went to an email address that is not associated with your rclone configuration for google drive, then request access
+  (at google drive) for that email. (Or setup a new rclone config for your other gmail address\ldots{})
 \item
   Now, use rclone to list the files in the folder I shared with you:
 
@@ -7645,14 +7660,20 @@ Now, try this.
 \begin{Highlighting}[]
 \ExtensionTok{416265040}\NormalTok{ tiny-genomic-data.zip}
 \ExtensionTok{179506752}\NormalTok{ big-fastq-play.zip}
+\ExtensionTok{1212848720}\NormalTok{ pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.sa}
+  \ExtensionTok{4599378}\NormalTok{ pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.amb}
+  \ExtensionTok{2118234}\NormalTok{ pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.ann}
+\ExtensionTok{606424334}\NormalTok{ pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.pac}
+\ExtensionTok{2425697412}\NormalTok{ pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.bwt}
+\ExtensionTok{737881835}\NormalTok{ pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz}
 \end{Highlighting}
 \end{Shaded}
 \item
-  Use rclone to download \texttt{tiny-genomic-data.zip} (about 416 MB):
+  Use rclone to download \texttt{big-fastq-play.zip} (about 170 MB):
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\ExtensionTok{rclone}\NormalTok{ copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/tiny-genomic-data.zip ./}
+\ExtensionTok{rclone}\NormalTok{ copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/big-fastq-play.zip ./}
 \end{Highlighting}
 \end{Shaded}
 \item
@@ -7660,15 +7681,21 @@ Now, try this.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{unzip}\NormalTok{ tiny-genomic-data.zip}
+\FunctionTok{unzip}\NormalTok{ big-fastq-play.zip}
 \end{Highlighting}
 \end{Shaded}
 \item
-  Change directories into \texttt{tiny-genomic-data}
+  Create a directory called \texttt{fastq} and move the two paired-end FASTQ files from \texttt{big-fastq-play} into it:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{unzip}\NormalTok{ tiny-genomic-data.zip}
+\FunctionTok{unzip}\NormalTok{ big-fastq-play.zip}
+\FunctionTok{mkdir}\NormalTok{ fastq }
+\ExtensionTok{big-fastq-play/data/Battle_Creek_01_chinook_R*}\NormalTok{ fastq/}
+\CommentTok{# then make sure that they got moved}
+\FunctionTok{ls}\NormalTok{ fastq}
+\CommentTok{# if the files were moved, then feel free to remove the big fastq stuff}
+\FunctionTok{rm}\NormalTok{ -r big-fastq-play*}
 \end{Highlighting}
 \end{Shaded}
 \item
@@ -7718,7 +7745,90 @@ Now, try this.
   If \texttt{bwa} is still running, ask me some questions. Or maybe I will tell you more about how conda works\ldots{}
 \item
   If \texttt{bwa} is still running after that, ask me about \emph{nested tmux sessions}.
+\item
+  Truth be told. Indexing this thing can take a long time (30 to 40 minutes on a single core, perhaps). So,
+  instead, here is what we will do:
+
+  \begin{enumerate}
+  \def\labelenumii{\alph{enumii}.}
+  \tightlist
+  \item
+    Kill the current \texttt{bwa} job but issuing \texttt{cntrl-c} in the shell where it is running.
+  \item
+    Use \texttt{rclone} to get the genome and a \texttt{bwa} index for it from my Google Drive. We want to put the
+    result in the \texttt{chinook-play} directory inside a directory called \texttt{chinook-genome-idx}.
+  \end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{cd}\NormalTok{ ../ }\CommentTok{# move up to the chinook-play directory}
+\ExtensionTok{rclone}\NormalTok{ copy  -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/pre-indexed-chinook-genome chinook-genome-idx }
+\end{Highlighting}
+\end{Shaded}
+
+  That thing is 4.6 Gb, but can take less than a minute to transfer. (Let's see if things slow down with everyone
+  running this command at the same time.)
+\item
+  Now when you do \texttt{ls} you should see something like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{(}\ExtensionTok{bioinf}\KeywordTok{)}\NormalTok{ [}\ExtensionTok{chinook-play}\NormalTok{]--% ls}
+\ExtensionTok{chinook-genome-idx}\NormalTok{  fastq  genome}
+\end{Highlighting}
+\end{Shaded}
+\item
+  For a final hurrah, we will start aligning those fastqs to the chinook genome. We will put the result in a directory
+  we create called \texttt{sam}. To make it clearer what we are doing we
+  will define some shell variables.:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mkdir}\NormalTok{ sam}
+\VariableTok{GENOME=}\NormalTok{chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz}
+\VariableTok{FQB=}\NormalTok{fastq/Battle_Creek_01_chinook_R}
+\VariableTok{SAMOUT=$(}\FunctionTok{basename} \VariableTok{$FQB)}\NormalTok{.sam}
+
+\CommentTok{# for fun, try echoing each of those variables and make sure they look right.}
+
+\CommentTok{# then, launch bwa mem to map those reads to the genome.}
+\CommentTok{# the syntax is:}
+\CommentTok{# Usage: bwa mem [options] <idxbase> <in1.fq> [in2.fq]}
+\ExtensionTok{bwa}\NormalTok{ mem }\VariableTok{$GENOME} \VariableTok{$\{FQB\}}\NormalTok{1.fq.gz }\VariableTok{$\{FQB\}}\NormalTok{2.fq.gz }\OperatorTok{>}\NormalTok{ sam/}\VariableTok{$SAMOUT} \OperatorTok{2>}\NormalTok{sam/}\VariableTok{$SAMOUT}\NormalTok{.error}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Once that has started, it is hard to know anything is happening, because we have
+  redirected both stdout and stderr to files. So, do what you did before, use tmux to
+  go to another shell and then use \texttt{tail} or \texttt{less} to look at the output files, which
+  are in \texttt{sam/Battle\_Creek\_01\_chinook\_R.sam} and \texttt{sam/Battle\_Creek\_01\_chinook\_R.sam.error}
+  within the \texttt{chinook-play} directory in \texttt{scratch}. You might even count how many
+  lines of alignments file have been formed:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{awk} \StringTok{'!/^@/'}\NormalTok{ Battle_Creek_01_chinook_R.sam }\KeywordTok{|} \FunctionTok{wc} 
+\end{Highlighting}
+\end{Shaded}
+\item
+  Note that, in practice, we would not usually save the \texttt{.sam} file to disk. Rather, we would
+  convert it into a compressed \texttt{.bam} file right as it comes off of \texttt{bwa\ mem}, and maybe even sort it
+  as it is coming off\ldots{}
+\item
+  Note that this process might not finish before the end of class. That is not a huge problem
+  if you are running the job within \texttt{tmux}. You can logout and it will still keep running.
 \end{enumerate}
+
+However, as said before, most of the time you will run \emph{batch} jobs rather than interactive jobs.
+I just wanted to first give everyone a chance to step through these tasks in an interactive shell
+on a compute node because that is crucial when developing your scripts.
+
+For the homework I will expand upon this exercise and create a batch script for you all
+to launch. I hope to get that to you over the weekend, and then we will talk about it and do it
+next week.
+
+\hypertarget{more-boneyard}{%
+\section{More Boneyard\ldots{}}\label{more-boneyard}}
 
 Here is some nice stuff for summarizing all the information from the different runs from the chinook-wgs project:
 
@@ -10588,7 +10698,7 @@ I copied that to \texttt{inputs} so we can plot it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-56-1.pdf}
+\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-61-1.pdf}
 
 OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.
 

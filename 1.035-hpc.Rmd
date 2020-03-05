@@ -639,11 +639,11 @@ Solving this "equation" is an example of a Boolean Satisfiability problem, which
 class of difficult (time-consuming) problems.  If you are requesting a lot of programs, and
 especially if you do not constrain your request (by demanding a certain version of
 the program) then "solving" the request may take a long time.  However, when installing
-just a few bioinformatics programs it is unlikely to every take too terribly long.
+just a few bioinformatics programs it is unlikely to ever take too terribly long.
 
 Once miniconda has decided on which versions of which programs and dependencies to install,
 it downloads them and then places them into the requested environment (or the active environment
-if no environment is specifically requested).  If program is installed into an environment,  then you
+if no environment is specifically requested).  If a program is installed into an environment,  then you
 can access that program by activating the environment (i.e. `conda activate bioinf`).  Importantly,
 if you don't activate the environment, you won't be able to use the programs installed there.
 We will see later in writing bioinformatic scripts, you will always have to explicitly
@@ -652,10 +652,10 @@ scheduler.
 
 The way that Miniconda delivers programs in an environment is by storing all the programs
 in a special environment directory (within the `miniconda3/envs` directory), and then, when
-the environment is activated, all that is really happening is that `conda` is manipulating your
-PATH variable (and likely a few others) to include directories with the environment's directory
+the environment is activated, the main thing that is happening is that `conda` is manipulating your
+PATH variable to include directories within the environment's directory
 within the `miniconda3/envs` directory.  An easy way to see this is simply by
-inspecting your path variable while in differnt environments.  Here we compare the PATH
+inspecting your path variable while in different environments.  Here we compare the PATH
 variable in the `base` environment, versus in the `bioinf` environment, versus in the
 `binfr` environment:
 ```sh
@@ -668,7 +668,8 @@ variable in the `base` environment, versus in the `bioinf` environment, versus i
 (binfr) [~]--% echo $PATH
 /projects/eriq@colostate.edu/miniconda3/envs/binfr/bin:/projects/eriq@colostate.edu/miniconda3/condabin:/usr/local/bin:/bin:/usr/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/eriq@colostate.edu/bin:/home/eriq@colostate.edu/bin
 ```
-
+(To be sure, `miniconda` can change a few more things than just your PATH variable when you activate an environment, but
+for the typical user, the changes to PATH are most important.)
 
 #### What programs are available on Minconda?
 
@@ -837,12 +838,12 @@ completely antiquated) versions of software.)
 
 Although most of your serious computing on the cluster will occur in _batch_ jobs
 that get submitted to the scheduler and run without any further interaction from you, the user,
-you will begin our foray into the SLURM job scheduling commands with getting an interactive
-shell on a compute node.  "Why?" you might ask?  Well, before you launch any newly-written
+we will begin our foray into the SLURM job scheduling commands by getting an _interactive shell_
+on a compute node.  "Why?" you might ask?  Well, before you launch any newly-written
 script as a _batch_ job
 on the cluster, you really should run through the code inside that script and ensure that
 things work as they should.  Since your script likely does some heavy computing, you can't do this on the 
-head nodes of the cluster.
+head nodes (i.e., login nodes) of the cluster.
 
 The standard way to get a shell on a compute node of a cluster is to request it with:
 ```sh
@@ -855,7 +856,7 @@ node (usually).  Check which node you are on, by following up with:
 hostname
 ```
 
-Now, on summit, there is a different way of getting an interactive shell that is recommended.  The
+Now, on SUMMIT, there is a different way of getting an interactive shell that is recommended.  The
 sysadmins have written their own script to do it, called `sinteractive`.
 So, you could do:
 ```sh
@@ -871,6 +872,7 @@ Now, try this.
 
 1. Get a bash shell on a compute node
     ```{sh, eval=FALSE}
+    # on summit:
     sinteractive
     # or
     srun --pty /bin/bash
@@ -891,7 +893,14 @@ Now, try this.
     ```{sh, eval=FALSE}
     cd scratch
     ```
-5. Make sure you have followed the link in your email to the shared google drive folder I sent you last night.
+4. Make a directory called `chinook-play` and `cd` into it:
+    ```{sh, eval=FALSE}
+    mkdir chinook-play
+    cd chinook-play/
+    ```
+5. Make sure you have followed the link in your email to the shared google drive folder I sent you last night. If the email
+went to an email address that is not associated with your rclone configuration for google drive, then request access
+(at google drive) for that email. (Or setup a new rclone config for your other gmail address...)
 6. Now, use rclone to list the files in the folder I shared with you:
     ```{sh, eval=FALSE}
     rclone ls --drive-shared-with-me gdrive-pers:CSU-con-gen-2020
@@ -904,18 +913,30 @@ Now, try this.
     ```{sh, eval=FALSE}
     416265040 tiny-genomic-data.zip
     179506752 big-fastq-play.zip
+    1212848720 pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.sa
+      4599378 pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.amb
+      2118234 pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.ann
+    606424334 pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.pac
+    2425697412 pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.bwt
+    737881835 pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz
     ```
-8. Use rclone to download `tiny-genomic-data.zip` (about 416 MB):
+8. Use rclone to download `big-fastq-play.zip` (about 170 MB):
     ```{sh, eval=FALSE}
-    rclone copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/tiny-genomic-data.zip ./
+    rclone copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/big-fastq-play.zip ./
     ```
 9. Unzip the file you just downloaded:
     ```{sh, eval=FALSE}
-    unzip tiny-genomic-data.zip
+    unzip big-fastq-play.zip
     ```
-10. Change directories into `tiny-genomic-data`
+9. Create a directory called `fastq` and move the two paired-end FASTQ files from `big-fastq-play` into it:
     ```{sh, eval=FALSE}
-    unzip tiny-genomic-data.zip
+    unzip big-fastq-play.zip
+    mkdir fastq 
+    big-fastq-play/data/Battle_Creek_01_chinook_R* fastq/
+    # then make sure that they got moved
+    ls fastq
+    # if the files were moved, then feel free to remove the big fastq stuff
+    rm -r big-fastq-play*
     ```
 11. Download the Chinook salmon genome into a directory called `genome`
     ```{sh, eval=FALSE}
@@ -940,12 +961,71 @@ Now, try this.
     - Switch back to your original tmux window.
 14. If `bwa` is still running, ask me some questions.  Or maybe I will tell you more about how conda works...
 15. If `bwa` is still running after that, ask me about _nested tmux sessions_.
+16. Truth be told.  Indexing this thing can take a long time (30 to 40 minutes on a single core, perhaps).  So,
+instead, here is what we will do: 
+    a. Kill the current `bwa` job but issuing `cntrl-c` in the shell where it is running.
+    b. Use `rclone` to get the genome and a `bwa` index for it from my Google Drive.  We want to put the 
+    result in the `chinook-play` directory inside a directory called `chinook-genome-idx`.
+    ```{sh, eval=FALSE}
+    cd ../ # move up to the chinook-play directory
+    rclone copy  -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/pre-indexed-chinook-genome chinook-genome-idx 
+    ```
+    That thing is 4.6 Gb, but can take less than a minute to transfer. (Let's see if things slow down with everyone
+    running this command at the same time.)
+17. Now when you do `ls` you should see something like this:
+    ```{sh, eval=FALSE}
+    (bioinf) [chinook-play]--% ls
+    chinook-genome-idx  fastq  genome
+    ```
+18. For a final hurrah, we will start aligning those fastqs to the chinook genome. We will put the result in a directory
+we create called `sam`. To make it clearer what we are doing we
+will define some shell variables.:
+    ```{sh, eval=FALSE}
+    mkdir sam
+    GENOME=chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz
+    FQB=fastq/Battle_Creek_01_chinook_R
+    SAMOUT=$(basename $FQB).sam
+    
+    # for fun, try echoing each of those variables and make sure they look right.
+    
+    # then, launch bwa mem to map those reads to the genome.
+    # the syntax is:
+    # Usage: bwa mem [options] <idxbase> <in1.fq> [in2.fq]
+    bwa mem $GENOME ${FQB}1.fq.gz ${FQB}2.fq.gz > sam/$SAMOUT 2>sam/$SAMOUT.error
+    ```
+19. Once that has started, it is hard to know anything is happening, because we have
+redirected both stdout and stderr to files.  So, do what you did before, use tmux to
+go to another shell and then use `tail` or `less` to look at the output files, which
+are in `sam/Battle_Creek_01_chinook_R.sam` and `sam/Battle_Creek_01_chinook_R.sam.error`
+within the `chinook-play` directory in `scratch`.  You might even count how many
+lines of alignments file have been formed:
+    ```{sh, eval=FALSE}
+    awk '!/^@/' Battle_Creek_01_chinook_R.sam | wc 
+    ```
+20. Note that, in practice, we would not usually save the `.sam` file to disk.  Rather, we would
+convert it into a compressed `.bam` file right as it comes off of `bwa mem`, and maybe even sort it
+as it is coming off...
+21. Note that this process might not finish before the end of class.  That is not a huge problem
+if you are running the job within `tmux`.  You can logout and it will still keep running.
+
+However, as said before, most of the time you will run _batch_ jobs rather than interactive jobs.
+I just wanted to first give everyone a chance to step through these tasks in an interactive shell
+on a compute node because that is crucial when developing your scripts.  
+
+For the homework I will expand upon this exercise and create a batch script for you all
+to launch. I hope to get that to you over the weekend, and then we will talk about it and do it
+next week.
 
 
 
 
 
 
+
+
+
+
+## More Boneyard...
 
 
 Here is some nice stuff for summarizing all the information from the different runs from the chinook-wgs project:
