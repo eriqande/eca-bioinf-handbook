@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-03-05" />
+<meta name="date" content="2020-03-06" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -433,11 +433,11 @@ choosing BetterBibTex, and then selecting “Export” button. That yields a pag
 that gives you a place to omit certain reference fields. You life will be easier
 if you omit fields that are often long, or which are not needed for citation. I recommend
 filling that field with:</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb294-1" data-line-number="1">abstract,copyright,file,pmid</a></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb300-1" data-line-number="1">abstract,copyright,file,pmid</a></code></pre></div>
 And, you probably should restart Zotero after doing that.</li>
 <li><p>Install the R package <code>citr</code>. It is on CRAN, but it is probably best
 to first try the latest development version. Install it from within R using:</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;crsh/citr&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb301-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;crsh/citr&quot;</span>)</a></code></pre></div>
 For more information about this package check out <a href="https://github.com/crsh/citr">https://github.com/crsh/citr</a>.</li>
 <li>Once that package is installed. Quit and re-open RStudio. Now, if you go to the
 “Addins” menu (right under the name panel at the top of the RStudio window) you will
@@ -466,12 +466,12 @@ so you can edit references.bib to put titles in sentence case. Probably want to 
 <p>Whoa! Bookdown has figured out how to do references to sections and tables and things in a reasonable
 way that just isn’t there for the vanilla Rmarkdown. But you can use the bookdown syntax for a non-book
 too. Just put something like this in the YAML:</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb296-1" data-line-number="1"><span class="fu">output:</span></a>
-<a class="sourceLine" id="cb296-2" data-line-number="2">  <span class="fu">bookdown:</span><span class="at">:word_document2: default</span></a>
-<a class="sourceLine" id="cb296-3" data-line-number="3">  <span class="fu">bookdown:</span><span class="at">:pdf_document2:</span></a>
-<a class="sourceLine" id="cb296-4" data-line-number="4">    <span class="fu">number_sections:</span><span class="at"> yes</span></a>
-<a class="sourceLine" id="cb296-5" data-line-number="5">  <span class="fu">bookdown:</span><span class="at">:html_document2:</span></a>
-<a class="sourceLine" id="cb296-6" data-line-number="6">    <span class="fu">df_print:</span><span class="at"> paged</span></a></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb302-1" data-line-number="1"><span class="fu">output:</span></a>
+<a class="sourceLine" id="cb302-2" data-line-number="2">  <span class="fu">bookdown:</span><span class="at">:word_document2: default</span></a>
+<a class="sourceLine" id="cb302-3" data-line-number="3">  <span class="fu">bookdown:</span><span class="at">:pdf_document2:</span></a>
+<a class="sourceLine" id="cb302-4" data-line-number="4">    <span class="fu">number_sections:</span><span class="at"> yes</span></a>
+<a class="sourceLine" id="cb302-5" data-line-number="5">  <span class="fu">bookdown:</span><span class="at">:html_document2:</span></a>
+<a class="sourceLine" id="cb302-6" data-line-number="6">    <span class="fu">df_print:</span><span class="at"> paged</span></a></code></pre></div>
 </div>
 <div id="google-docs" class="section level2">
 <h2><span class="header-section-number">13.4</span> Google Docs</h2>

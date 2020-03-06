@@ -845,23 +845,45 @@ on the cluster, you really should run through the code inside that script and en
 things work as they should.  Since your script likely does some heavy computing, you can't do this on the 
 head nodes (i.e., login nodes) of the cluster.
 
-The standard way to get a shell on a compute node of a cluster is to request it with:
+One standard way to get a shell on a compute node of a cluster is to request it with:
 ```sh
 srun --pty /bin/bash
 ```
 This tells slurm to run `bash` (which is typically found at `/bin/bash` on all Unix system) within
-a pseodo-terminal (the `--pty` part).  If you run this command you will be given a bash shell on a compute
-node (usually).  Check which node you are on, by following up with:
-```sh
-hostname
-```
+a pseodo-terminal (the `--pty` part). If you run this command you will be given a bash shell on a compute
+node (usually). 
 
-Now, on SUMMIT, there is a different way of getting an interactive shell that is recommended.  The
+However, that doesn't work on all systems.  It does on sedna, but you should always check the webpage for your
+HPCC to find out what is used on your HPCC.  For example on SUMMIT, there is
+a different way of getting an interactive shell that is recommended.  The
 sysadmins have written their own script to do it, called `sinteractive`.
 So, you could do:
 ```sh
 sinteractive
+``` 
+
+On Hummingbird it takes a few more steps.  The webpage at [https://www.hb.ucsc.edu/getting-started/](https://www.hb.ucsc.edu/getting-started/)
+tells you how to do that.  Go to that page and search for `Job Allocation – Interactive, Serial`.  That takes you to
+the instructions.  Minimally, here is what it looks like to get one core
+on a node on the Instruction partition, for 1 hour, with 1 Gigabyte of memory
+allocated to you:
+```sh
+[~]--% salloc --partition=Instruction --nodes=1 --time=01:00:00 --mem=1G --cpus-per-task=1
+salloc: Granted job allocation 48130
+[~]--% ssh $SLURM_NODELIST
+
+# check that you are on the right host.
+[~]--% hostname
+hbcomp-005.hbhpc.ucsc.edu
 ```
+
+
+Check which node you are on, by following up with:
+```sh
+hostname
+```
+
+Now, 
 
 Now, try this.
 
@@ -874,7 +896,12 @@ Now, try this.
     ```{sh, eval=FALSE}
     # on summit:
     sinteractive
-    # or
+    
+    # on hummingbird
+    salloc --partition=Instruction --nodes=1 --time=02:00:00 --mem=4G --cpus-per-task=1
+    ssh $SLURM_NODELIST
+    
+    # otherwise, you can try this (will work on Sedna)
     srun --pty /bin/bash
     ```
 2. Check what host you are on with `hostname`
@@ -889,9 +916,31 @@ Now, try this.
     # or, if you don't have that aliased:
     squeue -u your_username
     ```
-4. Navigate to your scratch directory.  On SUMMIT there is a symbolic link called `scratch` in your home directory.
+4. Navigate to your scratch directory.  On SUMMIT your scratch directory will be at a path like this
+    ```{sh, eval=FALSE}
+    /scratch/summit/wcfunk\@colostate.edu/
+    ```
+    You can make symbolic link that in your home directory like this:
+    ```{sh, eval=FALSE}
+    cd
+    ln -s /scratch/summit/wcfunk\@colostate.edu/
+    ```
+    Just be sure to use your own user name instead of wcfunk.  Once an alias is set up you can do:
     ```{sh, eval=FALSE}
     cd scratch
+    ```
+    But if you don't want to set up an alias just use the full path:
+    ```{sh, eval=FALSE}
+    cd /scratch/summit/wcfunk\@colostate.edu/
+    ```
+    On hummingbird you go to
+    ```{sh, eval=FALSE}
+    cd /hb/scratch/username/
+    ```
+    where username is your ucsc username.  Note that if you want to make a symbolic link to that, then
+    _while in your home directory_ do this:
+    ```{sh, eval=FALSE}
+    ln -s /hb/scratch/username scratch
     ```
 4. Make a directory called `chinook-play` and `cd` into it:
     ```{sh, eval=FALSE}
@@ -944,7 +993,7 @@ went to an email address that is not associated with your rclone configuration f
      cd genome
      wget ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_other/Oncorhynchus_tshawytscha/all_assembly_versions/GCA_002872995.1_Otsh_v1.0/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz
     ```
-    That dude is 760 Mb, but it goes really quickly.
+    That dude is 760 Mb, but it goes really quickly (at least on SUMMIT.  Hummingbird seems to be a different story...)
 12. Activate your `bioinf` conda environment to be able to use `bwa`:
     ```{sh, eval=FALSE}
     conda activate bioinf
@@ -956,7 +1005,7 @@ went to an email address that is not associated with your rclone configuration f
     This will take about 10 to 15 minutes.  During that time, do this:
     - If you are doing this within a `tmux` session, create a new tmux window (`cntrl-b c`). Note that this shell opens on the login node (the one that you started your tmux session on.)
     - Rename this new tmux window "browse" (`cntrl-b ,`)
-    - Navigate to `~/scratch/cd tiny-genomic-data/genome/` and list the files there.  These new files
+    - Navigate to `~/scratch/tchinook-play/genome/` and list the files there.  These new files
     are being created by bwa.
     - Switch back to your original tmux window.
 14. If `bwa` is still running, ask me some questions.  Or maybe I will tell you more about how conda works...

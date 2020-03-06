@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-03-05}
+\date{2020-03-06}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -7547,7 +7547,7 @@ on the cluster, you really should run through the code inside that script and en
 things work as they should. Since your script likely does some heavy computing, you can't do this on the
 head nodes (i.e., login nodes) of the cluster.
 
-The standard way to get a shell on a compute node of a cluster is to request it with:
+One standard way to get a shell on a compute node of a cluster is to request it with:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7557,15 +7557,11 @@ The standard way to get a shell on a compute node of a cluster is to request it 
 
 This tells slurm to run \texttt{bash} (which is typically found at \texttt{/bin/bash} on all Unix system) within
 a pseodo-terminal (the \texttt{-\/-pty} part). If you run this command you will be given a bash shell on a compute
-node (usually). Check which node you are on, by following up with:
+node (usually).
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\FunctionTok{hostname}
-\end{Highlighting}
-\end{Shaded}
-
-Now, on SUMMIT, there is a different way of getting an interactive shell that is recommended. The
+However, that doesn't work on all systems. It does on sedna, but you should always check the webpage for your
+HPCC to find out what is used on your HPCC. For example on SUMMIT, there is
+a different way of getting an interactive shell that is recommended. The
 sysadmins have written their own script to do it, called \texttt{sinteractive}.
 So, you could do:
 
@@ -7574,6 +7570,34 @@ So, you could do:
 \ExtensionTok{sinteractive}
 \end{Highlighting}
 \end{Shaded}
+
+On Hummingbird it takes a few more steps. The webpage at \url{https://www.hb.ucsc.edu/getting-started/}
+tells you how to do that. Go to that page and search for \texttt{Job\ Allocation\ –\ Interactive,\ Serial}. That takes you to
+the instructions. Minimally, here is what it looks like to get one core
+on a node on the Instruction partition, for 1 hour, with 1 Gigabyte of memory
+allocated to you:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ salloc --partition=Instruction --nodes=1 --time=01:00:00 --mem=1G --cpus-per-task=1}
+\ExtensionTok{salloc}\NormalTok{: Granted job allocation 48130}
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ ssh }\VariableTok{$SLURM_NODELIST}
+
+\CommentTok{# check that you are on the right host.}
+\NormalTok{[}\ExtensionTok{~}\NormalTok{]}\ExtensionTok{--%}\NormalTok{ hostname}
+\ExtensionTok{hbcomp-005.hbhpc.ucsc.edu}
+\end{Highlighting}
+\end{Shaded}
+
+Check which node you are on, by following up with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{hostname}
+\end{Highlighting}
+\end{Shaded}
+
+Now,
 
 Now, try this.
 
@@ -7594,7 +7618,12 @@ Now, try this.
 \begin{Highlighting}[]
 \CommentTok{# on summit:}
 \ExtensionTok{sinteractive}
-\CommentTok{# or}
+
+\CommentTok{# on hummingbird}
+\ExtensionTok{salloc}\NormalTok{ --partition=Instruction --nodes=1 --time=02:00:00 --mem=4G --cpus-per-task=1}
+\FunctionTok{ssh} \VariableTok{$SLURM_NODELIST}
+
+\CommentTok{# otherwise, you can try this (will work on Sedna)}
 \ExtensionTok{srun}\NormalTok{ --pty /bin/bash}
 \end{Highlighting}
 \end{Shaded}
@@ -7620,11 +7649,53 @@ Now, try this.
 \end{Highlighting}
 \end{Shaded}
 \item
-  Navigate to your scratch directory. On SUMMIT there is a symbolic link called \texttt{scratch} in your home directory.
+  Navigate to your scratch directory. On SUMMIT your scratch directory will be at a path like this
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{/scratch/summit}\NormalTok{/}\ExtensionTok{wcfunk}\NormalTok{\textbackslash{}@colostate.edu/}
+\end{Highlighting}
+\end{Shaded}
+
+  You can make symbolic link that in your home directory like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{cd}
+\FunctionTok{ln}\NormalTok{ -s /scratch/summit/wcfunk\textbackslash{}@colostate.edu/}
+\end{Highlighting}
+\end{Shaded}
+
+  Just be sure to use your own user name instead of wcfunk. Once an alias is set up you can do:
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \BuiltInTok{cd}\NormalTok{ scratch}
+\end{Highlighting}
+\end{Shaded}
+
+  But if you don't want to set up an alias just use the full path:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{cd}\NormalTok{ /scratch/summit/wcfunk\textbackslash{}@colostate.edu/}
+\end{Highlighting}
+\end{Shaded}
+
+  On hummingbird you go to
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{cd}\NormalTok{ /hb/scratch/username/}
+\end{Highlighting}
+\end{Shaded}
+
+  where username is your ucsc username. Note that if you want to make a symbolic link to that, then
+  \emph{while in your home directory} do this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ln}\NormalTok{ -s /hb/scratch/username scratch}
 \end{Highlighting}
 \end{Shaded}
 \item
@@ -7709,7 +7780,7 @@ Now, try this.
 \end{Highlighting}
 \end{Shaded}
 
-  That dude is 760 Mb, but it goes really quickly.
+  That dude is 760 Mb, but it goes really quickly (at least on SUMMIT. Hummingbird seems to be a different story\ldots{})
 \item
   Activate your \texttt{bioinf} conda environment to be able to use \texttt{bwa}:
 
@@ -7736,7 +7807,7 @@ Now, try this.
   \item
     Rename this new tmux window ``browse'' (\texttt{cntrl-b\ ,})
   \item
-    Navigate to \texttt{\textasciitilde{}/scratch/cd\ tiny-genomic-data/genome/} and list the files there. These new files
+    Navigate to \texttt{\textasciitilde{}/scratch/tchinook-play/genome/} and list the files there. These new files
     are being created by bwa.
   \item
     Switch back to your original tmux window.
@@ -10698,7 +10769,7 @@ I copied that to \texttt{inputs} so we can plot it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-61-1.pdf}
+\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-66-1.pdf}
 
 OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.
 
