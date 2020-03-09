@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-03-06}
+\date{2020-03-09}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -7130,11 +7130,11 @@ the underlying philosophy of Miniconda, and how it is operating.
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# start in your home directory and do the following:}
-\NormalTok{mkdir conda_install}
-\NormalTok{cd conda_install}\OperatorTok{/}
-\NormalTok{wget https}\OperatorTok{:}\ErrorTok{//}\NormalTok{repo.anaconda.com}\OperatorTok{/}\NormalTok{miniconda}\OperatorTok{/}\NormalTok{Miniconda3}\OperatorTok{-}\NormalTok{latest}\OperatorTok{-}\NormalTok{Linux}\OperatorTok{-}\NormalTok{x86_}\FloatTok{64.}\NormalTok{sh}
-\NormalTok{chmod u}\OperatorTok{+}\NormalTok{x Miniconda3}\OperatorTok{-}\NormalTok{latest}\OperatorTok{-}\NormalTok{Linux}\OperatorTok{-}\NormalTok{x86_}\FloatTok{64.}\NormalTok{sh }
-\NormalTok{.}\OperatorTok{/}\NormalTok{Miniconda3}\OperatorTok{-}\NormalTok{latest}\OperatorTok{-}\NormalTok{Linux}\OperatorTok{-}\NormalTok{x86_}\FloatTok{64.}\NormalTok{sh }
+\FunctionTok{mkdir}\NormalTok{ conda_install}
+\BuiltInTok{cd}\NormalTok{ conda_install/}
+\FunctionTok{wget}\NormalTok{ https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh}
+\FunctionTok{chmod}\NormalTok{ u+x Miniconda3-latest-Linux-x86_64.sh }
+\ExtensionTok{./Miniconda3-latest-Linux-x86_64.sh} 
 \end{Highlighting}
 \end{Shaded}
 
@@ -7699,7 +7699,7 @@ Now, try this.
 \end{Highlighting}
 \end{Shaded}
 \item
-  Make a directory called \texttt{chinook-play} and \texttt{cd} into it:
+  Within your account's scratch space, make a directory called \texttt{chinook-play} and \texttt{cd} into it:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7748,7 +7748,8 @@ Now, try this.
 \end{Highlighting}
 \end{Shaded}
 \item
-  Unzip the file you just downloaded:
+  Unzip the file you just downloaded. Note: on Hummingbird, \texttt{unzip} is not installed by default.
+  So I recommend doing \texttt{conda\ install\ unzip} to add it to your base Miniconda environment.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7762,7 +7763,7 @@ Now, try this.
 \begin{Highlighting}[]
 \FunctionTok{unzip}\NormalTok{ big-fastq-play.zip}
 \FunctionTok{mkdir}\NormalTok{ fastq }
-\ExtensionTok{big-fastq-play/data/Battle_Creek_01_chinook_R*}\NormalTok{ fastq/}
+\FunctionTok{mv}\NormalTok{ big-fastq-play/data/Battle_Creek_01_chinook_R* fastq/}
 \CommentTok{# then make sure that they got moved}
 \FunctionTok{ls}\NormalTok{ fastq}
 \CommentTok{# if the files were moved, then feel free to remove the big fastq stuff}

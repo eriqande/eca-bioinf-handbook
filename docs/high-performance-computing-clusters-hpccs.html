@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-03-06" />
+<meta name="date" content="2020-03-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -818,12 +818,12 @@ should merely update it with:</p>
 <p>If you get an error telling you that your computer does not know about a command, <code>conda</code>, then
 you do not have Miniconda and you must install it. You do that by downloading the Miniconda package
 with <code>wget</code> and then running the Miniconda installer, like this:</p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb248-1" data-line-number="1"><span class="co"># start in your home directory and do the following:</span></a>
-<a class="sourceLine" id="cb248-2" data-line-number="2">mkdir conda_install</a>
-<a class="sourceLine" id="cb248-3" data-line-number="3">cd conda_install<span class="op">/</span></a>
-<a class="sourceLine" id="cb248-4" data-line-number="4">wget https<span class="op">:</span><span class="er">//</span>repo.anaconda.com<span class="op">/</span>miniconda<span class="op">/</span>Miniconda3<span class="op">-</span>latest<span class="op">-</span>Linux<span class="op">-</span>x86_<span class="fl">64.</span>sh</a>
-<a class="sourceLine" id="cb248-5" data-line-number="5">chmod u<span class="op">+</span>x Miniconda3<span class="op">-</span>latest<span class="op">-</span>Linux<span class="op">-</span>x86_<span class="fl">64.</span>sh </a>
-<a class="sourceLine" id="cb248-6" data-line-number="6">.<span class="op">/</span>Miniconda3<span class="op">-</span>latest<span class="op">-</span>Linux<span class="op">-</span>x86_<span class="fl">64.</span>sh </a></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb248-1" data-line-number="1"><span class="co"># start in your home directory and do the following:</span></a>
+<a class="sourceLine" id="cb248-2" data-line-number="2"><span class="fu">mkdir</span> conda_install</a>
+<a class="sourceLine" id="cb248-3" data-line-number="3"><span class="bu">cd</span> conda_install/</a>
+<a class="sourceLine" id="cb248-4" data-line-number="4"><span class="fu">wget</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</a>
+<a class="sourceLine" id="cb248-5" data-line-number="5"><span class="fu">chmod</span> u+x Miniconda3-latest-Linux-x86_64.sh </a>
+<a class="sourceLine" id="cb248-6" data-line-number="6"><span class="ex">./Miniconda3-latest-Linux-x86_64.sh</span> </a></code></pre></div>
 <p>That launches the Miniconda installer (it is a shell script). Follow the prompts and agree
 to the license and to the default install location and to initialize conda.
 At the end, it tells you to log out of your shell and log back in for changes to take
@@ -1159,7 +1159,7 @@ Do not proceed if you are on a login node still.</li>
 <p>where username is your ucsc username. Note that if you want to make a symbolic link to that, then
 <em>while in your home directory</em> do this:</p>
 <div class="sourceCode" id="cb281"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb281-1" data-line-number="1"><span class="fu">ln</span> -s /hb/scratch/username scratch</a></code></pre></div></li>
-<li><p>Make a directory called <code>chinook-play</code> and <code>cd</code> into it:</p>
+<li><p>Within your account’s scratch space, make a directory called <code>chinook-play</code> and <code>cd</code> into it:</p>
 <div class="sourceCode" id="cb282"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb282-1" data-line-number="1"><span class="fu">mkdir</span> chinook-play</a>
 <a class="sourceLine" id="cb282-2" data-line-number="2"><span class="bu">cd</span> chinook-play/</a></code></pre></div></li>
 <li>Make sure you have followed the link in your email to the shared google drive folder I sent you last night. If the email
@@ -1182,12 +1182,13 @@ you using <code>--drive-shared-with-me</code>.</li>
 <a class="sourceLine" id="cb284-8" data-line-number="8"><span class="ex">737881835</span> pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a></code></pre></div></li>
 <li><p>Use rclone to download <code>big-fastq-play.zip</code> (about 170 MB):</p>
 <div class="sourceCode" id="cb285"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb285-1" data-line-number="1"><span class="ex">rclone</span> copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/big-fastq-play.zip ./</a></code></pre></div></li>
-<li><p>Unzip the file you just downloaded:</p>
+<li><p>Unzip the file you just downloaded. Note: on Hummingbird, <code>unzip</code> is not installed by default.
+So I recommend doing <code>conda install unzip</code> to add it to your base Miniconda environment.</p>
 <div class="sourceCode" id="cb286"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb286-1" data-line-number="1"><span class="fu">unzip</span> big-fastq-play.zip</a></code></pre></div></li>
 <li><p>Create a directory called <code>fastq</code> and move the two paired-end FASTQ files from <code>big-fastq-play</code> into it:</p>
 <div class="sourceCode" id="cb287"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb287-1" data-line-number="1"><span class="fu">unzip</span> big-fastq-play.zip</a>
 <a class="sourceLine" id="cb287-2" data-line-number="2"><span class="fu">mkdir</span> fastq </a>
-<a class="sourceLine" id="cb287-3" data-line-number="3"><span class="ex">big-fastq-play/data/Battle_Creek_01_chinook_R*</span> fastq/</a>
+<a class="sourceLine" id="cb287-3" data-line-number="3"><span class="fu">mv</span> big-fastq-play/data/Battle_Creek_01_chinook_R* fastq/</a>
 <a class="sourceLine" id="cb287-4" data-line-number="4"><span class="co"># then make sure that they got moved</span></a>
 <a class="sourceLine" id="cb287-5" data-line-number="5"><span class="fu">ls</span> fastq</a>
 <a class="sourceLine" id="cb287-6" data-line-number="6"><span class="co"># if the files were moved, then feel free to remove the big fastq stuff</span></a>

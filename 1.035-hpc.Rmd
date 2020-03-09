@@ -508,7 +508,7 @@ should merely update it with:
 If you get an error telling you that your computer does not know about a command, `conda`, then
 you do not have Miniconda and you must install it.  You do that by downloading the Miniconda package
 with `wget` and then running the Miniconda installer, like this:
-    ```{r, eval=FALSE}
+    ```{sh, eval=FALSE}
     # start in your home directory and do the following:
     mkdir conda_install
     cd conda_install/
@@ -891,7 +891,6 @@ Now, try this.
     ```{sh, eval=FALSE}
     tmux new -s inclass
     ```
-
 1. Get a bash shell on a compute node
     ```{sh, eval=FALSE}
     # on summit:
@@ -942,7 +941,7 @@ Now, try this.
     ```{sh, eval=FALSE}
     ln -s /hb/scratch/username scratch
     ```
-4. Make a directory called `chinook-play` and `cd` into it:
+4. Within your account's scratch space, make a directory called `chinook-play` and `cd` into it:
     ```{sh, eval=FALSE}
     mkdir chinook-play
     cd chinook-play/
@@ -973,7 +972,8 @@ went to an email address that is not associated with your rclone configuration f
     ```{sh, eval=FALSE}
     rclone copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/big-fastq-play.zip ./
     ```
-9. Unzip the file you just downloaded:
+9. Unzip the file you just downloaded.  Note: on Hummingbird, `unzip` is not installed by default.
+So I recommend doing `conda install unzip` to add it to your base Miniconda environment.
     ```{sh, eval=FALSE}
     unzip big-fastq-play.zip
     ```
@@ -981,7 +981,7 @@ went to an email address that is not associated with your rclone configuration f
     ```{sh, eval=FALSE}
     unzip big-fastq-play.zip
     mkdir fastq 
-    big-fastq-play/data/Battle_Creek_01_chinook_R* fastq/
+    mv big-fastq-play/data/Battle_Creek_01_chinook_R* fastq/
     # then make sure that they got moved
     ls fastq
     # if the files were moved, then feel free to remove the big fastq stuff
