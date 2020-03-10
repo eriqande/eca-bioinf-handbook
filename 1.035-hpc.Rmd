@@ -479,7 +479,7 @@ software versions) that you used for the analysis.  And, finally, all of this
 can be done with Miniconda without have administrative privileges.  Effectively,
 Miniconda manages all these software programs and dependencies _within your home directory_.
 
-### Miniconda
+### Miniconda {#miniconda}
 
 We will first walk you through a few steps with Miniconda to install some
 bioinformatic software into an environment on your cluster.  After that we will discuss more about
@@ -883,9 +883,33 @@ Check which node you are on, by following up with:
 hostname
 ```
 
-Now, 
+### An in-class exercise to make sure everything is configured correctly
 
-Now, try this.
+Here, we run through a number of steps to start aligning sequence data to a reference
+genome.  The main purpose of this exercise is to ensure that everyone has their systems
+configured correctly.  Namely, we want to make sure that:
+
+* You can log in to your cluster (SUMMIT, Hummingbird, etc.)
+* You can use a few SLURM (job scheduler) commands.
+* You can find your way to your _scratch_ space on SUMMIT (or Hummingbird). _scratch_ is fast, largely
+unlimited short-term storage.  It is where you will do the majority of your bioinformatics.
+* You can use `rclone` to tranfer files from Google Drive to your cluster. Doing things this way will allow
+you to access your Lab's Team Drive.  The model for bioinformatic work is: 
+    a. Copy data from your Lab's Google Team Drive to _scratch_ on the cluster.
+    b. Do analyses of the data (in _scratch_)
+    c. Copy the results back to your Lab's Google Team Drive before it gets deleted (by the system administrators)
+    off of _scratch_
+Note: today you are not using your lab's Team drive, you are using the "class" shared drive,
+and you won't be copying anything back to it.  But this is a start at least...
+* You have Miniconda installed, that you have a conda environment with bioinformatic
+tools in it, and that you can activate that environment and use the tools within it.
+Miniconda makes it easy to install software that you need to run analyses.
+
+Being able to successfully do all these things will be necessary to complete
+the next homework assignment which involves aligning short reads to a reference
+genome and will be assigned after spring break.
+
+
 
 1. If you are not already in a tmux session, start a new `tmux` session called `inclass` on the login node.
     ```{sh, eval=FALSE}
@@ -906,29 +930,41 @@ Now, try this.
 2. Check what host you are on with `hostname`
     ```{sh, eval=FALSE}
     hostname
+    
+    # The hostname should be something like shasXXX. 
+    #  Do not proceed if you are on a login node still (ie. hostname is loginXX)
     ```
-    Do not proceed if you are on a login node still.
+    If you are still on a login node, try running `sinteractive` again.
+    
+    
 3. Use your alias `myjobs` (if you have created it) to see what jobs you have running.
     ```{sh, eval=FALSE}
     myjobs
     
     # or, if you don't have that aliased:
     squeue -u your_username
+    
+    # You should see that you have one job running.  That "job" is a bash shell
+    # that you are interactively working with.
     ```
-4. Navigate to your scratch directory.  On SUMMIT your scratch directory will be at a path like this
+4. Navigate to your scratch directory using `cd`.  On SUMMIT that will look like this:
     ```{sh, eval=FALSE}
-    /scratch/summit/wcfunk\@colostate.edu/
+    cd /scratch/summit/wcfunk\@colostate.edu/
     ```
-    You can make symbolic link that in your home directory like this:
+    You can make a symbolic link to that in your home directory like this:
     ```{sh, eval=FALSE}
-    cd
-    ln -s /scratch/summit/wcfunk\@colostate.edu/
+    cd  # returns you to hour home directory
+    
+    # this line makes a symbolic link called scratch in your home directory
+    # that points to your scratch space at /scratch/summit/wcfunk\@colostate.edu/
+    ln -s /scratch/summit/wcfunk\@colostate.edu/ scratch
     ```
-    Just be sure to use your own user name instead of wcfunk.  Once an alias is set up you can do:
+    Just be sure to use your own user name instead of wcfunk.  Once that symbolic link is set up, you can
+    `cd` into it, just like it was your scratch directory:
     ```{sh, eval=FALSE}
     cd scratch
     ```
-    But if you don't want to set up an alias just use the full path:
+    But if you don't want to set up a symbolic link just use the full path:
     ```{sh, eval=FALSE}
     cd /scratch/summit/wcfunk\@colostate.edu/
     ```
@@ -951,24 +987,21 @@ went to an email address that is not associated with your rclone configuration f
 (at google drive) for that email. (Or setup a new rclone config for your other gmail address...)
 6. Now, use rclone to list the files in the folder I shared with you:
     ```{sh, eval=FALSE}
-    rclone ls --drive-shared-with-me gdrive-pers:CSU-con-gen-2020
+    rclone lsd --drive-shared-with-me gdrive-pers:CSU-con-gen-2020
     ```
     Note that `gdrive-pers` above is the name of my rclone configuration associated with the gmail account where
     I got an email (from myself at my CSU account) about the shared folder.  You will have to change `gdrive-pers`
     to be appropriate to your config, depending on how you set it up. Note also how you access folders shared with
     you using `--drive-shared-with-me`. 
-7. After you get the above command to work, you should see:
+7. After you get the above command to work, you should see something like the following, though it
+will change as more things get added to this directory...
     ```{sh, eval=FALSE}
-    416265040 tiny-genomic-data.zip
-    179506752 big-fastq-play.zip
-    1212848720 pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.sa
-      4599378 pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.amb
-      2118234 pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.ann
-    606424334 pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.pac
-    2425697412 pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.bwt
-    737881835 pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz
+    -1 2020-03-09 17:51:06        -1 chr32-160-chinook
+    -1 2020-03-05 07:33:21        -1 pre-indexed-chinook-genome
     ```
-8. Use rclone to download `big-fastq-play.zip` (about 170 MB):
+8. Use rclone to download `big-fastq-play.zip` (about 170 MB).  Once again you have to change
+the name of the rclone remoate (`gdrive-pers` in this case), to the name of your Google drive
+rclone remote.
     ```{sh, eval=FALSE}
     rclone copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/big-fastq-play.zip ./
     ```
@@ -977,9 +1010,9 @@ So I recommend doing `conda install unzip` to add it to your base Miniconda envi
     ```{sh, eval=FALSE}
     unzip big-fastq-play.zip
     ```
+    This creates a directory called `big-fastq-play` within your `chinook-play` directory.
 9. Create a directory called `fastq` and move the two paired-end FASTQ files from `big-fastq-play` into it:
     ```{sh, eval=FALSE}
-    unzip big-fastq-play.zip
     mkdir fastq 
     mv big-fastq-play/data/Battle_Creek_01_chinook_R* fastq/
     # then make sure that they got moved
@@ -1005,7 +1038,7 @@ So I recommend doing `conda install unzip` to add it to your base Miniconda envi
     This will take about 10 to 15 minutes.  During that time, do this:
     - If you are doing this within a `tmux` session, create a new tmux window (`cntrl-b c`). Note that this shell opens on the login node (the one that you started your tmux session on.)
     - Rename this new tmux window "browse" (`cntrl-b ,`)
-    - Navigate to `~/scratch/tchinook-play/genome/` and list the files there.  These new files
+    - Navigate to `~/scratch/chinook-play/genome/` and list the files there.  These new files
     are being created by bwa.
     - Switch back to your original tmux window.
 14. If `bwa` is still running, ask me some questions.  Or maybe I will tell you more about how conda works...
@@ -1014,7 +1047,8 @@ So I recommend doing `conda install unzip` to add it to your base Miniconda envi
 instead, here is what we will do: 
     a. Kill the current `bwa` job but issuing `cntrl-c` in the shell where it is running.
     b. Use `rclone` to get the genome and a `bwa` index for it from my Google Drive.  We want to put the 
-    result in the `chinook-play` directory inside a directory called `chinook-genome-idx`.
+    result in the `chinook-play` directory inside a directory called `chinook-genome-idx`. NOTE: Again,
+    you will likely have to use your name for your rclone remote, rather than `gdrive-pers`.
     ```{sh, eval=FALSE}
     cd ../ # move up to the chinook-play directory
     rclone copy  -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/pre-indexed-chinook-genome chinook-genome-idx 
@@ -1036,6 +1070,10 @@ will define some shell variables.:
     SAMOUT=$(basename $FQB).sam
     
     # for fun, try echoing each of those variables and make sure they look right.
+    # for example:
+    echo $FQB
+    
+    # ...
     
     # then, launch bwa mem to map those reads to the genome.
     # the syntax is:
@@ -1059,11 +1097,8 @@ if you are running the job within `tmux`.  You can logout and it will still keep
 
 However, as said before, most of the time you will run _batch_ jobs rather than interactive jobs.
 I just wanted to first give everyone a chance to step through these tasks in an interactive shell
-on a compute node because that is crucial when developing your scripts.  
-
-For the homework I will expand upon this exercise and create a batch script for you all
-to launch. I hope to get that to you over the weekend, and then we will talk about it and do it
-next week.
+on a compute node because that is crucial when developing your scripts, and we wanted to
+make sure that everyone has rclone, and miniconda installed and working.
 
 
 

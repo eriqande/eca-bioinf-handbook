@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-03-09}
+\date{2020-03-10}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -6512,6 +6512,77 @@ Now that you have seen all these keystrokes, use \texttt{\textless{}cntrl\textgr
 up into a few panes and try them out. It takes a while to get used to it, but once you get
 the hang of it, it's quite nice.
 
+\hypertarget{tmux-for-mac-users}{%
+\section{\texorpdfstring{\texttt{tmux} for Mac users}{tmux for Mac users}}\label{tmux-for-mac-users}}
+
+I put this in an entirely different section, because, if you are comfortable in
+Mac-world, already, working with tmux by way of the extraordinary Mac application
+\textbf{iTerm2} feels like home and it is a completely different experience than
+working in \texttt{tmux} the way we have, so far.
+
+iTerm2 is a sort of fully customizable and \emph{way} better replacement for the
+standard Mac Terminal application. It can be downloaded for free
+from its web page \url{https://www.iterm2.com/}. You can
+donate to the project there as well. If you find that you really like iTerm2,
+I recommend a donation to support the developers.
+
+There are far too many features in iTerm2 to cover here, but I just want to describe
+one very important feature: iTerm2 integration with \texttt{tmux}. If you have survived the
+last section, and have gotten comfortable with hitting \texttt{\textless{}cntrl\textgreater{}-b} and then a series
+of different letters to effect various changes, then that is a good thing, and will
+serve you well. However, as you continue your journey with \texttt{tmux}, you may have found that
+you can't scroll up through the screen the way you might be used to when working in Terminal
+on a Mac. Further, you may have discovered that copying text from the screen, when you
+finally figured out how to scroll up in it, involves a series of emacs-like keystrokes.
+This is fine if you are up for it, but it is understandable that a Mac user might yearn
+for a more Mac-like experience. Fortunately, the developers of iTerm2 have made your tmux experience
+much better! They exploit \texttt{tmux}'s \texttt{-CC} option, which puts \texttt{tmux} into ``control mode'' such that
+iTerm2 can send its own simple text commands to control \texttt{tmux}, rather than the user sending
+commands prefaced by \texttt{\textless{}cntrl\textgreater{}-b}. The consequence of this is that iTerm2 has a series of menu options
+for doing \texttt{tmux} actions, and all of these have keyboard shortcuts that seem more natural to
+a Mac user. You can establish sessions, open new windows (as tabs in iTerm, if desired) and
+even carve windows up into multiple panels---all from a Mac-style interface that is quite forgiving
+in case you happen to forget the exact key sequence to do something in \texttt{tmux}.
+Finally, using \texttt{tmux} via iTerm2 you get mouse interaction like you expect: you can use the
+mouse to select different panes and move the dividers between them, and you can scroll back
+and select text with the mouse, if desired.
+
+On top of that, iTerm2 has great support for creating different profiles that you can
+assign to different remote servers. These can be customized with different login actions
+(including storage of remote server passwords in the Apple keychain, so you don't have
+to type in your long, complex passwords every time you log in to a remote server you
+can't set a public/private keypair on), and with different color schemes that can help you
+to keep various windows attached to various remote servers straight.
+
+You can read about it all at the iTerm2 website. I will just add that using
+iTerm with \texttt{tmux} might require a later version of \texttt{tmux} than is installed
+on your remote server or cluster. I recommend that you use Miniconda (see Section \ref{miniconda})
+to install tmux version 2.9 into your base environment with \texttt{conda\ install\ -c\ conda-forge\ tmux=2.9}.
+Before you do that, be sure to kill all existing tmux sessions on your remote server.
+Then, you could make a profile named, say \texttt{summit-tmux}, that launched with a command
+that was like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ssh}\NormalTok{ -t eriq@colostate.edu@login11.rc.colorado.edu }\StringTok{"/projects/eriq@colostate.edu/miniconda3/bin/tmux -CC attach -t summit || /projects/eriq@colostate.edu/miniconda3/bin/tmux -CC new -s summit"}
+\end{Highlighting}
+\end{Shaded}
+
+But customized to your own account name. What that does when you open a \texttt{summit-tmux} session is
+\texttt{ssh} to SUMMIT, and immediately run the command in the double quotes. That command says,
+``try to attach to a \texttt{tmux} session named \texttt{summit}. If that fails, then create a new
+\texttt{tmux} session called \texttt{summit}.'' To get the password manager set up for that profile,
+you need to add to the password manager an account (call it \texttt{summit}) and store your summit
+password in that manager. Then, in your summit-tmux profile, set a trigger (Profile-\textgreater{}Advanced-\textgreater{}Triggers (Edit))
+which looks for the regular expression \texttt{\^{}Password:}, does the action ``Open Password Manager'', and does so
+instantly. Figure \ref{fig:iterm-trigger} is a screen shot of what that setup looks like in my SUMMIT profile:
+
+\begin{figure}
+\includegraphics[width=25.64in]{figs/iterm-pw-trigger} \caption{How to set a trigger to open the password manager in iTerm to be able to pass in your password.  This is telling iTerm to open the Password Manager whenever it finds `Password:` at the beginning of a line in the terminal.}\label{fig:iterm-trigger}
+\end{figure}
+
+If you are a Mac user, spend a weekend getting to know iTerm2. It will be time well spent.
+
 \hypertarget{vim-its-time-to-get-serious-with-text-editing}{%
 \section{\texorpdfstring{\texttt{vim}: it's time to get serious with text editing}{vim: it's time to get serious with text editing}}\label{vim-its-time-to-get-serious-with-text-editing}}
 
@@ -7597,9 +7668,48 @@ Check which node you are on, by following up with:
 \end{Highlighting}
 \end{Shaded}
 
-Now,
+\hypertarget{an-in-class-exercise-to-make-sure-everything-is-configured-correctly}{%
+\subsection{An in-class exercise to make sure everything is configured correctly}\label{an-in-class-exercise-to-make-sure-everything-is-configured-correctly}}
 
-Now, try this.
+Here, we run through a number of steps to start aligning sequence data to a reference
+genome. The main purpose of this exercise is to ensure that everyone has their systems
+configured correctly. Namely, we want to make sure that:
+
+\begin{itemize}
+\tightlist
+\item
+  You can log in to your cluster (SUMMIT, Hummingbird, etc.)
+\item
+  You can use a few SLURM (job scheduler) commands.
+\item
+  You can find your way to your \emph{scratch} space on SUMMIT (or Hummingbird). \emph{scratch} is fast, largely
+  unlimited short-term storage. It is where you will do the majority of your bioinformatics.
+\item
+  You can use \texttt{rclone} to tranfer files from Google Drive to your cluster. Doing things this way will allow
+  you to access your Lab's Team Drive. The model for bioinformatic work is:
+
+  \begin{enumerate}
+  \def\labelenumi{\alph{enumi}.}
+  \tightlist
+  \item
+    Copy data from your Lab's Google Team Drive to \emph{scratch} on the cluster.
+  \item
+    Do analyses of the data (in \emph{scratch})
+  \item
+    Copy the results back to your Lab's Google Team Drive before it gets deleted (by the system administrators)
+    off of \emph{scratch}
+    Note: today you are not using your lab's Team drive, you are using the ``class'' shared drive,
+    and you won't be copying anything back to it. But this is a start at least\ldots{}
+  \end{enumerate}
+\item
+  You have Miniconda installed, that you have a conda environment with bioinformatic
+  tools in it, and that you can activate that environment and use the tools within it.
+  Miniconda makes it easy to install software that you need to run analyses.
+\end{itemize}
+
+Being able to successfully do all these things will be necessary to complete
+the next homework assignment which involves aligning short reads to a reference
+genome and will be assigned after spring break.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -7633,10 +7743,13 @@ Now, try this.
 \begin{Shaded}
 \begin{Highlighting}[]
 \FunctionTok{hostname}
+
+\CommentTok{# The hostname should be something like shasXXX. }
+\CommentTok{#  Do not proceed if you are on a login node still (ie. hostname is loginXX)}
 \end{Highlighting}
 \end{Shaded}
 
-  Do not proceed if you are on a login node still.
+  If you are still on a login node, try running \texttt{sinteractive} again.
 \item
   Use your alias \texttt{myjobs} (if you have created it) to see what jobs you have running.
 
@@ -7646,27 +7759,34 @@ Now, try this.
 
 \CommentTok{# or, if you don't have that aliased:}
 \ExtensionTok{squeue}\NormalTok{ -u your_username}
+
+\CommentTok{# You should see that you have one job running.  That "job" is a bash shell}
+\CommentTok{# that you are interactively working with.}
 \end{Highlighting}
 \end{Shaded}
 \item
-  Navigate to your scratch directory. On SUMMIT your scratch directory will be at a path like this
+  Navigate to your scratch directory using \texttt{cd}. On SUMMIT that will look like this:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\ExtensionTok{/scratch/summit}\NormalTok{/}\ExtensionTok{wcfunk}\NormalTok{\textbackslash{}@colostate.edu/}
+\BuiltInTok{cd}\NormalTok{ /scratch/summit/wcfunk\textbackslash{}@colostate.edu/}
 \end{Highlighting}
 \end{Shaded}
 
-  You can make symbolic link that in your home directory like this:
+  You can make a symbolic link to that in your home directory like this:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\BuiltInTok{cd}
-\FunctionTok{ln}\NormalTok{ -s /scratch/summit/wcfunk\textbackslash{}@colostate.edu/}
+\BuiltInTok{cd}\NormalTok{  # returns you to hour home directory}
+
+\CommentTok{# this line makes a symbolic link called scratch in your home directory}
+\CommentTok{# that points to your scratch space at /scratch/summit/wcfunk\textbackslash{}@colostate.edu/}
+\FunctionTok{ln}\NormalTok{ -s /scratch/summit/wcfunk\textbackslash{}@colostate.edu/ scratch}
 \end{Highlighting}
 \end{Shaded}
 
-  Just be sure to use your own user name instead of wcfunk. Once an alias is set up you can do:
+  Just be sure to use your own user name instead of wcfunk. Once that symbolic link is set up, you can
+  \texttt{cd} into it, just like it was your scratch directory:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7674,7 +7794,7 @@ Now, try this.
 \end{Highlighting}
 \end{Shaded}
 
-  But if you don't want to set up an alias just use the full path:
+  But if you don't want to set up a symbolic link just use the full path:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7716,7 +7836,7 @@ Now, try this.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\ExtensionTok{rclone}\NormalTok{ ls --drive-shared-with-me gdrive-pers:CSU-con-gen-2020}
+\ExtensionTok{rclone}\NormalTok{ lsd --drive-shared-with-me gdrive-pers:CSU-con-gen-2020}
 \end{Highlighting}
 \end{Shaded}
 
@@ -7725,22 +7845,19 @@ Now, try this.
   to be appropriate to your config, depending on how you set it up. Note also how you access folders shared with
   you using \texttt{-\/-drive-shared-with-me}.
 \item
-  After you get the above command to work, you should see:
+  After you get the above command to work, you should see something like the following, though it
+  will change as more things get added to this directory\ldots{}
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\ExtensionTok{416265040}\NormalTok{ tiny-genomic-data.zip}
-\ExtensionTok{179506752}\NormalTok{ big-fastq-play.zip}
-\ExtensionTok{1212848720}\NormalTok{ pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.sa}
-  \ExtensionTok{4599378}\NormalTok{ pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.amb}
-  \ExtensionTok{2118234}\NormalTok{ pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.ann}
-\ExtensionTok{606424334}\NormalTok{ pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.pac}
-\ExtensionTok{2425697412}\NormalTok{ pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.bwt}
-\ExtensionTok{737881835}\NormalTok{ pre-indexed-chinook-genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz}
+\ExtensionTok{-1}\NormalTok{ 2020-03-09 17:51:06        -1 chr32-160-chinook}
+\ExtensionTok{-1}\NormalTok{ 2020-03-05 07:33:21        -1 pre-indexed-chinook-genome}
 \end{Highlighting}
 \end{Shaded}
 \item
-  Use rclone to download \texttt{big-fastq-play.zip} (about 170 MB):
+  Use rclone to download \texttt{big-fastq-play.zip} (about 170 MB). Once again you have to change
+  the name of the rclone remoate (\texttt{gdrive-pers} in this case), to the name of your Google drive
+  rclone remote.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -7756,12 +7873,13 @@ Now, try this.
 \FunctionTok{unzip}\NormalTok{ big-fastq-play.zip}
 \end{Highlighting}
 \end{Shaded}
+
+  This creates a directory called \texttt{big-fastq-play} within your \texttt{chinook-play} directory.
 \item
   Create a directory called \texttt{fastq} and move the two paired-end FASTQ files from \texttt{big-fastq-play} into it:
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{unzip}\NormalTok{ big-fastq-play.zip}
 \FunctionTok{mkdir}\NormalTok{ fastq }
 \FunctionTok{mv}\NormalTok{ big-fastq-play/data/Battle_Creek_01_chinook_R* fastq/}
 \CommentTok{# then make sure that they got moved}
@@ -7808,7 +7926,7 @@ Now, try this.
   \item
     Rename this new tmux window ``browse'' (\texttt{cntrl-b\ ,})
   \item
-    Navigate to \texttt{\textasciitilde{}/scratch/tchinook-play/genome/} and list the files there. These new files
+    Navigate to \texttt{\textasciitilde{}/scratch/chinook-play/genome/} and list the files there. These new files
     are being created by bwa.
   \item
     Switch back to your original tmux window.
@@ -7828,7 +7946,8 @@ Now, try this.
     Kill the current \texttt{bwa} job but issuing \texttt{cntrl-c} in the shell where it is running.
   \item
     Use \texttt{rclone} to get the genome and a \texttt{bwa} index for it from my Google Drive. We want to put the
-    result in the \texttt{chinook-play} directory inside a directory called \texttt{chinook-genome-idx}.
+    result in the \texttt{chinook-play} directory inside a directory called \texttt{chinook-genome-idx}. NOTE: Again,
+    you will likely have to use your name for your rclone remote, rather than \texttt{gdrive-pers}.
   \end{enumerate}
 
 \begin{Shaded}
@@ -7862,6 +7981,10 @@ Now, try this.
 \VariableTok{SAMOUT=$(}\FunctionTok{basename} \VariableTok{$FQB)}\NormalTok{.sam}
 
 \CommentTok{# for fun, try echoing each of those variables and make sure they look right.}
+\CommentTok{# for example:}
+\BuiltInTok{echo} \VariableTok{$FQB}
+
+\CommentTok{# ...}
 
 \CommentTok{# then, launch bwa mem to map those reads to the genome.}
 \CommentTok{# the syntax is:}
@@ -7893,11 +8016,8 @@ Now, try this.
 
 However, as said before, most of the time you will run \emph{batch} jobs rather than interactive jobs.
 I just wanted to first give everyone a chance to step through these tasks in an interactive shell
-on a compute node because that is crucial when developing your scripts.
-
-For the homework I will expand upon this exercise and create a batch script for you all
-to launch. I hope to get that to you over the weekend, and then we will talk about it and do it
-next week.
+on a compute node because that is crucial when developing your scripts, and we wanted to
+make sure that everyone has rclone, and miniconda installed and working.
 
 \hypertarget{more-boneyard}{%
 \section{More Boneyard\ldots{}}\label{more-boneyard}}

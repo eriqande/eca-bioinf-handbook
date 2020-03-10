@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-03-09" />
+<meta name="date" content="2020-03-10" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -235,8 +235,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.3.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#first-steps-with-tmux"><i class="fa fa-check"></i><b>7.3.2</b> First steps with <code>tmux</code></a></li>
 <li class="chapter" data-level="7.3.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#further-steps-with-tmux"><i class="fa fa-check"></i><b>7.3.3</b> Further steps with <code>tmux</code></a></li>
 </ul></li>
-<li class="chapter" data-level="7.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#vim-its-time-to-get-serious-with-text-editing"><i class="fa fa-check"></i><b>7.4</b> <code>vim</code>: it’s time to get serious with text editing</a><ul>
-<li class="chapter" data-level="7.4.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster"><i class="fa fa-check"></i><b>7.4.1</b> Using neovim and Nvim-R and tmux to use R well on the cluster</a></li>
+<li class="chapter" data-level="7.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#tmux-for-mac-users"><i class="fa fa-check"></i><b>7.4</b> <code>tmux</code> for Mac users</a></li>
+<li class="chapter" data-level="7.5" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#vim-its-time-to-get-serious-with-text-editing"><i class="fa fa-check"></i><b>7.5</b> <code>vim</code>: it’s time to get serious with text editing</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster"><i class="fa fa-check"></i><b>7.5.1</b> Using neovim and Nvim-R and tmux to use R well on the cluster</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="8" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html"><i class="fa fa-check"></i><b>8</b> High Performance Computing Clusters (HPCC’s)</a><ul>
@@ -249,6 +250,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="8.5" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#getting-compute-resources-allocated-to-your-jobs-on-an-hpcc"><i class="fa fa-check"></i><b>8.5</b> Getting compute resources allocated to your jobs on an HPCC</a><ul>
 <li class="chapter" data-level="8.5.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#interactive-sessions"><i class="fa fa-check"></i><b>8.5.1</b> Interactive sessions</a></li>
+<li class="chapter" data-level="8.5.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#an-in-class-exercise-to-make-sure-everything-is-configured-correctly"><i class="fa fa-check"></i><b>8.5.2</b> An in-class exercise to make sure everything is configured correctly</a></li>
 </ul></li>
 <li class="chapter" data-level="8.6" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#more-boneyard"><i class="fa fa-check"></i><b>8.6</b> More Boneyard…</a></li>
 <li class="chapter" data-level="8.7" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#the-queue-slurmsgeuge"><i class="fa fa-check"></i><b>8.7</b> The Queue (SLURM/SGE/UGE)</a></li>
@@ -1700,19 +1702,80 @@ up into a few panes and try them out. It takes a while to get used to it, but on
 the hang of it, it’s quite nice.</p>
 </div>
 </div>
+<div id="tmux-for-mac-users" class="section level2">
+<h2><span class="header-section-number">7.4</span> <code>tmux</code> for Mac users</h2>
+<p>I put this in an entirely different section, because, if you are comfortable in
+Mac-world, already, working with tmux by way of the extraordinary Mac application
+<strong>iTerm2</strong> feels like home and it is a completely different experience than
+working in <code>tmux</code> the way we have, so far.</p>
+<p>iTerm2 is a sort of fully customizable and <em>way</em> better replacement for the
+standard Mac Terminal application. It can be downloaded for free
+from its web page <a href="https://www.iterm2.com/">https://www.iterm2.com/</a>. You can
+donate to the project there as well. If you find that you really like iTerm2,
+I recommend a donation to support the developers.</p>
+<p>There are far too many features in iTerm2 to cover here, but I just want to describe
+one very important feature: iTerm2 integration with <code>tmux</code>. If you have survived the
+last section, and have gotten comfortable with hitting <code>&lt;cntrl&gt;-b</code> and then a series
+of different letters to effect various changes, then that is a good thing, and will
+serve you well. However, as you continue your journey with <code>tmux</code>, you may have found that
+you can’t scroll up through the screen the way you might be used to when working in Terminal
+on a Mac. Further, you may have discovered that copying text from the screen, when you
+finally figured out how to scroll up in it, involves a series of emacs-like keystrokes.
+This is fine if you are up for it, but it is understandable that a Mac user might yearn
+for a more Mac-like experience. Fortunately, the developers of iTerm2 have made your tmux experience
+much better! They exploit <code>tmux</code>’s <code>-CC</code> option, which puts <code>tmux</code> into “control mode” such that
+iTerm2 can send its own simple text commands to control <code>tmux</code>, rather than the user sending
+commands prefaced by <code>&lt;cntrl&gt;-b</code>. The consequence of this is that iTerm2 has a series of menu options
+for doing <code>tmux</code> actions, and all of these have keyboard shortcuts that seem more natural to
+a Mac user. You can establish sessions, open new windows (as tabs in iTerm, if desired) and
+even carve windows up into multiple panels—all from a Mac-style interface that is quite forgiving
+in case you happen to forget the exact key sequence to do something in <code>tmux</code>.
+Finally, using <code>tmux</code> via iTerm2 you get mouse interaction like you expect: you can use the
+mouse to select different panes and move the dividers between them, and you can scroll back
+and select text with the mouse, if desired.</p>
+<p>On top of that, iTerm2 has great support for creating different profiles that you can
+assign to different remote servers. These can be customized with different login actions
+(including storage of remote server passwords in the Apple keychain, so you don’t have
+to type in your long, complex passwords every time you log in to a remote server you
+can’t set a public/private keypair on), and with different color schemes that can help you
+to keep various windows attached to various remote servers straight.</p>
+<p>You can read about it all at the iTerm2 website. I will just add that using
+iTerm with <code>tmux</code> might require a later version of <code>tmux</code> than is installed
+on your remote server or cluster. I recommend that you use Miniconda (see Section <a href="high-performance-computing-clusters-hpccs.html#miniconda">8.4.1</a>)
+to install tmux version 2.9 into your base environment with <code>conda install -c conda-forge tmux=2.9</code>.
+Before you do that, be sure to kill all existing tmux sessions on your remote server.
+Then, you could make a profile named, say <code>summit-tmux</code>, that launched with a command
+that was like this:</p>
+<div class="sourceCode" id="cb232"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb232-1" data-line-number="1"><span class="fu">ssh</span> -t eriq@colostate.edu@login11.rc.colorado.edu <span class="st">&quot;/projects/eriq@colostate.edu/miniconda3/bin/tmux -CC attach -t summit || /projects/eriq@colostate.edu/miniconda3/bin/tmux -CC new -s summit&quot;</span></a></code></pre></div>
+But customized to your own account name. What that does when you open a <code>summit-tmux</code> session is
+<code>ssh</code> to SUMMIT, and immediately run the command in the double quotes. That command says,
+“try to attach to a <code>tmux</code> session named <code>summit</code>. If that fails, then create a new
+<code>tmux</code> session called <code>summit</code>.” To get the password manager set up for that profile,
+you need to add to the password manager an account (call it <code>summit</code>) and store your summit
+password in that manager. Then, in your summit-tmux profile, set a trigger (Profile-&gt;Advanced-&gt;Triggers (Edit))
+which looks for the regular expression <code>^Password:</code>, does the action “Open Password Manager”, and does so
+instantly. Figure <a href="working-on-remote-servers.html#fig:iterm-trigger">7.4</a> is a screen shot of what that setup looks like in my SUMMIT profile:
+<div class="figure"><span id="fig:iterm-trigger"></span>
+<img src="figs/iterm-pw-trigger.png" alt="How to set a trigger to open the password manager in iTerm to be able to pass in your password.  This is telling iTerm to open the Password Manager whenever it finds `Password:` at the beginning of a line in the terminal." width="923" />
+<p class="caption">
+FIGURE 7.4: How to set a trigger to open the password manager in iTerm to be able to pass in your password. This is telling iTerm to open the Password Manager whenever it finds <code>Password:</code> at the beginning of a line in the terminal.
+</p>
+</div>
+<p>If you are a Mac user, spend a weekend getting to know iTerm2. It will be time well spent.</p>
+</div>
 <div id="vim-its-time-to-get-serious-with-text-editing" class="section level2">
-<h2><span class="header-section-number">7.4</span> <code>vim</code>: it’s time to get serious with text editing</h2>
+<h2><span class="header-section-number">7.5</span> <code>vim</code>: it’s time to get serious with text editing</h2>
 <p>Introduce newbs to the <code>vimtutor</code>.</p>
 <div id="using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster" class="section level3">
-<h3><span class="header-section-number">7.4.1</span> Using neovim and Nvim-R and tmux to use R well on the cluster</h3>
+<h3><span class="header-section-number">7.5.1</span> Using neovim and Nvim-R and tmux to use R well on the cluster</h3>
 <p>These are currently just notes to myself.</p>
 <p>On Summit you can follow the directions install Neovim and Nvim-R etc, found
 at section 2 of <a href="https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc">https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc</a>.
 You can just do 2.1 to 2.6. 2.7 is the routine for user accounts. You don’t need to install Tmux.</p>
 <p>You need to get an interactive session on a compute node and then</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb232-1" data-line-number="1"><span class="ex">module</span> load R/3.5.0</a>
-<a class="sourceLine" id="cb232-2" data-line-number="2"><span class="ex">module</span> load intel</a>
-<a class="sourceLine" id="cb232-3" data-line-number="3"><span class="ex">module</span> load mkl  </a></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb233-1" data-line-number="1"><span class="ex">module</span> load R/3.5.0</a>
+<a class="sourceLine" id="cb233-2" data-line-number="2"><span class="ex">module</span> load intel</a>
+<a class="sourceLine" id="cb233-3" data-line-number="3"><span class="ex">module</span> load mkl  </a></code></pre></div>
 <p>The last two are needed to get a random number to start up client through R.
 It is amazing to me that they call a specific Intel library to do that, and apparently
 loading the R module alone doesn’t get you that.</p>

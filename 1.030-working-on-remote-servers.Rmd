@@ -1415,7 +1415,70 @@ up into a few panes and try them out.  It takes a while to get used to it, but o
 the hang of it, it's quite nice.
 
 
+## `tmux` for Mac users
 
+I put this in an entirely different section, because, if you are comfortable in
+Mac-world, already, working with tmux by way of the extraordinary Mac application
+**iTerm2** feels like home and it is a completely different experience than
+working in `tmux` the way we have, so far.
+
+iTerm2 is a sort of fully customizable and _way_ better replacement for the
+standard Mac Terminal application.  It can be downloaded for free
+from its web page [https://www.iterm2.com/](https://www.iterm2.com/).  You can
+donate to the project there as well.  If you find that you really like iTerm2,
+I recommend a donation to support the developers.  
+
+There are far too many features in iTerm2 to cover here, but I just want to describe
+one very important feature: iTerm2 integration with `tmux`.  If you have survived the
+last section, and have gotten comfortable with hitting `<cntrl>-b` and then a series
+of different letters to effect various changes, then that is a good thing, and will
+serve you well.  However, as you continue your journey with `tmux`, you may have found that
+you can't scroll up through the screen the way you might be used to when working in Terminal
+on a Mac.  Further, you may have discovered that copying text from the screen, when you
+finally figured out how to scroll up in it, involves a series of emacs-like keystrokes.
+This is fine if you are up for it, but it is understandable that a Mac user might yearn
+for a more Mac-like experience. Fortunately, the developers of iTerm2 have made your tmux experience
+much better! They exploit `tmux`'s `-CC` option, which puts `tmux` into "control mode" such that
+iTerm2 can send its own simple text commands to control `tmux`, rather than the user sending
+commands prefaced by `<cntrl>-b`.  The consequence of this is that iTerm2 has a series of menu options
+for doing `tmux` actions, and all of these have keyboard shortcuts that seem more natural to
+a Mac user.  You can establish sessions, open new windows (as tabs in iTerm, if desired) and
+even carve windows up into multiple panels---all from a Mac-style interface that is quite forgiving
+in case you happen to forget the exact key sequence to do something in `tmux`. 
+Finally, using `tmux` via iTerm2 you get mouse interaction like you expect: you can use the
+mouse to select different panes and move the dividers between them, and you can scroll back
+and select text with the mouse, if desired.
+
+On top of that, iTerm2 has great support for creating different profiles that you can
+assign to different remote servers.  These can be customized with different login actions
+(including storage of remote server passwords in the Apple keychain, so you don't have
+to type in your long, complex passwords every time you log in to a remote server you
+can't set a public/private keypair on), and with different color schemes that can help you
+to keep various windows attached to various remote servers straight.
+
+You can read about it all at the iTerm2 website.  I will just add that using
+iTerm with `tmux` might require a later version of `tmux` than is installed
+on your remote server or cluster. I recommend that you use Miniconda (see Section \@ref(miniconda))
+to install tmux version 2.9 into your base environment with `conda install -c conda-forge tmux=2.9`.
+Before you do that, be sure to kill all existing tmux sessions on your remote server.
+Then, you could make a profile named, say `summit-tmux`, that launched with a command
+that was like this:
+```sh
+ssh -t eriq@colostate.edu@login11.rc.colorado.edu "/projects/eriq@colostate.edu/miniconda3/bin/tmux -CC attach -t summit || /projects/eriq@colostate.edu/miniconda3/bin/tmux -CC new -s summit"
+```
+But customized to your own account name.  What that does when you open a `summit-tmux` session is
+`ssh` to SUMMIT, and immediately run the command in the double quotes.  That command says,
+"try to attach to a `tmux` session named `summit`.  If that fails, then create a new
+`tmux` session called `summit`."  To get the password manager set up for that profile,
+you need to add to the password manager an account (call it `summit`) and store your summit
+password in that manager.  Then, in your summit-tmux profile, set a trigger (Profile->Advanced->Triggers (Edit))
+which looks for the regular expression `^Password:`, does the action "Open Password Manager", and does so
+instantly.  Figure \@ref(fig:iterm-trigger) is a screen shot of what that setup looks like in my SUMMIT profile:
+```{r iterm-trigger, echo=FALSE, fig.cap="How to set a trigger to open the password manager in iTerm to be able to pass in your password.  This is telling iTerm to open the Password Manager whenever it finds `Password:` at the beginning of a line in the terminal."}
+knitr::include_graphics("figs/iterm-pw-trigger.png")
+```
+
+If you are a Mac user, spend a weekend getting to know iTerm2.  It will be time well spent.
 
 ## `vim`: it's time to get serious with text editing
 
