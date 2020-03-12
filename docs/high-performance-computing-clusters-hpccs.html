@@ -1000,7 +1000,7 @@ and the path to <code>conda</code> is set, there are some <code>conda</code> ini
 features that have to happen within your job script in order to be able to
 explicitly set your <code>conda</code> environment within your job script.</p>
 <p>To see this, first make a script called <code>conda-test1.sh</code> that
-tries to activate different <code>conda</code> environments within the job script:</p>
+tries to activate a different <code>conda</code> environment within the job script:</p>
 <div class="sourceCode" id="cb284"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb284-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
 <a class="sourceLine" id="cb284-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb284-3" data-line-number="3"><span class="co">#SBATCH --time=00:03:00</span></a>
@@ -1029,11 +1029,9 @@ see an error about not being able to activate a conda environment. Likewise,
 if you look at the two <code>PATH</code>s printed out in <code>conda-test1-output-XXXX</code>,
 you will see that they are the same. So, indeed, the <code>bioinf</code> environemnt
 was not activated.</p>
-<p>To remedy this problem, you need to source your <code>~/.bashrc</code> or your
-<code>~/.bash_profile</code> (whichever one contains the “conda init” block).
-If you set your <code>~/.bash_profile</code> up, as recommended in the beginning of the
-book (Section XXX) to read from your <code>~/.bashrc</code>, then you can simply source
-your <code>~/.bash_profile</code> in your job script.</p>
+<p>To remedy this problem, you need to source your <code>~/.bashrc</code>
+(which seems to be where Miniconda3 establishes its “conda init” block)
+from within your job script.</p>
 <p>For example, create a new file called <code>conda-init2.sh</code> and fill it with
 the following:</p>
 <div class="sourceCode" id="cb286"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb286-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
@@ -1042,7 +1040,7 @@ the following:</p>
 <a class="sourceLine" id="cb286-4" data-line-number="4"><span class="co">#SBATCH --output=conda-test2-output-%j</span></a>
 <a class="sourceLine" id="cb286-5" data-line-number="5"><span class="co">#SBATCH --error=conda-test2-error-%j </span></a>
 <a class="sourceLine" id="cb286-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb286-7" data-line-number="7"><span class="bu">source</span> ~/.bash_profile</a>
+<a class="sourceLine" id="cb286-7" data-line-number="7"><span class="bu">source</span> ~/.bashrc</a>
 <a class="sourceLine" id="cb286-8" data-line-number="8"></a>
 <a class="sourceLine" id="cb286-9" data-line-number="9"><span class="bu">echo</span> <span class="st">&quot;Starting at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a>
 <a class="sourceLine" id="cb286-10" data-line-number="10"><span class="bu">echo</span> </a>
@@ -1067,16 +1065,12 @@ the following:</p>
 <p>If <code>conda</code> is working properly within the job script there should be no output
 to <code>conda-test2-error-XXXX</code> and you should see that invoking <code>conda activate bioinf</code>
 changed the PATH variable to include paths from the <code>bioinf</code> environment.</p>
-<p>The above points are really key if you want to use software like <code>bwa</code>, <code>samtools</code>,
+<p>The above points are very important if you want to use software like <code>bwa</code>, <code>samtools</code>,
 and <code>bcftools</code>, that you installed using Miniconda, from within a job script.</p>
 <p>To repeat: to activate a conda environment like <code>bioinf</code> from within a job script running
 under <code>sbatch</code> you must add these lines:</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb288-1" data-line-number="1"><span class="bu">source</span> ~/.bash_profile</a>
+<div class="sourceCode" id="cb288"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb288-1" data-line-number="1"><span class="bu">source</span> ~/.bashrc</a>
 <a class="sourceLine" id="cb288-2" data-line-number="2"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
-<p>Or, if your <code>~/.bash_profile</code> and <code>~/.bashrc</code> are set up differently, <em>and</em> your
-<code>conda</code> initialization block is in <code>~/.bashrc</code>, you should use:</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb289-1" data-line-number="1"><span class="bu">source</span> ~/.bashrc</a>
-<a class="sourceLine" id="cb289-2" data-line-number="2"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
 </div>
 <div id="test-a-longer-running-bash-script" class="section level4">
 <h4><span class="header-section-number">8.4.2.5</span> Test a longer running bash script</h4>
@@ -1085,31 +1079,31 @@ under <code>sbatch</code> you must add these lines:</p>
 a directory called <code>fastq</code> in there, as well as <code>chinook-genome-idx</code>.</p>
 <p>Then, make a job script called <code>map-it.sh</code> with these lines in it (modifying the
 email to be your email address):</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb290-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
-<a class="sourceLine" id="cb290-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb290-3" data-line-number="3"><span class="co">#SBATCH --time=03:00:00</span></a>
-<a class="sourceLine" id="cb290-4" data-line-number="4"><span class="co">#SBATCH --output=map-it-output-%j</span></a>
-<a class="sourceLine" id="cb290-5" data-line-number="5"><span class="co">#SBATCH --error=map-it-error-%j </span></a>
-<a class="sourceLine" id="cb290-6" data-line-number="6"><span class="co">#SBATCH --mail-type=ALL </span></a>
-<a class="sourceLine" id="cb290-7" data-line-number="7"><span class="co">#SBATCH --mail-user=yourname@yourmail.edu</span></a>
-<a class="sourceLine" id="cb290-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb290-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb290-10" data-line-number="10"><span class="bu">source</span> ~/.bash_profile  # or ~/.bashrc if that is how you are set up</a>
-<a class="sourceLine" id="cb290-11" data-line-number="11"><span class="ex">conda</span> activate bioinf</a>
-<a class="sourceLine" id="cb290-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb290-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb290-14" data-line-number="14"><span class="co"># map it, then make it a BAM then run fixmate</span></a>
-<a class="sourceLine" id="cb290-15" data-line-number="15"><span class="ex">bwa</span> mem chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz \</a>
-<a class="sourceLine" id="cb290-16" data-line-number="16">  fastq/Battle_Creek_01_chinook_R1.fq.gz  \</a>
-<a class="sourceLine" id="cb290-17" data-line-number="17">  fastq/Battle_Creek_01_chinook_R2.fq.gz  <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb290-18" data-line-number="18">  <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb290-19" data-line-number="19">    <span class="ex">samtools</span> fixmate -m -O BAM - OUTPUT-fixed.bam</a>
-<a class="sourceLine" id="cb290-20" data-line-number="20">    </a>
-<a class="sourceLine" id="cb290-21" data-line-number="21"><span class="co"># now coordinate-sort it and mark PCR duplicates</span></a>
-<a class="sourceLine" id="cb290-22" data-line-number="22"><span class="ex">samtools</span> sort OUTPUT-fixed.bam <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb290-23" data-line-number="23">  <span class="ex">samtools</span> markdup - OUTPUT-marked.bam</a></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb289-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb289-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb289-3" data-line-number="3"><span class="co">#SBATCH --time=03:00:00</span></a>
+<a class="sourceLine" id="cb289-4" data-line-number="4"><span class="co">#SBATCH --output=map-it-output-%j</span></a>
+<a class="sourceLine" id="cb289-5" data-line-number="5"><span class="co">#SBATCH --error=map-it-error-%j </span></a>
+<a class="sourceLine" id="cb289-6" data-line-number="6"><span class="co">#SBATCH --mail-type=ALL </span></a>
+<a class="sourceLine" id="cb289-7" data-line-number="7"><span class="co">#SBATCH --mail-user=yourname@yourmail.edu</span></a>
+<a class="sourceLine" id="cb289-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb289-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb289-10" data-line-number="10"><span class="bu">source</span> ~/.bash_profile  # or ~/.bashrc if that is how you are set up</a>
+<a class="sourceLine" id="cb289-11" data-line-number="11"><span class="ex">conda</span> activate bioinf</a>
+<a class="sourceLine" id="cb289-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb289-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb289-14" data-line-number="14"><span class="co"># map it, then make it a BAM then run fixmate</span></a>
+<a class="sourceLine" id="cb289-15" data-line-number="15"><span class="ex">bwa</span> mem chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz \</a>
+<a class="sourceLine" id="cb289-16" data-line-number="16">  fastq/Battle_Creek_01_chinook_R1.fq.gz  \</a>
+<a class="sourceLine" id="cb289-17" data-line-number="17">  fastq/Battle_Creek_01_chinook_R2.fq.gz  <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb289-18" data-line-number="18">  <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb289-19" data-line-number="19">    <span class="ex">samtools</span> fixmate -m -O BAM - OUTPUT-fixed.bam</a>
+<a class="sourceLine" id="cb289-20" data-line-number="20">    </a>
+<a class="sourceLine" id="cb289-21" data-line-number="21"><span class="co"># now coordinate-sort it and mark PCR duplicates</span></a>
+<a class="sourceLine" id="cb289-22" data-line-number="22"><span class="ex">samtools</span> sort OUTPUT-fixed.bam <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb289-23" data-line-number="23">  <span class="ex">samtools</span> markdup - OUTPUT-marked.bam</a></code></pre></div>
 <p>And schedule it to run (from within the <code>chinook-play</code> directory) with:</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb291-1" data-line-number="1"><span class="ex">sbatch</span> map-it.sh</a></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb290-1" data-line-number="1"><span class="ex">sbatch</span> map-it.sh</a></code></pre></div>
 </div>
 </div>
 </div>
@@ -1142,89 +1136,89 @@ the next homework assignment which involves aligning short reads to a reference
 genome and will be assigned after spring break.</p>
 <ol style="list-style-type: decimal">
 <li><p>If you are not already in a tmux session, start a new <code>tmux</code> session called <code>inclass</code> on the login node.</p>
-<div class="sourceCode" id="cb292"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb292-1" data-line-number="1"><span class="ex">tmux</span> new -s inclass</a></code></pre></div></li>
+<div class="sourceCode" id="cb291"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb291-1" data-line-number="1"><span class="ex">tmux</span> new -s inclass</a></code></pre></div></li>
 <li><p>Get a bash shell on a compute node</p>
-<div class="sourceCode" id="cb293"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb293-1" data-line-number="1"><span class="co"># on summit:</span></a>
-<a class="sourceLine" id="cb293-2" data-line-number="2"><span class="ex">sinteractive</span></a>
-<a class="sourceLine" id="cb293-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb293-4" data-line-number="4"><span class="co"># on hummingbird</span></a>
-<a class="sourceLine" id="cb293-5" data-line-number="5"><span class="ex">salloc</span> --partition=Instruction --nodes=1 --time=02:00:00 --mem=4G --cpus-per-task=1</a>
-<a class="sourceLine" id="cb293-6" data-line-number="6"><span class="fu">ssh</span> <span class="va">$SLURM_NODELIST</span></a>
-<a class="sourceLine" id="cb293-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb293-8" data-line-number="8"><span class="co"># otherwise, you can try this (will work on Sedna)</span></a>
-<a class="sourceLine" id="cb293-9" data-line-number="9"><span class="ex">srun</span> --pty /bin/bash</a></code></pre></div></li>
+<div class="sourceCode" id="cb292"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb292-1" data-line-number="1"><span class="co"># on summit:</span></a>
+<a class="sourceLine" id="cb292-2" data-line-number="2"><span class="ex">sinteractive</span></a>
+<a class="sourceLine" id="cb292-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb292-4" data-line-number="4"><span class="co"># on hummingbird</span></a>
+<a class="sourceLine" id="cb292-5" data-line-number="5"><span class="ex">salloc</span> --partition=Instruction --nodes=1 --time=02:00:00 --mem=4G --cpus-per-task=1</a>
+<a class="sourceLine" id="cb292-6" data-line-number="6"><span class="fu">ssh</span> <span class="va">$SLURM_NODELIST</span></a>
+<a class="sourceLine" id="cb292-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb292-8" data-line-number="8"><span class="co"># otherwise, you can try this (will work on Sedna)</span></a>
+<a class="sourceLine" id="cb292-9" data-line-number="9"><span class="ex">srun</span> --pty /bin/bash</a></code></pre></div></li>
 <li><p>Check what host you are on with <code>hostname</code></p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb294-1" data-line-number="1"><span class="fu">hostname</span></a>
-<a class="sourceLine" id="cb294-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb294-3" data-line-number="3"><span class="co"># The hostname should be something like shasXXX. </span></a>
-<a class="sourceLine" id="cb294-4" data-line-number="4"><span class="co">#  Do not proceed if you are on a login node still (ie. hostname is loginXX)</span></a></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb293-1" data-line-number="1"><span class="fu">hostname</span></a>
+<a class="sourceLine" id="cb293-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb293-3" data-line-number="3"><span class="co"># The hostname should be something like shasXXX. </span></a>
+<a class="sourceLine" id="cb293-4" data-line-number="4"><span class="co">#  Do not proceed if you are on a login node still (ie. hostname is loginXX)</span></a></code></pre></div>
 <p>If you are still on a login node, try running <code>sinteractive</code> again.</p></li>
 <li><p>Use your alias <code>myjobs</code> (if you have created it) to see what jobs you have running.</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb295-1" data-line-number="1"><span class="ex">myjobs</span></a>
-<a class="sourceLine" id="cb295-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb295-3" data-line-number="3"><span class="co"># or, if you don&#39;t have that aliased:</span></a>
-<a class="sourceLine" id="cb295-4" data-line-number="4"><span class="ex">squeue</span> -u your_username</a>
-<a class="sourceLine" id="cb295-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb295-6" data-line-number="6"><span class="co"># You should see that you have one job running.  That &quot;job&quot; is a bash shell</span></a>
-<a class="sourceLine" id="cb295-7" data-line-number="7"><span class="co"># that you are interactively working with.</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb294"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb294-1" data-line-number="1"><span class="ex">myjobs</span></a>
+<a class="sourceLine" id="cb294-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb294-3" data-line-number="3"><span class="co"># or, if you don&#39;t have that aliased:</span></a>
+<a class="sourceLine" id="cb294-4" data-line-number="4"><span class="ex">squeue</span> -u your_username</a>
+<a class="sourceLine" id="cb294-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb294-6" data-line-number="6"><span class="co"># You should see that you have one job running.  That &quot;job&quot; is a bash shell</span></a>
+<a class="sourceLine" id="cb294-7" data-line-number="7"><span class="co"># that you are interactively working with.</span></a></code></pre></div></li>
 <li><p>Navigate to your scratch directory using <code>cd</code>. On SUMMIT that will look like this:</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb296-1" data-line-number="1"><span class="bu">cd</span> /scratch/summit/wcfunk\@colostate.edu/</a></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb295-1" data-line-number="1"><span class="bu">cd</span> /scratch/summit/wcfunk\@colostate.edu/</a></code></pre></div>
 <p>You can make a symbolic link to that in your home directory like this:</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb297-1" data-line-number="1"><span class="bu">cd</span>  # returns you to hour home directory</a>
-<a class="sourceLine" id="cb297-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb297-3" data-line-number="3"><span class="co"># this line makes a symbolic link called scratch in your home directory</span></a>
-<a class="sourceLine" id="cb297-4" data-line-number="4"><span class="co"># that points to your scratch space at /scratch/summit/wcfunk\@colostate.edu/</span></a>
-<a class="sourceLine" id="cb297-5" data-line-number="5"><span class="fu">ln</span> -s /scratch/summit/wcfunk\@colostate.edu/ scratch</a></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb296-1" data-line-number="1"><span class="bu">cd</span>  # returns you to hour home directory</a>
+<a class="sourceLine" id="cb296-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb296-3" data-line-number="3"><span class="co"># this line makes a symbolic link called scratch in your home directory</span></a>
+<a class="sourceLine" id="cb296-4" data-line-number="4"><span class="co"># that points to your scratch space at /scratch/summit/wcfunk\@colostate.edu/</span></a>
+<a class="sourceLine" id="cb296-5" data-line-number="5"><span class="fu">ln</span> -s /scratch/summit/wcfunk\@colostate.edu/ scratch</a></code></pre></div>
 <p>Just be sure to use your own user name instead of wcfunk. Once that symbolic link is set up, you can
 <code>cd</code> into it, just like it was your scratch directory:</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb298-1" data-line-number="1"><span class="bu">cd</span> scratch</a></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb297-1" data-line-number="1"><span class="bu">cd</span> scratch</a></code></pre></div>
 <p>But if you don’t want to set up a symbolic link just use the full path:</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb299-1" data-line-number="1"><span class="bu">cd</span> /scratch/summit/wcfunk\@colostate.edu/</a></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb298-1" data-line-number="1"><span class="bu">cd</span> /scratch/summit/wcfunk\@colostate.edu/</a></code></pre></div>
 <p>On hummingbird you go to</p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb300-1" data-line-number="1"><span class="bu">cd</span> /hb/scratch/username/</a></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb299-1" data-line-number="1"><span class="bu">cd</span> /hb/scratch/username/</a></code></pre></div>
 <p>where username is your ucsc username. Note that if you want to make a symbolic link to that, then
 <em>while in your home directory</em> do this:</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb301-1" data-line-number="1"><span class="fu">ln</span> -s /hb/scratch/username scratch</a></code></pre></div></li>
+<div class="sourceCode" id="cb300"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb300-1" data-line-number="1"><span class="fu">ln</span> -s /hb/scratch/username scratch</a></code></pre></div></li>
 <li><p>Within your account’s scratch space, make a directory called <code>chinook-play</code> and <code>cd</code> into it:</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb302-1" data-line-number="1"><span class="fu">mkdir</span> chinook-play</a>
-<a class="sourceLine" id="cb302-2" data-line-number="2"><span class="bu">cd</span> chinook-play/</a></code></pre></div></li>
+<div class="sourceCode" id="cb301"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb301-1" data-line-number="1"><span class="fu">mkdir</span> chinook-play</a>
+<a class="sourceLine" id="cb301-2" data-line-number="2"><span class="bu">cd</span> chinook-play/</a></code></pre></div></li>
 <li>Make sure you have followed the link in your email to the shared google drive folder I sent you last night. If the email
 went to an email address that is not associated with your rclone configuration for google drive, then request access
 (at google drive) for that email. (Or setup a new rclone config for your other gmail address…)</li>
 <li><p>Now, use rclone to list the files in the folder I shared with you:</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb303-1" data-line-number="1"><span class="ex">rclone</span> lsd --drive-shared-with-me gdrive-pers:CSU-con-gen-2020</a></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb302-1" data-line-number="1"><span class="ex">rclone</span> lsd --drive-shared-with-me gdrive-pers:CSU-con-gen-2020</a></code></pre></div>
 Note that <code>gdrive-pers</code> above is the name of my rclone configuration associated with the gmail account where
 I got an email (from myself at my CSU account) about the shared folder. You will have to change <code>gdrive-pers</code>
 to be appropriate to your config, depending on how you set it up. Note also how you access folders shared with
 you using <code>--drive-shared-with-me</code>.</li>
 <li><p>After you get the above command to work, you should see something like the following, though it
 will change as more things get added to this directory…</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb304-1" data-line-number="1"><span class="ex">-1</span> 2020-03-09 17:51:06        -1 chr32-160-chinook</a>
-<a class="sourceLine" id="cb304-2" data-line-number="2"><span class="ex">-1</span> 2020-03-05 07:33:21        -1 pre-indexed-chinook-genome</a></code></pre></div></li>
+<div class="sourceCode" id="cb303"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb303-1" data-line-number="1"><span class="ex">-1</span> 2020-03-09 17:51:06        -1 chr32-160-chinook</a>
+<a class="sourceLine" id="cb303-2" data-line-number="2"><span class="ex">-1</span> 2020-03-05 07:33:21        -1 pre-indexed-chinook-genome</a></code></pre></div></li>
 <li><p>Use rclone to download <code>big-fastq-play.zip</code> (about 170 MB). Once again you have to change
 the name of the rclone remoate (<code>gdrive-pers</code> in this case), to the name of your Google drive
 rclone remote.</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb305-1" data-line-number="1"><span class="ex">rclone</span> copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/big-fastq-play.zip ./</a></code></pre></div></li>
+<div class="sourceCode" id="cb304"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb304-1" data-line-number="1"><span class="ex">rclone</span> copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/big-fastq-play.zip ./</a></code></pre></div></li>
 <li><p>Unzip the file you just downloaded. Note: on Hummingbird, <code>unzip</code> is not installed by default.
 So I recommend doing <code>conda install unzip</code> to add it to your base Miniconda environment.</p>
-<div class="sourceCode" id="cb306"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb306-1" data-line-number="1"><span class="fu">unzip</span> big-fastq-play.zip</a></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb305-1" data-line-number="1"><span class="fu">unzip</span> big-fastq-play.zip</a></code></pre></div>
 This creates a directory called <code>big-fastq-play</code> within your <code>chinook-play</code> directory.</li>
 <li><p>Create a directory called <code>fastq</code> and move the two paired-end FASTQ files from <code>big-fastq-play</code> into it:</p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb307-1" data-line-number="1"><span class="fu">mkdir</span> fastq </a>
-<a class="sourceLine" id="cb307-2" data-line-number="2"><span class="fu">mv</span> big-fastq-play/data/Battle_Creek_01_chinook_R* fastq/</a>
-<a class="sourceLine" id="cb307-3" data-line-number="3"><span class="co"># then make sure that they got moved</span></a>
-<a class="sourceLine" id="cb307-4" data-line-number="4"><span class="fu">ls</span> fastq</a>
-<a class="sourceLine" id="cb307-5" data-line-number="5"><span class="co"># if the files were moved, then feel free to remove the big fastq stuff</span></a>
-<a class="sourceLine" id="cb307-6" data-line-number="6"><span class="fu">rm</span> -r big-fastq-play*</a></code></pre></div></li>
+<div class="sourceCode" id="cb306"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb306-1" data-line-number="1"><span class="fu">mkdir</span> fastq </a>
+<a class="sourceLine" id="cb306-2" data-line-number="2"><span class="fu">mv</span> big-fastq-play/data/Battle_Creek_01_chinook_R* fastq/</a>
+<a class="sourceLine" id="cb306-3" data-line-number="3"><span class="co"># then make sure that they got moved</span></a>
+<a class="sourceLine" id="cb306-4" data-line-number="4"><span class="fu">ls</span> fastq</a>
+<a class="sourceLine" id="cb306-5" data-line-number="5"><span class="co"># if the files were moved, then feel free to remove the big fastq stuff</span></a>
+<a class="sourceLine" id="cb306-6" data-line-number="6"><span class="fu">rm</span> -r big-fastq-play*</a></code></pre></div></li>
 <li><p>Download the Chinook salmon genome into a directory called <code>genome</code></p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb308-1" data-line-number="1"> <span class="fu">mkdir</span> genome</a>
-<a class="sourceLine" id="cb308-2" data-line-number="2"> <span class="bu">cd</span> genome</a>
-<a class="sourceLine" id="cb308-3" data-line-number="3"> <span class="fu">wget</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_other/Oncorhynchus_tshawytscha/all_assembly_versions/GCA_002872995.1_Otsh_v1.0/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb307-1" data-line-number="1"> <span class="fu">mkdir</span> genome</a>
+<a class="sourceLine" id="cb307-2" data-line-number="2"> <span class="bu">cd</span> genome</a>
+<a class="sourceLine" id="cb307-3" data-line-number="3"> <span class="fu">wget</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_other/Oncorhynchus_tshawytscha/all_assembly_versions/GCA_002872995.1_Otsh_v1.0/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a></code></pre></div>
 That dude is 760 Mb, but it goes really quickly (at least on SUMMIT. Hummingbird seems to be a different story…)</li>
 <li><p>Activate your <code>bioinf</code> conda environment to be able to use <code>bwa</code>:</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb309-1" data-line-number="1"><span class="ex">conda</span> activate bioinf</a></code></pre></div></li>
+<div class="sourceCode" id="cb308"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb308-1" data-line-number="1"><span class="ex">conda</span> activate bioinf</a></code></pre></div></li>
 <li><p>Index the genome with <code>bwa</code> in order to align reads to it:</p>
-<div class="sourceCode" id="cb310"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb310-1" data-line-number="1"><span class="ex">bwa</span> index GCA_002872995.1_Otsh_v1.0_genomic.fna.gz </a></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb309-1" data-line-number="1"><span class="ex">bwa</span> index GCA_002872995.1_Otsh_v1.0_genomic.fna.gz </a></code></pre></div>
 This will take about 10 to 15 minutes. During that time, do this:
 <ul>
 <li>If you are doing this within a <code>tmux</code> session, create a new tmux window (<code>cntrl-b c</code>). Note that this shell opens on the login node (the one that you started your tmux session on.)</li>
@@ -1243,38 +1237,38 @@ instead, here is what we will do:
 result in the <code>chinook-play</code> directory inside a directory called <code>chinook-genome-idx</code>. NOTE: Again,
 you will likely have to use your name for your rclone remote, rather than <code>gdrive-pers</code>.</li>
 </ol>
-<div class="sourceCode" id="cb311"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb311-1" data-line-number="1"><span class="bu">cd</span> ../ <span class="co"># move up to the chinook-play directory</span></a>
-<a class="sourceLine" id="cb311-2" data-line-number="2"><span class="ex">rclone</span> copy  -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/pre-indexed-chinook-genome chinook-genome-idx </a></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb310-1" data-line-number="1"><span class="bu">cd</span> ../ <span class="co"># move up to the chinook-play directory</span></a>
+<a class="sourceLine" id="cb310-2" data-line-number="2"><span class="ex">rclone</span> copy  -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/pre-indexed-chinook-genome chinook-genome-idx </a></code></pre></div>
 That thing is 4.6 Gb, but can take less than a minute to transfer. (Let’s see if things slow down with everyone
 running this command at the same time.)</li>
 <li><p>Now when you do <code>ls</code> you should see something like this:</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb312-1" data-line-number="1"><span class="kw">(</span><span class="ex">bioinf</span><span class="kw">)</span> [<span class="ex">chinook-play</span>]--% ls</a>
-<a class="sourceLine" id="cb312-2" data-line-number="2"><span class="ex">chinook-genome-idx</span>  fastq  genome</a></code></pre></div></li>
+<div class="sourceCode" id="cb311"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb311-1" data-line-number="1"><span class="kw">(</span><span class="ex">bioinf</span><span class="kw">)</span> [<span class="ex">chinook-play</span>]--% ls</a>
+<a class="sourceLine" id="cb311-2" data-line-number="2"><span class="ex">chinook-genome-idx</span>  fastq  genome</a></code></pre></div></li>
 <li><p>For a final hurrah, we will start aligning those fastqs to the chinook genome. We will put the result in a directory
 we create called <code>sam</code>. To make it clearer what we are doing we
 will define some shell variables.:</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb313-1" data-line-number="1"><span class="fu">mkdir</span> sam</a>
-<a class="sourceLine" id="cb313-2" data-line-number="2"><span class="va">GENOME=</span>chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a>
-<a class="sourceLine" id="cb313-3" data-line-number="3"><span class="va">FQB=</span>fastq/Battle_Creek_01_chinook_R</a>
-<a class="sourceLine" id="cb313-4" data-line-number="4"><span class="va">SAMOUT=$(</span><span class="fu">basename</span> <span class="va">$FQB)</span>.sam</a>
-<a class="sourceLine" id="cb313-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb313-6" data-line-number="6"><span class="co"># for fun, try echoing each of those variables and make sure they look right.</span></a>
-<a class="sourceLine" id="cb313-7" data-line-number="7"><span class="co"># for example:</span></a>
-<a class="sourceLine" id="cb313-8" data-line-number="8"><span class="bu">echo</span> <span class="va">$FQB</span></a>
-<a class="sourceLine" id="cb313-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb313-10" data-line-number="10"><span class="co"># ...</span></a>
-<a class="sourceLine" id="cb313-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb313-12" data-line-number="12"><span class="co"># then, launch bwa mem to map those reads to the genome.</span></a>
-<a class="sourceLine" id="cb313-13" data-line-number="13"><span class="co"># the syntax is:</span></a>
-<a class="sourceLine" id="cb313-14" data-line-number="14"><span class="co"># Usage: bwa mem [options] &lt;idxbase&gt; &lt;in1.fq&gt; [in2.fq]</span></a>
-<a class="sourceLine" id="cb313-15" data-line-number="15"><span class="ex">bwa</span> mem <span class="va">$GENOME</span> <span class="va">${FQB}</span>1.fq.gz <span class="va">${FQB}</span>2.fq.gz <span class="op">&gt;</span> sam/<span class="va">$SAMOUT</span> <span class="op">2&gt;</span>sam/<span class="va">$SAMOUT</span>.error</a></code></pre></div></li>
+<div class="sourceCode" id="cb312"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb312-1" data-line-number="1"><span class="fu">mkdir</span> sam</a>
+<a class="sourceLine" id="cb312-2" data-line-number="2"><span class="va">GENOME=</span>chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a>
+<a class="sourceLine" id="cb312-3" data-line-number="3"><span class="va">FQB=</span>fastq/Battle_Creek_01_chinook_R</a>
+<a class="sourceLine" id="cb312-4" data-line-number="4"><span class="va">SAMOUT=$(</span><span class="fu">basename</span> <span class="va">$FQB)</span>.sam</a>
+<a class="sourceLine" id="cb312-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb312-6" data-line-number="6"><span class="co"># for fun, try echoing each of those variables and make sure they look right.</span></a>
+<a class="sourceLine" id="cb312-7" data-line-number="7"><span class="co"># for example:</span></a>
+<a class="sourceLine" id="cb312-8" data-line-number="8"><span class="bu">echo</span> <span class="va">$FQB</span></a>
+<a class="sourceLine" id="cb312-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb312-10" data-line-number="10"><span class="co"># ...</span></a>
+<a class="sourceLine" id="cb312-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb312-12" data-line-number="12"><span class="co"># then, launch bwa mem to map those reads to the genome.</span></a>
+<a class="sourceLine" id="cb312-13" data-line-number="13"><span class="co"># the syntax is:</span></a>
+<a class="sourceLine" id="cb312-14" data-line-number="14"><span class="co"># Usage: bwa mem [options] &lt;idxbase&gt; &lt;in1.fq&gt; [in2.fq]</span></a>
+<a class="sourceLine" id="cb312-15" data-line-number="15"><span class="ex">bwa</span> mem <span class="va">$GENOME</span> <span class="va">${FQB}</span>1.fq.gz <span class="va">${FQB}</span>2.fq.gz <span class="op">&gt;</span> sam/<span class="va">$SAMOUT</span> <span class="op">2&gt;</span>sam/<span class="va">$SAMOUT</span>.error</a></code></pre></div></li>
 <li><p>Once that has started, it is hard to know anything is happening, because we have
 redirected both stdout and stderr to files. So, do what you did before, use tmux to
 go to another shell and then use <code>tail</code> or <code>less</code> to look at the output files, which
 are in <code>sam/Battle_Creek_01_chinook_R.sam</code> and <code>sam/Battle_Creek_01_chinook_R.sam.error</code>
 within the <code>chinook-play</code> directory in <code>scratch</code>. You might even count how many
 lines of alignments file have been formed:</p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb314-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;!/^@/&#39;</span> Battle_Creek_01_chinook_R.sam <span class="kw">|</span> <span class="fu">wc</span> </a></code></pre></div></li>
+<div class="sourceCode" id="cb313"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb313-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;!/^@/&#39;</span> Battle_Creek_01_chinook_R.sam <span class="kw">|</span> <span class="fu">wc</span> </a></code></pre></div></li>
 <li>Note that, in practice, we would not usually save the <code>.sam</code> file to disk. Rather, we would
 convert it into a compressed <code>.bam</code> file right as it comes off of <code>bwa mem</code>, and maybe even sort it
 as it is coming off…</li>
@@ -1289,7 +1283,7 @@ make sure that everyone has rclone, and miniconda installed and working.</p>
 <div id="more-boneyard" class="section level2">
 <h2><span class="header-section-number">8.6</span> More Boneyard…</h2>
 <p>Here is some nice stuff for summarizing all the information from the different runs from the chinook-wgs project:</p>
-<div class="sourceCode" id="cb315"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb315-1" data-line-number="1"><span class="ex">qacct</span> -o eriq -b 09271925 -j ml <span class="kw">|</span> <span class="ex">tidy-qacct</span></a></code></pre></div>
+<div class="sourceCode" id="cb314"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb314-1" data-line-number="1"><span class="ex">qacct</span> -o eriq -b 09271925 -j ml <span class="kw">|</span> <span class="ex">tidy-qacct</span></a></code></pre></div>
 <p>Explain scratch space and how clusters are configured with respect to storage, etc.</p>
 <p>Strategies—break names up with consistent characters:</p>
 <ul>
@@ -1321,30 +1315,30 @@ that, you need to let your system know where to look for these packages when it 
 as a dependency.</p>
 <p>Hoffman2 runs CentOS. Turns out that CentOS uses <code>yum</code> as a package manager.</p>
 <p>Let’s see if we can install llvm using yum.</p>
-<div class="sourceCode" id="cb316"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb316-1" data-line-number="1"><span class="ex">yum</span> search all llvm <span class="co"># &lt;- this got me to devtoolset-7-all.x86_64 : Package shipping all available toolsets.</span></a>
-<a class="sourceLine" id="cb316-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb316-3" data-line-number="3"><span class="co"># a little web searching made it look like llvm-toolset-7-5.0.1-4.el7.x86_64.rpm or devtoolset-7-llvm-7.0-5.el7.x86_64.rpm</span></a>
-<a class="sourceLine" id="cb316-4" data-line-number="4"><span class="co"># might be what we want.  The first is a dependency of the second...</span></a>
-<a class="sourceLine" id="cb316-5" data-line-number="5"><span class="fu">mkdir</span> ~/centos</a></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb315-1" data-line-number="1"><span class="ex">yum</span> search all llvm <span class="co"># &lt;- this got me to devtoolset-7-all.x86_64 : Package shipping all available toolsets.</span></a>
+<a class="sourceLine" id="cb315-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb315-3" data-line-number="3"><span class="co"># a little web searching made it look like llvm-toolset-7-5.0.1-4.el7.x86_64.rpm or devtoolset-7-llvm-7.0-5.el7.x86_64.rpm</span></a>
+<a class="sourceLine" id="cb315-4" data-line-number="4"><span class="co"># might be what we want.  The first is a dependency of the second...</span></a>
+<a class="sourceLine" id="cb315-5" data-line-number="5"><span class="fu">mkdir</span> ~/centos</a></code></pre></div>
 <p>Was using instructions at <a href="https://stackoverflow.com/questions/36651091/how-to-install-packages-in-linux-centos-without-root-user-with-automatic-depen">https://stackoverflow.com/questions/36651091/how-to-install-packages-in-linux-centos-without-root-user-with-automatic-depen</a></p>
 <p>Couldn’t get yum downloader to download any packages. The whole thing looked like it was going to
 be a mess, so I thought I would try with miniconda.</p>
 <p>I installed miniconda (python 2.7 version) into <code>/u/nobackup/kruegg/eriq/programs/miniconda/</code> and then did this:</p>
-<div class="sourceCode" id="cb317"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb317-1" data-line-number="1"><span class="co"># probably could have listed them all at once, but wanted to watch them go </span></a>
-<a class="sourceLine" id="cb317-2" data-line-number="2"><span class="co"># one at a time...</span></a>
-<a class="sourceLine" id="cb317-3" data-line-number="3"><span class="ex">conda</span> install numpy</a>
-<a class="sourceLine" id="cb317-4" data-line-number="4"><span class="ex">conda</span> install scipy</a>
-<a class="sourceLine" id="cb317-5" data-line-number="5"><span class="ex">conda</span> install pandas</a>
-<a class="sourceLine" id="cb317-6" data-line-number="6"><span class="ex">conda</span> install numba</a>
-<a class="sourceLine" id="cb317-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb317-8" data-line-number="8"><span class="co"># those all ran great.</span></a>
-<a class="sourceLine" id="cb317-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb317-10" data-line-number="10"><span class="ex">conda</span> install pysnptools</a>
-<a class="sourceLine" id="cb317-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb317-12" data-line-number="12"><span class="co"># that one didn&#39;t find a match, but I found on the web that I should try:</span></a>
-<a class="sourceLine" id="cb317-13" data-line-number="13"><span class="ex">conda</span> install -c bioconda pysnptools </a>
-<a class="sourceLine" id="cb317-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb317-15" data-line-number="15"><span class="co"># that worked!</span></a></code></pre></div>
+<div class="sourceCode" id="cb316"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb316-1" data-line-number="1"><span class="co"># probably could have listed them all at once, but wanted to watch them go </span></a>
+<a class="sourceLine" id="cb316-2" data-line-number="2"><span class="co"># one at a time...</span></a>
+<a class="sourceLine" id="cb316-3" data-line-number="3"><span class="ex">conda</span> install numpy</a>
+<a class="sourceLine" id="cb316-4" data-line-number="4"><span class="ex">conda</span> install scipy</a>
+<a class="sourceLine" id="cb316-5" data-line-number="5"><span class="ex">conda</span> install pandas</a>
+<a class="sourceLine" id="cb316-6" data-line-number="6"><span class="ex">conda</span> install numba</a>
+<a class="sourceLine" id="cb316-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb316-8" data-line-number="8"><span class="co"># those all ran great.</span></a>
+<a class="sourceLine" id="cb316-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb316-10" data-line-number="10"><span class="ex">conda</span> install pysnptools</a>
+<a class="sourceLine" id="cb316-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb316-12" data-line-number="12"><span class="co"># that one didn&#39;t find a match, but I found on the web that I should try:</span></a>
+<a class="sourceLine" id="cb316-13" data-line-number="13"><span class="ex">conda</span> install -c bioconda pysnptools </a>
+<a class="sourceLine" id="cb316-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb316-15" data-line-number="15"><span class="co"># that worked!</span></a></code></pre></div>
 <p>Also we want to touch briefly on LD_PATH (linking failures—and note that libraries are often
 named libxxx.a) and CPATH (for failure to find xxxx.h), etc.</p>
 </div>

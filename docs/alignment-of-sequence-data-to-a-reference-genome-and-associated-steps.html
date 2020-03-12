@@ -403,17 +403,17 @@ clear how it works.</p>
 <div id="quick-notes-to-self-on-chaining-things" class="section level2">
 <h2><span class="header-section-number">19.3</span> Quick notes to self on chaining things:</h2>
 <p>When using samtools markdup you can do like this:</p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb379-1" data-line-number="1"><span class="co"># first step</span></a>
-<a class="sourceLine" id="cb379-2" data-line-number="2"><span class="ex">bwa</span> mem chinook-play/chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R1.fq chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R2.fq <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb379-3" data-line-number="3">    <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb379-4" data-line-number="4">    <span class="ex">samtools</span> fixmate -m -O BAM - fixed.bam</a>
-<a class="sourceLine" id="cb379-5" data-line-number="5">    </a>
-<a class="sourceLine" id="cb379-6" data-line-number="6"><span class="co"># unfortunately, fixmate can&#39;t write to stdout.</span></a>
-<a class="sourceLine" id="cb379-7" data-line-number="7"><span class="co"># then, after this, we have to sort it into coordinate order and</span></a>
-<a class="sourceLine" id="cb379-8" data-line-number="8"><span class="co"># markdup them.</span></a>
-<a class="sourceLine" id="cb379-9" data-line-number="9"><span class="ex">samtools</span> sort fixed.bam <span class="kw">|</span> <span class="ex">samtools</span> markdup - marked.bam</a>
-<a class="sourceLine" id="cb379-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb379-11" data-line-number="11"><span class="co"># after that, fixed.bam could get tossed.</span></a></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb378-1" data-line-number="1"><span class="co"># first step</span></a>
+<a class="sourceLine" id="cb378-2" data-line-number="2"><span class="ex">bwa</span> mem chinook-play/chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R1.fq chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R2.fq <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb378-3" data-line-number="3">    <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb378-4" data-line-number="4">    <span class="ex">samtools</span> fixmate -m -O BAM - fixed.bam</a>
+<a class="sourceLine" id="cb378-5" data-line-number="5">    </a>
+<a class="sourceLine" id="cb378-6" data-line-number="6"><span class="co"># unfortunately, fixmate can&#39;t write to stdout.</span></a>
+<a class="sourceLine" id="cb378-7" data-line-number="7"><span class="co"># then, after this, we have to sort it into coordinate order and</span></a>
+<a class="sourceLine" id="cb378-8" data-line-number="8"><span class="co"># markdup them.</span></a>
+<a class="sourceLine" id="cb378-9" data-line-number="9"><span class="ex">samtools</span> sort fixed.bam <span class="kw">|</span> <span class="ex">samtools</span> markdup - marked.bam</a>
+<a class="sourceLine" id="cb378-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb378-11" data-line-number="11"><span class="co"># after that, fixed.bam could get tossed.</span></a></code></pre></div>
 </div>
 <div id="merging-bam-files" class="section level2">
 <h2><span class="header-section-number">19.4</span> Merging BAM files</h2>

@@ -8005,7 +8005,7 @@ features that have to happen within your job script in order to be able to
 explicitly set your \texttt{conda} environment within your job script.
 
 To see this, first make a script called \texttt{conda-test1.sh} that
-tries to activate different \texttt{conda} environments within the job script:
+tries to activate a different \texttt{conda} environment within the job script:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -8047,11 +8047,9 @@ if you look at the two \texttt{PATH}s printed out in \texttt{conda-test1-output-
 you will see that they are the same. So, indeed, the \texttt{bioinf} environemnt
 was not activated.
 
-To remedy this problem, you need to source your \texttt{\textasciitilde{}/.bashrc} or your
-\texttt{\textasciitilde{}/.bash\_profile} (whichever one contains the ``conda init'' block).
-If you set your \texttt{\textasciitilde{}/.bash\_profile} up, as recommended in the beginning of the
-book (Section XXX) to read from your \texttt{\textasciitilde{}/.bashrc}, then you can simply source
-your \texttt{\textasciitilde{}/.bash\_profile} in your job script.
+To remedy this problem, you need to source your \texttt{\textasciitilde{}/.bashrc}
+(which seems to be where Miniconda3 establishes its ``conda init'' block)
+from within your job script.
 
 For example, create a new file called \texttt{conda-init2.sh} and fill it with
 the following:
@@ -8064,7 +8062,7 @@ the following:
 \CommentTok{#SBATCH --output=conda-test2-output-%j}
 \CommentTok{#SBATCH --error=conda-test2-error-%j }
 
-\BuiltInTok{source}\NormalTok{ ~/.bash_profile}
+\BuiltInTok{source}\NormalTok{ ~/.bashrc}
 
 \BuiltInTok{echo} \StringTok{"Starting at }\VariableTok{$(}\FunctionTok{date}\VariableTok{)}\StringTok{"}
 \BuiltInTok{echo} 
@@ -8099,21 +8097,11 @@ If \texttt{conda} is working properly within the job script there should be no o
 to \texttt{conda-test2-error-XXXX} and you should see that invoking \texttt{conda\ activate\ bioinf}
 changed the PATH variable to include paths from the \texttt{bioinf} environment.
 
-The above points are really key if you want to use software like \texttt{bwa}, \texttt{samtools},
+The above points are very important if you want to use software like \texttt{bwa}, \texttt{samtools},
 and \texttt{bcftools}, that you installed using Miniconda, from within a job script.
 
 To repeat: to activate a conda environment like \texttt{bioinf} from within a job script running
 under \texttt{sbatch} you must add these lines:
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\BuiltInTok{source}\NormalTok{ ~/.bash_profile}
-\ExtensionTok{conda}\NormalTok{ activate bioinf}
-\end{Highlighting}
-\end{Shaded}
-
-Or, if your \texttt{\textasciitilde{}/.bash\_profile} and \texttt{\textasciitilde{}/.bashrc} are set up differently, \emph{and} your
-\texttt{conda} initialization block is in \texttt{\textasciitilde{}/.bashrc}, you should use:
 
 \begin{Shaded}
 \begin{Highlighting}[]

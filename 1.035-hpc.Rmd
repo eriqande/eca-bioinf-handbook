@@ -725,7 +725,7 @@ features that have to happen within your job script in order to be able to
 explicitly set your `conda` environment within your job script.
 
 To see this, first make a script called `conda-test1.sh` that
-tries to activate different `conda` environments within the job script:
+tries to activate a different `conda` environment within the job script:
 ```sh
 #!/bin/bash
 
@@ -760,11 +760,10 @@ if you look at the two `PATH`s printed out in `conda-test1-output-XXXX`,
 you will see that they are the same.  So, indeed, the `bioinf` environemnt
 was not activated.
 
-To remedy this problem, you need to source your `~/.bashrc` or your
-`~/.bash_profile` (whichever one contains the "conda init" block).
-If you set your `~/.bash_profile` up, as recommended in the beginning of the
-book (Section XXX) to read from your `~/.bashrc`, then you can simply source
-your `~/.bash_profile` in your job script. 
+To remedy this problem, you need to source your `~/.bashrc` 
+(which seems to be where Miniconda3 establishes its "conda init" block)
+from within your job script.
+
 
 For example, create a new file called `conda-init2.sh` and fill it with
 the following:
@@ -775,7 +774,7 @@ the following:
 #SBATCH --output=conda-test2-output-%j
 #SBATCH --error=conda-test2-error-%j 
 
-source ~/.bash_profile
+source ~/.bashrc
 
 echo "Starting at $(date)"
 echo 
@@ -804,17 +803,11 @@ If `conda` is working properly within the job script there should be no output
 to `conda-test2-error-XXXX` and you should see that invoking `conda activate bioinf` 
 changed the PATH variable to include paths from the `bioinf` environment.
 
-The above points are really key if you want to use software like `bwa`, `samtools`,
+The above points are very important if you want to use software like `bwa`, `samtools`,
 and `bcftools`, that you installed using Miniconda, from within a job script.
 
 To repeat: to activate a conda environment like `bioinf` from within a job script running
 under `sbatch` you must add these lines:
-```sh
-source ~/.bash_profile
-conda activate bioinf
-```
-Or, if your `~/.bash_profile` and `~/.bashrc` are set up differently, _and_ your
-`conda` initialization block is in `~/.bashrc`, you should use:
 ```sh
 source ~/.bashrc
 conda activate bioinf
