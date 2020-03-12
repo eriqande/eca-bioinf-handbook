@@ -803,7 +803,10 @@ directory that do not appear in the source directory.
 A few key options:
 
 - `--dry-run`: don't actually copy, sync, or move anything.  Just tell me what you would have done.
-- `-P`, `-v`, `-vv`: give me progress information, verbose output, or super-verbose output, respectively.
+- `--progress`: give me progress information when files are being copied.
+This will tell you which file is being transferred, the rate at which
+files are being transferred, and and estimated amount of time for all the
+files to be transferred.
 - `--tpslimit 10`: don't make any more than 10 transactions a second with Google Drive (should always be used when transferring files)
 - `---fast-list`: combine multiple transactions together.  Should always be used with Google Drive,
 especially when handling lots of files.
@@ -815,6 +818,28 @@ For example, try something like:
 ```sh
 rclone --drive-shared-with-me lsd gdrive-rclone:
 ```
+
+**Important Configuration Notes!!** Rather than always giving the `--progress`
+option on the command line, or always having to remember to use
+`--fast-list` and `--tps-limit 10` (and remember what they should be...),
+you can set those options to be invoked "by default" whenever you use
+rclone.  The developers of `rclone` have made this possible
+by setting _environment variables_ in your `~/.bashrc`.
+
+If you have an rclone option called `--fast-limit`, then the corresponding
+environment variable is named `RCLONE_FAST_LIMIT`---basically, you
+start with `RCLONE_` then you just
+drop the first two dashes of the option name, replace the remaining dashes
+with underscores, and turn it all into uppercase to make the
+environment variable.  So, you should, at a minimum add these
+lines to your `~/.bashrc`:
+```sh
+# Environment variables to use with rclone/google drive always
+export RCLONE_TPS_LIMIT=10
+export RCLONE_FAST_LIST=true
+export RCLONE_PROGRESS=true
+```
+
 
 #### filtering: Be particular about the files you transfer {#rclone-filter}
 
@@ -1479,6 +1504,436 @@ knitr::include_graphics("figs/iterm-pw-trigger.png")
 ```
 
 If you are a Mac user, spend a weekend getting to know iTerm2.  It will be time well spent.
+
+
+## Installing Software on an HPCC
+
+In order to do anything useful on a remote computer or a
+high-performance computing cluster (called a "cluster" or an "HPCC")
+you will need to have software programs
+for analyzing data. As we have seen, a lot of the nuts and bolts of writing command
+lines uses utilities that are found on every Unix computer.  However almost always
+your bioinformatic analyses will require programs or software that
+do not come "standard" with Unix. For example, the specialized programs for
+sequence assembly and alignment will have to be _installed_ on the cluster
+in order for you to be able to use them.  
+
+It turns out that installing software on a Unix machine (or cluster) has not
+always been a particularly easy thing to do for a number or reasons.  First, for
+a long time, Unix software was largely distributed in the form of _source code_: the
+actual programming code (text) written by the developers that describes the actions
+that a program takes. Such computer code cannot be run directly, it first must be
+_compiled_ into a _binary_ or _executable_ program.  Doing this can be a challenging
+process. First, computer code compilation can be very time consuming (if you use R
+on Linux, and install all your packages from CRAN---which requires compilation---you
+will know that!). Secondly, vexing errors and failures can occur when the
+compiler or the computer architecture is in conflict with the program code.  (I have lost
+entire days trying to solve compiling problems).  On top of that, in order to run, most
+programs do not operate in a standalone fashion; rather, while a program is running, it
+typically depends on computer code and routines that must be stored in separate _libraries_ on your
+Unix computer. These libraries are known as program _dependencies_.  So, installing a program
+requires not just installing the program itself, but also ensuring that the program's dependencies
+are installed _and_ that the program knows where they are installed.  As if that were not enough,
+the dependencies of some programs can conflict (be incompatible) with the dependencies of other
+programs, and particular versions of a program might require particular versions of
+the dependencies.  Additionally, some versions of some programs might not work with particular
+versions (types of chips) of some computer systems.  Finally, most systems for installing
+software that were in place on Unix
+machines a decade ago required that whoever was installing software have _administrative privileges_
+on the computer.  On an HPCC, none of the typical users have administrative privileges which are,
+as you might guess, reserved for the system administrators.  
+
+For all the reasons above, installing software on an HPCC used to be a harrowing
+affair: you either had to be fluent in compilers and libraries to do it yourself in your
+home directory or you had to beg your system administrator.  (Though our cluster computing
+sysadmins at NMFS are wonderful, that is not always the case...[see Dilbert](https://www.wiw.org/~chris/archive/dilbert/)).
+On HPCC's the system administrators have to contend with requests from multiple users
+for different software and different versions. They solve this (somewhat headachey)
+problem by installing software into separate "compartments" that allow different software
+and versions to be maintained on the system without all of it being accessible at once.
+Doing so, they create _modules_ of software.  This is discussed in the following section.  
+
+Today, however, a large group of motivated people have created a software management
+system called Miniconda that tries to solve many of the problems encountered in maintaining
+software on a computer system.  First, Miniconda maintains a huge repository of
+programs that are already _pre-compiled_ for a number of different chip architectures, so that
+programs can usually be installed without the time-consuming compiling process.  Second, the repository
+maintains critical information on the dependencies for each software program, and about
+conflicts and incompatibilities between different versions of programs, architectures and
+dependencies.  Third, the Miniconda system is built from the ground up to make it easy to maintain
+separate software _environments_ on your system.  These different environments have different
+software programs or different versions of different software programs.  Such an approach
+was originally used so developers could use a single computer to test any new code
+they had written in a number of different
+computing environments; however, it has become an incredibly valuable tool for ensuring
+that your analyses are reproducible: you can give people not just the data and scripts that you
+used for the analysis, but also the computing/software environment (with all the same
+software versions) that you used for the analysis.  And, finally, all of this
+can be done with Miniconda without have administrative privileges.  Effectively,
+Miniconda manages all these software programs and dependencies _within your home directory_.
+Section \@ref(miniconda) provides details about Miniconda and describes how to use it
+to install bioinformatics software.
+
+### Modules 
+
+(not written)
+
+This is if your sys admin has made it easy.
+
+The big point I must make here is that these don't work like conda environments.
+Environments are "all-or-nothing," whereas modules are "cumulative" and can be
+layered atop one another.  (If doing so creates conflicts, then the sysadmins have to
+figure that out...perhaps this is one reason that modules will often carry older (if not
+completely antiquated) versions of software.)
+
+
+
+### Miniconda {#miniconda}
+
+We will first walk you through a few steps with Miniconda to install some
+bioinformatic software into an environment on your cluster.  After that we will discuss more about
+the underlying philosophy of Miniconda, and how it is operating.
+
+#### Installing or updating Miniconda
+
+1. To do installation of software, you probably should not be on SUMMIT's login nodes.
+They offer "compile nodes" that should be suitable for installing with Miniconda. So, do this:
+    ```{sh, eval=FALSE}
+    ssh scompile
+    ```
+1. If you are on Hummingbird, be sure to get a `bash` shell before doing anything else, by typing `bash`
+(if you have not already set `bash` as your default shell (see the previous chapter)).
+
+1. First, check if you have Miniconda. Update it if you do, and install it if you don't:
+    ```{sh, eval=FALSE}
+    # just type conda at the command line:
+    conda
+    ```
+If you see some help information, then you already have Miniconda (or Anaconda) and you
+should merely update it with:
+    ```{sh, eval=FALSE}
+    conda update conda
+    ```
+If you get an error telling you that your computer does not know about a command, `conda`, then
+you do not have Miniconda and you must install it.  You do that by downloading the Miniconda package
+with `wget` and then running the Miniconda installer, like this:
+    ```{sh, eval=FALSE}
+    # start in your home directory and do the following:
+    mkdir conda_install
+    cd conda_install/
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+    chmod u+x Miniconda3-latest-Linux-x86_64.sh 
+    ./Miniconda3-latest-Linux-x86_64.sh 
+    ```
+That launches the Miniconda installer (it is a shell script). Follow the prompts and agree
+to the license and to the default install location and to initialize conda.
+At the end, it tells you to log out of your shell and log back in for changes to take
+effect.  It turns out that it suffices to do `cd ~; source .bash_profile`
+
+Once you complete the above, your command prompt should have been changed to something that looks like:
+```sh
+(base) [~]--%
+```
+The `(base)` is telling you that you are in Miniconda's _base_ environment.  Typically you want to keep the
+_base_ environment clean of installed software, so we will install software into a new environment.
+
+#### Installing software into a bioinformatics environment
+
+If everything went according to plan above, then we are ready to use Miniconda to
+install some software for bioinformatics.  We will install a few programs that we will
+use extensively in the next few weeks: `bwa`, `samtools`, and `bcftools`.  We will
+install these programs into a conda environment that we will name `bioinf` (short
+for "bioinformatics").  It takes just a single command:
+```sh
+conda create -n bioinf -c bioconda bwa samtools bcftools
+```
+That should only take a few seconds.
+
+To test that we got the programs we must _activate_ the `bioinf` environment, and then issue
+the commands, `bwa`, `samtools`, and `bcftools`.  Each of those should spit back some help
+information.  If so, that means they are installed correctly!  It looks like this:
+```sh
+conda activate bioinf
+```
+After that you should get a command prompt that starts with `(bioinf)`, telling you that the
+active conda environment is `bioinf`.  Now, try these commands:
+```sh
+bwa
+samtools
+bcftools
+```
+
+#### Uninstalling Miniconda and its associated environments
+
+It may become necessary at some point to uninstall Miniconda.  One important case of this
+is if you end up overflowing your home directory with conda-installed software.  In this case,
+unless you have installed numerous, complex environments, the simplest thing to do is
+to "uninstall" Miniconda, reinstall it in a location with fewer hard-drive space constraints,
+and then simply recreate the environments you need, as you did originally.  
+
+This is actually quite germane to SUMMIT users.  The size quota on home directories on SUMMIT is
+only 2 Gb, so you can easily fill up your home directory by installing a few conda environments.
+To check how much of the hard
+drive space allocated to you is in use on SUMMIT, use the `curc-quota` command. (Check the documentation
+for how to check space on other HPCCs, but note that Hummingbird users get 1 TB on their home
+directories).  Instead of
+using your home directory to house your Miniconda software, on SUMMIT you can put it in your
+`projects` storage area.  Each user gets more storage (like 250 Gb) in a directory
+called `/projects/username` where `username` is replaced by your SUMMIT username,
+for example: `/projects/eriq@colostate.edu`
+
+To "uninstall" Miniconda, you first must delete the `miniconda3` directory in your
+home directory (if that is where it got installed to).  This can take a while.  It is done with:
+```sh
+rm -rf ~/miniconda3
+```
+Then you have to delete the lines between `# >>>` and `# <<<`, wherever they occur in your `~/.bashrc` and `~/bash_profile`
+files, i.e., you will have to remove all of the lines that look
+something like thius:
+```sh
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/eriq/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/eriq/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/eriq/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/eriq/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+```
+After all those conda lines are removed from your `~/.bashrc` and `~/bash_profile`, logging out
+and logging back in, you should be free from conda and ready to reinstall it in
+a different location.  
+
+To reinstall miniconda in a different location, just follow the
+installation instructions above, but when you are running the
+`./Miniconda3-latest-Linux-x86_64.sh` script, instead of choosing the default
+install location, use a location in your project directory. For example, for me, that is:
+`/projects/eriq@colostate.edu/miniconda3`.
+
+Then, recreate the `bioinf` environment described above.
+
+If you are having fun making environments and you think that you might like to use R on
+the cluster, then you might want to make an environment with some bioinformatics software
+that also has
+the latest version of R on miniconda installed.  At the time of writing that was R 3.6.1. So,
+do:
+```sh
+conda create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials
+```
+That makes an environment called `binfr` (which turns out to also be **way** easier to type that `bioinfr`).
+The `r-essentials` in the above command line is the name for a collection of 200 commonly used R packages (including
+the `tidyverse`).  This procedure takes a little while, but it is still far less painful than using the
+version of R that is installed on SUMMIT with the `modules` packages, and then trying to build the tidyverse
+from source with `install.packages()`.
+
+#### What is Miniconda doing?
+
+This is a good question.  We won't go deeply into the specifics, but will skim the
+surface of a few topics that can help you understand what Miniconda is doing.
+
+First, Miniconda is downloading programs and their dependencies into the `miniconda3`
+directory. Based on the lists of dependencies and conflicts for each program that is being
+installed, it makes a sort of "equation," which it can "solve" to find the versions of
+different programs and libraries that can be installed and which should "play nicely with
+one another (and with your specific computer architecture." While it is solving this
+"equation" it is doing so while also doing its best
+to optimize features of the programs (like using the latest versions, if possible).
+Solving this "equation" is an example of a Boolean Satisfiability problem, which is a known
+class of difficult (time-consuming) problems.  If you are requesting a lot of programs, and
+especially if you do not constrain your request (by demanding a certain version of
+the program) then "solving" the request may take a long time.  However, when installing
+just a few bioinformatics programs it is unlikely to ever take too terribly long.
+
+Once miniconda has decided on which versions of which programs and dependencies to install,
+it downloads them and then places them into the requested environment (or the active environment
+if no environment is specifically requested).  If a program is installed into an environment,  then you
+can access that program by activating the environment (i.e. `conda activate bioinf`).  Importantly,
+if you don't activate the environment, you won't be able to use the programs installed there.
+We will see later in writing bioinformatic scripts, you will always have to explicitly
+activate a desired conda environment when you run a script on a compute node through the job
+scheduler.
+
+The way that Miniconda delivers programs in an environment is by storing all the programs
+in a special environment directory (within the `miniconda3/envs` directory), and then, when
+the environment is activated, the main thing that is happening is that `conda` is manipulating your
+PATH variable to include directories within the environment's directory
+within the `miniconda3/envs` directory.  An easy way to see this is simply by
+inspecting your path variable while in different environments.  Here we compare the PATH
+variable in the `base` environment, versus in the `bioinf` environment, versus in the
+`binfr` environment:
+```sh
+(base) [~]--% echo $PATH
+/projects/eriq@colostate.edu/miniconda3/bin:/projects/eriq@colostate.edu/miniconda3/condabin:/usr/local/bin:/bin:/usr/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/eriq@colostate.edu/bin:/home/eriq@colostate.edu/bin
+(base) [~]--% conda activate bioinf
+(bioinf) [~]--% echo $PATH
+/projects/eriq@colostate.edu/miniconda3/envs/bioinf/bin:/projects/eriq@colostate.edu/miniconda3/condabin:/usr/local/bin:/bin:/usr/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/eriq@colostate.edu/bin:/home/eriq@colostate.edu/bin
+(bioinf) [~]--% conda activate binfr
+(binfr) [~]--% echo $PATH
+/projects/eriq@colostate.edu/miniconda3/envs/binfr/bin:/projects/eriq@colostate.edu/miniconda3/condabin:/usr/local/bin:/bin:/usr/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/eriq@colostate.edu/bin:/home/eriq@colostate.edu/bin
+```
+(To be sure, `miniconda` can change a few more things than just your PATH variable when you activate an environment, but
+for the typical user, the changes to PATH are most important.)
+
+#### What programs are available on Minconda?
+
+There are quite a few programs for multiple platforms.  If you are wondering
+whether a particular program is available from Miniconda, the easiest first
+step is to Google it.  For example, search for `miniconda bowtie`.
+
+You can also search from the command line using `conda search`.  Note that most
+bioinformatics programs you will be interested in are available on a conda
+_channel_ called `bioconda`.  You probably saw the `-c bioconda` option
+applied to the `conda create` commands above. That options tells conda to search
+the Bioconda channel for programs and packages.
+
+Here, you can try searching for a couple of packages that you might
+end up using to analyze genomic data:
+```sh
+conda search -c bioconda plink
+
+# and next:
+
+conda search -c bioconda angsd
+```
+
+
+#### Can I add more programs to an environment?
+
+This is a worthwhile question.  Imagine that we have been happily working in our `bioinf` conda environment
+for a few months.  We have finished all our tasks with `bwa`, `samtools`, and `bcftools`, but perhaps now we
+want to analyze some of the data with `angsd` or `plink`.  Can we add those programs to our
+`bioinf` environment?  The short answer is "Yes!".  The steps are easy.
+
+1. Activate the environment you wish to add the programs to (i.e. `conda activate bioinf` for example).
+2. Then use `conda install`.  For example to install specific versions of `plink` and `angsd` that we
+saw above while searching for those packages we might do:
+    ```{sh, eval=FALSE}
+    conda install -c bioconda plink=1.90b6.12 angsd=0.931
+    ```
+
+Now, the longer answer is "Yes, but..."   The big "but" there occurs because if different
+programs require the same dependencies, but rely on different versions of the dependencies,
+installing programs over different commands can cause miniconda to not identify some
+incompatibilities between program dependencies.  A germane example occurs if you first install
+`samtools` into an environment, and then, after that, you install `bcftools`, like this:
+```sh
+conda create -n samtools-first        # create an empty environment
+conda activate samtools-first         # activate the environment
+conda install -c bioconda samtools    # install samtools
+conda install -c bioconda bcftools    # install bcftools
+bcftools                              # try running bcftools
+```
+When you try running the last line, `bcftools` barfs on you like so:
+```sh
+bcftools: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory
+```
+So, often, installing extra programs does not create problems, but it can.  If you find yourself battling
+errors from conda-installed programs, see if you can correct that by creating a new environment and installing all the programs
+you want at the same time, in one fell swoop, using `conda create`, as in:
+```sh
+conda create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials
+```
+
+
+#### Exporting environments
+
+In our introduction to Miniconda, we mentioned that it is a great boon to
+reproducibility.  Clearly, your analyses will be more reproducible if it is
+easier for others to install software to repeat your analyses.  However, Miniconda
+takes that one step further, allowing you to generate a list of
+the specific versions of
+all software and dependencies in a conda environment.  This list is a complete
+record of your environment, and, supplied to conda, it is a specification of
+exactly how to recreate that environment. 
+
+The process of creating such a list is called _exporting_ the conda
+environment.  Here we demonstrate its use by exporting the `bioinf`
+environment from SUMMIT to a simple text file.  Then we use that text file
+to recreate the environment on my laptop.
+```sh
+# on summit:
+conda activate bioinf          # activate the environment
+conda env export               # export the environment
+```
+The last command above just sends the exported environment
+to stdout, looking like this:
+```
+name: bioinf
+channels:
+  - bioconda
+  - defaults
+dependencies:
+  - _libgcc_mutex=0.1=main
+  - bcftools=1.9=ha228f0b_4
+  - bwa=0.7.17=hed695b0_7
+  - bzip2=1.0.8=h7b6447c_0
+  - ca-certificates=2020.1.1=0
+  - curl=7.68.0=hbc83047_0
+  - htslib=1.9=ha228f0b_7
+  - krb5=1.17.1=h173b8e3_0
+  - libcurl=7.68.0=h20c2e04_0
+  - libdeflate=1.0=h14c3975_1
+  - libedit=3.1.20181209=hc058e9b_0
+  - libgcc-ng=9.1.0=hdf63c60_0
+  - libssh2=1.8.2=h1ba5d50_0
+  - libstdcxx-ng=9.1.0=hdf63c60_0
+  - ncurses=6.1=he6710b0_1
+  - openssl=1.1.1d=h7b6447c_4
+  - perl=5.26.2=h14c3975_0
+  - samtools=1.9=h10a08f8_12
+  - tk=8.6.8=hbc83047_0
+  - xz=5.2.4=h14c3975_4
+  - zlib=1.2.11=h7b6447c_3
+prefix: /projects/eriq@colostate.edu/miniconda3/envs/bioinf
+```
+The format of this information is YAML (Yet Another Markup Language),
+(which we saw in the headers of RMarkdown documents, too).
+
+If we stored that output in a file:
+```sh
+conda env export > bioinf.yml
+```
+And then copied that file to another computer, then we can recreate
+the environment on that other computer with:
+```sh
+conda env create -f bioinf.yml
+```
+That should work fine if the new computer is of the same architecture (i.e., both
+are Linux computers, or both are Macs).  However, the specific build numbers
+referenced in the YAML (i.e. things like the `h7b6447c_3` part of the program name)
+can create problems when installing on other architectures. In that case, we must
+export without the build names:
+```sh
+conda env export --no-builds > bioinf.yml
+```
+Even that might fail if the dependencies differ on different architectures,
+in which case you can export just the list of the actual programs that
+you reqested be installed, by using the `--from-history` option.  For example:
+```sh
+% conda env export --from-history
+name: bioinf
+channels:
+  - defaults
+dependencies:
+  - bwa
+  - bcftools
+  - samtools
+prefix: /projects/eriq@colostate.edu/miniconda3/envs/bioinf
+```
+Though, even that fails, cuz it doesn't list bioconda in there.
+
+
+
+
+
+
+
 
 ## `vim`: it's time to get serious with text editing
 

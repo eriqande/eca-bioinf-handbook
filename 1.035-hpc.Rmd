@@ -238,7 +238,7 @@ run, and how much RAM they will require. Later we will describe how the records 
 jobs, stored by the job scheduler, can be accessed and organized to aid in predicting
 the resource demand of future jobs.  
 
-## Learning about the resources on your HPCC
+## Learning about the resources on your HPCC {#slurm-info}
 
 Most computing clusters have a web page that describes the configuration of the system
 and the resources available on it.  However, you can use various SLURM commands to
@@ -411,427 +411,6 @@ Then, typing `myjobs` shows all of the jobs that you have running, or waiting to
 on the cluster.
 
 
-
-
-
-
-## Installing Software on an HPCC
-
-In order to do anything useful on a cluster you will need to have software programs
-for analyzing data. As we have seen, a lot of the nuts and bolts of writing command
-lines uses utilities that are found on every Unix computer.  However almost always
-your bioinformatic analyses will require programs or software that
-do not come "standard" with Unix. For example, the specialized programs for
-sequence assembly and alignment will have to be _installed_ on the cluster
-in order for you to be able to use them.  
-
-It turns out that installing software on a Unix machine (or cluster) has not
-always been a particularly easy thing to do for a number or reasons.  First, for
-a long time, Unix software was largely distributed in the form of _source code_: the
-actual programming code (text) written by the developers that describes the actions
-that a program takes. Such computer code cannot be run directly, it first must be
-_compiled_ into a _binary_ or _executable_ program.  Doing this can be a challenging
-process. First, computer code compilation can be very time consuming (if you use R
-on Linux, and install all your packages from CRAN---which requires compilation---you
-will know that!). Secondly, vexing errors and failures can occur when the
-compiler or the computer architecture is in conflict with the program code.  (I have lost
-entire days trying to solve compiling problems).  On top of that, in order to run, most
-programs do not operate in a standalone fashion; rather, while a program is running, it
-typically depends on computer code and routines that must be stored in separate _libraries_ on your
-Unix computer. These libraries are known as program _dependencies_.  So, installing a program
-requires not just installing the program itself, but also ensuring that the program's dependencies
-are installed _and_ that the program knows where they are installed.  As if that were not enough,
-the dependencies of some programs can conflict (be incompatible) with the dependencies of other
-programs, and particular versions of a program might require particular versions of
-the dependencies.  Additionally, some versions of some programs might not work with particular
-versions (types of chips) of some computer systems.  Finally, most systems for installing
-software that were in place on Unix
-machines a decade ago required that whoever was installing software have _administrative privileges_
-on the computer.  On an HPCC, none of the typical users have administrative privileges which are,
-as you might guess, reserved for the system administrators.  
-
-For all the reasons above, installing software on an HPCC used to be a harrowing
-affair: you either had to be fluent in compilers and libraries to do it yourself in your
-home directory or you had to beg your system administrator.  (Though our cluster computing
-sysadmins at NMFS are wonderful, that is not always the case...[see Dilbert](https://www.wiw.org/~chris/archive/dilbert/)).
-On HPCC's the system administrators have to contend with requests from multiple users
-for different software and different versions. They solve this (somewhat headachey)
-problem by installing software into separate "compartments" that allow different software
-and versions to be maintained on the system without all of it being accessible at once.
-Doing so, they create _modules_ of software.  This is discussed in a few more sections.  
-
-Today, however, a large group of motivated people have created a software management
-system called Miniconda that tries to solve many of the problems encountered in maintaining
-software on a computer system.  First, Miniconda maintains a huge repository of
-programs that are already _pre-compiled_ for a number of different chip architectures, so that
-programs can usually be installed without the time-consuming compiling process.  Second, the repository
-maintains critical information on the dependencies for each software program, and about
-conflicts and incompatibilities between different versions of programs, architectures and
-dependencies.  Third, the Miniconda system is built from the ground up to make it easy to maintain
-separate software _environments_ on your system.  These different environments have different
-software programs or different versions of different software programs.  Such an approach
-was originally used so developers could use a single computer to test any new code
-they had written in a number of different
-computing environments; however, it has become an incredibly valuable tool for ensuring
-that your analyses are reproducible: you can give people not just the data and scripts that you
-used for the analysis, but also the computing/software environment (with all the same
-software versions) that you used for the analysis.  And, finally, all of this
-can be done with Miniconda without have administrative privileges.  Effectively,
-Miniconda manages all these software programs and dependencies _within your home directory_.
-
-### Miniconda {#miniconda}
-
-We will first walk you through a few steps with Miniconda to install some
-bioinformatic software into an environment on your cluster.  After that we will discuss more about
-the underlying philosophy of Miniconda, and how it is operating.
-
-#### Installing or updating Miniconda
-
-1. To do installation of software, you probably should not be on SUMMIT's login nodes.
-They offer "compile nodes" that should be suitable for installing with Miniconda. So, do this:
-    ```{sh, eval=FALSE}
-    ssh scompile
-    ```
-1. If you are on Hummingbird, be sure to get a `bash` shell before doing anything else, by typing `bash`
-(if you have not already set `bash` as your default shell (see the previous chapter)).
-
-1. First, check if you have Miniconda. Update it if you do, and install it if you don't:
-    ```{sh, eval=FALSE}
-    # just type conda at the command line:
-    conda
-    ```
-If you see some help information, then you already have Miniconda (or Anaconda) and you
-should merely update it with:
-    ```{sh, eval=FALSE}
-    conda update conda
-    ```
-If you get an error telling you that your computer does not know about a command, `conda`, then
-you do not have Miniconda and you must install it.  You do that by downloading the Miniconda package
-with `wget` and then running the Miniconda installer, like this:
-    ```{sh, eval=FALSE}
-    # start in your home directory and do the following:
-    mkdir conda_install
-    cd conda_install/
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-    chmod u+x Miniconda3-latest-Linux-x86_64.sh 
-    ./Miniconda3-latest-Linux-x86_64.sh 
-    ```
-That launches the Miniconda installer (it is a shell script). Follow the prompts and agree
-to the license and to the default install location and to initialize conda.
-At the end, it tells you to log out of your shell and log back in for changes to take
-effect.  It turns out that it suffices to do `cd ~; source .bash_profile`
-
-Once you complete the above, your command prompt should have been changed to something that looks like:
-```sh
-(base) [~]--%
-```
-The `(base)` is telling you that you are in Miniconda's _base_ environment.  Typically you want to keep the
-_base_ environment clean of installed software, so we will install software into a new environment.
-
-#### Installing software into a bioinformatics environment
-
-If everything went according to plan above, then we are ready to use Miniconda to
-install some software for bioinformatics.  We will install a few programs that we will
-use extensively in the next few weeks: `bwa`, `samtools`, and `bcftools`.  We will
-install these programs into a conda environment that we will name `bioinf` (short
-for "bioinformatics").  It takes just a single command:
-```sh
-conda create -n bioinf -c bioconda bwa samtools bcftools
-```
-That should only take a few seconds.
-
-To test that we got the programs we must _activate_ the `bioinf` environment, and then issue
-the commands, `bwa`, `samtools`, and `bcftools`.  Each of those should spit back some help
-information.  If so, that means they are installed correctly!  It looks like this:
-```sh
-conda activate bioinf
-```
-After that you should get a command prompt that starts with `(bioinf)`, telling you that the
-active conda environment is `bioinf`.  Now, try these commands:
-```sh
-bwa
-samtools
-bcftools
-```
-
-#### Uninstalling Miniconda and its associated environments
-
-It may become necessary at some point to uninstall Miniconda.  One important case of this
-is if you end up overflowing your home directory with conda-installed software.  In this case,
-unless you have installed numerous, complex environments, the simplest thing to do is
-to "uninstall" Miniconda, reinstall it in a location with fewer hard-drive space constraints,
-and then simply recreate the environments you need, as you did originally.  
-
-This is actually quite germane to SUMMIT users.  The size quota on home directories on SUMMIT is
-only 2 Gb, so you can easily fill up your home directory by installing a few conda environments.
-To check how much of the hard
-drive space allocated to you is in use on SUMMIT, use the `curc-quota` command. (Check the documentation
-for how to check space on other HPCCs, but note that Hummingbird users get 1 TB on their home
-directories).  Instead of
-using your home directory to house your Miniconda software, on SUMMIT you can put it in your
-`projects` storage area.  Each user gets more storage (like 250 Gb) in a directory
-called `/projects/username` where `username` is replaced by your SUMMIT username,
-for example: `/projects/eriq@colostate.edu`
-
-To "uninstall" Miniconda, you first must delete the `miniconda3` directory in your
-home directory (if that is where it got installed to).  This can take a while.  It is done with:
-```sh
-rm -rf ~/miniconda3
-```
-Then you have to delete the lines between `# >>>` and `# <<<`, wherever they occur in your `~/.bashrc` and `~/bash_profile`
-files, i.e., you will have to remove all of the lines that look
-something like thius:
-```sh
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/eriq/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/eriq/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/eriq/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/eriq/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-```
-After all those conda lines are removed from your `~/.bashrc` and `~/bash_profile`, logging out
-and logging back in, you should be free from conda and ready to reinstall it in
-a different location.  
-
-To reinstall miniconda in a different location, just follow the
-installation instructions above, but when you are running the
-`./Miniconda3-latest-Linux-x86_64.sh` script, instead of choosing the default
-install location, use a location in your project directory. For example, for me, that is:
-`/projects/eriq@colostate.edu/miniconda3`.
-
-Then, recreate the `bioinf` environment described above.
-
-If you are having fun making environments and you think that you might like to use R on
-the cluster, then you might want to make an environment with some bioinformatics software
-that also has
-the latest version of R on miniconda installed.  At the time of writing that was R 3.6.1. So,
-do:
-```sh
-conda create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials
-```
-That makes an environment called `binfr` (which turns out to also be **way** easier to type that `bioinfr`).
-The `r-essentials` in the above command line is the name for a collection of 200 commonly used R packages (including
-the `tidyverse`).  This procedure takes a little while, but it is still far less painful than using the
-version of R that is installed on SUMMIT with the `modules` packages, and then trying to build the tidyverse
-from source with `install.packages()`.
-
-#### What is Miniconda doing?
-
-This is a good question.  We won't go deeply into the specifics, but will skim the
-surface of a few topics that can help you understand what Miniconda is doing.
-
-First, Miniconda is downloading programs and their dependencies into the `miniconda3`
-directory. Based on the lists of dependencies and conflicts for each program that is being
-installed, it makes a sort of "equation," which it can "solve" to find the versions of
-different programs and libraries that can be installed and which should "play nicely with
-one another (and with your specific computer architecture." While it is solving this
-"equation" it is doing so while also doing its best
-to optimize features of the programs (like using the latest versions, if possible).
-Solving this "equation" is an example of a Boolean Satisfiability problem, which is a known
-class of difficult (time-consuming) problems.  If you are requesting a lot of programs, and
-especially if you do not constrain your request (by demanding a certain version of
-the program) then "solving" the request may take a long time.  However, when installing
-just a few bioinformatics programs it is unlikely to ever take too terribly long.
-
-Once miniconda has decided on which versions of which programs and dependencies to install,
-it downloads them and then places them into the requested environment (or the active environment
-if no environment is specifically requested).  If a program is installed into an environment,  then you
-can access that program by activating the environment (i.e. `conda activate bioinf`).  Importantly,
-if you don't activate the environment, you won't be able to use the programs installed there.
-We will see later in writing bioinformatic scripts, you will always have to explicitly
-activate a desired conda environment when you run a script on a compute node through the job
-scheduler.
-
-The way that Miniconda delivers programs in an environment is by storing all the programs
-in a special environment directory (within the `miniconda3/envs` directory), and then, when
-the environment is activated, the main thing that is happening is that `conda` is manipulating your
-PATH variable to include directories within the environment's directory
-within the `miniconda3/envs` directory.  An easy way to see this is simply by
-inspecting your path variable while in different environments.  Here we compare the PATH
-variable in the `base` environment, versus in the `bioinf` environment, versus in the
-`binfr` environment:
-```sh
-(base) [~]--% echo $PATH
-/projects/eriq@colostate.edu/miniconda3/bin:/projects/eriq@colostate.edu/miniconda3/condabin:/usr/local/bin:/bin:/usr/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/eriq@colostate.edu/bin:/home/eriq@colostate.edu/bin
-(base) [~]--% conda activate bioinf
-(bioinf) [~]--% echo $PATH
-/projects/eriq@colostate.edu/miniconda3/envs/bioinf/bin:/projects/eriq@colostate.edu/miniconda3/condabin:/usr/local/bin:/bin:/usr/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/eriq@colostate.edu/bin:/home/eriq@colostate.edu/bin
-(bioinf) [~]--% conda activate binfr
-(binfr) [~]--% echo $PATH
-/projects/eriq@colostate.edu/miniconda3/envs/binfr/bin:/projects/eriq@colostate.edu/miniconda3/condabin:/usr/local/bin:/bin:/usr/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/eriq@colostate.edu/bin:/home/eriq@colostate.edu/bin
-```
-(To be sure, `miniconda` can change a few more things than just your PATH variable when you activate an environment, but
-for the typical user, the changes to PATH are most important.)
-
-#### What programs are available on Minconda?
-
-There are quite a few programs for multiple platforms.  If you are wondering
-whether a particular program is available from Miniconda, the easiest first
-step is to Google it.  For example, search for `miniconda bowtie`.
-
-You can also search from the command line using `conda search`.  Note that most
-bioinformatics programs you will be interested in are available on a conda
-_channel_ called `bioconda`.  You probably saw the `-c bioconda` option
-applied to the `conda create` commands above. That options tells conda to search
-the Bioconda channel for programs and packages.
-
-Here, you can try searching for a couple of packages that you might
-end up using to analyze genomic data:
-```sh
-conda search -c bioconda plink
-
-# and next:
-
-conda search -c bioconda angsd
-```
-
-
-#### Can I add more programs to an environment?
-
-This is a worthwhile question.  Imagine that we have been happily working in our `bioinf` conda environment
-for a few months.  We have finished all our tasks with `bwa`, `samtools`, and `bcftools`, but perhaps now we
-want to analyze some of the data with `angsd` or `plink`.  Can we add those programs to our
-`bioinf` environment?  The short answer is "Yes!".  The steps are easy.
-
-1. Activate the environment you wish to add the programs to (i.e. `conda activate bioinf` for example).
-2. Then use `conda install`.  For example to install specific versions of `plink` and `angsd` that we
-saw above while searching for those packages we might do:
-    ```{sh, eval=FALSE}
-    conda install -c bioconda plink=1.90b6.12 angsd=0.931
-    ```
-
-Now, the longer answer is "Yes, but..."   The big "but" there occurs because if different
-programs require the same dependencies, but rely on different versions of the dependencies,
-installing programs over different commands can cause miniconda to not identify some
-incompatibilities between program dependencies.  A germane example occurs if you first install
-`samtools` into an environment, and then, after that, you install `bcftools`, like this:
-```sh
-conda create -n samtools-first        # create an empty environment
-conda activate samtools-first         # activate the environment
-conda install -c bioconda samtools    # install samtools
-conda install -c bioconda bcftools    # install bcftools
-bcftools                              # try running bcftools
-```
-When you try running the last line, `bcftools` barfs on you like so:
-```sh
-bcftools: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory
-```
-So, often, installing extra programs does not create problems, but it can.  If you find yourself battling
-errors from conda-installed programs, see if you can correct that by creating a new environment and installing all the programs
-you want at the same time, in one fell swoop, using `conda create`, as in:
-```sh
-conda create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials
-```
-
-
-#### Exporting environments
-
-In our introduction to Miniconda, we mentioned that it is a great boon to
-reproducibility.  Clearly, your analyses will be more reproducible if it is
-easier for others to install software to repeat your analyses.  However, Miniconda
-takes that one step further, allowing you to generate a list of
-the specific versions of
-all software and dependencies in a conda environment.  This list is a complete
-record of your environment, and, supplied to conda, it is a specification of
-exactly how to recreate that environment. 
-
-The process of creating such a list is called _exporting_ the conda
-environment.  Here we demonstrate its use by exporting the `bioinf`
-environment from SUMMIT to a simple text file.  Then we use that text file
-to recreate the environment on my laptop.
-```sh
-# on summit:
-conda activate bioinf          # activate the environment
-conda env export               # export the environment
-```
-The last command above just sends the exported environment
-to stdout, looking like this:
-```
-name: bioinf
-channels:
-  - bioconda
-  - defaults
-dependencies:
-  - _libgcc_mutex=0.1=main
-  - bcftools=1.9=ha228f0b_4
-  - bwa=0.7.17=hed695b0_7
-  - bzip2=1.0.8=h7b6447c_0
-  - ca-certificates=2020.1.1=0
-  - curl=7.68.0=hbc83047_0
-  - htslib=1.9=ha228f0b_7
-  - krb5=1.17.1=h173b8e3_0
-  - libcurl=7.68.0=h20c2e04_0
-  - libdeflate=1.0=h14c3975_1
-  - libedit=3.1.20181209=hc058e9b_0
-  - libgcc-ng=9.1.0=hdf63c60_0
-  - libssh2=1.8.2=h1ba5d50_0
-  - libstdcxx-ng=9.1.0=hdf63c60_0
-  - ncurses=6.1=he6710b0_1
-  - openssl=1.1.1d=h7b6447c_4
-  - perl=5.26.2=h14c3975_0
-  - samtools=1.9=h10a08f8_12
-  - tk=8.6.8=hbc83047_0
-  - xz=5.2.4=h14c3975_4
-  - zlib=1.2.11=h7b6447c_3
-prefix: /projects/eriq@colostate.edu/miniconda3/envs/bioinf
-```
-The format of this information is YAML (Yet Another Markup Language),
-(which we saw in the headers of RMarkdown documents, too).
-
-If we stored that output in a file:
-```sh
-conda env export > bioinf.yml
-```
-And then copied that file to another computer, then we can recreate
-the environment on that other computer with:
-```sh
-conda env create -f bioinf.yml
-```
-That should work fine if the new computer is of the same architecture (i.e., both
-are Linux computers, or both are Macs).  However, the specific build numbers
-referenced in the YAML (i.e. things like the `h7b6447c_3` part of the program name)
-can create problems when installing on other architectures. In that case, we must
-export without the build names:
-```sh
-conda env export --no-builds > bioinf.yml
-```
-Even that might fail if the dependencies differ on different architectures,
-in which case you can export just the list of the actual programs that
-you reqested be installed, by using the `--from-history` option.  For example:
-```sh
-% conda env export --from-history
-name: bioinf
-channels:
-  - defaults
-dependencies:
-  - bwa
-  - bcftools
-  - samtools
-prefix: /projects/eriq@colostate.edu/miniconda3/envs/bioinf
-```
-Though, even that fails, cuz it doesn't list bioconda in there.
-
-### Modules 
-
-This is if your sys admin has made it easy.
-
-The big point I must make here is that these don't work like conda environments.
-Environments are "all-or-nothing," whereas modules are "cumulative" and can be
-layered atop one another.  (If doing so creates conflicts, then the sysadmins have to
-figure that out...perhaps this is one reason that modules will often carry older (if not
-completely antiquated) versions of software.)
-
-
-
-
 ## Getting compute resources allocated to your jobs on an HPCC
 
 ### Interactive sessions
@@ -841,28 +420,35 @@ that get submitted to the scheduler and run without any further interaction from
 we will begin our foray into the SLURM job scheduling commands by getting an _interactive shell_
 on a compute node.  "Why?" you might ask?  Well, before you launch any newly-written
 script as a _batch_ job
-on the cluster, you really should run through the code inside that script and ensure that
+on the cluster, you really should run through the code, line by line, inside that script and ensure that
 things work as they should.  Since your script likely does some heavy computing, you can't do this on the 
 head nodes (i.e., login nodes) of the cluster.
 
-One standard way to get a shell on a compute node of a cluster is to request it with:
+The system administrators of every different HPCC seem to have their own preferred (or required)
+way of requesting an interactive shell on a compute node.  Before you start doing work
+on an HPCC, you should always read through the documents (usually available on a website
+associated with the HPCC) to learn the accepted way of doing certain tasks (like requesting
+an interactive shell).  The following is a short survey of three different ways I have
+seen for requesting an interactive session. None of these methods is universally applicable
+to all HPCCs. (Again, read the documents for your own HPCC.)
+
+One way to get an interactive shell on a compute node of a cluster is to request it with:
 ```sh
 srun --pty /bin/bash
 ```
 This tells slurm to run `bash` (which is typically found at `/bin/bash` on all Unix system) within
-a pseodo-terminal (the `--pty` part). If you run this command you will be given a bash shell on a compute
-node (usually). 
+a pseodo-terminal (the `--pty` part). If you run this command you might be given a bash shell on a compute
+node. This works on the Sedna cluster, but not on all others.
 
-However, that doesn't work on all systems.  It does on sedna, but you should always check the webpage for your
-HPCC to find out what is used on your HPCC.  For example on SUMMIT, there is
-a different way of getting an interactive shell that is recommended.  The
+On the SUMMIT cluster at CU Boulder, there is
+a different recommended way of requesting an interactive shell.  The
 sysadmins have written their own script to do it, called `sinteractive`.
 So, you could do:
 ```sh
 sinteractive
 ``` 
 
-On Hummingbird it takes a few more steps.  The webpage at [https://www.hb.ucsc.edu/getting-started/](https://www.hb.ucsc.edu/getting-started/)
+On the Hummingbird cluster, at UCSC, it takes a few more steps.  The webpage at [https://www.hb.ucsc.edu/getting-started/](https://www.hb.ucsc.edu/getting-started/)
 tells you how to do that.  Go to that page and search for `Job Allocation – Interactive, Serial`.  That takes you to
 the instructions.  Minimally, here is what it looks like to get one core
 on a node on the Instruction partition, for 1 hour, with 1 Gigabyte of memory
@@ -877,13 +463,403 @@ salloc: Granted job allocation 48130
 hbcomp-005.hbhpc.ucsc.edu
 ```
 
-
-Check which node you are on, by following up with:
+Regardless of the method used to request an interactive shell, when the command
+returns with a command prompt, you should always check the hostname to make sure
+that you are not, inadvertently, still on the login node.  Do that with the `hostname`
+command:
 ```sh
 hostname
 ```
+It is also worth using your alias `myjobs` (see the last part of Section \@ref(slurm-info)
+to learn how to make such an alias) to check that your interactive shell session is listed amongst
+your running jobs.
 
-### An in-class exercise to make sure everything is configured correctly
+Once you have obtained an interactive shell on a compute node by one of the above
+methods, it should behave like any other shell you work on. You can give commands
+with it and define shell variables, etc.  In short, it is perfect for running through your
+scripts, line by line, to make sure that they are working.
+
+When you are done using your interactive shell, you should logout from it.  This can be
+done by typing `logout`, or by hitting the `d` key while holding down the `control` button
+(i.e. `<cntrl>-d`).  This returns the core that you were using to the pool of cores that can
+be allocated to other users.
+
+Different HPCCs have different settings for the default amount of time an interactive shell will be
+granted to a user.  On some systems, you can request a shell for a certain amount of time using the
+`--time` option to the slurm command.
+
+
+
+### Batch jobs
+
+After you have tested your bioinformatic scripts in an interactive shell and are ready to
+run them "for real," you will want to launch the script in a non-interactive, or _batch_ job.
+Such a job is one that you submit to the job scheduler, and then, when resources for the job become available,
+the scheduler will launch the job without any futher interaction from you.  The job will run until
+it completes (or fails, or runs out of time, etc.), all without you having to interact directly
+with the computing cluster after submitting the job.  
+
+As you might expect, the SLURM command used to submit batch jobs is named (...wait for it!...) `sbatch`.  
+The syntax for using `sbatch` is:
+```
+sbatch sbatch_options script.sh script_arguments
+```
+where:
+
+* `sbatch` is the command
+* `sbatch_options` shows the place where different options to the `sbatch` command should
+be placed.  These options can be a number of things like `--time=00:10:00` and `--mem=4G`.
+We will talk about `sbatch` options in more detail below.
+* `script.sh` is the script that you have written that you want to run on the HPCC.  We refer to this
+as the _job script_. It does not
+have to be named `script.sh`, but, since it is a shell script, it ought to have the `.sh` extension.
+The contents of this script file effectively
+define the _job_ that you wish to run. It should be a shell script, and, on most SLURM systems
+you need to be specific about what "flavor" of shell it should be run in. This is done using the
+"shebang" line at the top of the script, like `#!/bin/bash` (See section ??).  If you want to know what
+path should come after the `#!` (the "shebang"), you can give the command `which bash` from the shell
+on one of your cluster's login nodes (or an interactive shell on a compute node), and the
+shell should respond with the absolute path to the bash shell interpreter.
+* `script_arguments` are any other options, or other arguments (like filenames) that you
+may want to pass to the script. 
+
+
+For practice in submitting batch jobs, we will, first write a simple job script that
+prints a few pieces of information about the shell that is running and the environment
+variables defined within that shell.  
+
+So, first, change into your scratch directory
+and make a new directory called `sbatch-play` and `cd` into it.  Then, using a text editor,
+copy the following lines to a shell script called `easy.sh` and save it within
+your current working directory (`sbatch-play`). Note that the first line might
+have to be modified for your system, depending on the output of `which bash`, as mentioned
+above:
+```sh
+#!/bin/bash
+
+echo "Starting at $(date)"
+echo 
+echo "Current working directory is: $PWD"
+echo "Current user is: $USER"
+echo "Current hostname is: $(hostname)"
+echo
+echo "Currently, the PATH is set to: $PATH"
+echo
+
+# now, let's print the states of all the the environment variables
+# and send them to stderr:
+env > /dev/stderr
+
+sleep 180
+echo "Done at $(date)"
+
+```
+Once you have made that file, schedule it to run, telling the scheduler
+to put it in the queue to run, _and_ that you are asking for only
+5 minutes of computer time to run it, and to send _stdout_ from the
+job to a file named `output-XXXXX`, and _stderr_ to a file named
+`error-XXXXX`, where `XXXXX` is the job number that was assigned to your job.
+Job numbers get assigned in series by the job scheduler, so if the number
+is 4373238, then yours is the 4,373,238-th job that has been requested
+on the cluster.
+```sh
+sbatch --time=00:05:00 --output=output-%j --error=error-%j  easy.sh
+```
+You can check with your `myjobs` alias to see if the job has been scheduled
+and/or if it is running. Once it is running, you should see two new files
+in your current working directory `output-XXXXX` and `error-XXXXX`.
+
+First, check the `output-XXXXX` file, using the `cat` command.  You should
+see that the current working directory printed by the `easy.sh` script
+is the same as the current working directory from which you scheduled
+the job.  Additionally, the PATH variable accessed inside the `easy.sh` script
+is the same as the PATH variable in the shell that you scheduled
+the job from.  You can check this by issuing:
+```
+echo $PATH
+```
+in the shell from which you scheduled the job.
+
+The take-home message from this little exploration is that the shell
+in which your job script, `easy.sh`, gets executed, inherits some of the important environment
+variables (PATH, PWD, etc.) that are in effect in the shell from which you
+scheduled the job.
+
+However, a number of new environment variables have also been defined, most of them
+supplying extra information from SLURM itself.  To see that, we can compare the
+file `error-XXXXX` (which holds information about all the environment variables
+in effect when the job scheduler launched `easy.sh`) to the output of the
+`env` command (which prints the values of all the environment variables) when we
+invoke it in the shell from which the job was scheduled. Try doing that like this:
+```sh
+# first, make a file of the environment variables in effect in the
+# shell the job was scheduled from.  Sort these alphabetically to
+# make it easier to compare between the two environments
+env | sort > sheduling_env.txt
+
+# also, sort the error-XXXXX file
+sort error-XXXXX > slurm_running_env.txt
+
+# then use less to compare sched_env.txt and error-XXXXX.
+
+# The adventurous can use tmux to split their screen vertically into 
+# two panes to make this easier:
+```
+
+Sorting the files, as we have done above, garbles up some multi-line bash functions, but
+still makes it easy to see how the files differ.  In particular, the
+large block of environment variables that start with `SLURM_` give information
+about the job resources and job numbers, etc.  These can come in handy, though
+we will end up being more concerned with some of those variables when we
+start using SLURM _job arrays_.
+
+
+#### The `sbatch --test-only` option
+
+Especially when you start using an HPCC, scheduling jobs can be a confusing and somewhat
+daunting process.  I used to always find my blood pressure going up when I submitted large
+jobs.  Questions swirled in my head: "Will my script run? How long will I have to wait
+for my job to launch? Have I requested more resources than are available on the cluster
+such that my job will never launch?", etc.   SLURM provides the `--test-only` option to
+`sbatch` that can be helpful in this regard.  When `sbatch` is run with the `--test-only` option,
+the scheduler verifies that your script looks like a shell script, and then gives you information
+about how many cores in how many nodes and in which partition the job will be scheduled for.
+Try it like this:
+```sh
+sbatch --test-only --time=00:05:00 --output=output-%j --error=error-%j  easy.sh
+
+# then see what happens if you request more the 24 hours:
+sbatch --test-only --time=24:05:00 --output=output-%j --error=error-%j  easy.sh
+```
+As the name of the option implies, when you are using `--test-only`, your job _does not_
+actually get scheduled.
+`sbatch` with the `--test-only` option also gives an estimate of the time
+when your job would be launched.  This estimate seems to
+be completely uninformative.  It might tell you that it estimates your job would launch in
+3 hours, but it could be much faster than that.  One absolutely critical piece of information the
+`--test-only` option will give you is a nice big warning if you are requesting more resources than
+are available to you.  For example, on the `shas` partition on SUMMIT, job run lengths are
+capped at 24 hours, so you can't request more than that amount of time. You can always use the `--test-only` option to
+ensure that you are not requesting more resources than are available. 
+
+We will note here that the `--test-only` option is somewhat akin to `rclone`'s `--dry-run`
+option, which lets you see what files would be copied, without actually copying them. This
+sort of option is always a nice feature when you want to check that you have set your requests
+up properly before committing computing or network resources to them.
+
+
+#### Get messages from SLURM
+
+If you want to be notified by email when a job starts and finishes, (or fails
+or gets killed by the scheduler). You can use the `--mail-user` option to supply
+an email address and the `--mail-type` option to tell the scheduler when it should
+email you with updates regarding your job status.  For example, supply your own
+email address in the following, and try it:
+```sh
+sbatch --mail-type=ALL --mail-user=yourname@yourmail.edu --time=00:05:00 --output=output-%j --error=error-%j  easy.sh
+```
+You should receive an email from the cluster when your job starts and completes.
+
+This can be a handy feature when you are not running too many jobs.  If you have a large number
+of jobs, being notified
+every time a job starts and finishes can quickly fill up your inbox.  In those cases, consider
+setting `--mail-type=FAIL` to only be notified when jobs have failed.
+
+#### Include options _inside_ your job script
+
+As you might imagine, `sbatch` takes many different options.  We list the main ones that you will
+be concerned with while doing bioinformatics in Table \@ref(sbatchopts).  You might note
+that the above command line is getting quite long and cumbersome, and it would surely become
+very difficult to remember and type commands with even more options, every time you wanted to start a job.
+On top of that, the options that you would want to invoke are typically going to be specific to the job
+script that you are launching (i.e. `easy.sh` in the above example).  Consequently, SLURM
+let's you specify the options passed to `sbatch` _inside the script file itself_.  This leads
+to much simpler commands on the command line, and makes your workflows somewhat more reproducible.
+To include the `sbatch` options in the job script, you add them below the "shebang" line, in lines
+that start with `#SBATCH ` before any other commands in the script.
+
+For example, we could make a new file called `easy2.sh` like this:
+```sh
+#!/bin/bash
+
+#SBATCH --time=00:05:00
+#SBATCH --output=output-%j
+#SBATCH --error=error-%j 
+
+
+echo "Starting at $(date)"
+echo 
+echo "Current working directory is: $PWD"
+echo "Current user is: $USER"
+echo "Current hostname is: $(hostname)"
+echo
+echo "Currently, the PATH is set to: $PATH"
+echo
+
+# now, let's print the states of all the the environment variables
+# and send them to stderr:
+env > /dev/stderr
+
+sleep 180
+```
+And we could then test it like this:
+```sh
+sbatch --test-only easy2.sh
+```
+or schedule it like this:
+```sh
+sbatch easy2.sh
+```
+
+
+#### The vagaries of `conda` within `sbatch`
+
+As we noted above, the shell environment in which SLURM executes
+your scheduled job inherits many important variables (like PATH and 
+the current working directory) from the shell that you submit the job from.
+One might hope that this would be sufficient to allow you to activate
+a conda environment from within your job script.  This turns out not to be
+the case: even though several `conda` environment variables are set up
+and the path to `conda` is set, there are some `conda` initialization
+features that have to happen within your job script in order to be able to
+explicitly set your `conda` environment within your job script.
+
+To see this, first make a script called `conda-test1.sh` that
+tries to activate different `conda` environments within the job script:
+```sh
+#!/bin/bash
+
+#SBATCH --time=00:03:00
+#SBATCH --output=conda-test1-output-%j
+#SBATCH --error=conda-test1-error-%j 
+
+
+echo "Starting at $(date)"
+echo 
+echo "Current working directory is: $PWD"
+echo "Current user is: $USER"
+echo "Current hostname is: $(hostname)"
+echo
+echo "Currently, the PATH is set to: $PATH"
+echo
+echo "Activating environment bioinf"
+conda activate bioinf
+echo
+echo "Now the PATH is: $PATH"
+
+sleep 120
+```
+and then run that with:
+```sh
+sbatch conda-test1.sh
+```
+
+After that has run, reading the contents of the `conda-test1-error-XXXX` file you should
+see an error about not being able to activate a conda environment.  Likewise,
+if you look at the two `PATH`s printed out in `conda-test1-output-XXXX`,
+you will see that they are the same.  So, indeed, the `bioinf` environemnt
+was not activated.
+
+To remedy this problem, you need to source your `~/.bashrc` or your
+`~/.bash_profile` (whichever one contains the "conda init" block).
+If you set your `~/.bash_profile` up, as recommended in the beginning of the
+book (Section XXX) to read from your `~/.bashrc`, then you can simply source
+your `~/.bash_profile` in your job script. 
+
+For example, create a new file called `conda-init2.sh` and fill it with
+the following:
+```sh
+#!/bin/bash
+
+#SBATCH --time=00:03:00
+#SBATCH --output=conda-test2-output-%j
+#SBATCH --error=conda-test2-error-%j 
+
+source ~/.bash_profile
+
+echo "Starting at $(date)"
+echo 
+echo "Current working directory is: $PWD"
+echo "Current user is: $USER"
+echo "Current hostname is: $(hostname)"
+echo
+echo "Currently, the PATH is set to: $PATH"
+echo
+echo "Activating environment bioinf"
+conda activate bioinf
+echo
+echo "Now the PATH is: $PATH"
+echo
+echo "And the environment variables look like:"
+echo "================================"
+env
+
+sleep 120
+```
+Then run it with:
+```sh
+sbatch conda-test2.sh
+```
+If `conda` is working properly within the job script there should be no output
+to `conda-test2-error-XXXX` and you should see that invoking `conda activate bioinf` 
+changed the PATH variable to include paths from the `bioinf` environment.
+
+The above points are really key if you want to use software like `bwa`, `samtools`,
+and `bcftools`, that you installed using Miniconda, from within a job script.
+
+To repeat: to activate a conda environment like `bioinf` from within a job script running
+under `sbatch` you must add these lines:
+```sh
+source ~/.bash_profile
+conda activate bioinf
+```
+Or, if your `~/.bash_profile` and `~/.bashrc` are set up differently, _and_ your
+`conda` initialization block is in `~/.bashrc`, you should use:
+```sh
+source ~/.bashrc
+conda activate bioinf
+```
+
+#### Test a longer running bash script
+
+If you have time and want to pull this all together.  Navigate to the
+`chinook-play` directory that we experimented in before.  There should be
+a directory called `fastq` in there, as well as `chinook-genome-idx`.
+
+Then, make a job script called `map-it.sh` with these lines in it (modifying the
+email to be your email address):
+```sh
+#!/bin/bash
+
+#SBATCH --time=03:00:00
+#SBATCH --output=map-it-output-%j
+#SBATCH --error=map-it-error-%j 
+#SBATCH --mail-type=ALL 
+#SBATCH --mail-user=yourname@yourmail.edu
+
+
+source ~/.bash_profile  # or ~/.bashrc if that is how you are set up
+conda activate bioinf
+
+
+# map it, then make it a BAM then run fixmate
+bwa mem chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz \
+  fastq/Battle_Creek_01_chinook_R1.fq.gz  \
+  fastq/Battle_Creek_01_chinook_R2.fq.gz  | \
+  samtools view -b -1 - | \
+    samtools fixmate -m -O BAM - OUTPUT-fixed.bam
+    
+# now coordinate-sort it and mark PCR duplicates
+samtools sort OUTPUT-fixed.bam | \
+  samtools markdup - OUTPUT-marked.bam
+
+```
+And schedule it to run (from within the `chinook-play` directory) with:
+```sh
+sbatch map-it.sh
+```
+
+## PREPATION INTERLUDE: An in-class exercise to make sure everything is configured correctly
 
 Here, we run through a number of steps to start aligning sequence data to a reference
 genome.  The main purpose of this exercise is to ensure that everyone has their systems

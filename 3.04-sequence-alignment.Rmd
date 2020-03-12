@@ -1,4 +1,4 @@
-# Alignment of sequence data to a reference genome
+# Alignment of sequence data to a reference genome (and associated steps)
 
 A light treatment of how bwa works.  I think I will focus solely on bwa, unless
 someone can convince me that there are cases where something like bowtie works better.
@@ -13,6 +13,23 @@ put that in a separate chapter of "preliminaries"
 
 Gotta talk about this and make it relevant to conservation.  i.e. maybe one individual was sampled with blood and also with tissue and each of those were included in four different library preps, etc.  Give an example that makes it
 clear how it works.
+
+## Quick notes to self on chaining things:
+
+When using samtools markdup you can do like this:
+```sh
+# first step
+bwa mem chinook-play/chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R1.fq chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R2.fq | \
+    samtools view -b -1 - | \
+    samtools fixmate -m -O BAM - fixed.bam
+    
+# unfortunately, fixmate can't write to stdout.
+# then, after this, we have to sort it into coordinate order and
+# markdup them.
+samtools sort fixed.bam | samtools markdup - marked.bam
+
+# after that, fixed.bam could get tossed.
+```
 
 
 ## Merging BAM files
