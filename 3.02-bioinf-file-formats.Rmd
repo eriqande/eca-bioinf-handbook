@@ -84,7 +84,7 @@ AAFFFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ
 
 Lines 2 and 3 are self-explanatory, but we will expound upon lines 1 and 4 below.
 
-### Line 1: Illumina identifier lines
+### Line 1: Illumina identifier lines {#illumina-ids}
 
 The identifier line can be just about any string that starts with an `@`, but, from Illumina data, today,
 you will typically see something like this:
@@ -395,7 +395,7 @@ than that of read 1.  We can totally answer that with the data we have. It would
 Go for it...
 
 
-## FASTA 
+## FASTA {#fasta}
 
 The FASTQ format, described above, is tailored for representing short DNA sequences---and their associated
 quality scores---that have been generated from high-throughput sequencing machines.
@@ -872,7 +872,7 @@ your data, for example, the occurrence of improperly aligning reads can be used 
 infer the presence of inversions. If all those improperly paired reads had been discarded,
 they could not be used in such an endeavor.  
 
-### The CIGAR string
+### The CIGAR string {#cigar}
 
 **CIGAR** is an acronym for Compressed Idiosyncratic Gapped Alignment Report.  It provides a
 space-economical way of describing the manner in which a single read aligns to a reference

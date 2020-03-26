@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-03-23}
+\date{2020-03-26}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -2868,8 +2868,8 @@ Remember that in RStudio, if you highlight some text and do CMD-Option-Return on
 the text gets sent to the RStudio Unix Terminal. (I suspect the PC equivalent is
 cntrl-alt-return). That can be helpful for quickly testing lines you have written.
 
-\hypertarget{double-and-single-quotation-marks-and-variable-substitution}{%
-\subsection{Double and Single Quotation Marks and Variable Substitution}\label{double-and-single-quotation-marks-and-variable-substitution}}
+\hypertarget{quotes-and-var-subs}{%
+\subsection{Double and Single Quotation Marks and Variable Substitution}\label{quotes-and-var-subs}}
 
 Quite often you will want to save a value to a variable that, itself,
 includes other variables. In other words, you want to do variable
@@ -5659,7 +5659,7 @@ For example, try something like:
 
 \textbf{Important Configuration Notes!!} Rather than always giving the \texttt{-\/-progress}
 option on the command line, or always having to remember to use
-\texttt{-\/-fast-list} and \texttt{-\/-tps-limit\ 10} (and remember what they should be\ldots{}),
+\texttt{-\/-fast-list} and \texttt{-\/-tpslimit\ 10} (and remember what they should be\ldots{}),
 you can set those options to be invoked ``by default'' whenever you use
 rclone. The developers of \texttt{rclone} have made this possible
 by setting \emph{environment variables} in your \texttt{\textasciitilde{}/.bashrc}.
@@ -5675,7 +5675,7 @@ lines to your \texttt{\textasciitilde{}/.bashrc}:
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{# Environment variables to use with rclone/google drive always}
-\BuiltInTok{export} \VariableTok{RCLONE_TPS_LIMIT=}\NormalTok{10}
+\BuiltInTok{export} \VariableTok{RCLONE_TPSLIMIT=}\NormalTok{10}
 \BuiltInTok{export} \VariableTok{RCLONE_FAST_LIST=}\NormalTok{true}
 \BuiltInTok{export} \VariableTok{RCLONE_PROGRESS=}\NormalTok{true}
 \end{Highlighting}
@@ -5801,8 +5801,8 @@ is easy to find using the command:
 Following an email exchange with Ren, I should mention how to do an md5
 checksum on the remote server to make sure that everything is correctly there.
 
-\hypertarget{getting-files-from-a-sequencing-center}{%
-\subsection{Getting files from a sequencing center}\label{getting-files-from-a-sequencing-center}}
+\hypertarget{get-seqs}{%
+\subsection{Getting files from a sequencing center}\label{get-seqs}}
 
 Very often sequencing centers will post all the data from a single
 run of a machine at a secured (or unsecured) http address. You will
@@ -9378,8 +9378,8 @@ AAFFFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ
 
 Lines 2 and 3 are self-explanatory, but we will expound upon lines 1 and 4 below.
 
-\hypertarget{line-1-illumina-identifier-lines}{%
-\subsection{Line 1: Illumina identifier lines}\label{line-1-illumina-identifier-lines}}
+\hypertarget{illumina-ids}{%
+\subsection{Line 1: Illumina identifier lines}\label{illumina-ids}}
 
 The identifier line can be just about any string that starts with an \texttt{@}, but, from Illumina data, today,
 you will typically see something like this:
@@ -10626,8 +10626,8 @@ your data, for example, the occurrence of improperly aligning reads can be used 
 infer the presence of inversions. If all those improperly paired reads had been discarded,
 they could not be used in such an endeavor.
 
-\hypertarget{the-cigar-string}{%
-\subsection{The CIGAR string}\label{the-cigar-string}}
+\hypertarget{cigar}{%
+\subsection{The CIGAR string}\label{cigar}}
 
 \textbf{CIGAR} is an acronym for Compressed Idiosyncratic Gapped Alignment Report. It provides a
 space-economical way of describing the manner in which a single read aligns to a reference
@@ -10753,8 +10753,8 @@ in the original sequence. Accordingly, the order of the base quality scores that
 appear in the \textbf{QUAL} column will be in reverse order is the mapping was to the
 reverse strand.
 
-\hypertarget{sam-file-headers}{%
-\subsection{SAM File Headers}\label{sam-file-headers}}
+\hypertarget{sam-headers}{%
+\subsection{SAM File Headers}\label{sam-headers}}
 
 To this point, we have talked almost exclusively about the rows in a SAM file
 which record the alignments of different reads. However, if you look at a SAM file
@@ -10866,6 +10866,9 @@ The most important keys for the different kinds of header lines are as follows:
     \texttt{PU} denotes the ``Platform Unit,'' of sequencing. Typically interpreted to mean the flow-cell and
     the lane upon which the sample was sequenced. We will talk much more about the contents of read-group
     header lines, and how to fill them.
+  \item
+    \texttt{PL} denotes the sequencing technology (PL is short for ``platform'') used. If the reads are from
+    an Illumina sequencer, the value would be \texttt{ILLUMINA}.
   \end{itemize}
 \item
   For \texttt{@PG}
@@ -11153,7 +11156,9 @@ Bay or CH to write it.
 Upon receiving next generation sequencing data (and when already in possession
 of a decent reference genome to which you can align those sequences), there are
 effectively three main phases of bioinformatic analysis. The first phase (\emph{Alignment}) involves
-\emph{aligning} or \emph{mapping} the reads to the reference genome. The second phase (\emph{Variant Calling})
+\emph{aligning} or \emph{mapping} the reads to the reference genome. This tells you which precise
+location in the
+genome each base pair in each sequencing read comes from. The second phase (\emph{Variant Calling})
 uses those mapped reads to identify genetic variation---and the genotypes of individuals---at
 different locations in the genome. In the final phase (\emph{Analysis}) you bring the outputs of
 the first two phases to bear upon the questions you want to answer about the organism
@@ -11162,8 +11167,570 @@ requires the most understanding of population genetics in order to be conducted 
 and correctly. However, the first two phases are essential steps that must be undertaken
 to get to the ``fun part.''
 
-A light treatment of how bwa works. I think I will focus solely on bwa, unless
-someone can convince me that there are cases where something like bowtie works better.
+This chapter describes the tools used, and the steps taken, to produce aligned reads from raw
+sequencing data. The computer commands used to simply map
+reads to a reference are quite straightforward;
+however, right at the beginning of this phase of analysis, it is prudent to attach to each
+read some information about the journey that it took to finally arrive in your bioinformatics
+workflow. Such extra information about each sequencing read is called \emph{read group} information.
+Read group information is used, for example, to combine all the reads from
+a single individual to call genotypes from that individual.
+Read group information can
+also be used to correct issues that occurred in the library preparation and
+the sequencing steps. Though a good understanding and a faithful recording of read group
+information is central to principled bioinformatic analysis, any cursory perusal of
+bioinformatics help sites like \href{https://www.biostars.org/}{BioStars} indicates that
+there is sustained and abiding confusion about the role and meaning of read groups.
+The first section of this chapter attempts to provide some background that we hope
+will alleviate such confusion for you.
+
+Following that section, we cover the workings of \texttt{bwa}, a popular piece of software
+for performing alignments. Subsequent sections detail the use of \texttt{samtools}, for
+manipulating SAM and BAM files, and show ways to use \texttt{samtools} to prepare
+BAM files for variant calling. Finally, we wrap up this chapter with
+a description of the program \texttt{bedtools}, and how to use it to investigate the
+depth of reads aligning to different portions of the reference genome.
+
+\hypertarget{the-journey-of-each-dna-fragment-from-organism-to-sequencing-read}{%
+\section{The Journey of each DNA Fragment from Organism to Sequencing Read}\label{the-journey-of-each-dna-fragment-from-organism-to-sequencing-read}}
+
+In Section \ref{get-seqs} we discussed one solution for downloading gzipped FASTQ
+files from a sequencing center. This turns out to be the last step in a very long
+process of acquiring sequencing data from a collection of organisms that you
+are studying. We could say that the DNA of each organism that you are studying
+took an extraordinary journey to get to you. This journey included, 1) you (or a
+colleague) sampling tissue or blood from that organism, 2) DNA being extracted from
+that tissue or blood, 3) that DNA getting Illumina adapters (with sample-specific
+barcodes) attached to it and then getting
+PCR amplified some number of times in the \emph{library preparation stage}, 4) the
+products of the library preparations are sequenced, sometimes on multiple flow
+cells and often across multiple lanes, during the \emph{sequencing stage}, 5) the
+sequencer processes the read data into FASTQ files, 6) finally, you download the
+data.
+
+Anyone who has ever been involved in research knows that at every stage
+of the above process there are opportunities for errors or biases to occur
+that could affect the final data (and inferences) produced. The effects of some
+of the errors and biases that occur during the library prep stage and the
+sequencing stage can be eliminated or lessened. Doing so requires that
+we keep careful track of the route that each read took during those
+those steps in its journey. This is the role of read groups, which
+we discuss below.
+For now, however, we will offer that the main errors/effects that can
+be controlled for by careful accounting of reads into read groups are:
+1) controlling for effects on the reported
+base quality scores of the particular flowcell
+or the particular lane on a flowcell that a read was sequenced on.
+2) The identification of sequencing reads which are PCR duplicates of another
+read in the data set; and Thus,
+most of the focus on defining read groups is concerned with identifying
+features of a read's journey that can be used to ameliorate those two
+types of errors/biases.
+
+The process of controlling for batch effects of flowcells and lanes on base quality scores
+is called, unsurprisingly, Base Quality Score recalibration. This might be discussed
+in a later section. It is a very important process when one is searching for \emph{de novo}
+mutations, or otherwise attempting to very accurately identify variants that occur
+at very low frequency. Doing base quality score recalibration is considered a ``best practice''
+when using GATK (Section XX), but I have my doubts as to whether it will make appreciable differences
+in analyses where the importance of rare variants is downweighted. Nonetheless, whether
+you are going to do base quality score recalibration or not, you should certainly prepare
+your data so that you can do it should you decide to. In order to do it, you must know
+which flowcell and upon which lane each read was sequenced. That information can be found in the
+FASTQ file as part of the name for each sequence, however, methods for doing base quality score
+recalibration do not typically use the names of the reads to access that information. Rather it
+must be stored in the read group information.
+
+A PCR duplicate is a template sequence that happens to be a copy (made by PCR)
+of another sequence that has also been sequenced. They are considered ``errors''
+in bioinformatics, because many of the models for inferring genotypes from
+next generation sequencing data assume a process of independent sampling of gene
+copies (i.e.~the maternal and paternal copies of a choromosome) within a diploid
+individual, and that model and the data are used to estimate how likely an individual
+is a homozygote versus a heterozygote at each position. For example, if Individual X
+produces one read covering position Y---a position known to be a variable SNP
+with alleles \texttt{A} and \texttt{G} in the species---and the read carries an \texttt{A} at position Y,
+then you would conclude that Individual X likely has genotype \texttt{AA} or \texttt{AG} at position
+Y, and is less likely to have genotype \texttt{GG}, because our observed read with an \texttt{A} at that
+position would have only occurred because of a sequencing error in that case.
+If we saw 10 reads from individual X, and they all had the \texttt{A} base at position Y, however,
+we could be quite confident that the genotype is \texttt{AA} rather than \texttt{AG}, because if the indvidual
+had genotype \texttt{AG}, then each read should have a 50\% chance of carrying an \texttt{A}
+and a 50\% chance of carrying a \texttt{G}, and it is very unlikely, in that case that
+all 10 would carry the \texttt{A} allele. However, imagine how your conclusions would
+change if someone were to tell you that 95\% of the reads were PCR duplicates of another one of
+the reads. In that case, even if the individual has genotype \texttt{AG}, there is high probabaility
+that only a single, true template carrying an \texttt{A} came from the individual, and the remaining
+9 reads that carry an \texttt{A} are just PCR copies of that first original template.
+
+PCR duplicates are copies of the same template fragments. Therefore in paired-end data
+if a pair of reads maps to exactly the same location as another pair of reads, it is likely
+that one of them is a PCR duplicate of the other.
+Figure \ref{fig:pcr-duplicates} provides a simplified schematic (with merely
+single-end data) describing a situation with high and
+low numbers of PCR duplicates. The PCR duplicate fragments are denoted with gray-colored
+flanking sequence. In the figure, note that the length of the fragments gives
+information about which fragments are duplicated and which are not---if two fragments of the
+same length are identified, then one of them is considered a PCR duplicate. It is worth
+noting that it isn't (to my knowledge) really known which fragment is the
+duplicate and which is the ``original,'' but one (or more of them) will be identified
+as duplicates, and one of them will be identified as an ``original.''
+
+\begin{figure}
+
+{\centering \includegraphics{figs/pcr-duplicates} 
+
+}
+
+\caption{An example of PCR duplicates.  Note that in paired end data, duplicates are identified by the lengths of both reads as well as the insert length.  This figure represents a simplified, "toy" situation, showing just single-end data.}\label{fig:pcr-duplicates}
+\end{figure}
+
+PCR duplicates occur during the library prep stage, and also are only possible for
+fragments originating from the same individual sample. In other words, if you found
+two different paired-end reads that mapped to the same location in the genome, but they
+were from different individuals (i.e.~had different sample-specific DNA barcodes),
+you would not suspect that they were PCR duplicates.
+Likewise, DNA fragments from two different library preps, even if they came from the
+same individuals (in the case that DNA from that individual had been prepared
+in two separate libraries) would not be considered to be PCR duplicates.
+(We should pause here to note what is considered a ``library prep.'' Basically,
+if a batch of samples were all processed together in the same day with reagents
+from the same kit, that is considered a single ``library prep.'')
+Accordingly, when keeping track of read groups \emph{for the purposes of identifying PCR duplicates},
+the most important information is which individuals the DNA came from
+and which library preparation it was prepared in.
+
+What we can conclude from this section is that, for downstream analyses,
+we need a way to quickly (and efficiently, in terms of data storage space)
+identify, for each read the:
+
+\begin{itemize}
+\tightlist
+\item
+  Sample it originated from
+\item
+  The library in which it was prepared for sequencing.
+\item
+  The flowcell that it was sequenced on.
+\item
+  The lane on that flowcell that it was sequenced on
+\end{itemize}
+
+This information can be strored in the alignment file using
+read group information as described below.
+
+\hypertarget{read-groups}{%
+\section{Read Groups}\label{read-groups}}
+
+We touched briefly on read groups in Section \ref{sam-headers}, where we
+noted that the SAM file header can contain lines like this one:
+
+\begin{verbatim}
+@RG ID:HTYYCBBXX.1.CH_plate1_A01    SM:CH_plate1_A01    LB:Lib-1    PU:HTYYCBBXX.1.TCAATCCG+TTCGCAGT    PL:ILLUMINA
+\end{verbatim}
+
+The purpose of this line is to identify a read group that is named via the \texttt{ID} tag. In the above
+case the read group is named \texttt{HTYYCBBXX.1.CH\_plate1\_A01}. The attributes of this read group are stored
+using the remaining tags. Happily, those attributes mirror exactly what we might need to know to
+identify PCR duplicates and to perform base quality score recalibration; namely:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{SM} : give the name of the sample, \texttt{CH\_plate1\_A01}, the read is from,
+\item
+  \texttt{LB} : gives the name of the library prep, \texttt{Lib-1}, the read is from,
+\item
+  \texttt{PU} : gives the name of the flowcell, \texttt{HTYYCBBXX}, and the lane, \texttt{1}, the read is from.
+\end{itemize}
+
+It is important to note that this line in the SAM header is just a header line that gives
+information about a particular read group that is found in the file. It is not, \emph{by itself}
+giving you information about any particular read found in the alignment file. Read group information
+about a particular read in the alignment file is given on the alignment line in a column (way off near the
+end of the line typically) tagged with \texttt{RG:Z}. That column simply holds the \texttt{ID} of the read group
+that the read belongs to. In this way, all the information that applies to the read--0i.e., the sample it
+came from, (\texttt{SM}), the library prep it was in (\texttt{LB}), and information about the flowcell and lane (\texttt{PU})---can
+be assigned to the read, \emph{without writing all of that information on every line in the alignment file}.
+Accordingly, it should be obvious why the read group IDs must be unique across all the different
+read groups (\texttt{@RG} tags) in a SAM/BAM file: the ID is used to identify all the other information
+that goes along with that read, and is used to differentiate those different read groups!
+
+You can download the first 100 lines (without the \texttt{@SQ} lines) of a SAM file that has 8 different
+read groups in it \href{https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup-100-lines.sam}{here}.
+Let's do that and have a look at it.
+
+The way that read group information---particularly the platform unit, or \texttt{PU} information---is recorded
+is dicated by which software will be used for downstream processing.
+We describe the
+conventions that are useful for
+passing the aligned data to the Genome Analysis Toolkit (GATK), an extensive
+and well-supported piece
+of software developed by the Broad Institute. Currently, the convention for the
+read group tags are these:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ID} : any string that uniquely identifies a read group. The user must make sure that
+  these uniquely identify the read groups. If you have multiple samples, libraries, flowcells, and
+  lanes, and easy way to ensure this is to just bung those all together in a format like
+  \texttt{\{Sample\}.\{Library\}.\{Flowcell\}.\{Lane\}}, where the parts in curly braces should be replaced by the
+  actual names of those items. As long as there is a \texttt{PU} field, however, you can make the ID
+  anything you want, as long as it is unique for each read group.
+\item
+  \texttt{SM} : any string (no spaces please!) that serves as an identifier for the individual the sample
+  was taken from. This is used to assign genotypes to indvididuals, so even if you have different
+  ``samples'' from the same individual (i.e.~some blood and some tissue, prepped in different libraries;
+  or an original extraction prepared in an earlier library and a later extraction prepared in a library
+  for individuals that needed more sequening coverage after an initial sequencing run)
+  you should still assign them \emph{all} the same \texttt{SM} tag because they are the same individual, and you will'
+  want all of the DNA sequences from them to apply to calling genotypes for them.
+\item
+  \texttt{LB} : any string which gives the name of the library prep these reads were prepared in. If you prepped
+  192 individuals in one day, they are all part of the same library.
+\item
+  \texttt{PU} : GATK expects this information to be given in a specific format. You can provide it as
+  \texttt{\{Flowcell\}.\{Lane\}} (for example, \texttt{HTYYCBBXX.1}), but with later versions of the base quality score
+  recalibration methods in GATK, it appears that it might be useful to also add information about
+  the particular individual/library the read came from. It is suggested that this be done by
+  including the barcode of reads, as \texttt{\{Flowcell\}.\{Lane\}.\{Barcode\}}, like
+  \texttt{HTYYCBBXX.1.TCAATCCG+TTCGCAGT}.
+\item
+  \texttt{PL} : It is also important for base calibration to indicate what type of sequencer was used.
+  Most of the time, currently, that will be \texttt{ILLUMINA}.
+\end{itemize}
+
+Usually, when you get data back from the sequencing center, it will be in a series
+of different FASTQ files, each one containing reads from a single DNA sample well (on a plate
+that you sent to them), that was sequenced on a certain lane on a given flow cell. The files
+will often be named something like: \texttt{DPCh\_plate1\_C07\_S31\_L7\_R2.fq.gz} where the first part
+gives a sample identifier, the part after the \texttt{L} gives the lane, and the part after the
+\texttt{R} tells whether the file holds read 1 or read 2 of paired end reads. You can get the flowcell
+name by looking at the sequence names inside the file (See Section \ref{illumina-ids}). You
+will map the reads in each file separately, and when you do so, you will attach the read group
+information to them (see below). Accordingly, it is a great idea to maintain a spreadsheet
+that links the different files to the attributes and the read group information of the reads inside
+them, like this:
+
+\begin{verbatim}
+index   file_prefix ID  PU  SM  PL  LB  Flowcell    Lane
+1   DPCh_plate1_A01_S1_L1_R HTYYCBBXX.1.CH_plate1_A01   HTYYCBBXX.1.TCAATCCG+TTCGCAGT   CH_plate1_A01   ILLUMINA    Lib-1   HTYYCBBXX   1
+2   DPCh_plate1_A01_S1_L2_R HTYYCBBXX.2.CH_plate1_A01   HTYYCBBXX.2.TCAATCCG+TTCGCAGT   CH_plate1_A01   ILLUMINA    Lib-1   HTYYCBBXX   2
+3   DPCh_plate1_A01_S1_L3_R HTYYCBBXX.3.CH_plate1_A01   HTYYCBBXX.3.TCAATCCG+TTCGCAGT   CH_plate1_A01   ILLUMINA    Lib-1   HTYYCBBXX   3
+4   DPCh_plate1_A01_S1_L4_R HTYYCBBXX.4.CH_plate1_A01   HTYYCBBXX.4.TCAATCCG+TTCGCAGT   CH_plate1_A01   ILLUMINA    Lib-1   HTYYCBBXX   4
+5   DPCh_plate1_A01_S1_L5_R HTYYCBBXX.5.CH_plate1_A01   HTYYCBBXX.5.TCAATCCG+TTCGCAGT   CH_plate1_A01   ILLUMINA    Lib-1   HTYYCBBXX   5
+6   DPCh_plate1_A01_S1_L6_R HTYYCBBXX.6.CH_plate1_A01   HTYYCBBXX.6.TCAATCCG+TTCGCAGT   CH_plate1_A01   ILLUMINA    Lib-1   HTYYCBBXX   6
+7   DPCh_plate1_A01_S1_L7_R HTYYCBBXX.7.CH_plate1_A01   HTYYCBBXX.7.TCAATCCG+TTCGCAGT   CH_plate1_A01   ILLUMINA    Lib-1   HTYYCBBXX   7
+8   DPCh_plate1_A01_S1_L8_R HTYYCBBXX.8.CH_plate1_A01   HTYYCBBXX.8.TCAATCCG+TTCGCAGT   CH_plate1_A01   ILLUMINA    Lib-1   HTYYCBBXX   8
+9   DPCh_plate1_A02_S2_L1_R HTYYCBBXX.1.CH_plate1_A02   HTYYCBBXX.1.CGCTACAT+CGAGACTA   CH_plate1_A02   ILLUMINA    Lib-1   HTYYCBBXX   1
+\end{verbatim}
+
+In the exercise we will see how to use such a file to assign read groups when mapping.
+
+\hypertarget{aligning-reads-with-bwa}{%
+\section{\texorpdfstring{Aligning reads with \texttt{bwa}}{Aligning reads with bwa}}\label{aligning-reads-with-bwa}}
+
+There are several programs for aligning reads to a reference genome. We focus on \texttt{bwa} which is
+an industry standard aligner written by Heng Li and Richard Durbin \citep{liFastAccurateShort2009}. The name
+stands for ``Burrows-Wheeler Aligner.'' We won't go deeply into the guts of this alignment algorithm, but we
+will briefly state that nearly all alignment methods rely on pre-processing the reference genome into a
+data-structure (like a suffix tree) that provides an \emph{index} which makes it fast to find the place in
+a genome where a query sequence matches. Such indexes can take up a large amount of computer memory.
+The Burrows-Wheeler Transform (BWT) provides a way of decreasing the size of such indexes. The BWT is an
+operation that takes a sequence of characters (in this case DNA bases) and re-orders them so that similar
+characters tend to appear together in long runs of the same character. Sequences with long runs of
+the same character can be easily compressed to take up less space using \emph{run length encoding}, for example.
+(We have already seen an example of run length encoding in the CIGAR string (Section \ref{cigar}), in which
+runs of the same kind of alignment characteristic (Matches, Deletions, etc) where encoded by their type
+and the length of the run.) The remarkable thing about the BWT is that it is \emph{invertible}: if someone gives
+you a sequence and says that it is the result of applying the BWT to an original sequence, you can
+actually recover the original sequence without any other information! The program \texttt{bwa} uses the BWT to
+compress the index used for alignment so that it can easily fit into memory---even for very large genomes---on most any computer system, even a low-powered laptop produced in the last half decade.
+
+\hypertarget{indexing-the-genome-for-alignment}{%
+\subsection{Indexing the genome for alignment}\label{indexing-the-genome-for-alignment}}
+
+As the foregoing discussion suggests, it is necessary to index a genome before aligning to it
+with \texttt{bwa}. This is a step that only needs to be done once, since the process creates an index
+that is stored on the hard drive alongside the genome. So, after you download a reference genome,
+before you can start aligning sequences to it, you must index it using \texttt{bwa}. The syntax for this
+is very straightforward:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bwa}\NormalTok{ index path-to-genome}
+\end{Highlighting}
+\end{Shaded}
+
+For example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bwa}\NormalTok{ index genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz}
+\end{Highlighting}
+\end{Shaded}
+
+The reference genome must be stored as a FASTA file (Section \ref{fasta}), which can
+be compressed using \texttt{gzip}. (In the above example, the \texttt{.fna.gz} prefix means that the
+file is a FASTA file of nucleotides (\texttt{.fna}) and has been gzipped (\texttt{.gz})).
+
+This process may take several hours, depending upon the size of the reference
+genome. When it is complete, several new files with names that are the
+orginal reference genome file plus several extensions will have been produced
+and saved in the same directory as the reference genome. In the above example,
+after indexing, a long listing of the directory with the genome file in it
+shows these files:
+
+\begin{verbatim}
+% ls -hl
+total 3.8G
+-rw-rw-r-- 1 eanderson eanderson 704M Mar  5 00:08 GCA_002872995.1_Otsh_v1.0_genomic.fna.gz
+-rw-rw-r-- 1 eanderson eanderson 4.4M Mar  5 00:47 GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.amb
+-rw-rw-r-- 1 eanderson eanderson 2.1M Mar  5 00:47 GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.ann
+-rw-rw-r-- 1 eanderson eanderson 2.3G Mar  5 00:47 GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.bwt
+-rw-rw-r-- 1 eanderson eanderson 579M Mar  5 00:47 GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.pac
+-rw-rw-r-- 1 eanderson eanderson 1.2G Mar  5 00:58 GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.sa
+\end{verbatim}
+
+The first file is the original gzipped compressed reference genome, and the remaining files
+are all part of the index. Note that the index files occupy considerably more space than
+the original reference file (but not so much as they would if the BWT were not used to
+reduce the size of the index).
+
+If you ever wonder whether you have indexed a certain reference genome with \texttt{bwa}, it is
+a simple matter to go to the directory holding the reference genome and see what other files
+are there. If you find files with the same name, but having the suffixes, \texttt{.amb}, \texttt{.ann}, \texttt{.bwt}, \texttt{.pac}
+and \texttt{.sa}, that means that the reference genome \emph{has} already been indexed.
+
+\hypertarget{mapping-reads-with-bwa-mem}{%
+\subsection{\texorpdfstring{Mapping reads with \texttt{bwa\ mem}}{Mapping reads with bwa mem}}\label{mapping-reads-with-bwa-mem}}
+
+Once the reference genome has been indexed, you are ready to align reads to
+it. The program \texttt{bwa} includes several different alignment algorithms. For paired-end Illumina data,
+the best available \texttt{bwa} algorithm, today, is the \texttt{mem} algorithm. The syntax is very simple. While there
+are many options available to tune the parameters used for alignment, the default values
+usually give good performance. Thus, at its
+simplest, \texttt{bwa\ mem} simply takes three file arguments:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bwa}\NormalTok{ mem   path-to-reference-genome   path-to-read1-fastq-file   path-to-read2-fastq-file}
+\end{Highlighting}
+\end{Shaded}
+
+An example might look like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bwa}\NormalTok{ mem genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz fastqs/DPCh_plate1_A01_S1_L1_R1.fq.gz fastqs/DPCh_plate1_A01_S1_L1_R2.fq.gz}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{bwa\ mem} prints progress messages to \emph{stderr} and prints its output in SAM format to \emph{stdout}. The read alignments
+come spewing out in the order they are listed in the FASTQ files, such that each read and its
+paired-end mate appear in adjacent rows in the output. It's all super simple!
+
+\hypertarget{hold-it-right-there-buddy-what-about-the-read-groups}{%
+\subsection{Hold it Right There, Buddy! What about the Read Groups?}\label{hold-it-right-there-buddy-what-about-the-read-groups}}
+
+Indeed! It is during the mapping with \texttt{bwa\ mem} that we must include
+read group tags for our reads. This is straightforward if the pair of
+FASTQ files contains reads that are all from a single read group, we
+merely have to give the read group information that we want to see as the
+argument to the \texttt{-R} option of \texttt{bwa\ mem}. This argument must be a single
+token on the command line, so, if it does not include spaces or other whitespace
+it can be supplied unquoted; however, it is usually safer to quote the argument on
+the command line. The tabs that occur between read group tags are given as \texttt{\textbackslash{}t}
+in the argument to the \texttt{-R} option.
+
+Thus, in the \texttt{bwa\ mem} documentation, the example invocation of the \texttt{-R} option
+shows it single quoted as \texttt{\textquotesingle{}@RG\textbackslash{}tID:foo\textbackslash{}tSM:bar\textquotesingle{}}. In other words, you pass it
+the read group header line, complete with the \texttt{@RG} header tag, encoding the tabs
+between identifiers with \texttt{\textbackslash{}t}. What this example does not make clear is that
+you can also use \emph{double quotes} around that argument. Double quotes, you will recall,
+allow variable substitution (Section \ref{quotes-and-var-subs}) to occur inside them.
+So, in your own scripts, especially when cycling over very many different pairs of
+FASTQ files, it is extremely useful to be able to define the values of the read group
+tags, and then supply them on the command line. Coarsely this would look like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{ID=}\NormalTok{HTYYCBBXX.1.CH_plate1_A01}
+\VariableTok{SM=}\NormalTok{CH_plate1_A01}
+\VariableTok{LB=}\NormalTok{Lib-1}
+\VariableTok{PU=}\NormalTok{HTYYCBBXX.1.TCAATCCG+TTCGCAGT}
+\VariableTok{PL=}\NormalTok{ILLUMINA}
+
+\ExtensionTok{bwa}\NormalTok{ mem -R }\StringTok{"@RG\textbackslash{}tID:}\VariableTok{$ID}\StringTok{\textbackslash{}tSM:}\VariableTok{$SM}\StringTok{\textbackslash{}tLB:}\VariableTok{$LB}\StringTok{\textbackslash{}tPU:}\VariableTok{$PU}\StringTok{\textbackslash{}tPL:}\VariableTok{$PL}\StringTok{"}\NormalTok{  genome.fasta  file_R1.fq file_R2.fq}
+\end{Highlighting}
+\end{Shaded}
+
+However, you would probably want some way of assigning the values of the
+shell variables \texttt{ID}, \texttt{SM}, etc., programmatically, perhaps from the spreadsheet
+that holds all that information. The exercise this week shows one example of that
+using \texttt{awk} and a TAB-delimited spreadsheet.
+
+\hypertarget{processing-alignment-output-with-samtools}{%
+\section{\texorpdfstring{Processing alignment output with \texttt{samtools}}{Processing alignment output with samtools}}\label{processing-alignment-output-with-samtools}}
+
+Doing the alignment with \texttt{bwa\ mem} is only the first step of getting data ready to do
+variant calling. Once the SAM format data comes out of \texttt{bwa\ mem}, a number of things
+must happen to it before it can be used for variant calling:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  It must be converted to BAM format (the compressed binary companion format to SAM)
+\item
+  Additional information about mate pairs might need to be attached to sequences
+\item
+  You must sort the BAM files from the original ordering produced by \texttt{bwa\ mem} into a
+  \emph{coordinate-ordered} format, in which the reads are sorted by where they appear within the
+  reference genome.
+\item
+  If you started with multiple pairs of FASTQ files for a single individual (i.e.~from different lanes
+  or from different sequencing runs or libraries) you might want to merge those all into a single BAM
+  file.
+\item
+  You might want to mark PCR duplicates as such in the BAM file.
+\item
+  Finally when you have your BAM file all ready for variant calling, you typically
+  will need to index it for rapid access by the variant caller program.
+\end{enumerate}
+
+Phew! That is a lot of steps! Fortunately, there is a single ``go-to'' program (one-stop shopping!)
+that can manage all of that for you. It is the program \texttt{samtools}, brought to you by the
+same people who developed the SAM/BAM formats \citep{liSequenceAlignmentMap2009} and the \texttt{bwa} aligner
+(and \texttt{bcftools} for that matter). If you want to get anywhere in bioinformatics, it is
+important to become good friends with \texttt{samtools}.
+
+The program \texttt{samtools} includes a large number of different subcommands.
+We will cover just a few of them, here, that are used in our typical paired-end workflow,
+and in a somewhat cursory fashion, including only the most commonly used options.
+All readers are encouraged to completely read the online \href{http://www.htslib.org/doc/samtools.html}{manual page}
+for samtools for a complete account of its uses.
+
+In the samtools manual. The usage patterns of the subcommands can broadly be categorized into
+two groups:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Subcommands that explicitly require an argument that gives the name of an output file.
+  These subcommands are usually described like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{samtools}\NormalTok{ subcommand [options] out.bam in.bam}
+\end{Highlighting}
+\end{Shaded}
+
+  where an output file is explicitly called for. These commands
+  \emph{do not write output to stdout}! They must be given an output file name. It is
+  \emph{not possible} to pipe output from one of these subcommands to another program or utility.
+\item
+  Subcommands that don't explicitly require an argument giving an output file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{samtools}\NormalTok{ subcommand [options] in.bam}
+\end{Highlighting}
+\end{Shaded}
+
+  These subcommands write their output to stdout, and that output can be piped into other programs or can
+  be redirected into a file (some also provide a \texttt{-o\ file} option to write output to \texttt{file} rather than
+  to stdout.)
+\end{enumerate}
+
+In short, if the syntax of the subcommand explicitly calls for an output file on the command line (not as part
+of a \texttt{-o\ file} option), then that subcommand does not write its output to \emph{stdout} and you can't pipe it into
+the next part of your pipeline.
+
+On the other hand, if you can write output from samtools to \emph{stdout}, you might be interested in knowing
+how you can pipe that into the input for another \texttt{samtools} subcommand. Rejoice! There is a syntactically
+economical and lovely way to do that. Any subcommand which expects a single input file will be described
+like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{samtools}\NormalTok{ subcommand [options]  in.bam}
+\end{Highlighting}
+\end{Shaded}
+
+You would typically put the path to the input file in the place of \texttt{in.bam} there.
+However, if you put \texttt{-} in place of \texttt{in.bam} then samtools will take input for
+\texttt{in.bam} from \emph{stdin}.
+
+So, for example, you can do something like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bwa}\NormalTok{ mem genome.fna R1.fq R2.fq }\KeywordTok{|}
+  \ExtensionTok{samtools}\NormalTok{ view -b -  }\KeywordTok{|}\NormalTok{   # }\ExtensionTok{convert}\NormalTok{ the SAM output from bwa mem into BAM format}
+  \ExtensionTok{samtools}\NormalTok{ fixmate -m - output_file  # take stdin as the input and write output to output_file}
+\end{Highlighting}
+\end{Shaded}
+
+You can download an 11 Mb BAM file to play around with \href{https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam}{here}.
+If you are on your HPCC and want to download it, you can use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{wget}\NormalTok{ https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{samtools-subcommands}{%
+\subsection{\texorpdfstring{\texttt{samtools} subcommands}{samtools subcommands}}\label{samtools-subcommands}}
+
+\hypertarget{samtools-view}{%
+\subsubsection{\texorpdfstring{\texttt{samtools\ view}}{samtools view}}\label{samtools-view}}
+
+The major workhorse. Used for viewing BAM files (-h/-H) and also for converting
+SAM files to BAM files (the latter being necessary, or, at least prudent, for all
+downstream processing).
+
+\hypertarget{samtools-fixmate}{%
+\subsubsection{\texorpdfstring{\texttt{samtools\ fixmate}}{samtools fixmate}}\label{samtools-fixmate}}
+
+Add information about mates needed to identify PCR duplicates. Mates must be adjacent to
+one another in the output. Best to run this right after alignment.
+
+\hypertarget{samtools-sort}{%
+\subsubsection{\texorpdfstring{\texttt{samtools\ sort}}{samtools sort}}\label{samtools-sort}}
+
+Put things in a BAM file in order of placement in the reference genome. This must be done for
+most downstream operations. Especially for merging and for marking duplicates.
+
+\hypertarget{samtools-merge}{%
+\subsubsection{\texorpdfstring{\texttt{samtools\ merge}}{samtools merge}}\label{samtools-merge}}
+
+Combine the contents of sorted BAM files.
+
+\hypertarget{samtools-markdup}{%
+\subsubsection{\texorpdfstring{\texttt{samtools\ markdup}}{samtools markdup}}\label{samtools-markdup}}
+
+Mark PCR (or optical) duplicates.
+
+\hypertarget{samtools-stats}{%
+\subsubsection{\texorpdfstring{\texttt{samtools\ stats}}{samtools stats}}\label{samtools-stats}}
+
+Summary information about the alignments.
+
+\hypertarget{samtools-idxstats}{%
+\subsubsection{\texorpdfstring{\texttt{samtools\ idxstats}}{samtools idxstats}}\label{samtools-idxstats}}
+
+Summary information about the SAM flags of the alignments.
+
+\hypertarget{samtools-bedcov}{%
+\subsubsection{\texorpdfstring{\texttt{samtools\ bedcov}}{samtools bedcov}}\label{samtools-bedcov}}
+
+Calculate coverage of different regions in the reference genome.
+
+\hypertarget{boneyard-below-here}{%
+\section{BONEYARD BELOW HERE}\label{boneyard-below-here}}
 
 \hypertarget{preprocess}{%
 \section{Preprocess ?}\label{preprocess}}
@@ -11172,12 +11739,6 @@ Will have a bit about sequence pre-processing (with WGS data it already
 comes demultiplexed, so maybe we can hold off on this until we get to
 RAD data). No, we need to talk about trimming and maybe slicing. Perhaps
 put that in a separate chapter of ``preliminaries''
-
-\hypertarget{read-groups}{%
-\section{Read Groups}\label{read-groups}}
-
-Gotta talk about this and make it relevant to conservation. i.e.~maybe one individual was sampled with blood and also with tissue and each of those were included in four different library preps, etc. Give an example that makes it
-clear how it works.
 
 \hypertarget{quick-notes-to-self-on-chaining-things}{%
 \section{Quick notes to self on chaining things:}\label{quick-notes-to-self-on-chaining-things}}
@@ -11411,7 +11972,7 @@ I copied that to \texttt{inputs} so we can plot it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-66-1.pdf}
+\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-68-1.pdf}
 
 OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.
 

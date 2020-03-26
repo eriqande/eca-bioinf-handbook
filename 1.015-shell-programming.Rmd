@@ -754,7 +754,7 @@ Remember that in RStudio, if you highlight some text and do CMD-Option-Return on
 the text gets sent to the RStudio Unix Terminal.  (I suspect the PC equivalent is
 cntrl-alt-return).  That can be helpful for quickly testing lines you have written.
 
-### Double and Single Quotation Marks and Variable Substitution
+### Double and Single Quotation Marks and Variable Substitution {#quotes-and-var-subs}
 
 Quite often you will want to save a value to a variable that, itself,
 includes other variables.  In other words, you want to do variable

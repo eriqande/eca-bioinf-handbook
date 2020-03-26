@@ -186,26 +186,303 @@ Accordingly, it should be obvious why the read group IDs must be unique across a
 read groups (`@RG` tags) in a SAM/BAM file: the ID is used to identify all the other information
 that goes along with that read, and is used to differentiate those different read groups!
 
+You can download the first 100 lines (without the `@SQ` lines) of a SAM file that has 8 different
+read groups in it [here](https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup-100-lines.sam).
+Let's do that and have a look at it.
 
-
-Gotta talk about this and make it relevant to conservation.  i.e. maybe one individual was sampled with blood and also with tissue and each of those were included in four different library preps, etc.  Give an example that makes it
-clear how it works.
-
-
-identifiers (See section ) are `SM`, which denotes which sample
-the DNA is from, and `LB` which denotes which library prep the DNA was prepared in.
-
-
-The information that you should supply for each read varies, depending on
-what types of downstream analysis tools that you will be using.  We will describe the
-conventions adopted for attaching this extra information that are useful for
+The way that read group information---particularly the platform unit, or `PU` information---is recorded
+is dicated by which software will be used for downstream processing.
+We describe the
+conventions that are useful for
 passing the aligned data to the Genome Analysis Toolkit (GATK), an extensive 
 and well-supported piece
-of software developed by the Broad Institute.  GATK has modules that allow the user
-to make extensive use of infomation
+of software developed by the Broad Institute.  Currently, the convention for the
+read group tags are these:
 
-A light treatment of how bwa works.  I think I will focus solely on bwa, unless
-someone can convince me that there are cases where something like bowtie works better.
+- `ID` : any string that uniquely identifies a read group.  The user must make sure that
+these uniquely identify the read groups.  If you have multiple samples, libraries, flowcells, and
+lanes, and easy way to ensure this is to just bung those all together in a format like
+`{Sample}.{Library}.{Flowcell}.{Lane}`, where the parts in curly braces should be replaced by the
+actual names of those items. As long as there is a `PU` field, however, you can make the ID
+anything you want, as long as it is unique for each read group.
+- `SM` : any string (no spaces please!) that serves as an identifier for the individual the sample
+was taken from.  This is used to assign genotypes to indvididuals, so even if you have different
+"samples" from the same individual (i.e. some blood and some tissue, prepped in different libraries;
+or an original extraction prepared in an earlier library and a later extraction prepared in a library
+for individuals that needed more sequening coverage after an initial sequencing run)
+you should still assign them _all_ the same `SM` tag because they are the same individual, and you will'
+want all of the DNA sequences from them to apply to calling genotypes for them.
+- `LB` : any string which gives the name of the library prep these reads were prepared in.  If you prepped
+192 individuals in one day, they are all part of the same library.
+- `PU` : GATK expects this information to be given in a specific format.  You can provide it as
+`{Flowcell}.{Lane}` (for example, `HTYYCBBXX.1`), but with later versions of the base quality score
+recalibration methods in GATK, it appears that it might be useful to also add information about
+the particular individual/library the read came from.  It is suggested that this be done by
+including the barcode of reads, as `{Flowcell}.{Lane}.{Barcode}`, like
+`HTYYCBBXX.1.TCAATCCG+TTCGCAGT`.
+- `PL` : It is also important for base calibration to indicate what type of sequencer was used.
+Most of the time, currently, that will be `ILLUMINA`.
+
+Usually, when you get data back from the sequencing center, it will be in a series
+of different FASTQ files, each one containing reads from a single DNA sample well (on a plate
+that you sent to them), that was sequenced on a certain lane on a given flow cell.  The files
+will often be named something like: `DPCh_plate1_C07_S31_L7_R2.fq.gz` where the first part
+gives a sample identifier, the part after the `L` gives the lane, and the part after the
+`R` tells whether the file holds read 1 or read 2 of paired end reads.  You can get the flowcell
+name by looking at the sequence names inside the file (See Section \@ref(illumina-ids)).  You
+will map the reads in each file separately, and when you do so, you will attach the read group
+information to them (see below).  Accordingly, it is a great idea to maintain a spreadsheet
+that links the different files to the attributes and the read group information of the reads inside
+them, like this:
+```
+index	file_prefix	ID	PU	SM	PL	LB	Flowcell	Lane
+1	DPCh_plate1_A01_S1_L1_R	HTYYCBBXX.1.CH_plate1_A01	HTYYCBBXX.1.TCAATCCG+TTCGCAGT	CH_plate1_A01	ILLUMINA	Lib-1	HTYYCBBXX	1
+2	DPCh_plate1_A01_S1_L2_R	HTYYCBBXX.2.CH_plate1_A01	HTYYCBBXX.2.TCAATCCG+TTCGCAGT	CH_plate1_A01	ILLUMINA	Lib-1	HTYYCBBXX	2
+3	DPCh_plate1_A01_S1_L3_R	HTYYCBBXX.3.CH_plate1_A01	HTYYCBBXX.3.TCAATCCG+TTCGCAGT	CH_plate1_A01	ILLUMINA	Lib-1	HTYYCBBXX	3
+4	DPCh_plate1_A01_S1_L4_R	HTYYCBBXX.4.CH_plate1_A01	HTYYCBBXX.4.TCAATCCG+TTCGCAGT	CH_plate1_A01	ILLUMINA	Lib-1	HTYYCBBXX	4
+5	DPCh_plate1_A01_S1_L5_R	HTYYCBBXX.5.CH_plate1_A01	HTYYCBBXX.5.TCAATCCG+TTCGCAGT	CH_plate1_A01	ILLUMINA	Lib-1	HTYYCBBXX	5
+6	DPCh_plate1_A01_S1_L6_R	HTYYCBBXX.6.CH_plate1_A01	HTYYCBBXX.6.TCAATCCG+TTCGCAGT	CH_plate1_A01	ILLUMINA	Lib-1	HTYYCBBXX	6
+7	DPCh_plate1_A01_S1_L7_R	HTYYCBBXX.7.CH_plate1_A01	HTYYCBBXX.7.TCAATCCG+TTCGCAGT	CH_plate1_A01	ILLUMINA	Lib-1	HTYYCBBXX	7
+8	DPCh_plate1_A01_S1_L8_R	HTYYCBBXX.8.CH_plate1_A01	HTYYCBBXX.8.TCAATCCG+TTCGCAGT	CH_plate1_A01	ILLUMINA	Lib-1	HTYYCBBXX	8
+9	DPCh_plate1_A02_S2_L1_R	HTYYCBBXX.1.CH_plate1_A02	HTYYCBBXX.1.CGCTACAT+CGAGACTA	CH_plate1_A02	ILLUMINA	Lib-1	HTYYCBBXX	1
+```
+In the exercise we will see how to use such a file to assign read groups when mapping.
+
+## Aligning reads with `bwa`
+
+There are several programs for aligning reads to a reference genome.  We focus on `bwa` which is
+an industry standard aligner written by Heng Li and Richard Durbin [@liFastAccurateShort2009]. The name
+stands for "Burrows-Wheeler Aligner."  We won't go deeply into the guts of this alignment algorithm, but we
+will briefly state that nearly all alignment methods rely on pre-processing the reference genome into a
+data-structure (like a suffix tree) that provides an _index_ which makes it fast to find the place in
+a genome where a query sequence matches.  Such indexes can take up a large amount of computer memory.
+The Burrows-Wheeler Transform (BWT) provides a way of decreasing the size of such indexes.  The BWT is an
+operation that takes a sequence of characters (in this case DNA bases) and re-orders them so that similar
+characters tend to appear together in long runs of the same character.  Sequences with long runs of
+the same character can be easily compressed to take up less space using _run length encoding_, for example.
+(We have already seen an example of run length encoding in the CIGAR string (Section \@ref(cigar)), in which
+runs of the same kind of alignment characteristic (Matches, Deletions, etc) where encoded by their type
+and the length of the run.)  The remarkable thing about the BWT is that it is _invertible_: if someone gives
+you a sequence and says that it is the result of applying the BWT to an original sequence, you can
+actually recover the original sequence without any other information!  The program `bwa` uses the BWT to
+compress the index used for alignment so that it can easily fit into memory---even for very large genomes---on most any computer system, even a low-powered laptop produced in the last half decade.
+
+### Indexing the genome for alignment
+
+As the foregoing discussion suggests, it is necessary to index a genome before aligning to it
+with `bwa`.  This is a step that only needs to be done once, since the process creates an index
+that is stored on the hard drive alongside the genome.  So, after you download a reference genome,
+before you can start aligning sequences to it, you must index it using `bwa`.  The syntax for this
+is very straightforward:
+```sh
+bwa index path-to-genome
+```
+For example:
+```sh
+bwa index genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz
+```
+The reference genome must be stored as a FASTA file (Section \@ref(fasta)), which can
+be compressed using `gzip`. (In the above example, the `.fna.gz` prefix means that the
+file is a FASTA file of nucleotides (`.fna`) and has been gzipped (`.gz`)).
+
+This process may take several hours, depending upon the size of the reference
+genome.  When it is complete, several new files with names that are the
+orginal reference genome file plus several extensions will have been produced
+and saved in the same directory as the reference genome. In the above example,
+after indexing, a long listing of the directory with the genome file in it
+shows these files:
+```
+% ls -hl
+total 3.8G
+-rw-rw-r-- 1 eanderson eanderson 704M Mar  5 00:08 GCA_002872995.1_Otsh_v1.0_genomic.fna.gz
+-rw-rw-r-- 1 eanderson eanderson 4.4M Mar  5 00:47 GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.amb
+-rw-rw-r-- 1 eanderson eanderson 2.1M Mar  5 00:47 GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.ann
+-rw-rw-r-- 1 eanderson eanderson 2.3G Mar  5 00:47 GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.bwt
+-rw-rw-r-- 1 eanderson eanderson 579M Mar  5 00:47 GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.pac
+-rw-rw-r-- 1 eanderson eanderson 1.2G Mar  5 00:58 GCA_002872995.1_Otsh_v1.0_genomic.fna.gz.sa
+```
+The first file is the original gzipped compressed reference genome, and the remaining files
+are all part of the index.  Note that the index files occupy considerably more space than
+the original reference file (but not so much as they would if the BWT were not used to
+reduce the size of the index).
+
+If you ever wonder whether you have indexed a certain reference genome with `bwa`, it is
+a simple matter to go to the directory holding the reference genome and see what other files
+are there.  If you find files with the same name, but having the suffixes, `.amb`, `.ann`, `.bwt`, `.pac`
+and `.sa`, that means that the reference genome _has_ already been indexed.
+
+### Mapping reads with `bwa mem`
+
+Once the reference genome has been indexed, you are ready to align reads to
+it.  The program `bwa` includes several different alignment algorithms.  For paired-end Illumina data,
+the best available `bwa` algorithm, today, is the `mem` algorithm.  The syntax is very simple. While there
+are many options available to tune the parameters used for alignment, the default values
+usually give good performance.  Thus, at its
+simplest, `bwa mem` simply takes three file arguments:
+```sh
+bwa mem   path-to-reference-genome   path-to-read1-fastq-file   path-to-read2-fastq-file
+```
+An example might look like:
+```sh
+bwa mem genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz fastqs/DPCh_plate1_A01_S1_L1_R1.fq.gz fastqs/DPCh_plate1_A01_S1_L1_R2.fq.gz
+```
+`bwa mem` prints progress messages to _stderr_ and prints its output in SAM format to _stdout_. The read alignments
+come spewing out in the order they are listed in the FASTQ files, such that each read and its
+paired-end mate appear in adjacent rows in the output.  It's all super simple!
+
+### Hold it Right There, Buddy! What about the Read Groups?
+
+Indeed!  It is during the mapping with `bwa mem` that we must include
+read group tags for our reads.  This is straightforward if the pair of
+FASTQ files contains reads that are all from a single read group, we 
+merely have to give the read group information that we want to see as the 
+argument to the `-R` option of `bwa mem`.  This argument must be a single
+token on the command line, so, if it does not include spaces or other whitespace
+it can be supplied unquoted; however, it is usually safer to quote the argument on
+the command line.  The tabs that occur between read group tags are given as `\t`
+in the argument to the `-R` option.
+
+Thus, in the `bwa mem` documentation, the example invocation of the `-R` option
+shows it single quoted as `'@RG\tID:foo\tSM:bar'`.  In other words, you pass it
+the read group header line, complete with the `@RG` header tag, encoding the tabs
+between identifiers with `\t`.  What this example does not make clear is that
+you can also use _double quotes_ around that argument.  Double quotes, you will recall,
+allow variable substitution (Section \@ref(quotes-and-var-subs)) to occur inside them.
+So, in your own scripts, especially when cycling over very many different pairs of
+FASTQ files, it is extremely useful to be able to define the values of the read group
+tags, and then supply them on the command line.  Coarsely this would look like:
+```sh
+ID=HTYYCBBXX.1.CH_plate1_A01
+SM=CH_plate1_A01
+LB=Lib-1
+PU=HTYYCBBXX.1.TCAATCCG+TTCGCAGT
+PL=ILLUMINA
+
+bwa mem -R "@RG\tID:$ID\tSM:$SM\tLB:$LB\tPU:$PU\tPL:$PL"  genome.fasta  file_R1.fq file_R2.fq
+```
+However, you would probably want some way of assigning the values of the
+shell variables `ID`, `SM`, etc., programmatically, perhaps from the spreadsheet
+that holds all that information.  The exercise this week shows one example of that
+using `awk` and a TAB-delimited spreadsheet.
+
+
+## Processing alignment output with `samtools`
+
+Doing the alignment with `bwa mem` is only the first step of getting data ready to do
+variant calling. Once the SAM format data comes out of `bwa mem`, a number of things
+must happen to it before it can be used for variant calling:
+
+1. It must be converted to BAM format (the compressed binary companion format to SAM)
+2. Additional information about mate pairs might need to be attached to sequences
+3. You must sort the BAM files from the original ordering produced by `bwa mem` into a
+_coordinate-ordered_ format, in which the reads are sorted by where they appear within the
+reference genome.
+3. If you started with multiple pairs of FASTQ files for a single individual (i.e. from different lanes
+or from different sequencing runs or libraries) you might want to merge those all into a single BAM
+file.
+3. You might want to mark PCR duplicates as such in the BAM file.
+3. Finally when you have your BAM file all ready for variant calling, you typically
+will need to index it for rapid access by the variant caller program.
+
+Phew! That is a lot of steps! Fortunately, there is a single "go-to" program (one-stop shopping!)
+that can manage all of that for you.  It is the program `samtools`, brought to you by the
+same people who developed the SAM/BAM formats [@liSequenceAlignmentMap2009] and the `bwa` aligner
+(and `bcftools` for that matter). If you want to get anywhere in bioinformatics, it is
+important to become good friends with `samtools`.
+
+The program `samtools` includes a large number of different subcommands.
+We will cover just a few of them, here, that are used in our typical paired-end workflow,
+and in a somewhat cursory fashion, including only the most commonly used options.
+All readers are encouraged to completely read the online [manual page](http://www.htslib.org/doc/samtools.html)
+for samtools for a complete account of its uses.
+
+In the samtools manual.  The usage patterns of the subcommands can broadly be categorized into
+two groups:
+
+1. Subcommands that explicitly require an argument that gives the name of an output file. 
+These subcommands are usually described like this:
+    ```{sh, eval=FALSE}
+    samtools subcommand [options] out.bam in.bam
+    ```
+where an output file is explicitly called for. These commands 
+_do not write output to stdout_! They must be given an output file name.  It is 
+_not possible_ to pipe output from one of these subcommands to another program or utility.
+2. Subcommands that don't explicitly require an argument giving an output file:
+    ```{sh, eval=FALSE}
+    samtools subcommand [options] in.bam
+    ```
+These subcommands write their output to stdout, and that output can be piped into other programs or can
+be redirected into a file (some also provide a `-o file` option to write output to `file` rather than
+to stdout.)
+
+In short, if the syntax of the subcommand explicitly calls for an output file on the command line (not as part
+of a `-o file` option), then that subcommand does not write its output to _stdout_ and you can't pipe it into
+the next part of your pipeline.
+
+On the other hand, if you can write output from samtools to _stdout_, you might be interested in knowing
+how you can pipe that into the input for another `samtools` subcommand.  Rejoice! There is a syntactically 
+economical and lovely way to do that.  Any subcommand which expects a single input file will be described
+like:
+```sh
+samtools subcommand [options]  in.bam
+```
+You would typically put the path to the input file in the place of `in.bam` there.
+However, if you put `-` in place of `in.bam` then samtools will take input for
+`in.bam` from _stdin_.
+
+So, for example, you can do something like this:
+```sh
+bwa mem genome.fna R1.fq R2.fq |
+  samtools view -b -  |   # convert the SAM output from bwa mem into BAM format
+  samtools fixmate -m - output_file  # take stdin as the input and write output to output_file
+```
+
+You can download an 11 Mb BAM file to play around with [here](https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam).
+If you are on your HPCC and want to download it, you can use:
+```sh
+wget https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam
+```
+
+### `samtools` subcommands
+
+#### `samtools view`
+
+The major workhorse.  Used for viewing BAM files (-h/-H) and also for converting
+SAM files to BAM files (the latter being necessary, or, at least prudent, for all
+downstream processing).
+
+#### `samtools fixmate`
+
+Add information about mates needed to identify PCR duplicates.  Mates must be adjacent to
+one another in the output.  Best to run this right after alignment.
+
+#### `samtools sort`
+
+Put things in a BAM file in order of placement in the reference genome.  This must be done for
+most downstream operations.  Especially for merging and for marking duplicates.
+
+#### `samtools merge`
+
+Combine the contents of sorted BAM files.
+
+#### `samtools markdup`
+
+Mark PCR (or optical) duplicates.
+
+#### `samtools stats`
+
+Summary information about the alignments.
+
+#### `samtools idxstats`
+
+Summary information about the SAM flags of the alignments.
+
+#### `samtools bedcov`
+
+Calculate coverage of different regions in the reference genome.
+
+
+## BONEYARD BELOW HERE
 
 ## Preprocess ?
 Will have a bit about sequence pre-processing (with WGS data it already
