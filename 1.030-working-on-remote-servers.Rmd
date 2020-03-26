@@ -821,7 +821,7 @@ rclone --drive-shared-with-me lsd gdrive-rclone:
 
 **Important Configuration Notes!!** Rather than always giving the `--progress`
 option on the command line, or always having to remember to use
-`--fast-list` and `--tps-limit 10` (and remember what they should be...),
+`--fast-list` and `--tpslimit 10` (and remember what they should be...),
 you can set those options to be invoked "by default" whenever you use
 rclone.  The developers of `rclone` have made this possible
 by setting _environment variables_ in your `~/.bashrc`.
@@ -835,7 +835,7 @@ environment variable.  So, you should, at a minimum add these
 lines to your `~/.bashrc`:
 ```sh
 # Environment variables to use with rclone/google drive always
-export RCLONE_TPS_LIMIT=10
+export RCLONE_TPSLIMIT=10
 export RCLONE_FAST_LIST=true
 export RCLONE_PROGRESS=true
 ```
@@ -951,7 +951,7 @@ checksum on the remote server to make sure that everything is correctly there.
 
 
 
-### Getting files from a sequencing center
+### Getting files from a sequencing center {#get-seqs}
 
 Very often sequencing centers will post all the data from a single
 run of a machine at a secured (or unsecured) http address. You will

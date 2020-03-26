@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-03-12" />
+<meta name="date" content="2020-03-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -228,7 +228,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#git"><i class="fa fa-check"></i><b>7.2.2</b> git</a></li>
 <li class="chapter" data-level="7.2.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#globus"><i class="fa fa-check"></i><b>7.2.3</b> Globus</a></li>
 <li class="chapter" data-level="7.2.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#interfacing-with-the-cloud"><i class="fa fa-check"></i><b>7.2.4</b> Interfacing with “The Cloud”</a></li>
-<li class="chapter" data-level="7.2.5" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#getting-files-from-a-sequencing-center"><i class="fa fa-check"></i><b>7.2.5</b> Getting files from a sequencing center</a></li>
+<li class="chapter" data-level="7.2.5" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#get-seqs"><i class="fa fa-check"></i><b>7.2.5</b> Getting files from a sequencing center</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#tmux"><i class="fa fa-check"></i><b>7.3</b> <code>tmux</code>: the terminal multiplexer</a><ul>
 <li class="chapter" data-level="7.3.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#an-analogy-for-how-tmux-works"><i class="fa fa-check"></i><b>7.3.1</b> An analogy for how <code>tmux</code> works</a></li>
@@ -318,7 +318,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="17.4.3" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#sam-flags"><i class="fa fa-check"></i><b>17.4.3</b> SAM Flags</a></li>
 <li class="chapter" data-level="17.4.4" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#the-cigar-string"><i class="fa fa-check"></i><b>17.4.4</b> The CIGAR string</a></li>
 <li class="chapter" data-level="17.4.5" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#the-seq-and-qual-columns"><i class="fa fa-check"></i><b>17.4.5</b> The SEQ and QUAL columns</a></li>
-<li class="chapter" data-level="17.4.6" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#sam-file-headers"><i class="fa fa-check"></i><b>17.4.6</b> SAM File Headers</a></li>
+<li class="chapter" data-level="17.4.6" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#sam-headers"><i class="fa fa-check"></i><b>17.4.6</b> SAM File Headers</a></li>
 <li class="chapter" data-level="17.4.7" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#the-bam-format"><i class="fa fa-check"></i><b>17.4.7</b> The BAM format</a></li>
 <li class="chapter" data-level="17.4.8" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#quick-self-study"><i class="fa fa-check"></i><b>17.4.8</b> Quick self study</a></li>
 </ul></li>
@@ -331,11 +331,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="18" data-path="genome-assembly.html"><a href="genome-assembly.html"><i class="fa fa-check"></i><b>18</b> Genome Assembly</a></li>
 <li class="chapter" data-level="19" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><i class="fa fa-check"></i><b>19</b> Alignment of sequence data to a reference genome (and associated steps)</a><ul>
-<li class="chapter" data-level="19.1" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#preprocess"><i class="fa fa-check"></i><b>19.1</b> Preprocess ?</a></li>
+<li class="chapter" data-level="19.1" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#the-journey-of-each-dna-fragment-from-organism-to-sequencing-read"><i class="fa fa-check"></i><b>19.1</b> The Journey of each DNA Fragment from Organism to Sequencing Read</a></li>
 <li class="chapter" data-level="19.2" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#read-groups"><i class="fa fa-check"></i><b>19.2</b> Read Groups</a></li>
-<li class="chapter" data-level="19.3" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#quick-notes-to-self-on-chaining-things"><i class="fa fa-check"></i><b>19.3</b> Quick notes to self on chaining things:</a></li>
-<li class="chapter" data-level="19.4" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#merging-bam-files"><i class="fa fa-check"></i><b>19.4</b> Merging BAM files</a></li>
-<li class="chapter" data-level="19.5" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#divide-and-conquer-strategies"><i class="fa fa-check"></i><b>19.5</b> Divide and Conquer Strategies</a></li>
+<li class="chapter" data-level="19.3" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#preprocess"><i class="fa fa-check"></i><b>19.3</b> Preprocess ?</a></li>
+<li class="chapter" data-level="19.4" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#quick-notes-to-self-on-chaining-things"><i class="fa fa-check"></i><b>19.4</b> Quick notes to self on chaining things:</a></li>
+<li class="chapter" data-level="19.5" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#merging-bam-files"><i class="fa fa-check"></i><b>19.5</b> Merging BAM files</a></li>
+<li class="chapter" data-level="19.6" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#divide-and-conquer-strategies"><i class="fa fa-check"></i><b>19.6</b> Divide and Conquer Strategies</a></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="variant-calling-with-gatk.html"><a href="variant-calling-with-gatk.html"><i class="fa fa-check"></i><b>20</b> Variant calling with GATK</a></li>
 <li class="chapter" data-level="21" data-path="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><i class="fa fa-check"></i><b>21</b> Bioinformatics for RAD seq data with and without a reference genome</a></li>
@@ -1420,7 +1421,7 @@ in the original sequence. Accordingly, the order of the base quality scores that
 appear in the <strong>QUAL</strong> column will be in reverse order is the mapping was to the
 reverse strand.</p>
 </div>
-<div id="sam-file-headers" class="section level3">
+<div id="sam-headers" class="section level3">
 <h3><span class="header-section-number">17.4.6</span> SAM File Headers</h3>
 <p>To this point, we have talked almost exclusively about the rows in a SAM file
 which record the alignments of different reads. However, if you look at a SAM file
@@ -1496,6 +1497,8 @@ used when recording genotypes of individuals when doing variant calling.</li>
 <li><code>PU</code> denotes the “Platform Unit,” of sequencing. Typically interpreted to mean the flow-cell and
 the lane upon which the sample was sequenced. We will talk much more about the contents of read-group
 header lines, and how to fill them.</li>
+<li><code>PL</code> denotes the sequencing technology (PL is short for “platform”) used. If the reads are from
+an Illumina sequencer, the value would be <code>ILLUMINA</code>.</li>
 </ul></li>
 <li>For <code>@PG</code>
 <ul>

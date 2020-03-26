@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-03-12}
+\date{2020-03-23}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -11149,6 +11149,18 @@ Bay or CH to write it.
 
 \hypertarget{alignment-of-sequence-data-to-a-reference-genome-and-associated-steps}{%
 \chapter{Alignment of sequence data to a reference genome (and associated steps)}\label{alignment-of-sequence-data-to-a-reference-genome-and-associated-steps}}
+
+Upon receiving next generation sequencing data (and when already in possession
+of a decent reference genome to which you can align those sequences), there are
+effectively three main phases of bioinformatic analysis. The first phase (\emph{Alignment}) involves
+\emph{aligning} or \emph{mapping} the reads to the reference genome. The second phase (\emph{Variant Calling})
+uses those mapped reads to identify genetic variation---and the genotypes of individuals---at
+different locations in the genome. In the final phase (\emph{Analysis}) you bring the outputs of
+the first two phases to bear upon the questions you want to answer about the organism
+or system you are studying. The final phase is often the most interesting, and the one that
+requires the most understanding of population genetics in order to be conducted well
+and correctly. However, the first two phases are essential steps that must be undertaken
+to get to the ``fun part.''
 
 A light treatment of how bwa works. I think I will focus solely on bwa, unless
 someone can convince me that there are cases where something like bowtie works better.

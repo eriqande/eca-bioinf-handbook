@@ -988,7 +988,7 @@ appear in the **QUAL** column will be in reverse order is the mapping was to the
 reverse strand.   
 
 
-### SAM File Headers
+### SAM File Headers {#sam-headers}
 
 To this point, we have talked almost exclusively about the rows in a SAM file
 which record the alignments of different reads.  However, if you look at a SAM file
@@ -1066,6 +1066,9 @@ The most important keys for the different kinds of header lines are as follows:
     - `PU` denotes the "Platform Unit," of sequencing.  Typically interpreted to mean the flow-cell and
     the lane upon which the sample was sequenced.  We will talk much more about the contents of read-group
     header lines, and how to fill them.
+    - `PL` denotes the sequencing technology (PL is short for "platform") used.  If the reads are from
+    an Illumina sequencer, the value would be `ILLUMINA`.
+    
 * For `@PG`
     - `ID` is required and provides information about the program that produced the SAM output.
     - `VN` as we saw before, this key lets you record the version of the program used to produce the

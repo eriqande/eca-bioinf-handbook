@@ -1,4 +1,208 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
 # Alignment of sequence data to a reference genome (and associated steps)
+
+Upon receiving next generation sequencing data (and when already in possession
+of a decent reference genome to which you can align those sequences), there are
+effectively three main phases of bioinformatic analysis. The first phase (_Alignment_) involves
+_aligning_ or _mapping_ the reads to the reference genome. This tells you which precise
+location in the
+genome each base pair in each sequencing read comes from. The second phase (_Variant Calling_)
+uses those mapped reads to identify genetic variation---and the genotypes of individuals---at
+different locations in the genome. In the final phase (_Analysis_) you bring the outputs of
+the first two phases to bear upon the questions you want to answer about the organism
+or system you are studying.  The final phase is often the most interesting, and the one that
+requires the most understanding of population genetics in order to be conducted well
+and correctly. However, the first two phases are essential steps that must be undertaken
+to get to the "fun part."
+
+This chapter describes the tools used, and the steps taken, to produce aligned reads from raw 
+sequencing data.  The computer commands used to simply map
+reads to a reference are quite straightforward;
+however, right at the beginning of this phase of analysis, it is prudent to attach to each
+read some information about the journey that it took to finally arrive in your bioinformatics
+workflow.  Such extra information about each sequencing read is called _read group_ information.
+Read group information is used, for example, to combine all the reads from
+a single individual to call genotypes from that individual.
+Read group information can
+also be used to correct issues that occurred in the library preparation and
+the sequencing steps.  Though a good understanding and a faithful recording of read group 
+information is central to principled bioinformatic analysis, any cursory perusal of
+bioinformatics help sites like [BioStars](https://www.biostars.org/) indicates that
+there is sustained and abiding confusion about the role and meaning of read groups.
+The first section of this chapter attempts to provide some background that we hope
+will alleviate such confusion for you.  
+
+Following that section, we cover the workings of `bwa`, a popular piece of software
+for performing alignments.  Subsequent sections detail the use of `samtools`, for
+manipulating SAM and BAM files, and show ways to use `samtools` to prepare
+BAM files for variant calling.   Finally, we wrap up this chapter with
+a description of the program `bedtools`, and how to use it to investigate the
+depth of reads aligning to different portions of the reference genome.  
+
+## The Journey of each DNA Fragment from Organism to Sequencing Read
+
+In Section \@ref(get-seqs) we discussed one solution for downloading gzipped FASTQ
+files from a sequencing center.  This turns out to be the last step in a very long
+process of acquiring sequencing data from a collection of organisms that you
+are studying. We could say that the DNA of each organism that you are studying
+took an extraordinary journey to get to you.  This journey included, 1) you (or a 
+colleague) sampling tissue or blood from that organism, 2) DNA being extracted from
+that tissue or blood, 3) that DNA getting Illumina adapters (with sample-specific
+barcodes) attached to it and then getting
+PCR amplified some number of times in the _library preparation stage_, 4) the
+products of the library preparations are sequenced, sometimes on multiple flow
+cells and often across multiple lanes, during the _sequencing stage_, 5) the
+sequencer processes the read data into FASTQ files, 6) finally, you download the
+data.
+
+Anyone who has ever been involved in research knows that at every stage
+of the above process there are opportunities for errors or biases to occur
+that could affect the final data (and inferences) produced.  The effects of some
+of the errors and biases that occur during the library prep stage and the
+sequencing stage can be eliminated or lessened.  Doing so requires that
+we keep careful track of the route that each read took during those
+those steps in its journey.  This is the role of read groups, which 
+we discuss below.
+For now, however, we will offer that the main errors/effects that can
+be controlled for by careful accounting of reads into read groups are:
+1) controlling for effects on the reported
+base quality scores of the particular flowcell
+or the particular lane on a flowcell that a read was sequenced on.
+2) The identification of sequencing reads which are PCR duplicates of another
+read in the data set; and   Thus,
+most of the focus on defining read groups is concerned with identifying
+features of a read's journey that can be used to ameliorate those two
+types of errors/biases.
+
+The process of controlling for batch effects of flowcells and lanes on base quality scores
+is called, unsurprisingly, Base Quality Score recalibration.  This might be discussed
+in a later section.  It is a very important process when one is searching for _de novo_
+mutations, or otherwise attempting to very accurately identify variants that occur
+at very low frequency.  Doing base quality score recalibration is considered a "best practice"
+when using GATK (Section XX), but I have my doubts as to whether it will make appreciable differences
+in analyses where the importance of rare variants is downweighted. Nonetheless, whether
+you are going to do base quality score recalibration or not, you should certainly prepare
+your data so that you can do it should you decide to. In order to do it, you must know
+which flowcell and upon which lane each read was sequenced. That information can be found in the
+FASTQ file as part of the name for each sequence, however, methods for doing base quality score
+recalibration do not typically use the names of the reads to access that information.  Rather it
+must be stored in the read group information.
+
+A PCR duplicate is a template sequence that happens to be a copy (made by PCR)
+of another sequence that has also been sequenced.  They are considered "errors"
+in bioinformatics, because many of the models for inferring genotypes from
+next generation sequencing data assume a process of independent sampling of gene
+copies (i.e. the maternal and paternal copies of a choromosome) within a diploid
+individual, and that model and the data are used to estimate how likely an individual
+is a homozygote versus a heterozygote at each position.  For example, if Individual X
+produces one read covering position Y---a position known to be a variable SNP
+with alleles `A` and `G` in the species---and the read carries an `A` at position Y,
+then you would conclude that Individual X likely has genotype `AA` or `AG` at position
+Y, and is less likely to have genotype `GG`, because our observed read with an `A` at that
+position would have only occurred because of a sequencing error in that case.
+If we saw 10 reads from individual X, and they all had the `A` base at position Y, however,
+we could be quite confident that the genotype is `AA` rather than `AG`, because if the indvidual
+had genotype `AG`, then each read should have a 50% chance of carrying an `A`
+and a 50% chance of carrying a `G`, and it is very unlikely, in that case that
+all 10 would carry the `A` allele.  However, imagine how your conclusions would
+change if someone were to tell you that 95% of the reads were PCR duplicates of another one of
+the reads.  In that case, even if the individual has genotype `AG`, there is high probabaility
+that only a single, true template carrying an `A` came from the individual, and the remaining
+9 reads that carry an `A` are just PCR copies of that first original template.  
+
+PCR duplicates are copies of the same template fragments.  Therefore in paired-end data
+if a pair of reads maps to exactly the same location as another pair of reads, it is likely
+that one of them is a PCR duplicate of the other.
+Figure \@ref(fig:pcr-duplicates) provides a simplified schematic (with merely
+single-end data) describing a situation with high and
+low numbers of PCR duplicates. The PCR duplicate fragments are denoted with gray-colored
+flanking sequence.  In the figure, note that the length of the fragments gives
+information about which fragments are duplicated and which are not---if two fragments of the
+same length are identified, then one of them is considered a PCR duplicate.  It is worth
+noting that it isn't (to my knowledge) really known which fragment is the
+duplicate and which is the "original," but one (or more of them) will be identified
+as duplicates, and one of them will be identified as an "original."
+
+```{r pcr-duplicates, echo=FALSE, fig.align='center', dpi=80, fig.cap='An example of PCR duplicates.  Note that in paired end data, duplicates are identified by the lengths of both reads as well as the insert length.  This figure represents a simplified, "toy" situation, showing just single-end data.'}
+knitr::include_graphics("figs/pcr-duplicates.svg", auto_pdf = TRUE)
+```
+
+PCR duplicates occur during the library prep stage, and also are only possible for
+fragments originating from the same individual sample.  In other words, if you found
+two different paired-end reads that mapped to the same location in the genome, but they
+were from different individuals (i.e. had different sample-specific DNA barcodes),
+you would not suspect that they were PCR duplicates.
+Likewise, DNA fragments from two different library preps, even if they came from the
+same individuals (in the case that DNA from that individual had been prepared
+in two separate libraries) would not be considered to be PCR duplicates.
+(We should pause here to note what is considered a "library prep." Basically,
+if a batch of samples were all processed together in the same day with reagents
+from the same kit, that is considered a single "library prep.")
+Accordingly, when keeping track of read groups _for the purposes of identifying PCR duplicates_,
+the most important information is which individuals the DNA came from
+and which library preparation it was prepared in.
+
+What we can conclude from this section is that, for downstream analyses,
+we need a way to quickly (and efficiently, in terms of data storage space)
+identify, for each read the:
+
+- Sample it originated from
+- The library in which it was prepared for sequencing.
+- The flowcell that it was sequenced on.
+- The lane on that flowcell that it was sequenced on
+
+This information can be strored in the alignment file using
+read group information as described below.
+
+## Read Groups
+
+We touched briefly on read groups in Section \@ref(sam-headers), where we
+noted that the SAM file header can contain lines like this one:
+```
+@RG	ID:HTYYCBBXX.1.CH_plate1_A01	SM:CH_plate1_A01	LB:Lib-1	PU:HTYYCBBXX.1.TCAATCCG+TTCGCAGT	PL:ILLUMINA
+```
+The purpose of this line is to identify a read group that is named via the `ID` tag.  In the above
+case the read group is named `HTYYCBBXX.1.CH_plate1_A01`.  The attributes of this read group are stored
+using the remaining tags.  Happily, those attributes mirror exactly what we might need to know to
+identify PCR duplicates and to perform base quality score recalibration; namely:
+
+- `SM` : give the name of the sample, `CH_plate1_A01`, the read is from,
+- `LB` : gives the name of the library prep, `Lib-1`, the read is from,
+- `PU` : gives the name of the flowcell, `HTYYCBBXX`, and the lane, `1`, the read is from.
+
+It is important to note that this line in the SAM header is just a header line that gives
+information about a particular read group that is found in the file.  It is not, _by itself_
+giving you information about any particular read found in the alignment file.  Read group information
+about a particular read in the alignment file is given on the alignment line in a column (way off near the
+end of the line typically) tagged with `RG:Z`.  That column simply holds the `ID` of the read group
+that the read belongs to.  In this way, all the information that applies to the read--0i.e., the sample it
+came from, (`SM`), the library prep it was in (`LB`), and information about the flowcell and lane (`PU`)---can
+be assigned to the read, _without writing all of that information on every line in the alignment file_.
+Accordingly, it should be obvious why the read group IDs must be unique across all the different
+read groups (`@RG` tags) in a SAM/BAM file: the ID is used to identify all the other information
+that goes along with that read, and is used to differentiate those different read groups!
+
+
+
+Gotta talk about this and make it relevant to conservation.  i.e. maybe one individual was sampled with blood and also with tissue and each of those were included in four different library preps, etc.  Give an example that makes it
+clear how it works.
+
+
+identifiers (See section ) are `SM`, which denotes which sample
+the DNA is from, and `LB` which denotes which library prep the DNA was prepared in.
+
+
+The information that you should supply for each read varies, depending on
+what types of downstream analysis tools that you will be using.  We will describe the
+conventions adopted for attaching this extra information that are useful for
+passing the aligned data to the Genome Analysis Toolkit (GATK), an extensive 
+and well-supported piece
+of software developed by the Broad Institute.  GATK has modules that allow the user
+to make extensive use of infomation
 
 A light treatment of how bwa works.  I think I will focus solely on bwa, unless
 someone can convince me that there are cases where something like bowtie works better.
@@ -9,10 +213,7 @@ comes demultiplexed, so maybe we can hold off on this until we get to
 RAD data). No, we need to talk about trimming and maybe slicing.  Perhaps 
 put that in a separate chapter of "preliminaries"
 
-## Read Groups
 
-Gotta talk about this and make it relevant to conservation.  i.e. maybe one individual was sampled with blood and also with tissue and each of those were included in four different library preps, etc.  Give an example that makes it
-clear how it works.
 
 ## Quick notes to self on chaining things:
 

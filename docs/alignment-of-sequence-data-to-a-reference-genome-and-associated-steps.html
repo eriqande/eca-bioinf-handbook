@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-03-12" />
+<meta name="date" content="2020-03-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -228,7 +228,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.2.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#git"><i class="fa fa-check"></i><b>7.2.2</b> git</a></li>
 <li class="chapter" data-level="7.2.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#globus"><i class="fa fa-check"></i><b>7.2.3</b> Globus</a></li>
 <li class="chapter" data-level="7.2.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#interfacing-with-the-cloud"><i class="fa fa-check"></i><b>7.2.4</b> Interfacing with “The Cloud”</a></li>
-<li class="chapter" data-level="7.2.5" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#getting-files-from-a-sequencing-center"><i class="fa fa-check"></i><b>7.2.5</b> Getting files from a sequencing center</a></li>
+<li class="chapter" data-level="7.2.5" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#get-seqs"><i class="fa fa-check"></i><b>7.2.5</b> Getting files from a sequencing center</a></li>
 </ul></li>
 <li class="chapter" data-level="7.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#tmux"><i class="fa fa-check"></i><b>7.3</b> <code>tmux</code>: the terminal multiplexer</a><ul>
 <li class="chapter" data-level="7.3.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#an-analogy-for-how-tmux-works"><i class="fa fa-check"></i><b>7.3.1</b> An analogy for how <code>tmux</code> works</a></li>
@@ -318,7 +318,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="17.4.3" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#sam-flags"><i class="fa fa-check"></i><b>17.4.3</b> SAM Flags</a></li>
 <li class="chapter" data-level="17.4.4" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#the-cigar-string"><i class="fa fa-check"></i><b>17.4.4</b> The CIGAR string</a></li>
 <li class="chapter" data-level="17.4.5" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#the-seq-and-qual-columns"><i class="fa fa-check"></i><b>17.4.5</b> The SEQ and QUAL columns</a></li>
-<li class="chapter" data-level="17.4.6" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#sam-file-headers"><i class="fa fa-check"></i><b>17.4.6</b> SAM File Headers</a></li>
+<li class="chapter" data-level="17.4.6" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#sam-headers"><i class="fa fa-check"></i><b>17.4.6</b> SAM File Headers</a></li>
 <li class="chapter" data-level="17.4.7" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#the-bam-format"><i class="fa fa-check"></i><b>17.4.7</b> The BAM format</a></li>
 <li class="chapter" data-level="17.4.8" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#quick-self-study"><i class="fa fa-check"></i><b>17.4.8</b> Quick self study</a></li>
 </ul></li>
@@ -331,11 +331,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="18" data-path="genome-assembly.html"><a href="genome-assembly.html"><i class="fa fa-check"></i><b>18</b> Genome Assembly</a></li>
 <li class="chapter" data-level="19" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><i class="fa fa-check"></i><b>19</b> Alignment of sequence data to a reference genome (and associated steps)</a><ul>
-<li class="chapter" data-level="19.1" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#preprocess"><i class="fa fa-check"></i><b>19.1</b> Preprocess ?</a></li>
+<li class="chapter" data-level="19.1" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#the-journey-of-each-dna-fragment-from-organism-to-sequencing-read"><i class="fa fa-check"></i><b>19.1</b> The Journey of each DNA Fragment from Organism to Sequencing Read</a></li>
 <li class="chapter" data-level="19.2" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#read-groups"><i class="fa fa-check"></i><b>19.2</b> Read Groups</a></li>
-<li class="chapter" data-level="19.3" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#quick-notes-to-self-on-chaining-things"><i class="fa fa-check"></i><b>19.3</b> Quick notes to self on chaining things:</a></li>
-<li class="chapter" data-level="19.4" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#merging-bam-files"><i class="fa fa-check"></i><b>19.4</b> Merging BAM files</a></li>
-<li class="chapter" data-level="19.5" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#divide-and-conquer-strategies"><i class="fa fa-check"></i><b>19.5</b> Divide and Conquer Strategies</a></li>
+<li class="chapter" data-level="19.3" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#preprocess"><i class="fa fa-check"></i><b>19.3</b> Preprocess ?</a></li>
+<li class="chapter" data-level="19.4" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#quick-notes-to-self-on-chaining-things"><i class="fa fa-check"></i><b>19.4</b> Quick notes to self on chaining things:</a></li>
+<li class="chapter" data-level="19.5" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#merging-bam-files"><i class="fa fa-check"></i><b>19.5</b> Merging BAM files</a></li>
+<li class="chapter" data-level="19.6" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#divide-and-conquer-strategies"><i class="fa fa-check"></i><b>19.6</b> Divide and Conquer Strategies</a></li>
 </ul></li>
 <li class="chapter" data-level="20" data-path="variant-calling-with-gatk.html"><a href="variant-calling-with-gatk.html"><i class="fa fa-check"></i><b>20</b> Variant calling with GATK</a></li>
 <li class="chapter" data-level="21" data-path="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><i class="fa fa-check"></i><b>21</b> Bioinformatics for RAD seq data with and without a reference genome</a></li>
@@ -386,37 +387,215 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps" class="section level1">
 <h1><span class="header-section-number">Chapter 19</span> Alignment of sequence data to a reference genome (and associated steps)</h1>
+<p>Upon receiving next generation sequencing data (and when already in possession
+of a decent reference genome to which you can align those sequences), there are
+effectively three main phases of bioinformatic analysis. The first phase (<em>Alignment</em>) involves
+<em>aligning</em> or <em>mapping</em> the reads to the reference genome. This tells you which precise
+location in the
+genome each base pair in each sequencing read comes from. The second phase (<em>Variant Calling</em>)
+uses those mapped reads to identify genetic variation—and the genotypes of individuals—at
+different locations in the genome. In the final phase (<em>Analysis</em>) you bring the outputs of
+the first two phases to bear upon the questions you want to answer about the organism
+or system you are studying. The final phase is often the most interesting, and the one that
+requires the most understanding of population genetics in order to be conducted well
+and correctly. However, the first two phases are essential steps that must be undertaken
+to get to the “fun part.”</p>
+<p>This chapter describes the tools used, and the steps taken, to produce aligned reads from raw
+sequencing data. The computer commands used to simply map
+reads to a reference are quite straightforward;
+however, right at the beginning of this phase of analysis, it is prudent to attach to each
+read some information about the journey that it took to finally arrive in your bioinformatics
+workflow. Such extra information about each sequencing read is called <em>read group</em> information.
+Read group information is used, for example, to combine all the reads from
+a single individual to call genotypes from that individual.
+Read group information can
+also be used to correct issues that occurred in the library preparation and
+the sequencing steps. Though a good understanding and a faithful recording of read group
+information is central to principled bioinformatic analysis, any cursory perusal of
+bioinformatics help sites like <a href="https://www.biostars.org/">BioStars</a> indicates that
+there is sustained and abiding confusion about the role and meaning of read groups.
+The first section of this chapter attempts to provide some background that we hope
+will alleviate such confusion for you.</p>
+<p>Following that section, we cover the workings of <code>bwa</code>, a popular piece of software
+for performing alignments. Subsequent sections detail the use of <code>samtools</code>, for
+manipulating SAM and BAM files, and show ways to use <code>samtools</code> to prepare
+BAM files for variant calling. Finally, we wrap up this chapter with
+a description of the program <code>bedtools</code>, and how to use it to investigate the
+depth of reads aligning to different portions of the reference genome.</p>
+<div id="the-journey-of-each-dna-fragment-from-organism-to-sequencing-read" class="section level2">
+<h2><span class="header-section-number">19.1</span> The Journey of each DNA Fragment from Organism to Sequencing Read</h2>
+<p>In Section <a href="working-on-remote-servers.html#get-seqs">7.2.5</a> we discussed one solution for downloading gzipped FASTQ
+files from a sequencing center. This turns out to be the last step in a very long
+process of acquiring sequencing data from a collection of organisms that you
+are studying. We could say that the DNA of each organism that you are studying
+took an extraordinary journey to get to you. This journey included, 1) you (or a
+colleague) sampling tissue or blood from that organism, 2) DNA being extracted from
+that tissue or blood, 3) that DNA getting Illumina adapters (with sample-specific
+barcodes) attached to it and then getting
+PCR amplified some number of times in the <em>library preparation stage</em>, 4) the
+products of the library preparations are sequenced, sometimes on multiple flow
+cells and often across multiple lanes, during the <em>sequencing stage</em>, 5) the
+sequencer processes the read data into FASTQ files, 6) finally, you download the
+data.</p>
+<p>Anyone who has ever been involved in research knows that at every stage
+of the above process there are opportunities for errors or biases to occur
+that could affect the final data (and inferences) produced. The effects of some
+of the errors and biases that occur during the library prep stage and the
+sequencing stage can be eliminated or lessened. Doing so requires that
+we keep careful track of the route that each read took during those
+those steps in its journey. This is the role of read groups, which
+we discuss below.
+For now, however, we will offer that the main errors/effects that can
+be controlled for by careful accounting of reads into read groups are:
+1) controlling for effects on the reported
+base quality scores of the particular flowcell
+or the particular lane on a flowcell that a read was sequenced on.
+2) The identification of sequencing reads which are PCR duplicates of another
+read in the data set; and Thus,
+most of the focus on defining read groups is concerned with identifying
+features of a read’s journey that can be used to ameliorate those two
+types of errors/biases.</p>
+<p>The process of controlling for batch effects of flowcells and lanes on base quality scores
+is called, unsurprisingly, Base Quality Score recalibration. This might be discussed
+in a later section. It is a very important process when one is searching for <em>de novo</em>
+mutations, or otherwise attempting to very accurately identify variants that occur
+at very low frequency. Doing base quality score recalibration is considered a “best practice”
+when using GATK (Section XX), but I have my doubts as to whether it will make appreciable differences
+in analyses where the importance of rare variants is downweighted. Nonetheless, whether
+you are going to do base quality score recalibration or not, you should certainly prepare
+your data so that you can do it should you decide to. In order to do it, you must know
+which flowcell and upon which lane each read was sequenced. That information can be found in the
+FASTQ file as part of the name for each sequence, however, methods for doing base quality score
+recalibration do not typically use the names of the reads to access that information. Rather it
+must be stored in the read group information.</p>
+<p>A PCR duplicate is a template sequence that happens to be a copy (made by PCR)
+of another sequence that has also been sequenced. They are considered “errors”
+in bioinformatics, because many of the models for inferring genotypes from
+next generation sequencing data assume a process of independent sampling of gene
+copies (i.e. the maternal and paternal copies of a choromosome) within a diploid
+individual, and that model and the data are used to estimate how likely an individual
+is a homozygote versus a heterozygote at each position. For example, if Individual X
+produces one read covering position Y—a position known to be a variable SNP
+with alleles <code>A</code> and <code>G</code> in the species—and the read carries an <code>A</code> at position Y,
+then you would conclude that Individual X likely has genotype <code>AA</code> or <code>AG</code> at position
+Y, and is less likely to have genotype <code>GG</code>, because our observed read with an <code>A</code> at that
+position would have only occurred because of a sequencing error in that case.
+If we saw 10 reads from individual X, and they all had the <code>A</code> base at position Y, however,
+we could be quite confident that the genotype is <code>AA</code> rather than <code>AG</code>, because if the indvidual
+had genotype <code>AG</code>, then each read should have a 50% chance of carrying an <code>A</code>
+and a 50% chance of carrying a <code>G</code>, and it is very unlikely, in that case that
+all 10 would carry the <code>A</code> allele. However, imagine how your conclusions would
+change if someone were to tell you that 95% of the reads were PCR duplicates of another one of
+the reads. In that case, even if the individual has genotype <code>AG</code>, there is high probabaility
+that only a single, true template carrying an <code>A</code> came from the individual, and the remaining
+9 reads that carry an <code>A</code> are just PCR copies of that first original template.</p>
+<p>PCR duplicates are copies of the same template fragments. Therefore in paired-end data
+if a pair of reads maps to exactly the same location as another pair of reads, it is likely
+that one of them is a PCR duplicate of the other.
+Figure <a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#fig:pcr-duplicates">19.1</a> provides a simplified schematic (with merely
+single-end data) describing a situation with high and
+low numbers of PCR duplicates. The PCR duplicate fragments are denoted with gray-colored
+flanking sequence. In the figure, note that the length of the fragments gives
+information about which fragments are duplicated and which are not—if two fragments of the
+same length are identified, then one of them is considered a PCR duplicate. It is worth
+noting that it isn’t (to my knowledge) really known which fragment is the
+duplicate and which is the “original,” but one (or more of them) will be identified
+as duplicates, and one of them will be identified as an “original.”</p>
+<div class="figure" style="text-align: center"><span id="fig:pcr-duplicates"></span>
+<img src="figs/pcr-duplicates.svg" alt="An example of PCR duplicates.  Note that in paired end data, duplicates are identified by the lengths of both reads as well as the insert length.  This figure represents a simplified, &quot;toy&quot; situation, showing just single-end data."  />
+<p class="caption">
+FIGURE 19.1: An example of PCR duplicates. Note that in paired end data, duplicates are identified by the lengths of both reads as well as the insert length. This figure represents a simplified, “toy” situation, showing just single-end data.
+</p>
+</div>
+<p>PCR duplicates occur during the library prep stage, and also are only possible for
+fragments originating from the same individual sample. In other words, if you found
+two different paired-end reads that mapped to the same location in the genome, but they
+were from different individuals (i.e. had different sample-specific DNA barcodes),
+you would not suspect that they were PCR duplicates.
+Likewise, DNA fragments from two different library preps, even if they came from the
+same individuals (in the case that DNA from that individual had been prepared
+in two separate libraries) would not be considered to be PCR duplicates.
+(We should pause here to note what is considered a “library prep.” Basically,
+if a batch of samples were all processed together in the same day with reagents
+from the same kit, that is considered a single “library prep.”)
+Accordingly, when keeping track of read groups <em>for the purposes of identifying PCR duplicates</em>,
+the most important information is which individuals the DNA came from
+and which library preparation it was prepared in.</p>
+<p>What we can conclude from this section is that, for downstream analyses,
+we need a way to quickly (and efficiently, in terms of data storage space)
+identify, for each read the:</p>
+<ul>
+<li>Sample it originated from</li>
+<li>The library in which it was prepared for sequencing.</li>
+<li>The flowcell that it was sequenced on.</li>
+<li>The lane on that flowcell that it was sequenced on</li>
+</ul>
+<p>This information can be strored in the alignment file using
+read group information as described below.</p>
+</div>
+<div id="read-groups" class="section level2">
+<h2><span class="header-section-number">19.2</span> Read Groups</h2>
+<p>We touched briefly on read groups in Section <a href="bioinformatic-file-formats.html#sam-headers">17.4.6</a>, where we
+noted that the SAM file header can contain lines like this one:</p>
+<pre><code>@RG ID:HTYYCBBXX.1.CH_plate1_A01    SM:CH_plate1_A01    LB:Lib-1    PU:HTYYCBBXX.1.TCAATCCG+TTCGCAGT    PL:ILLUMINA</code></pre>
+<p>The purpose of this line is to identify a read group that is named via the <code>ID</code> tag. In the above
+case the read group is named <code>HTYYCBBXX.1.CH_plate1_A01</code>. The attributes of this read group are stored
+using the remaining tags. Happily, those attributes mirror exactly what we might need to know to
+identify PCR duplicates and to perform base quality score recalibration; namely:</p>
+<ul>
+<li><code>SM</code> : give the name of the sample, <code>CH_plate1_A01</code>, the read is from,</li>
+<li><code>LB</code> : gives the name of the library prep, <code>Lib-1</code>, the read is from,</li>
+<li><code>PU</code> : gives the name of the flowcell, <code>HTYYCBBXX</code>, and the lane, <code>1</code>, the read is from.</li>
+</ul>
+<p>It is important to note that this line in the SAM header is just a header line that gives
+information about a particular read group that is found in the file. It is not, <em>by itself</em>
+giving you information about any particular read found in the alignment file. Read group information
+about a particular read in the alignment file is given on the alignment line in a column (way off near the
+end of the line typically) tagged with <code>RG:Z</code>. That column simply holds the <code>ID</code> of the read group
+that the read belongs to. In this way, all the information that applies to the read–0i.e., the sample it
+came from, (<code>SM</code>), the library prep it was in (<code>LB</code>), and information about the flowcell and lane (<code>PU</code>)—can
+be assigned to the read, <em>without writing all of that information on every line in the alignment file</em>.
+Accordingly, it should be obvious why the read group IDs must be unique across all the different
+read groups (<code>@RG</code> tags) in a SAM/BAM file: the ID is used to identify all the other information
+that goes along with that read, and is used to differentiate those different read groups!</p>
+<p>Gotta talk about this and make it relevant to conservation. i.e. maybe one individual was sampled with blood and also with tissue and each of those were included in four different library preps, etc. Give an example that makes it
+clear how it works.</p>
+<p>identifiers (See section ) are <code>SM</code>, which denotes which sample
+the DNA is from, and <code>LB</code> which denotes which library prep the DNA was prepared in.</p>
+<p>The information that you should supply for each read varies, depending on
+what types of downstream analysis tools that you will be using. We will describe the
+conventions adopted for attaching this extra information that are useful for
+passing the aligned data to the Genome Analysis Toolkit (GATK), an extensive
+and well-supported piece
+of software developed by the Broad Institute. GATK has modules that allow the user
+to make extensive use of infomation</p>
 <p>A light treatment of how bwa works. I think I will focus solely on bwa, unless
 someone can convince me that there are cases where something like bowtie works better.</p>
+</div>
 <div id="preprocess" class="section level2">
-<h2><span class="header-section-number">19.1</span> Preprocess ?</h2>
+<h2><span class="header-section-number">19.3</span> Preprocess ?</h2>
 <p>Will have a bit about sequence pre-processing (with WGS data it already
 comes demultiplexed, so maybe we can hold off on this until we get to
 RAD data). No, we need to talk about trimming and maybe slicing. Perhaps
 put that in a separate chapter of “preliminaries”</p>
 </div>
-<div id="read-groups" class="section level2">
-<h2><span class="header-section-number">19.2</span> Read Groups</h2>
-<p>Gotta talk about this and make it relevant to conservation. i.e. maybe one individual was sampled with blood and also with tissue and each of those were included in four different library preps, etc. Give an example that makes it
-clear how it works.</p>
-</div>
 <div id="quick-notes-to-self-on-chaining-things" class="section level2">
-<h2><span class="header-section-number">19.3</span> Quick notes to self on chaining things:</h2>
+<h2><span class="header-section-number">19.4</span> Quick notes to self on chaining things:</h2>
 <p>When using samtools markdup you can do like this:</p>
-<div class="sourceCode" id="cb378"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb378-1" data-line-number="1"><span class="co"># first step</span></a>
-<a class="sourceLine" id="cb378-2" data-line-number="2"><span class="ex">bwa</span> mem chinook-play/chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R1.fq chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R2.fq <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb378-3" data-line-number="3">    <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb378-4" data-line-number="4">    <span class="ex">samtools</span> fixmate -m -O BAM - fixed.bam</a>
-<a class="sourceLine" id="cb378-5" data-line-number="5">    </a>
-<a class="sourceLine" id="cb378-6" data-line-number="6"><span class="co"># unfortunately, fixmate can&#39;t write to stdout.</span></a>
-<a class="sourceLine" id="cb378-7" data-line-number="7"><span class="co"># then, after this, we have to sort it into coordinate order and</span></a>
-<a class="sourceLine" id="cb378-8" data-line-number="8"><span class="co"># markdup them.</span></a>
-<a class="sourceLine" id="cb378-9" data-line-number="9"><span class="ex">samtools</span> sort fixed.bam <span class="kw">|</span> <span class="ex">samtools</span> markdup - marked.bam</a>
-<a class="sourceLine" id="cb378-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb378-11" data-line-number="11"><span class="co"># after that, fixed.bam could get tossed.</span></a></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb379-1" data-line-number="1"><span class="co"># first step</span></a>
+<a class="sourceLine" id="cb379-2" data-line-number="2"><span class="ex">bwa</span> mem chinook-play/chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R1.fq chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R2.fq <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb379-3" data-line-number="3">    <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb379-4" data-line-number="4">    <span class="ex">samtools</span> fixmate -m -O BAM - fixed.bam</a>
+<a class="sourceLine" id="cb379-5" data-line-number="5">    </a>
+<a class="sourceLine" id="cb379-6" data-line-number="6"><span class="co"># unfortunately, fixmate can&#39;t write to stdout.</span></a>
+<a class="sourceLine" id="cb379-7" data-line-number="7"><span class="co"># then, after this, we have to sort it into coordinate order and</span></a>
+<a class="sourceLine" id="cb379-8" data-line-number="8"><span class="co"># markdup them.</span></a>
+<a class="sourceLine" id="cb379-9" data-line-number="9"><span class="ex">samtools</span> sort fixed.bam <span class="kw">|</span> <span class="ex">samtools</span> markdup - marked.bam</a>
+<a class="sourceLine" id="cb379-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb379-11" data-line-number="11"><span class="co"># after that, fixed.bam could get tossed.</span></a></code></pre></div>
 </div>
 <div id="merging-bam-files" class="section level2">
-<h2><span class="header-section-number">19.4</span> Merging BAM files</h2>
+<h2><span class="header-section-number">19.5</span> Merging BAM files</h2>
 <p>There is a lot of discussion on biostars about how samtools does not reconstruct the
 <code>@RG</code> dictionary. But I think that this must be a problem with an older version. The
 newer version works just fine. That said, Picard’s MergeSamFiles seems to be just about
@@ -428,7 +607,7 @@ samtools let’s you not alter duplicate read group IDs, and so you can merge
 those all together faithfully, as I did in the impute project. Cool.</p>
 </div>
 <div id="divide-and-conquer-strategies" class="section level2">
-<h2><span class="header-section-number">19.5</span> Divide and Conquer Strategies</h2>
+<h2><span class="header-section-number">19.6</span> Divide and Conquer Strategies</h2>
 <p>At the end of each of these chapters, I think I will
 have a special section talking about ways that things can be divided
 up so that you can do it quickly, or at least, within time limits
