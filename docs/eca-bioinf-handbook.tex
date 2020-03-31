@@ -209,7 +209,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-03-26}
+\date{2020-03-31}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -8730,6 +8730,598 @@ notebook, but now I think it would be better to just hardwire those, for a few r
   you can still find it with a regex search, and also recognize it as a
   signifying a class of output files.
 \end{itemize}
+
+\hypertarget{using-rstudio-in-workflows-with-remote-computers-and-hpccs}{%
+\section{Using RStudio in workflows with remote computers and HPCCs}\label{using-rstudio-in-workflows-with-remote-computers-and-hpccs}}
+
+To this point in the text/course we have spent a good deal of time
+learning about bash shell scripts and familiarizing ourselves with
+operating on the command line while logged into remote computers, like those
+of the HPCC administered by our university or agency. For the most part,
+we have not been terribly concerned about integrating RStudio into these
+workflows on remote computers; however, if you are familiar with RStudio
+as an IDE for working with R on your local computer, and you have grown
+comfortable with its interface: source code editor windows, file browser pane,
+streamlined GUI for doing git version control, etc., then you are in a good
+position to incorporate RStudio into your workflows on remote computers.
+By leveraging your familiarity with RStudio, and merely learning a few new
+ways of using it, you can use RStudio to great effect for testing bash
+scripts line-by-line in order to make sure that they will run, as expected,
+on your HPCC. It also works well for keeping the scripts and source codes
+of your projects synchronized between your HPCC and your local laptop, providing
+some backup and redundancy to your projects.
+
+To be sure, RStudio was not originally developed to provide a solution for
+shell-script-intensive projects on HPCCs. And, there will be a few hardcore
+Unix holdouts that believe that the best way to ``do Unix'' is to learn a
+purely text-based editing system (like \texttt{vim} or \texttt{emacs}, and stick with that).
+But, if you are already comfortable with the GUI-integrated development environment of
+RStudio, you don't have a lot to lose from trying to incorporate it into your
+remote computer workflows. Surely, the long-term persistence of other GUI
+frameworks for working with remote computers (like X-windows) argues that there
+is some value in letting people work in the sort of GUI environments they might
+be used to.
+
+It should be noted that RStudio does produce a truly wondrous product
+called RStudio Server that allows a remote computer to run an RStudio
+session and to serve it up to a client (that would be like you or me on a laptop)
+via a web browser. This provides a nearly seamless RStudio experience: your
+web browser window literally becomes RStudio itself and it hardly feels like
+you are working on a remote machine. Such an approach, however, is not
+great in most HPCC environments for a number of reasons:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Setting up the RStudio Server requires administrator access to the remote
+  machine, which you almost certainly do not have on your HPCC.
+\item
+  Most system administrators are not keen to set up an RStudio Server on the
+  HPCC systems they administer.
+\item
+  RStudio Server would not be the best platform for doing Unix-based
+  bioinformatic workflows. You still need to use your computer's job scheduler.
+\item
+  If many people are going to be using the RStudio Server, the paid, licensed
+  version is required, that costs some \$'s.
+\end{enumerate}
+
+So, what I will describe here can be thought of as a sort of ``poor-man's''
+RStudio Server---a way to use RStudio to do source code editing of shell and R
+scripts on your laptop, but send those
+lines of code, one-by-one, to the server to test them and make sure that they work. Then,
+once you are convinced that you have all the kinks worked out of that code, you
+can easily send your edits as script files to your HPCC server to do ``production
+runs'' of your bioinformatic workflows or analysis projects. In this chapter we will
+cover three useful aspects of this type of workflow:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Using GitHub to transfer changes to an RStudio project from your laptop to
+  your server (and vice versa).
+\item
+  Running shell code line by line by ``sending it'' for evaluation to the RStudio
+  terminal window.
+\item
+  Running R code on a remote R session by sending it via the terminal window.
+\end{enumerate}
+
+\hypertarget{keeping-an-rstudio-project-in-sync-with-github}{%
+\subsection{Keeping an RStudio project ``in sync'' with GitHub}\label{keeping-an-rstudio-project-in-sync-with-github}}
+
+The ways of using RStudio to interact with an HPCC here all involve maintaining
+two ``copies'' of an RStudio Project: one copy on your laptop (the local copy) and
+one copy on the remote server (the remote copy). The remote copy of the project
+is not one that you ever ``open RStudio'' on, but it maintains the directory
+structure of your local RStudio project (it is kind of like a mirror of your
+local RStudio project).
+
+Typically, you will write code
+(shell scripts and things) on your local copy of the project, using RStudio's
+intuitive GUI source code editory window. Then you can test that code by
+sending lines of code from the source code editor window on the local RStudio project
+to a command line interpreter on the remote machine. When you are done editing code
+on the local machine, and testing it on the remote machine, then, you are ready
+to copy those scripts (and any edits you made on them while testing the code) to your
+remote machine in order to really run them (using SLURM \texttt{sbatch}, for example).
+You can use git and GitHub to make it easy to transfer files and changes from your local
+RStudio project to your remote project.
+
+A few principles that make things simpler when working on a project that exists
+on both a remote server and on your laptop:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Don't keep large data files under git version control. You should only
+  version-control (and synchronize, using git, between your laptop and the server)
+  your source-code files. git and GitHub are not there for you to backup your huge
+  FASTQ files or large output files like BAMs and VCFs. You should always
+  use your \texttt{.gitignore} file to avoid accidentally committing large files to git.
+\item
+  Any time when you have two separate git repositories that you are pushing and
+  pulling to GitHub, you want to avoid situations in which you have changed the same
+  file in both of them. Doing so leads to \emph{merge conflicts}. It is best to exclusively
+  edit files on your laptop for some time. Then commit them, push them to GitHub,
+  pull them down to the repository on your remote server and use them. If you end up
+  editing any files in the repository on the remote server, you will want to commit those
+  and push them to GitHub and pull them down to your laptop, before editing more from
+  your laptop.
+\end{enumerate}
+
+\hypertarget{an-exercise-with-chr-32-bioinformatics}{%
+\subsubsection{An exercise with chr-32-bioinformatics}\label{an-exercise-with-chr-32-bioinformatics}}
+
+If you followed the instructions from last week, you should have \texttt{git\ clone}d your
+repository so that you have a directory on your HPCC that is named
+\texttt{chr-32-bioinformatics-githubname} (where githubname is your GitHub handle), and if you
+list the contents, it should look like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{(}\ExtensionTok{base}\KeywordTok{)}\NormalTok{ [}\ExtensionTok{chr-32-bioinformatics-eriqande}\NormalTok{]--% ls}
+\ExtensionTok{chinook-all-prefixes-for-samples.tsv}\NormalTok{  fastqs                 obtain-and-prep-data.sh}
+\ExtensionTok{chinook-fastq-meta-data.tsv}\NormalTok{           genome                 README-01.txt}
+\ExtensionTok{chr-32-bioinformatics.Rproj}\NormalTok{           map-N-files-from-K.sh  run-single-job.sh}
+\end{Highlighting}
+\end{Shaded}
+
+The directories \texttt{fastqs} and \texttt{genome} should hold the FASTQ files and the
+bwa-indexed genome that you downloaded using \texttt{rclone}.
+
+\hypertarget{push-any-changed-scripts-to-github}{%
+\paragraph{Push any changed scripts to GitHub}\label{push-any-changed-scripts-to-github}}
+
+In the process of downloading those files, you might have made changes to
+\texttt{obtain-and-prep-data.sh}. You can see if you changed anything in the repository
+by doing
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ status}
+\end{Highlighting}
+\end{Shaded}
+
+If it shows files that have been modified. You can commit them.\\
+\emph{Be sure not to commit large files, like the data files and the indexed genome!!}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ add file-name1 file-name2  # replace file-name with whatever scripts you have modified}
+\FunctionTok{git}\NormalTok{ commit}
+
+\CommentTok{# then you write a commit message and save that file}
+\end{Highlighting}
+\end{Shaded}
+
+Once you commit that, you can check with \texttt{git\ status} to make sure the repository
+is \emph{clean}.
+
+Then, push those changes back to GitHub:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ push origin master}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{make-sure-you-have-a-local-copy-of-your-repository}{%
+\paragraph{Make sure you have a local copy of your repository}\label{make-sure-you-have-a-local-copy-of-your-repository}}
+
+Now, if you have not already done it, get a copy of that repository on
+your local machine. You can do this by using a line like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{git}\NormalTok{ clone https://eriqande@github.com/CSU-con-gen-bioinformatics-2020/chr-32-bioinformatics-eriqande}
+\end{Highlighting}
+\end{Shaded}
+
+on your laptop terminal (replacing \texttt{eriqande}---in two places above!---with your correct GitHub username). Or by using the RStudio's ``New Project-\textgreater{}From Version Control'' option
+and opening a git repository with a URL like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{https}\NormalTok{://eriqande@github.com/CSU-con-gen-bioinformatics-2020/chr-32-bioinformatics-eriqande}
+\end{Highlighting}
+\end{Shaded}
+
+again, replacing \texttt{eriqande} with your GitHub name.
+
+That gives you your \emph{local copy} of the repository.
+
+Notice that this local copy does not have the \texttt{fastqs} or \texttt{genome} directory
+inside it. That is OK. We don't want to run code locally anyway.
+
+In the next section we see how to use this local RStudio repository
+to start an RStudio session to send command lines to the remote machine.
+
+\hypertarget{evaluating-scripts-line-by-line-on-a-remote-machine-from-within-rstudio}{%
+\subsection{Evaluating scripts line by line on a remote machine from within RStudio}\label{evaluating-scripts-line-by-line-on-a-remote-machine-from-within-rstudio}}
+
+Continuing within our \emph{local} RStudio project, which you should have opened (so
+that RStudio is running in that project\ldots{})
+
+\hypertarget{open-a-terminal-window-to-send-shell-code-to-your-remote-machine}{%
+\subsubsection{Open a Terminal window to send shell code to your remote machine}\label{open-a-terminal-window-to-send-shell-code-to-your-remote-machine}}
+
+We want a unix shell on the remote machine where our remote repository is.
+
+\begin{itemize}
+\tightlist
+\item
+  Go to the Terminal tab in your local RStudio. That will give you a Unix shell
+  on your laptop. Use that shell to use \texttt{ssh} to login to your remote computer.
+  For example:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{ssh}\NormalTok{ username@remote.server.edu}
+\end{Highlighting}
+\end{Shaded}
+
+Huge note! RStudio doesn't use the same \texttt{ssh} program that ships with git bash on
+Windows. So, if you are using a windows machine, if using ssh in the RStudio terminal
+window gives you errors, you must explicitly use the version of ssh that ships with git
+bash. Try giving the full path to ssh like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{/usr/bin/ssh}\NormalTok{ username@remote.server.edu}
+\end{Highlighting}
+\end{Shaded}
+
+For details about that, see \url{https://github.com/rstudio/rstudio/issues/4623} I hope this fixes issues with Windows. I no longer have a windows machine
+to test things on.
+
+Once you have logged on to your remote machine, navigate (using \texttt{cd}) to the
+directory that holds your remote RStudio project. For example, on my system that
+is:
+
+\begin{verbatim}
+/home/eriq@colostate.edu/scratch/COURSE_STUFF/chr-32-bioinformatics-eriqande
+\end{verbatim}
+
+\hypertarget{optional-start-a-tmux-session}{%
+\subsubsection{Optional: start a tmux session}\label{optional-start-a-tmux-session}}
+
+The RStudio terminal is god-awful slow if a lot of text is streaming
+through it. I thought that this might be ameliorated by starting a tmux session,
+but it is not. Nonetheless, as we have seen previously, it can be good
+to work within a tmux session for many reasons, not the least of which is that
+it is easy to get back to it. (Also, if RStudio bombs while you are working in the
+terminal, it will kill your shell session, so it is nice to be able to get back to
+that same session using tmux.)
+So, if you are comfortable with tmux, create a new tmux session with something like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{tmux}\NormalTok{ new -s chr-32}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{not-optional-get-an-interactive-shell-on-a-compute-node}{%
+\subsubsection{Not optional: Get an interactive shell on a compute node}\label{not-optional-get-an-interactive-shell-on-a-compute-node}}
+
+We don't want to be doing computing on the login node. Also, we want to
+test all the code on a compute node\ldots{}
+
+On summit:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{sinteractive}
+\end{Highlighting}
+\end{Shaded}
+
+Note, you might have to do this a couple of times. Their sinteractive script
+seems a little buggy. In fact, early this morning it was completely failing,
+but I was able to get an interactive session using what I use on Sedna:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{srun}\NormalTok{ --pty /bin/bash}
+\end{Highlighting}
+\end{Shaded}
+
+On Hummingbird: y'all that work on Hummingbird have said the system has some vagaries\ldots{}
+
+\hypertarget{open-map-n-files-from-k.sh-on-your-local-rstudio}{%
+\subsubsection{\texorpdfstring{Open \texttt{map-N-files-from-K.sh} on your local RStudio}{Open map-N-files-from-K.sh on your local RStudio}}\label{open-map-n-files-from-k.sh-on-your-local-rstudio}}
+
+Do this from the file browser in your local RStudio. It will open up a source code editor window.
+
+\hypertarget{evaluate-lines-of-code-in-map-n-files-from-k.sh-on-the-remote-server}{%
+\subsubsection{\texorpdfstring{Evaluate lines of code in \texttt{map-N-files-from-K.sh} on the remote server}{Evaluate lines of code in map-N-files-from-K.sh on the remote server}}\label{evaluate-lines-of-code-in-map-n-files-from-k.sh-on-the-remote-server}}
+
+First, lets evaluate lines 36 and 37 in \texttt{map-N-files-from-K.sh}. Do this
+by putting your cursor anywhere on line 36 (which says \texttt{source\ \textasciitilde{}/.bashrc})
+and hit Option-CMD-Return (on a Mac) or Alt-cntrl-Return (on Windows)
+
+That keystroke sends the whole command line where the cursor is to the
+active Terminal window. \emph{And} and places the cursor at the next line.
+
+So you can evaluate that too\ldots{}Option-Cmd-Return (Alt-cntrl-Return) and
+Boom! You have evaluated the line \texttt{conda\ activate\ bioinf}.
+
+This is much like CMD-Return (or cntrl-Return on Windows) to evaluate code in an
+R script in the RStudio R console.
+
+(Note, if you are editing a file with \texttt{.sh} extension, then, even CMD-Return
+will send code to the Terminal, not to the R console. But, it is good idea to get
+into the habit of using CMD-Option-Return (Alt-cntrl-Return) when you want to
+send code to a remote terminal.)
+
+That last line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{conda}\NormalTok{ activate bioinf}
+\end{Highlighting}
+\end{Shaded}
+
+was important because we will be using bwa and samtools.
+You should have these
+in your conda bioinf environment.
+
+Once that is done we are ready to start testing lines of code
+from the scripts in our RStudio project, \emph{on the remote server}.
+
+At any rate, you should feel the power in your hands at this point.
+This framework lets you step through code line by line and evaluate
+each line to make sure it works, or, if you are reviewing someone else's
+scripts, or trying to understand what they do, you can work through them
+this way.
+
+At this point, we are ready to start chugging through these command lines.
+
+\hypertarget{a-word-on-variables-etc.}{%
+\subsubsection{A word on variables, etc.}\label{a-word-on-variables-etc.}}
+
+If you are going to be running through shell code line by line, you
+must be congnizant of the shell variables that are defined in the code.
+
+You typically can't just start from the middle of the script and begin
+evaluating code. You have to start from the top of the script to make sure
+that, by the time you get further down into the script, any variables that
+may have been defined in the intervening lines and get \emph{used} in the script are,
+indeed, properly defined.
+
+So, always start from the top.
+
+In our case, after the usage block (which we don't hassle with since we
+are not running the script as a standalone script, but rather line by line
+from \emph{inside} it!) two variables are defined immediately:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Now, get the first file index and the last file index}
+\VariableTok{START=$2}
+\VariableTok{STOP=$(($START}\NormalTok{ + }\VariableTok{$1}\NormalTok{ - 1}\VariableTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+These basically tell us the indexes of the files that will be processed in the
+\texttt{for} loop coming up. i.e., if START=1 and STOP=8, that means that, in the loop
+below this point in the script, files 1 through 8 will be processed.
+
+We can set these now if we want. Let's set
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{START=}\NormalTok{1}
+\VariableTok{STOP=}\NormalTok{8}
+\end{Highlighting}
+\end{Shaded}
+
+You can do that by just typing those on the command line.
+
+Once that is done, we can evaluate (Option-CMD-Return) the following line
+that starts:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{SM_TAGS=}\NormalTok{...}
+\end{Highlighting}
+\end{Shaded}
+
+Then, see what the result is, with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \VariableTok{$SM_TAGS}
+\end{Highlighting}
+\end{Shaded}
+
+Those are the fundamentals of evaluating code line by line: evaluate the line. If
+it assigned a variable, print the value of the variable (\texttt{echo}) to see what its value
+is set to. Repeat\ldots{}
+
+\hypertarget{testing-things-in-for-loops}{%
+\subsubsection{\texorpdfstring{Testing things in \texttt{for} loops}{Testing things in for loops}}\label{testing-things-in-for-loops}}
+
+To test command lines, between the \texttt{do} and the \texttt{done} of a bash \texttt{for} loop, we need
+to evaluate those lines. Recall that the body of the for loop will likely be evaluated
+many times (that code gets looped over\ldots{}) but we will want to test it just once, at
+least. To prepare for this, we must set the variables that the \texttt{for} loop is cycling over.
+
+When we see:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for((}\NormalTok{Idx=}\VariableTok{$START}\NormalTok{; Idx<=}\VariableTok{$STOP}\NormalTok{; Idx++}\KeywordTok{))}\NormalTok{; }\KeywordTok{do}
+\end{Highlighting}
+\end{Shaded}
+
+It means that the \texttt{for} loop is cycling over different values assigned to the
+\texttt{Idx} variable. That is, the first time through, \texttt{Idx} is set to the value of
+START (which is 1, in our case). The next time through, \texttt{Idx} is set to the
+value of 2, and so forth.
+
+So, we can run through the first loop of this \texttt{for} loop code faithfully, by setting
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{Idx=}\NormalTok{1}
+\end{Highlighting}
+\end{Shaded}
+
+Do that, and then do \texttt{echo\ \$Idx} to print the value of \texttt{Idx} to make sure you got it set
+correctly. Then evaluate the next line.
+
+\hypertarget{multi-line-commands}{%
+\subsubsection{Multi-line commands}\label{multi-line-commands}}
+
+Soon, we get to a mutli-line command that looks like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{ASSIGNMENTS=$(}\FunctionTok{awk}\NormalTok{ -v LINE=}\VariableTok{$Idx} \StringTok{'}
+\StringTok{    $1 == "index" \{for(i=1; i<=NF; i++) vars[i]=$i; next\}}
+\StringTok{    $1 == LINE \{for(i=1; i<=NF; i++) printf("%s=%s; ", vars[i], $i)\}}
+\StringTok{  '}\NormalTok{ chinook-fastq-meta-data.tsv}\VariableTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+You can evaluate that line-by-line, by starting with your cursor
+anywhere on the line that says \texttt{ASSIGNMENTS} and then hitting
+Option-CMD-Return four times.
+
+\emph{Or} you can highlight all the text in all four of those command lines
+and then hit Option-CMD-Return once. Note that you have to highlight
+\emph{all} of the text you want to evaluate. i.e.~what gets evaluated is exactly---and
+only---the text that is highlighted.
+
+\hypertarget{continue}{%
+\subsubsection{Continue\ldots{}}\label{continue}}
+
+The remaining lines until you get to the \texttt{bwa} command are mostly
+just variable assignments. Evaluate them all and afterward
+check the results by \texttt{echo}ing the values of a few variables.
+
+\hypertarget{the-bwa-command}{%
+\subsubsection{The bwa command}\label{the-bwa-command}}
+
+There is a lot going on in line 92 to 97 (multiple commands strung or piped
+together with \texttt{\&\&} and \texttt{\textbar{}}). Highlight all those lines and then evaluate them
+(Opt-Command-Return).
+
+It takes about 30 seconds to run.
+
+Question: What file do you think is the final output of all of those commands?
+It is stored in a variable; what is the name of that variable? What is its value?
+
+Note that by this point we have gotten to the end of the
+\texttt{for} loop.
+
+\hypertarget{evaluating-the-entire-for-loop-from-start1-to-stop8}{%
+\subsubsection{\texorpdfstring{Evaluating the entire \texttt{for} loop from START=1 to STOP=8}{Evaluating the entire for loop from START=1 to STOP=8}}\label{evaluating-the-entire-for-loop-from-start1-to-stop8}}
+
+Check to make sure that you have START and STOP set correctly:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \VariableTok{$START} \VariableTok{$STOP}
+\end{Highlighting}
+\end{Shaded}
+
+If you get \texttt{1\ 8} as the response, then you are good to go. If not, then
+do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{START=}\NormalTok{1}
+\VariableTok{STOP=}\NormalTok{8}
+\end{Highlighting}
+\end{Shaded}
+
+And re-evaluate the \texttt{SM\_TAGS=} line (line 48) to make sure that variable
+is set.
+
+Now, to evaluate the whole for loop you can highlight everything from
+the \texttt{for...} line to the \texttt{done} line (inclusive) and hit Option-CMD-Return.
+
+This will take about 2 minutes to run through.
+
+\hypertarget{check-the-stderr-output-from-all-the-tools}{%
+\subsubsection{Check the stderr output from all the tools}\label{check-the-stderr-output-from-all-the-tools}}
+
+Look at the value of the variables that hold the paths
+to the stderr files:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \VariableTok{$BWA_STDERR}
+\BuiltInTok{echo} \VariableTok{$SAM_VIEW_STDERR}
+\BuiltInTok{echo} \VariableTok{$SAM_FIX_STDERR}
+\BuiltInTok{echo} \VariableTok{$SAM_SORT_STDERR}
+\end{Highlighting}
+\end{Shaded}
+
+The answers you get are those that were set on the last time time
+the computer ran through the loop. But it shows that they are
+all in the \texttt{stderr} directory.
+
+We can check to see if anything went wrong by looking that the top few lines
+of all of those files that were produced (for all the 8 different times
+through the loop), with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{ stderr/* }\KeywordTok{|} \FunctionTok{less}
+\end{Highlighting}
+\end{Shaded}
+
+That pipes the output through the \texttt{less} pager/viewer. Space bar makes it go
+down a ``page'' \texttt{b} makes it go \emph{back} a ``page'' and \texttt{q} is what you use
+to get out of the \texttt{less} viewer.
+
+You should have seen progress messages from bwa, and then a bunch of empty files\ldots{}
+
+\hypertarget{now-you-are-ready-to-run-the-next-block-of-code}{%
+\subsubsection{Now, you are ready to run the next block of code}\label{now-you-are-ready-to-run-the-next-block-of-code}}
+
+Starting on line 106 you can run through the next bit.
+
+Check the value of SM\_TAGS:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \VariableTok{$SM_TAGS}
+\end{Highlighting}
+\end{Shaded}
+
+It should be a single value: \texttt{CH\_plate1\_A01}.
+
+So we can set \texttt{SM} (the value being cycled over) to that:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{SM=}\NormalTok{CH_plate1_A01}
+\end{Highlighting}
+\end{Shaded}
+
+And then run through the lines of code within that last for loop to
+understand what they are doing.
+
+At the end of it, you should be able to do
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{samtools}\NormalTok{ view }\VariableTok{$MKDUP_OUTPUT} \KeywordTok{|} \FunctionTok{head} 
+\end{Highlighting}
+\end{Shaded}
+
+to see a few lines of SAM file.
+
+If that all worked. Then it means you should be all set
+up to run \texttt{run-single-job.sh} using \texttt{sbatch}. Once you have
+successfully done that you are very nearly done with the homework.
 
 \hypertarget{version-control}{%
 \chapter{Version control}\label{version-control}}

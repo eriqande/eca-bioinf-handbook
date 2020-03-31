@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-03-26" />
+<meta name="date" content="2020-03-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -265,6 +265,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9" data-path="introduction-to-reproducible-research.html"><a href="introduction-to-reproducible-research.html"><i class="fa fa-check"></i><b>9</b> Introduction to Reproducible Research</a></li>
 <li class="chapter" data-level="10" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html"><i class="fa fa-check"></i><b>10</b> Rstudio and Project-centered Organization</a><ul>
 <li class="chapter" data-level="10.1" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#organizing-big-projects"><i class="fa fa-check"></i><b>10.1</b> Organizing big projects</a></li>
+<li class="chapter" data-level="10.2" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#using-rstudio-in-workflows-with-remote-computers-and-hpccs"><i class="fa fa-check"></i><b>10.2</b> Using RStudio in workflows with remote computers and HPCCs</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#keeping-an-rstudio-project-in-sync-with-github"><i class="fa fa-check"></i><b>10.2.1</b> Keeping an RStudio project “in sync” with GitHub</a></li>
+<li class="chapter" data-level="10.2.2" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#evaluating-scripts-line-by-line-on-a-remote-machine-from-within-rstudio"><i class="fa fa-check"></i><b>10.2.2</b> Evaluating scripts line by line on a remote machine from within RStudio</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="version-control.html"><a href="version-control.html"><i class="fa fa-check"></i><b>11</b> Version control</a><ul>
 <li class="chapter" data-level="11.1" data-path="version-control.html"><a href="version-control.html#why-use-version-control"><i class="fa fa-check"></i><b>11.1</b> Why use version control?</a></li>
@@ -651,9 +655,9 @@ with <code>bwa</code>. This is a step that only needs to be done once, since the
 that is stored on the hard drive alongside the genome. So, after you download a reference genome,
 before you can start aligning sequences to it, you must index it using <code>bwa</code>. The syntax for this
 is very straightforward:</p>
-<div class="sourceCode" id="cb380"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb380-1" data-line-number="1"><span class="ex">bwa</span> index path-to-genome</a></code></pre></div>
+<div class="sourceCode" id="cb407"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb407-1" data-line-number="1"><span class="ex">bwa</span> index path-to-genome</a></code></pre></div>
 <p>For example:</p>
-<div class="sourceCode" id="cb381"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb381-1" data-line-number="1"><span class="ex">bwa</span> index genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a></code></pre></div>
+<div class="sourceCode" id="cb408"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb408-1" data-line-number="1"><span class="ex">bwa</span> index genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a></code></pre></div>
 <p>The reference genome must be stored as a FASTA file (Section <a href="bioinformatic-file-formats.html#fasta">17.3</a>), which can
 be compressed using <code>gzip</code>. (In the above example, the <code>.fna.gz</code> prefix means that the
 file is a FASTA file of nucleotides (<code>.fna</code>) and has been gzipped (<code>.gz</code>)).</p>
@@ -688,9 +692,9 @@ the best available <code>bwa</code> algorithm, today, is the <code>mem</code> al
 are many options available to tune the parameters used for alignment, the default values
 usually give good performance. Thus, at its
 simplest, <code>bwa mem</code> simply takes three file arguments:</p>
-<div class="sourceCode" id="cb383"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb383-1" data-line-number="1"><span class="ex">bwa</span> mem   path-to-reference-genome   path-to-read1-fastq-file   path-to-read2-fastq-file</a></code></pre></div>
+<div class="sourceCode" id="cb410"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb410-1" data-line-number="1"><span class="ex">bwa</span> mem   path-to-reference-genome   path-to-read1-fastq-file   path-to-read2-fastq-file</a></code></pre></div>
 <p>An example might look like:</p>
-<div class="sourceCode" id="cb384"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb384-1" data-line-number="1"><span class="ex">bwa</span> mem genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz fastqs/DPCh_plate1_A01_S1_L1_R1.fq.gz fastqs/DPCh_plate1_A01_S1_L1_R2.fq.gz</a></code></pre></div>
+<div class="sourceCode" id="cb411"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb411-1" data-line-number="1"><span class="ex">bwa</span> mem genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz fastqs/DPCh_plate1_A01_S1_L1_R1.fq.gz fastqs/DPCh_plate1_A01_S1_L1_R2.fq.gz</a></code></pre></div>
 <p><code>bwa mem</code> prints progress messages to <em>stderr</em> and prints its output in SAM format to <em>stdout</em>. The read alignments
 come spewing out in the order they are listed in the FASTQ files, such that each read and its
 paired-end mate appear in adjacent rows in the output. It’s all super simple!</p>
@@ -715,13 +719,13 @@ allow variable substitution (Section <a href="shell-programming.html#quotes-and-
 So, in your own scripts, especially when cycling over very many different pairs of
 FASTQ files, it is extremely useful to be able to define the values of the read group
 tags, and then supply them on the command line. Coarsely this would look like:</p>
-<div class="sourceCode" id="cb385"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb385-1" data-line-number="1"><span class="va">ID=</span>HTYYCBBXX.1.CH_plate1_A01</a>
-<a class="sourceLine" id="cb385-2" data-line-number="2"><span class="va">SM=</span>CH_plate1_A01</a>
-<a class="sourceLine" id="cb385-3" data-line-number="3"><span class="va">LB=</span>Lib-1</a>
-<a class="sourceLine" id="cb385-4" data-line-number="4"><span class="va">PU=</span>HTYYCBBXX.1.TCAATCCG+TTCGCAGT</a>
-<a class="sourceLine" id="cb385-5" data-line-number="5"><span class="va">PL=</span>ILLUMINA</a>
-<a class="sourceLine" id="cb385-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb385-7" data-line-number="7"><span class="ex">bwa</span> mem -R <span class="st">&quot;@RG\tID:</span><span class="va">$ID</span><span class="st">\tSM:</span><span class="va">$SM</span><span class="st">\tLB:</span><span class="va">$LB</span><span class="st">\tPU:</span><span class="va">$PU</span><span class="st">\tPL:</span><span class="va">$PL</span><span class="st">&quot;</span>  genome.fasta  file_R1.fq file_R2.fq</a></code></pre></div>
+<div class="sourceCode" id="cb412"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb412-1" data-line-number="1"><span class="va">ID=</span>HTYYCBBXX.1.CH_plate1_A01</a>
+<a class="sourceLine" id="cb412-2" data-line-number="2"><span class="va">SM=</span>CH_plate1_A01</a>
+<a class="sourceLine" id="cb412-3" data-line-number="3"><span class="va">LB=</span>Lib-1</a>
+<a class="sourceLine" id="cb412-4" data-line-number="4"><span class="va">PU=</span>HTYYCBBXX.1.TCAATCCG+TTCGCAGT</a>
+<a class="sourceLine" id="cb412-5" data-line-number="5"><span class="va">PL=</span>ILLUMINA</a>
+<a class="sourceLine" id="cb412-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb412-7" data-line-number="7"><span class="ex">bwa</span> mem -R <span class="st">&quot;@RG\tID:</span><span class="va">$ID</span><span class="st">\tSM:</span><span class="va">$SM</span><span class="st">\tLB:</span><span class="va">$LB</span><span class="st">\tPU:</span><span class="va">$PU</span><span class="st">\tPL:</span><span class="va">$PL</span><span class="st">&quot;</span>  genome.fasta  file_R1.fq file_R2.fq</a></code></pre></div>
 <p>However, you would probably want some way of assigning the values of the
 shell variables <code>ID</code>, <code>SM</code>, etc., programmatically, perhaps from the spreadsheet
 that holds all that information. The exercise this week shows one example of that
@@ -761,12 +765,12 @@ two groups:</p>
 <ol style="list-style-type: decimal">
 <li><p>Subcommands that explicitly require an argument that gives the name of an output file.
 These subcommands are usually described like this:</p>
-<div class="sourceCode" id="cb386"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb386-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options] out.bam in.bam</a></code></pre></div>
+<div class="sourceCode" id="cb413"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb413-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options] out.bam in.bam</a></code></pre></div>
 where an output file is explicitly called for. These commands
 <em>do not write output to stdout</em>! They must be given an output file name. It is
 <em>not possible</em> to pipe output from one of these subcommands to another program or utility.</li>
 <li><p>Subcommands that don’t explicitly require an argument giving an output file:</p>
-<div class="sourceCode" id="cb387"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb387-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options] in.bam</a></code></pre></div>
+<div class="sourceCode" id="cb414"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb414-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options] in.bam</a></code></pre></div>
 <p>These subcommands write their output to stdout, and that output can be piped into other programs or can
 be redirected into a file (some also provide a <code>-o file</code> option to write output to <code>file</code> rather than
 to stdout.)</p></li>
@@ -778,17 +782,17 @@ the next part of your pipeline.</p>
 how you can pipe that into the input for another <code>samtools</code> subcommand. Rejoice! There is a syntactically
 economical and lovely way to do that. Any subcommand which expects a single input file will be described
 like:</p>
-<div class="sourceCode" id="cb388"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb388-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options]  in.bam</a></code></pre></div>
+<div class="sourceCode" id="cb415"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb415-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options]  in.bam</a></code></pre></div>
 <p>You would typically put the path to the input file in the place of <code>in.bam</code> there.
 However, if you put <code>-</code> in place of <code>in.bam</code> then samtools will take input for
 <code>in.bam</code> from <em>stdin</em>.</p>
 <p>So, for example, you can do something like this:</p>
-<div class="sourceCode" id="cb389"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb389-1" data-line-number="1"><span class="ex">bwa</span> mem genome.fna R1.fq R2.fq <span class="kw">|</span></a>
-<a class="sourceLine" id="cb389-2" data-line-number="2">  <span class="ex">samtools</span> view -b -  <span class="kw">|</span>   # <span class="ex">convert</span> the SAM output from bwa mem into BAM format</a>
-<a class="sourceLine" id="cb389-3" data-line-number="3">  <span class="ex">samtools</span> fixmate -m - output_file  # take stdin as the input and write output to output_file</a></code></pre></div>
+<div class="sourceCode" id="cb416"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb416-1" data-line-number="1"><span class="ex">bwa</span> mem genome.fna R1.fq R2.fq <span class="kw">|</span></a>
+<a class="sourceLine" id="cb416-2" data-line-number="2">  <span class="ex">samtools</span> view -b -  <span class="kw">|</span>   # <span class="ex">convert</span> the SAM output from bwa mem into BAM format</a>
+<a class="sourceLine" id="cb416-3" data-line-number="3">  <span class="ex">samtools</span> fixmate -m - output_file  # take stdin as the input and write output to output_file</a></code></pre></div>
 <p>You can download an 11 Mb BAM file to play around with <a href="https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam">here</a>.
 If you are on your HPCC and want to download it, you can use:</p>
-<div class="sourceCode" id="cb390"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb390-1" data-line-number="1"><span class="fu">wget</span> https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam</a></code></pre></div>
+<div class="sourceCode" id="cb417"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb417-1" data-line-number="1"><span class="fu">wget</span> https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam</a></code></pre></div>
 <div id="samtools-subcommands" class="section level3">
 <h3><span class="header-section-number">19.4.1</span> <code>samtools</code> subcommands</h3>
 <div id="samtools-view" class="section level4">
@@ -842,17 +846,17 @@ put that in a separate chapter of “preliminaries”</p>
 <div id="quick-notes-to-self-on-chaining-things" class="section level2">
 <h2><span class="header-section-number">19.7</span> Quick notes to self on chaining things:</h2>
 <p>When using samtools markdup you can do like this:</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb391-1" data-line-number="1"><span class="co"># first step</span></a>
-<a class="sourceLine" id="cb391-2" data-line-number="2"><span class="ex">bwa</span> mem chinook-play/chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R1.fq chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R2.fq <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb391-3" data-line-number="3">    <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb391-4" data-line-number="4">    <span class="ex">samtools</span> fixmate -m -O BAM - fixed.bam</a>
-<a class="sourceLine" id="cb391-5" data-line-number="5">    </a>
-<a class="sourceLine" id="cb391-6" data-line-number="6"><span class="co"># unfortunately, fixmate can&#39;t write to stdout.</span></a>
-<a class="sourceLine" id="cb391-7" data-line-number="7"><span class="co"># then, after this, we have to sort it into coordinate order and</span></a>
-<a class="sourceLine" id="cb391-8" data-line-number="8"><span class="co"># markdup them.</span></a>
-<a class="sourceLine" id="cb391-9" data-line-number="9"><span class="ex">samtools</span> sort fixed.bam <span class="kw">|</span> <span class="ex">samtools</span> markdup - marked.bam</a>
-<a class="sourceLine" id="cb391-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb391-11" data-line-number="11"><span class="co"># after that, fixed.bam could get tossed.</span></a></code></pre></div>
+<div class="sourceCode" id="cb418"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb418-1" data-line-number="1"><span class="co"># first step</span></a>
+<a class="sourceLine" id="cb418-2" data-line-number="2"><span class="ex">bwa</span> mem chinook-play/chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R1.fq chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R2.fq <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb418-3" data-line-number="3">    <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb418-4" data-line-number="4">    <span class="ex">samtools</span> fixmate -m -O BAM - fixed.bam</a>
+<a class="sourceLine" id="cb418-5" data-line-number="5">    </a>
+<a class="sourceLine" id="cb418-6" data-line-number="6"><span class="co"># unfortunately, fixmate can&#39;t write to stdout.</span></a>
+<a class="sourceLine" id="cb418-7" data-line-number="7"><span class="co"># then, after this, we have to sort it into coordinate order and</span></a>
+<a class="sourceLine" id="cb418-8" data-line-number="8"><span class="co"># markdup them.</span></a>
+<a class="sourceLine" id="cb418-9" data-line-number="9"><span class="ex">samtools</span> sort fixed.bam <span class="kw">|</span> <span class="ex">samtools</span> markdup - marked.bam</a>
+<a class="sourceLine" id="cb418-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb418-11" data-line-number="11"><span class="co"># after that, fixed.bam could get tossed.</span></a></code></pre></div>
 </div>
 <div id="merging-bam-files" class="section level2">
 <h2><span class="header-section-number">19.8</span> Merging BAM files</h2>

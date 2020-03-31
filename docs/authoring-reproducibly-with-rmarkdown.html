@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-03-26" />
+<meta name="date" content="2020-03-31" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -265,6 +265,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="9" data-path="introduction-to-reproducible-research.html"><a href="introduction-to-reproducible-research.html"><i class="fa fa-check"></i><b>9</b> Introduction to Reproducible Research</a></li>
 <li class="chapter" data-level="10" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html"><i class="fa fa-check"></i><b>10</b> Rstudio and Project-centered Organization</a><ul>
 <li class="chapter" data-level="10.1" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#organizing-big-projects"><i class="fa fa-check"></i><b>10.1</b> Organizing big projects</a></li>
+<li class="chapter" data-level="10.2" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#using-rstudio-in-workflows-with-remote-computers-and-hpccs"><i class="fa fa-check"></i><b>10.2</b> Using RStudio in workflows with remote computers and HPCCs</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#keeping-an-rstudio-project-in-sync-with-github"><i class="fa fa-check"></i><b>10.2.1</b> Keeping an RStudio project “in sync” with GitHub</a></li>
+<li class="chapter" data-level="10.2.2" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#evaluating-scripts-line-by-line-on-a-remote-machine-from-within-rstudio"><i class="fa fa-check"></i><b>10.2.2</b> Evaluating scripts line by line on a remote machine from within RStudio</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="version-control.html"><a href="version-control.html"><i class="fa fa-check"></i><b>11</b> Version control</a><ul>
 <li class="chapter" data-level="11.1" data-path="version-control.html"><a href="version-control.html#why-use-version-control"><i class="fa fa-check"></i><b>11.1</b> Why use version control?</a></li>
@@ -447,11 +451,11 @@ choosing BetterBibTex, and then selecting “Export” button. That yields a pag
 that gives you a place to omit certain reference fields. You life will be easier
 if you omit fields that are often long, or which are not needed for citation. I recommend
 filling that field with:</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb319-1" data-line-number="1">abstract,copyright,file,pmid</a></code></pre></div>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb346-1" data-line-number="1">abstract,copyright,file,pmid</a></code></pre></div>
 And, you probably should restart Zotero after doing that.</li>
 <li><p>Install the R package <code>citr</code>. It is on CRAN, but it is probably best
 to first try the latest development version. Install it from within R using:</p>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb320-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;crsh/citr&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb347-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;crsh/citr&quot;</span>)</a></code></pre></div>
 For more information about this package check out <a href="https://github.com/crsh/citr">https://github.com/crsh/citr</a>.</li>
 <li>Once that package is installed. Quit and re-open RStudio. Now, if you go to the
 “Addins” menu (right under the name panel at the top of the RStudio window) you will
@@ -480,12 +484,12 @@ so you can edit references.bib to put titles in sentence case. Probably want to 
 <p>Whoa! Bookdown has figured out how to do references to sections and tables and things in a reasonable
 way that just isn’t there for the vanilla Rmarkdown. But you can use the bookdown syntax for a non-book
 too. Just put something like this in the YAML:</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb321-1" data-line-number="1"><span class="fu">output:</span></a>
-<a class="sourceLine" id="cb321-2" data-line-number="2">  <span class="fu">bookdown:</span><span class="at">:word_document2: default</span></a>
-<a class="sourceLine" id="cb321-3" data-line-number="3">  <span class="fu">bookdown:</span><span class="at">:pdf_document2:</span></a>
-<a class="sourceLine" id="cb321-4" data-line-number="4">    <span class="fu">number_sections:</span><span class="at"> yes</span></a>
-<a class="sourceLine" id="cb321-5" data-line-number="5">  <span class="fu">bookdown:</span><span class="at">:html_document2:</span></a>
-<a class="sourceLine" id="cb321-6" data-line-number="6">    <span class="fu">df_print:</span><span class="at"> paged</span></a></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb348-1" data-line-number="1"><span class="fu">output:</span></a>
+<a class="sourceLine" id="cb348-2" data-line-number="2">  <span class="fu">bookdown:</span><span class="at">:word_document2: default</span></a>
+<a class="sourceLine" id="cb348-3" data-line-number="3">  <span class="fu">bookdown:</span><span class="at">:pdf_document2:</span></a>
+<a class="sourceLine" id="cb348-4" data-line-number="4">    <span class="fu">number_sections:</span><span class="at"> yes</span></a>
+<a class="sourceLine" id="cb348-5" data-line-number="5">  <span class="fu">bookdown:</span><span class="at">:html_document2:</span></a>
+<a class="sourceLine" id="cb348-6" data-line-number="6">    <span class="fu">df_print:</span><span class="at"> paged</span></a></code></pre></div>
 </div>
 <div id="google-docs" class="section level2">
 <h2><span class="header-section-number">13.4</span> Google Docs</h2>

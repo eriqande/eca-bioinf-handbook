@@ -48,5 +48,470 @@ signifying a class of output files.
 
 
 
+## Using RStudio in workflows with remote computers and HPCCs
+
+To this point in the text/course we have spent a good deal of time
+learning about bash shell scripts and familiarizing ourselves with
+operating on the command line while logged into remote computers, like those
+of the HPCC administered by our university or agency. For the most part,
+we have not been terribly concerned about integrating RStudio into these
+workflows on remote computers; however, if you are familiar with RStudio
+as an IDE for working with R on your local computer, and you have grown
+comfortable with its interface: source code editor windows, file browser pane,
+streamlined GUI for doing git version control, etc., then you are in a good
+position to incorporate RStudio into your workflows on remote computers.
+By leveraging your familiarity with RStudio, and merely learning a few new
+ways of using it, you can use RStudio to great effect for testing bash
+scripts line-by-line in order to make sure that they will run, as expected,
+on your HPCC.  It also works well for keeping the scripts and source codes
+of your projects synchronized between your HPCC and your local laptop, providing
+some backup and redundancy to your projects.  
+
+To be sure, RStudio was not originally developed to provide a solution for
+shell-script-intensive projects on HPCCs.  And, there will be a few hardcore
+Unix holdouts that believe that the best way to "do Unix" is to learn a
+purely text-based editing system (like `vim` or `emacs`, and stick with that).
+But, if you are already comfortable with the GUI-integrated development environment of
+RStudio, you don't have a lot to lose from trying to incorporate it into your
+remote computer workflows.  Surely, the long-term persistence of other GUI
+frameworks for working with remote computers (like X-windows) argues that there
+is some value in letting people work in the sort of GUI environments they might
+be used to.
+
+It should be noted that RStudio does produce a truly wondrous product
+called RStudio Server that allows a remote computer to run an RStudio
+session and to serve it up to a client (that would be like you or me on a laptop)
+via a web browser.  This provides a nearly seamless RStudio experience: your
+web browser window literally becomes RStudio itself and it hardly feels like
+you are working on a remote machine.  Such an approach, however, is not
+great in most HPCC environments for a number of reasons:
+
+1. Setting up the RStudio Server requires administrator access to the remote
+machine, which you almost certainly do not have on your HPCC.
+2. Most system administrators are not keen to set up an RStudio Server on the
+HPCC systems they administer.
+3. RStudio Server would not be the best platform for doing Unix-based
+bioinformatic workflows.  You still need to use your computer's job scheduler.
+4. If many people are going to be using the RStudio Server, the paid, licensed
+version is required, that costs some $'s.  
+
+So, what I will describe here can be thought of as a sort of "poor-man's"
+RStudio Server---a way to use RStudio to do source code editing of shell and R
+scripts on your laptop, but send those
+lines of code, one-by-one, to the server to test them and make sure that they work.  Then,
+once you are convinced that you have all the kinks worked out of that code, you
+can easily send your edits as script files to your HPCC server to do "production
+runs" of your bioinformatic workflows or analysis projects.  In this chapter we will
+cover three useful aspects of this type of workflow:
+
+1. Using GitHub to transfer changes to an RStudio project from your laptop to
+your server (and vice versa).
+2. Running shell code line by line by "sending it" for evaluation to the RStudio
+terminal window.
+3. Running R code on a remote R session by sending it via the terminal window.
+
+### Keeping an RStudio project "in sync" with GitHub
+
+The ways of using RStudio to interact with an HPCC here all involve maintaining
+two "copies" of an RStudio Project: one copy on your laptop (the local copy) and
+one copy on the remote server (the remote copy).  The remote copy of the project
+is not one that you ever "open RStudio" on, but it maintains the directory
+structure of your local RStudio project (it is kind of like a mirror of your
+local RStudio project).
+
+Typically, you will write code
+(shell scripts and things) on your local copy of the project, using RStudio's
+intuitive GUI source code editory window.  Then you can test that code by
+sending lines of code from the source code editor window on the local RStudio project
+to a command line interpreter on the remote machine.  When you are done editing code
+on the local machine, and testing it on the remote machine, then, you are ready
+to copy those scripts (and any edits you made on them while testing the code) to your 
+remote machine in order to really run them (using SLURM `sbatch`, for example).
+You can use git and GitHub to make it easy to transfer files and changes from your local
+RStudio project to your remote project.
+
+A few principles that make things simpler when working on a project that exists
+on both a remote server and on your laptop:
+
+1. Don't keep large data files under git version control.  You should only
+version-control (and synchronize, using git, between your laptop and the server)
+your source-code files.  git and GitHub are not there for you to backup your huge
+FASTQ files or large output files like BAMs and VCFs.  You should always
+use your `.gitignore` file to avoid accidentally committing large files to git.
+2. Any time when you have two separate git repositories that you are pushing and
+pulling to GitHub, you want to avoid situations in which you have changed the same
+file in both of them.  Doing so leads to _merge conflicts_.  It is best to exclusively
+edit files on your laptop for some time.  Then commit them, push them to GitHub,
+pull them down to the repository on your remote server and use them.  If you end up
+editing any files in the repository on the remote server, you will want to commit those
+and push them to GitHub and pull them down to your laptop, before editing more from
+your laptop.
+
+
+#### An exercise with chr-32-bioinformatics
+
+If you followed the instructions from last week, you should have `git clone`d your
+repository so that you have a directory on your HPCC that is named
+`chr-32-bioinformatics-githubname` (where githubname is your GitHub handle), and if you
+list the contents, it should look like:
+
+```sh
+(base) [chr-32-bioinformatics-eriqande]--% ls
+chinook-all-prefixes-for-samples.tsv  fastqs                 obtain-and-prep-data.sh
+chinook-fastq-meta-data.tsv           genome                 README-01.txt
+chr-32-bioinformatics.Rproj           map-N-files-from-K.sh  run-single-job.sh
+```
+
+The directories `fastqs` and `genome` should hold the FASTQ files and the
+bwa-indexed genome that you downloaded using `rclone`.
+
+##### Push any changed scripts to GitHub
+
+In the process of downloading those files, you might have made changes to
+`obtain-and-prep-data.sh`.  You can see if you changed anything in the repository
+by doing
+```sh
+git status
+```
+If it shows files that have been modified.  You can commit them.  
+_Be sure not to commit large files, like the data files and the indexed genome!!_
+
+```sh
+git add file-name1 file-name2  # replace file-name with whatever scripts you have modified
+git commit
+
+# then you write a commit message and save that file
+```
+Once you commit that, you can check with `git status` to make sure the repository
+is _clean_.
+
+Then, push those changes back to GitHub:
+```sh
+git push origin master
+```
+
+##### Make sure you have a local copy of your repository
+
+Now, if you have not already done it, get a copy of that repository on
+your local machine.  You can do this by using a line like:
+```sh
+git clone https://eriqande@github.com/CSU-con-gen-bioinformatics-2020/chr-32-bioinformatics-eriqande
+```
+on your laptop terminal (replacing `eriqande`---in two places above!---with your correct GitHub username). Or by using the RStudio's "New Project->From Version Control" option
+and opening a git repository with a URL like this:
+```sh
+https://eriqande@github.com/CSU-con-gen-bioinformatics-2020/chr-32-bioinformatics-eriqande
+```
+again, replacing `eriqande` with your GitHub name.
+
+That gives you your _local copy_ of the repository.
+
+Notice that this local copy does not have the `fastqs` or `genome` directory
+inside it.  That is OK. We don't want to run code locally anyway.
+
+In the next section we see how to use this local RStudio repository
+to start an RStudio session to send command lines to the remote machine.
+
+### Evaluating scripts line by line on a remote machine from within RStudio
+
+Continuing within our _local_ RStudio project, which you should have opened (so
+that RStudio is running in that project...)
+
+#### Open a Terminal window to send shell code to your remote machine
+
+We want a unix shell on the remote machine where our remote repository is.
+
+* Go to the Terminal tab in your local RStudio.  That will give you a Unix shell
+on your laptop.  Use that shell to use `ssh` to login to your remote computer.
+For example:
+```sh
+ssh username@remote.server.edu
+```
+
+Huge note!  RStudio doesn't use the same `ssh` program that ships with git bash on
+Windows.  So, if you are using a windows machine, if using ssh in the RStudio terminal
+window gives you errors, you must explicitly use the version of ssh that ships with git
+bash.  Try giving the full path to ssh like this:
+```sh
+/usr/bin/ssh username@remote.server.edu
+``` 
+For details about that, see [https://github.com/rstudio/rstudio/issues/4623](https://github.com/rstudio/rstudio/issues/4623)  I hope this fixes issues with Windows.  I no longer have a windows machine
+to test things on.
+
+Once you have logged on to your remote machine, navigate (using `cd`) to the
+directory that holds your remote RStudio project.  For example, on my system that
+is:
+```
+/home/eriq@colostate.edu/scratch/COURSE_STUFF/chr-32-bioinformatics-eriqande
+```
+
+#### Optional: start a tmux session
+
+The RStudio terminal is god-awful slow if a lot of text is streaming
+through it. I thought that this might be ameliorated by starting a tmux session,
+but it is not.  Nonetheless, as we have seen previously, it can be good
+to work within a tmux session for many reasons, not the least of which is that
+it is easy to get back to it.  (Also, if RStudio bombs while you are working in the
+terminal, it will kill your shell session, so it is nice to be able to get back to
+that same session using tmux.)
+So, if you are comfortable with tmux, create a new tmux session with something like:
+```sh
+tmux new -s chr-32
+```
+
+#### Not optional:  Get an interactive shell on a compute node
+
+We don't want to be doing computing on the login node.  Also, we want to
+test all the code on a compute node...
+
+On summit:
+```sh
+sinteractive
+```
+Note, you might have to do this a couple of times.  Their sinteractive script
+seems a little buggy.  In fact, early this morning it was completely failing,
+but I was able to get an interactive session using what I use on Sedna:
+```sh
+srun --pty /bin/bash
+```
+
+On Hummingbird:  y'all that work on Hummingbird have said the system has some vagaries...
+
+
+#### Open `map-N-files-from-K.sh` on your local RStudio
+
+Do this from the file browser in your local RStudio.  It will open up a source code editor window.
+
+
+#### Evaluate lines of code in `map-N-files-from-K.sh` on the remote server
+
+First, lets evaluate lines 36 and 37 in `map-N-files-from-K.sh`.  Do this
+by putting your cursor anywhere on line 36 (which says `source ~/.bashrc`)
+and hit Option-CMD-Return (on a Mac) or Alt-cntrl-Return (on Windows)
+
+That keystroke sends the whole command line where the cursor is to the
+active Terminal window.  _And_ and places the cursor at the next line.
+
+So you can evaluate that too...Option-Cmd-Return (Alt-cntrl-Return) and
+Boom! You have evaluated the line `conda activate bioinf`.
+
+This is much like CMD-Return (or cntrl-Return on Windows) to evaluate code in an
+R script in the RStudio R console.
+
+(Note, if you are editing a file with `.sh` extension, then, even CMD-Return
+will send code to the Terminal, not to the R console.  But, it is good idea to get
+into the habit of using CMD-Option-Return (Alt-cntrl-Return) when you want to
+send code to a remote terminal.)
+
+That last line:
+```sh
+conda activate bioinf
+```
+was important because we will be using bwa and samtools.
+You should have these
+in your conda bioinf environment.
+
+
+Once that is done we are ready to start testing lines of code
+from the scripts in our RStudio project, _on the remote server_.
+
+At any rate, you should feel the power in your hands at this point.
+This framework lets you step through code line by line and evaluate
+each line to make sure it works, or, if you are reviewing someone else's
+scripts, or trying to understand what they do, you can work through them
+this way.
+
+At this point, we are ready to start chugging through these command lines.
+
+
+#### A word on variables, etc.
+
+If you are going to be running through shell code line by line, you
+must be congnizant of the shell variables that are defined in the code.
+
+You typically can't just start from the middle of the script and begin
+evaluating code.  You have to start from the top of the script to make sure
+that, by the time you get further down into the script, any variables that
+may have been defined in the intervening lines and get _used_ in the script are,
+indeed, properly defined.
+
+So, always start from the top.
+
+In our case, after the usage block (which we don't hassle with since we
+are not running the script as a standalone script, but rather line by line
+from _inside_ it!) two variables are defined immediately:
+```sh
+# Now, get the first file index and the last file index
+START=$2
+STOP=$(($START + $1 - 1))
+```
+
+These basically tell us the indexes of the files that will be processed in the 
+`for` loop coming up.  i.e., if START=1 and STOP=8, that means that, in the loop
+below this point in the script, files 1 through 8 will be processed.
+
+We can set these now if we want.  Let's set
+```sh
+START=1
+STOP=8
+```
+You can do that by just typing those on the command line.
+
+Once that is done, we can evaluate (Option-CMD-Return) the following line
+that starts:
+```sh
+SM_TAGS=...
+```
+
+Then, see what the result is, with:
+```sh
+echo $SM_TAGS
+```
+
+Those are the fundamentals of evaluating code line by line: evaluate the line.  If
+it assigned a variable, print the value of the variable (`echo`) to see what its value
+is set to. Repeat...
+
+
+
+#### Testing things in `for` loops
+
+To test command lines, between the `do` and the `done` of a bash `for` loop, we need
+to evaluate those lines.  Recall that the body of the for loop will likely be evaluated
+many times (that code gets looped over...) but we will want to test it just once, at 
+least.  To prepare for this, we must set the variables that the `for` loop is cycling over.
+
+When we see:
+```sh
+for((Idx=$START; Idx<=$STOP; Idx++)); do
+```
+
+It means that the `for` loop is cycling over different values assigned to the
+`Idx` variable.  That is, the first time through, `Idx` is set to the value of
+START (which is 1, in our case).  The next time through, `Idx` is set to the
+value of 2, and so forth.
+
+So, we can run through the first loop of this `for` loop code faithfully, by setting
+```sh
+Idx=1
+```
+Do that, and then do `echo $Idx` to print the value of `Idx` to make sure you got it set
+correctly.  Then evaluate the next line.
+
+#### Multi-line commands
+
+Soon, we get to a mutli-line command that looks like:
+```sh
+ASSIGNMENTS=$(awk -v LINE=$Idx '
+    $1 == "index" {for(i=1; i<=NF; i++) vars[i]=$i; next}
+    $1 == LINE {for(i=1; i<=NF; i++) printf("%s=%s; ", vars[i], $i)}
+  ' chinook-fastq-meta-data.tsv)
+```
+You can evaluate that line-by-line, by starting with your cursor
+anywhere on the line that says `ASSIGNMENTS` and then hitting
+Option-CMD-Return four times.  
+
+_Or_ you can highlight all the text in all four of those command lines
+and then hit Option-CMD-Return once.  Note that you have to highlight
+_all_ of the text you want to evaluate.  i.e. what gets evaluated is exactly---and
+only---the text that is highlighted.
+
+
+#### Continue...
+
+The remaining lines until you get to the `bwa` command are mostly
+just variable assignments.  Evaluate them all and afterward
+check the results by `echo`ing the values of a few variables.
+
+#### The bwa command
+
+There is a lot going on in line 92 to 97 (multiple commands strung or piped
+together with `&&` and `|`).  Highlight all those lines and then evaluate them
+(Opt-Command-Return).
+
+It takes about 30 seconds to run.
+
+Question: What file do you think is the final output of all of those commands?
+It is stored in a variable; what is the name of that variable? What is its value?
+
+Note that by this point we have gotten to the end of the
+`for` loop.
+
+#### Evaluating the entire `for` loop from START=1 to STOP=8
+
+Check to make sure that you have START and STOP set correctly:
+```sh
+echo $START $STOP
+```
+If you get `1 8` as the response, then you are good to go.  If not, then
+do:
+```sh
+START=1
+STOP=8
+```
+
+And re-evaluate the `SM_TAGS=` line (line 48) to make sure that variable
+is set.
+
+Now, to evaluate the whole for loop you can highlight everything from 
+the `for...` line to the `done` line (inclusive) and hit Option-CMD-Return.
+
+This will take about 2 minutes to run through.
+
+#### Check the stderr output from all the tools
+
+Look at the value of the variables that hold the paths
+to the stderr files:
+```sh
+echo $BWA_STDERR
+echo $SAM_VIEW_STDERR
+echo $SAM_FIX_STDERR
+echo $SAM_SORT_STDERR
+```
+The answers you get are those that were set on the last time time
+the computer ran through the loop.  But it shows that they are
+all in the `stderr` directory.
+
+We can check to see if anything went wrong by looking that the top few lines
+of all of those files that were produced (for all the 8 different times
+through the loop), with:
+```sh
+head stderr/* | less
+```
+
+That pipes the output through the `less` pager/viewer.  Space bar makes it go 
+down a "page" `b` makes it go _back_ a "page" and `q` is what you use
+to get out of the `less` viewer.
+
+You should have seen progress messages from bwa, and then a bunch of empty files...
+
+#### Now, you are ready to run the next block of code
+
+Starting on line 106 you can run through the next bit.
+
+Check the value of SM_TAGS:
+```sh
+echo $SM_TAGS
+```
+It should be a single value: `CH_plate1_A01`.
+
+So we can set `SM` (the value being cycled over) to that:
+```sh
+SM=CH_plate1_A01
+```
+And then run through the lines of code within that last for loop to 
+understand what they are doing.
+
+At the end of it, you should be able to do
+```sh
+samtools view $MKDUP_OUTPUT | head 
+```
+to see a few lines of SAM file. 
+
+If that all worked.  Then it means you should be all set 
+up to run `run-single-job.sh` using `sbatch`.  Once you have
+successfully done that you are very nearly done with the homework.
+
+
 
 
