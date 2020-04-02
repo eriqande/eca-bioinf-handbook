@@ -204,12 +204,13 @@
 
 
 \frontmatter
+\usepackage{booktabs}
 \usepackage[]{natbib}
 \bibliographystyle{apalike}
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-03-31}
+\date{2020-04-02}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -12277,49 +12278,373 @@ If you are on your HPCC and want to download it, you can use:
 \hypertarget{samtools-subcommands}{%
 \subsection{\texorpdfstring{\texttt{samtools} subcommands}{samtools subcommands}}\label{samtools-subcommands}}
 
+We will go through some of the subcommands used in the exercises, in a
+more step-by-step fashion, so you can get some experience with them, rather
+than just running them as parts of long and complex pipelines.
+
+To follow along, you will need to download (using rclone) a ``tarball'' and decompress it
+into a directory full of a variety of SAM and BAM files.
+
+NOTE! I recommend that you do these exercises connected to your HPCC with Terminal or
+iTerm on a Mac, or PuTTy on Windows. The RStudio Terminal is just too slow for streaming
+text\ldots{}
+
+These are the commands
+needed to prepare yourself to go through the following in-class exercises. You
+should be doing this \emph{on a compute node}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{# rclone the file here.  Change the remote name from "gdrive-pers" to whatever}
+\CommentTok{# you have named your rclone google drive remote:}
+\ExtensionTok{rclone}\NormalTok{ copyto -P  --drive-shared-with-me  gdrive-pers:CSU-con-gen-2020/in-class-bam-play-session.tar.gz in-class-bam-play-session.tar.gz}
+
+\CommentTok{# extract the contents of the tarball:}
+\FunctionTok{gunzip}\NormalTok{ in-class-bam-play-session.tar.gz}
+\FunctionTok{tar}\NormalTok{ -xvf in-class-bam-play-session.tar}
+
+\CommentTok{# cd into the directory we will be working in:}
+\BuiltInTok{cd}\NormalTok{ in-class-bam-play-session}
+
+\CommentTok{# make sure you have activated your conda environment that}
+\CommentTok{# has samtools}
+\ExtensionTok{conda}\NormalTok{ activate bioinf}
+\end{Highlighting}
+\end{Shaded}
+
 \hypertarget{samtools-view}{%
 \subsubsection{\texorpdfstring{\texttt{samtools\ view}}{samtools view}}\label{samtools-view}}
 
-The major workhorse. Used for viewing BAM files (-h/-H) and also for converting
-SAM files to BAM files (the latter being necessary, or, at least prudent, for all
-downstream processing).
+The \texttt{view} command is a major \texttt{samtools} workhorse.
+
+It is primarily used for viewing BAM files (-h/-H), which, you will recall,
+are not otherwise human readable.
+
+View a BAM (or SAM) file like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# from a BAM file}
+\ExtensionTok{samtools}\NormalTok{ view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam }\KeywordTok{|} \FunctionTok{head}
+
+\CommentTok{# from a SAM file}
+\ExtensionTok{samtools}\NormalTok{ view sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam }\KeywordTok{|} \FunctionTok{head}
+\end{Highlighting}
+\end{Shaded}
+
+That shows the first 10 lines of output.
+
+Note that there is no header in that output. To see the header also, you
+use the \texttt{-h} option:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{samtools}\NormalTok{ view -h bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam }\KeywordTok{|} \FunctionTok{head}
+\end{Highlighting}
+\end{Shaded}
+
+If all you want to print is the SAM header, then use the \texttt{-H} command:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# this is a handy way to get the last N (5 in this case) lines of the}
+\CommentTok{# SAM header:}
+\ExtensionTok{samtools}\NormalTok{ view -H bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam }\KeywordTok{|} \FunctionTok{tail}\NormalTok{ -n 5}
+\end{Highlighting}
+\end{Shaded}
+
+Check out that read group line!
+
+\texttt{samtools\ view} is also used for converting from the text-based SAM format
+to BAM format. Whenever processing SAM/BAM files, you want it to be in BAM format
+(and that is required for some operations) because it is much faster to process
+binary BAM files than text-based SAM files. Conversion from SAM to BAB is done with the \texttt{-b} option,
+which produces BAM output, or by using the \texttt{-1} option which produces compressed
+BAM output using fast compression, or by using the \texttt{-u} option which outputs
+uncompressed BAM format. If you are not writing output to the disk, the
+\texttt{-u} option is preferred, since it saves the time that would be spent compressing
+and then decompressing the data as it gets piped from one \texttt{samtools} command
+to the next.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# write SAM output to BAM file}
+\ExtensionTok{samtools}\NormalTok{ view -1 sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam  }\OperatorTok{>}\NormalTok{ one.bam}
+
+\CommentTok{# write it to a file directly, not through redirection}
+\ExtensionTok{samtools}\NormalTok{ view -1 -o two.bam sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam}
+
+\CommentTok{# see that those are the same:}
+\ExtensionTok{shasum}\NormalTok{ two.bam one.bam}
+
+\CommentTok{# do the same with -b instead of -1}
+\ExtensionTok{samtools}\NormalTok{ view -b -o three.bam sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam}
+\end{Highlighting}
+\end{Shaded}
+
+Finally, if the you have \emph{indexed} a BAM file, you can use \texttt{samtools\ view}
+to retrieve and print all the reads in that indexed BAM file covering one
+or more genomic regions as specified using genomic coordinates:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{samtools}\NormalTok{ view duplicates-marked/DPCh_plate1_A01_mkdup.bam  CM009233.1:11271560-11271570  CM009233.1:1907820-1907830}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{samtools-fixmate}{%
 \subsubsection{\texorpdfstring{\texttt{samtools\ fixmate}}{samtools fixmate}}\label{samtools-fixmate}}
 
-Add information about mates needed to identify PCR duplicates. Mates must be adjacent to
-one another in the output. Best to run this right after alignment.
+This utility adds information about mates. In our pipeline, it is used
+with the \texttt{-m} option to add
+a ``mate-score'' field to each alignment. This is used later by \texttt{samtools\ markdup}.
+Mates must be adjacent to one another in the input BAM. This is how mates are arranged
+right after running \texttt{bwa\ mem}, so it is best to run this right after alignment.
+
+This subcommand does not write to \emph{stdout}, so output must be written to a file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# run it on the BAM}
+\ExtensionTok{samtools}\NormalTok{ fixmate -m bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam  fixed.bam}
+
+\CommentTok{# do the same, but take input on stdin from the SAM getting coverted}
+\CommentTok{# to BAM. Notice the use of "-" in place of the filename for input from stdin.}
+\ExtensionTok{samtools}\NormalTok{ view -b sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam }\KeywordTok{|} \ExtensionTok{samtools}\NormalTok{ fixmate -m - fixed2.bam}
+
+\CommentTok{# note that both give the same result:}
+\ExtensionTok{shasum}\NormalTok{ fixed*.bam}
+
+\CommentTok{# compare the first alignment in the BAMs before and after running fixmate:}
+\ExtensionTok{samtools}\NormalTok{ view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam }\KeywordTok{|} \FunctionTok{head}\NormalTok{ -n 1}
+\ExtensionTok{samtools}\NormalTok{ view fixed.bam }\KeywordTok{|} \FunctionTok{head}\NormalTok{ -n 1}
+
+\CommentTok{# how do the above two outputs differ?}
+\CommentTok{# What new information is in fixed.bam?}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{samtools-sort}{%
 \subsubsection{\texorpdfstring{\texttt{samtools\ sort}}{samtools sort}}\label{samtools-sort}}
 
-Put things in a BAM file in order of placement in the reference genome. This must be done for
-most downstream operations. Especially for merging and for marking duplicates.
+This subcommand sorts the alignments in a BAM file in order of their placement
+in the reference genome. This must be done for
+most downstream operations---especially for merging and for marking duplicates---so
+it is something that you will always do to alignments from \texttt{bwa\ mem} or any
+other aligner.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# first note that, when it comes off the seqencer, it is not sorted}
+\ExtensionTok{samtools}\NormalTok{ view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam }\KeywordTok{|} \FunctionTok{awk} \StringTok{'\{print $1, $3, $4\}'} \KeywordTok{|} \FunctionTok{less}
+
+\CommentTok{# how is it sorted?}
+
+\CommentTok{# coordinate-sort that file:}
+\ExtensionTok{samtools}\NormalTok{ sort bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam }\OperatorTok{>}\NormalTok{ sorted1.bam}
+
+\CommentTok{# rather than redirecting sort's stdout to a file you can use the -o option}
+\ExtensionTok{samtools}\NormalTok{ sort -o sorted2.bam bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam}
+
+\CommentTok{# check they are the same with shasum (this is left for you to do)}
+
+\CommentTok{# now, look at the order of the positions in the sorted file}
+\ExtensionTok{samtools}\NormalTok{ view sorted1.bam }\KeywordTok{|} \FunctionTok{awk} \StringTok{'\{print $3, $4\}'} \KeywordTok{|} \FunctionTok{less}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{samtools\ sort} produces intermediate files when it is sorting large BAM files.
+You will sometimes see them if \texttt{ls}-ing the contents of directories while running
+a sort job.
+You used to have to be very careful if sorting multiple files at the same time
+that those intermediate files didn't overwrite one another, but that is largely
+fixed/taken care of automatically by versions of \texttt{samtools\ sort} available today.
 
 \hypertarget{samtools-merge}{%
 \subsubsection{\texorpdfstring{\texttt{samtools\ merge}}{samtools merge}}\label{samtools-merge}}
 
-Combine the contents of sorted BAM files.
+If you have multiple \emph{sorted} BAM files that you wish to merge into a single
+BAM file, you can use \texttt{samtools\ merge}. This subcommand opens up connections
+to each of the files and steps through each of them, alignment-by-alignment, copying
+alignments from each of the original BAMs into the merged BAM file. Thought of this
+way, it is clear why the input BAM files must be sorted. The merged BAM in outputted in
+sorted order.
+
+There is some arcana with this utility when you have different reference genomes
+represented in your different BAMs, and older versions of \texttt{samtools\ merge} didn't always
+play nicely with mutliple read groups in different files. For the most part, those issues
+were resolved in later releases. So, if you have just mapped a bunch of fastqs into BAMs and
+have sorted them, \texttt{samtools\ merge} should work and behave appropriately when merging those files.
+
+Why should you merge file? The reason we do so here is to run \texttt{samtools\ markdup} on all the
+reads that came from one individual in one library prep. Originally we had 8 BAMs per individual
+because each individual was sequenced on 8 different lanes. However, PCR duplicates formed during the
+library prep could be found on any of those 8 lanes. So, the 8 bams all have to be merged
+together into a single BAM to do a proper marking of PCR duplicates.
+
+Back in the ``old days'' people would sometimes merge all the BAMs from multiple individuals.
+This is definitely \emph{not} recommended today. The resulting files can be huge and difficult to
+manage! Furthermore, most variant callers (like GATK) allow you to input long lists of BAM files---one
+per individual, for doing variant calling. Some utilities, like ANGSD, even require that input
+for variant discovery be done with one individual per BAM. So, you should almost never take
+BAM-merging further than merging all the alignments for a sinble individual (i.e., when you are
+done you should have one BAM file per
+individual.)
+
+The syntax for \texttt{samtools\ merge} is:
+
+\begin{verbatim}
+samtools merge [options] output-bam-name.bam  sorted-input-bam-1.bam sorted-input-bam-2.bam ...
+\end{verbatim}
+
+In other words, you give it the name of the output file you want it to produce,
+followed by all the input file names. If you get the order of the filenames wrong---for
+example putting the output file last, then it will usually bark you an error because
+you are, in effect, asking it to overwrite an existing input file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# merge 8 input BAMs into a single BAM}
+\ExtensionTok{samtools}\NormalTok{ merge merged.bam   8-sorted-bams/*.bam}
+
+\CommentTok{# now, look at the read groups in the header of that new, merged file:}
+\ExtensionTok{samtools}\NormalTok{ view -H merged.bam }\KeywordTok{|} \FunctionTok{tail}\NormalTok{ -n 20}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{samtools-markdup}{%
 \subsubsection{\texorpdfstring{\texttt{samtools\ markdup}}{samtools markdup}}\label{samtools-markdup}}
 
-Mark PCR (or optical) duplicates.
+Mark PCR (or optical) duplicates. Input must have a mate-score field (obtained
+from running \texttt{samtools\ fixmate\ -m}). And, it must be coordinate-sorted. \emph{And} it must
+include all the alignments from a single sample from a single library prep.
 
-\hypertarget{samtools-stats}{%
-\subsubsection{\texorpdfstring{\texttt{samtools\ stats}}{samtools stats}}\label{samtools-stats}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# mark duplicates in the merged bam}
+\ExtensionTok{samtools}\NormalTok{ markdup 8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam marked.bam}
+\end{Highlighting}
+\end{Shaded}
 
-Summary information about the alignments.
+How does this file differ now? Well, reads that look like PCR duplicates have
+been marked as such by including the bits 0x400 to its SAM Flag. We can verify
+that by using the \texttt{-f} option to \texttt{samtools\ view} to print alignments that have the
+0x400 bit set:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# see the reads marked as PCR duplicates:}
+\ExtensionTok{samtools}\NormalTok{ view -f 0x400 marked.bam }\KeywordTok{|} \FunctionTok{less}
+
+\CommentTok{# note that there are none before marking duplicates}
+\ExtensionTok{samtools}\NormalTok{ view -f 0x400 8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam}
+
+\CommentTok{# (nothing, nada, zip, goose-eggs...)}
+\end{Highlighting}
+\end{Shaded}
+
+The file produced here (\texttt{marked.bam}) is ready to go for variant calling, but
+you will also want to index it for rapid access to reads aligned to any genomic
+regions. Indexing is required for most variant callers.
+
+\hypertarget{samtools-index}{%
+\subsubsection{\texorpdfstring{\texttt{samtools\ index}}{samtools index}}\label{samtools-index}}
+
+Once you have a sorted BAM file that is ready for variant calling, you will want
+to \emph{index} it. This is also necessary for some other operations, like \texttt{idxstats}.
+The syntax is simple:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{samtools}\NormalTok{ index duplicates-marked/DPCh_plate1_A01_mkdup.bam}
+\end{Highlighting}
+\end{Shaded}
+
+The index for file \texttt{FILE.bam} is stored alongside the file in
+\texttt{FILE.bam.bai}. The \texttt{bai} extension means ``bam index.''
+
+Now, your file would be read to go for variant calling!
+But there are a few things one might want to do with it to check how well
+the mapping went and to learn more about where and how the reads align
+to the reference genome.
+
+\hypertarget{samtools-flagstats}{%
+\subsubsection{\texorpdfstring{\texttt{samtools\ flagstats}}{samtools flagstats}}\label{samtools-flagstats}}
+
+Provide summary information about the SAM flags of the alignments.
+This is a great utility to assess how many reads mapped, how many didn't,
+and the nature of their mapping (as relayed by their SAM flags).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# SAM flag summary for the final dupe-marked file}
+\ExtensionTok{samtools}\NormalTok{ flagstat duplicates-marked/DPCh_plate1_A01_mkdup.bam}
+
+\CommentTok{# Summary for the merged file before dupe-marking}
+\ExtensionTok{samtools}\NormalTok{ flagstat  8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam}
+
+\CommentTok{# how do those two differ?}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{samtools-idxstats}{%
 \subsubsection{\texorpdfstring{\texttt{samtools\ idxstats}}{samtools idxstats}}\label{samtools-idxstats}}
 
-Summary information about the SAM flags of the alignments.
+From an indexed BAM file, report how many reads map to each
+sequence in the reference genome.
 
-\hypertarget{samtools-bedcov}{%
-\subsubsection{\texorpdfstring{\texttt{samtools\ bedcov}}{samtools bedcov}}\label{samtools-bedcov}}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# see how many reads mapped to each of the "named" chromosomes}
+\CommentTok{# in the reference genome (those that start with "CM")}
+\ExtensionTok{samtools}\NormalTok{ idxstats duplicates-marked/DPCh_plate1_A01_mkdup.bam }\KeywordTok{|} \FunctionTok{awk} \StringTok{'/^CM/'}
+\end{Highlighting}
+\end{Shaded}
 
-Calculate coverage of different regions in the reference genome.
+The columns that come out of this are:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Reference sequence name
+\item
+  Length of reference sequence
+\item
+  Number of reads that properly paired-end-map to the reference sequence
+\item
+  Number of reads that align to the reference sequence, but not as part of a properly paired read
+\end{enumerate}
+
+\hypertarget{samtools-stats}{%
+\subsubsection{\texorpdfstring{\texttt{samtools\ stats}}{samtools stats}}\label{samtools-stats}}
+
+Comprehensive summaries of features of the alignments.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# check them all out:}
+\ExtensionTok{samtools}\NormalTok{ stats duplicates-marked/DPCh_plate1_A01_mkdup.bam }\KeywordTok{|} \FunctionTok{more}
+
+\CommentTok{# look at the headers for each of the different sections:}
+\ExtensionTok{samtools}\NormalTok{ stats duplicates-marked/DPCh_plate1_A01_mkdup.bam }\KeywordTok{|} \FunctionTok{awk} \StringTok{'/^#/'}
+\end{Highlighting}
+\end{Shaded}
+
+Note that, in the headers for each of the different summaries in the output
+from \texttt{samtools\ stats}, instructions are given on how to extract just that
+summary. For example,
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# extract the Summary Numbers:}
+\ExtensionTok{samtools}\NormalTok{ stats duplicates-marked/DPCh_plate1_A01_mkdup.bam }\KeywordTok{|} \FunctionTok{grep}\NormalTok{ ^SN }\KeywordTok{|} \FunctionTok{cut}\NormalTok{ -f 2-}
+
+\CommentTok{# extract the distribution of read lengths}
+\ExtensionTok{samtools}\NormalTok{ stats duplicates-marked/DPCh_plate1_A01_mkdup.bam }\KeywordTok{|} \FunctionTok{grep}\NormalTok{ ^RL }\KeywordTok{|} \FunctionTok{cut}\NormalTok{ -f 2-}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{boneyard-below-here}{%
 \section{BONEYARD BELOW HERE}\label{boneyard-below-here}}
