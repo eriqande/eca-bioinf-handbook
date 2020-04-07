@@ -210,7 +210,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-04-02}
+\date{2020-04-07}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -646,8 +646,8 @@ of \texttt{cd}, and it will tell you which directory you have returned to. For e
 
 Note the output of \texttt{cd\ -} is the newly-returned-to current working directory.
 
-\hypertarget{updating-your-command-prompt}{%
-\subsection{Updating your command prompt}\label{updating-your-command-prompt}}
+\hypertarget{comm-prompt}{%
+\subsection{Updating your command prompt}\label{comm-prompt}}
 
 When you are buzzing around in your filesystem, it is often difficult to remember
 which directory you are in. You can always type \texttt{pwd} to figure that out,
@@ -2445,8 +2445,8 @@ symbols (i.e., is it \texttt{\#!} or \texttt{!\#}?), just remember that it is so
 the \emph{shebang}. You know the first part should be a comment character so the line is treated
 a little differently, but then that has to be followed by the ``bang'' which is \texttt{!}.
 
-\hypertarget{a-bit-more-on-and}{%
-\subsection{\texorpdfstring{A bit more on \texttt{;} and \texttt{\&}}{A bit more on ; and \&}}\label{a-bit-more-on-and}}
+\hypertarget{paragraph-before-shebang}{%
+\subsection{\texorpdfstring{A bit more on \texttt{;} and \texttt{\&}}{A bit more on ; and \&}}\label{paragraph-before-shebang}}
 
 Recall the semicolon: it provides a way to combine multiple commands on a single line.
 In fact, when you think of putting multiple commands on different lines, you could
@@ -2938,6 +2938,95 @@ Check this out:
 \end{verbatim}
 
 That turns out to be some powerful stuff.
+
+\hypertarget{bash-arithmetic}{%
+\subsection{Integer Arithmetic with Shell Variables}\label{bash-arithmetic}}
+
+Another occasionally useful feature of the bash shell is being able to
+do \emph{integer arithmetic} with shell variables that are, properly, integers.
+Basically, if you have variables that are integers such as \texttt{1}, \texttt{-43}, \texttt{15}, \texttt{1400}, as
+opposed to strings (like \texttt{Boing}, \texttt{foo}, \texttt{bar}, etc.) or non-integer numbers (like
+\texttt{3.14}, \texttt{-0.002}, \texttt{-7.3}, etc.), then you can do integer calculations on them including
+addition, subtraction, multiplication, integer division and modulo division. Doing so
+involves expanding the variables within double parentheses: \texttt{\$((\ ))}. Within those
+double parentheses, you do not need to include a \texttt{\$} before the variable name. You can also
+just use literal numbers (such as \texttt{56}) in those double parentheses.
+
+To show
+examples, start with assigning integer values to three shell variables: \texttt{A=2;\ B=5;\ C=17}. Then, see:
+
+\begin{itemize}
+\item
+  Addition and Subtraction use \texttt{+} and \texttt{-}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \VariableTok{$((}\NormalTok{A + B}\VariableTok{))}
+\ExtensionTok{7}
+
+\BuiltInTok{echo} \VariableTok{$((}\NormalTok{C - B}\VariableTok{))}
+\ExtensionTok{12}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Multiplication uses \texttt{*}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \VariableTok{$((}\NormalTok{3 * C}\VariableTok{))}
+\ExtensionTok{51}
+
+\BuiltInTok{echo} \VariableTok{$((}\NormalTok{A * B * C}\VariableTok{))}
+\ExtensionTok{170}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Division uses \texttt{/}. Note that it only gives the integer part of the result. This
+  is called ``integer division.''
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \VariableTok{$((}\NormalTok{C / -3}\VariableTok{))}
+\ExtensionTok{-5}
+
+\BuiltInTok{echo} \VariableTok{$((}\NormalTok{B / A}\VariableTok{))}
+\ExtensionTok{2}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Modulo division, using \texttt{\%}, returns the \emph{remainder} when two integers are divided by one another:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \VariableTok{$((}\NormalTok{C % 2}\VariableTok{))}
+\ExtensionTok{1}
+
+\BuiltInTok{echo} \VariableTok{$((}\NormalTok{15 % B}\VariableTok{))}
+\ExtensionTok{0}
+\end{Highlighting}
+\end{Shaded}
+\item
+  Rules of precedence are followed, but order of operations can also be expressed
+  using parentheses inside the double parentheses:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{echo} \VariableTok{$((}\NormalTok{2 + 3 * 5}\VariableTok{))}
+\ExtensionTok{17}
+
+\CommentTok{# same thing grouping by parentheses:}
+\BuiltInTok{echo} \VariableTok{$((}\NormalTok{2 + (3 * 5) }\VariableTok{))}
+\ExtensionTok{17}
+
+\CommentTok{# group order differently by parentheses:}
+\BuiltInTok{echo} \VariableTok{$((}\NormalTok{ (2 + 3) * 5 }\VariableTok{))}
+\ExtensionTok{25}
+\end{Highlighting}
+\end{Shaded}
+\end{itemize}
+
+You can't do really complex math with these features of the bash shell, but sometimes
+when you just need to manipulate integers, this can be handy.
 
 \hypertarget{variable-arrays}{%
 \subsection{Variable arrays}\label{variable-arrays}}
@@ -7218,9 +7307,6 @@ stands for the Simple Linux Utility for Resource Management. It is the scheduler
 on the Summit supercomputer in Boulder and the Hummingbird and Sedna clusters deployed
 at UCSC and the NWFSC, respectively.
 
-Interspersed with our discussion of SLURM, we will cover
-methods for installing software to use for your analyses.
-
 \hypertarget{an-oversimplified-but-useful-view-of-a-computing-cluster}{%
 \section{An oversimplified, but useful, view of a computing cluster}\label{an-oversimplified-but-useful-view-of-a-computing-cluster}}
 
@@ -7356,7 +7442,7 @@ of which SLURM is an example.
 In this computing model, a job, once it is launched, ties up the core and the memory
 that has been allocated to it until the job is finished. While that job is running, no one
 else's jobs or processes can run on the core or share the RAM memory that was allocated to the job.
-For this reason, the job scheduler, needs to know, \emph{ahead of time} how long each job might run and
+For this reason, the job scheduler, needs to know, \emph{ahead of time}, how long each job might run and
 what resources will be required during that time. A simple contrived example illustrates things easily:
 imagine that Joe and Cheryl each have 1000 separate jobs to run. Each of Cheryl's jobs involves running
 a machine-learning algorithm to identify seabirds in high-resolution, aerial images of the ocean, and
@@ -7394,18 +7480,22 @@ the new jobs.
 The second reason is a particular bane of new cluster users who unwittingly request more resources
 than actually exist (i.e.~52 cores, when no single node has more than 32; or 50 Gb of RAM when no single
 node has more than 48 Gb). Unfortunately (or, perhaps comically, if you have a sick sense of
-humor), most job schedulers will not notify you of this sort of transgression.
+humor), some job schedulers will not notify you of this sort of transgression.
 Rather, your job will just sit in line waiting to be launched, but it never will be, because sufficient
-resources never become available!
+resources never become available!\\
+(Foruntately, however, the SLURM scheduler is ``wise'' enough to notify the user if
+she or he has requested more resources than will ever become available.)
 
 It is worth noting that regardless of whether reason 1 or reason 2 is the dominant cause influencing
 how long it takes to start a job, asking for fewer resources for less time will generally allow your
 jobs to start faster. Particularly because of reason \#2, however, breaking your jobs down (if possible) into
 small chunks that will run relatively quickly on a single core with low RAM needs can render many more
 opportunities for your jobs to start, letting you tap into resources that are not often fully utilized
-in a cluster. Since I started working on large cluster in which it took a long time to start a job
-that required all or most of the cores on a single node, but in which there were many nodes
-harboring a few cores that were not being used, I tend to endorse this approach\ldots{}
+in a cluster. Since I started working on a large cluster in which it took a long time to start a job
+that required all or most of the cores on a single node---but in which there were many nodes
+harboring a few cores that were not being used---I tend to endorse the approach of breaking jobs
+down into small units that will run relatively quickly, with low RAM requirements, on a
+single core.
 
 Since the requested resources for a job play such a large role in wait times for jobs to start,
 you might wonder why people don't intentionally underestimate the resources they request for their
@@ -7413,7 +7503,7 @@ jobs. The answer is simple: the job scheduler is a highly efficient and complete
 manager. If you requested 2 hours for your job, but your job has not finished in that amount of time,
 the job scheduler will waste no time hemming and hawing or having an emotional struggle with itself
 about whether it should stop your job. No, at 2 hours and 0.2 seconds it WILL kill your job, regardless
-of whether it is just about to finish, or not. Similarly, if you requested 4 Gb or RAM, but five hours into
+of whether it is just about to finish, or not. Similarly, if you requested 4 Gb of RAM, but five hours into
 your job, the program you are running ends up using 5 Gb or RAM to store a large chunk of data, your
 job WILL be killed, immediately.
 
@@ -7669,7 +7759,7 @@ One way to get an interactive shell on a compute node of a cluster is to request
 \end{Shaded}
 
 This tells slurm to run \texttt{bash} (which is typically found at \texttt{/bin/bash} on all Unix system) within
-a pseodo-terminal (the \texttt{-\/-pty} part). If you run this command you might be given a bash shell on a compute
+a pseudo-terminal (the \texttt{-\/-pty} part). If you run this command you might be given a bash shell on a compute
 node. This works on the Sedna cluster, but not on all others.
 
 On the SUMMIT cluster at CU Boulder, there is
@@ -7711,6 +7801,23 @@ command:
 \FunctionTok{hostname}
 \end{Highlighting}
 \end{Shaded}
+
+Or, to make it very easy to see which node you are logged into, you can change
+the settings for your Unix command prompt to show you the name of the host you
+are logged into (Section \ref{comm-prompt}). For example, to include in your
+command prompt the short name of the computer you are logged into, and the current
+working directory, separated by a \texttt{:} and a space, you could modify your .bashrc
+file to define the \texttt{PS1} environment
+variable like so:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{PS1=}\StringTok{'[\textbackslash{}h: \textbackslash{}W]--% '}
+\end{Highlighting}
+\end{Shaded}
+
+Now, whenever you see your command prompt, it will indicate the name of the computer
+you are logged into.
 
 It is also worth using your alias \texttt{myjobs} (see the last part of Section \ref{slurm-info}
 to learn how to make such an alias) to check that your interactive shell session is listed amongst
@@ -7764,7 +7871,8 @@ where:
   The contents of this script file effectively
   define the \emph{job} that you wish to run. It should be a shell script, and, on most SLURM systems
   you need to be specific about what ``flavor'' of shell it should be run in. This is done using the
-  ``shebang'' line at the top of the script, like \texttt{\#!/bin/bash} (See section ??). If you want to know what
+  ``shebang'' line at the top of the script, like \texttt{\#!/bin/bash} (see the paragraph immediately
+  \emph{before} \ref{paragraph-before-shebang}). If you want to know what
   path should come after the \texttt{\#!} (the ``shebang''), you can give the command \texttt{which\ bash} from the shell
   on one of your cluster's login nodes (or an interactive shell on a compute node), and the
   shell should respond with the absolute path to the bash shell interpreter.
@@ -7891,7 +7999,7 @@ Try it like this:
 \begin{Highlighting}[]
 \ExtensionTok{sbatch}\NormalTok{ --test-only --time=00:05:00 --output=output-%j --error=error-%j  easy.sh}
 
-\CommentTok{# then see what happens if you request more the 24 hours:}
+\CommentTok{# then see what happens if you request more than 24 hours:}
 \ExtensionTok{sbatch}\NormalTok{ --test-only --time=24:05:00 --output=output-%j --error=error-%j  easy.sh}
 \end{Highlighting}
 \end{Shaded}
@@ -7937,8 +8045,7 @@ setting \texttt{-\/-mail-type=FAIL} to only be notified when jobs have failed.
 \hypertarget{include-options-inside-your-job-script}{%
 \subsubsection{\texorpdfstring{Include options \emph{inside} your job script}{Include options inside your job script}}\label{include-options-inside-your-job-script}}
 
-As you might imagine, \texttt{sbatch} takes many different options. We list the main ones that you will
-be concerned with while doing bioinformatics in Table \ref{sbatchopts}. You might note
+You might note
 that the above command line is getting quite long and cumbersome, and it would surely become
 very difficult to remember and type commands with even more options, every time you wanted to start a job.
 On top of that, the options that you would want to invoke are typically going to be specific to the job
@@ -7991,6 +8098,172 @@ or schedule it like this:
 \ExtensionTok{sbatch}\NormalTok{ easy2.sh}
 \end{Highlighting}
 \end{Shaded}
+
+As you might imagine, \texttt{sbatch} can take many different options.
+We list the main ones that you will
+be concerned with while doing bioinformatics in Table \ref{tab:sbatchopts}.
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{\label{tab:sbatchopts} Commonly used options to \texttt{sbatch}.}\tabularnewline
+\toprule
+\begin{minipage}[b]{0.44\columnwidth}\raggedright
+Option\strut
+\end{minipage} & \begin{minipage}[b]{0.46\columnwidth}\raggedright
+What it does\strut
+\end{minipage}\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+\begin{minipage}[b]{0.44\columnwidth}\raggedright
+Option\strut
+\end{minipage} & \begin{minipage}[b]{0.46\columnwidth}\raggedright
+What it does\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.44\columnwidth}\raggedright
+\texttt{-\/-cpus-per-task=\textless{}ncpus\textgreater{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.46\columnwidth}\raggedright
+Indicate that ncpus cores are
+needed for each task in the
+job\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.44\columnwidth}\raggedright
+\texttt{-\/-chdir=\textless{}directory\textgreater{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.46\columnwidth}\raggedright
+Set the working directory of
+the batch script to
+``directory'' before the script
+is run. This is seldom used
+if you schedule batch scripts
+from the directory in which
+they should be run.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.44\columnwidth}\raggedright
+\texttt{-\/-error=\textless{}filename\ pattern\textgreater{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.46\columnwidth}\raggedright
+Path to which \emph{stderr} should
+be written. Like the
+\texttt{-\/-output} option this llows
+for \texttt{\%j}, \texttt{\%A}, and \texttt{\%a} (see
+below).\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.44\columnwidth}\raggedright
+\texttt{-\/-job-name=\textless{}jobname\textgreater{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.46\columnwidth}\raggedright
+Assign a name to the batch
+job. This name then appears
+in, for example, \texttt{squeve\ -u\ user}. It should be \emph{short}
+and descriptive.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.44\columnwidth}\raggedright
+\texttt{-\/-mail-type=\textless{}type\textgreater{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.46\columnwidth}\raggedright
+Upon which job-scheduling
+events for this job should
+email be sent to the user?
+Choices include NONE, BEGIN,
+END, FAIL, REQUEUE, ALL.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.44\columnwidth}\raggedright
+\texttt{-\/-mail-user=\textless{}user\textgreater{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.46\columnwidth}\raggedright
+Address to which notification
+emails should be sent.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.44\columnwidth}\raggedright
+\texttt{-\/-mem=\textless{}size{[}units{]}\textgreater{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.46\columnwidth}\raggedright
+How much memory is requested
+\emph{per node}. Most easily
+specified in gigabytes with a
+trailing as in \texttt{4G}. For
+example, \texttt{-\/-mem=4G}.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.44\columnwidth}\raggedright
+\texttt{-\/-mem-per-cpu=\textless{}size{[}units{]}\textgreater{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.46\columnwidth}\raggedright
+How much memory is requested
+\emph{per core}. For example,
+\texttt{-\/-mem-per-cpu=4.6G}. Only
+one of \texttt{-\/-mem} or
+\texttt{-\/-mem-per-cpu} should be
+given.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.44\columnwidth}\raggedright
+\texttt{-\/-output=\textless{}filename\ pattern\textgreater{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.46\columnwidth}\raggedright
+Path to which \emph{stdout} should
+be written while executing the
+batch script. Path can include
+\texttt{\%j}, which expands to the job
+ID, or, if running as a job
+array, \texttt{\%A} expands to the job
+ID, and \texttt{\%a} to the job array
+index.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.44\columnwidth}\raggedright
+\texttt{-\/-partition=\textless{}partition\_names\textgreater{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.46\columnwidth}\raggedright
+Request an allocation of
+resources from a compute node
+in one of the partitions
+listed in \texttt{partition\_names},
+which is a comma-separated
+list of partitions. For
+example,
+\texttt{-\/-partition=shas,compute,himem}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.44\columnwidth}\raggedright
+\texttt{-\/-time=\textless{}time\textgreater{}}\strut
+\end{minipage} & \begin{minipage}[t]{0.46\columnwidth}\raggedright
+Request an allocation of a
+certain amount of time.
+Specified in
+\texttt{days-hours:minutes:seconds}
+or \texttt{hours:minutes:seconds},
+for example:
+\texttt{-\/-time=2-12:00:00} or
+\texttt{-\/-time=05:00:00}. Jobs
+running longer than this time
+will be killed.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.44\columnwidth}\raggedright
+\texttt{-\/-test-only}\strut
+\end{minipage} & \begin{minipage}[t]{0.46\columnwidth}\raggedright
+Usually given directly on the
+command line to verify the job
+submission is compliant
+without actually scheduling
+the job.\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{override-within-file-sbatch-directives-from-the-command-line}{%
+\subsubsection{\texorpdfstring{Override within-file \texttt{sbatch} directives from the command line}{Override within-file sbatch directives from the command line}}\label{override-within-file-sbatch-directives-from-the-command-line}}
+
+Since you can write options for the \texttt{sbatch} command either 1) on the command
+line (as in \texttt{sbatch\ -\/-time=00:03:00\ ...}), or 2) within the script file given to
+the \texttt{sbatch} command (i.e.~lines like \texttt{\#SBATCH\ -\/-time=00:05:00} within
+the top part of the script), you might wonder what happens when the same
+option is supplied both on the command line and within the script.
+It turns out that the version of the option on the command line takes precedence.
+That it, any options that are given \emph{on the command line} itself will
+override the options if they are given within the file. For example,
+if we submitted the above \texttt{easy2.sh} script with the command:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{sbatch}\NormalTok{ --time=01:00:00 easy2.sh}
+\end{Highlighting}
+\end{Shaded}
+
+it would be submitted with a time limit of 1 hour (\texttt{01:00:00}) rather
+than of 5 minutes (\texttt{00:05:00}, as given within the file.)
+
+This feature is particularly useful when you find yourself needing
+to re-run just certain elements of a SLURM job array, as we will see in a few sections.
 
 \hypertarget{the-vagaries-of-conda-within-sbatch}{%
 \subsubsection{\texorpdfstring{The vagaries of \texttt{conda} within \texttt{sbatch}}{The vagaries of conda within sbatch}}\label{the-vagaries-of-conda-within-sbatch}}
@@ -8156,6 +8429,495 @@ And schedule it to run (from within the \texttt{chinook-play} directory) with:
 \ExtensionTok{sbatch}\NormalTok{ map-it.sh}
 \end{Highlighting}
 \end{Shaded}
+
+\hypertarget{slurm-job-arrays}{%
+\subsection{SLURM Job Arrays}\label{slurm-job-arrays}}
+
+Very often in bioinformatics, large jobs can be broken down into a series of
+smaller tasks. As an example, aligning sequencing read data from an individual sample
+to a reference genome
+can always be done independently of the sequences from any other individuals. Therefore
+a job that demands that sequencing data from 96 different individuals be aligned to
+a reference genome can be broken into 96 different tasks: each task involves mapping
+the sequencing data of just a single individual to the reference genome.
+
+The bash shell \texttt{for} loop provides a way to cycle over different repetitive tasks.
+In the case of alignment over multiple individuals we might use a \texttt{for} loop
+in a shell script in the following fashion, to repeatedly run a script
+called \texttt{align.sh} on the paired-end read from each of four different individuals:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{INDIVS=}\StringTok{"Ind_1 Ind_2 Ind_3 Ind_4"}
+
+\KeywordTok{for} \ExtensionTok{ind}\NormalTok{ in }\VariableTok{$INDIVS}\KeywordTok{;} \KeywordTok{do}
+  \ExtensionTok{align.sh} \VariableTok{$ind}\NormalTok{.R1.fq.gz }\VariableTok{$ind}\NormalTok{.R2.fq.gz }
+\KeywordTok{done}
+\end{Highlighting}
+\end{Shaded}
+
+Such an approach will work OK on an HPCC if each task (aligning a single indvidual,
+in this case) takes just a short amount of time. But, what if aligning each
+individual takes almost a day of compute time, and you are only authorized to
+run jobs less than 24 hours on your HPCC? What is needed in that event is a convenient
+way to break jobs down into separate tasks, such that \emph{each task is run as its own
+separate job on the HPCC}.
+
+SLURM provides a feature known as \emph{job arrays} for handling just this type of use
+case. When you submit a job array, you are, in effect, submitting to SLURM a recipe
+that is telling the scheduler that you are submitting some number of instances of a particular
+job. As resources become available, each new instance of that job starts to run. The
+different ``instances'' can be different replicates of a complex simulation, or analyses done
+on different instances of a data set. Our alignment example falls into the latter case: each
+instance of the job would be aligning the reads of a different individual.
+
+SLURM job arrays are submitted by using the \texttt{-\/-array=\textless{}array\_spec\textgreater{}} option to \texttt{sbatch}.
+Each task of a job array is associated with a whole number, and the
+\texttt{\textless{}array\_spec\textgreater{}} argument to the \texttt{-\/-array} option tells which numbers (and, hence,
+which tasks) should be scheduled to run. For example, if you submit a script
+named \texttt{mytasks.sh} to \texttt{sbatch},
+and the script includes in the SLURM preamble a line that says:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#SBATCH --array=1-10}
+\end{Highlighting}
+\end{Shaded}
+
+then SLURM will schedule ten different jobs, indexed from 1 up to 10. That is all
+well and good, but, in order to be useful, those 10 different jobs had best do
+different things (for example, operate on 10 different data sets). The user must
+see to it that each task of a job array performs the proper instance of a
+job, and this is done using the shell environment variable \texttt{SLURM\_ARRAY\_TASK\_ID}.
+
+When the first of the 10 scheduled tasks in the above job array is launched,
+the environment variable \texttt{SLURM\_ARRAY\_TASK\_ID} is set to the value 1, and then
+the contents of \texttt{mytasks.sh} are executed. When the second task is launched,
+\texttt{SLURM\_ARRAY\_TASK\_ID} is set to 2, and then \texttt{mytasks.sh} is run, and so forth,
+until the tenth job is launched with \texttt{SLURM\_ARRAY\_TASK\_ID} set to 10. Therefore, inside
+the \texttt{mytasks.sh} script, the user can use the value of \texttt{SLURM\_ARRAY\_TASK\_ID} (accessed
+via variable substitution with a dollar sign, e.g., \texttt{\$SLURM\_ARRAY\_TASK\_ID}) to
+direct the script to perform the proper instance of the job that is to be done.
+
+Thus, we could write our alignment example with four individuals, above,
+as a job array with a script file like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#SBATCH --array=1-4}
+
+\VariableTok{IND=}\NormalTok{Ind_}\VariableTok{$SLURM_ARRAY_TASK_ID}
+
+\ExtensionTok{align.sh} \VariableTok{$IND}\NormalTok{.R1.fq.gz }\VariableTok{$IND}\NormalTok{.R2.fq.gz}
+\end{Highlighting}
+\end{Shaded}
+
+Submitting that job with \texttt{sbatch} will submit four different tasks as part of
+a job array, each task being the alignment of sequencing reads from one of
+four different individuals.
+
+\hypertarget{naming-slurm-job-array-tasks}{%
+\subsubsection{Naming SLURM job array tasks}\label{naming-slurm-job-array-tasks}}
+
+Internally, when you submit a job array to SLURM, it creates a job ID for the
+job array and then it reserves specific job numbers for the tasks within the array. However,
+you will find it easiest to refer to the separate tasks in a SLURM job array using the
+syntax \texttt{ArrayJobNumber\_ArrayTaskNumber}. In other words, if we submitted the
+job array script listed above for aligning the reads from four individuals, and SLURM
+told us that the job-array had been assigned the job number 6677, then you can
+refer to the different tasks as \texttt{6677\_1} for the job aligning reads from Ind\_1,
+\texttt{6677\_2} for the job aligning reads from Ind\_2, and so forth.
+
+When using the \texttt{-\/-output} or \texttt{-\/-error} options to direct \emph{stdout} and \emph{stderr} to
+files during execution of the scripts submitted using the \texttt{-\/-array} option to \texttt{sbatch}, you
+can name those files using \texttt{\%A} which expands to the overall job array number and
+\texttt{\%a} which expands to the SLURM array task ID. So for example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#SBATCH --output  stdout_%A_%a.txt}
+\end{Highlighting}
+\end{Shaded}
+
+would be useful.
+
+\hypertarget{variations-on-the-array_spec}{%
+\subsubsection{\texorpdfstring{Variations on the \texttt{\textless{}array\_spec\textgreater{}}}{Variations on the \textless{}array\_spec\textgreater{}}}\label{variations-on-the-array_spec}}
+
+In the simplest case, you will want to evaluate tasks with indexes that
+proceed from 1 up to some stopping number, stepping by 1 each time. However,
+you can exert rather finely tuned control over which array task IDs you would like to
+be executed. The important thing to remember with all these variations is that
+\emph{no spaces are allowed}!
+
+As we have seen already, a dash is used to represent a range of numbers, such as:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#SBATCH --array=1-50}
+\end{Highlighting}
+\end{Shaded}
+
+To change the step size, you can immmediately follow the second number of the range
+with a colon, \texttt{:}, and give the step size. For example, to cycle over jobs with
+array indexes 1, 4, 7, and 10, you could do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#SBATCH --array=1-10:3}
+\end{Highlighting}
+\end{Shaded}
+
+If you wanted to pick out specific single indexes, you can combine single
+values and ranges with commas. For example, using just single values
+interspersed with commas:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#SBATCH --array=1,2,3,6,9,15}
+\end{Highlighting}
+\end{Shaded}
+
+You can even combine ranges with step sizes with commas. This would run
+indexes 1, 11, 21 and 100, 150, 200:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#SBATCH --array=1-21:10,100-200:50}
+\end{Highlighting}
+\end{Shaded}
+
+Being able to pick out single array index values to be done is wonderfully
+convenient for redoing tasks that might have failed. For example, suppose you
+ran a job with 500 tasks, and upon investigating the job logs you found that
+array tasks 47, 368, 477, and 489 had failed because insufficient time was
+allocated to them. In that case you could update the \texttt{-\/-time} setting of your
+script and then re-run just those four jobs by including:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#SBATCH --array=47,368,477,489}
+\end{Highlighting}
+\end{Shaded}
+
+Be warned, however, that SLURM does not check your \texttt{\textless{}array\_spec\textgreater{}} to ensure that
+each task index if given only once. If you specify the same index should be run
+twice, as is the case for 4 in the following:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#SBATCH --array=1:10,4}
+\end{Highlighting}
+\end{Shaded}
+
+then the job will be run twice, and possibly those two jobs will run at
+the same time so that output from each job will intermittently overwrite output
+from the other job, leading to corrupted results. Just be careful not to
+request the same task index more than once!
+
+Finally, if you want to be friendly to the other users of your cluster
+and want no more than X of your array tasks to be running at any time,
+you can stipulate that by ending the \texttt{\textless{}array\_spec\textgreater{}} with \texttt{\%X}. For example,
+to have no more than 5 array tasks running at any one time, you could do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#SBATCH --array=1:20%5}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{translating-array-indexes-to-job-instances}{%
+\subsubsection{Translating Array Indexes to Job Instances}\label{translating-array-indexes-to-job-instances}}
+
+The user is left to translate what a job array index of, say, 7, means in terms of
+what \emph{actions} that array task should take. Quite often you will want to map an array
+index to a different file to analyze, or perhaps a different region of a chromosome to
+do variant calling on, etc. A flexible and generic way of doing this mapping from
+array indexes to job specifics is to first define the variables (things like filenames, etc.)
+required by each array task in a simple TAB-delimited text file in which the first row holds
+the names of the variables in different TAB-separate columns, and each row below that holds
+the values that those variables should take for different values of the array index. The
+array index itself should be listed in the first column.
+
+For example, if we have 10 different
+files to process, each with different read-group values (Section \ref{read-groups}),
+you can specify the filenames and elements of the read group values in a TAB-delimited
+text file called \texttt{files-and-groups.tsv} that looks like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{index}\NormalTok{   file_prefix LB  Flowcell    Lane}
+\ExtensionTok{1}\NormalTok{   DPCh_plate1_A01_S1_L1_R Lib-1   HTYYCBBXX   1}
+\ExtensionTok{2}\NormalTok{   DPCh_plate1_A01_S1_L2_R Lib-1   HTYYCBBXX   2}
+\ExtensionTok{3}\NormalTok{   DPCh_plate1_A01_S1_L3_R Lib-1   HTYYCBBXX   3}
+\ExtensionTok{4}\NormalTok{   DPCh_plate1_A01_S1_L4_R Lib-1   HTYYCBBXX   4}
+\ExtensionTok{5}\NormalTok{   DPCh_plate1_A01_S1_L5_R Lib-1   HTYYCBBXX   5}
+\ExtensionTok{6}\NormalTok{   DPCh_plate1_A01_S1_L6_R Lib-1   HTYYCBBXX   6}
+\ExtensionTok{7}\NormalTok{   DPCh_plate1_A01_S1_L7_R Lib-1   HTYYCBBXX   7}
+\ExtensionTok{8}\NormalTok{   DPCh_plate1_A01_S1_L8_R Lib-1   HTYYCBBXX   8}
+\ExtensionTok{9}\NormalTok{   DPCh_plate1_A02_S2_L1_R Lib-1   HTYYCBBXX   1}
+\ExtensionTok{10}\NormalTok{  DPCh_plate1_A02_S2_L2_R Lib-1   HTYYCBBXX   2}
+\end{Highlighting}
+\end{Shaded}
+
+Then, when executing a job array script, this file can be used to
+convert the \texttt{SLURM\_ARRAY\_TASK\_ID} into the necessary file names
+and other variables with a simple \texttt{awk} script and
+variable assignments within your job script
+that look like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# make a command line that holds assignments of values to shell variables}
+\VariableTok{ASSIGN=$(}\FunctionTok{awk}\NormalTok{ -F}\StringTok{"\textbackslash{}t"}\NormalTok{ -v N=}\VariableTok{$SLURM_ARRAY_TASK_ID} \StringTok{'}
+\StringTok{  NR==1 \{for(i=1;i<=NF;i++) vars[i]=$i; next\}}
+\StringTok{  $1 == N \{for(i=1;i<=NF;i++) printf("%s=%s; ", vars[i], $i)\}}
+\StringTok{'}\NormalTok{ files-and-groups.tsv}\VariableTok{)}
+
+\CommentTok{# make those assignments}
+\BuiltInTok{eval} \VariableTok{$ASSIGN}
+\end{Highlighting}
+\end{Shaded}
+
+Then, when SLURM\_ARRAY\_TASK\_ID is equal to 7, for example, the variable
+\texttt{ASSIGN} gets the string value:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{index=}\NormalTok{7; }\VariableTok{file_prefix=}\NormalTok{DPCh_plate1_A01_S1_L7_R; }\VariableTok{LB=}\NormalTok{Lib-1; }\VariableTok{Flowcell=}\NormalTok{HTYYCBBXX; }\VariableTok{Lane=}\NormalTok{7;}
+\end{Highlighting}
+\end{Shaded}
+
+and then evaluating that string with \texttt{eval\ \$ASSIGN} will define for you the values of the
+shell variables \texttt{index}, \texttt{file\_prefix}, \texttt{LB}, \texttt{Flowcell}, and \texttt{Lane}, as indicated
+above. These shell variables may be used in subsequent code in your script
+(via variable subtitution with the \texttt{\$}, like \texttt{\$file\_prefix}) to ensure that the
+proper files are processed, etc., for each different value of SLURM\_ARRAY\_TASK\_ID.
+
+\hypertarget{slurm-job-array-hands-on}{%
+\subsubsection{SLURM Job Array hands-on}\label{slurm-job-array-hands-on}}
+
+Here, you can run some small scripts to get your feet wet with
+defining slurm job arrays. Save the following lines to a script
+named \texttt{test-arrays.sh} and then submit it via \texttt{sbatch\ test-arrays.sh}.
+It should produce three output files.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#!/bin/bash}
+\CommentTok{#SBATCH --time=00:05:00}
+\CommentTok{#SBATCH --output=my_output_%A_%a}
+\CommentTok{#SBATCH --array=1-3}
+
+\BuiltInTok{echo} \StringTok{"The SLURM_ARRAY_JOB_ID is : }\VariableTok{$SLURM_ARRAY_JOB_ID}\StringTok{"}
+\BuiltInTok{echo} \StringTok{"The SLURM_ARRAY_TASK_ID is: }\VariableTok{$SLURM_ARRAY_TASK_ID}\StringTok{"}
+\BuiltInTok{echo} \StringTok{"The SLURM_JOB_ID is: }\VariableTok{$SLURM_JOB_ID}\StringTok{"}
+\BuiltInTok{echo}
+\BuiltInTok{echo} \StringTok{"You can refer to this individual SLURM array task as: }\VariableTok{$\{SLURM_ARRAY_JOB_ID\}}\StringTok{_}\VariableTok{$\{SLURM_ARRAY_TASK_ID\}}\StringTok{"}
+\BuiltInTok{echo}
+
+\FunctionTok{sleep}\NormalTok{ 180}
+\end{Highlighting}
+\end{Shaded}
+
+Once this has been submitted, use your \texttt{myjobs} alias to see how it looks
+when it is queued: something like this:
+
+\begin{verbatim}
+            JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+     4499013_[1-3]      shas test-arr eriq@col PD       0:00      1 (Priority)
+\end{verbatim}
+
+If it is taking a while to start this job, and you don't have a \texttt{myjobs} alias,
+put one in your \texttt{\textasciitilde{}/.bashrc}. Add these lines:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# aliases for SLURM stuff}
+\BuiltInTok{alias}\NormalTok{ myjobs=}\StringTok{'squeue -u username'}
+\end{Highlighting}
+\end{Shaded}
+
+where you have to change \emph{username} to be your login name on the HPCC. Note
+that, for Colorado State Univesity affiliates on SUMMIT, that username is of the form,
+\texttt{user@colostate}.
+
+If you would like to see each one of the tasks in a job array listed
+on its own line, you can use the \texttt{-r,\ -\/-array} option to \texttt{squeue}. In terms
+of a \texttt{myjobs} alias that means issuing \texttt{myjobs\ -r} or \texttt{myjobs\ -\/-array} (both are
+equivalent):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ myjobs -r}
+             \ExtensionTok{JOBID}\NormalTok{ PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)}
+         \ExtensionTok{4499052_1}\NormalTok{      shas test-arr eriq@col PD       0:00      1 (Priority)}
+         \ExtensionTok{4499052_2}\NormalTok{      shas test-arr eriq@col PD       0:00      1 (Priority)}
+         \ExtensionTok{4499052_3}\NormalTok{      shas test-arr eriq@col PD       0:00      1 (Priority)}
+\end{Highlighting}
+\end{Shaded}
+
+I want people to look closely at the variables SLURM\_ARRAY\_JOB\_ID and
+SLURM\_ARRAY\_TASK\_ID, and to understand how those are different from
+SLURM\_JOB\_ID in this context. We will discuss that in class.
+
+Unfortunately, it seems like it can take a long time for that to start on
+SUMMIT. So, here are the results:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{==}\OperatorTok{>} \ExtensionTok{my_output_27234_1} \OperatorTok{<}\NormalTok{==}
+\ExtensionTok{The}\NormalTok{ SLURM_ARRAY_JOB_ID is : 27234}
+\ExtensionTok{The}\NormalTok{ SLURM_ARRAY_TASK_ID is: 1}
+\ExtensionTok{The}\NormalTok{ SLURM_JOB_ID is: 27235}
+
+\ExtensionTok{You}\NormalTok{ can refer to this individual SLURM array task as: 27234_1}
+
+
+\NormalTok{==}\OperatorTok{>} \ExtensionTok{my_output_27234_2} \OperatorTok{<}\NormalTok{==}
+\ExtensionTok{The}\NormalTok{ SLURM_ARRAY_JOB_ID is : 27234}
+\ExtensionTok{The}\NormalTok{ SLURM_ARRAY_TASK_ID is: 2}
+\ExtensionTok{The}\NormalTok{ SLURM_JOB_ID is: 27236}
+
+\ExtensionTok{You}\NormalTok{ can refer to this individual SLURM array task as: 27234_2}
+
+
+\NormalTok{==}\OperatorTok{>} \ExtensionTok{my_output_27234_3} \OperatorTok{<}\NormalTok{==}
+\ExtensionTok{The}\NormalTok{ SLURM_ARRAY_JOB_ID is : 27234}
+\ExtensionTok{The}\NormalTok{ SLURM_ARRAY_TASK_ID is: 3}
+\ExtensionTok{The}\NormalTok{ SLURM_JOB_ID is: 27234}
+
+\ExtensionTok{You}\NormalTok{ can refer to this individual SLURM array task as: 27234_3}
+\end{Highlighting}
+\end{Shaded}
+
+Next, we want to explore the possibility of overriding the \texttt{\#SBATCH\ -\/-array} option
+given internally in the \texttt{test-arrays.sh} with one given on the command line. Thus,
+try submitting the job with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{sbatch}\NormalTok{ --array=100,200,300 test-arrays.sh}
+\end{Highlighting}
+\end{Shaded}
+
+Finally, we want to contemplate strategies for turning the \texttt{SLURM\_ARRAY\_TASK\_ID}
+into ``directions'' for the script about what to do (which files to process, etc.)
+
+We discussed one approach, above, using a TAB-delimited file, but want to note here
+that depending on how your actual script is configured, any number of approaches
+might be suitable.
+
+For an example germane to doing alignment to a reference genome in our
+homework \texttt{chr-32-bioinformatics}, consider that you have 1280 pairs of files
+to process, and that you will launch jobs to process 128 such pairs at a time.
+A script called \texttt{run-single-job.sh} that mapped the first 128 pairs of files
+looked like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#!/bin/bash}
+
+\CommentTok{#SBATCH --time=05:00:00}
+\CommentTok{#SBATCH --output=run-single-out-%j}
+\CommentTok{#SBATCH --error=run-single-error-%j}
+\CommentTok{#SBATCH --mail-type=ALL}
+\CommentTok{#SBATCH --mail-user=user@email.edu}
+
+
+\ExtensionTok{./map-N-files-from-K.sh}\NormalTok{ 128 1}
+\end{Highlighting}
+\end{Shaded}
+
+If you wanted to map the next 128 pairs of files, the final line in the above
+script should look like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{./map-N-files-from-K.sh}\NormalTok{ 128 129}
+\end{Highlighting}
+\end{Shaded}
+
+and to do the next 128 pairs of files after that, the line should look like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{./map-N-files-from-K.sh}\NormalTok{ 128 257}
+\end{Highlighting}
+\end{Shaded}
+
+and so forth.
+
+So, if everyone has already run the first 128 pairs of files (as everyone should
+have finished for the homework) I contend that, if we wanted to modify this script
+so that the remaining 1152 pairs of files could be run as a job array, our new script
+could look like this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#!/bin/bash}
+
+\CommentTok{#SBATCH --time=02:00:00}
+\CommentTok{#SBATCH --output=run-array-out-%A_%a}
+\CommentTok{#SBATCH --error=run-array-error-%A_%a}
+\CommentTok{#SBATCH --mail-type=ALL}
+\CommentTok{#SBATCH --mail-user=user@email.edu}
+\CommentTok{#SBATCH --array=1-9}
+
+
+\ExtensionTok{./map-N-files-from-K.sh}\NormalTok{ 128 }\VariableTok{$((}\NormalTok{SLURM_ARRAY_TASK_ID * 128 + 1}\VariableTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+Save that file as \texttt{run-array-job.sh}
+
+Note the changes:
+
+\begin{itemize}
+\tightlist
+\item
+  output and error files modified to use \texttt{\%A\_\%a}
+\item
+  Added the --array command running from 1 to 9.
+\item
+  Changed the starting index from 1 to \texttt{\$((SLURM\_ARRAY\_TASK\_ID\ *\ 128\ +\ 1))}
+\end{itemize}
+
+The last one deserves some explanation, it uses the \emph{integer arithmetic}
+capabilities of the bash shell (Section \ref{bash-arithmetic}).
+
+So, what is that last line doing? You should check it for yourself. Doing so
+will emphasize an important point when it comes to testing your own job-array scripts:
+if you are testing the code in them interactively, you can simply assign any value you
+want to a variable named \texttt{SLURM\_ARRAY\_TASK\_ID} and verify the results are what you would
+like them to be. So, try this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\VariableTok{SLURM_ARRAY_TASK_ID=}\NormalTok{1}
+\BuiltInTok{echo}\NormalTok{ ./map-N-files-from-K.sh 128 }\VariableTok{$((}\NormalTok{SLURM_ARRAY_TASK_ID * 128 + 1}\VariableTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+And to check them all, including when SLURM\_ARRAY\_TASK\_ID=0 (which is the case that
+you already did for your homework, running it as a single job), try this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{for} \ExtensionTok{SLURM_ARRAY_TASK_ID}\NormalTok{ in }\DataTypeTok{\{0..9\}}\KeywordTok{;} \KeywordTok{do}
+  \BuiltInTok{echo}\NormalTok{ ./map-N-files-from-K.sh 128 }\VariableTok{$((}\NormalTok{SLURM_ARRAY_TASK_ID * 128 + 1}\VariableTok{))}
+\KeywordTok{done}
+\end{Highlighting}
+\end{Shaded}
+
+Once you have convinced yourself that your \texttt{run-array-job.sh} script will
+work correctly, and it is set for an array=1-9, and you have configured
+your email properly within it, then you should copy it to your
+\texttt{chr-32-bioinformatics} directory and submit it as a job to finish aligning
+the reads from all the remaining individuals, so we will have them for
+variant calling down the road.
+
+\textbf{THAT LAST STEP ABOVE IS PART OF YOUR HOMEWORK FOR NEXT WEEK THAT WILL BE DUE NEXT TUESDAY }
 
 \hypertarget{prepation-interlude-an-in-class-exercise-to-make-sure-everything-is-configured-correctly}{%
 \section{PREPATION INTERLUDE: An in-class exercise to make sure everything is configured correctly}\label{prepation-interlude-an-in-class-exercise-to-make-sure-everything-is-configured-correctly}}
@@ -11924,7 +12686,7 @@ noted that the SAM file header can contain lines like this one:
 
 The purpose of this line is to identify a read group that is named via the \texttt{ID} tag. In the above
 case the read group is named \texttt{HTYYCBBXX.1.CH\_plate1\_A01}. The attributes of this read group are stored
-using the remaining tags. Happily, those attributes mirror exactly what we might need to know to
+using the remaining tags in the \texttt{@RG} line. Happily, those attributes mirror exactly what we might need to know to
 identify PCR duplicates and to perform base quality score recalibration; namely:
 
 \begin{itemize}
@@ -11941,8 +12703,8 @@ It is important to note that this line in the SAM header is just a header line t
 information about a particular read group that is found in the file. It is not, \emph{by itself}
 giving you information about any particular read found in the alignment file. Read group information
 about a particular read in the alignment file is given on the alignment line in a column (way off near the
-end of the line typically) tagged with \texttt{RG:Z}. That column simply holds the \texttt{ID} of the read group
-that the read belongs to. In this way, all the information that applies to the read--0i.e., the sample it
+end of the line typically) tagged with \texttt{RG:Z}. That \texttt{RG:Z} column in an alignment row simply holds the \texttt{ID} of the read group
+that the read belongs to. In this way, all the information that applies to the read---i.e., the sample it
 came from, (\texttt{SM}), the library prep it was in (\texttt{LB}), and information about the flowcell and lane (\texttt{PU})---can
 be assigned to the read, \emph{without writing all of that information on every line in the alignment file}.
 Accordingly, it should be obvious why the read group IDs must be unique across all the different
@@ -11954,12 +12716,12 @@ read groups in it \href{https://eriqande.github.io/eca-bioinf-handbook/downloads
 Let's do that and have a look at it.
 
 The way that read group information---particularly the platform unit, or \texttt{PU} information---is recorded
-is dicated by which software will be used for downstream processing.
+is dictated by which software will be used for downstream processing.
 We describe the
 conventions that are useful for
 passing the aligned data to the Genome Analysis Toolkit (GATK), an extensive
 and well-supported piece
-of software developed by the Broad Institute. Currently, the convention for the
+of software developed by the Broad Institute. Currently, the GATK conventions for
 read group tags are these:
 
 \begin{itemize}
@@ -12889,7 +13651,7 @@ I copied that to \texttt{inputs} so we can plot it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-68-1.pdf}
+\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-74-1.pdf}
 
 OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.
 

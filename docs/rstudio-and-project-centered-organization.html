@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-02" />
+<meta name="date" content="2020-04-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#getting-a-bash-shell-on-your-system"><i class="fa fa-check"></i><b>4.1</b> Getting a bash shell on your system</a></li>
 <li class="chapter" data-level="4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#navigating-the-unix-filesystem"><i class="fa fa-check"></i><b>4.2</b> Navigating the Unix filesystem</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#changing-the-working-directory-with-cd"><i class="fa fa-check"></i><b>4.2.1</b> Changing the working directory with <code>cd</code></a></li>
-<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#updating-your-command-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
+<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#comm-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
 <li class="chapter" data-level="4.2.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#tab-completion-for-paths"><i class="fa fa-check"></i><b>4.2.3</b> TAB-completion for paths</a></li>
 <li class="chapter" data-level="4.2.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#listing-the-contents-of-a-directory-with-ls"><i class="fa fa-check"></i><b>4.2.4</b> Listing the contents of a directory with <code>ls</code></a></li>
 <li class="chapter" data-level="4.2.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#globbing"><i class="fa fa-check"></i><b>4.2.5</b> Globbing</a></li>
@@ -180,7 +180,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="shell-programming.html"><a href="shell-programming.html"><i class="fa fa-check"></i><b>5</b> Shell programming</a><ul>
 <li class="chapter" data-level="5.1" data-path="shell-programming.html"><a href="shell-programming.html#an-example-script"><i class="fa fa-check"></i><b>5.1</b> An example script</a></li>
 <li class="chapter" data-level="5.2" data-path="shell-programming.html"><a href="shell-programming.html#the-structure-of-a-bash-script"><i class="fa fa-check"></i><b>5.2</b> The Structure of a Bash Script</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="shell-programming.html"><a href="shell-programming.html#a-bit-more-on-and"><i class="fa fa-check"></i><b>5.2.1</b> A bit more on <code>;</code> and <code>&amp;</code></a></li>
+<li class="chapter" data-level="5.2.1" data-path="shell-programming.html"><a href="shell-programming.html#paragraph-before-shebang"><i class="fa fa-check"></i><b>5.2.1</b> A bit more on <code>;</code> and <code>&amp;</code></a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="shell-programming.html"><a href="shell-programming.html#variables"><i class="fa fa-check"></i><b>5.3</b> Variables</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="shell-programming.html"><a href="shell-programming.html#assigning-values-to-variables"><i class="fa fa-check"></i><b>5.3.1</b> Assigning values to variables</a></li>
@@ -188,7 +188,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.3.3" data-path="shell-programming.html"><a href="shell-programming.html#what-does-the-shell-do-with-the-value-substituted-for-a-variable"><i class="fa fa-check"></i><b>5.3.3</b> What does the shell do with the value substituted for a variable?</a></li>
 <li class="chapter" data-level="5.3.4" data-path="shell-programming.html"><a href="shell-programming.html#quotes-and-var-subs"><i class="fa fa-check"></i><b>5.3.4</b> Double and Single Quotation Marks and Variable Substitution</a></li>
 <li class="chapter" data-level="5.3.5" data-path="shell-programming.html"><a href="shell-programming.html#one-useful-fancy-variable-substitution-method"><i class="fa fa-check"></i><b>5.3.5</b> One useful, fancy, variable-substitution method</a></li>
-<li class="chapter" data-level="5.3.6" data-path="shell-programming.html"><a href="shell-programming.html#variable-arrays"><i class="fa fa-check"></i><b>5.3.6</b> Variable arrays</a></li>
+<li class="chapter" data-level="5.3.6" data-path="shell-programming.html"><a href="shell-programming.html#bash-arithmetic"><i class="fa fa-check"></i><b>5.3.6</b> Integer Arithmetic with Shell Variables</a></li>
+<li class="chapter" data-level="5.3.7" data-path="shell-programming.html"><a href="shell-programming.html#variable-arrays"><i class="fa fa-check"></i><b>5.3.7</b> Variable arrays</a></li>
 </ul></li>
 <li class="chapter" data-level="5.4" data-path="shell-programming.html"><a href="shell-programming.html#evaluate-a-command-and-substitute-the-result-on-the-command-line"><i class="fa fa-check"></i><b>5.4</b> Evaluate a command and substitute the result on the command line</a></li>
 <li class="chapter" data-level="5.5" data-path="shell-programming.html"><a href="shell-programming.html#groupingcollecting-output-from-multiple-commands-commands-and-commands"><i class="fa fa-check"></i><b>5.5</b> Grouping/Collecting output from multiple commands: <code>(commands)</code> and <code>{ commands; }</code></a></li>
@@ -251,6 +252,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#getting-compute-resources-allocated-to-your-jobs-on-an-hpcc"><i class="fa fa-check"></i><b>8.4</b> Getting compute resources allocated to your jobs on an HPCC</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#interactive-sessions"><i class="fa fa-check"></i><b>8.4.1</b> Interactive sessions</a></li>
 <li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#batch-jobs"><i class="fa fa-check"></i><b>8.4.2</b> Batch jobs</a></li>
+<li class="chapter" data-level="8.4.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#slurm-job-arrays"><i class="fa fa-check"></i><b>8.4.3</b> SLURM Job Arrays</a></li>
 </ul></li>
 <li class="chapter" data-level="8.5" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#prepation-interlude-an-in-class-exercise-to-make-sure-everything-is-configured-correctly"><i class="fa fa-check"></i><b>8.5</b> PREPATION INTERLUDE: An in-class exercise to make sure everything is configured correctly</a></li>
 <li class="chapter" data-level="8.6" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#more-boneyard"><i class="fa fa-check"></i><b>8.6</b> More Boneyard…</a></li>
@@ -407,7 +409,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 a chapter in a dissertation or a paper.</p>
 <p>I think it is useful for number things in order on a three-digit system, and
 at the top of each make directories <code>outputs</code> and <code>intermediates</code>, like this:</p>
-<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb318-1" data-line-number="1"><span class="kw">dir.create</span>(<span class="kw">file.path</span>(<span class="kw">c</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;intermediates&quot;</span>), <span class="st">&quot;203&quot;</span>), <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb351-1" data-line-number="1"><span class="kw">dir.create</span>(<span class="kw">file.path</span>(<span class="kw">c</span>(<span class="st">&quot;outputs&quot;</span>, <span class="st">&quot;intermediates&quot;</span>), <span class="st">&quot;203&quot;</span>), <span class="dt">recursive =</span> <span class="ot">TRUE</span>, <span class="dt">showWarnings =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
 <p>I had previously used two variables <code>output_dir</code> and <code>interm_dir</code> to specify these in each
 notebook, but now I think it would be better to just hardwire those, for a few reasons:</p>
 <ul>
@@ -542,10 +544,10 @@ your laptop.</li>
 repository so that you have a directory on your HPCC that is named
 <code>chr-32-bioinformatics-githubname</code> (where githubname is your GitHub handle), and if you
 list the contents, it should look like:</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb319-1" data-line-number="1"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">chr-32-bioinformatics-eriqande</span>]--% ls</a>
-<a class="sourceLine" id="cb319-2" data-line-number="2"><span class="ex">chinook-all-prefixes-for-samples.tsv</span>  fastqs                 obtain-and-prep-data.sh</a>
-<a class="sourceLine" id="cb319-3" data-line-number="3"><span class="ex">chinook-fastq-meta-data.tsv</span>           genome                 README-01.txt</a>
-<a class="sourceLine" id="cb319-4" data-line-number="4"><span class="ex">chr-32-bioinformatics.Rproj</span>           map-N-files-from-K.sh  run-single-job.sh</a></code></pre></div>
+<div class="sourceCode" id="cb352"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb352-1" data-line-number="1"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">chr-32-bioinformatics-eriqande</span>]--% ls</a>
+<a class="sourceLine" id="cb352-2" data-line-number="2"><span class="ex">chinook-all-prefixes-for-samples.tsv</span>  fastqs                 obtain-and-prep-data.sh</a>
+<a class="sourceLine" id="cb352-3" data-line-number="3"><span class="ex">chinook-fastq-meta-data.tsv</span>           genome                 README-01.txt</a>
+<a class="sourceLine" id="cb352-4" data-line-number="4"><span class="ex">chr-32-bioinformatics.Rproj</span>           map-N-files-from-K.sh  run-single-job.sh</a></code></pre></div>
 <p>The directories <code>fastqs</code> and <code>genome</code> should hold the FASTQ files and the
 bwa-indexed genome that you downloaded using <code>rclone</code>.</p>
 <div id="push-any-changed-scripts-to-github" class="section level5">
@@ -553,26 +555,26 @@ bwa-indexed genome that you downloaded using <code>rclone</code>.</p>
 <p>In the process of downloading those files, you might have made changes to
 <code>obtain-and-prep-data.sh</code>. You can see if you changed anything in the repository
 by doing</p>
-<div class="sourceCode" id="cb320"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb320-1" data-line-number="1"><span class="fu">git</span> status</a></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb353-1" data-line-number="1"><span class="fu">git</span> status</a></code></pre></div>
 <p>If it shows files that have been modified. You can commit them.<br />
 <em>Be sure not to commit large files, like the data files and the indexed genome!!</em></p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb321-1" data-line-number="1"><span class="fu">git</span> add file-name1 file-name2  # replace file-name with whatever scripts you have modified</a>
-<a class="sourceLine" id="cb321-2" data-line-number="2"><span class="fu">git</span> commit</a>
-<a class="sourceLine" id="cb321-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb321-4" data-line-number="4"><span class="co"># then you write a commit message and save that file</span></a></code></pre></div>
+<div class="sourceCode" id="cb354"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb354-1" data-line-number="1"><span class="fu">git</span> add file-name1 file-name2  # replace file-name with whatever scripts you have modified</a>
+<a class="sourceLine" id="cb354-2" data-line-number="2"><span class="fu">git</span> commit</a>
+<a class="sourceLine" id="cb354-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb354-4" data-line-number="4"><span class="co"># then you write a commit message and save that file</span></a></code></pre></div>
 <p>Once you commit that, you can check with <code>git status</code> to make sure the repository
 is <em>clean</em>.</p>
 <p>Then, push those changes back to GitHub:</p>
-<div class="sourceCode" id="cb322"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb322-1" data-line-number="1"><span class="fu">git</span> push origin master</a></code></pre></div>
+<div class="sourceCode" id="cb355"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb355-1" data-line-number="1"><span class="fu">git</span> push origin master</a></code></pre></div>
 </div>
 <div id="make-sure-you-have-a-local-copy-of-your-repository" class="section level5">
 <h5><span class="header-section-number">10.2.1.1.2</span> Make sure you have a local copy of your repository</h5>
 <p>Now, if you have not already done it, get a copy of that repository on
 your local machine. You can do this by using a line like:</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb323-1" data-line-number="1"><span class="fu">git</span> clone https://eriqande@github.com/CSU-con-gen-bioinformatics-2020/chr-32-bioinformatics-eriqande</a></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb356-1" data-line-number="1"><span class="fu">git</span> clone https://eriqande@github.com/CSU-con-gen-bioinformatics-2020/chr-32-bioinformatics-eriqande</a></code></pre></div>
 <p>on your laptop terminal (replacing <code>eriqande</code>—in two places above!—with your correct GitHub username). Or by using the RStudio’s “New Project-&gt;From Version Control” option
 and opening a git repository with a URL like this:</p>
-<div class="sourceCode" id="cb324"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb324-1" data-line-number="1"><span class="ex">https</span>://eriqande@github.com/CSU-con-gen-bioinformatics-2020/chr-32-bioinformatics-eriqande</a></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb357-1" data-line-number="1"><span class="ex">https</span>://eriqande@github.com/CSU-con-gen-bioinformatics-2020/chr-32-bioinformatics-eriqande</a></code></pre></div>
 <p>again, replacing <code>eriqande</code> with your GitHub name.</p>
 <p>That gives you your <em>local copy</em> of the repository.</p>
 <p>Notice that this local copy does not have the <code>fastqs</code> or <code>genome</code> directory
@@ -594,12 +596,12 @@ that RStudio is running in that project…)</p>
 on your laptop. Use that shell to use <code>ssh</code> to login to your remote computer.
 For example:</li>
 </ul>
-<div class="sourceCode" id="cb325"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb325-1" data-line-number="1"><span class="fu">ssh</span> username@remote.server.edu</a></code></pre></div>
+<div class="sourceCode" id="cb358"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb358-1" data-line-number="1"><span class="fu">ssh</span> username@remote.server.edu</a></code></pre></div>
 <p>Huge note! RStudio doesn’t use the same <code>ssh</code> program that ships with git bash on
 Windows. So, if you are using a windows machine, if using ssh in the RStudio terminal
 window gives you errors, you must explicitly use the version of ssh that ships with git
 bash. Try giving the full path to ssh like this:</p>
-<div class="sourceCode" id="cb326"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb326-1" data-line-number="1"><span class="ex">/usr/bin/ssh</span> username@remote.server.edu</a></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb359-1" data-line-number="1"><span class="ex">/usr/bin/ssh</span> username@remote.server.edu</a></code></pre></div>
 <p>For details about that, see <a href="https://github.com/rstudio/rstudio/issues/4623">https://github.com/rstudio/rstudio/issues/4623</a> I hope this fixes issues with Windows. I no longer have a windows machine
 to test things on.</p>
 <p>Once you have logged on to your remote machine, navigate (using <code>cd</code>) to the
@@ -617,18 +619,18 @@ it is easy to get back to it. (Also, if RStudio bombs while you are working in t
 terminal, it will kill your shell session, so it is nice to be able to get back to
 that same session using tmux.)
 So, if you are comfortable with tmux, create a new tmux session with something like:</p>
-<div class="sourceCode" id="cb328"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb328-1" data-line-number="1"><span class="ex">tmux</span> new -s chr-32</a></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb361-1" data-line-number="1"><span class="ex">tmux</span> new -s chr-32</a></code></pre></div>
 </div>
 <div id="not-optional-get-an-interactive-shell-on-a-compute-node" class="section level4">
 <h4><span class="header-section-number">10.2.2.3</span> Not optional: Get an interactive shell on a compute node</h4>
 <p>We don’t want to be doing computing on the login node. Also, we want to
 test all the code on a compute node…</p>
 <p>On summit:</p>
-<div class="sourceCode" id="cb329"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb329-1" data-line-number="1"><span class="ex">sinteractive</span></a></code></pre></div>
+<div class="sourceCode" id="cb362"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb362-1" data-line-number="1"><span class="ex">sinteractive</span></a></code></pre></div>
 <p>Note, you might have to do this a couple of times. Their sinteractive script
 seems a little buggy. In fact, early this morning it was completely failing,
 but I was able to get an interactive session using what I use on Sedna:</p>
-<div class="sourceCode" id="cb330"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb330-1" data-line-number="1"><span class="ex">srun</span> --pty /bin/bash</a></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb363-1" data-line-number="1"><span class="ex">srun</span> --pty /bin/bash</a></code></pre></div>
 <p>On Hummingbird: y’all that work on Hummingbird have said the system has some vagaries…</p>
 </div>
 <div id="open-map-n-files-from-k.sh-on-your-local-rstudio" class="section level4">
@@ -651,7 +653,7 @@ will send code to the Terminal, not to the R console. But, it is good idea to ge
 into the habit of using CMD-Option-Return (Alt-cntrl-Return) when you want to
 send code to a remote terminal.)</p>
 <p>That last line:</p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb364-1" data-line-number="1"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
 <p>was important because we will be using bwa and samtools.
 You should have these
 in your conda bioinf environment.</p>
@@ -677,21 +679,21 @@ indeed, properly defined.</p>
 <p>In our case, after the usage block (which we don’t hassle with since we
 are not running the script as a standalone script, but rather line by line
 from <em>inside</em> it!) two variables are defined immediately:</p>
-<div class="sourceCode" id="cb332"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb332-1" data-line-number="1"><span class="co"># Now, get the first file index and the last file index</span></a>
-<a class="sourceLine" id="cb332-2" data-line-number="2"><span class="va">START=$2</span></a>
-<a class="sourceLine" id="cb332-3" data-line-number="3"><span class="va">STOP=$(($START</span> + <span class="va">$1</span> - 1<span class="va">))</span></a></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb365-1" data-line-number="1"><span class="co"># Now, get the first file index and the last file index</span></a>
+<a class="sourceLine" id="cb365-2" data-line-number="2"><span class="va">START=$2</span></a>
+<a class="sourceLine" id="cb365-3" data-line-number="3"><span class="va">STOP=$(($START</span> + <span class="va">$1</span> - 1<span class="va">))</span></a></code></pre></div>
 <p>These basically tell us the indexes of the files that will be processed in the
 <code>for</code> loop coming up. i.e., if START=1 and STOP=8, that means that, in the loop
 below this point in the script, files 1 through 8 will be processed.</p>
 <p>We can set these now if we want. Let’s set</p>
-<div class="sourceCode" id="cb333"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb333-1" data-line-number="1"><span class="va">START=</span>1</a>
-<a class="sourceLine" id="cb333-2" data-line-number="2"><span class="va">STOP=</span>8</a></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb366-1" data-line-number="1"><span class="va">START=</span>1</a>
+<a class="sourceLine" id="cb366-2" data-line-number="2"><span class="va">STOP=</span>8</a></code></pre></div>
 <p>You can do that by just typing those on the command line.</p>
 <p>Once that is done, we can evaluate (Option-CMD-Return) the following line
 that starts:</p>
-<div class="sourceCode" id="cb334"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb334-1" data-line-number="1"><span class="va">SM_TAGS=</span>...</a></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb367-1" data-line-number="1"><span class="va">SM_TAGS=</span>...</a></code></pre></div>
 <p>Then, see what the result is, with:</p>
-<div class="sourceCode" id="cb335"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb335-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$SM_TAGS</span></a></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb368-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$SM_TAGS</span></a></code></pre></div>
 <p>Those are the fundamentals of evaluating code line by line: evaluate the line. If
 it assigned a variable, print the value of the variable (<code>echo</code>) to see what its value
 is set to. Repeat…</p>
@@ -703,23 +705,23 @@ to evaluate those lines. Recall that the body of the for loop will likely be eva
 many times (that code gets looped over…) but we will want to test it just once, at
 least. To prepare for this, we must set the variables that the <code>for</code> loop is cycling over.</p>
 <p>When we see:</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb336-1" data-line-number="1"><span class="kw">for((</span>Idx=<span class="va">$START</span>; Idx&lt;=<span class="va">$STOP</span>; Idx++<span class="kw">))</span>; <span class="kw">do</span></a></code></pre></div>
+<div class="sourceCode" id="cb369"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb369-1" data-line-number="1"><span class="kw">for((</span>Idx=<span class="va">$START</span>; Idx&lt;=<span class="va">$STOP</span>; Idx++<span class="kw">))</span>; <span class="kw">do</span></a></code></pre></div>
 <p>It means that the <code>for</code> loop is cycling over different values assigned to the
 <code>Idx</code> variable. That is, the first time through, <code>Idx</code> is set to the value of
 START (which is 1, in our case). The next time through, <code>Idx</code> is set to the
 value of 2, and so forth.</p>
 <p>So, we can run through the first loop of this <code>for</code> loop code faithfully, by setting</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb337-1" data-line-number="1"><span class="va">Idx=</span>1</a></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb370-1" data-line-number="1"><span class="va">Idx=</span>1</a></code></pre></div>
 <p>Do that, and then do <code>echo $Idx</code> to print the value of <code>Idx</code> to make sure you got it set
 correctly. Then evaluate the next line.</p>
 </div>
 <div id="multi-line-commands" class="section level4">
 <h4><span class="header-section-number">10.2.2.8</span> Multi-line commands</h4>
 <p>Soon, we get to a mutli-line command that looks like:</p>
-<div class="sourceCode" id="cb338"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb338-1" data-line-number="1"><span class="va">ASSIGNMENTS=$(</span><span class="fu">awk</span> -v LINE=<span class="va">$Idx</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb338-2" data-line-number="2"><span class="st">    $1 == &quot;index&quot; {for(i=1; i&lt;=NF; i++) vars[i]=$i; next}</span></a>
-<a class="sourceLine" id="cb338-3" data-line-number="3"><span class="st">    $1 == LINE {for(i=1; i&lt;=NF; i++) printf(&quot;%s=%s; &quot;, vars[i], $i)}</span></a>
-<a class="sourceLine" id="cb338-4" data-line-number="4"><span class="st">  &#39;</span> chinook-fastq-meta-data.tsv<span class="va">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb371-1" data-line-number="1"><span class="va">ASSIGNMENTS=$(</span><span class="fu">awk</span> -v LINE=<span class="va">$Idx</span> <span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb371-2" data-line-number="2"><span class="st">    $1 == &quot;index&quot; {for(i=1; i&lt;=NF; i++) vars[i]=$i; next}</span></a>
+<a class="sourceLine" id="cb371-3" data-line-number="3"><span class="st">    $1 == LINE {for(i=1; i&lt;=NF; i++) printf(&quot;%s=%s; &quot;, vars[i], $i)}</span></a>
+<a class="sourceLine" id="cb371-4" data-line-number="4"><span class="st">  &#39;</span> chinook-fastq-meta-data.tsv<span class="va">)</span></a></code></pre></div>
 <p>You can evaluate that line-by-line, by starting with your cursor
 anywhere on the line that says <code>ASSIGNMENTS</code> and then hitting
 Option-CMD-Return four times.</p>
@@ -748,11 +750,11 @@ It is stored in a variable; what is the name of that variable? What is its value
 <div id="evaluating-the-entire-for-loop-from-start1-to-stop8" class="section level4">
 <h4><span class="header-section-number">10.2.2.11</span> Evaluating the entire <code>for</code> loop from START=1 to STOP=8</h4>
 <p>Check to make sure that you have START and STOP set correctly:</p>
-<div class="sourceCode" id="cb339"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb339-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$START</span> <span class="va">$STOP</span></a></code></pre></div>
+<div class="sourceCode" id="cb372"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb372-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$START</span> <span class="va">$STOP</span></a></code></pre></div>
 <p>If you get <code>1 8</code> as the response, then you are good to go. If not, then
 do:</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb340-1" data-line-number="1"><span class="va">START=</span>1</a>
-<a class="sourceLine" id="cb340-2" data-line-number="2"><span class="va">STOP=</span>8</a></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb373-1" data-line-number="1"><span class="va">START=</span>1</a>
+<a class="sourceLine" id="cb373-2" data-line-number="2"><span class="va">STOP=</span>8</a></code></pre></div>
 <p>And re-evaluate the <code>SM_TAGS=</code> line (line 48) to make sure that variable
 is set.</p>
 <p>Now, to evaluate the whole for loop you can highlight everything from
@@ -763,17 +765,17 @@ the <code>for...</code> line to the <code>done</code> line (inclusive) and hit O
 <h4><span class="header-section-number">10.2.2.12</span> Check the stderr output from all the tools</h4>
 <p>Look at the value of the variables that hold the paths
 to the stderr files:</p>
-<div class="sourceCode" id="cb341"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb341-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$BWA_STDERR</span></a>
-<a class="sourceLine" id="cb341-2" data-line-number="2"><span class="bu">echo</span> <span class="va">$SAM_VIEW_STDERR</span></a>
-<a class="sourceLine" id="cb341-3" data-line-number="3"><span class="bu">echo</span> <span class="va">$SAM_FIX_STDERR</span></a>
-<a class="sourceLine" id="cb341-4" data-line-number="4"><span class="bu">echo</span> <span class="va">$SAM_SORT_STDERR</span></a></code></pre></div>
+<div class="sourceCode" id="cb374"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb374-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$BWA_STDERR</span></a>
+<a class="sourceLine" id="cb374-2" data-line-number="2"><span class="bu">echo</span> <span class="va">$SAM_VIEW_STDERR</span></a>
+<a class="sourceLine" id="cb374-3" data-line-number="3"><span class="bu">echo</span> <span class="va">$SAM_FIX_STDERR</span></a>
+<a class="sourceLine" id="cb374-4" data-line-number="4"><span class="bu">echo</span> <span class="va">$SAM_SORT_STDERR</span></a></code></pre></div>
 <p>The answers you get are those that were set on the last time time
 the computer ran through the loop. But it shows that they are
 all in the <code>stderr</code> directory.</p>
 <p>We can check to see if anything went wrong by looking that the top few lines
 of all of those files that were produced (for all the 8 different times
 through the loop), with:</p>
-<div class="sourceCode" id="cb342"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb342-1" data-line-number="1"><span class="fu">head</span> stderr/* <span class="kw">|</span> <span class="fu">less</span></a></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb375-1" data-line-number="1"><span class="fu">head</span> stderr/* <span class="kw">|</span> <span class="fu">less</span></a></code></pre></div>
 <p>That pipes the output through the <code>less</code> pager/viewer. Space bar makes it go
 down a “page” <code>b</code> makes it go <em>back</em> a “page” and <code>q</code> is what you use
 to get out of the <code>less</code> viewer.</p>
@@ -783,14 +785,14 @@ to get out of the <code>less</code> viewer.</p>
 <h4><span class="header-section-number">10.2.2.13</span> Now, you are ready to run the next block of code</h4>
 <p>Starting on line 106 you can run through the next bit.</p>
 <p>Check the value of SM_TAGS:</p>
-<div class="sourceCode" id="cb343"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb343-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$SM_TAGS</span></a></code></pre></div>
+<div class="sourceCode" id="cb376"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb376-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$SM_TAGS</span></a></code></pre></div>
 <p>It should be a single value: <code>CH_plate1_A01</code>.</p>
 <p>So we can set <code>SM</code> (the value being cycled over) to that:</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb344-1" data-line-number="1"><span class="va">SM=</span>CH_plate1_A01</a></code></pre></div>
+<div class="sourceCode" id="cb377"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb377-1" data-line-number="1"><span class="va">SM=</span>CH_plate1_A01</a></code></pre></div>
 <p>And then run through the lines of code within that last for loop to
 understand what they are doing.</p>
 <p>At the end of it, you should be able to do</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb345-1" data-line-number="1"><span class="ex">samtools</span> view <span class="va">$MKDUP_OUTPUT</span> <span class="kw">|</span> <span class="fu">head</span> </a></code></pre></div>
+<div class="sourceCode" id="cb378"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb378-1" data-line-number="1"><span class="ex">samtools</span> view <span class="va">$MKDUP_OUTPUT</span> <span class="kw">|</span> <span class="fu">head</span> </a></code></pre></div>
 <p>to see a few lines of SAM file.</p>
 <p>If that all worked. Then it means you should be all set
 up to run <code>run-single-job.sh</code> using <code>sbatch</code>. Once you have

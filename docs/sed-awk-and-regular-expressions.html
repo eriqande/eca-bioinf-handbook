@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-02" />
+<meta name="date" content="2020-04-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#getting-a-bash-shell-on-your-system"><i class="fa fa-check"></i><b>4.1</b> Getting a bash shell on your system</a></li>
 <li class="chapter" data-level="4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#navigating-the-unix-filesystem"><i class="fa fa-check"></i><b>4.2</b> Navigating the Unix filesystem</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#changing-the-working-directory-with-cd"><i class="fa fa-check"></i><b>4.2.1</b> Changing the working directory with <code>cd</code></a></li>
-<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#updating-your-command-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
+<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#comm-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
 <li class="chapter" data-level="4.2.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#tab-completion-for-paths"><i class="fa fa-check"></i><b>4.2.3</b> TAB-completion for paths</a></li>
 <li class="chapter" data-level="4.2.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#listing-the-contents-of-a-directory-with-ls"><i class="fa fa-check"></i><b>4.2.4</b> Listing the contents of a directory with <code>ls</code></a></li>
 <li class="chapter" data-level="4.2.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#globbing"><i class="fa fa-check"></i><b>4.2.5</b> Globbing</a></li>
@@ -180,7 +180,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="shell-programming.html"><a href="shell-programming.html"><i class="fa fa-check"></i><b>5</b> Shell programming</a><ul>
 <li class="chapter" data-level="5.1" data-path="shell-programming.html"><a href="shell-programming.html#an-example-script"><i class="fa fa-check"></i><b>5.1</b> An example script</a></li>
 <li class="chapter" data-level="5.2" data-path="shell-programming.html"><a href="shell-programming.html#the-structure-of-a-bash-script"><i class="fa fa-check"></i><b>5.2</b> The Structure of a Bash Script</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="shell-programming.html"><a href="shell-programming.html#a-bit-more-on-and"><i class="fa fa-check"></i><b>5.2.1</b> A bit more on <code>;</code> and <code>&amp;</code></a></li>
+<li class="chapter" data-level="5.2.1" data-path="shell-programming.html"><a href="shell-programming.html#paragraph-before-shebang"><i class="fa fa-check"></i><b>5.2.1</b> A bit more on <code>;</code> and <code>&amp;</code></a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="shell-programming.html"><a href="shell-programming.html#variables"><i class="fa fa-check"></i><b>5.3</b> Variables</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="shell-programming.html"><a href="shell-programming.html#assigning-values-to-variables"><i class="fa fa-check"></i><b>5.3.1</b> Assigning values to variables</a></li>
@@ -188,7 +188,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.3.3" data-path="shell-programming.html"><a href="shell-programming.html#what-does-the-shell-do-with-the-value-substituted-for-a-variable"><i class="fa fa-check"></i><b>5.3.3</b> What does the shell do with the value substituted for a variable?</a></li>
 <li class="chapter" data-level="5.3.4" data-path="shell-programming.html"><a href="shell-programming.html#quotes-and-var-subs"><i class="fa fa-check"></i><b>5.3.4</b> Double and Single Quotation Marks and Variable Substitution</a></li>
 <li class="chapter" data-level="5.3.5" data-path="shell-programming.html"><a href="shell-programming.html#one-useful-fancy-variable-substitution-method"><i class="fa fa-check"></i><b>5.3.5</b> One useful, fancy, variable-substitution method</a></li>
-<li class="chapter" data-level="5.3.6" data-path="shell-programming.html"><a href="shell-programming.html#variable-arrays"><i class="fa fa-check"></i><b>5.3.6</b> Variable arrays</a></li>
+<li class="chapter" data-level="5.3.6" data-path="shell-programming.html"><a href="shell-programming.html#bash-arithmetic"><i class="fa fa-check"></i><b>5.3.6</b> Integer Arithmetic with Shell Variables</a></li>
+<li class="chapter" data-level="5.3.7" data-path="shell-programming.html"><a href="shell-programming.html#variable-arrays"><i class="fa fa-check"></i><b>5.3.7</b> Variable arrays</a></li>
 </ul></li>
 <li class="chapter" data-level="5.4" data-path="shell-programming.html"><a href="shell-programming.html#evaluate-a-command-and-substitute-the-result-on-the-command-line"><i class="fa fa-check"></i><b>5.4</b> Evaluate a command and substitute the result on the command line</a></li>
 <li class="chapter" data-level="5.5" data-path="shell-programming.html"><a href="shell-programming.html#groupingcollecting-output-from-multiple-commands-commands-and-commands"><i class="fa fa-check"></i><b>5.5</b> Grouping/Collecting output from multiple commands: <code>(commands)</code> and <code>{ commands; }</code></a></li>
@@ -251,6 +252,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#getting-compute-resources-allocated-to-your-jobs-on-an-hpcc"><i class="fa fa-check"></i><b>8.4</b> Getting compute resources allocated to your jobs on an HPCC</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#interactive-sessions"><i class="fa fa-check"></i><b>8.4.1</b> Interactive sessions</a></li>
 <li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#batch-jobs"><i class="fa fa-check"></i><b>8.4.2</b> Batch jobs</a></li>
+<li class="chapter" data-level="8.4.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#slurm-job-arrays"><i class="fa fa-check"></i><b>8.4.3</b> SLURM Job Arrays</a></li>
 </ul></li>
 <li class="chapter" data-level="8.5" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#prepation-interlude-an-in-class-exercise-to-make-sure-everything-is-configured-correctly"><i class="fa fa-check"></i><b>8.5</b> PREPATION INTERLUDE: An in-class exercise to make sure everything is configured correctly</a></li>
 <li class="chapter" data-level="8.6" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#more-boneyard"><i class="fa fa-check"></i><b>8.6</b> More Boneyard…</a></li>
@@ -433,7 +435,7 @@ have a short look at regular expressions, then we will use those further in <cod
 will play with <code>sed</code> a little bit.</p>
 <p>In order to have a set of files to use in the examples, I have made a small GitHub
 repository called <code>awk-and-sed-inputs</code>. You can get that with</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb138-1" data-line-number="1"><span class="fu">git</span> clone https://github.com/eriqande/awk-and-sed-inputs</a></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb143-1" data-line-number="1"><span class="fu">git</span> clone https://github.com/eriqande/awk-and-sed-inputs</a></code></pre></div>
 <p>All of the examples in this chapter that use such external files
 assume that the current working directory is
 the repository directory <code>awk-and-sed-inputs</code>.</p>
@@ -449,10 +451,10 @@ the most common use of <code>awk</code> is to print parts of the line, or do sma
 line. The instructions that describe the tests and the actions are included in the <code>awk</code> “script”, though,
 in practice, this script is often given to <code>awk</code> not as a file, but, rather, as text between single-quotes on the
 command line. The basic syntax looks like this:</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb139-1" data-line-number="1"><span class="ex">%</span> awk <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb139-2" data-line-number="2"><span class="st">  test1  {action1}</span></a>
-<a class="sourceLine" id="cb139-3" data-line-number="3"><span class="st">  test2  {action2}</span></a>
-<a class="sourceLine" id="cb139-4" data-line-number="4"><span class="st">&#39;</span> file</a></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb144-1" data-line-number="1"><span class="ex">%</span> awk <span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb144-2" data-line-number="2"><span class="st">  test1  {action1}</span></a>
+<a class="sourceLine" id="cb144-3" data-line-number="3"><span class="st">  test2  {action2}</span></a>
+<a class="sourceLine" id="cb144-4" data-line-number="4"><span class="st">&#39;</span> file</a></code></pre></div>
 <p>Where <code>file</code> is the path of the file you want <code>awk</code> to read, and the “tests” and “actions”
 above are just placeholders showing where those parts of the script are written. The layout
 makes it clear that if <code>test1</code> is TRUE, <code>action1</code> will be executed, and if <code>test2</code> is TRUE, then
@@ -465,25 +467,25 @@ Second, if you don’t supply a file path to <code>awk</code> it expects (and gl
 This makes it easy to pipe data into <code>awk</code>. For example, putting the above two points together,
 the above <code>awk</code> script skeleton could
 have been written this way:</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb140-1" data-line-number="1"><span class="ex">%</span> cat file <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;test1  {action1} test2  {action2}&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb145-1" data-line-number="1"><span class="ex">%</span> cat file <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;test1  {action1} test2  {action2}&#39;</span></a></code></pre></div>
 <p>Before we get too abstract talking about tests and actions, let’s look at a few
 examples:</p>
-<div class="sourceCode" id="cb141"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb141-1" data-line-number="1"><span class="co"># print lines starting with @SQ in the SAM header of a file</span></a>
-<a class="sourceLine" id="cb141-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;/^@SQ/ {print}&#39;</span> data/DPCh_plate1_F12_S72.sam</a>
-<a class="sourceLine" id="cb141-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb141-4" data-line-number="4"><span class="co"># print only those @SQ lines with a sequence name tag starting with &quot;NC_&quot;</span></a>
-<a class="sourceLine" id="cb141-5" data-line-number="5"><span class="fu">awk</span> <span class="st">&#39;/^@SQ/ &amp;&amp; /SN:NC_/ {print}&#39;</span> data/DPCh_plate1_F12_S72.sam</a>
-<a class="sourceLine" id="cb141-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb141-7" data-line-number="7"><span class="co"># same as above, but quit processing the file as soon as you hit</span></a>
-<a class="sourceLine" id="cb141-8" data-line-number="8"><span class="co"># an @SQ line with a sequence name starting with &quot;NW_&quot;</span></a>
-<a class="sourceLine" id="cb141-9" data-line-number="9"><span class="fu">awk</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb141-10" data-line-number="10"><span class="st">  /^@SQ/ &amp;&amp; /SN:NC_/ {print}</span></a>
-<a class="sourceLine" id="cb141-11" data-line-number="11"><span class="st">  /^@SQ/ &amp;&amp; /SN:NW_/ {exit}  </span></a>
-<a class="sourceLine" id="cb141-12" data-line-number="12"><span class="st">&#39;</span> data/DPCh_plate1_F12_S72.sam</a>
-<a class="sourceLine" id="cb141-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb141-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb141-15" data-line-number="15"><span class="co"># print only lines 101, and 103 from the fastq file</span></a>
-<a class="sourceLine" id="cb141-16" data-line-number="16"><span class="ex">gzcat</span> data/DPCh_plate1_F12_S72.R1.fq.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;NR==101 || NR==102 {print}&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb146-1" data-line-number="1"><span class="co"># print lines starting with @SQ in the SAM header of a file</span></a>
+<a class="sourceLine" id="cb146-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;/^@SQ/ {print}&#39;</span> data/DPCh_plate1_F12_S72.sam</a>
+<a class="sourceLine" id="cb146-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb146-4" data-line-number="4"><span class="co"># print only those @SQ lines with a sequence name tag starting with &quot;NC_&quot;</span></a>
+<a class="sourceLine" id="cb146-5" data-line-number="5"><span class="fu">awk</span> <span class="st">&#39;/^@SQ/ &amp;&amp; /SN:NC_/ {print}&#39;</span> data/DPCh_plate1_F12_S72.sam</a>
+<a class="sourceLine" id="cb146-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb146-7" data-line-number="7"><span class="co"># same as above, but quit processing the file as soon as you hit</span></a>
+<a class="sourceLine" id="cb146-8" data-line-number="8"><span class="co"># an @SQ line with a sequence name starting with &quot;NW_&quot;</span></a>
+<a class="sourceLine" id="cb146-9" data-line-number="9"><span class="fu">awk</span> <span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb146-10" data-line-number="10"><span class="st">  /^@SQ/ &amp;&amp; /SN:NC_/ {print}</span></a>
+<a class="sourceLine" id="cb146-11" data-line-number="11"><span class="st">  /^@SQ/ &amp;&amp; /SN:NW_/ {exit}  </span></a>
+<a class="sourceLine" id="cb146-12" data-line-number="12"><span class="st">&#39;</span> data/DPCh_plate1_F12_S72.sam</a>
+<a class="sourceLine" id="cb146-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb146-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb146-15" data-line-number="15"><span class="co"># print only lines 101, and 103 from the fastq file</span></a>
+<a class="sourceLine" id="cb146-16" data-line-number="16"><span class="ex">gzcat</span> data/DPCh_plate1_F12_S72.R1.fq.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;NR==101 || NR==102 {print}&#39;</span></a></code></pre></div>
 <p>The above examples show only two different actions (<code>print</code> and <code>exit</code>) and
 a variety of tests based on matching substrings in each line, or on which
 line number (<code>NR</code>, which stands for “number of the record”).</p>
@@ -497,11 +499,11 @@ can think of as columns (as in a spreadsheet). By default, any number of whitesp
 characters constitutes a break between columns. If you want field-splitting to be done using
 more specific characters, you can specify that on the command line with the the <code>-F</code> option.
 For example:</p>
-<div class="sourceCode" id="cb142"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb142-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  # split lines into fields on single TAB characters</a>
-<a class="sourceLine" id="cb142-2" data-line-number="2"><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  # split lines into fields on single commas</a>
-<a class="sourceLine" id="cb142-3" data-line-number="3"><span class="fu">awk</span> -F<span class="st">&quot;:&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  # split lines into fields on single colons</a>
-<a class="sourceLine" id="cb142-4" data-line-number="4"><span class="fu">awk</span> -F<span class="st">&quot;;&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  # split lines into fields on single semicolons</a>
-<a class="sourceLine" id="cb142-5" data-line-number="5"><span class="co"># and so forth...</span></a></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  # split lines into fields on single TAB characters</a>
+<a class="sourceLine" id="cb147-2" data-line-number="2"><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  # split lines into fields on single commas</a>
+<a class="sourceLine" id="cb147-3" data-line-number="3"><span class="fu">awk</span> -F<span class="st">&quot;:&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  # split lines into fields on single colons</a>
+<a class="sourceLine" id="cb147-4" data-line-number="4"><span class="fu">awk</span> -F<span class="st">&quot;;&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  # split lines into fields on single semicolons</a>
+<a class="sourceLine" id="cb147-5" data-line-number="5"><span class="co"># and so forth...</span></a></code></pre></div>
 <p>While in all those examples, the field separator is a single character, in full-blown
 practice, the field separator can be specified as a <em>regular expression</em> (see below).</p>
 <p>Within an action block, you can access the different fields that <code>awk</code> has split out
@@ -519,14 +521,14 @@ DPCh_plate1_A03_S3  CH_Plate1_3A    T145109 T1515   7G  Salmon River Spring 3.52
 DPCh_plate1_A04_S4  CH_Plate1_4A    T145118 T1515   8H  Salmon River Spring 10.3    Spring
 DPCh_plate1_A05_S5  CH_Plate1_5A    T144863 T1513   1A  Feather River Hatchery Fall 220 Fall</code></pre>
 <p>Then, if we wanted to print the first and the last columns (fields) we could do</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb144-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;{print $1, $NF}&#39;</span> data/wgs-chinook-samples.tsv</a>
-<a class="sourceLine" id="cb144-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb144-3" data-line-number="3"><span class="co"># the first few lines of output look like:</span></a>
-<a class="sourceLine" id="cb144-4" data-line-number="4"><span class="ex">vcf_name</span> run_type</a>
-<a class="sourceLine" id="cb144-5" data-line-number="5"><span class="ex">DPCh_plate1_A01_S1</span> Fall</a>
-<a class="sourceLine" id="cb144-6" data-line-number="6"><span class="ex">DPCh_plate1_A02_S2</span> Fall</a>
-<a class="sourceLine" id="cb144-7" data-line-number="7"><span class="ex">DPCh_plate1_A03_S3</span> Spring</a>
-<a class="sourceLine" id="cb144-8" data-line-number="8"><span class="ex">DPCh_plate1_A04_S4</span> Spring</a></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb149-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;{print $1, $NF}&#39;</span> data/wgs-chinook-samples.tsv</a>
+<a class="sourceLine" id="cb149-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb149-3" data-line-number="3"><span class="co"># the first few lines of output look like:</span></a>
+<a class="sourceLine" id="cb149-4" data-line-number="4"><span class="ex">vcf_name</span> run_type</a>
+<a class="sourceLine" id="cb149-5" data-line-number="5"><span class="ex">DPCh_plate1_A01_S1</span> Fall</a>
+<a class="sourceLine" id="cb149-6" data-line-number="6"><span class="ex">DPCh_plate1_A02_S2</span> Fall</a>
+<a class="sourceLine" id="cb149-7" data-line-number="7"><span class="ex">DPCh_plate1_A03_S3</span> Spring</a>
+<a class="sourceLine" id="cb149-8" data-line-number="8"><span class="ex">DPCh_plate1_A04_S4</span> Spring</a></code></pre></div>
 <p>Notice that if there is no <code>test</code> before the action block, then the action is
 done on every line.</p>
 <p>The <code>print</code> command prints variables to <em>stdout</em>, if you separate those variables with
@@ -534,42 +536,42 @@ a comma, then in the output, they will be separated by the <em>output field sepa
 by default, is a single space. You can set the <em>output field separator</em> using the <code>OFS</code>
 variable, in an action block that is forced to run at the beginning of execution using the
 special <code>BEGIN</code> test keyword:</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb145-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb145-2" data-line-number="2"><span class="st">  BEGIN {OFS=&quot;;&quot;}</span></a>
-<a class="sourceLine" id="cb145-3" data-line-number="3"><span class="st">  {print $1, $NF}</span></a>
-<a class="sourceLine" id="cb145-4" data-line-number="4"><span class="st">&#39;</span> data/wgs-chinook-samples.tsv</a>
-<a class="sourceLine" id="cb145-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb145-6" data-line-number="6"><span class="co"># makes output like:</span></a>
-<a class="sourceLine" id="cb145-7" data-line-number="7"><span class="ex">vcf_name</span><span class="kw">;</span><span class="ex">run_type</span></a>
-<a class="sourceLine" id="cb145-8" data-line-number="8"><span class="ex">DPCh_plate1_A01_S1</span><span class="kw">;</span><span class="ex">Fall</span></a>
-<a class="sourceLine" id="cb145-9" data-line-number="9"><span class="ex">DPCh_plate1_A02_S2</span><span class="kw">;</span><span class="ex">Fall</span></a>
-<a class="sourceLine" id="cb145-10" data-line-number="10"><span class="ex">DPCh_plate1_A03_S3</span><span class="kw">;</span><span class="ex">Spring</span></a>
-<a class="sourceLine" id="cb145-11" data-line-number="11"><span class="ex">DPCh_plate1_A04_S4</span><span class="kw">;</span><span class="ex">Spring</span></a>
-<a class="sourceLine" id="cb145-12" data-line-number="12"><span class="ex">DPCh_plate1_A05_S5</span><span class="kw">;</span><span class="ex">Fall</span></a></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb150-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb150-2" data-line-number="2"><span class="st">  BEGIN {OFS=&quot;;&quot;}</span></a>
+<a class="sourceLine" id="cb150-3" data-line-number="3"><span class="st">  {print $1, $NF}</span></a>
+<a class="sourceLine" id="cb150-4" data-line-number="4"><span class="st">&#39;</span> data/wgs-chinook-samples.tsv</a>
+<a class="sourceLine" id="cb150-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb150-6" data-line-number="6"><span class="co"># makes output like:</span></a>
+<a class="sourceLine" id="cb150-7" data-line-number="7"><span class="ex">vcf_name</span><span class="kw">;</span><span class="ex">run_type</span></a>
+<a class="sourceLine" id="cb150-8" data-line-number="8"><span class="ex">DPCh_plate1_A01_S1</span><span class="kw">;</span><span class="ex">Fall</span></a>
+<a class="sourceLine" id="cb150-9" data-line-number="9"><span class="ex">DPCh_plate1_A02_S2</span><span class="kw">;</span><span class="ex">Fall</span></a>
+<a class="sourceLine" id="cb150-10" data-line-number="10"><span class="ex">DPCh_plate1_A03_S3</span><span class="kw">;</span><span class="ex">Spring</span></a>
+<a class="sourceLine" id="cb150-11" data-line-number="11"><span class="ex">DPCh_plate1_A04_S4</span><span class="kw">;</span><span class="ex">Spring</span></a>
+<a class="sourceLine" id="cb150-12" data-line-number="12"><span class="ex">DPCh_plate1_A05_S5</span><span class="kw">;</span><span class="ex">Fall</span></a></code></pre></div>
 <p>The comma between the arguments to <code>print</code> is what makes <code>awk</code> print the output field
 separator between the items. If you
 separate arguments to <code>print</code> with just a space (and not a comma), there will be nothing
 printed between the two arguments on output. This, coupled with the fact that
 <code>print</code> will happily print any strings and numbers (in addition to variables!) you pass to it,
 provides a way to do some light formatting of the output text:</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb146-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;NR &gt; 1 {print &quot;sample_name:&quot; $1, &quot;run_type:&quot; $NF}&#39;</span> data/wgs-chinook-samples.tsv</a>
-<a class="sourceLine" id="cb146-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb146-3" data-line-number="3"><span class="co"># gives output like:</span></a>
-<a class="sourceLine" id="cb146-4" data-line-number="4"><span class="ex">sample_name</span>:DPCh_plate1_A01_S1 run_type:Fall</a>
-<a class="sourceLine" id="cb146-5" data-line-number="5"><span class="ex">sample_name</span>:DPCh_plate1_A02_S2 run_type:Fall</a>
-<a class="sourceLine" id="cb146-6" data-line-number="6"><span class="ex">sample_name</span>:DPCh_plate1_A03_S3 run_type:Spring</a>
-<a class="sourceLine" id="cb146-7" data-line-number="7"><span class="ex">sample_name</span>:DPCh_plate1_A04_S4 run_type:Spring</a>
-<a class="sourceLine" id="cb146-8" data-line-number="8"><span class="ex">sample_name</span>:DPCh_plate1_A05_S5 run_type:Fall</a></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb151-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;NR &gt; 1 {print &quot;sample_name:&quot; $1, &quot;run_type:&quot; $NF}&#39;</span> data/wgs-chinook-samples.tsv</a>
+<a class="sourceLine" id="cb151-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb151-3" data-line-number="3"><span class="co"># gives output like:</span></a>
+<a class="sourceLine" id="cb151-4" data-line-number="4"><span class="ex">sample_name</span>:DPCh_plate1_A01_S1 run_type:Fall</a>
+<a class="sourceLine" id="cb151-5" data-line-number="5"><span class="ex">sample_name</span>:DPCh_plate1_A02_S2 run_type:Fall</a>
+<a class="sourceLine" id="cb151-6" data-line-number="6"><span class="ex">sample_name</span>:DPCh_plate1_A03_S3 run_type:Spring</a>
+<a class="sourceLine" id="cb151-7" data-line-number="7"><span class="ex">sample_name</span>:DPCh_plate1_A04_S4 run_type:Spring</a>
+<a class="sourceLine" id="cb151-8" data-line-number="8"><span class="ex">sample_name</span>:DPCh_plate1_A05_S5 run_type:Fall</a></code></pre></div>
 <p>Note that if you don’t provide an action block after a test, the default action, if the
 test is true, is assumed to be “print the whole line as is.” Thus you can use <code>awk</code> to
 print matching lines simply like this:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;/regex/&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb152-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;/regex/&#39;</span></a></code></pre></div>
 <p>where <code>/regex/</code> just means “some regular expression,” as is explained in the
 next section.</p>
 <p><strong>Now it’s your turn!</strong></p>
-<div class="sourceCode" id="cb148"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb148-1" data-line-number="1"><span class="co"># 1. Using the file data/wgs-chinook-samples.csv, print out the</span></a>
-<a class="sourceLine" id="cb148-2" data-line-number="2"><span class="co"># NMFS_DNA_ID the BOX_ID and the BOX_POSITION, separated by periods</span></a>
-<a class="sourceLine" id="cb148-3" data-line-number="3"></a></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb153-1" data-line-number="1"><span class="co"># 1. Using the file data/wgs-chinook-samples.csv, print out the</span></a>
+<a class="sourceLine" id="cb153-2" data-line-number="2"><span class="co"># NMFS_DNA_ID the BOX_ID and the BOX_POSITION, separated by periods</span></a>
+<a class="sourceLine" id="cb153-3" data-line-number="3"></a></code></pre></div>
 </div>
 <div id="a-brief-introduction-to-regular-expressions" class="section level3">
 <h3><span class="header-section-number">6.1.3</span> A brief introduction to regular expressions</h3>
@@ -713,46 +715,46 @@ then it carries no special meaning: <code>[:;^%]</code> matches any of those fou
 <p>All these metacharacters might seem a little cryptic, so I provide a few
 examples, here, that might help to make it more clear. They are presented
 (i.e. “match any line”) as if they are part of an <code>awk</code> test.</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb151-1" data-line-number="1"><span class="co"># match any line that starts with @RG</span></a>
-<a class="sourceLine" id="cb151-2" data-line-number="2">/^<span class="ex">@RG/</span></a>
-<a class="sourceLine" id="cb151-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb151-4" data-line-number="4"><span class="co"># match any line that starts with @ followed by any two characters</span></a>
-<a class="sourceLine" id="cb151-5" data-line-number="5">/^<span class="ex">@../</span></a>
-<a class="sourceLine" id="cb151-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb151-7" data-line-number="7"><span class="co"># match any line that starts with @ followed by any</span></a>
-<a class="sourceLine" id="cb151-8" data-line-number="8"><span class="co"># two uppercase letters</span></a>
-<a class="sourceLine" id="cb151-9" data-line-number="9">/^<span class="ex">@</span>[A-Z][A-Z]/</a>
-<a class="sourceLine" id="cb151-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb151-11" data-line-number="11"><span class="co"># the above could also be written as:</span></a>
-<a class="sourceLine" id="cb151-12" data-line-number="12">/^<span class="ex">@</span>[A-Z]<span class="dt">{2}</span>/</a>
-<a class="sourceLine" id="cb151-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb151-14" data-line-number="14"><span class="co"># This matches phone numbers formatted either like </span></a>
-<a class="sourceLine" id="cb151-15" data-line-number="15"><span class="co"># (</span><span class="al">###</span><span class="co">) </span><span class="al">###</span><span class="co">-####, or </span><span class="al">###</span><span class="co">-</span><span class="al">###</span><span class="co">-####</span></a>
-<a class="sourceLine" id="cb151-16" data-line-number="16">/<span class="dt">\(</span><span class="ex">?</span>[0-9]<span class="dt">{3}</span>(<span class="dt">\)</span> <span class="kw">|</span><span class="ex">-</span>)[<span class="ex">0-9</span>]<span class="dt">{3}-[0-9]{4}</span>/</a>
-<a class="sourceLine" id="cb151-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb151-18" data-line-number="18"><span class="co"># And if you can parse that out, you get an A for the day!</span></a>
-<a class="sourceLine" id="cb151-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb151-20" data-line-number="20"><span class="co"># match anything that starts with T456, then has any</span></a>
-<a class="sourceLine" id="cb151-21" data-line-number="21"><span class="co"># number (including 0) of any other characters, then</span></a>
-<a class="sourceLine" id="cb151-22" data-line-number="22"><span class="co"># ends with &quot;.fq&quot;</span></a>
-<a class="sourceLine" id="cb151-23" data-line-number="23">/<span class="ex">T456.*</span>\.fq/</a>
-<a class="sourceLine" id="cb151-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb151-25" data-line-number="25"><span class="co"># Note the use of backslash to escape the .</span></a>
-<a class="sourceLine" id="cb151-26" data-line-number="26"></a>
-<a class="sourceLine" id="cb151-27" data-line-number="27"><span class="co"># Match either &quot;big mess&quot; or &quot;huge mess&quot;</span></a>
-<a class="sourceLine" id="cb151-28" data-line-number="28">/<span class="kw">(</span><span class="ex">big</span><span class="kw">|</span><span class="ex">huge</span><span class="kw">)</span> <span class="ex">mess/</span></a></code></pre></div>
+<div class="sourceCode" id="cb156"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb156-1" data-line-number="1"><span class="co"># match any line that starts with @RG</span></a>
+<a class="sourceLine" id="cb156-2" data-line-number="2">/^<span class="ex">@RG/</span></a>
+<a class="sourceLine" id="cb156-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb156-4" data-line-number="4"><span class="co"># match any line that starts with @ followed by any two characters</span></a>
+<a class="sourceLine" id="cb156-5" data-line-number="5">/^<span class="ex">@../</span></a>
+<a class="sourceLine" id="cb156-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb156-7" data-line-number="7"><span class="co"># match any line that starts with @ followed by any</span></a>
+<a class="sourceLine" id="cb156-8" data-line-number="8"><span class="co"># two uppercase letters</span></a>
+<a class="sourceLine" id="cb156-9" data-line-number="9">/^<span class="ex">@</span>[A-Z][A-Z]/</a>
+<a class="sourceLine" id="cb156-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb156-11" data-line-number="11"><span class="co"># the above could also be written as:</span></a>
+<a class="sourceLine" id="cb156-12" data-line-number="12">/^<span class="ex">@</span>[A-Z]<span class="dt">{2}</span>/</a>
+<a class="sourceLine" id="cb156-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb156-14" data-line-number="14"><span class="co"># This matches phone numbers formatted either like </span></a>
+<a class="sourceLine" id="cb156-15" data-line-number="15"><span class="co"># (</span><span class="al">###</span><span class="co">) </span><span class="al">###</span><span class="co">-####, or </span><span class="al">###</span><span class="co">-</span><span class="al">###</span><span class="co">-####</span></a>
+<a class="sourceLine" id="cb156-16" data-line-number="16">/<span class="dt">\(</span><span class="ex">?</span>[0-9]<span class="dt">{3}</span>(<span class="dt">\)</span> <span class="kw">|</span><span class="ex">-</span>)[<span class="ex">0-9</span>]<span class="dt">{3}-[0-9]{4}</span>/</a>
+<a class="sourceLine" id="cb156-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb156-18" data-line-number="18"><span class="co"># And if you can parse that out, you get an A for the day!</span></a>
+<a class="sourceLine" id="cb156-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb156-20" data-line-number="20"><span class="co"># match anything that starts with T456, then has any</span></a>
+<a class="sourceLine" id="cb156-21" data-line-number="21"><span class="co"># number (including 0) of any other characters, then</span></a>
+<a class="sourceLine" id="cb156-22" data-line-number="22"><span class="co"># ends with &quot;.fq&quot;</span></a>
+<a class="sourceLine" id="cb156-23" data-line-number="23">/<span class="ex">T456.*</span>\.fq/</a>
+<a class="sourceLine" id="cb156-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb156-25" data-line-number="25"><span class="co"># Note the use of backslash to escape the .</span></a>
+<a class="sourceLine" id="cb156-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb156-27" data-line-number="27"><span class="co"># Match either &quot;big mess&quot; or &quot;huge mess&quot;</span></a>
+<a class="sourceLine" id="cb156-28" data-line-number="28">/<span class="kw">(</span><span class="ex">big</span><span class="kw">|</span><span class="ex">huge</span><span class="kw">)</span> <span class="ex">mess/</span></a></code></pre></div>
 <p><strong>Now it’s your turn</strong></p>
 <p>Here are some things to try.</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb152-1" data-line-number="1"><span class="co"># 1. use alternation (the |) to match lines in the SAM file data/DPCh_plate1_F12_S72.sam</span></a>
-<a class="sourceLine" id="cb152-2" data-line-number="2"><span class="co"># that start with either @PG or @RG</span></a>
-<a class="sourceLine" id="cb152-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb152-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb152-5" data-line-number="5"><span class="co"># 2. search through the fastq file data/DPCh_plate1_F12_S72.R1.fq.gz </span></a>
-<a class="sourceLine" id="cb152-6" data-line-number="6"><span class="co"># to find any line with exactly two consecutive occurrences of any of the following characters:</span></a>
-<a class="sourceLine" id="cb152-7" data-line-number="7"><span class="co"># ! &quot; # $ % &amp;</span></a>
-<a class="sourceLine" id="cb152-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb152-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb152-10" data-line-number="10"><span class="co"># What are we searching for in the above?</span></a></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb157-1" data-line-number="1"><span class="co"># 1. use alternation (the |) to match lines in the SAM file data/DPCh_plate1_F12_S72.sam</span></a>
+<a class="sourceLine" id="cb157-2" data-line-number="2"><span class="co"># that start with either @PG or @RG</span></a>
+<a class="sourceLine" id="cb157-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb157-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb157-5" data-line-number="5"><span class="co"># 2. search through the fastq file data/DPCh_plate1_F12_S72.R1.fq.gz </span></a>
+<a class="sourceLine" id="cb157-6" data-line-number="6"><span class="co"># to find any line with exactly two consecutive occurrences of any of the following characters:</span></a>
+<a class="sourceLine" id="cb157-7" data-line-number="7"><span class="co"># ! &quot; # $ % &amp;</span></a>
+<a class="sourceLine" id="cb157-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb157-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb157-10" data-line-number="10"><span class="co"># What are we searching for in the above?</span></a></code></pre></div>
 </div>
 <div id="a-variety-of-tests" class="section level3">
 <h3><span class="header-section-number">6.1.4</span> A variety of tests</h3>
@@ -760,34 +762,34 @@ examples, here, that might help to make it more clear. They are presented
 you have many options. Among the major ones (each given with an example or two) are:</p>
 <ol style="list-style-type: decimal">
 <li><p>match a regular expression anywhere in a line:</p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb153-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;/^@RG/&#39;</span></a>
-<a class="sourceLine" id="cb153-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;/Fall/&#39;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb158"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb158-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;/^@RG/&#39;</span></a>
+<a class="sourceLine" id="cb158-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;/Fall/&#39;</span></a></code></pre></div></li>
 <li><p>match a regular expression in a specific column/field</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb154-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;$3 ~ /Sacramento/&#39;</span></a>
-<a class="sourceLine" id="cb154-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;$1 ~ /Chr[123]/&#39;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb159"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb159-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;$3 ~ /Sacramento/&#39;</span></a>
+<a class="sourceLine" id="cb159-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;$1 ~ /Chr[123]/&#39;</span></a></code></pre></div></li>
 <li><p>test for equality, using <code>==</code>, of a single column to a string, or a number. Note
 these are <em>not</em> regular expressions, but actual statements of equality. Strings in
 such a context are surrounded by double quotes.</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb155-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;$1 == &quot;NC_07124.1&quot;&#39;</span></a>
-<a class="sourceLine" id="cb155-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;$5 == 100&#39;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb160"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb160-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;$1 == &quot;NC_07124.1&quot;&#39;</span></a>
+<a class="sourceLine" id="cb160-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;$5 == 100&#39;</span></a></code></pre></div></li>
 <li><p>Use comparison operators <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, and <code>!=</code> (not equals) to compare
 a column to a string (compared by lexicographical order) or a number
 (compared by numerical order)</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb156-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;$2 &lt;= &quot;Aardvark&quot;&#39;</span></a>
-<a class="sourceLine" id="cb156-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;$7 &gt; 25&#39;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb161"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb161-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;$2 &lt;= &quot;Aardvark&quot;&#39;</span></a>
+<a class="sourceLine" id="cb161-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;$7 &gt; 25&#39;</span></a></code></pre></div></li>
 <li><p>test the value of a user-defined variable that may be changing as lines are getting
 processed.</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb157-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;n &gt; 356&#39;</span></a>
-<a class="sourceLine" id="cb157-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;my_word == &quot;Loony&quot;&#39;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb162"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;n &gt; 356&#39;</span></a>
+<a class="sourceLine" id="cb162-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;my_word == &quot;Loony&quot;&#39;</span></a></code></pre></div></li>
 <li><p>test the value of an internal variable, like <code>NR</code> or <code>NF</code></p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb158-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;NR &lt; 25&#39;</span></a>
-<a class="sourceLine" id="cb158-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;NF == 13&#39;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb163"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb163-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;NR &lt; 25&#39;</span></a>
+<a class="sourceLine" id="cb163-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;NF == 13&#39;</span></a></code></pre></div></li>
 </ol>
 <p>As these tests are effectively things that return a value of TRUE or FALSE, they can
 be combined with logical AND and logical OR operators. In awk, the logical AND is
 <code>&amp;&amp;</code> and the logical OR is <code>||</code>. To make the intent of long combinations clear, and to
 specify specific combinations, the tests can be grouped with parentheses:</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb159-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;(units = &quot;days&quot; &amp;&amp; n &gt; 356) || (units == &quot;months&quot; &amp;&amp; n &gt; 12) {print &quot;More than a year!&quot;}&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;(units = &quot;days&quot; &amp;&amp; n &gt; 356) || (units == &quot;months&quot; &amp;&amp; n &gt; 12) {print &quot;More than a year!&quot;}&#39;</span></a></code></pre></div>
 </div>
 <div id="code-in-the-action-blocks" class="section level3">
 <h3><span class="header-section-number">6.1.5</span> Code in the action blocks</h3>
@@ -805,30 +807,30 @@ as a number. So, you don’t have to worry too much about the type of variables.
 context, the value is assumed to be 0; if used in a string context, its value
 is assumed to be the empty string <code>&quot;&quot;</code>.</p>
 <p><strong>You can use <code>for</code> loops within <code>awk</code></strong>. They have the syntax of the C language:</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb160-1" data-line-number="1"><span class="kw">for(</span><span class="ex">var</span> = initial<span class="kw">;</span> <span class="bu">test</span><span class="kw">;</span> <span class="ex">increment</span><span class="kw">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb165-1" data-line-number="1"><span class="kw">for(</span><span class="ex">var</span> = initial<span class="kw">;</span> <span class="bu">test</span><span class="kw">;</span> <span class="ex">increment</span><span class="kw">)</span></a></code></pre></div>
 <p>For example, this cycles <code>i</code> over values starting from 1, until 10, each
 time incrementing the value by 1:</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb161-1" data-line-number="1"><span class="kw">for(</span><span class="va">i=</span>1;<span class="ex">i</span><span class="op">&lt;</span>=10<span class="kw">;</span><span class="ex">i++</span><span class="kw">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb166-1" data-line-number="1"><span class="kw">for(</span><span class="va">i=</span>1;<span class="ex">i</span><span class="op">&lt;</span>=10<span class="kw">;</span><span class="ex">i++</span><span class="kw">)</span></a></code></pre></div>
 <p>Note that the <code>++</code> means “add one to the variable to my left.”</p>
 <p>You can also increment by larger amounts. What do you think this would do?</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="bu">echo</span> boing <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{for(i=5; i&lt;=25; i+=5) print i}&#39;</span> </a></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb167-1" data-line-number="1"><span class="bu">echo</span> boing <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{for(i=5; i&lt;=25; i+=5) print i}&#39;</span> </a></code></pre></div>
 <p>If the body of the loop consists of multiple lines of code (or even just one) those lines
 can be <em>grouped</em> using curly braces.
 Here is an examle of using a <code>for</code> loop to print the columns of the Chinook sample sheet
 in row format:</p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb163-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb163-2" data-line-number="2"><span class="st">  NR == 1 {for(i=1;i&lt;=NF;i++) head[i] = $i; next}</span></a>
-<a class="sourceLine" id="cb163-3" data-line-number="3"><span class="st">  {for(i=1;i&lt;=NF;i++) {</span></a>
-<a class="sourceLine" id="cb163-4" data-line-number="4"><span class="st">      print i &quot;. &quot; head[i] &quot;: &quot; $i; </span></a>
-<a class="sourceLine" id="cb163-5" data-line-number="5"><span class="st">    }</span></a>
-<a class="sourceLine" id="cb163-6" data-line-number="6"><span class="st">    print &quot;----------------------&quot;</span></a>
-<a class="sourceLine" id="cb163-7" data-line-number="7"><span class="st">  }</span></a>
-<a class="sourceLine" id="cb163-8" data-line-number="8"><span class="st">&#39;</span> data/wgs-chinook-samples.csv</a></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb168-2" data-line-number="2"><span class="st">  NR == 1 {for(i=1;i&lt;=NF;i++) head[i] = $i; next}</span></a>
+<a class="sourceLine" id="cb168-3" data-line-number="3"><span class="st">  {for(i=1;i&lt;=NF;i++) {</span></a>
+<a class="sourceLine" id="cb168-4" data-line-number="4"><span class="st">      print i &quot;. &quot; head[i] &quot;: &quot; $i; </span></a>
+<a class="sourceLine" id="cb168-5" data-line-number="5"><span class="st">    }</span></a>
+<a class="sourceLine" id="cb168-6" data-line-number="6"><span class="st">    print &quot;----------------------&quot;</span></a>
+<a class="sourceLine" id="cb168-7" data-line-number="7"><span class="st">  }</span></a>
+<a class="sourceLine" id="cb168-8" data-line-number="8"><span class="st">&#39;</span> data/wgs-chinook-samples.csv</a></code></pre></div>
 <p><strong>Arrays are implemented as <em>associative arrays</em>.</strong> Thus, rather than being arrays
 with elements indexed (and accessed) by natural numbers (i.e. <code>array[1]</code>, <code>array[2]</code>, etc.),
 arrays are indexed by any string. This is sometimes called a hash. In python it is
 called a <em>dictionary</em>. So, within an awk action block you could see</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="ex">n</span>[<span class="va">$3</span>]++</a></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="ex">n</span>[<span class="va">$3</span>]++</a></code></pre></div>
 <p>which means “find the element of the array <code>n</code> that is associated with the <em>key</em> $3, and then
 add 1 to that element”. This can
 be quite useful for counting up the occurrences of different strings or values
@@ -840,24 +842,24 @@ value for each. In <code>awk</code>, you cycle over the keys of an array using</
 <p>where <code>for</code> and <code>in</code> are keywords, <code>i</code> is any variable name you want, and <code>array</code> is the
 name of an array variable. Unfortunately, you have no control over the <em>order</em> in which the
 different keys in the array are visited! Example:</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb166-1" data-line-number="1"><span class="co"># count the number of fish from different sampling collections</span></a>
-<a class="sourceLine" id="cb166-2" data-line-number="2"><span class="co"># in the wgs-chinook-samples.tsv file:</span></a>
-<a class="sourceLine" id="cb166-3" data-line-number="3"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb166-4" data-line-number="4"><span class="st">  NR &gt; 1 {n[$6]++}</span></a>
-<a class="sourceLine" id="cb166-5" data-line-number="5"><span class="st">  END {for(i in n) print i &quot;:&quot;, n[i]}</span></a>
-<a class="sourceLine" id="cb166-6" data-line-number="6"><span class="st">&#39;</span> data/wgs-chinook-samples.tsv </a>
-<a class="sourceLine" id="cb166-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb166-8" data-line-number="8"><span class="co"># gives us:</span></a>
-<a class="sourceLine" id="cb166-9" data-line-number="9"><span class="ex">Coleman</span> Hatchery Late Fall: 16</a>
-<a class="sourceLine" id="cb166-10" data-line-number="10"><span class="ex">Feather</span> River Hatchery Spring: 16</a>
-<a class="sourceLine" id="cb166-11" data-line-number="11"><span class="ex">Feather</span> River Hatchery Fall: 16</a>
-<a class="sourceLine" id="cb166-12" data-line-number="12"><span class="ex">Salmon</span> River Spring: 16</a>
-<a class="sourceLine" id="cb166-13" data-line-number="13"><span class="ex">Trinity</span> River Hatchery Fall: 16</a>
-<a class="sourceLine" id="cb166-14" data-line-number="14"><span class="ex">Trinity</span> River Hatchery Spring: 16</a>
-<a class="sourceLine" id="cb166-15" data-line-number="15"><span class="ex">Butte</span> Creek Spring: 16</a>
-<a class="sourceLine" id="cb166-16" data-line-number="16"><span class="ex">Sacramento</span> River Winter: 16</a>
-<a class="sourceLine" id="cb166-17" data-line-number="17"><span class="ex">Salmon</span> River Fall: 16</a>
-<a class="sourceLine" id="cb166-18" data-line-number="18"><span class="ex">San</span> Joaquin River Fall: 16</a></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="co"># count the number of fish from different sampling collections</span></a>
+<a class="sourceLine" id="cb171-2" data-line-number="2"><span class="co"># in the wgs-chinook-samples.tsv file:</span></a>
+<a class="sourceLine" id="cb171-3" data-line-number="3"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb171-4" data-line-number="4"><span class="st">  NR &gt; 1 {n[$6]++}</span></a>
+<a class="sourceLine" id="cb171-5" data-line-number="5"><span class="st">  END {for(i in n) print i &quot;:&quot;, n[i]}</span></a>
+<a class="sourceLine" id="cb171-6" data-line-number="6"><span class="st">&#39;</span> data/wgs-chinook-samples.tsv </a>
+<a class="sourceLine" id="cb171-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb171-8" data-line-number="8"><span class="co"># gives us:</span></a>
+<a class="sourceLine" id="cb171-9" data-line-number="9"><span class="ex">Coleman</span> Hatchery Late Fall: 16</a>
+<a class="sourceLine" id="cb171-10" data-line-number="10"><span class="ex">Feather</span> River Hatchery Spring: 16</a>
+<a class="sourceLine" id="cb171-11" data-line-number="11"><span class="ex">Feather</span> River Hatchery Fall: 16</a>
+<a class="sourceLine" id="cb171-12" data-line-number="12"><span class="ex">Salmon</span> River Spring: 16</a>
+<a class="sourceLine" id="cb171-13" data-line-number="13"><span class="ex">Trinity</span> River Hatchery Fall: 16</a>
+<a class="sourceLine" id="cb171-14" data-line-number="14"><span class="ex">Trinity</span> River Hatchery Spring: 16</a>
+<a class="sourceLine" id="cb171-15" data-line-number="15"><span class="ex">Butte</span> Creek Spring: 16</a>
+<a class="sourceLine" id="cb171-16" data-line-number="16"><span class="ex">Sacramento</span> River Winter: 16</a>
+<a class="sourceLine" id="cb171-17" data-line-number="17"><span class="ex">Salmon</span> River Fall: 16</a>
+<a class="sourceLine" id="cb171-18" data-line-number="18"><span class="ex">San</span> Joaquin River Fall: 16</a></code></pre></div>
 <p>The above demonstrates the use of the very important <code>END</code> specifier in the
 test position. The <code>END</code> there means “perform the actions in the action block
 once all the lines of the file have been processed.”</p>
@@ -868,11 +870,11 @@ base quality scores occur on lines 4, 8, 12, … (so, the line number divided by
 no remainder. Note that <code>x % 4</code> gives the remainder when <code>x</code> is divided by 4. We want the
 output on each line to be in the format:</p>
 <pre><code>Number_of_occurrences  Base_quality_score_sequence</code></pre>
-<div class="sourceCode" id="cb168"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="co"># go for it!</span></a>
-<a class="sourceLine" id="cb168-2" data-line-number="2"></a></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="co"># go for it!</span></a>
+<a class="sourceLine" id="cb173-2" data-line-number="2"></a></code></pre></div>
 <p>After doing that, you might wish that things were sorted differently, like highest to lowest
 in terms of # of occurrences. Try piping the output into:</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="fu">sort</span> -n -b -r -k 1</a></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb174-1" data-line-number="1"><span class="fu">sort</span> -n -b -r -k 1</a></code></pre></div>
 <p>Pipe that to less and look through it. It is actually pretty cool.</p>
 <p><strong>Conditional tests use <code>if</code> and <code>else</code>, with blocking by curly braces.</strong><br />
 Below we will demonstrate the use of <code>if</code> and <code>else</code> and, how they can be put together
@@ -883,19 +885,19 @@ the <code>awk</code> script itself. This uses much the same syntax as the shell.
 in <code>data/wgs-chinook-samples.csv</code> into separate files, one for each
 of the <code>run_types</code> of “Fall”, “Winter”, and “Spring”, and another file
 for anything else. We could do that like this:</p>
-<div class="sourceCode" id="cb170"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb170-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb170-2" data-line-number="2"><span class="st">  NR &gt; 1 {</span></a>
-<a class="sourceLine" id="cb170-3" data-line-number="3"><span class="st">    if($NF == &quot;Fall&quot;) {</span></a>
-<a class="sourceLine" id="cb170-4" data-line-number="4"><span class="st">      print $1, $NF &gt; &quot;fall.txt&quot;</span></a>
-<a class="sourceLine" id="cb170-5" data-line-number="5"><span class="st">    } else if($NF == &quot;Winter&quot;) {</span></a>
-<a class="sourceLine" id="cb170-6" data-line-number="6"><span class="st">      print $1, $NF &gt; &quot;winter.txt&quot;</span></a>
-<a class="sourceLine" id="cb170-7" data-line-number="7"><span class="st">    } else if($NF == &quot;Spring&quot;) {</span></a>
-<a class="sourceLine" id="cb170-8" data-line-number="8"><span class="st">      print $1, $NF &gt; &quot;spring.txt&quot;</span></a>
-<a class="sourceLine" id="cb170-9" data-line-number="9"><span class="st">    } else {</span></a>
-<a class="sourceLine" id="cb170-10" data-line-number="10"><span class="st">      print $1, $NF &gt; &quot;other.txt&quot;</span></a>
-<a class="sourceLine" id="cb170-11" data-line-number="11"><span class="st">    }</span></a>
-<a class="sourceLine" id="cb170-12" data-line-number="12"><span class="st">  }</span></a>
-<a class="sourceLine" id="cb170-13" data-line-number="13"><span class="st">&#39;</span> data/wgs-chinook-samples.csv</a></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb175-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb175-2" data-line-number="2"><span class="st">  NR &gt; 1 {</span></a>
+<a class="sourceLine" id="cb175-3" data-line-number="3"><span class="st">    if($NF == &quot;Fall&quot;) {</span></a>
+<a class="sourceLine" id="cb175-4" data-line-number="4"><span class="st">      print $1, $NF &gt; &quot;fall.txt&quot;</span></a>
+<a class="sourceLine" id="cb175-5" data-line-number="5"><span class="st">    } else if($NF == &quot;Winter&quot;) {</span></a>
+<a class="sourceLine" id="cb175-6" data-line-number="6"><span class="st">      print $1, $NF &gt; &quot;winter.txt&quot;</span></a>
+<a class="sourceLine" id="cb175-7" data-line-number="7"><span class="st">    } else if($NF == &quot;Spring&quot;) {</span></a>
+<a class="sourceLine" id="cb175-8" data-line-number="8"><span class="st">      print $1, $NF &gt; &quot;spring.txt&quot;</span></a>
+<a class="sourceLine" id="cb175-9" data-line-number="9"><span class="st">    } else {</span></a>
+<a class="sourceLine" id="cb175-10" data-line-number="10"><span class="st">      print $1, $NF &gt; &quot;other.txt&quot;</span></a>
+<a class="sourceLine" id="cb175-11" data-line-number="11"><span class="st">    }</span></a>
+<a class="sourceLine" id="cb175-12" data-line-number="12"><span class="st">  }</span></a>
+<a class="sourceLine" id="cb175-13" data-line-number="13"><span class="st">&#39;</span> data/wgs-chinook-samples.csv</a></code></pre></div>
 <p>Now look at the four files produced.</p>
 <p><strong>NB:</strong> Parsing CSV files with <code>awk</code> is not always so straightforward as doing <code>-F&quot;,&quot;</code> because
 the CSV specification allows for commas that do not separate fields to be hidden within quotation marks.
@@ -926,11 +928,11 @@ cycling over them) with.</p>
 <p>For example, imagine we wanted to do something to all the FASTQ files associated with
 the fish in <code>data/wgs-chinook-samples.csv</code> that are of <code>run_type</code> = “Winter”. We can
 get all their IDs using command substitution and then cycle over them in the shell like this:</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="va">WINTERS=$(</span><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;$NF == &quot;Winter&quot; {print $1}&#39;</span> data/wgs-chinook-samples.csv<span class="va">)</span></a>
-<a class="sourceLine" id="cb171-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb171-3" data-line-number="3"><span class="kw">for</span> <span class="ex">i</span> in <span class="va">$WINTERS</span><span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb171-4" data-line-number="4">  <span class="bu">echo</span> <span class="st">&quot;FASTQS are: </span><span class="va">$i</span><span class="st">.R1.fq.gz     </span><span class="va">$i</span><span class="st">.R2.fq.gz&quot;</span></a>
-<a class="sourceLine" id="cb171-5" data-line-number="5"><span class="kw">done</span></a></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb176-1" data-line-number="1"><span class="va">WINTERS=$(</span><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;$NF == &quot;Winter&quot; {print $1}&#39;</span> data/wgs-chinook-samples.csv<span class="va">)</span></a>
+<a class="sourceLine" id="cb176-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb176-3" data-line-number="3"><span class="kw">for</span> <span class="ex">i</span> in <span class="va">$WINTERS</span><span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb176-4" data-line-number="4">  <span class="bu">echo</span> <span class="st">&quot;FASTQS are: </span><span class="va">$i</span><span class="st">.R1.fq.gz     </span><span class="va">$i</span><span class="st">.R2.fq.gz&quot;</span></a>
+<a class="sourceLine" id="cb176-5" data-line-number="5"><span class="kw">done</span></a></code></pre></div>
 </div>
 <div id="passing-variables-into-awk-with--v" class="section level3">
 <h3><span class="header-section-number">6.1.7</span> Passing Variables into <code>awk</code> with <code>-v</code></h3>
@@ -946,25 +948,25 @@ get all their IDs using command substitution and then cycle over them in the she
 <p><code>sed</code> is a “stream editor”. Though it is capable of all sorts of things,
 to be honest, I use it almost exclusively to
 do simple find-and-replace operations. The syntax for that is:</p>
-<div class="sourceCode" id="cb172"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb172-1" data-line-number="1"><span class="fu">sed</span> <span class="st">&#39;s/regex/replacement/g;&#39;</span> file</a></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb177-1" data-line-number="1"><span class="fu">sed</span> <span class="st">&#39;s/regex/replacement/g;&#39;</span> file</a></code></pre></div>
 <p>where <code>regex</code> is a regular expression and <code>replacement</code> is the string you wish to replace
 any segments of <code>file</code> that match <code>regex</code>. The <code>s</code> means “substitute” and is like
 a command to <code>sed</code>, and the <code>g</code> means “globally”, without which only the first
 match of <code>regex</code> on each line would be replaced.</p>
 <p>Multiple instances of the “s” command can be given, like:</p>
-<div class="sourceCode" id="cb173"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="fu">sed</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb173-2" data-line-number="2"><span class="st">  s/regex1/replacement1/g;</span></a>
-<a class="sourceLine" id="cb173-3" data-line-number="3"><span class="st">  s/regex2/replacement2/g;</span></a>
-<a class="sourceLine" id="cb173-4" data-line-number="4"><span class="st">  s/regex3/replacement3/g;</span></a>
-<a class="sourceLine" id="cb173-5" data-line-number="5"><span class="st">&#39;</span> file</a></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb178-1" data-line-number="1"><span class="fu">sed</span> <span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb178-2" data-line-number="2"><span class="st">  s/regex1/replacement1/g;</span></a>
+<a class="sourceLine" id="cb178-3" data-line-number="3"><span class="st">  s/regex2/replacement2/g;</span></a>
+<a class="sourceLine" id="cb178-4" data-line-number="4"><span class="st">  s/regex3/replacement3/g;</span></a>
+<a class="sourceLine" id="cb178-5" data-line-number="5"><span class="st">&#39;</span> file</a></code></pre></div>
 <p>The separate commands are done in order, line by line.</p>
 <p><strong>Now it’s your turn!</strong><br />
 Take the output of:</p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb174-1" data-line-number="1"><span class="va">WINTERS=$(</span><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;$NF == &quot;Winter&quot; {print $1}&#39;</span> data/wgs-chinook-samples.csv<span class="va">)</span></a>
-<a class="sourceLine" id="cb174-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb174-3" data-line-number="3"><span class="kw">for</span> <span class="ex">i</span> in <span class="va">$WINTERS</span><span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb174-4" data-line-number="4">  <span class="bu">echo</span> <span class="st">&quot;FASTQS are: </span><span class="va">$i</span><span class="st">.R1.fq.gz     </span><span class="va">$i</span><span class="st">.R2.fq.gz&quot;</span></a>
-<a class="sourceLine" id="cb174-5" data-line-number="5"><span class="kw">done</span></a></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb179-1" data-line-number="1"><span class="va">WINTERS=$(</span><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;$NF == &quot;Winter&quot; {print $1}&#39;</span> data/wgs-chinook-samples.csv<span class="va">)</span></a>
+<a class="sourceLine" id="cb179-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb179-3" data-line-number="3"><span class="kw">for</span> <span class="ex">i</span> in <span class="va">$WINTERS</span><span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb179-4" data-line-number="4">  <span class="bu">echo</span> <span class="st">&quot;FASTQS are: </span><span class="va">$i</span><span class="st">.R1.fq.gz     </span><span class="va">$i</span><span class="st">.R2.fq.gz&quot;</span></a>
+<a class="sourceLine" id="cb179-5" data-line-number="5"><span class="kw">done</span></a></code></pre></div>
 <p>and pipe it into <code>sed</code> to changes the <code>R1</code> and <code>R2</code> into <code>r1</code> and <code>r2</code>,
 and to remove the <code>.gz</code> from the end of each file name. Remember to
 backslash-escape that period!</p>

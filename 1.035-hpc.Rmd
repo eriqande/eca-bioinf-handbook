@@ -48,9 +48,6 @@ stands for the Simple Linux Utility for Resource Management.  It is the schedule
 on the Summit supercomputer in Boulder and the Hummingbird and Sedna clusters deployed
 at UCSC and the NWFSC, respectively.  
 
-Interspersed with our discussion of SLURM, we will cover
-methods for installing software to use for your analyses.
-
 ## An oversimplified, but useful, view of a computing cluster
 
 At its simplest, an HPCC can be thought of as a whole lot of computers that are all
@@ -176,7 +173,7 @@ of which SLURM is an example.
 In this computing model, a job, once it is launched, ties up the core and the memory
 that has been allocated to it until the job is finished.  While that job is running, no one
 else's jobs or processes can run on the core or share the RAM memory that was allocated to the job.
-For this reason, the job scheduler, needs to know, _ahead of time_ how long each job might run and
+For this reason, the job scheduler, needs to know, _ahead of time_, how long each job might run and
 what resources will be required during that time.  A simple contrived example illustrates things easily:
 imagine that Joe and Cheryl each have 1000 separate jobs to run.  Each of Cheryl's jobs involves running
 a machine-learning algorithm to identify seabirds in high-resolution, aerial images of the ocean, and
@@ -207,18 +204,22 @@ the new jobs.
 The second reason is a particular bane of new cluster users who unwittingly request more resources
 than actually exist (i.e. 52 cores, when no single node has more than 32; or 50 Gb of RAM when no single
 node has more than 48 Gb).  Unfortunately (or, perhaps comically, if you have a sick sense of
-humor), most job schedulers will not notify you of this sort of transgression.
+humor), some job schedulers will not notify you of this sort of transgression.
 Rather, your job will just sit in line waiting to be launched, but it never will be, because sufficient
 resources never become available!  
+(Foruntately, however, the SLURM scheduler is "wise" enough to notify the user if
+she or he has requested more resources than will ever become available.)
 
 It is worth noting that regardless of whether reason 1 or reason 2 is the dominant cause influencing
 how long it takes to start a job, asking for fewer resources for less time will generally allow your
 jobs to start faster.  Particularly because of reason #2, however, breaking your jobs down (if possible) into
 small chunks that will run relatively quickly on a single core with low RAM needs can render many more
 opportunities for your jobs to start, letting you tap into resources that are not often fully utilized
-in a cluster.  Since I started working on large cluster in which it took a long time to start a job
-that required all or most of the cores on a single node, but in which there were many nodes
-harboring a few cores that were not being used, I tend to endorse this approach...
+in a cluster.  Since I started working on a large cluster in which it took a long time to start a job
+that required all or most of the cores on a single node---but in which there were many nodes
+harboring a few cores that were not being used---I tend to endorse the approach of breaking jobs
+down into small units that will run relatively quickly, with low RAM requirements, on a
+single core.
 
 Since the requested resources for a job play such a large role in wait times for jobs to start,
 you might wonder why people don't intentionally underestimate the resources they request for their
@@ -226,7 +227,7 @@ jobs.  The answer is simple:  the job scheduler is a highly efficient and comple
 manager.  If you requested 2 hours for your job, but your job has not finished in that amount of time,
 the job scheduler will waste no time hemming and hawing or having an emotional struggle with itself
 about whether it should stop your job.  No, at 2 hours and 0.2 seconds it WILL kill your job, regardless
-of whether it is just about to finish, or not.  Similarly, if you requested 4 Gb or RAM, but five hours into
+of whether it is just about to finish, or not.  Similarly, if you requested 4 Gb of RAM, but five hours into
 your job, the program you are running ends up using 5 Gb or RAM to store a large chunk of data, your
 job WILL be killed, immediately.  
 
@@ -437,7 +438,7 @@ One way to get an interactive shell on a compute node of a cluster is to request
 srun --pty /bin/bash
 ```
 This tells slurm to run `bash` (which is typically found at `/bin/bash` on all Unix system) within
-a pseodo-terminal (the `--pty` part). If you run this command you might be given a bash shell on a compute
+a pseudo-terminal (the `--pty` part). If you run this command you might be given a bash shell on a compute
 node. This works on the Sedna cluster, but not on all others.
 
 On the SUMMIT cluster at CU Boulder, there is
@@ -470,6 +471,19 @@ command:
 ```sh
 hostname
 ```
+Or, to make it very easy to see which node you are logged into, you can change
+the settings for your Unix command prompt to show you the name of the host you
+are logged into (Section \@ref(comm-prompt)).  For example, to include in your
+command prompt the short name of the computer you are logged into, and the current
+working directory, separated by a `:` and a space, you could modify your .bashrc
+file to define the `PS1` environment
+variable like so:
+```sh
+PS1='[\h: \W]--% '
+```
+Now, whenever you see your command prompt, it will indicate the name of the computer
+you are logged into.
+
 It is also worth using your alias `myjobs` (see the last part of Section \@ref(slurm-info)
 to learn how to make such an alias) to check that your interactive shell session is listed amongst
 your running jobs.
@@ -516,7 +530,8 @@ have to be named `script.sh`, but, since it is a shell script, it ought to have 
 The contents of this script file effectively
 define the _job_ that you wish to run. It should be a shell script, and, on most SLURM systems
 you need to be specific about what "flavor" of shell it should be run in. This is done using the
-"shebang" line at the top of the script, like `#!/bin/bash` (See section ??).  If you want to know what
+"shebang" line at the top of the script, like `#!/bin/bash` (see the paragraph immediately
+_before_ \@ref(paragraph-before-shebang)).  If you want to know what
 path should come after the `#!` (the "shebang"), you can give the command `which bash` from the shell
 on one of your cluster's login nodes (or an interactive shell on a compute node), and the
 shell should respond with the absolute path to the bash shell interpreter.
@@ -628,7 +643,7 @@ Try it like this:
 ```sh
 sbatch --test-only --time=00:05:00 --output=output-%j --error=error-%j  easy.sh
 
-# then see what happens if you request more the 24 hours:
+# then see what happens if you request more than 24 hours:
 sbatch --test-only --time=24:05:00 --output=output-%j --error=error-%j  easy.sh
 ```
 As the name of the option implies, when you are using `--test-only`, your job _does not_
@@ -667,8 +682,7 @@ setting `--mail-type=FAIL` to only be notified when jobs have failed.
 
 #### Include options _inside_ your job script
 
-As you might imagine, `sbatch` takes many different options.  We list the main ones that you will
-be concerned with while doing bioinformatics in Table \@ref(sbatchopts).  You might note
+You might note
 that the above command line is getting quite long and cumbersome, and it would surely become
 very difficult to remember and type commands with even more options, every time you wanted to start a job.
 On top of that, the options that you would want to invoke are typically going to be specific to the job
@@ -710,6 +724,38 @@ or schedule it like this:
 ```sh
 sbatch easy2.sh
 ```
+
+As you might imagine, `sbatch` can take many different options. 
+We list the main ones that you will
+be concerned with while doing bioinformatics in Table \@ref(tab:sbatchopts). 
+```{r, echo=FALSE, message=FALSE}
+tab <- readr::read_delim("table_inputs/slurm_sbatch_options.txt", delim = "&", trim_ws = TRUE)
+pander::pander(
+  tab,
+  booktabs = TRUE,
+  caption = '(\\#tab:sbatchopts) Commonly used options to `sbatch`.',
+  justify = "left")
+```
+
+#### Override within-file `sbatch` directives from the command line
+
+Since you can write options for the `sbatch` command either 1) on the command
+line (as in `sbatch --time=00:03:00 ...`), or 2) within the script file given to
+the `sbatch` command (i.e. lines like `#SBATCH --time=00:05:00` within
+the top part of the script), you might wonder what happens when the same
+option is supplied both on the command line and within the script.
+It turns out that the version of the option on the command line takes precedence.
+That it, any options that are given _on the command line_ itself will
+override the options if they are given within the file.  For example, 
+if we submitted the above `easy2.sh` script with the command:
+```sh
+sbatch --time=01:00:00 easy2.sh
+```
+it would be submitted with a time limit of 1 hour (`01:00:00`) rather
+than of 5 minutes (`00:05:00`, as given within the file.)
+
+This feature is particularly useful when you find yourself needing
+to re-run just certain elements of a SLURM job array, as we will see in a few sections.
 
 
 #### The vagaries of `conda` within `sbatch`
@@ -851,6 +897,400 @@ And schedule it to run (from within the `chinook-play` directory) with:
 ```sh
 sbatch map-it.sh
 ```
+
+
+### SLURM Job Arrays
+
+Very often in bioinformatics, large jobs can be broken down into a series of
+smaller tasks.  As an example, aligning sequencing read data from an individual sample
+to a reference genome
+can always be done independently of the sequences from any other individuals. Therefore
+a job that demands that sequencing data from 96 different individuals be aligned to
+a reference genome can be broken into 96 different tasks: each task involves mapping
+the sequencing data of just a single individual to the reference genome.
+
+The bash shell `for` loop provides a way to cycle over different repetitive tasks.
+In the case of alignment over multiple individuals we might use a `for` loop
+in a shell script in the following fashion, to repeatedly run a script
+called `align.sh` on the paired-end read from each of four different individuals:
+```sh
+INDIVS="Ind_1 Ind_2 Ind_3 Ind_4"
+
+for ind in $INDIVS; do
+  align.sh $ind.R1.fq.gz $ind.R2.fq.gz 
+done
+```
+Such an approach will work OK on an HPCC if each task (aligning a single indvidual,
+in this case) takes just a short amount of time.  But, what if aligning each
+individual takes almost a day of compute time, and you are only authorized to
+run jobs less than 24 hours on your HPCC?  What is needed in that event is a convenient
+way to break jobs down into separate tasks, such that _each task is run as its own
+separate job on the HPCC_.
+
+SLURM provides a feature known as _job arrays_ for handling just this type of use
+case.  When you submit a job array, you are, in effect, submitting to SLURM a recipe
+that is telling the scheduler that you are submitting some number of instances of a particular
+job.  As resources become available, each new instance of that job starts to run.  The
+different "instances" can be different replicates of a complex simulation, or analyses done
+on different instances of a data set.  Our alignment example falls into the latter case: each
+instance of the job would be aligning the reads of a different individual. 
+
+SLURM job arrays are submitted by using the `--array=<array_spec>` option to `sbatch`.
+Each task of a job array is associated with a whole number, and the
+`<array_spec>` argument to the `--array` option tells which numbers (and, hence,
+which tasks) should be scheduled to run. For example, if you submit a script
+named `mytasks.sh` to `sbatch`,
+and the script includes in the SLURM preamble a line that says:
+```sh
+#SBATCH --array=1-10
+```
+then SLURM will schedule ten different jobs, indexed from 1 up to 10.  That is all
+well and good, but, in order to be useful, those 10 different jobs had best do
+different things (for example, operate on 10 different data sets).  The user must
+see to it that each task of a job array performs the proper instance of a
+job, and this is done using the shell environment variable `SLURM_ARRAY_TASK_ID`.
+
+When the first of the 10 scheduled tasks in the above job array is launched,
+the environment variable `SLURM_ARRAY_TASK_ID` is set to the value 1, and then
+the contents of `mytasks.sh` are executed.  When the second task is launched,
+`SLURM_ARRAY_TASK_ID` is set to 2, and then `mytasks.sh` is run, and so forth,
+until the tenth job is launched with `SLURM_ARRAY_TASK_ID` set to 10.  Therefore, inside
+the `mytasks.sh` script, the user can use the value of `SLURM_ARRAY_TASK_ID` (accessed
+via variable substitution with a dollar sign, e.g., `$SLURM_ARRAY_TASK_ID`) to
+direct the script to perform the proper instance of the job that is to be done.
+
+Thus, we could write our alignment example with four individuals, above,
+as a job array with a script file like this:
+```sh
+#SBATCH --array=1-4
+
+IND=Ind_$SLURM_ARRAY_TASK_ID
+
+align.sh $IND.R1.fq.gz $IND.R2.fq.gz
+```
+Submitting that job with `sbatch` will submit four different tasks as part of
+a job array, each task being the alignment of sequencing reads from one of
+four different individuals.
+
+#### Naming SLURM job array tasks
+
+Internally, when you submit a job array to SLURM, it creates a job ID for the
+job array and then it reserves specific job numbers for the tasks within the array.  However,
+you will find it easiest to refer to the separate tasks in a SLURM job array using the
+syntax  `ArrayJobNumber_ArrayTaskNumber`.  In other words, if we submitted the
+job array script listed above for aligning the reads from four individuals, and SLURM
+told us that the job-array had been assigned the job number 6677, then you can
+refer to the different tasks as `6677_1` for the job aligning reads from Ind_1, 
+`6677_2` for the job aligning reads from Ind_2, and so forth.  
+
+When using the `--output` or `--error` options to direct _stdout_ and _stderr_ to
+files during execution of the scripts submitted using the `--array` option to `sbatch`, you
+can name those files using `%A` which expands to the overall job array number and
+`%a` which expands to the SLURM array task ID.  So for example:
+```sh
+#SBATCH --output  stdout_%A_%a.txt
+```
+would be useful.
+
+
+#### Variations on the `<array_spec>`
+
+In the simplest case, you will want to evaluate tasks with indexes that
+proceed from 1 up to some stopping number, stepping by 1 each time.  However,
+you can exert rather finely tuned control over which array task IDs you would like to
+be executed. The important thing to remember with all these variations is that
+_no spaces are allowed_!
+
+As we have seen already, a dash is used to represent a range of numbers, such as:
+```sh
+#SBATCH --array=1-50
+```
+To change the step size, you can immmediately follow the second number of the range
+with a colon, `:`, and give the step size. For example, to cycle over jobs with
+array indexes 1, 4, 7, and 10, you could do:
+```sh
+#SBATCH --array=1-10:3
+```
+
+If you wanted to pick out specific single indexes, you can combine single
+values and ranges with commas.  For example, using just single values
+interspersed with commas:
+```sh
+#SBATCH --array=1,2,3,6,9,15
+```
+You can even combine ranges with step sizes with commas.  This would run
+indexes 1, 11, 21 and 100, 150, 200:
+```sh
+#SBATCH --array=1-21:10,100-200:50
+```
+
+Being able to pick out single array index values to be done is wonderfully
+convenient for redoing tasks that might have failed. For example, suppose you
+ran a job with 500 tasks, and upon investigating the job logs you found that
+array tasks 47, 368, 477, and 489 had failed because insufficient time was
+allocated to them.  In that case you could update the `--time` setting of your
+script and then re-run just those four jobs by including:
+```sh
+#SBATCH --array=47,368,477,489
+```
+
+Be warned, however, that SLURM does not check your `<array_spec>` to ensure that
+each task index if given only once.  If you specify the same index should be run
+twice, as is the case for 4 in the following:
+```sh
+#SBATCH --array=1:10,4
+```
+then the job will be run twice, and possibly those two jobs will run at
+the same time so that output from each job will intermittently overwrite output
+from the other job, leading to corrupted results.  Just be careful not to
+request the same task index more than once!
+
+Finally, if you want to be friendly to the other users of your cluster
+and want no more than X of your array tasks to be running at any time,
+you can stipulate that by ending the `<array_spec>` with `%X`.  For example,
+to have no more than 5 array tasks running at any one time, you could do:
+```sh
+#SBATCH --array=1:20%5
+```
+
+
+#### Translating Array Indexes to Job Instances
+
+The user is left to translate what a job array index of, say, 7, means in terms of
+what _actions_ that array task should take.  Quite often you will want to map an array
+index to a different file to analyze, or perhaps a different region of a chromosome to
+do variant calling on, etc.  A flexible and generic way of doing this mapping from
+array indexes to job specifics is to first define the variables (things like filenames, etc.) 
+required by each array task in a simple TAB-delimited text file in which the first row holds
+the names of the variables in different TAB-separate columns, and each row below that holds
+the values that those variables should take for different values of the array index. The
+array index itself should be listed in the first column.  
+
+For example, if we have 10 different
+files to process, each with different read-group values (Section \@ref(read-groups)),
+you can specify the filenames and elements of the read group values in a TAB-delimited
+text file called `files-and-groups.tsv` that looks like this:
+```sh
+index	file_prefix	LB	Flowcell	Lane
+1	DPCh_plate1_A01_S1_L1_R	Lib-1	HTYYCBBXX	1
+2	DPCh_plate1_A01_S1_L2_R	Lib-1	HTYYCBBXX	2
+3	DPCh_plate1_A01_S1_L3_R	Lib-1	HTYYCBBXX	3
+4	DPCh_plate1_A01_S1_L4_R	Lib-1	HTYYCBBXX	4
+5	DPCh_plate1_A01_S1_L5_R	Lib-1	HTYYCBBXX	5
+6	DPCh_plate1_A01_S1_L6_R	Lib-1	HTYYCBBXX	6
+7	DPCh_plate1_A01_S1_L7_R	Lib-1	HTYYCBBXX	7
+8	DPCh_plate1_A01_S1_L8_R	Lib-1	HTYYCBBXX	8
+9	DPCh_plate1_A02_S2_L1_R	Lib-1	HTYYCBBXX	1
+10	DPCh_plate1_A02_S2_L2_R	Lib-1	HTYYCBBXX	2
+```
+Then, when executing a job array script, this file can be used to
+convert the `SLURM_ARRAY_TASK_ID` into the necessary file names
+and other variables with a simple `awk` script and
+variable assignments within your job script
+that look like this:
+```sh
+# make a command line that holds assignments of values to shell variables
+ASSIGN=$(awk -F"\t" -v N=$SLURM_ARRAY_TASK_ID '
+  NR==1 {for(i=1;i<=NF;i++) vars[i]=$i; next}
+  $1 == N {for(i=1;i<=NF;i++) printf("%s=%s; ", vars[i], $i)}
+' files-and-groups.tsv)
+
+# make those assignments
+eval $ASSIGN
+```
+Then, when SLURM_ARRAY_TASK_ID is equal to 7, for example, the variable
+`ASSIGN` gets the string value:
+```sh
+index=7; file_prefix=DPCh_plate1_A01_S1_L7_R; LB=Lib-1; Flowcell=HTYYCBBXX; Lane=7;
+```
+and then evaluating that string with `eval $ASSIGN` will define for you the values of the
+shell variables `index`, `file_prefix`, `LB`, `Flowcell`, and `Lane`, as indicated
+above.  These shell variables may be used in subsequent code in your script
+(via variable subtitution with the `$`, like `$file_prefix`) to ensure that the
+proper files are processed, etc., for each different value of SLURM_ARRAY_TASK_ID.
+
+
+#### SLURM Job Array hands-on
+
+Here, you can run some small scripts to get your feet wet with
+defining slurm job arrays. Save the following lines to a script
+named `test-arrays.sh` and then submit it via `sbatch test-arrays.sh`.
+It should produce three output files.
+```sh
+#!/bin/bash
+#SBATCH --time=00:05:00
+#SBATCH --output=my_output_%A_%a
+#SBATCH --array=1-3
+
+echo "The SLURM_ARRAY_JOB_ID is : $SLURM_ARRAY_JOB_ID"
+echo "The SLURM_ARRAY_TASK_ID is: $SLURM_ARRAY_TASK_ID"
+echo "The SLURM_JOB_ID is: $SLURM_JOB_ID"
+echo
+echo "You can refer to this individual SLURM array task as: ${SLURM_ARRAY_JOB_ID}_${SLURM_ARRAY_TASK_ID}"
+echo
+
+sleep 180
+
+```
+
+Once this has been submitted, use your `myjobs` alias to see how it looks
+when it is queued: something like this:
+```
+            JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+     4499013_[1-3]      shas test-arr eriq@col PD       0:00      1 (Priority)
+```
+If it is taking a while to start this job, and you don't have a `myjobs` alias,
+put one in your `~/.bashrc`.  Add these lines:
+```sh
+# aliases for SLURM stuff
+alias myjobs='squeue -u username'
+```
+where you have to change _username_ to be your login name on the HPCC.  Note
+that, for Colorado State Univesity affiliates on SUMMIT, that username is of the form, 
+`user@colostate`.
+
+If you would like to see each one of the tasks in a job array listed
+on its own line, you can use the `-r, --array` option to `squeue`.  In terms
+of a `myjobs` alias that means issuing `myjobs -r` or `myjobs --array` (both are
+equivalent):
+```sh
+% myjobs -r
+             JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+         4499052_1      shas test-arr eriq@col PD       0:00      1 (Priority)
+         4499052_2      shas test-arr eriq@col PD       0:00      1 (Priority)
+         4499052_3      shas test-arr eriq@col PD       0:00      1 (Priority)
+```
+
+
+I want people to look closely at the variables SLURM_ARRAY_JOB_ID and
+SLURM_ARRAY_TASK_ID, and to understand how those are different from
+SLURM_JOB_ID in this context.  We will discuss that in class.
+
+Unfortunately, it seems like it can take a long time for that to start on
+SUMMIT.  So, here are the results:
+```sh
+==> my_output_27234_1 <==
+The SLURM_ARRAY_JOB_ID is : 27234
+The SLURM_ARRAY_TASK_ID is: 1
+The SLURM_JOB_ID is: 27235
+
+You can refer to this individual SLURM array task as: 27234_1
+
+
+==> my_output_27234_2 <==
+The SLURM_ARRAY_JOB_ID is : 27234
+The SLURM_ARRAY_TASK_ID is: 2
+The SLURM_JOB_ID is: 27236
+
+You can refer to this individual SLURM array task as: 27234_2
+
+
+==> my_output_27234_3 <==
+The SLURM_ARRAY_JOB_ID is : 27234
+The SLURM_ARRAY_TASK_ID is: 3
+The SLURM_JOB_ID is: 27234
+
+You can refer to this individual SLURM array task as: 27234_3
+```
+
+Next, we want to explore the possibility of overriding the `#SBATCH --array` option
+given internally in the `test-arrays.sh` with one given on the command line. Thus,
+try submitting the job with:
+```sh
+sbatch --array=100,200,300 test-arrays.sh
+```
+
+Finally, we want to contemplate strategies for turning the `SLURM_ARRAY_TASK_ID`
+into "directions" for the script about what to do (which files to process, etc.)
+
+We discussed one approach, above, using a TAB-delimited file, but want to note here
+that depending on how your actual script is configured, any number of approaches
+might be suitable.
+
+For an example germane to doing alignment to a reference genome in our
+homework `chr-32-bioinformatics`, consider that you have 1280 pairs of files
+to process, and that you will launch jobs to process 128 such pairs at a time.
+A script called `run-single-job.sh` that mapped the first 128 pairs of files
+looked like this:
+```sh
+#!/bin/bash
+
+#SBATCH --time=05:00:00
+#SBATCH --output=run-single-out-%j
+#SBATCH --error=run-single-error-%j
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=user@email.edu
+
+
+./map-N-files-from-K.sh 128 1
+```
+If you wanted to map the next 128 pairs of files, the final line in the above
+script should look like:
+```sh
+./map-N-files-from-K.sh 128 129
+```
+and to do the next 128 pairs of files after that, the line should look like:
+```sh
+./map-N-files-from-K.sh 128 257
+```
+and so forth.
+
+So, if everyone has already run the first 128 pairs of files (as everyone should
+have finished for the homework) I contend that, if we wanted to modify this script
+so that the remaining 1152 pairs of files could be run as a job array, our new script
+could look like this:
+```sh
+#!/bin/bash
+
+#SBATCH --time=02:00:00
+#SBATCH --output=run-array-out-%A_%a
+#SBATCH --error=run-array-error-%A_%a
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=user@email.edu
+#SBATCH --array=1-9
+
+
+./map-N-files-from-K.sh 128 $((SLURM_ARRAY_TASK_ID * 128 + 1))
+
+```
+Save that file as `run-array-job.sh`
+
+Note the changes:
+
+- output and error files modified to use `%A_%a`
+- Added the --array command running from 1 to 9.
+- Changed the starting index from 1 to `$((SLURM_ARRAY_TASK_ID * 128 + 1))`
+
+The last one deserves some explanation, it uses the _integer arithmetic_
+capabilities of the bash shell (Section \@ref(bash-arithmetic)).
+
+So, what is that last line doing? You should check it for yourself.  Doing so
+will emphasize an important point when it comes to testing your own job-array scripts:
+if you are testing the code in them interactively, you can simply assign any value you
+want to a variable named `SLURM_ARRAY_TASK_ID` and verify the results are what you would
+like them to be.  So, try this:
+```sh
+SLURM_ARRAY_TASK_ID=1
+echo ./map-N-files-from-K.sh 128 $((SLURM_ARRAY_TASK_ID * 128 + 1))
+```
+
+And to check them all, including when SLURM_ARRAY_TASK_ID=0 (which is the case that
+you already did for your homework, running it as a single job), try this:
+```sh
+for SLURM_ARRAY_TASK_ID in {0..9}; do
+  echo ./map-N-files-from-K.sh 128 $((SLURM_ARRAY_TASK_ID * 128 + 1))
+done
+```
+ 
+Once you have convinced yourself that your `run-array-job.sh` script will
+work correctly, and it is set for an array=1-9, and you have configured
+your email properly within it, then you should copy it to your
+`chr-32-bioinformatics` directory and submit it as a job to finish aligning
+the reads from all the remaining individuals, so we will have them for
+variant calling down the road. 
+
+**THAT LAST STEP ABOVE IS PART OF YOUR HOMEWORK FOR NEXT WEEK THAT WILL BE DUE NEXT TUESDAY **
+
 
 ## PREPATION INTERLUDE: An in-class exercise to make sure everything is configured correctly
 

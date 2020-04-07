@@ -1,0 +1,13 @@
+Option   & What it does
+`--cpus-per-task=<ncpus>`  &  Indicate that ncpus cores are needed for each task in the job
+`--chdir=<directory>`   & Set the working directory of the batch script to "directory" before the script is run.  This is seldom used if you schedule batch scripts from the directory in which they should be run.
+`--error=<filename pattern>` & Path to which _stderr_ should be written.  Like the `--output` option this llows for `%j`, `%A`, and `%a` (see below).
+`--job-name=<jobname>` & Assign a name to the batch job.  This name then appears in, for example, `squeve -u user`.  It should be _short_ and descriptive.
+`--mail-type=<type>` & Upon which job-scheduling events for this job should email be sent to the user? Choices include NONE, BEGIN,  END,  FAIL,  REQUEUE,  ALL.
+`--mail-user=<user>`  & Address to which notification emails should be sent.
+`--mem=<size[units]>`  & How much memory is requested _per node_.  Most easily specified in gigabytes with a trailing  as in `4G`.  For example, `--mem=4G`.
+`--mem-per-cpu=<size[units]>` & How much memory is requested _per core_. For example, `--mem-per-cpu=4.6G`.  Only one of `--mem` or `--mem-per-cpu` should be given.
+`--output=<filename pattern>` & Path to which _stdout_ should be written while executing the batch script. Path can include `%j`, which expands to the job ID, or, if running as a job array, `%A` expands to the job ID, and `%a` to the job array index.
+`--partition=<partition_names>` & Request an allocation of resources from a compute node in one of the partitions listed in `partition_names`, which is a comma-separated list of partitions.  For example, `--partition=shas,compute,himem`
+`--time=<time>` & Request an allocation of a certain amount of time.  Specified in `days-hours:minutes:seconds` or `hours:minutes:seconds`, for example: `--time=2-12:00:00` or `--time=05:00:00`. Jobs running longer than this time will be killed.
+`--test-only` & Usually given directly on the command line to verify the job submission is compliant without actually scheduling the job.

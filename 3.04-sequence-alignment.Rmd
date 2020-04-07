@@ -158,7 +158,7 @@ identify, for each read the:
 This information can be strored in the alignment file using
 read group information as described below.
 
-## Read Groups
+## Read Groups {#read-groups}
 
 We touched briefly on read groups in Section \@ref(sam-headers), where we
 noted that the SAM file header can contain lines like this one:
@@ -167,7 +167,7 @@ noted that the SAM file header can contain lines like this one:
 ```
 The purpose of this line is to identify a read group that is named via the `ID` tag.  In the above
 case the read group is named `HTYYCBBXX.1.CH_plate1_A01`.  The attributes of this read group are stored
-using the remaining tags.  Happily, those attributes mirror exactly what we might need to know to
+using the remaining tags in the `@RG` line.  Happily, those attributes mirror exactly what we might need to know to
 identify PCR duplicates and to perform base quality score recalibration; namely:
 
 - `SM` : give the name of the sample, `CH_plate1_A01`, the read is from,
@@ -178,8 +178,8 @@ It is important to note that this line in the SAM header is just a header line t
 information about a particular read group that is found in the file.  It is not, _by itself_
 giving you information about any particular read found in the alignment file.  Read group information
 about a particular read in the alignment file is given on the alignment line in a column (way off near the
-end of the line typically) tagged with `RG:Z`.  That column simply holds the `ID` of the read group
-that the read belongs to.  In this way, all the information that applies to the read--0i.e., the sample it
+end of the line typically) tagged with `RG:Z`.  That `RG:Z` column in an alignment row simply holds the `ID` of the read group
+that the read belongs to.  In this way, all the information that applies to the read---i.e., the sample it
 came from, (`SM`), the library prep it was in (`LB`), and information about the flowcell and lane (`PU`)---can
 be assigned to the read, _without writing all of that information on every line in the alignment file_.
 Accordingly, it should be obvious why the read group IDs must be unique across all the different
@@ -191,12 +191,12 @@ read groups in it [here](https://eriqande.github.io/eca-bioinf-handbook/download
 Let's do that and have a look at it.
 
 The way that read group information---particularly the platform unit, or `PU` information---is recorded
-is dicated by which software will be used for downstream processing.
+is dictated by which software will be used for downstream processing.
 We describe the
 conventions that are useful for
 passing the aligned data to the Genome Analysis Toolkit (GATK), an extensive 
 and well-supported piece
-of software developed by the Broad Institute.  Currently, the convention for the
+of software developed by the Broad Institute.  Currently, the GATK conventions for
 read group tags are these:
 
 - `ID` : any string that uniquely identifies a read group.  The user must make sure that

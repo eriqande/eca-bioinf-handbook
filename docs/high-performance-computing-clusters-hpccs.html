@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-02" />
+<meta name="date" content="2020-04-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#getting-a-bash-shell-on-your-system"><i class="fa fa-check"></i><b>4.1</b> Getting a bash shell on your system</a></li>
 <li class="chapter" data-level="4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#navigating-the-unix-filesystem"><i class="fa fa-check"></i><b>4.2</b> Navigating the Unix filesystem</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#changing-the-working-directory-with-cd"><i class="fa fa-check"></i><b>4.2.1</b> Changing the working directory with <code>cd</code></a></li>
-<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#updating-your-command-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
+<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#comm-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
 <li class="chapter" data-level="4.2.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#tab-completion-for-paths"><i class="fa fa-check"></i><b>4.2.3</b> TAB-completion for paths</a></li>
 <li class="chapter" data-level="4.2.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#listing-the-contents-of-a-directory-with-ls"><i class="fa fa-check"></i><b>4.2.4</b> Listing the contents of a directory with <code>ls</code></a></li>
 <li class="chapter" data-level="4.2.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#globbing"><i class="fa fa-check"></i><b>4.2.5</b> Globbing</a></li>
@@ -180,7 +180,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="shell-programming.html"><a href="shell-programming.html"><i class="fa fa-check"></i><b>5</b> Shell programming</a><ul>
 <li class="chapter" data-level="5.1" data-path="shell-programming.html"><a href="shell-programming.html#an-example-script"><i class="fa fa-check"></i><b>5.1</b> An example script</a></li>
 <li class="chapter" data-level="5.2" data-path="shell-programming.html"><a href="shell-programming.html#the-structure-of-a-bash-script"><i class="fa fa-check"></i><b>5.2</b> The Structure of a Bash Script</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="shell-programming.html"><a href="shell-programming.html#a-bit-more-on-and"><i class="fa fa-check"></i><b>5.2.1</b> A bit more on <code>;</code> and <code>&amp;</code></a></li>
+<li class="chapter" data-level="5.2.1" data-path="shell-programming.html"><a href="shell-programming.html#paragraph-before-shebang"><i class="fa fa-check"></i><b>5.2.1</b> A bit more on <code>;</code> and <code>&amp;</code></a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="shell-programming.html"><a href="shell-programming.html#variables"><i class="fa fa-check"></i><b>5.3</b> Variables</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="shell-programming.html"><a href="shell-programming.html#assigning-values-to-variables"><i class="fa fa-check"></i><b>5.3.1</b> Assigning values to variables</a></li>
@@ -188,7 +188,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.3.3" data-path="shell-programming.html"><a href="shell-programming.html#what-does-the-shell-do-with-the-value-substituted-for-a-variable"><i class="fa fa-check"></i><b>5.3.3</b> What does the shell do with the value substituted for a variable?</a></li>
 <li class="chapter" data-level="5.3.4" data-path="shell-programming.html"><a href="shell-programming.html#quotes-and-var-subs"><i class="fa fa-check"></i><b>5.3.4</b> Double and Single Quotation Marks and Variable Substitution</a></li>
 <li class="chapter" data-level="5.3.5" data-path="shell-programming.html"><a href="shell-programming.html#one-useful-fancy-variable-substitution-method"><i class="fa fa-check"></i><b>5.3.5</b> One useful, fancy, variable-substitution method</a></li>
-<li class="chapter" data-level="5.3.6" data-path="shell-programming.html"><a href="shell-programming.html#variable-arrays"><i class="fa fa-check"></i><b>5.3.6</b> Variable arrays</a></li>
+<li class="chapter" data-level="5.3.6" data-path="shell-programming.html"><a href="shell-programming.html#bash-arithmetic"><i class="fa fa-check"></i><b>5.3.6</b> Integer Arithmetic with Shell Variables</a></li>
+<li class="chapter" data-level="5.3.7" data-path="shell-programming.html"><a href="shell-programming.html#variable-arrays"><i class="fa fa-check"></i><b>5.3.7</b> Variable arrays</a></li>
 </ul></li>
 <li class="chapter" data-level="5.4" data-path="shell-programming.html"><a href="shell-programming.html#evaluate-a-command-and-substitute-the-result-on-the-command-line"><i class="fa fa-check"></i><b>5.4</b> Evaluate a command and substitute the result on the command line</a></li>
 <li class="chapter" data-level="5.5" data-path="shell-programming.html"><a href="shell-programming.html#groupingcollecting-output-from-multiple-commands-commands-and-commands"><i class="fa fa-check"></i><b>5.5</b> Grouping/Collecting output from multiple commands: <code>(commands)</code> and <code>{ commands; }</code></a></li>
@@ -251,6 +252,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#getting-compute-resources-allocated-to-your-jobs-on-an-hpcc"><i class="fa fa-check"></i><b>8.4</b> Getting compute resources allocated to your jobs on an HPCC</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#interactive-sessions"><i class="fa fa-check"></i><b>8.4.1</b> Interactive sessions</a></li>
 <li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#batch-jobs"><i class="fa fa-check"></i><b>8.4.2</b> Batch jobs</a></li>
+<li class="chapter" data-level="8.4.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#slurm-job-arrays"><i class="fa fa-check"></i><b>8.4.3</b> SLURM Job Arrays</a></li>
 </ul></li>
 <li class="chapter" data-level="8.5" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#prepation-interlude-an-in-class-exercise-to-make-sure-everything-is-configured-correctly"><i class="fa fa-check"></i><b>8.5</b> PREPATION INTERLUDE: An in-class exercise to make sure everything is configured correctly</a></li>
 <li class="chapter" data-level="8.6" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#more-boneyard"><i class="fa fa-check"></i><b>8.6</b> More Boneyard…</a></li>
@@ -438,8 +440,6 @@ will eventually be allocated to you. We will cover a job scheduler called SLURM,
 stands for the Simple Linux Utility for Resource Management. It is the scheduler used
 on the Summit supercomputer in Boulder and the Hummingbird and Sedna clusters deployed
 at UCSC and the NWFSC, respectively.</p>
-<p>Interspersed with our discussion of SLURM, we will cover
-methods for installing software to use for your analyses.</p>
 <div id="an-oversimplified-but-useful-view-of-a-computing-cluster" class="section level2">
 <h2><span class="header-section-number">8.1</span> An oversimplified, but useful, view of a computing cluster</h2>
 <p>At its simplest, an HPCC can be thought of as a whole lot of computers that are all
@@ -558,7 +558,7 @@ of which SLURM is an example.</p>
 <p>In this computing model, a job, once it is launched, ties up the core and the memory
 that has been allocated to it until the job is finished. While that job is running, no one
 else’s jobs or processes can run on the core or share the RAM memory that was allocated to the job.
-For this reason, the job scheduler, needs to know, <em>ahead of time</em> how long each job might run and
+For this reason, the job scheduler, needs to know, <em>ahead of time</em>, how long each job might run and
 what resources will be required during that time. A simple contrived example illustrates things easily:
 imagine that Joe and Cheryl each have 1000 separate jobs to run. Each of Cheryl’s jobs involves running
 a machine-learning algorithm to identify seabirds in high-resolution, aerial images of the ocean, and
@@ -587,24 +587,28 @@ the new jobs.</p>
 <p>The second reason is a particular bane of new cluster users who unwittingly request more resources
 than actually exist (i.e. 52 cores, when no single node has more than 32; or 50 Gb of RAM when no single
 node has more than 48 Gb). Unfortunately (or, perhaps comically, if you have a sick sense of
-humor), most job schedulers will not notify you of this sort of transgression.
+humor), some job schedulers will not notify you of this sort of transgression.
 Rather, your job will just sit in line waiting to be launched, but it never will be, because sufficient
-resources never become available!</p>
+resources never become available!<br />
+(Foruntately, however, the SLURM scheduler is “wise” enough to notify the user if
+she or he has requested more resources than will ever become available.)</p>
 <p>It is worth noting that regardless of whether reason 1 or reason 2 is the dominant cause influencing
 how long it takes to start a job, asking for fewer resources for less time will generally allow your
 jobs to start faster. Particularly because of reason #2, however, breaking your jobs down (if possible) into
 small chunks that will run relatively quickly on a single core with low RAM needs can render many more
 opportunities for your jobs to start, letting you tap into resources that are not often fully utilized
-in a cluster. Since I started working on large cluster in which it took a long time to start a job
-that required all or most of the cores on a single node, but in which there were many nodes
-harboring a few cores that were not being used, I tend to endorse this approach…</p>
+in a cluster. Since I started working on a large cluster in which it took a long time to start a job
+that required all or most of the cores on a single node—but in which there were many nodes
+harboring a few cores that were not being used—I tend to endorse the approach of breaking jobs
+down into small units that will run relatively quickly, with low RAM requirements, on a
+single core.</p>
 <p>Since the requested resources for a job play such a large role in wait times for jobs to start,
 you might wonder why people don’t intentionally underestimate the resources they request for their
 jobs. The answer is simple: the job scheduler is a highly efficient and completely dispassionate
 manager. If you requested 2 hours for your job, but your job has not finished in that amount of time,
 the job scheduler will waste no time hemming and hawing or having an emotional struggle with itself
 about whether it should stop your job. No, at 2 hours and 0.2 seconds it WILL kill your job, regardless
-of whether it is just about to finish, or not. Similarly, if you requested 4 Gb or RAM, but five hours into
+of whether it is just about to finish, or not. Similarly, if you requested 4 Gb of RAM, but five hours into
 your job, the program you are running ends up using 5 Gb or RAM to store a large chunk of data, your
 job WILL be killed, immediately.</p>
 <p>Thus, it is best to be able to accurately estimate the time and resources a job will
@@ -632,11 +636,11 @@ that gives you information about the cluster’s nodes and their status (whether
 running jobs or not.) On your cluster, <code>man sinfo</code> will tell you about this command.
 On the <code>Sedna</code> cluster, which just got installed and therefore does not
 have many users, we see:</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb259-1" data-line-number="1"><span class="ex">%</span> sinfo</a>
-<a class="sourceLine" id="cb259-2" data-line-number="2"><span class="ex">PARTITION</span> AVAIL  TIMELIMIT  NODES  STATE NODELIST</a>
-<a class="sourceLine" id="cb259-3" data-line-number="3"><span class="ex">nodes*</span>       up   infinite     28   idle node[01-28]</a>
-<a class="sourceLine" id="cb259-4" data-line-number="4"><span class="ex">himem</span>        up   infinite      1  alloc himem01</a>
-<a class="sourceLine" id="cb259-5" data-line-number="5"><span class="ex">himem</span>        up   infinite      2   idle himem[02-03]</a></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb264-1" data-line-number="1"><span class="ex">%</span> sinfo</a>
+<a class="sourceLine" id="cb264-2" data-line-number="2"><span class="ex">PARTITION</span> AVAIL  TIMELIMIT  NODES  STATE NODELIST</a>
+<a class="sourceLine" id="cb264-3" data-line-number="3"><span class="ex">nodes*</span>       up   infinite     28   idle node[01-28]</a>
+<a class="sourceLine" id="cb264-4" data-line-number="4"><span class="ex">himem</span>        up   infinite      1  alloc himem01</a>
+<a class="sourceLine" id="cb264-5" data-line-number="5"><span class="ex">himem</span>        up   infinite      2   idle himem[02-03]</a></code></pre></div>
 <p>which tells us that there are two <em>partitions</em> (collection of nodes)
 named <code>nodes</code> and <code>himem</code>. The <code>himem</code> partition has one node which is
 currently allocated to a job (<code>STATE</code> = <code>alloc</code>), and two more that
@@ -649,69 +653,69 @@ It also has 28 compute nodes in the
 <p>If you do the same command on SUMMIT you get many more lines of output. There
 are many more different partitions, and there is a lot of information about how many
 nodes are in each:</p>
-<div class="sourceCode" id="cb260"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb260-1" data-line-number="1"><span class="ex">%</span> sinfo</a>
-<a class="sourceLine" id="cb260-2" data-line-number="2"><span class="ex">PARTITION</span>        AVAIL  TIMELIMIT  NODES  STATE NODELIST</a>
-<a class="sourceLine" id="cb260-3" data-line-number="3"><span class="ex">shas*</span>               up 1-00:00:00      2 drain* shas[0136-0137]</a>
-<a class="sourceLine" id="cb260-4" data-line-number="4"><span class="ex">shas*</span>               up 1-00:00:00      2  down* shas[0404,0506]</a>
-<a class="sourceLine" id="cb260-5" data-line-number="5"><span class="ex">shas*</span>               up 1-00:00:00      1  drain shas0101</a>
-<a class="sourceLine" id="cb260-6" data-line-number="6"><span class="ex">shas*</span>               up 1-00:00:00      3   resv shas[0102,0521,0853]</a>
-<a class="sourceLine" id="cb260-7" data-line-number="7"><span class="ex">shas*</span>               up 1-00:00:00     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]</a>
-<a class="sourceLine" id="cb260-8" data-line-number="8"><span class="ex">shas*</span>               up 1-00:00:00    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]</a>
-<a class="sourceLine" id="cb260-9" data-line-number="9"><span class="ex">shas*</span>               up 1-00:00:00     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]</a>
-<a class="sourceLine" id="cb260-10" data-line-number="10"><span class="ex">shas-testing</span>        up   infinite      2 drain* shas[0136-0137]</a>
-<a class="sourceLine" id="cb260-11" data-line-number="11"><span class="ex">shas-testing</span>        up   infinite      2  down* shas[0404,0506]</a>
-<a class="sourceLine" id="cb260-12" data-line-number="12"><span class="ex">shas-testing</span>        up   infinite      1  drain shas0101</a>
-<a class="sourceLine" id="cb260-13" data-line-number="13"><span class="ex">shas-testing</span>        up   infinite      3   resv shas[0102,0521,0853]</a>
-<a class="sourceLine" id="cb260-14" data-line-number="14"><span class="ex">shas-testing</span>        up   infinite     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]</a>
-<a class="sourceLine" id="cb260-15" data-line-number="15"><span class="ex">shas-testing</span>        up   infinite    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]</a>
-<a class="sourceLine" id="cb260-16" data-line-number="16"><span class="ex">shas-testing</span>        up   infinite     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]</a>
-<a class="sourceLine" id="cb260-17" data-line-number="17"><span class="ex">shas-interactive</span>    up   infinite      2 drain* shas[0136-0137]</a>
-<a class="sourceLine" id="cb260-18" data-line-number="18"><span class="ex">shas-interactive</span>    up   infinite      2  down* shas[0404,0506]</a>
-<a class="sourceLine" id="cb260-19" data-line-number="19"><span class="ex">shas-interactive</span>    up   infinite      1  drain shas0101</a>
-<a class="sourceLine" id="cb260-20" data-line-number="20"><span class="ex">shas-interactive</span>    up   infinite      3   resv shas[0102,0521,0853]</a>
-<a class="sourceLine" id="cb260-21" data-line-number="21"><span class="ex">shas-interactive</span>    up   infinite     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]</a>
-<a class="sourceLine" id="cb260-22" data-line-number="22"><span class="ex">shas-interactive</span>    up   infinite    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]</a>
-<a class="sourceLine" id="cb260-23" data-line-number="23"><span class="ex">shas-interactive</span>    up   infinite     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]</a>
-<a class="sourceLine" id="cb260-24" data-line-number="24"><span class="ex">sgpu</span>                up 1-00:00:00      1   resv sgpu0501</a>
-<a class="sourceLine" id="cb260-25" data-line-number="25"><span class="ex">sgpu</span>                up 1-00:00:00      1  alloc sgpu0502</a>
-<a class="sourceLine" id="cb260-26" data-line-number="26"><span class="ex">sgpu</span>                up 1-00:00:00      9   idle sgpu[0101-0102,0201-0202,0301-0302,0401-0402,0801]</a>
-<a class="sourceLine" id="cb260-27" data-line-number="27"><span class="ex">sgpu-testing</span>        up   infinite      1   resv sgpu0501</a>
-<a class="sourceLine" id="cb260-28" data-line-number="28"><span class="ex">sgpu-testing</span>        up   infinite      1  alloc sgpu0502</a>
-<a class="sourceLine" id="cb260-29" data-line-number="29"><span class="ex">sgpu-testing</span>        up   infinite      9   idle sgpu[0101-0102,0201-0202,0301-0302,0401-0402,0801]</a>
-<a class="sourceLine" id="cb260-30" data-line-number="30"><span class="ex">sknl</span>                up 1-00:00:00      1  drain sknl0710</a>
-<a class="sourceLine" id="cb260-31" data-line-number="31"><span class="ex">sknl</span>                up 1-00:00:00      1   resv sknl0706</a>
-<a class="sourceLine" id="cb260-32" data-line-number="32"><span class="ex">sknl</span>                up 1-00:00:00     18  alloc sknl[0701-0705,0707-0709,0711-0720]</a>
-<a class="sourceLine" id="cb260-33" data-line-number="33"><span class="ex">sknl-testing</span>        up   infinite      1  drain sknl0710</a>
-<a class="sourceLine" id="cb260-34" data-line-number="34"><span class="ex">sknl-testing</span>        up   infinite      1   resv sknl0706</a>
-<a class="sourceLine" id="cb260-35" data-line-number="35"><span class="ex">sknl-testing</span>        up   infinite     18  alloc sknl[0701-0705,0707-0709,0711-0720]</a>
-<a class="sourceLine" id="cb260-36" data-line-number="36"><span class="ex">smem</span>                up 7-00:00:00      1   drng smem0201</a>
-<a class="sourceLine" id="cb260-37" data-line-number="37"><span class="ex">smem</span>                up 7-00:00:00      4  alloc smem[0101,0301,0401,0501]</a>
-<a class="sourceLine" id="cb260-38" data-line-number="38"><span class="ex">ssky</span>                up 1-00:00:00      1   drng ssky0944</a>
-<a class="sourceLine" id="cb260-39" data-line-number="39"><span class="ex">ssky</span>                up 1-00:00:00      1    mix ssky0952</a>
-<a class="sourceLine" id="cb260-40" data-line-number="40"><span class="ex">ssky</span>                up 1-00:00:00      3  alloc ssky[0942-0943,0951]</a>
-<a class="sourceLine" id="cb260-41" data-line-number="41"><span class="ex">ssky-preemptable</span>    up 1-00:00:00      1   drng ssky0944</a>
-<a class="sourceLine" id="cb260-42" data-line-number="42"><span class="ex">ssky-preemptable</span>    up 1-00:00:00      1    mix ssky0952</a>
-<a class="sourceLine" id="cb260-43" data-line-number="43"><span class="ex">ssky-preemptable</span>    up 1-00:00:00      9  alloc ssky[0933-0934,0937-0940,0942-0943,0951]</a>
-<a class="sourceLine" id="cb260-44" data-line-number="44"><span class="ex">ssky-preemptable</span>    up 1-00:00:00      9   idle ssky[0935-0936,0941,0945-0950]</a>
-<a class="sourceLine" id="cb260-45" data-line-number="45"><span class="ex">ssky-ucb-aos</span>        up 7-00:00:00      6  alloc ssky[0933-0934,0937-0940]</a>
-<a class="sourceLine" id="cb260-46" data-line-number="46"><span class="ex">ssky-ucb-aos</span>        up 7-00:00:00      3   idle ssky[0935-0936,0941]</a>
-<a class="sourceLine" id="cb260-47" data-line-number="47"><span class="ex">ssky-csu-mbp</span>        up 7-00:00:00      1   idle ssky0945</a>
-<a class="sourceLine" id="cb260-48" data-line-number="48"><span class="ex">ssky-csu-asb</span>        up 7-00:00:00      1   idle ssky0946</a>
-<a class="sourceLine" id="cb260-49" data-line-number="49"><span class="ex">ssky-csu-rsp</span>        up 7-00:00:00      4   idle ssky[0947-0950]</a></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb265-1" data-line-number="1"><span class="ex">%</span> sinfo</a>
+<a class="sourceLine" id="cb265-2" data-line-number="2"><span class="ex">PARTITION</span>        AVAIL  TIMELIMIT  NODES  STATE NODELIST</a>
+<a class="sourceLine" id="cb265-3" data-line-number="3"><span class="ex">shas*</span>               up 1-00:00:00      2 drain* shas[0136-0137]</a>
+<a class="sourceLine" id="cb265-4" data-line-number="4"><span class="ex">shas*</span>               up 1-00:00:00      2  down* shas[0404,0506]</a>
+<a class="sourceLine" id="cb265-5" data-line-number="5"><span class="ex">shas*</span>               up 1-00:00:00      1  drain shas0101</a>
+<a class="sourceLine" id="cb265-6" data-line-number="6"><span class="ex">shas*</span>               up 1-00:00:00      3   resv shas[0102,0521,0853]</a>
+<a class="sourceLine" id="cb265-7" data-line-number="7"><span class="ex">shas*</span>               up 1-00:00:00     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]</a>
+<a class="sourceLine" id="cb265-8" data-line-number="8"><span class="ex">shas*</span>               up 1-00:00:00    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]</a>
+<a class="sourceLine" id="cb265-9" data-line-number="9"><span class="ex">shas*</span>               up 1-00:00:00     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]</a>
+<a class="sourceLine" id="cb265-10" data-line-number="10"><span class="ex">shas-testing</span>        up   infinite      2 drain* shas[0136-0137]</a>
+<a class="sourceLine" id="cb265-11" data-line-number="11"><span class="ex">shas-testing</span>        up   infinite      2  down* shas[0404,0506]</a>
+<a class="sourceLine" id="cb265-12" data-line-number="12"><span class="ex">shas-testing</span>        up   infinite      1  drain shas0101</a>
+<a class="sourceLine" id="cb265-13" data-line-number="13"><span class="ex">shas-testing</span>        up   infinite      3   resv shas[0102,0521,0853]</a>
+<a class="sourceLine" id="cb265-14" data-line-number="14"><span class="ex">shas-testing</span>        up   infinite     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]</a>
+<a class="sourceLine" id="cb265-15" data-line-number="15"><span class="ex">shas-testing</span>        up   infinite    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]</a>
+<a class="sourceLine" id="cb265-16" data-line-number="16"><span class="ex">shas-testing</span>        up   infinite     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]</a>
+<a class="sourceLine" id="cb265-17" data-line-number="17"><span class="ex">shas-interactive</span>    up   infinite      2 drain* shas[0136-0137]</a>
+<a class="sourceLine" id="cb265-18" data-line-number="18"><span class="ex">shas-interactive</span>    up   infinite      2  down* shas[0404,0506]</a>
+<a class="sourceLine" id="cb265-19" data-line-number="19"><span class="ex">shas-interactive</span>    up   infinite      1  drain shas0101</a>
+<a class="sourceLine" id="cb265-20" data-line-number="20"><span class="ex">shas-interactive</span>    up   infinite      3   resv shas[0102,0521,0853]</a>
+<a class="sourceLine" id="cb265-21" data-line-number="21"><span class="ex">shas-interactive</span>    up   infinite     74    mix shas[0125,0130,0133,0138,0141,0149,0156,0158,0218,0222,0229,0236-0237,0240-0241,0243,0246,0255,0303,0311,0314,0322,0335,0337,0341,0343,0351,0357,0402,0411,0413,0415-0416,0418,0423,0428,0432-0433,0435-0436,0440,0452,0455-0456,0459,0501,0504,0514,0522-0524,0526-0527,0556,0608,0611-0613,0615-0616,0631,0637,0801,0810-0811,0815,0834-0835,0850,0855,0907-0909,0921]</a>
+<a class="sourceLine" id="cb265-22" data-line-number="22"><span class="ex">shas-interactive</span>    up   infinite    359  alloc shas[0103-0124,0126-0129,0131-0132,0134-0135,0139-0140,0142-0148,0150-0155,0157,0159-0160,0201-0217,0219-0221,0223-0225,0227-0228,0230-0235,0238-0239,0242,0247-0254,0256-0260,0301-0302,0304-0310,0312-0313,0315-0321,0323-0334,0336,0338-0340,0342,0344-0350,0352-0356,0358-0360,0401,0405-0410,0412,0414,0417,0419-0422,0424-0427,0429-0431,0434,0437-0439,0442-0451,0453-0454,0457-0458,0460,0502-0503,0505,0507-0513,0515-0520,0525,0528-0555,0560,0605-0607,0609,0614,0617-0630,0632-0636,0638-0650,0652-0664,0802-0809,0812-0814,0816-0833,0836-0849,0851-0852,0854,0856-0860,0901-0906,0910-0913,0915-0920,0922-0932]</a>
+<a class="sourceLine" id="cb265-23" data-line-number="23"><span class="ex">shas-interactive</span>    up   infinite     11   idle shas[0226,0244-0245,0403,0441,0557-0559,0610,0651,0914]</a>
+<a class="sourceLine" id="cb265-24" data-line-number="24"><span class="ex">sgpu</span>                up 1-00:00:00      1   resv sgpu0501</a>
+<a class="sourceLine" id="cb265-25" data-line-number="25"><span class="ex">sgpu</span>                up 1-00:00:00      1  alloc sgpu0502</a>
+<a class="sourceLine" id="cb265-26" data-line-number="26"><span class="ex">sgpu</span>                up 1-00:00:00      9   idle sgpu[0101-0102,0201-0202,0301-0302,0401-0402,0801]</a>
+<a class="sourceLine" id="cb265-27" data-line-number="27"><span class="ex">sgpu-testing</span>        up   infinite      1   resv sgpu0501</a>
+<a class="sourceLine" id="cb265-28" data-line-number="28"><span class="ex">sgpu-testing</span>        up   infinite      1  alloc sgpu0502</a>
+<a class="sourceLine" id="cb265-29" data-line-number="29"><span class="ex">sgpu-testing</span>        up   infinite      9   idle sgpu[0101-0102,0201-0202,0301-0302,0401-0402,0801]</a>
+<a class="sourceLine" id="cb265-30" data-line-number="30"><span class="ex">sknl</span>                up 1-00:00:00      1  drain sknl0710</a>
+<a class="sourceLine" id="cb265-31" data-line-number="31"><span class="ex">sknl</span>                up 1-00:00:00      1   resv sknl0706</a>
+<a class="sourceLine" id="cb265-32" data-line-number="32"><span class="ex">sknl</span>                up 1-00:00:00     18  alloc sknl[0701-0705,0707-0709,0711-0720]</a>
+<a class="sourceLine" id="cb265-33" data-line-number="33"><span class="ex">sknl-testing</span>        up   infinite      1  drain sknl0710</a>
+<a class="sourceLine" id="cb265-34" data-line-number="34"><span class="ex">sknl-testing</span>        up   infinite      1   resv sknl0706</a>
+<a class="sourceLine" id="cb265-35" data-line-number="35"><span class="ex">sknl-testing</span>        up   infinite     18  alloc sknl[0701-0705,0707-0709,0711-0720]</a>
+<a class="sourceLine" id="cb265-36" data-line-number="36"><span class="ex">smem</span>                up 7-00:00:00      1   drng smem0201</a>
+<a class="sourceLine" id="cb265-37" data-line-number="37"><span class="ex">smem</span>                up 7-00:00:00      4  alloc smem[0101,0301,0401,0501]</a>
+<a class="sourceLine" id="cb265-38" data-line-number="38"><span class="ex">ssky</span>                up 1-00:00:00      1   drng ssky0944</a>
+<a class="sourceLine" id="cb265-39" data-line-number="39"><span class="ex">ssky</span>                up 1-00:00:00      1    mix ssky0952</a>
+<a class="sourceLine" id="cb265-40" data-line-number="40"><span class="ex">ssky</span>                up 1-00:00:00      3  alloc ssky[0942-0943,0951]</a>
+<a class="sourceLine" id="cb265-41" data-line-number="41"><span class="ex">ssky-preemptable</span>    up 1-00:00:00      1   drng ssky0944</a>
+<a class="sourceLine" id="cb265-42" data-line-number="42"><span class="ex">ssky-preemptable</span>    up 1-00:00:00      1    mix ssky0952</a>
+<a class="sourceLine" id="cb265-43" data-line-number="43"><span class="ex">ssky-preemptable</span>    up 1-00:00:00      9  alloc ssky[0933-0934,0937-0940,0942-0943,0951]</a>
+<a class="sourceLine" id="cb265-44" data-line-number="44"><span class="ex">ssky-preemptable</span>    up 1-00:00:00      9   idle ssky[0935-0936,0941,0945-0950]</a>
+<a class="sourceLine" id="cb265-45" data-line-number="45"><span class="ex">ssky-ucb-aos</span>        up 7-00:00:00      6  alloc ssky[0933-0934,0937-0940]</a>
+<a class="sourceLine" id="cb265-46" data-line-number="46"><span class="ex">ssky-ucb-aos</span>        up 7-00:00:00      3   idle ssky[0935-0936,0941]</a>
+<a class="sourceLine" id="cb265-47" data-line-number="47"><span class="ex">ssky-csu-mbp</span>        up 7-00:00:00      1   idle ssky0945</a>
+<a class="sourceLine" id="cb265-48" data-line-number="48"><span class="ex">ssky-csu-asb</span>        up 7-00:00:00      1   idle ssky0946</a>
+<a class="sourceLine" id="cb265-49" data-line-number="49"><span class="ex">ssky-csu-rsp</span>        up 7-00:00:00      4   idle ssky[0947-0950]</a></code></pre></div>
 <p>Yikes! That is a lot of info. The numbers that you see on the ends of the lines there
 are node numbers.</p>
 <p>If you wanted to see information about each node in the <code>shas</code> partition, you could
 print long information for each node like this:</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb261-1" data-line-number="1"><span class="ex">%</span> sinfo -l -N</a></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb266-1" data-line-number="1"><span class="ex">%</span> sinfo -l -N</a></code></pre></div>
 <p>On Summit, that creates almost 1500 lines of output. Some nodes are listed several times
 because they belong to different partitions. To look at results for just the standard compute
 parition (<code>shas</code>: 380 nodes with Intel Xeon Haswell processors) you can use</p>
-<div class="sourceCode" id="cb262"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb262-1" data-line-number="1"><span class="ex">%</span> sinfo -l -n -p shas</a></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb267-1" data-line-number="1"><span class="ex">%</span> sinfo -l -n -p shas</a></code></pre></div>
 <p>Try that command. (Or try a similar command with an appropriate partition name on your
 own cluster.) If you want to see explicitly how many cores are available vs allocated
 on each node, how much total memory each node has, and how much of that total
 memory is free, in that partition you can do:</p>
-<div class="sourceCode" id="cb263"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb263-1" data-line-number="1"><span class="ex">%</span> sinfo -N -p shas -O nodelist,cpusstate,memory,allocmem,freemem</a></code></pre></div>
+<div class="sourceCode" id="cb268"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb268-1" data-line-number="1"><span class="ex">%</span> sinfo -N -p shas -O nodelist,cpusstate,memory,allocmem,freemem</a></code></pre></div>
 <p>The top part of the output from that command on SUMMIT looks like:</p>
 <pre><code>NODELIST            CPUS(A/I/O/T)       MEMORY              ALLOCMEM            FREE_MEM            
 shas0101            0/0/24/24           116368              0                   125156              
@@ -726,8 +730,8 @@ CPU is being used to mean “core”). All of the nodes have
 the jobs they are running.</p>
 <p>We can throw down some <code>awk</code> to count the total number of available cores
 (and the total number of all the cores):</p>
-<div class="sourceCode" id="cb265"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb265-1" data-line-number="1"><span class="ex">%</span> sinfo -N -p shas -O  nodelist,cpusstate <span class="kw">|</span> <span class="fu">awk</span> -F<span class="st">&quot;/&quot;</span> <span class="st">&#39;{avail+=$2; tots+=$4} END {print &quot;Out of&quot;, tots, &quot;cores, there are&quot;, avail, &quot;available&quot;}&#39;</span> </a>
-<a class="sourceLine" id="cb265-2" data-line-number="2"><span class="ex">Out</span> of 10848 cores, there are 331 available</a></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb270-1" data-line-number="1"><span class="ex">%</span> sinfo -N -p shas -O  nodelist,cpusstate <span class="kw">|</span> <span class="fu">awk</span> -F<span class="st">&quot;/&quot;</span> <span class="st">&#39;{avail+=$2; tots+=$4} END {print &quot;Out of&quot;, tots, &quot;cores, there are&quot;, avail, &quot;available&quot;}&#39;</span> </a>
+<a class="sourceLine" id="cb270-2" data-line-number="2"><span class="ex">Out</span> of 10848 cores, there are 331 available</a></code></pre></div>
 <p>That could explain why it can be hard to get time on the supercomputer: at this time, only about 3% of the cores in the system
 are idle, waiting for jobs to go on them.</p>
 <p>If you want to see how many jobs are in line, waiting to be launched, you can use the
@@ -737,20 +741,20 @@ waiting to be launched. This is worth doing in order to see how many
 different people are using (or waiting to use) the resources.</p>
 <p>If we run the command on Sedna, we see that (like we saw before)
 only one job is currently running:</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb266-1" data-line-number="1"><span class="ex">%</span> squeue</a>
-<a class="sourceLine" id="cb266-2" data-line-number="2">             <span class="ex">JOBID</span> PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)</a>
-<a class="sourceLine" id="cb266-3" data-line-number="3">               <span class="ex">160</span>     himem MaSuRCA_   ggoetz  R 34-15:56:16      1 himem01</a></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb271-1" data-line-number="1"><span class="ex">%</span> squeue</a>
+<a class="sourceLine" id="cb271-2" data-line-number="2">             <span class="ex">JOBID</span> PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)</a>
+<a class="sourceLine" id="cb271-3" data-line-number="3">               <span class="ex">160</span>     himem MaSuRCA_   ggoetz  R 34-15:56:16      1 himem01</a></code></pre></div>
 <p>Holy cow! Looking at the TIME column you can see that the genome assembly job
 has been running for over 34 days! (The time format is DAYS-Hours:Minutes:Seconds).</p>
 <p>The output can be filtered to just PENDING
 or RUNNING jobs using the <code>-t</code> option. So,</p>
-<div class="sourceCode" id="cb267"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb267-1" data-line-number="1"><span class="ex">squeue</span> -t PENDING</a></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb272-1" data-line-number="1"><span class="ex">squeue</span> -t PENDING</a></code></pre></div>
 <p>lists all jobs waiting to be launched. If you wanted to see jobs that a particular
 user (like yourself) has running or pending, you can use the <code>-u</code> option. For example,</p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb268-1" data-line-number="1"><span class="ex">squeue</span> -u eriq@colostate.edu</a></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb273-1" data-line-number="1"><span class="ex">squeue</span> -u eriq@colostate.edu</a></code></pre></div>
 <p>In fact that is such a worthwhile command that it is worth creating an alias
 for it by adding a line such as the following to your <code>~/.bashrc</code>:</p>
-<div class="sourceCode" id="cb269"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb269-1" data-line-number="1"><span class="bu">alias</span> myjobs=<span class="st">&#39;squeue -u eriq@colostate.edu&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb274-1" data-line-number="1"><span class="bu">alias</span> myjobs=<span class="st">&#39;squeue -u eriq@colostate.edu&#39;</span></a></code></pre></div>
 <p>Then, typing <code>myjobs</code> shows all of the jobs that you have running, or waiting to be launched
 on the cluster.</p>
 </div>
@@ -774,32 +778,42 @@ an interactive shell). The following is a short survey of three different ways I
 seen for requesting an interactive session. None of these methods is universally applicable
 to all HPCCs. (Again, read the documents for your own HPCC.)</p>
 <p>One way to get an interactive shell on a compute node of a cluster is to request it with:</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb270-1" data-line-number="1"><span class="ex">srun</span> --pty /bin/bash</a></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb275-1" data-line-number="1"><span class="ex">srun</span> --pty /bin/bash</a></code></pre></div>
 <p>This tells slurm to run <code>bash</code> (which is typically found at <code>/bin/bash</code> on all Unix system) within
-a pseodo-terminal (the <code>--pty</code> part). If you run this command you might be given a bash shell on a compute
+a pseudo-terminal (the <code>--pty</code> part). If you run this command you might be given a bash shell on a compute
 node. This works on the Sedna cluster, but not on all others.</p>
 <p>On the SUMMIT cluster at CU Boulder, there is
 a different recommended way of requesting an interactive shell. The
 sysadmins have written their own script to do it, called <code>sinteractive</code>.
 So, you could do:</p>
-<div class="sourceCode" id="cb271"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb271-1" data-line-number="1"><span class="ex">sinteractive</span></a></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb276-1" data-line-number="1"><span class="ex">sinteractive</span></a></code></pre></div>
 <p>On the Hummingbird cluster, at UCSC, it takes a few more steps. The webpage at <a href="https://www.hb.ucsc.edu/getting-started/">https://www.hb.ucsc.edu/getting-started/</a>
 tells you how to do that. Go to that page and search for <code>Job Allocation – Interactive, Serial</code>. That takes you to
 the instructions. Minimally, here is what it looks like to get one core
 on a node on the Instruction partition, for 1 hour, with 1 Gigabyte of memory
 allocated to you:</p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb272-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> salloc --partition=Instruction --nodes=1 --time=01:00:00 --mem=1G --cpus-per-task=1</a>
-<a class="sourceLine" id="cb272-2" data-line-number="2"><span class="ex">salloc</span>: Granted job allocation 48130</a>
-<a class="sourceLine" id="cb272-3" data-line-number="3">[<span class="ex">~</span>]<span class="ex">--%</span> ssh <span class="va">$SLURM_NODELIST</span></a>
-<a class="sourceLine" id="cb272-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb272-5" data-line-number="5"><span class="co"># check that you are on the right host.</span></a>
-<a class="sourceLine" id="cb272-6" data-line-number="6">[<span class="ex">~</span>]<span class="ex">--%</span> hostname</a>
-<a class="sourceLine" id="cb272-7" data-line-number="7"><span class="ex">hbcomp-005.hbhpc.ucsc.edu</span></a></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb277-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> salloc --partition=Instruction --nodes=1 --time=01:00:00 --mem=1G --cpus-per-task=1</a>
+<a class="sourceLine" id="cb277-2" data-line-number="2"><span class="ex">salloc</span>: Granted job allocation 48130</a>
+<a class="sourceLine" id="cb277-3" data-line-number="3">[<span class="ex">~</span>]<span class="ex">--%</span> ssh <span class="va">$SLURM_NODELIST</span></a>
+<a class="sourceLine" id="cb277-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb277-5" data-line-number="5"><span class="co"># check that you are on the right host.</span></a>
+<a class="sourceLine" id="cb277-6" data-line-number="6">[<span class="ex">~</span>]<span class="ex">--%</span> hostname</a>
+<a class="sourceLine" id="cb277-7" data-line-number="7"><span class="ex">hbcomp-005.hbhpc.ucsc.edu</span></a></code></pre></div>
 <p>Regardless of the method used to request an interactive shell, when the command
 returns with a command prompt, you should always check the hostname to make sure
 that you are not, inadvertently, still on the login node. Do that with the <code>hostname</code>
 command:</p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb273-1" data-line-number="1"><span class="fu">hostname</span></a></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb278-1" data-line-number="1"><span class="fu">hostname</span></a></code></pre></div>
+<p>Or, to make it very easy to see which node you are logged into, you can change
+the settings for your Unix command prompt to show you the name of the host you
+are logged into (Section <a href="essential-unixlinux-terminal-knowledge.html#comm-prompt">4.2.2</a>). For example, to include in your
+command prompt the short name of the computer you are logged into, and the current
+working directory, separated by a <code>:</code> and a space, you could modify your .bashrc
+file to define the <code>PS1</code> environment
+variable like so:</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb279-1" data-line-number="1"><span class="va">PS1=</span><span class="st">&#39;[\h: \W]--% &#39;</span></a></code></pre></div>
+<p>Now, whenever you see your command prompt, it will indicate the name of the computer
+you are logged into.</p>
 <p>It is also worth using your alias <code>myjobs</code> (see the last part of Section <a href="high-performance-computing-clusters-hpccs.html#slurm-info">8.3</a>
 to learn how to make such an alias) to check that your interactive shell session is listed amongst
 your running jobs.</p>
@@ -838,7 +852,8 @@ have to be named <code>script.sh</code>, but, since it is a shell script, it oug
 The contents of this script file effectively
 define the <em>job</em> that you wish to run. It should be a shell script, and, on most SLURM systems
 you need to be specific about what “flavor” of shell it should be run in. This is done using the
-“shebang” line at the top of the script, like <code>#!/bin/bash</code> (See section ??). If you want to know what
+“shebang” line at the top of the script, like <code>#!/bin/bash</code> (see the paragraph immediately
+<em>before</em> <a href="shell-programming.html#paragraph-before-shebang">5.2.1</a>). If you want to know what
 path should come after the <code>#!</code> (the “shebang”), you can give the command <code>which bash</code> from the shell
 on one of your cluster’s login nodes (or an interactive shell on a compute node), and the
 shell should respond with the absolute path to the bash shell interpreter.</li>
@@ -854,23 +869,23 @@ copy the following lines to a shell script called <code>easy.sh</code> and save 
 your current working directory (<code>sbatch-play</code>). Note that the first line might
 have to be modified for your system, depending on the output of <code>which bash</code>, as mentioned
 above:</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb275-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
-<a class="sourceLine" id="cb275-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb275-3" data-line-number="3"><span class="bu">echo</span> <span class="st">&quot;Starting at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb275-4" data-line-number="4"><span class="bu">echo</span> </a>
-<a class="sourceLine" id="cb275-5" data-line-number="5"><span class="bu">echo</span> <span class="st">&quot;Current working directory is: </span><span class="va">$PWD</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb275-6" data-line-number="6"><span class="bu">echo</span> <span class="st">&quot;Current user is: </span><span class="va">$USER</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb275-7" data-line-number="7"><span class="bu">echo</span> <span class="st">&quot;Current hostname is: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb275-8" data-line-number="8"><span class="bu">echo</span></a>
-<a class="sourceLine" id="cb275-9" data-line-number="9"><span class="bu">echo</span> <span class="st">&quot;Currently, the PATH is set to: </span><span class="va">$PATH</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb275-10" data-line-number="10"><span class="bu">echo</span></a>
-<a class="sourceLine" id="cb275-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb275-12" data-line-number="12"><span class="co"># now, let&#39;s print the states of all the the environment variables</span></a>
-<a class="sourceLine" id="cb275-13" data-line-number="13"><span class="co"># and send them to stderr:</span></a>
-<a class="sourceLine" id="cb275-14" data-line-number="14"><span class="fu">env</span> <span class="op">&gt;</span> /dev/stderr</a>
-<a class="sourceLine" id="cb275-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb275-16" data-line-number="16"><span class="fu">sleep</span> 180</a>
-<a class="sourceLine" id="cb275-17" data-line-number="17"><span class="bu">echo</span> <span class="st">&quot;Done at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb281-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb281-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb281-3" data-line-number="3"><span class="bu">echo</span> <span class="st">&quot;Starting at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb281-4" data-line-number="4"><span class="bu">echo</span> </a>
+<a class="sourceLine" id="cb281-5" data-line-number="5"><span class="bu">echo</span> <span class="st">&quot;Current working directory is: </span><span class="va">$PWD</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb281-6" data-line-number="6"><span class="bu">echo</span> <span class="st">&quot;Current user is: </span><span class="va">$USER</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb281-7" data-line-number="7"><span class="bu">echo</span> <span class="st">&quot;Current hostname is: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb281-8" data-line-number="8"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb281-9" data-line-number="9"><span class="bu">echo</span> <span class="st">&quot;Currently, the PATH is set to: </span><span class="va">$PATH</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb281-10" data-line-number="10"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb281-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb281-12" data-line-number="12"><span class="co"># now, let&#39;s print the states of all the the environment variables</span></a>
+<a class="sourceLine" id="cb281-13" data-line-number="13"><span class="co"># and send them to stderr:</span></a>
+<a class="sourceLine" id="cb281-14" data-line-number="14"><span class="fu">env</span> <span class="op">&gt;</span> /dev/stderr</a>
+<a class="sourceLine" id="cb281-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb281-16" data-line-number="16"><span class="fu">sleep</span> 180</a>
+<a class="sourceLine" id="cb281-17" data-line-number="17"><span class="bu">echo</span> <span class="st">&quot;Done at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a></code></pre></div>
 <p>Once you have made that file, schedule it to run, telling the scheduler
 to put it in the queue to run, <em>and</em> that you are asking for only
 5 minutes of computer time to run it, and to send <em>stdout</em> from the
@@ -879,7 +894,7 @@ job to a file named <code>output-XXXXX</code>, and <em>stderr</em> to a file nam
 Job numbers get assigned in series by the job scheduler, so if the number
 is 4373238, then yours is the 4,373,238-th job that has been requested
 on the cluster.</p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb276-1" data-line-number="1"><span class="ex">sbatch</span> --time=00:05:00 --output=output-%j --error=error-%j  easy.sh</a></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb282-1" data-line-number="1"><span class="ex">sbatch</span> --time=00:05:00 --output=output-%j --error=error-%j  easy.sh</a></code></pre></div>
 <p>You can check with your <code>myjobs</code> alias to see if the job has been scheduled
 and/or if it is running. Once it is running, you should see two new files
 in your current working directory <code>output-XXXXX</code> and <code>error-XXXXX</code>.</p>
@@ -901,18 +916,18 @@ file <code>error-XXXXX</code> (which holds information about all the environment
 in effect when the job scheduler launched <code>easy.sh</code>) to the output of the
 <code>env</code> command (which prints the values of all the environment variables) when we
 invoke it in the shell from which the job was scheduled. Try doing that like this:</p>
-<div class="sourceCode" id="cb278"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb278-1" data-line-number="1"><span class="co"># first, make a file of the environment variables in effect in the</span></a>
-<a class="sourceLine" id="cb278-2" data-line-number="2"><span class="co"># shell the job was scheduled from.  Sort these alphabetically to</span></a>
-<a class="sourceLine" id="cb278-3" data-line-number="3"><span class="co"># make it easier to compare between the two environments</span></a>
-<a class="sourceLine" id="cb278-4" data-line-number="4"><span class="fu">env</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="op">&gt;</span> sheduling_env.txt</a>
-<a class="sourceLine" id="cb278-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb278-6" data-line-number="6"><span class="co"># also, sort the error-XXXXX file</span></a>
-<a class="sourceLine" id="cb278-7" data-line-number="7"><span class="fu">sort</span> error-XXXXX <span class="op">&gt;</span> slurm_running_env.txt</a>
-<a class="sourceLine" id="cb278-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb278-9" data-line-number="9"><span class="co"># then use less to compare sched_env.txt and error-XXXXX.</span></a>
-<a class="sourceLine" id="cb278-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb278-11" data-line-number="11"><span class="co"># The adventurous can use tmux to split their screen vertically into </span></a>
-<a class="sourceLine" id="cb278-12" data-line-number="12"><span class="co"># two panes to make this easier:</span></a></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb284-1" data-line-number="1"><span class="co"># first, make a file of the environment variables in effect in the</span></a>
+<a class="sourceLine" id="cb284-2" data-line-number="2"><span class="co"># shell the job was scheduled from.  Sort these alphabetically to</span></a>
+<a class="sourceLine" id="cb284-3" data-line-number="3"><span class="co"># make it easier to compare between the two environments</span></a>
+<a class="sourceLine" id="cb284-4" data-line-number="4"><span class="fu">env</span> <span class="kw">|</span> <span class="fu">sort</span> <span class="op">&gt;</span> sheduling_env.txt</a>
+<a class="sourceLine" id="cb284-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb284-6" data-line-number="6"><span class="co"># also, sort the error-XXXXX file</span></a>
+<a class="sourceLine" id="cb284-7" data-line-number="7"><span class="fu">sort</span> error-XXXXX <span class="op">&gt;</span> slurm_running_env.txt</a>
+<a class="sourceLine" id="cb284-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb284-9" data-line-number="9"><span class="co"># then use less to compare sched_env.txt and error-XXXXX.</span></a>
+<a class="sourceLine" id="cb284-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb284-11" data-line-number="11"><span class="co"># The adventurous can use tmux to split their screen vertically into </span></a>
+<a class="sourceLine" id="cb284-12" data-line-number="12"><span class="co"># two panes to make this easier:</span></a></code></pre></div>
 <p>Sorting the files, as we have done above, garbles up some multi-line bash functions, but
 still makes it easy to see how the files differ. In particular, the
 large block of environment variables that start with <code>SLURM_</code> give information
@@ -930,10 +945,10 @@ such that my job will never launch?”, etc. SLURM provides the <code>--test-onl
 the scheduler verifies that your script looks like a shell script, and then gives you information
 about how many cores in how many nodes and in which partition the job will be scheduled for.
 Try it like this:</p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb279-1" data-line-number="1"><span class="ex">sbatch</span> --test-only --time=00:05:00 --output=output-%j --error=error-%j  easy.sh</a>
-<a class="sourceLine" id="cb279-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb279-3" data-line-number="3"><span class="co"># then see what happens if you request more the 24 hours:</span></a>
-<a class="sourceLine" id="cb279-4" data-line-number="4"><span class="ex">sbatch</span> --test-only --time=24:05:00 --output=output-%j --error=error-%j  easy.sh</a></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb285-1" data-line-number="1"><span class="ex">sbatch</span> --test-only --time=00:05:00 --output=output-%j --error=error-%j  easy.sh</a>
+<a class="sourceLine" id="cb285-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb285-3" data-line-number="3"><span class="co"># then see what happens if you request more than 24 hours:</span></a>
+<a class="sourceLine" id="cb285-4" data-line-number="4"><span class="ex">sbatch</span> --test-only --time=24:05:00 --output=output-%j --error=error-%j  easy.sh</a></code></pre></div>
 <p>As the name of the option implies, when you are using <code>--test-only</code>, your job <em>does not</em>
 actually get scheduled.
 <code>sbatch</code> with the <code>--test-only</code> option also gives an estimate of the time
@@ -956,7 +971,7 @@ or gets killed by the scheduler). You can use the <code>--mail-user</code> optio
 an email address and the <code>--mail-type</code> option to tell the scheduler when it should
 email you with updates regarding your job status. For example, supply your own
 email address in the following, and try it:</p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb280-1" data-line-number="1"><span class="ex">sbatch</span> --mail-type=ALL --mail-user=yourname@yourmail.edu --time=00:05:00 --output=output-%j --error=error-%j  easy.sh</a></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb286-1" data-line-number="1"><span class="ex">sbatch</span> --mail-type=ALL --mail-user=yourname@yourmail.edu --time=00:05:00 --output=output-%j --error=error-%j  easy.sh</a></code></pre></div>
 <p>You should receive an email from the cluster when your job starts and completes.</p>
 <p>This can be a handy feature when you are not running too many jobs. If you have a large number
 of jobs, being notified
@@ -965,8 +980,7 @@ setting <code>--mail-type=FAIL</code> to only be notified when jobs have failed.
 </div>
 <div id="include-options-inside-your-job-script" class="section level4">
 <h4><span class="header-section-number">8.4.2.3</span> Include options <em>inside</em> your job script</h4>
-<p>As you might imagine, <code>sbatch</code> takes many different options. We list the main ones that you will
-be concerned with while doing bioinformatics in Table <a href="#sbatchopts"><strong>??</strong></a>. You might note
+<p>You might note
 that the above command line is getting quite long and cumbersome, and it would surely become
 very difficult to remember and type commands with even more options, every time you wanted to start a job.
 On top of that, the options that you would want to invoke are typically going to be specific to the job
@@ -976,34 +990,173 @@ to much simpler commands on the command line, and makes your workflows somewhat 
 To include the <code>sbatch</code> options in the job script, you add them below the “shebang” line, in lines
 that start with <code>#SBATCH</code> before any other commands in the script.</p>
 <p>For example, we could make a new file called <code>easy2.sh</code> like this:</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb281-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
-<a class="sourceLine" id="cb281-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb281-3" data-line-number="3"><span class="co">#SBATCH --time=00:05:00</span></a>
-<a class="sourceLine" id="cb281-4" data-line-number="4"><span class="co">#SBATCH --output=output-%j</span></a>
-<a class="sourceLine" id="cb281-5" data-line-number="5"><span class="co">#SBATCH --error=error-%j </span></a>
-<a class="sourceLine" id="cb281-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb281-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb281-8" data-line-number="8"><span class="bu">echo</span> <span class="st">&quot;Starting at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb281-9" data-line-number="9"><span class="bu">echo</span> </a>
-<a class="sourceLine" id="cb281-10" data-line-number="10"><span class="bu">echo</span> <span class="st">&quot;Current working directory is: </span><span class="va">$PWD</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb281-11" data-line-number="11"><span class="bu">echo</span> <span class="st">&quot;Current user is: </span><span class="va">$USER</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb281-12" data-line-number="12"><span class="bu">echo</span> <span class="st">&quot;Current hostname is: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb281-13" data-line-number="13"><span class="bu">echo</span></a>
-<a class="sourceLine" id="cb281-14" data-line-number="14"><span class="bu">echo</span> <span class="st">&quot;Currently, the PATH is set to: </span><span class="va">$PATH</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb281-15" data-line-number="15"><span class="bu">echo</span></a>
-<a class="sourceLine" id="cb281-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb281-17" data-line-number="17"><span class="co"># now, let&#39;s print the states of all the the environment variables</span></a>
-<a class="sourceLine" id="cb281-18" data-line-number="18"><span class="co"># and send them to stderr:</span></a>
-<a class="sourceLine" id="cb281-19" data-line-number="19"><span class="fu">env</span> <span class="op">&gt;</span> /dev/stderr</a>
-<a class="sourceLine" id="cb281-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb281-21" data-line-number="21"><span class="fu">sleep</span> 180</a></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb287-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb287-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb287-3" data-line-number="3"><span class="co">#SBATCH --time=00:05:00</span></a>
+<a class="sourceLine" id="cb287-4" data-line-number="4"><span class="co">#SBATCH --output=output-%j</span></a>
+<a class="sourceLine" id="cb287-5" data-line-number="5"><span class="co">#SBATCH --error=error-%j </span></a>
+<a class="sourceLine" id="cb287-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb287-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb287-8" data-line-number="8"><span class="bu">echo</span> <span class="st">&quot;Starting at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb287-9" data-line-number="9"><span class="bu">echo</span> </a>
+<a class="sourceLine" id="cb287-10" data-line-number="10"><span class="bu">echo</span> <span class="st">&quot;Current working directory is: </span><span class="va">$PWD</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb287-11" data-line-number="11"><span class="bu">echo</span> <span class="st">&quot;Current user is: </span><span class="va">$USER</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb287-12" data-line-number="12"><span class="bu">echo</span> <span class="st">&quot;Current hostname is: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb287-13" data-line-number="13"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb287-14" data-line-number="14"><span class="bu">echo</span> <span class="st">&quot;Currently, the PATH is set to: </span><span class="va">$PATH</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb287-15" data-line-number="15"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb287-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb287-17" data-line-number="17"><span class="co"># now, let&#39;s print the states of all the the environment variables</span></a>
+<a class="sourceLine" id="cb287-18" data-line-number="18"><span class="co"># and send them to stderr:</span></a>
+<a class="sourceLine" id="cb287-19" data-line-number="19"><span class="fu">env</span> <span class="op">&gt;</span> /dev/stderr</a>
+<a class="sourceLine" id="cb287-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb287-21" data-line-number="21"><span class="fu">sleep</span> 180</a></code></pre></div>
 <p>And we could then test it like this:</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb282-1" data-line-number="1"><span class="ex">sbatch</span> --test-only easy2.sh</a></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb288-1" data-line-number="1"><span class="ex">sbatch</span> --test-only easy2.sh</a></code></pre></div>
 <p>or schedule it like this:</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb283-1" data-line-number="1"><span class="ex">sbatch</span> easy2.sh</a></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb289-1" data-line-number="1"><span class="ex">sbatch</span> easy2.sh</a></code></pre></div>
+<p>As you might imagine, <code>sbatch</code> can take many different options.
+We list the main ones that you will
+be concerned with while doing bioinformatics in Table <a href="high-performance-computing-clusters-hpccs.html#tab:sbatchopts">8.1</a>.</p>
+<table style="width:96%;">
+<caption><span id="tab:sbatchopts">TABLE 8.1: </span> Commonly used options to <code>sbatch</code>.</caption>
+<colgroup>
+<col width="47%" />
+<col width="48%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Option</th>
+<th align="left">What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>--cpus-per-task=&lt;ncpus&gt;</code></td>
+<td align="left">Indicate that ncpus cores are
+needed for each task in the
+job</td>
+</tr>
+<tr class="even">
+<td align="left"><code>--chdir=&lt;directory&gt;</code></td>
+<td align="left">Set the working directory of
+the batch script to
+“directory” before the script
+is run. This is seldom used
+if you schedule batch scripts
+from the directory in which
+they should be run.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>--error=&lt;filename pattern&gt;</code></td>
+<td align="left">Path to which <em>stderr</em> should
+be written. Like the
+<code>--output</code> option this llows
+for <code>%j</code>, <code>%A</code>, and <code>%a</code> (see
+below).</td>
+</tr>
+<tr class="even">
+<td align="left"><code>--job-name=&lt;jobname&gt;</code></td>
+<td align="left">Assign a name to the batch
+job. This name then appears
+in, for example, <code>squeve -u user</code>. It should be <em>short</em>
+and descriptive.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>--mail-type=&lt;type&gt;</code></td>
+<td align="left">Upon which job-scheduling
+events for this job should
+email be sent to the user?
+Choices include NONE, BEGIN,
+END, FAIL, REQUEUE, ALL.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>--mail-user=&lt;user&gt;</code></td>
+<td align="left">Address to which notification
+emails should be sent.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>--mem=&lt;size[units]&gt;</code></td>
+<td align="left">How much memory is requested
+<em>per node</em>. Most easily
+specified in gigabytes with a
+trailing as in <code>4G</code>. For
+example, <code>--mem=4G</code>.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>--mem-per-cpu=&lt;size[units]&gt;</code></td>
+<td align="left">How much memory is requested
+<em>per core</em>. For example,
+<code>--mem-per-cpu=4.6G</code>. Only
+one of <code>--mem</code> or
+<code>--mem-per-cpu</code> should be
+given.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>--output=&lt;filename pattern&gt;</code></td>
+<td align="left">Path to which <em>stdout</em> should
+be written while executing the
+batch script. Path can include
+<code>%j</code>, which expands to the job
+ID, or, if running as a job
+array, <code>%A</code> expands to the job
+ID, and <code>%a</code> to the job array
+index.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>--partition=&lt;partition_names&gt;</code></td>
+<td align="left">Request an allocation of
+resources from a compute node
+in one of the partitions
+listed in <code>partition_names</code>,
+which is a comma-separated
+list of partitions. For
+example,
+<code>--partition=shas,compute,himem</code></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>--time=&lt;time&gt;</code></td>
+<td align="left">Request an allocation of a
+certain amount of time.
+Specified in
+<code>days-hours:minutes:seconds</code>
+or <code>hours:minutes:seconds</code>,
+for example:
+<code>--time=2-12:00:00</code> or
+<code>--time=05:00:00</code>. Jobs
+running longer than this time
+will be killed.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>--test-only</code></td>
+<td align="left">Usually given directly on the
+command line to verify the job
+submission is compliant
+without actually scheduling
+the job.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="override-within-file-sbatch-directives-from-the-command-line" class="section level4">
+<h4><span class="header-section-number">8.4.2.4</span> Override within-file <code>sbatch</code> directives from the command line</h4>
+<p>Since you can write options for the <code>sbatch</code> command either 1) on the command
+line (as in <code>sbatch --time=00:03:00 ...</code>), or 2) within the script file given to
+the <code>sbatch</code> command (i.e. lines like <code>#SBATCH --time=00:05:00</code> within
+the top part of the script), you might wonder what happens when the same
+option is supplied both on the command line and within the script.
+It turns out that the version of the option on the command line takes precedence.
+That it, any options that are given <em>on the command line</em> itself will
+override the options if they are given within the file. For example,
+if we submitted the above <code>easy2.sh</code> script with the command:</p>
+<div class="sourceCode" id="cb290"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb290-1" data-line-number="1"><span class="ex">sbatch</span> --time=01:00:00 easy2.sh</a></code></pre></div>
+<p>it would be submitted with a time limit of 1 hour (<code>01:00:00</code>) rather
+than of 5 minutes (<code>00:05:00</code>, as given within the file.)</p>
+<p>This feature is particularly useful when you find yourself needing
+to re-run just certain elements of a SLURM job array, as we will see in a few sections.</p>
 </div>
 <div id="the-vagaries-of-conda-within-sbatch" class="section level4">
-<h4><span class="header-section-number">8.4.2.4</span> The vagaries of <code>conda</code> within <code>sbatch</code></h4>
+<h4><span class="header-section-number">8.4.2.5</span> The vagaries of <code>conda</code> within <code>sbatch</code></h4>
 <p>As we noted above, the shell environment in which SLURM executes
 your scheduled job inherits many important variables (like PATH and
 the current working directory) from the shell that you submit the job from.
@@ -1015,29 +1168,29 @@ features that have to happen within your job script in order to be able to
 explicitly set your <code>conda</code> environment within your job script.</p>
 <p>To see this, first make a script called <code>conda-test1.sh</code> that
 tries to activate a different <code>conda</code> environment within the job script:</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb284-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
-<a class="sourceLine" id="cb284-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb284-3" data-line-number="3"><span class="co">#SBATCH --time=00:03:00</span></a>
-<a class="sourceLine" id="cb284-4" data-line-number="4"><span class="co">#SBATCH --output=conda-test1-output-%j</span></a>
-<a class="sourceLine" id="cb284-5" data-line-number="5"><span class="co">#SBATCH --error=conda-test1-error-%j </span></a>
-<a class="sourceLine" id="cb284-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb284-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb284-8" data-line-number="8"><span class="bu">echo</span> <span class="st">&quot;Starting at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb284-9" data-line-number="9"><span class="bu">echo</span> </a>
-<a class="sourceLine" id="cb284-10" data-line-number="10"><span class="bu">echo</span> <span class="st">&quot;Current working directory is: </span><span class="va">$PWD</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb284-11" data-line-number="11"><span class="bu">echo</span> <span class="st">&quot;Current user is: </span><span class="va">$USER</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb284-12" data-line-number="12"><span class="bu">echo</span> <span class="st">&quot;Current hostname is: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb284-13" data-line-number="13"><span class="bu">echo</span></a>
-<a class="sourceLine" id="cb284-14" data-line-number="14"><span class="bu">echo</span> <span class="st">&quot;Currently, the PATH is set to: </span><span class="va">$PATH</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb284-15" data-line-number="15"><span class="bu">echo</span></a>
-<a class="sourceLine" id="cb284-16" data-line-number="16"><span class="bu">echo</span> <span class="st">&quot;Activating environment bioinf&quot;</span></a>
-<a class="sourceLine" id="cb284-17" data-line-number="17"><span class="ex">conda</span> activate bioinf</a>
-<a class="sourceLine" id="cb284-18" data-line-number="18"><span class="bu">echo</span></a>
-<a class="sourceLine" id="cb284-19" data-line-number="19"><span class="bu">echo</span> <span class="st">&quot;Now the PATH is: </span><span class="va">$PATH</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb284-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb284-21" data-line-number="21"><span class="fu">sleep</span> 120</a></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb291-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb291-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb291-3" data-line-number="3"><span class="co">#SBATCH --time=00:03:00</span></a>
+<a class="sourceLine" id="cb291-4" data-line-number="4"><span class="co">#SBATCH --output=conda-test1-output-%j</span></a>
+<a class="sourceLine" id="cb291-5" data-line-number="5"><span class="co">#SBATCH --error=conda-test1-error-%j </span></a>
+<a class="sourceLine" id="cb291-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb291-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb291-8" data-line-number="8"><span class="bu">echo</span> <span class="st">&quot;Starting at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb291-9" data-line-number="9"><span class="bu">echo</span> </a>
+<a class="sourceLine" id="cb291-10" data-line-number="10"><span class="bu">echo</span> <span class="st">&quot;Current working directory is: </span><span class="va">$PWD</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb291-11" data-line-number="11"><span class="bu">echo</span> <span class="st">&quot;Current user is: </span><span class="va">$USER</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb291-12" data-line-number="12"><span class="bu">echo</span> <span class="st">&quot;Current hostname is: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb291-13" data-line-number="13"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb291-14" data-line-number="14"><span class="bu">echo</span> <span class="st">&quot;Currently, the PATH is set to: </span><span class="va">$PATH</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb291-15" data-line-number="15"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb291-16" data-line-number="16"><span class="bu">echo</span> <span class="st">&quot;Activating environment bioinf&quot;</span></a>
+<a class="sourceLine" id="cb291-17" data-line-number="17"><span class="ex">conda</span> activate bioinf</a>
+<a class="sourceLine" id="cb291-18" data-line-number="18"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb291-19" data-line-number="19"><span class="bu">echo</span> <span class="st">&quot;Now the PATH is: </span><span class="va">$PATH</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb291-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb291-21" data-line-number="21"><span class="fu">sleep</span> 120</a></code></pre></div>
 <p>and then run that with:</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb285-1" data-line-number="1"><span class="ex">sbatch</span> conda-test1.sh</a></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb292-1" data-line-number="1"><span class="ex">sbatch</span> conda-test1.sh</a></code></pre></div>
 <p>After that has run, reading the contents of the <code>conda-test1-error-XXXX</code> file you should
 see an error about not being able to activate a conda environment. Likewise,
 if you look at the two <code>PATH</code>s printed out in <code>conda-test1-output-XXXX</code>,
@@ -1048,34 +1201,34 @@ was not activated.</p>
 from within your job script.</p>
 <p>For example, create a new file called <code>conda-init2.sh</code> and fill it with
 the following:</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb286-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
-<a class="sourceLine" id="cb286-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb286-3" data-line-number="3"><span class="co">#SBATCH --time=00:03:00</span></a>
-<a class="sourceLine" id="cb286-4" data-line-number="4"><span class="co">#SBATCH --output=conda-test2-output-%j</span></a>
-<a class="sourceLine" id="cb286-5" data-line-number="5"><span class="co">#SBATCH --error=conda-test2-error-%j </span></a>
-<a class="sourceLine" id="cb286-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb286-7" data-line-number="7"><span class="bu">source</span> ~/.bashrc</a>
-<a class="sourceLine" id="cb286-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb286-9" data-line-number="9"><span class="bu">echo</span> <span class="st">&quot;Starting at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb286-10" data-line-number="10"><span class="bu">echo</span> </a>
-<a class="sourceLine" id="cb286-11" data-line-number="11"><span class="bu">echo</span> <span class="st">&quot;Current working directory is: </span><span class="va">$PWD</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb286-12" data-line-number="12"><span class="bu">echo</span> <span class="st">&quot;Current user is: </span><span class="va">$USER</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb286-13" data-line-number="13"><span class="bu">echo</span> <span class="st">&quot;Current hostname is: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb286-14" data-line-number="14"><span class="bu">echo</span></a>
-<a class="sourceLine" id="cb286-15" data-line-number="15"><span class="bu">echo</span> <span class="st">&quot;Currently, the PATH is set to: </span><span class="va">$PATH</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb286-16" data-line-number="16"><span class="bu">echo</span></a>
-<a class="sourceLine" id="cb286-17" data-line-number="17"><span class="bu">echo</span> <span class="st">&quot;Activating environment bioinf&quot;</span></a>
-<a class="sourceLine" id="cb286-18" data-line-number="18"><span class="ex">conda</span> activate bioinf</a>
-<a class="sourceLine" id="cb286-19" data-line-number="19"><span class="bu">echo</span></a>
-<a class="sourceLine" id="cb286-20" data-line-number="20"><span class="bu">echo</span> <span class="st">&quot;Now the PATH is: </span><span class="va">$PATH</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb286-21" data-line-number="21"><span class="bu">echo</span></a>
-<a class="sourceLine" id="cb286-22" data-line-number="22"><span class="bu">echo</span> <span class="st">&quot;And the environment variables look like:&quot;</span></a>
-<a class="sourceLine" id="cb286-23" data-line-number="23"><span class="bu">echo</span> <span class="st">&quot;================================&quot;</span></a>
-<a class="sourceLine" id="cb286-24" data-line-number="24"><span class="fu">env</span></a>
-<a class="sourceLine" id="cb286-25" data-line-number="25"></a>
-<a class="sourceLine" id="cb286-26" data-line-number="26"><span class="fu">sleep</span> 120</a></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb293-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb293-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb293-3" data-line-number="3"><span class="co">#SBATCH --time=00:03:00</span></a>
+<a class="sourceLine" id="cb293-4" data-line-number="4"><span class="co">#SBATCH --output=conda-test2-output-%j</span></a>
+<a class="sourceLine" id="cb293-5" data-line-number="5"><span class="co">#SBATCH --error=conda-test2-error-%j </span></a>
+<a class="sourceLine" id="cb293-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb293-7" data-line-number="7"><span class="bu">source</span> ~/.bashrc</a>
+<a class="sourceLine" id="cb293-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb293-9" data-line-number="9"><span class="bu">echo</span> <span class="st">&quot;Starting at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb293-10" data-line-number="10"><span class="bu">echo</span> </a>
+<a class="sourceLine" id="cb293-11" data-line-number="11"><span class="bu">echo</span> <span class="st">&quot;Current working directory is: </span><span class="va">$PWD</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb293-12" data-line-number="12"><span class="bu">echo</span> <span class="st">&quot;Current user is: </span><span class="va">$USER</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb293-13" data-line-number="13"><span class="bu">echo</span> <span class="st">&quot;Current hostname is: </span><span class="va">$(</span><span class="fu">hostname</span><span class="va">)</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb293-14" data-line-number="14"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb293-15" data-line-number="15"><span class="bu">echo</span> <span class="st">&quot;Currently, the PATH is set to: </span><span class="va">$PATH</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb293-16" data-line-number="16"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb293-17" data-line-number="17"><span class="bu">echo</span> <span class="st">&quot;Activating environment bioinf&quot;</span></a>
+<a class="sourceLine" id="cb293-18" data-line-number="18"><span class="ex">conda</span> activate bioinf</a>
+<a class="sourceLine" id="cb293-19" data-line-number="19"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb293-20" data-line-number="20"><span class="bu">echo</span> <span class="st">&quot;Now the PATH is: </span><span class="va">$PATH</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb293-21" data-line-number="21"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb293-22" data-line-number="22"><span class="bu">echo</span> <span class="st">&quot;And the environment variables look like:&quot;</span></a>
+<a class="sourceLine" id="cb293-23" data-line-number="23"><span class="bu">echo</span> <span class="st">&quot;================================&quot;</span></a>
+<a class="sourceLine" id="cb293-24" data-line-number="24"><span class="fu">env</span></a>
+<a class="sourceLine" id="cb293-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb293-26" data-line-number="26"><span class="fu">sleep</span> 120</a></code></pre></div>
 <p>Then run it with:</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb287-1" data-line-number="1"><span class="ex">sbatch</span> conda-test2.sh</a></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb294-1" data-line-number="1"><span class="ex">sbatch</span> conda-test2.sh</a></code></pre></div>
 <p>If <code>conda</code> is working properly within the job script there should be no output
 to <code>conda-test2-error-XXXX</code> and you should see that invoking <code>conda activate bioinf</code>
 changed the PATH variable to include paths from the <code>bioinf</code> environment.</p>
@@ -1083,41 +1236,349 @@ changed the PATH variable to include paths from the <code>bioinf</code> environm
 and <code>bcftools</code>, that you installed using Miniconda, from within a job script.</p>
 <p>To repeat: to activate a conda environment like <code>bioinf</code> from within a job script running
 under <code>sbatch</code> you must add these lines:</p>
-<div class="sourceCode" id="cb288"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb288-1" data-line-number="1"><span class="bu">source</span> ~/.bashrc</a>
-<a class="sourceLine" id="cb288-2" data-line-number="2"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb295-1" data-line-number="1"><span class="bu">source</span> ~/.bashrc</a>
+<a class="sourceLine" id="cb295-2" data-line-number="2"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
 </div>
 <div id="test-a-longer-running-bash-script" class="section level4">
-<h4><span class="header-section-number">8.4.2.5</span> Test a longer running bash script</h4>
+<h4><span class="header-section-number">8.4.2.6</span> Test a longer running bash script</h4>
 <p>If you have time and want to pull this all together. Navigate to the
 <code>chinook-play</code> directory that we experimented in before. There should be
 a directory called <code>fastq</code> in there, as well as <code>chinook-genome-idx</code>.</p>
 <p>Then, make a job script called <code>map-it.sh</code> with these lines in it (modifying the
 email to be your email address):</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb289-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
-<a class="sourceLine" id="cb289-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb289-3" data-line-number="3"><span class="co">#SBATCH --time=03:00:00</span></a>
-<a class="sourceLine" id="cb289-4" data-line-number="4"><span class="co">#SBATCH --output=map-it-output-%j</span></a>
-<a class="sourceLine" id="cb289-5" data-line-number="5"><span class="co">#SBATCH --error=map-it-error-%j </span></a>
-<a class="sourceLine" id="cb289-6" data-line-number="6"><span class="co">#SBATCH --mail-type=ALL </span></a>
-<a class="sourceLine" id="cb289-7" data-line-number="7"><span class="co">#SBATCH --mail-user=yourname@yourmail.edu</span></a>
-<a class="sourceLine" id="cb289-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb289-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb289-10" data-line-number="10"><span class="bu">source</span> ~/.bash_profile  # or ~/.bashrc if that is how you are set up</a>
-<a class="sourceLine" id="cb289-11" data-line-number="11"><span class="ex">conda</span> activate bioinf</a>
-<a class="sourceLine" id="cb289-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb289-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb289-14" data-line-number="14"><span class="co"># map it, then make it a BAM then run fixmate</span></a>
-<a class="sourceLine" id="cb289-15" data-line-number="15"><span class="ex">bwa</span> mem chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz \</a>
-<a class="sourceLine" id="cb289-16" data-line-number="16">  fastq/Battle_Creek_01_chinook_R1.fq.gz  \</a>
-<a class="sourceLine" id="cb289-17" data-line-number="17">  fastq/Battle_Creek_01_chinook_R2.fq.gz  <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb289-18" data-line-number="18">  <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb289-19" data-line-number="19">    <span class="ex">samtools</span> fixmate -m -O BAM - OUTPUT-fixed.bam</a>
-<a class="sourceLine" id="cb289-20" data-line-number="20">    </a>
-<a class="sourceLine" id="cb289-21" data-line-number="21"><span class="co"># now coordinate-sort it and mark PCR duplicates</span></a>
-<a class="sourceLine" id="cb289-22" data-line-number="22"><span class="ex">samtools</span> sort OUTPUT-fixed.bam <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb289-23" data-line-number="23">  <span class="ex">samtools</span> markdup - OUTPUT-marked.bam</a></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb296-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb296-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb296-3" data-line-number="3"><span class="co">#SBATCH --time=03:00:00</span></a>
+<a class="sourceLine" id="cb296-4" data-line-number="4"><span class="co">#SBATCH --output=map-it-output-%j</span></a>
+<a class="sourceLine" id="cb296-5" data-line-number="5"><span class="co">#SBATCH --error=map-it-error-%j </span></a>
+<a class="sourceLine" id="cb296-6" data-line-number="6"><span class="co">#SBATCH --mail-type=ALL </span></a>
+<a class="sourceLine" id="cb296-7" data-line-number="7"><span class="co">#SBATCH --mail-user=yourname@yourmail.edu</span></a>
+<a class="sourceLine" id="cb296-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb296-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb296-10" data-line-number="10"><span class="bu">source</span> ~/.bash_profile  # or ~/.bashrc if that is how you are set up</a>
+<a class="sourceLine" id="cb296-11" data-line-number="11"><span class="ex">conda</span> activate bioinf</a>
+<a class="sourceLine" id="cb296-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb296-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb296-14" data-line-number="14"><span class="co"># map it, then make it a BAM then run fixmate</span></a>
+<a class="sourceLine" id="cb296-15" data-line-number="15"><span class="ex">bwa</span> mem chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz \</a>
+<a class="sourceLine" id="cb296-16" data-line-number="16">  fastq/Battle_Creek_01_chinook_R1.fq.gz  \</a>
+<a class="sourceLine" id="cb296-17" data-line-number="17">  fastq/Battle_Creek_01_chinook_R2.fq.gz  <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb296-18" data-line-number="18">  <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb296-19" data-line-number="19">    <span class="ex">samtools</span> fixmate -m -O BAM - OUTPUT-fixed.bam</a>
+<a class="sourceLine" id="cb296-20" data-line-number="20">    </a>
+<a class="sourceLine" id="cb296-21" data-line-number="21"><span class="co"># now coordinate-sort it and mark PCR duplicates</span></a>
+<a class="sourceLine" id="cb296-22" data-line-number="22"><span class="ex">samtools</span> sort OUTPUT-fixed.bam <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb296-23" data-line-number="23">  <span class="ex">samtools</span> markdup - OUTPUT-marked.bam</a></code></pre></div>
 <p>And schedule it to run (from within the <code>chinook-play</code> directory) with:</p>
-<div class="sourceCode" id="cb290"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb290-1" data-line-number="1"><span class="ex">sbatch</span> map-it.sh</a></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb297-1" data-line-number="1"><span class="ex">sbatch</span> map-it.sh</a></code></pre></div>
+</div>
+</div>
+<div id="slurm-job-arrays" class="section level3">
+<h3><span class="header-section-number">8.4.3</span> SLURM Job Arrays</h3>
+<p>Very often in bioinformatics, large jobs can be broken down into a series of
+smaller tasks. As an example, aligning sequencing read data from an individual sample
+to a reference genome
+can always be done independently of the sequences from any other individuals. Therefore
+a job that demands that sequencing data from 96 different individuals be aligned to
+a reference genome can be broken into 96 different tasks: each task involves mapping
+the sequencing data of just a single individual to the reference genome.</p>
+<p>The bash shell <code>for</code> loop provides a way to cycle over different repetitive tasks.
+In the case of alignment over multiple individuals we might use a <code>for</code> loop
+in a shell script in the following fashion, to repeatedly run a script
+called <code>align.sh</code> on the paired-end read from each of four different individuals:</p>
+<div class="sourceCode" id="cb298"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb298-1" data-line-number="1"><span class="va">INDIVS=</span><span class="st">&quot;Ind_1 Ind_2 Ind_3 Ind_4&quot;</span></a>
+<a class="sourceLine" id="cb298-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb298-3" data-line-number="3"><span class="kw">for</span> <span class="ex">ind</span> in <span class="va">$INDIVS</span><span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb298-4" data-line-number="4">  <span class="ex">align.sh</span> <span class="va">$ind</span>.R1.fq.gz <span class="va">$ind</span>.R2.fq.gz </a>
+<a class="sourceLine" id="cb298-5" data-line-number="5"><span class="kw">done</span></a></code></pre></div>
+<p>Such an approach will work OK on an HPCC if each task (aligning a single indvidual,
+in this case) takes just a short amount of time. But, what if aligning each
+individual takes almost a day of compute time, and you are only authorized to
+run jobs less than 24 hours on your HPCC? What is needed in that event is a convenient
+way to break jobs down into separate tasks, such that <em>each task is run as its own
+separate job on the HPCC</em>.</p>
+<p>SLURM provides a feature known as <em>job arrays</em> for handling just this type of use
+case. When you submit a job array, you are, in effect, submitting to SLURM a recipe
+that is telling the scheduler that you are submitting some number of instances of a particular
+job. As resources become available, each new instance of that job starts to run. The
+different “instances” can be different replicates of a complex simulation, or analyses done
+on different instances of a data set. Our alignment example falls into the latter case: each
+instance of the job would be aligning the reads of a different individual.</p>
+<p>SLURM job arrays are submitted by using the <code>--array=&lt;array_spec&gt;</code> option to <code>sbatch</code>.
+Each task of a job array is associated with a whole number, and the
+<code>&lt;array_spec&gt;</code> argument to the <code>--array</code> option tells which numbers (and, hence,
+which tasks) should be scheduled to run. For example, if you submit a script
+named <code>mytasks.sh</code> to <code>sbatch</code>,
+and the script includes in the SLURM preamble a line that says:</p>
+<div class="sourceCode" id="cb299"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb299-1" data-line-number="1"><span class="co">#SBATCH --array=1-10</span></a></code></pre></div>
+<p>then SLURM will schedule ten different jobs, indexed from 1 up to 10. That is all
+well and good, but, in order to be useful, those 10 different jobs had best do
+different things (for example, operate on 10 different data sets). The user must
+see to it that each task of a job array performs the proper instance of a
+job, and this is done using the shell environment variable <code>SLURM_ARRAY_TASK_ID</code>.</p>
+<p>When the first of the 10 scheduled tasks in the above job array is launched,
+the environment variable <code>SLURM_ARRAY_TASK_ID</code> is set to the value 1, and then
+the contents of <code>mytasks.sh</code> are executed. When the second task is launched,
+<code>SLURM_ARRAY_TASK_ID</code> is set to 2, and then <code>mytasks.sh</code> is run, and so forth,
+until the tenth job is launched with <code>SLURM_ARRAY_TASK_ID</code> set to 10. Therefore, inside
+the <code>mytasks.sh</code> script, the user can use the value of <code>SLURM_ARRAY_TASK_ID</code> (accessed
+via variable substitution with a dollar sign, e.g., <code>$SLURM_ARRAY_TASK_ID</code>) to
+direct the script to perform the proper instance of the job that is to be done.</p>
+<p>Thus, we could write our alignment example with four individuals, above,
+as a job array with a script file like this:</p>
+<div class="sourceCode" id="cb300"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb300-1" data-line-number="1"><span class="co">#SBATCH --array=1-4</span></a>
+<a class="sourceLine" id="cb300-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb300-3" data-line-number="3"><span class="va">IND=</span>Ind_<span class="va">$SLURM_ARRAY_TASK_ID</span></a>
+<a class="sourceLine" id="cb300-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb300-5" data-line-number="5"><span class="ex">align.sh</span> <span class="va">$IND</span>.R1.fq.gz <span class="va">$IND</span>.R2.fq.gz</a></code></pre></div>
+<p>Submitting that job with <code>sbatch</code> will submit four different tasks as part of
+a job array, each task being the alignment of sequencing reads from one of
+four different individuals.</p>
+<div id="naming-slurm-job-array-tasks" class="section level4">
+<h4><span class="header-section-number">8.4.3.1</span> Naming SLURM job array tasks</h4>
+<p>Internally, when you submit a job array to SLURM, it creates a job ID for the
+job array and then it reserves specific job numbers for the tasks within the array. However,
+you will find it easiest to refer to the separate tasks in a SLURM job array using the
+syntax <code>ArrayJobNumber_ArrayTaskNumber</code>. In other words, if we submitted the
+job array script listed above for aligning the reads from four individuals, and SLURM
+told us that the job-array had been assigned the job number 6677, then you can
+refer to the different tasks as <code>6677_1</code> for the job aligning reads from Ind_1,
+<code>6677_2</code> for the job aligning reads from Ind_2, and so forth.</p>
+<p>When using the <code>--output</code> or <code>--error</code> options to direct <em>stdout</em> and <em>stderr</em> to
+files during execution of the scripts submitted using the <code>--array</code> option to <code>sbatch</code>, you
+can name those files using <code>%A</code> which expands to the overall job array number and
+<code>%a</code> which expands to the SLURM array task ID. So for example:</p>
+<div class="sourceCode" id="cb301"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb301-1" data-line-number="1"><span class="co">#SBATCH --output  stdout_%A_%a.txt</span></a></code></pre></div>
+<p>would be useful.</p>
+</div>
+<div id="variations-on-the-array_spec" class="section level4">
+<h4><span class="header-section-number">8.4.3.2</span> Variations on the <code>&lt;array_spec&gt;</code></h4>
+<p>In the simplest case, you will want to evaluate tasks with indexes that
+proceed from 1 up to some stopping number, stepping by 1 each time. However,
+you can exert rather finely tuned control over which array task IDs you would like to
+be executed. The important thing to remember with all these variations is that
+<em>no spaces are allowed</em>!</p>
+<p>As we have seen already, a dash is used to represent a range of numbers, such as:</p>
+<div class="sourceCode" id="cb302"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb302-1" data-line-number="1"><span class="co">#SBATCH --array=1-50</span></a></code></pre></div>
+<p>To change the step size, you can immmediately follow the second number of the range
+with a colon, <code>:</code>, and give the step size. For example, to cycle over jobs with
+array indexes 1, 4, 7, and 10, you could do:</p>
+<div class="sourceCode" id="cb303"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb303-1" data-line-number="1"><span class="co">#SBATCH --array=1-10:3</span></a></code></pre></div>
+<p>If you wanted to pick out specific single indexes, you can combine single
+values and ranges with commas. For example, using just single values
+interspersed with commas:</p>
+<div class="sourceCode" id="cb304"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb304-1" data-line-number="1"><span class="co">#SBATCH --array=1,2,3,6,9,15</span></a></code></pre></div>
+<p>You can even combine ranges with step sizes with commas. This would run
+indexes 1, 11, 21 and 100, 150, 200:</p>
+<div class="sourceCode" id="cb305"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb305-1" data-line-number="1"><span class="co">#SBATCH --array=1-21:10,100-200:50</span></a></code></pre></div>
+<p>Being able to pick out single array index values to be done is wonderfully
+convenient for redoing tasks that might have failed. For example, suppose you
+ran a job with 500 tasks, and upon investigating the job logs you found that
+array tasks 47, 368, 477, and 489 had failed because insufficient time was
+allocated to them. In that case you could update the <code>--time</code> setting of your
+script and then re-run just those four jobs by including:</p>
+<div class="sourceCode" id="cb306"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb306-1" data-line-number="1"><span class="co">#SBATCH --array=47,368,477,489</span></a></code></pre></div>
+<p>Be warned, however, that SLURM does not check your <code>&lt;array_spec&gt;</code> to ensure that
+each task index if given only once. If you specify the same index should be run
+twice, as is the case for 4 in the following:</p>
+<div class="sourceCode" id="cb307"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb307-1" data-line-number="1"><span class="co">#SBATCH --array=1:10,4</span></a></code></pre></div>
+<p>then the job will be run twice, and possibly those two jobs will run at
+the same time so that output from each job will intermittently overwrite output
+from the other job, leading to corrupted results. Just be careful not to
+request the same task index more than once!</p>
+<p>Finally, if you want to be friendly to the other users of your cluster
+and want no more than X of your array tasks to be running at any time,
+you can stipulate that by ending the <code>&lt;array_spec&gt;</code> with <code>%X</code>. For example,
+to have no more than 5 array tasks running at any one time, you could do:</p>
+<div class="sourceCode" id="cb308"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb308-1" data-line-number="1"><span class="co">#SBATCH --array=1:20%5</span></a></code></pre></div>
+</div>
+<div id="translating-array-indexes-to-job-instances" class="section level4">
+<h4><span class="header-section-number">8.4.3.3</span> Translating Array Indexes to Job Instances</h4>
+<p>The user is left to translate what a job array index of, say, 7, means in terms of
+what <em>actions</em> that array task should take. Quite often you will want to map an array
+index to a different file to analyze, or perhaps a different region of a chromosome to
+do variant calling on, etc. A flexible and generic way of doing this mapping from
+array indexes to job specifics is to first define the variables (things like filenames, etc.)
+required by each array task in a simple TAB-delimited text file in which the first row holds
+the names of the variables in different TAB-separate columns, and each row below that holds
+the values that those variables should take for different values of the array index. The
+array index itself should be listed in the first column.</p>
+<p>For example, if we have 10 different
+files to process, each with different read-group values (Section <a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#read-groups">19.2</a>),
+you can specify the filenames and elements of the read group values in a TAB-delimited
+text file called <code>files-and-groups.tsv</code> that looks like this:</p>
+<div class="sourceCode" id="cb309"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb309-1" data-line-number="1"><span class="ex">index</span>   file_prefix LB  Flowcell    Lane</a>
+<a class="sourceLine" id="cb309-2" data-line-number="2"><span class="ex">1</span>   DPCh_plate1_A01_S1_L1_R Lib-1   HTYYCBBXX   1</a>
+<a class="sourceLine" id="cb309-3" data-line-number="3"><span class="ex">2</span>   DPCh_plate1_A01_S1_L2_R Lib-1   HTYYCBBXX   2</a>
+<a class="sourceLine" id="cb309-4" data-line-number="4"><span class="ex">3</span>   DPCh_plate1_A01_S1_L3_R Lib-1   HTYYCBBXX   3</a>
+<a class="sourceLine" id="cb309-5" data-line-number="5"><span class="ex">4</span>   DPCh_plate1_A01_S1_L4_R Lib-1   HTYYCBBXX   4</a>
+<a class="sourceLine" id="cb309-6" data-line-number="6"><span class="ex">5</span>   DPCh_plate1_A01_S1_L5_R Lib-1   HTYYCBBXX   5</a>
+<a class="sourceLine" id="cb309-7" data-line-number="7"><span class="ex">6</span>   DPCh_plate1_A01_S1_L6_R Lib-1   HTYYCBBXX   6</a>
+<a class="sourceLine" id="cb309-8" data-line-number="8"><span class="ex">7</span>   DPCh_plate1_A01_S1_L7_R Lib-1   HTYYCBBXX   7</a>
+<a class="sourceLine" id="cb309-9" data-line-number="9"><span class="ex">8</span>   DPCh_plate1_A01_S1_L8_R Lib-1   HTYYCBBXX   8</a>
+<a class="sourceLine" id="cb309-10" data-line-number="10"><span class="ex">9</span>   DPCh_plate1_A02_S2_L1_R Lib-1   HTYYCBBXX   1</a>
+<a class="sourceLine" id="cb309-11" data-line-number="11"><span class="ex">10</span>  DPCh_plate1_A02_S2_L2_R Lib-1   HTYYCBBXX   2</a></code></pre></div>
+<p>Then, when executing a job array script, this file can be used to
+convert the <code>SLURM_ARRAY_TASK_ID</code> into the necessary file names
+and other variables with a simple <code>awk</code> script and
+variable assignments within your job script
+that look like this:</p>
+<div class="sourceCode" id="cb310"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb310-1" data-line-number="1"><span class="co"># make a command line that holds assignments of values to shell variables</span></a>
+<a class="sourceLine" id="cb310-2" data-line-number="2"><span class="va">ASSIGN=$(</span><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> -v N=<span class="va">$SLURM_ARRAY_TASK_ID</span> <span class="st">&#39;</span></a>
+<a class="sourceLine" id="cb310-3" data-line-number="3"><span class="st">  NR==1 {for(i=1;i&lt;=NF;i++) vars[i]=$i; next}</span></a>
+<a class="sourceLine" id="cb310-4" data-line-number="4"><span class="st">  $1 == N {for(i=1;i&lt;=NF;i++) printf(&quot;%s=%s; &quot;, vars[i], $i)}</span></a>
+<a class="sourceLine" id="cb310-5" data-line-number="5"><span class="st">&#39;</span> files-and-groups.tsv<span class="va">)</span></a>
+<a class="sourceLine" id="cb310-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb310-7" data-line-number="7"><span class="co"># make those assignments</span></a>
+<a class="sourceLine" id="cb310-8" data-line-number="8"><span class="bu">eval</span> <span class="va">$ASSIGN</span></a></code></pre></div>
+<p>Then, when SLURM_ARRAY_TASK_ID is equal to 7, for example, the variable
+<code>ASSIGN</code> gets the string value:</p>
+<div class="sourceCode" id="cb311"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb311-1" data-line-number="1"><span class="va">index=</span>7; <span class="va">file_prefix=</span>DPCh_plate1_A01_S1_L7_R; <span class="va">LB=</span>Lib-1; <span class="va">Flowcell=</span>HTYYCBBXX; <span class="va">Lane=</span>7;</a></code></pre></div>
+<p>and then evaluating that string with <code>eval $ASSIGN</code> will define for you the values of the
+shell variables <code>index</code>, <code>file_prefix</code>, <code>LB</code>, <code>Flowcell</code>, and <code>Lane</code>, as indicated
+above. These shell variables may be used in subsequent code in your script
+(via variable subtitution with the <code>$</code>, like <code>$file_prefix</code>) to ensure that the
+proper files are processed, etc., for each different value of SLURM_ARRAY_TASK_ID.</p>
+</div>
+<div id="slurm-job-array-hands-on" class="section level4">
+<h4><span class="header-section-number">8.4.3.4</span> SLURM Job Array hands-on</h4>
+<p>Here, you can run some small scripts to get your feet wet with
+defining slurm job arrays. Save the following lines to a script
+named <code>test-arrays.sh</code> and then submit it via <code>sbatch test-arrays.sh</code>.
+It should produce three output files.</p>
+<div class="sourceCode" id="cb312"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb312-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb312-2" data-line-number="2"><span class="co">#SBATCH --time=00:05:00</span></a>
+<a class="sourceLine" id="cb312-3" data-line-number="3"><span class="co">#SBATCH --output=my_output_%A_%a</span></a>
+<a class="sourceLine" id="cb312-4" data-line-number="4"><span class="co">#SBATCH --array=1-3</span></a>
+<a class="sourceLine" id="cb312-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb312-6" data-line-number="6"><span class="bu">echo</span> <span class="st">&quot;The SLURM_ARRAY_JOB_ID is : </span><span class="va">$SLURM_ARRAY_JOB_ID</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb312-7" data-line-number="7"><span class="bu">echo</span> <span class="st">&quot;The SLURM_ARRAY_TASK_ID is: </span><span class="va">$SLURM_ARRAY_TASK_ID</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb312-8" data-line-number="8"><span class="bu">echo</span> <span class="st">&quot;The SLURM_JOB_ID is: </span><span class="va">$SLURM_JOB_ID</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb312-9" data-line-number="9"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb312-10" data-line-number="10"><span class="bu">echo</span> <span class="st">&quot;You can refer to this individual SLURM array task as: </span><span class="va">${SLURM_ARRAY_JOB_ID}</span><span class="st">_</span><span class="va">${SLURM_ARRAY_TASK_ID}</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb312-11" data-line-number="11"><span class="bu">echo</span></a>
+<a class="sourceLine" id="cb312-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb312-13" data-line-number="13"><span class="fu">sleep</span> 180</a></code></pre></div>
+<p>Once this has been submitted, use your <code>myjobs</code> alias to see how it looks
+when it is queued: something like this:</p>
+<pre><code>            JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+     4499013_[1-3]      shas test-arr eriq@col PD       0:00      1 (Priority)</code></pre>
+<p>If it is taking a while to start this job, and you don’t have a <code>myjobs</code> alias,
+put one in your <code>~/.bashrc</code>. Add these lines:</p>
+<div class="sourceCode" id="cb314"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb314-1" data-line-number="1"><span class="co"># aliases for SLURM stuff</span></a>
+<a class="sourceLine" id="cb314-2" data-line-number="2"><span class="bu">alias</span> myjobs=<span class="st">&#39;squeue -u username&#39;</span></a></code></pre></div>
+<p>where you have to change <em>username</em> to be your login name on the HPCC. Note
+that, for Colorado State Univesity affiliates on SUMMIT, that username is of the form,
+<code>user@colostate</code>.</p>
+<p>If you would like to see each one of the tasks in a job array listed
+on its own line, you can use the <code>-r, --array</code> option to <code>squeue</code>. In terms
+of a <code>myjobs</code> alias that means issuing <code>myjobs -r</code> or <code>myjobs --array</code> (both are
+equivalent):</p>
+<div class="sourceCode" id="cb315"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb315-1" data-line-number="1"><span class="ex">%</span> myjobs -r</a>
+<a class="sourceLine" id="cb315-2" data-line-number="2">             <span class="ex">JOBID</span> PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)</a>
+<a class="sourceLine" id="cb315-3" data-line-number="3">         <span class="ex">4499052_1</span>      shas test-arr eriq@col PD       0:00      1 (Priority)</a>
+<a class="sourceLine" id="cb315-4" data-line-number="4">         <span class="ex">4499052_2</span>      shas test-arr eriq@col PD       0:00      1 (Priority)</a>
+<a class="sourceLine" id="cb315-5" data-line-number="5">         <span class="ex">4499052_3</span>      shas test-arr eriq@col PD       0:00      1 (Priority)</a></code></pre></div>
+<p>I want people to look closely at the variables SLURM_ARRAY_JOB_ID and
+SLURM_ARRAY_TASK_ID, and to understand how those are different from
+SLURM_JOB_ID in this context. We will discuss that in class.</p>
+<p>Unfortunately, it seems like it can take a long time for that to start on
+SUMMIT. So, here are the results:</p>
+<div class="sourceCode" id="cb316"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb316-1" data-line-number="1">==<span class="op">&gt;</span> <span class="ex">my_output_27234_1</span> <span class="op">&lt;</span>==</a>
+<a class="sourceLine" id="cb316-2" data-line-number="2"><span class="ex">The</span> SLURM_ARRAY_JOB_ID is : 27234</a>
+<a class="sourceLine" id="cb316-3" data-line-number="3"><span class="ex">The</span> SLURM_ARRAY_TASK_ID is: 1</a>
+<a class="sourceLine" id="cb316-4" data-line-number="4"><span class="ex">The</span> SLURM_JOB_ID is: 27235</a>
+<a class="sourceLine" id="cb316-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb316-6" data-line-number="6"><span class="ex">You</span> can refer to this individual SLURM array task as: 27234_1</a>
+<a class="sourceLine" id="cb316-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb316-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb316-9" data-line-number="9">==<span class="op">&gt;</span> <span class="ex">my_output_27234_2</span> <span class="op">&lt;</span>==</a>
+<a class="sourceLine" id="cb316-10" data-line-number="10"><span class="ex">The</span> SLURM_ARRAY_JOB_ID is : 27234</a>
+<a class="sourceLine" id="cb316-11" data-line-number="11"><span class="ex">The</span> SLURM_ARRAY_TASK_ID is: 2</a>
+<a class="sourceLine" id="cb316-12" data-line-number="12"><span class="ex">The</span> SLURM_JOB_ID is: 27236</a>
+<a class="sourceLine" id="cb316-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb316-14" data-line-number="14"><span class="ex">You</span> can refer to this individual SLURM array task as: 27234_2</a>
+<a class="sourceLine" id="cb316-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb316-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb316-17" data-line-number="17">==<span class="op">&gt;</span> <span class="ex">my_output_27234_3</span> <span class="op">&lt;</span>==</a>
+<a class="sourceLine" id="cb316-18" data-line-number="18"><span class="ex">The</span> SLURM_ARRAY_JOB_ID is : 27234</a>
+<a class="sourceLine" id="cb316-19" data-line-number="19"><span class="ex">The</span> SLURM_ARRAY_TASK_ID is: 3</a>
+<a class="sourceLine" id="cb316-20" data-line-number="20"><span class="ex">The</span> SLURM_JOB_ID is: 27234</a>
+<a class="sourceLine" id="cb316-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb316-22" data-line-number="22"><span class="ex">You</span> can refer to this individual SLURM array task as: 27234_3</a></code></pre></div>
+<p>Next, we want to explore the possibility of overriding the <code>#SBATCH --array</code> option
+given internally in the <code>test-arrays.sh</code> with one given on the command line. Thus,
+try submitting the job with:</p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb317-1" data-line-number="1"><span class="ex">sbatch</span> --array=100,200,300 test-arrays.sh</a></code></pre></div>
+<p>Finally, we want to contemplate strategies for turning the <code>SLURM_ARRAY_TASK_ID</code>
+into “directions” for the script about what to do (which files to process, etc.)</p>
+<p>We discussed one approach, above, using a TAB-delimited file, but want to note here
+that depending on how your actual script is configured, any number of approaches
+might be suitable.</p>
+<p>For an example germane to doing alignment to a reference genome in our
+homework <code>chr-32-bioinformatics</code>, consider that you have 1280 pairs of files
+to process, and that you will launch jobs to process 128 such pairs at a time.
+A script called <code>run-single-job.sh</code> that mapped the first 128 pairs of files
+looked like this:</p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb318-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb318-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb318-3" data-line-number="3"><span class="co">#SBATCH --time=05:00:00</span></a>
+<a class="sourceLine" id="cb318-4" data-line-number="4"><span class="co">#SBATCH --output=run-single-out-%j</span></a>
+<a class="sourceLine" id="cb318-5" data-line-number="5"><span class="co">#SBATCH --error=run-single-error-%j</span></a>
+<a class="sourceLine" id="cb318-6" data-line-number="6"><span class="co">#SBATCH --mail-type=ALL</span></a>
+<a class="sourceLine" id="cb318-7" data-line-number="7"><span class="co">#SBATCH --mail-user=user@email.edu</span></a>
+<a class="sourceLine" id="cb318-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb318-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb318-10" data-line-number="10"><span class="ex">./map-N-files-from-K.sh</span> 128 1</a></code></pre></div>
+<p>If you wanted to map the next 128 pairs of files, the final line in the above
+script should look like:</p>
+<div class="sourceCode" id="cb319"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb319-1" data-line-number="1"><span class="ex">./map-N-files-from-K.sh</span> 128 129</a></code></pre></div>
+<p>and to do the next 128 pairs of files after that, the line should look like:</p>
+<div class="sourceCode" id="cb320"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb320-1" data-line-number="1"><span class="ex">./map-N-files-from-K.sh</span> 128 257</a></code></pre></div>
+<p>and so forth.</p>
+<p>So, if everyone has already run the first 128 pairs of files (as everyone should
+have finished for the homework) I contend that, if we wanted to modify this script
+so that the remaining 1152 pairs of files could be run as a job array, our new script
+could look like this:</p>
+<div class="sourceCode" id="cb321"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb321-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb321-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb321-3" data-line-number="3"><span class="co">#SBATCH --time=02:00:00</span></a>
+<a class="sourceLine" id="cb321-4" data-line-number="4"><span class="co">#SBATCH --output=run-array-out-%A_%a</span></a>
+<a class="sourceLine" id="cb321-5" data-line-number="5"><span class="co">#SBATCH --error=run-array-error-%A_%a</span></a>
+<a class="sourceLine" id="cb321-6" data-line-number="6"><span class="co">#SBATCH --mail-type=ALL</span></a>
+<a class="sourceLine" id="cb321-7" data-line-number="7"><span class="co">#SBATCH --mail-user=user@email.edu</span></a>
+<a class="sourceLine" id="cb321-8" data-line-number="8"><span class="co">#SBATCH --array=1-9</span></a>
+<a class="sourceLine" id="cb321-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb321-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb321-11" data-line-number="11"><span class="ex">./map-N-files-from-K.sh</span> 128 <span class="va">$((</span>SLURM_ARRAY_TASK_ID * 128 + 1<span class="va">))</span></a></code></pre></div>
+<p>Save that file as <code>run-array-job.sh</code></p>
+<p>Note the changes:</p>
+<ul>
+<li>output and error files modified to use <code>%A_%a</code></li>
+<li>Added the –array command running from 1 to 9.</li>
+<li>Changed the starting index from 1 to <code>$((SLURM_ARRAY_TASK_ID * 128 + 1))</code></li>
+</ul>
+<p>The last one deserves some explanation, it uses the <em>integer arithmetic</em>
+capabilities of the bash shell (Section <a href="shell-programming.html#bash-arithmetic">5.3.6</a>).</p>
+<p>So, what is that last line doing? You should check it for yourself. Doing so
+will emphasize an important point when it comes to testing your own job-array scripts:
+if you are testing the code in them interactively, you can simply assign any value you
+want to a variable named <code>SLURM_ARRAY_TASK_ID</code> and verify the results are what you would
+like them to be. So, try this:</p>
+<div class="sourceCode" id="cb322"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb322-1" data-line-number="1"><span class="va">SLURM_ARRAY_TASK_ID=</span>1</a>
+<a class="sourceLine" id="cb322-2" data-line-number="2"><span class="bu">echo</span> ./map-N-files-from-K.sh 128 <span class="va">$((</span>SLURM_ARRAY_TASK_ID * 128 + 1<span class="va">))</span></a></code></pre></div>
+<p>And to check them all, including when SLURM_ARRAY_TASK_ID=0 (which is the case that
+you already did for your homework, running it as a single job), try this:</p>
+<div class="sourceCode" id="cb323"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb323-1" data-line-number="1"><span class="kw">for</span> <span class="ex">SLURM_ARRAY_TASK_ID</span> in <span class="dt">{0..9}</span><span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb323-2" data-line-number="2">  <span class="bu">echo</span> ./map-N-files-from-K.sh 128 <span class="va">$((</span>SLURM_ARRAY_TASK_ID * 128 + 1<span class="va">))</span></a>
+<a class="sourceLine" id="cb323-3" data-line-number="3"><span class="kw">done</span></a></code></pre></div>
+<p>Once you have convinced yourself that your <code>run-array-job.sh</code> script will
+work correctly, and it is set for an array=1-9, and you have configured
+your email properly within it, then you should copy it to your
+<code>chr-32-bioinformatics</code> directory and submit it as a job to finish aligning
+the reads from all the remaining individuals, so we will have them for
+variant calling down the road.</p>
+<p><strong>THAT LAST STEP ABOVE IS PART OF YOUR HOMEWORK FOR NEXT WEEK THAT WILL BE DUE NEXT TUESDAY </strong></p>
 </div>
 </div>
 </div>
@@ -1150,89 +1611,89 @@ the next homework assignment which involves aligning short reads to a reference
 genome and will be assigned after spring break.</p>
 <ol style="list-style-type: decimal">
 <li><p>If you are not already in a tmux session, start a new <code>tmux</code> session called <code>inclass</code> on the login node.</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb291-1" data-line-number="1"><span class="ex">tmux</span> new -s inclass</a></code></pre></div></li>
+<div class="sourceCode" id="cb324"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb324-1" data-line-number="1"><span class="ex">tmux</span> new -s inclass</a></code></pre></div></li>
 <li><p>Get a bash shell on a compute node</p>
-<div class="sourceCode" id="cb292"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb292-1" data-line-number="1"><span class="co"># on summit:</span></a>
-<a class="sourceLine" id="cb292-2" data-line-number="2"><span class="ex">sinteractive</span></a>
-<a class="sourceLine" id="cb292-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb292-4" data-line-number="4"><span class="co"># on hummingbird</span></a>
-<a class="sourceLine" id="cb292-5" data-line-number="5"><span class="ex">salloc</span> --partition=Instruction --nodes=1 --time=02:00:00 --mem=4G --cpus-per-task=1</a>
-<a class="sourceLine" id="cb292-6" data-line-number="6"><span class="fu">ssh</span> <span class="va">$SLURM_NODELIST</span></a>
-<a class="sourceLine" id="cb292-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb292-8" data-line-number="8"><span class="co"># otherwise, you can try this (will work on Sedna)</span></a>
-<a class="sourceLine" id="cb292-9" data-line-number="9"><span class="ex">srun</span> --pty /bin/bash</a></code></pre></div></li>
+<div class="sourceCode" id="cb325"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb325-1" data-line-number="1"><span class="co"># on summit:</span></a>
+<a class="sourceLine" id="cb325-2" data-line-number="2"><span class="ex">sinteractive</span></a>
+<a class="sourceLine" id="cb325-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb325-4" data-line-number="4"><span class="co"># on hummingbird</span></a>
+<a class="sourceLine" id="cb325-5" data-line-number="5"><span class="ex">salloc</span> --partition=Instruction --nodes=1 --time=02:00:00 --mem=4G --cpus-per-task=1</a>
+<a class="sourceLine" id="cb325-6" data-line-number="6"><span class="fu">ssh</span> <span class="va">$SLURM_NODELIST</span></a>
+<a class="sourceLine" id="cb325-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb325-8" data-line-number="8"><span class="co"># otherwise, you can try this (will work on Sedna)</span></a>
+<a class="sourceLine" id="cb325-9" data-line-number="9"><span class="ex">srun</span> --pty /bin/bash</a></code></pre></div></li>
 <li><p>Check what host you are on with <code>hostname</code></p>
-<div class="sourceCode" id="cb293"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb293-1" data-line-number="1"><span class="fu">hostname</span></a>
-<a class="sourceLine" id="cb293-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb293-3" data-line-number="3"><span class="co"># The hostname should be something like shasXXX. </span></a>
-<a class="sourceLine" id="cb293-4" data-line-number="4"><span class="co">#  Do not proceed if you are on a login node still (ie. hostname is loginXX)</span></a></code></pre></div>
+<div class="sourceCode" id="cb326"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb326-1" data-line-number="1"><span class="fu">hostname</span></a>
+<a class="sourceLine" id="cb326-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb326-3" data-line-number="3"><span class="co"># The hostname should be something like shasXXX. </span></a>
+<a class="sourceLine" id="cb326-4" data-line-number="4"><span class="co">#  Do not proceed if you are on a login node still (ie. hostname is loginXX)</span></a></code></pre></div>
 <p>If you are still on a login node, try running <code>sinteractive</code> again.</p></li>
 <li><p>Use your alias <code>myjobs</code> (if you have created it) to see what jobs you have running.</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb294-1" data-line-number="1"><span class="ex">myjobs</span></a>
-<a class="sourceLine" id="cb294-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb294-3" data-line-number="3"><span class="co"># or, if you don&#39;t have that aliased:</span></a>
-<a class="sourceLine" id="cb294-4" data-line-number="4"><span class="ex">squeue</span> -u your_username</a>
-<a class="sourceLine" id="cb294-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb294-6" data-line-number="6"><span class="co"># You should see that you have one job running.  That &quot;job&quot; is a bash shell</span></a>
-<a class="sourceLine" id="cb294-7" data-line-number="7"><span class="co"># that you are interactively working with.</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb327"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb327-1" data-line-number="1"><span class="ex">myjobs</span></a>
+<a class="sourceLine" id="cb327-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb327-3" data-line-number="3"><span class="co"># or, if you don&#39;t have that aliased:</span></a>
+<a class="sourceLine" id="cb327-4" data-line-number="4"><span class="ex">squeue</span> -u your_username</a>
+<a class="sourceLine" id="cb327-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb327-6" data-line-number="6"><span class="co"># You should see that you have one job running.  That &quot;job&quot; is a bash shell</span></a>
+<a class="sourceLine" id="cb327-7" data-line-number="7"><span class="co"># that you are interactively working with.</span></a></code></pre></div></li>
 <li><p>Navigate to your scratch directory using <code>cd</code>. On SUMMIT that will look like this:</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb295-1" data-line-number="1"><span class="bu">cd</span> /scratch/summit/wcfunk\@colostate.edu/</a></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb328-1" data-line-number="1"><span class="bu">cd</span> /scratch/summit/wcfunk\@colostate.edu/</a></code></pre></div>
 <p>You can make a symbolic link to that in your home directory like this:</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb296-1" data-line-number="1"><span class="bu">cd</span>  # returns you to hour home directory</a>
-<a class="sourceLine" id="cb296-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb296-3" data-line-number="3"><span class="co"># this line makes a symbolic link called scratch in your home directory</span></a>
-<a class="sourceLine" id="cb296-4" data-line-number="4"><span class="co"># that points to your scratch space at /scratch/summit/wcfunk\@colostate.edu/</span></a>
-<a class="sourceLine" id="cb296-5" data-line-number="5"><span class="fu">ln</span> -s /scratch/summit/wcfunk\@colostate.edu/ scratch</a></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb329-1" data-line-number="1"><span class="bu">cd</span>  # returns you to hour home directory</a>
+<a class="sourceLine" id="cb329-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb329-3" data-line-number="3"><span class="co"># this line makes a symbolic link called scratch in your home directory</span></a>
+<a class="sourceLine" id="cb329-4" data-line-number="4"><span class="co"># that points to your scratch space at /scratch/summit/wcfunk\@colostate.edu/</span></a>
+<a class="sourceLine" id="cb329-5" data-line-number="5"><span class="fu">ln</span> -s /scratch/summit/wcfunk\@colostate.edu/ scratch</a></code></pre></div>
 <p>Just be sure to use your own user name instead of wcfunk. Once that symbolic link is set up, you can
 <code>cd</code> into it, just like it was your scratch directory:</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb297-1" data-line-number="1"><span class="bu">cd</span> scratch</a></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb330-1" data-line-number="1"><span class="bu">cd</span> scratch</a></code></pre></div>
 <p>But if you don’t want to set up a symbolic link just use the full path:</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb298-1" data-line-number="1"><span class="bu">cd</span> /scratch/summit/wcfunk\@colostate.edu/</a></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="bu">cd</span> /scratch/summit/wcfunk\@colostate.edu/</a></code></pre></div>
 <p>On hummingbird you go to</p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb299-1" data-line-number="1"><span class="bu">cd</span> /hb/scratch/username/</a></code></pre></div>
+<div class="sourceCode" id="cb332"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb332-1" data-line-number="1"><span class="bu">cd</span> /hb/scratch/username/</a></code></pre></div>
 <p>where username is your ucsc username. Note that if you want to make a symbolic link to that, then
 <em>while in your home directory</em> do this:</p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb300-1" data-line-number="1"><span class="fu">ln</span> -s /hb/scratch/username scratch</a></code></pre></div></li>
+<div class="sourceCode" id="cb333"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb333-1" data-line-number="1"><span class="fu">ln</span> -s /hb/scratch/username scratch</a></code></pre></div></li>
 <li><p>Within your account’s scratch space, make a directory called <code>chinook-play</code> and <code>cd</code> into it:</p>
-<div class="sourceCode" id="cb301"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb301-1" data-line-number="1"><span class="fu">mkdir</span> chinook-play</a>
-<a class="sourceLine" id="cb301-2" data-line-number="2"><span class="bu">cd</span> chinook-play/</a></code></pre></div></li>
+<div class="sourceCode" id="cb334"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb334-1" data-line-number="1"><span class="fu">mkdir</span> chinook-play</a>
+<a class="sourceLine" id="cb334-2" data-line-number="2"><span class="bu">cd</span> chinook-play/</a></code></pre></div></li>
 <li>Make sure you have followed the link in your email to the shared google drive folder I sent you last night. If the email
 went to an email address that is not associated with your rclone configuration for google drive, then request access
 (at google drive) for that email. (Or setup a new rclone config for your other gmail address…)</li>
 <li><p>Now, use rclone to list the files in the folder I shared with you:</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb302-1" data-line-number="1"><span class="ex">rclone</span> lsd --drive-shared-with-me gdrive-pers:CSU-con-gen-2020</a></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb335-1" data-line-number="1"><span class="ex">rclone</span> lsd --drive-shared-with-me gdrive-pers:CSU-con-gen-2020</a></code></pre></div>
 Note that <code>gdrive-pers</code> above is the name of my rclone configuration associated with the gmail account where
 I got an email (from myself at my CSU account) about the shared folder. You will have to change <code>gdrive-pers</code>
 to be appropriate to your config, depending on how you set it up. Note also how you access folders shared with
 you using <code>--drive-shared-with-me</code>.</li>
 <li><p>After you get the above command to work, you should see something like the following, though it
 will change as more things get added to this directory…</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb303-1" data-line-number="1"><span class="ex">-1</span> 2020-03-09 17:51:06        -1 chr32-160-chinook</a>
-<a class="sourceLine" id="cb303-2" data-line-number="2"><span class="ex">-1</span> 2020-03-05 07:33:21        -1 pre-indexed-chinook-genome</a></code></pre></div></li>
+<div class="sourceCode" id="cb336"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb336-1" data-line-number="1"><span class="ex">-1</span> 2020-03-09 17:51:06        -1 chr32-160-chinook</a>
+<a class="sourceLine" id="cb336-2" data-line-number="2"><span class="ex">-1</span> 2020-03-05 07:33:21        -1 pre-indexed-chinook-genome</a></code></pre></div></li>
 <li><p>Use rclone to download <code>big-fastq-play.zip</code> (about 170 MB). Once again you have to change
 the name of the rclone remoate (<code>gdrive-pers</code> in this case), to the name of your Google drive
 rclone remote.</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb304-1" data-line-number="1"><span class="ex">rclone</span> copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/big-fastq-play.zip ./</a></code></pre></div></li>
+<div class="sourceCode" id="cb337"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb337-1" data-line-number="1"><span class="ex">rclone</span> copy -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/big-fastq-play.zip ./</a></code></pre></div></li>
 <li><p>Unzip the file you just downloaded. Note: on Hummingbird, <code>unzip</code> is not installed by default.
 So I recommend doing <code>conda install unzip</code> to add it to your base Miniconda environment.</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb305-1" data-line-number="1"><span class="fu">unzip</span> big-fastq-play.zip</a></code></pre></div>
+<div class="sourceCode" id="cb338"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb338-1" data-line-number="1"><span class="fu">unzip</span> big-fastq-play.zip</a></code></pre></div>
 This creates a directory called <code>big-fastq-play</code> within your <code>chinook-play</code> directory.</li>
 <li><p>Create a directory called <code>fastq</code> and move the two paired-end FASTQ files from <code>big-fastq-play</code> into it:</p>
-<div class="sourceCode" id="cb306"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb306-1" data-line-number="1"><span class="fu">mkdir</span> fastq </a>
-<a class="sourceLine" id="cb306-2" data-line-number="2"><span class="fu">mv</span> big-fastq-play/data/Battle_Creek_01_chinook_R* fastq/</a>
-<a class="sourceLine" id="cb306-3" data-line-number="3"><span class="co"># then make sure that they got moved</span></a>
-<a class="sourceLine" id="cb306-4" data-line-number="4"><span class="fu">ls</span> fastq</a>
-<a class="sourceLine" id="cb306-5" data-line-number="5"><span class="co"># if the files were moved, then feel free to remove the big fastq stuff</span></a>
-<a class="sourceLine" id="cb306-6" data-line-number="6"><span class="fu">rm</span> -r big-fastq-play*</a></code></pre></div></li>
+<div class="sourceCode" id="cb339"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb339-1" data-line-number="1"><span class="fu">mkdir</span> fastq </a>
+<a class="sourceLine" id="cb339-2" data-line-number="2"><span class="fu">mv</span> big-fastq-play/data/Battle_Creek_01_chinook_R* fastq/</a>
+<a class="sourceLine" id="cb339-3" data-line-number="3"><span class="co"># then make sure that they got moved</span></a>
+<a class="sourceLine" id="cb339-4" data-line-number="4"><span class="fu">ls</span> fastq</a>
+<a class="sourceLine" id="cb339-5" data-line-number="5"><span class="co"># if the files were moved, then feel free to remove the big fastq stuff</span></a>
+<a class="sourceLine" id="cb339-6" data-line-number="6"><span class="fu">rm</span> -r big-fastq-play*</a></code></pre></div></li>
 <li><p>Download the Chinook salmon genome into a directory called <code>genome</code></p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb307-1" data-line-number="1"> <span class="fu">mkdir</span> genome</a>
-<a class="sourceLine" id="cb307-2" data-line-number="2"> <span class="bu">cd</span> genome</a>
-<a class="sourceLine" id="cb307-3" data-line-number="3"> <span class="fu">wget</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_other/Oncorhynchus_tshawytscha/all_assembly_versions/GCA_002872995.1_Otsh_v1.0/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a></code></pre></div>
+<div class="sourceCode" id="cb340"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb340-1" data-line-number="1"> <span class="fu">mkdir</span> genome</a>
+<a class="sourceLine" id="cb340-2" data-line-number="2"> <span class="bu">cd</span> genome</a>
+<a class="sourceLine" id="cb340-3" data-line-number="3"> <span class="fu">wget</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_other/Oncorhynchus_tshawytscha/all_assembly_versions/GCA_002872995.1_Otsh_v1.0/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a></code></pre></div>
 That dude is 760 Mb, but it goes really quickly (at least on SUMMIT. Hummingbird seems to be a different story…)</li>
 <li><p>Activate your <code>bioinf</code> conda environment to be able to use <code>bwa</code>:</p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb308-1" data-line-number="1"><span class="ex">conda</span> activate bioinf</a></code></pre></div></li>
+<div class="sourceCode" id="cb341"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb341-1" data-line-number="1"><span class="ex">conda</span> activate bioinf</a></code></pre></div></li>
 <li><p>Index the genome with <code>bwa</code> in order to align reads to it:</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb309-1" data-line-number="1"><span class="ex">bwa</span> index GCA_002872995.1_Otsh_v1.0_genomic.fna.gz </a></code></pre></div>
+<div class="sourceCode" id="cb342"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb342-1" data-line-number="1"><span class="ex">bwa</span> index GCA_002872995.1_Otsh_v1.0_genomic.fna.gz </a></code></pre></div>
 This will take about 10 to 15 minutes. During that time, do this:
 <ul>
 <li>If you are doing this within a <code>tmux</code> session, create a new tmux window (<code>cntrl-b c</code>). Note that this shell opens on the login node (the one that you started your tmux session on.)</li>
@@ -1251,38 +1712,38 @@ instead, here is what we will do:
 result in the <code>chinook-play</code> directory inside a directory called <code>chinook-genome-idx</code>. NOTE: Again,
 you will likely have to use your name for your rclone remote, rather than <code>gdrive-pers</code>.</li>
 </ol>
-<div class="sourceCode" id="cb310"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb310-1" data-line-number="1"><span class="bu">cd</span> ../ <span class="co"># move up to the chinook-play directory</span></a>
-<a class="sourceLine" id="cb310-2" data-line-number="2"><span class="ex">rclone</span> copy  -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/pre-indexed-chinook-genome chinook-genome-idx </a></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb343-1" data-line-number="1"><span class="bu">cd</span> ../ <span class="co"># move up to the chinook-play directory</span></a>
+<a class="sourceLine" id="cb343-2" data-line-number="2"><span class="ex">rclone</span> copy  -P  --drive-shared-with-me gdrive-pers:CSU-con-gen-2020/pre-indexed-chinook-genome chinook-genome-idx </a></code></pre></div>
 That thing is 4.6 Gb, but can take less than a minute to transfer. (Let’s see if things slow down with everyone
 running this command at the same time.)</li>
 <li><p>Now when you do <code>ls</code> you should see something like this:</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb311-1" data-line-number="1"><span class="kw">(</span><span class="ex">bioinf</span><span class="kw">)</span> [<span class="ex">chinook-play</span>]--% ls</a>
-<a class="sourceLine" id="cb311-2" data-line-number="2"><span class="ex">chinook-genome-idx</span>  fastq  genome</a></code></pre></div></li>
+<div class="sourceCode" id="cb344"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb344-1" data-line-number="1"><span class="kw">(</span><span class="ex">bioinf</span><span class="kw">)</span> [<span class="ex">chinook-play</span>]--% ls</a>
+<a class="sourceLine" id="cb344-2" data-line-number="2"><span class="ex">chinook-genome-idx</span>  fastq  genome</a></code></pre></div></li>
 <li><p>For a final hurrah, we will start aligning those fastqs to the chinook genome. We will put the result in a directory
 we create called <code>sam</code>. To make it clearer what we are doing we
 will define some shell variables.:</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb312-1" data-line-number="1"><span class="fu">mkdir</span> sam</a>
-<a class="sourceLine" id="cb312-2" data-line-number="2"><span class="va">GENOME=</span>chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a>
-<a class="sourceLine" id="cb312-3" data-line-number="3"><span class="va">FQB=</span>fastq/Battle_Creek_01_chinook_R</a>
-<a class="sourceLine" id="cb312-4" data-line-number="4"><span class="va">SAMOUT=$(</span><span class="fu">basename</span> <span class="va">$FQB)</span>.sam</a>
-<a class="sourceLine" id="cb312-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb312-6" data-line-number="6"><span class="co"># for fun, try echoing each of those variables and make sure they look right.</span></a>
-<a class="sourceLine" id="cb312-7" data-line-number="7"><span class="co"># for example:</span></a>
-<a class="sourceLine" id="cb312-8" data-line-number="8"><span class="bu">echo</span> <span class="va">$FQB</span></a>
-<a class="sourceLine" id="cb312-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb312-10" data-line-number="10"><span class="co"># ...</span></a>
-<a class="sourceLine" id="cb312-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb312-12" data-line-number="12"><span class="co"># then, launch bwa mem to map those reads to the genome.</span></a>
-<a class="sourceLine" id="cb312-13" data-line-number="13"><span class="co"># the syntax is:</span></a>
-<a class="sourceLine" id="cb312-14" data-line-number="14"><span class="co"># Usage: bwa mem [options] &lt;idxbase&gt; &lt;in1.fq&gt; [in2.fq]</span></a>
-<a class="sourceLine" id="cb312-15" data-line-number="15"><span class="ex">bwa</span> mem <span class="va">$GENOME</span> <span class="va">${FQB}</span>1.fq.gz <span class="va">${FQB}</span>2.fq.gz <span class="op">&gt;</span> sam/<span class="va">$SAMOUT</span> <span class="op">2&gt;</span>sam/<span class="va">$SAMOUT</span>.error</a></code></pre></div></li>
+<div class="sourceCode" id="cb345"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb345-1" data-line-number="1"><span class="fu">mkdir</span> sam</a>
+<a class="sourceLine" id="cb345-2" data-line-number="2"><span class="va">GENOME=</span>chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a>
+<a class="sourceLine" id="cb345-3" data-line-number="3"><span class="va">FQB=</span>fastq/Battle_Creek_01_chinook_R</a>
+<a class="sourceLine" id="cb345-4" data-line-number="4"><span class="va">SAMOUT=$(</span><span class="fu">basename</span> <span class="va">$FQB)</span>.sam</a>
+<a class="sourceLine" id="cb345-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb345-6" data-line-number="6"><span class="co"># for fun, try echoing each of those variables and make sure they look right.</span></a>
+<a class="sourceLine" id="cb345-7" data-line-number="7"><span class="co"># for example:</span></a>
+<a class="sourceLine" id="cb345-8" data-line-number="8"><span class="bu">echo</span> <span class="va">$FQB</span></a>
+<a class="sourceLine" id="cb345-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb345-10" data-line-number="10"><span class="co"># ...</span></a>
+<a class="sourceLine" id="cb345-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb345-12" data-line-number="12"><span class="co"># then, launch bwa mem to map those reads to the genome.</span></a>
+<a class="sourceLine" id="cb345-13" data-line-number="13"><span class="co"># the syntax is:</span></a>
+<a class="sourceLine" id="cb345-14" data-line-number="14"><span class="co"># Usage: bwa mem [options] &lt;idxbase&gt; &lt;in1.fq&gt; [in2.fq]</span></a>
+<a class="sourceLine" id="cb345-15" data-line-number="15"><span class="ex">bwa</span> mem <span class="va">$GENOME</span> <span class="va">${FQB}</span>1.fq.gz <span class="va">${FQB}</span>2.fq.gz <span class="op">&gt;</span> sam/<span class="va">$SAMOUT</span> <span class="op">2&gt;</span>sam/<span class="va">$SAMOUT</span>.error</a></code></pre></div></li>
 <li><p>Once that has started, it is hard to know anything is happening, because we have
 redirected both stdout and stderr to files. So, do what you did before, use tmux to
 go to another shell and then use <code>tail</code> or <code>less</code> to look at the output files, which
 are in <code>sam/Battle_Creek_01_chinook_R.sam</code> and <code>sam/Battle_Creek_01_chinook_R.sam.error</code>
 within the <code>chinook-play</code> directory in <code>scratch</code>. You might even count how many
 lines of alignments file have been formed:</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb313-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;!/^@/&#39;</span> Battle_Creek_01_chinook_R.sam <span class="kw">|</span> <span class="fu">wc</span> </a></code></pre></div></li>
+<div class="sourceCode" id="cb346"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb346-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;!/^@/&#39;</span> Battle_Creek_01_chinook_R.sam <span class="kw">|</span> <span class="fu">wc</span> </a></code></pre></div></li>
 <li>Note that, in practice, we would not usually save the <code>.sam</code> file to disk. Rather, we would
 convert it into a compressed <code>.bam</code> file right as it comes off of <code>bwa mem</code>, and maybe even sort it
 as it is coming off…</li>
@@ -1297,7 +1758,7 @@ make sure that everyone has rclone, and miniconda installed and working.</p>
 <div id="more-boneyard" class="section level2">
 <h2><span class="header-section-number">8.6</span> More Boneyard…</h2>
 <p>Here is some nice stuff for summarizing all the information from the different runs from the chinook-wgs project:</p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb314-1" data-line-number="1"><span class="ex">qacct</span> -o eriq -b 09271925 -j ml <span class="kw">|</span> <span class="ex">tidy-qacct</span></a></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb347-1" data-line-number="1"><span class="ex">qacct</span> -o eriq -b 09271925 -j ml <span class="kw">|</span> <span class="ex">tidy-qacct</span></a></code></pre></div>
 <p>Explain scratch space and how clusters are configured with respect to storage, etc.</p>
 <p>Strategies—break names up with consistent characters:</p>
 <ul>
@@ -1329,30 +1790,30 @@ that, you need to let your system know where to look for these packages when it 
 as a dependency.</p>
 <p>Hoffman2 runs CentOS. Turns out that CentOS uses <code>yum</code> as a package manager.</p>
 <p>Let’s see if we can install llvm using yum.</p>
-<div class="sourceCode" id="cb315"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb315-1" data-line-number="1"><span class="ex">yum</span> search all llvm <span class="co"># &lt;- this got me to devtoolset-7-all.x86_64 : Package shipping all available toolsets.</span></a>
-<a class="sourceLine" id="cb315-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb315-3" data-line-number="3"><span class="co"># a little web searching made it look like llvm-toolset-7-5.0.1-4.el7.x86_64.rpm or devtoolset-7-llvm-7.0-5.el7.x86_64.rpm</span></a>
-<a class="sourceLine" id="cb315-4" data-line-number="4"><span class="co"># might be what we want.  The first is a dependency of the second...</span></a>
-<a class="sourceLine" id="cb315-5" data-line-number="5"><span class="fu">mkdir</span> ~/centos</a></code></pre></div>
+<div class="sourceCode" id="cb348"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb348-1" data-line-number="1"><span class="ex">yum</span> search all llvm <span class="co"># &lt;- this got me to devtoolset-7-all.x86_64 : Package shipping all available toolsets.</span></a>
+<a class="sourceLine" id="cb348-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb348-3" data-line-number="3"><span class="co"># a little web searching made it look like llvm-toolset-7-5.0.1-4.el7.x86_64.rpm or devtoolset-7-llvm-7.0-5.el7.x86_64.rpm</span></a>
+<a class="sourceLine" id="cb348-4" data-line-number="4"><span class="co"># might be what we want.  The first is a dependency of the second...</span></a>
+<a class="sourceLine" id="cb348-5" data-line-number="5"><span class="fu">mkdir</span> ~/centos</a></code></pre></div>
 <p>Was using instructions at <a href="https://stackoverflow.com/questions/36651091/how-to-install-packages-in-linux-centos-without-root-user-with-automatic-depen">https://stackoverflow.com/questions/36651091/how-to-install-packages-in-linux-centos-without-root-user-with-automatic-depen</a></p>
 <p>Couldn’t get yum downloader to download any packages. The whole thing looked like it was going to
 be a mess, so I thought I would try with miniconda.</p>
 <p>I installed miniconda (python 2.7 version) into <code>/u/nobackup/kruegg/eriq/programs/miniconda/</code> and then did this:</p>
-<div class="sourceCode" id="cb316"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb316-1" data-line-number="1"><span class="co"># probably could have listed them all at once, but wanted to watch them go </span></a>
-<a class="sourceLine" id="cb316-2" data-line-number="2"><span class="co"># one at a time...</span></a>
-<a class="sourceLine" id="cb316-3" data-line-number="3"><span class="ex">conda</span> install numpy</a>
-<a class="sourceLine" id="cb316-4" data-line-number="4"><span class="ex">conda</span> install scipy</a>
-<a class="sourceLine" id="cb316-5" data-line-number="5"><span class="ex">conda</span> install pandas</a>
-<a class="sourceLine" id="cb316-6" data-line-number="6"><span class="ex">conda</span> install numba</a>
-<a class="sourceLine" id="cb316-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb316-8" data-line-number="8"><span class="co"># those all ran great.</span></a>
-<a class="sourceLine" id="cb316-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb316-10" data-line-number="10"><span class="ex">conda</span> install pysnptools</a>
-<a class="sourceLine" id="cb316-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb316-12" data-line-number="12"><span class="co"># that one didn&#39;t find a match, but I found on the web that I should try:</span></a>
-<a class="sourceLine" id="cb316-13" data-line-number="13"><span class="ex">conda</span> install -c bioconda pysnptools </a>
-<a class="sourceLine" id="cb316-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb316-15" data-line-number="15"><span class="co"># that worked!</span></a></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb349-1" data-line-number="1"><span class="co"># probably could have listed them all at once, but wanted to watch them go </span></a>
+<a class="sourceLine" id="cb349-2" data-line-number="2"><span class="co"># one at a time...</span></a>
+<a class="sourceLine" id="cb349-3" data-line-number="3"><span class="ex">conda</span> install numpy</a>
+<a class="sourceLine" id="cb349-4" data-line-number="4"><span class="ex">conda</span> install scipy</a>
+<a class="sourceLine" id="cb349-5" data-line-number="5"><span class="ex">conda</span> install pandas</a>
+<a class="sourceLine" id="cb349-6" data-line-number="6"><span class="ex">conda</span> install numba</a>
+<a class="sourceLine" id="cb349-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb349-8" data-line-number="8"><span class="co"># those all ran great.</span></a>
+<a class="sourceLine" id="cb349-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb349-10" data-line-number="10"><span class="ex">conda</span> install pysnptools</a>
+<a class="sourceLine" id="cb349-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb349-12" data-line-number="12"><span class="co"># that one didn&#39;t find a match, but I found on the web that I should try:</span></a>
+<a class="sourceLine" id="cb349-13" data-line-number="13"><span class="ex">conda</span> install -c bioconda pysnptools </a>
+<a class="sourceLine" id="cb349-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb349-15" data-line-number="15"><span class="co"># that worked!</span></a></code></pre></div>
 <p>Also we want to touch briefly on LD_PATH (linking failures—and note that libraries are often
 named libxxx.a) and CPATH (for failure to find xxxx.h), etc.</p>
 </div>

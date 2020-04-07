@@ -405,7 +405,7 @@ symbols (i.e., is it `#!` or `!#`?), just remember that it is sometimes called
 the _shebang_.  You know the first part should be a comment character so the line is treated
 a little differently, but then that has to be followed by the "bang" which is `!`.  
 
-### A bit more on `;` and `&`
+### A bit more on `;` and `&` {#paragraph-before-shebang}
 
 Recall the semicolon: it provides a way to combine multiple commands on a single line.
 In fact, when you think of putting multiple commands on different lines, you could
@@ -797,6 +797,72 @@ echo ${FILE/jpg/png}
 echo ${FILE/my/your}
 ```
 That turns out to be some powerful stuff.
+
+### Integer Arithmetic with Shell Variables {#bash-arithmetic}
+
+Another occasionally useful feature of the bash shell is being able to
+do _integer arithmetic_ with shell variables that are, properly, integers.
+Basically, if you have variables that are integers such as `1`, `-43`, `15`, `1400`, as
+opposed to strings (like `Boing`, `foo`, `bar`, etc.) or non-integer numbers (like
+`3.14`, `-0.002`, `-7.3`, etc.), then you can do integer calculations on them including
+addition, subtraction, multiplication, integer division and modulo division.  Doing so
+involves expanding the variables within double parentheses: `$(( ))`.  Within those
+double parentheses, you do not need to include a `$` before the variable name. You can also
+just use literal numbers (such as `56`) in those double parentheses. 
+
+To show
+examples, start with assigning integer values to three shell variables: `A=2; B=5; C=17`. Then, see:
+
+* Addition and Subtraction use `+` and `-`:
+    ```{sh, eval=FALSE}
+    echo $((A + B))
+    7
+    
+    echo $((C - B))
+    12
+    ```
+* Multiplication uses `*`:
+    ```{sh, eval=FALSE}
+    echo $((3 * C))
+    51
+    
+    echo $((A * B * C))
+    170
+    ```
+* Division uses `/`. Note that it only gives the integer part of the result.  This
+is called "integer division."
+    ```{sh, eval=FALSE}
+    echo $((C / -3))
+    -5
+    
+    echo $((B / A))
+    2
+    ```
+* Modulo division, using `%`, returns the _remainder_ when two integers are divided by one another:
+    ```{sh, eval=FALSE}
+    echo $((C % 2))
+    1
+    
+    echo $((15 % B))
+    0
+    ```
+* Rules of precedence are followed, but order of operations can also be expressed
+using parentheses inside the double parentheses:
+    ```{sh, eval=FALSE}
+    echo $((2 + 3 * 5))
+    17
+    
+    # same thing grouping by parentheses:
+    echo $((2 + (3 * 5) ))
+    17
+    
+    # group order differently by parentheses:
+    echo $(( (2 + 3) * 5 ))
+    25
+    ```
+
+You can't do really complex math with these features of the bash shell, but sometimes
+when you just need to manipulate integers, this can be handy.
 
 
 ### Variable arrays

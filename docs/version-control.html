@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-02" />
+<meta name="date" content="2020-04-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#getting-a-bash-shell-on-your-system"><i class="fa fa-check"></i><b>4.1</b> Getting a bash shell on your system</a></li>
 <li class="chapter" data-level="4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#navigating-the-unix-filesystem"><i class="fa fa-check"></i><b>4.2</b> Navigating the Unix filesystem</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#changing-the-working-directory-with-cd"><i class="fa fa-check"></i><b>4.2.1</b> Changing the working directory with <code>cd</code></a></li>
-<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#updating-your-command-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
+<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#comm-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
 <li class="chapter" data-level="4.2.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#tab-completion-for-paths"><i class="fa fa-check"></i><b>4.2.3</b> TAB-completion for paths</a></li>
 <li class="chapter" data-level="4.2.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#listing-the-contents-of-a-directory-with-ls"><i class="fa fa-check"></i><b>4.2.4</b> Listing the contents of a directory with <code>ls</code></a></li>
 <li class="chapter" data-level="4.2.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#globbing"><i class="fa fa-check"></i><b>4.2.5</b> Globbing</a></li>
@@ -180,7 +180,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="shell-programming.html"><a href="shell-programming.html"><i class="fa fa-check"></i><b>5</b> Shell programming</a><ul>
 <li class="chapter" data-level="5.1" data-path="shell-programming.html"><a href="shell-programming.html#an-example-script"><i class="fa fa-check"></i><b>5.1</b> An example script</a></li>
 <li class="chapter" data-level="5.2" data-path="shell-programming.html"><a href="shell-programming.html#the-structure-of-a-bash-script"><i class="fa fa-check"></i><b>5.2</b> The Structure of a Bash Script</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="shell-programming.html"><a href="shell-programming.html#a-bit-more-on-and"><i class="fa fa-check"></i><b>5.2.1</b> A bit more on <code>;</code> and <code>&amp;</code></a></li>
+<li class="chapter" data-level="5.2.1" data-path="shell-programming.html"><a href="shell-programming.html#paragraph-before-shebang"><i class="fa fa-check"></i><b>5.2.1</b> A bit more on <code>;</code> and <code>&amp;</code></a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="shell-programming.html"><a href="shell-programming.html#variables"><i class="fa fa-check"></i><b>5.3</b> Variables</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="shell-programming.html"><a href="shell-programming.html#assigning-values-to-variables"><i class="fa fa-check"></i><b>5.3.1</b> Assigning values to variables</a></li>
@@ -188,7 +188,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.3.3" data-path="shell-programming.html"><a href="shell-programming.html#what-does-the-shell-do-with-the-value-substituted-for-a-variable"><i class="fa fa-check"></i><b>5.3.3</b> What does the shell do with the value substituted for a variable?</a></li>
 <li class="chapter" data-level="5.3.4" data-path="shell-programming.html"><a href="shell-programming.html#quotes-and-var-subs"><i class="fa fa-check"></i><b>5.3.4</b> Double and Single Quotation Marks and Variable Substitution</a></li>
 <li class="chapter" data-level="5.3.5" data-path="shell-programming.html"><a href="shell-programming.html#one-useful-fancy-variable-substitution-method"><i class="fa fa-check"></i><b>5.3.5</b> One useful, fancy, variable-substitution method</a></li>
-<li class="chapter" data-level="5.3.6" data-path="shell-programming.html"><a href="shell-programming.html#variable-arrays"><i class="fa fa-check"></i><b>5.3.6</b> Variable arrays</a></li>
+<li class="chapter" data-level="5.3.6" data-path="shell-programming.html"><a href="shell-programming.html#bash-arithmetic"><i class="fa fa-check"></i><b>5.3.6</b> Integer Arithmetic with Shell Variables</a></li>
+<li class="chapter" data-level="5.3.7" data-path="shell-programming.html"><a href="shell-programming.html#variable-arrays"><i class="fa fa-check"></i><b>5.3.7</b> Variable arrays</a></li>
 </ul></li>
 <li class="chapter" data-level="5.4" data-path="shell-programming.html"><a href="shell-programming.html#evaluate-a-command-and-substitute-the-result-on-the-command-line"><i class="fa fa-check"></i><b>5.4</b> Evaluate a command and substitute the result on the command line</a></li>
 <li class="chapter" data-level="5.5" data-path="shell-programming.html"><a href="shell-programming.html#groupingcollecting-output-from-multiple-commands-commands-and-commands"><i class="fa fa-check"></i><b>5.5</b> Grouping/Collecting output from multiple commands: <code>(commands)</code> and <code>{ commands; }</code></a></li>
@@ -251,6 +252,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#getting-compute-resources-allocated-to-your-jobs-on-an-hpcc"><i class="fa fa-check"></i><b>8.4</b> Getting compute resources allocated to your jobs on an HPCC</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#interactive-sessions"><i class="fa fa-check"></i><b>8.4.1</b> Interactive sessions</a></li>
 <li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#batch-jobs"><i class="fa fa-check"></i><b>8.4.2</b> Batch jobs</a></li>
+<li class="chapter" data-level="8.4.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#slurm-job-arrays"><i class="fa fa-check"></i><b>8.4.3</b> SLURM Job Arrays</a></li>
 </ul></li>
 <li class="chapter" data-level="8.5" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#prepation-interlude-an-in-class-exercise-to-make-sure-everything-is-configured-correctly"><i class="fa fa-check"></i><b>8.5</b> PREPATION INTERLUDE: An in-class exercise to make sure everything is configured correctly</a></li>
 <li class="chapter" data-level="8.6" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#more-boneyard"><i class="fa fa-check"></i><b>8.6</b> More Boneyard…</a></li>

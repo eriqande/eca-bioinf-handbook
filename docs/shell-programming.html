@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-02" />
+<meta name="date" content="2020-04-07" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -142,7 +142,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#getting-a-bash-shell-on-your-system"><i class="fa fa-check"></i><b>4.1</b> Getting a bash shell on your system</a></li>
 <li class="chapter" data-level="4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#navigating-the-unix-filesystem"><i class="fa fa-check"></i><b>4.2</b> Navigating the Unix filesystem</a><ul>
 <li class="chapter" data-level="4.2.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#changing-the-working-directory-with-cd"><i class="fa fa-check"></i><b>4.2.1</b> Changing the working directory with <code>cd</code></a></li>
-<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#updating-your-command-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
+<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#comm-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
 <li class="chapter" data-level="4.2.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#tab-completion-for-paths"><i class="fa fa-check"></i><b>4.2.3</b> TAB-completion for paths</a></li>
 <li class="chapter" data-level="4.2.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#listing-the-contents-of-a-directory-with-ls"><i class="fa fa-check"></i><b>4.2.4</b> Listing the contents of a directory with <code>ls</code></a></li>
 <li class="chapter" data-level="4.2.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#globbing"><i class="fa fa-check"></i><b>4.2.5</b> Globbing</a></li>
@@ -180,7 +180,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5" data-path="shell-programming.html"><a href="shell-programming.html"><i class="fa fa-check"></i><b>5</b> Shell programming</a><ul>
 <li class="chapter" data-level="5.1" data-path="shell-programming.html"><a href="shell-programming.html#an-example-script"><i class="fa fa-check"></i><b>5.1</b> An example script</a></li>
 <li class="chapter" data-level="5.2" data-path="shell-programming.html"><a href="shell-programming.html#the-structure-of-a-bash-script"><i class="fa fa-check"></i><b>5.2</b> The Structure of a Bash Script</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="shell-programming.html"><a href="shell-programming.html#a-bit-more-on-and"><i class="fa fa-check"></i><b>5.2.1</b> A bit more on <code>;</code> and <code>&amp;</code></a></li>
+<li class="chapter" data-level="5.2.1" data-path="shell-programming.html"><a href="shell-programming.html#paragraph-before-shebang"><i class="fa fa-check"></i><b>5.2.1</b> A bit more on <code>;</code> and <code>&amp;</code></a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="shell-programming.html"><a href="shell-programming.html#variables"><i class="fa fa-check"></i><b>5.3</b> Variables</a><ul>
 <li class="chapter" data-level="5.3.1" data-path="shell-programming.html"><a href="shell-programming.html#assigning-values-to-variables"><i class="fa fa-check"></i><b>5.3.1</b> Assigning values to variables</a></li>
@@ -188,7 +188,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.3.3" data-path="shell-programming.html"><a href="shell-programming.html#what-does-the-shell-do-with-the-value-substituted-for-a-variable"><i class="fa fa-check"></i><b>5.3.3</b> What does the shell do with the value substituted for a variable?</a></li>
 <li class="chapter" data-level="5.3.4" data-path="shell-programming.html"><a href="shell-programming.html#quotes-and-var-subs"><i class="fa fa-check"></i><b>5.3.4</b> Double and Single Quotation Marks and Variable Substitution</a></li>
 <li class="chapter" data-level="5.3.5" data-path="shell-programming.html"><a href="shell-programming.html#one-useful-fancy-variable-substitution-method"><i class="fa fa-check"></i><b>5.3.5</b> One useful, fancy, variable-substitution method</a></li>
-<li class="chapter" data-level="5.3.6" data-path="shell-programming.html"><a href="shell-programming.html#variable-arrays"><i class="fa fa-check"></i><b>5.3.6</b> Variable arrays</a></li>
+<li class="chapter" data-level="5.3.6" data-path="shell-programming.html"><a href="shell-programming.html#bash-arithmetic"><i class="fa fa-check"></i><b>5.3.6</b> Integer Arithmetic with Shell Variables</a></li>
+<li class="chapter" data-level="5.3.7" data-path="shell-programming.html"><a href="shell-programming.html#variable-arrays"><i class="fa fa-check"></i><b>5.3.7</b> Variable arrays</a></li>
 </ul></li>
 <li class="chapter" data-level="5.4" data-path="shell-programming.html"><a href="shell-programming.html#evaluate-a-command-and-substitute-the-result-on-the-command-line"><i class="fa fa-check"></i><b>5.4</b> Evaluate a command and substitute the result on the command line</a></li>
 <li class="chapter" data-level="5.5" data-path="shell-programming.html"><a href="shell-programming.html#groupingcollecting-output-from-multiple-commands-commands-and-commands"><i class="fa fa-check"></i><b>5.5</b> Grouping/Collecting output from multiple commands: <code>(commands)</code> and <code>{ commands; }</code></a></li>
@@ -251,6 +252,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#getting-compute-resources-allocated-to-your-jobs-on-an-hpcc"><i class="fa fa-check"></i><b>8.4</b> Getting compute resources allocated to your jobs on an HPCC</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#interactive-sessions"><i class="fa fa-check"></i><b>8.4.1</b> Interactive sessions</a></li>
 <li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#batch-jobs"><i class="fa fa-check"></i><b>8.4.2</b> Batch jobs</a></li>
+<li class="chapter" data-level="8.4.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#slurm-job-arrays"><i class="fa fa-check"></i><b>8.4.3</b> SLURM Job Arrays</a></li>
 </ul></li>
 <li class="chapter" data-level="8.5" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#prepation-interlude-an-in-class-exercise-to-make-sure-everything-is-configured-correctly"><i class="fa fa-check"></i><b>8.5</b> PREPATION INTERLUDE: An in-class exercise to make sure everything is configured correctly</a></li>
 <li class="chapter" data-level="8.6" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#more-boneyard"><i class="fa fa-check"></i><b>8.6</b> More Boneyard…</a></li>
@@ -764,7 +766,7 @@ on most systems, if the line is absent, Unix will interpret the script using bas
 symbols (i.e., is it <code>#!</code> or <code>!#</code>?), just remember that it is sometimes called
 the <em>shebang</em>. You know the first part should be a comment character so the line is treated
 a little differently, but then that has to be followed by the “bang” which is <code>!</code>.</p>
-<div id="a-bit-more-on-and" class="section level3">
+<div id="paragraph-before-shebang" class="section level3">
 <h3><span class="header-section-number">5.2.1</span> A bit more on <code>;</code> and <code>&amp;</code></h3>
 <p>Recall the semicolon: it provides a way to combine multiple commands on a single line.
 In fact, when you think of putting multiple commands on different lines, you could
@@ -1098,14 +1100,69 @@ Check this out:</p>
 ## your_picture.jpg</code></pre>
 <p>That turns out to be some powerful stuff.</p>
 </div>
+<div id="bash-arithmetic" class="section level3">
+<h3><span class="header-section-number">5.3.6</span> Integer Arithmetic with Shell Variables</h3>
+<p>Another occasionally useful feature of the bash shell is being able to
+do <em>integer arithmetic</em> with shell variables that are, properly, integers.
+Basically, if you have variables that are integers such as <code>1</code>, <code>-43</code>, <code>15</code>, <code>1400</code>, as
+opposed to strings (like <code>Boing</code>, <code>foo</code>, <code>bar</code>, etc.) or non-integer numbers (like
+<code>3.14</code>, <code>-0.002</code>, <code>-7.3</code>, etc.), then you can do integer calculations on them including
+addition, subtraction, multiplication, integer division and modulo division. Doing so
+involves expanding the variables within double parentheses: <code>$(( ))</code>. Within those
+double parentheses, you do not need to include a <code>$</code> before the variable name. You can also
+just use literal numbers (such as <code>56</code>) in those double parentheses.</p>
+<p>To show
+examples, start with assigning integer values to three shell variables: <code>A=2; B=5; C=17</code>. Then, see:</p>
+<ul>
+<li><p>Addition and Subtraction use <code>+</code> and <code>-</code>:</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$((</span>A + B<span class="va">))</span></a>
+<a class="sourceLine" id="cb95-2" data-line-number="2"><span class="ex">7</span></a>
+<a class="sourceLine" id="cb95-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb95-4" data-line-number="4"><span class="bu">echo</span> <span class="va">$((</span>C - B<span class="va">))</span></a>
+<a class="sourceLine" id="cb95-5" data-line-number="5"><span class="ex">12</span></a></code></pre></div></li>
+<li><p>Multiplication uses <code>*</code>:</p>
+<div class="sourceCode" id="cb96"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$((</span>3 * C<span class="va">))</span></a>
+<a class="sourceLine" id="cb96-2" data-line-number="2"><span class="ex">51</span></a>
+<a class="sourceLine" id="cb96-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb96-4" data-line-number="4"><span class="bu">echo</span> <span class="va">$((</span>A * B * C<span class="va">))</span></a>
+<a class="sourceLine" id="cb96-5" data-line-number="5"><span class="ex">170</span></a></code></pre></div></li>
+<li><p>Division uses <code>/</code>. Note that it only gives the integer part of the result. This
+is called “integer division.”</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$((</span>C / -3<span class="va">))</span></a>
+<a class="sourceLine" id="cb97-2" data-line-number="2"><span class="ex">-5</span></a>
+<a class="sourceLine" id="cb97-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb97-4" data-line-number="4"><span class="bu">echo</span> <span class="va">$((</span>B / A<span class="va">))</span></a>
+<a class="sourceLine" id="cb97-5" data-line-number="5"><span class="ex">2</span></a></code></pre></div></li>
+<li><p>Modulo division, using <code>%</code>, returns the <em>remainder</em> when two integers are divided by one another:</p>
+<div class="sourceCode" id="cb98"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$((</span>C % 2<span class="va">))</span></a>
+<a class="sourceLine" id="cb98-2" data-line-number="2"><span class="ex">1</span></a>
+<a class="sourceLine" id="cb98-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb98-4" data-line-number="4"><span class="bu">echo</span> <span class="va">$((</span>15 % B<span class="va">))</span></a>
+<a class="sourceLine" id="cb98-5" data-line-number="5"><span class="ex">0</span></a></code></pre></div></li>
+<li><p>Rules of precedence are followed, but order of operations can also be expressed
+using parentheses inside the double parentheses:</p>
+<div class="sourceCode" id="cb99"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$((</span>2 + 3 * 5<span class="va">))</span></a>
+<a class="sourceLine" id="cb99-2" data-line-number="2"><span class="ex">17</span></a>
+<a class="sourceLine" id="cb99-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb99-4" data-line-number="4"><span class="co"># same thing grouping by parentheses:</span></a>
+<a class="sourceLine" id="cb99-5" data-line-number="5"><span class="bu">echo</span> <span class="va">$((</span>2 + (3 * 5) <span class="va">))</span></a>
+<a class="sourceLine" id="cb99-6" data-line-number="6"><span class="ex">17</span></a>
+<a class="sourceLine" id="cb99-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb99-8" data-line-number="8"><span class="co"># group order differently by parentheses:</span></a>
+<a class="sourceLine" id="cb99-9" data-line-number="9"><span class="bu">echo</span> <span class="va">$((</span> (2 + 3) * 5 <span class="va">))</span></a>
+<a class="sourceLine" id="cb99-10" data-line-number="10"><span class="ex">25</span></a></code></pre></div></li>
+</ul>
+<p>You can’t do really complex math with these features of the bash shell, but sometimes
+when you just need to manipulate integers, this can be handy.</p>
+</div>
 <div id="variable-arrays" class="section level3">
-<h3><span class="header-section-number">5.3.6</span> Variable arrays</h3>
+<h3><span class="header-section-number">5.3.7</span> Variable arrays</h3>
 <p>Most programming languages allow you to store things in arrays. In R they
 are called <em>vectors</em> (or, more generally, <em>lists</em>). The same is true in
 <code>bash</code>: you can store a number of values into a single variable, and then
 access each individual value one at at time. This can be quite useful sometimes.</p>
 <p>The syntax for assigning values to array variable is like this:</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="va">ArrayVariable=(</span>words or things <span class="st">&#39;or stuff&#39;</span> separated <span class="st">&#39;by whitespace&#39;</span><span class="va">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb100-1" data-line-number="1"><span class="va">ArrayVariable=(</span>words or things <span class="st">&#39;or stuff&#39;</span> separated <span class="st">&#39;by whitespace&#39;</span><span class="va">)</span></a></code></pre></div>
 <p>In other words, wrap the items inside a pair of parentheses, with white-space
 separating them, and the shell will break those up into different, <em>numbered</em>
 parts of the array variable. It is important to note that single-quoted groups of words
@@ -1115,54 +1172,54 @@ are treated as single values that will be assigned to an array element as a grou
 of variable subtitution can we do?</p>
 <p>Well, if we just do the traditional variable substitution, like <code>${ArrayVariable}</code> or
 <code>$ArrayVariable</code>, then we just get the first element:</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="co"># doing this</span></a>
-<a class="sourceLine" id="cb96-2" data-line-number="2"><span class="bu">echo</span> <span class="va">$ArrayVariable</span></a>
-<a class="sourceLine" id="cb96-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb96-4" data-line-number="4"><span class="co"># produces this:</span></a>
-<a class="sourceLine" id="cb96-5" data-line-number="5"><span class="ex">words</span></a></code></pre></div>
+<div class="sourceCode" id="cb101"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb101-1" data-line-number="1"><span class="co"># doing this</span></a>
+<a class="sourceLine" id="cb101-2" data-line-number="2"><span class="bu">echo</span> <span class="va">$ArrayVariable</span></a>
+<a class="sourceLine" id="cb101-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb101-4" data-line-number="4"><span class="co"># produces this:</span></a>
+<a class="sourceLine" id="cb101-5" data-line-number="5"><span class="ex">words</span></a></code></pre></div>
 <p>That is not super helpful. So, to get each separate element we can
 <em>subscript</em> the array by adding a number in square brackets inside the
 curly braces, like this:</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="co"># Doing this:</span></a>
-<a class="sourceLine" id="cb97-2" data-line-number="2"><span class="bu">echo</span> <span class="va">${ArrayVariable[2]}</span></a>
-<a class="sourceLine" id="cb97-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb97-4" data-line-number="4"><span class="co"># gives:</span></a>
-<a class="sourceLine" id="cb97-5" data-line-number="5"><span class="ex">things</span></a></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb102-1" data-line-number="1"><span class="co"># Doing this:</span></a>
+<a class="sourceLine" id="cb102-2" data-line-number="2"><span class="bu">echo</span> <span class="va">${ArrayVariable[2]}</span></a>
+<a class="sourceLine" id="cb102-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb102-4" data-line-number="4"><span class="co"># gives:</span></a>
+<a class="sourceLine" id="cb102-5" data-line-number="5"><span class="ex">things</span></a></code></pre></div>
 <p>The subscripting is done with 0 as the starting value, so <code>${ArrayVariable[0]}</code>
 will give <code>words</code>, and <code>${ArrayVariable[1]}</code> gives <code>or</code>.
 Here is a <code>for</code> loop (see below) that prints each of the different subscripts
 followed by their associated values:</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="co"># this loop...</span></a>
-<a class="sourceLine" id="cb98-2" data-line-number="2"><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{0..5}</span><span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb98-3" data-line-number="3">  <span class="bu">echo</span> <span class="va">$i</span>: <span class="va">${ArrayVariable[$i]}</span></a>
-<a class="sourceLine" id="cb98-4" data-line-number="4"><span class="kw">done</span></a>
-<a class="sourceLine" id="cb98-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb98-6" data-line-number="6"><span class="co"># produces output like:</span></a>
-<a class="sourceLine" id="cb98-7" data-line-number="7"><span class="ex">0</span>: words</a>
-<a class="sourceLine" id="cb98-8" data-line-number="8"><span class="ex">1</span>: or</a>
-<a class="sourceLine" id="cb98-9" data-line-number="9"><span class="ex">2</span>: things</a>
-<a class="sourceLine" id="cb98-10" data-line-number="10"><span class="ex">3</span>: or stuff</a>
-<a class="sourceLine" id="cb98-11" data-line-number="11"><span class="ex">4</span>: separated</a>
-<a class="sourceLine" id="cb98-12" data-line-number="12"><span class="ex">5</span>: by whitespace</a></code></pre></div>
+<div class="sourceCode" id="cb103"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="co"># this loop...</span></a>
+<a class="sourceLine" id="cb103-2" data-line-number="2"><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{0..5}</span><span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb103-3" data-line-number="3">  <span class="bu">echo</span> <span class="va">$i</span>: <span class="va">${ArrayVariable[$i]}</span></a>
+<a class="sourceLine" id="cb103-4" data-line-number="4"><span class="kw">done</span></a>
+<a class="sourceLine" id="cb103-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb103-6" data-line-number="6"><span class="co"># produces output like:</span></a>
+<a class="sourceLine" id="cb103-7" data-line-number="7"><span class="ex">0</span>: words</a>
+<a class="sourceLine" id="cb103-8" data-line-number="8"><span class="ex">1</span>: or</a>
+<a class="sourceLine" id="cb103-9" data-line-number="9"><span class="ex">2</span>: things</a>
+<a class="sourceLine" id="cb103-10" data-line-number="10"><span class="ex">3</span>: or stuff</a>
+<a class="sourceLine" id="cb103-11" data-line-number="11"><span class="ex">4</span>: separated</a>
+<a class="sourceLine" id="cb103-12" data-line-number="12"><span class="ex">5</span>: by whitespace</a></code></pre></div>
 <p>There are a few more important ways of accessing array variable values:</p>
 <p>You can get all the values at once as a single string. There are two
 ways you can do this: either <code>${ArrayVariable[*]}</code> or
 <code>${ArrayVariable[@]}</code>. These two methods differ only when you have wrapped the variable up
 in double quotation marks, but that involves some serious bash arcana.</p>
-<div class="sourceCode" id="cb99"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="co"># when just printing output, both of these give the same result</span></a>
-<a class="sourceLine" id="cb99-2" data-line-number="2"><span class="bu">echo</span> <span class="va">${ArrayVariable[*]}</span></a>
-<a class="sourceLine" id="cb99-3" data-line-number="3"><span class="bu">echo</span> <span class="va">${ArrayVariable[@]}</span></a>
-<a class="sourceLine" id="cb99-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb99-5" data-line-number="5"><span class="co"># producing:</span></a>
-<a class="sourceLine" id="cb99-6" data-line-number="6"><span class="ex">words</span> or things or stuff separated by whitespace</a>
-<a class="sourceLine" id="cb99-7" data-line-number="7"><span class="ex">words</span> or things or stuff separated by whitespace</a></code></pre></div>
+<div class="sourceCode" id="cb104"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="co"># when just printing output, both of these give the same result</span></a>
+<a class="sourceLine" id="cb104-2" data-line-number="2"><span class="bu">echo</span> <span class="va">${ArrayVariable[*]}</span></a>
+<a class="sourceLine" id="cb104-3" data-line-number="3"><span class="bu">echo</span> <span class="va">${ArrayVariable[@]}</span></a>
+<a class="sourceLine" id="cb104-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb104-5" data-line-number="5"><span class="co"># producing:</span></a>
+<a class="sourceLine" id="cb104-6" data-line-number="6"><span class="ex">words</span> or things or stuff separated by whitespace</a>
+<a class="sourceLine" id="cb104-7" data-line-number="7"><span class="ex">words</span> or things or stuff separated by whitespace</a></code></pre></div>
 <p>And finally, the <em>length</em> of the array (meaning, how many elements
 are in it) is found with a peculiar syntax <code>${#ArrayVariable[@]}</code></p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb100-1" data-line-number="1"><span class="co"># this:</span></a>
-<a class="sourceLine" id="cb100-2" data-line-number="2"><span class="bu">echo</span> <span class="va">${#ArrayVariable[@]}</span></a>
-<a class="sourceLine" id="cb100-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb100-4" data-line-number="4"><span class="co"># produces:</span></a>
-<a class="sourceLine" id="cb100-5" data-line-number="5"><span class="ex">6</span></a></code></pre></div>
+<div class="sourceCode" id="cb105"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb105-1" data-line-number="1"><span class="co"># this:</span></a>
+<a class="sourceLine" id="cb105-2" data-line-number="2"><span class="bu">echo</span> <span class="va">${#ArrayVariable[@]}</span></a>
+<a class="sourceLine" id="cb105-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb105-4" data-line-number="4"><span class="co"># produces:</span></a>
+<a class="sourceLine" id="cb105-5" data-line-number="5"><span class="ex">6</span></a></code></pre></div>
 <p>Although bash arrays can be quite useful, I must admit that I only
 use them in a few bioinformatic situtations—primarily when I want
 to break a single row of white-space delimited columns (that I grabbed
@@ -1179,16 +1236,16 @@ Then print the 1st, 2nd and 5th of them each on a separate line.</p>
 <p>Sometimes what you want to put on a command line isn’t just a variable
 you have previously defined but rather the result of a command that
 is executed. We see this in <code>clone-classroom-repos.sh</code> around line 75:</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb102-1" data-line-number="1"><span class="bu">echo</span> <span class="st">&quot;STARTING at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb107"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb107-1" data-line-number="1"><span class="bu">echo</span> <span class="st">&quot;STARTING at </span><span class="va">$(</span><span class="fu">date</span><span class="va">)</span><span class="st">&quot;</span></a></code></pre></div>
 <p>In general, if you put a command inside a <code>$()</code>, like <code>$(command)</code> it means take the output of
 the command and insert it into the command line.</p>
 <p>You can even assign the result to a variable, like <code>RESULT=$(command)</code>.</p>
 <p>For example, try this:</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb103-1" data-line-number="1"><span class="co"># what do you think this is doing?</span></a>
-<a class="sourceLine" id="cb103-2" data-line-number="2"><span class="va">HOME_LIST=$(</span><span class="fu">ls</span> -l ~<span class="va">)</span></a>
-<a class="sourceLine" id="cb103-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb103-4" data-line-number="4"><span class="co"># what about this?</span></a>
-<a class="sourceLine" id="cb103-5" data-line-number="5"><span class="bu">echo</span> <span class="va">$HOME_LIST</span></a></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb108-1" data-line-number="1"><span class="co"># what do you think this is doing?</span></a>
+<a class="sourceLine" id="cb108-2" data-line-number="2"><span class="va">HOME_LIST=$(</span><span class="fu">ls</span> -l ~<span class="va">)</span></a>
+<a class="sourceLine" id="cb108-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb108-4" data-line-number="4"><span class="co"># what about this?</span></a>
+<a class="sourceLine" id="cb108-5" data-line-number="5"><span class="bu">echo</span> <span class="va">$HOME_LIST</span></a></code></pre></div>
 <p>Whoa! What happened to all my carriage returns? The results gets put onto the command line and
 parsed there. The command line parser sometimes treats line endings as just more whitespace,
 and it converts all runs of whitespace to a single space…</p>
@@ -1206,13 +1263,13 @@ use cases are when you want to redirect the output from three separate commands 
 single file. For example if you want to put the contents of two files, FileA and FileB,
 into a file called “Both,” but separate the contents of FileA and FileB by a short line of
 x’s, you could do this:</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="fu">cat</span> FileA <span class="op">&gt;</span> Both</a>
-<a class="sourceLine" id="cb104-2" data-line-number="2"><span class="bu">echo</span> xxxxxxxxxxxx <span class="op">&gt;&gt;</span> Both</a>
-<a class="sourceLine" id="cb104-3" data-line-number="3"><span class="fu">cat</span> FileB <span class="op">&gt;&gt;</span> Both</a></code></pre></div>
+<div class="sourceCode" id="cb109"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb109-1" data-line-number="1"><span class="fu">cat</span> FileA <span class="op">&gt;</span> Both</a>
+<a class="sourceLine" id="cb109-2" data-line-number="2"><span class="bu">echo</span> xxxxxxxxxxxx <span class="op">&gt;&gt;</span> Both</a>
+<a class="sourceLine" id="cb109-3" data-line-number="3"><span class="fu">cat</span> FileB <span class="op">&gt;&gt;</span> Both</a></code></pre></div>
 <p>But, it is easier to see what is going on and to maintain code that looks like this:</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb105-1" data-line-number="1"><span class="kw">(</span><span class="fu">cat</span> FileA<span class="kw">;</span> <span class="bu">echo</span> xxxxxxxxxxxx<span class="kw">;</span> <span class="fu">cat</span> FileB<span class="kw">)</span> <span class="op">&gt;</span> <span class="ex">Both</span></a></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb110-1" data-line-number="1"><span class="kw">(</span><span class="fu">cat</span> FileA<span class="kw">;</span> <span class="bu">echo</span> xxxxxxxxxxxx<span class="kw">;</span> <span class="fu">cat</span> FileB<span class="kw">)</span> <span class="op">&gt;</span> <span class="ex">Both</span></a></code></pre></div>
 <p>or like:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="kw">{</span> <span class="fu">cat</span> FileA<span class="kw">;</span> <span class="bu">echo</span> xxxxxxxxxxxx<span class="kw">;</span> <span class="fu">cat</span> FileB<span class="kw">;}</span> <span class="op">&gt;</span> <span class="ex">Both</span></a></code></pre></div>
+<div class="sourceCode" id="cb111"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="kw">{</span> <span class="fu">cat</span> FileA<span class="kw">;</span> <span class="bu">echo</span> xxxxxxxxxxxx<span class="kw">;</span> <span class="fu">cat</span> FileB<span class="kw">;}</span> <span class="op">&gt;</span> <span class="ex">Both</span></a></code></pre></div>
 <p>Both parentheses and curly braces can be used to group commands into one
 <em>grouped</em> command, thereby making it easy to redirect the output from
 that command. These two forms of grouping have subtle differences.</p>
@@ -1223,29 +1280,29 @@ many cases this will make almost no difference to you. However, if you
 are assigning variable values within the grouped commands, then, using
 parentheses for grouping, you won’t have access to those variable values
 in the current shell:</p>
-<div class="sourceCode" id="cb107"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb107-1" data-line-number="1"><span class="co"># include a variable assignment in parentheses</span></a>
-<a class="sourceLine" id="cb107-2" data-line-number="2"><span class="kw">(</span><span class="fu">cat</span> FileA<span class="kw">;</span> <span class="bu">echo</span> xxxxx<span class="kw">;</span> <span class="fu">cat</span> FileB<span class="kw">;</span> <span class="va">NewVar=</span>15<span class="kw">)</span> <span class="op">&gt;</span> <span class="ex">Both</span></a>
-<a class="sourceLine" id="cb107-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb107-4" data-line-number="4"><span class="co"># if you try this:</span></a>
-<a class="sourceLine" id="cb107-5" data-line-number="5"><span class="va">$NewVar</span></a>
-<a class="sourceLine" id="cb107-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb107-7" data-line-number="7"><span class="co"># the shell knows nothing about it</span></a></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb112-1" data-line-number="1"><span class="co"># include a variable assignment in parentheses</span></a>
+<a class="sourceLine" id="cb112-2" data-line-number="2"><span class="kw">(</span><span class="fu">cat</span> FileA<span class="kw">;</span> <span class="bu">echo</span> xxxxx<span class="kw">;</span> <span class="fu">cat</span> FileB<span class="kw">;</span> <span class="va">NewVar=</span>15<span class="kw">)</span> <span class="op">&gt;</span> <span class="ex">Both</span></a>
+<a class="sourceLine" id="cb112-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb112-4" data-line-number="4"><span class="co"># if you try this:</span></a>
+<a class="sourceLine" id="cb112-5" data-line-number="5"><span class="va">$NewVar</span></a>
+<a class="sourceLine" id="cb112-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb112-7" data-line-number="7"><span class="co"># the shell knows nothing about it</span></a></code></pre></div>
 <p>Using curly braces, the variable assignments will be known in
 the current shell you are in:</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb108-1" data-line-number="1"><span class="co"># include a variable assignment in curly braces</span></a>
-<a class="sourceLine" id="cb108-2" data-line-number="2"><span class="kw">{</span> <span class="fu">cat</span> FileA<span class="kw">;</span> <span class="bu">echo</span> xxxxx<span class="kw">;</span> <span class="fu">cat</span> FileB<span class="kw">;</span> <span class="va">NewVar=</span>15; <span class="kw">}</span> <span class="op">&gt;</span> <span class="ex">Both</span></a>
-<a class="sourceLine" id="cb108-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb108-4" data-line-number="4"><span class="co"># Now, if you try this:</span></a>
-<a class="sourceLine" id="cb108-5" data-line-number="5"><span class="va">$NewVar</span></a>
-<a class="sourceLine" id="cb108-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb108-7" data-line-number="7"><span class="co"># the shell knows that $NewVar has a value:</span></a>
-<a class="sourceLine" id="cb108-8" data-line-number="8"><span class="ex">15</span></a></code></pre></div>
+<div class="sourceCode" id="cb113"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="co"># include a variable assignment in curly braces</span></a>
+<a class="sourceLine" id="cb113-2" data-line-number="2"><span class="kw">{</span> <span class="fu">cat</span> FileA<span class="kw">;</span> <span class="bu">echo</span> xxxxx<span class="kw">;</span> <span class="fu">cat</span> FileB<span class="kw">;</span> <span class="va">NewVar=</span>15; <span class="kw">}</span> <span class="op">&gt;</span> <span class="ex">Both</span></a>
+<a class="sourceLine" id="cb113-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb113-4" data-line-number="4"><span class="co"># Now, if you try this:</span></a>
+<a class="sourceLine" id="cb113-5" data-line-number="5"><span class="va">$NewVar</span></a>
+<a class="sourceLine" id="cb113-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb113-7" data-line-number="7"><span class="co"># the shell knows that $NewVar has a value:</span></a>
+<a class="sourceLine" id="cb113-8" data-line-number="8"><span class="ex">15</span></a></code></pre></div>
 <p>The syntax for using curly braces for grouping, however, is more finicky than
 it is with parentheses: the left curly brace cannot be touching anything on the
 right, and the last command in the group must be followed by a semicolon or a newline.
 Thus, both of these would fail:</p>
-<div class="sourceCode" id="cb109"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb109-1" data-line-number="1">{<span class="ex">cat</span> FileA<span class="kw">;</span> <span class="bu">echo</span> xxxxxxxxxxxx<span class="kw">;</span> <span class="fu">cat</span> FileB<span class="kw">;</span>} <span class="op">&gt;</span> <span class="ex">Both</span></a>
-<a class="sourceLine" id="cb109-2" data-line-number="2"><span class="kw">{</span> <span class="fu">cat</span> FileA<span class="kw">;</span> <span class="bu">echo</span> xxxxxxxxxxxx<span class="kw">;</span> <span class="fu">cat</span> FileB<span class="kw">}</span> <span class="op">&gt;</span> <span class="ex">Both</span></a></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb114-1" data-line-number="1">{<span class="ex">cat</span> FileA<span class="kw">;</span> <span class="bu">echo</span> xxxxxxxxxxxx<span class="kw">;</span> <span class="fu">cat</span> FileB<span class="kw">;</span>} <span class="op">&gt;</span> <span class="ex">Both</span></a>
+<a class="sourceLine" id="cb114-2" data-line-number="2"><span class="kw">{</span> <span class="fu">cat</span> FileA<span class="kw">;</span> <span class="bu">echo</span> xxxxxxxxxxxx<span class="kw">;</span> <span class="fu">cat</span> FileB<span class="kw">}</span> <span class="op">&gt;</span> <span class="ex">Both</span></a></code></pre></div>
 </div>
 <div id="exit-status" class="section level2">
 <h2><span class="header-section-number">5.6</span> Exit Status</h2>
@@ -1270,21 +1327,21 @@ the operating system, “What’s up!!??”.</p>
 <p>Here is an example: if we try to list a file, using <code>ls</code>, that exists, the file gets listed
 and the exit status is 0 (SUCCESS!). If the file does not exist we get an error message
 and an exit status of 1 (NO_SUCCESS!).</p>
-<div class="sourceCode" id="cb110"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb110-1" data-line-number="1"><span class="co"># list a file we know exists</span></a>
-<a class="sourceLine" id="cb110-2" data-line-number="2"><span class="ex">%</span> ls -d ~/Documents </a>
-<a class="sourceLine" id="cb110-3" data-line-number="3"><span class="ex">/Users/eriq/Documents/</span></a>
-<a class="sourceLine" id="cb110-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb110-5" data-line-number="5"><span class="co"># check exit status of last command</span></a>
-<a class="sourceLine" id="cb110-6" data-line-number="6"><span class="ex">%</span> echo <span class="va">$?</span></a>
-<a class="sourceLine" id="cb110-7" data-line-number="7"><span class="ex">0</span></a>
-<a class="sourceLine" id="cb110-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb110-9" data-line-number="9"><span class="co"># list a file we are pretty sure does not exist</span></a>
-<a class="sourceLine" id="cb110-10" data-line-number="10"><span class="ex">%</span> ls I-doubt-this-file-exists.yeah.sure</a>
-<a class="sourceLine" id="cb110-11" data-line-number="11"><span class="ex">ls</span>: I-doubt-this-file-exists.yeah.sure: No such file or directory</a>
-<a class="sourceLine" id="cb110-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb110-13" data-line-number="13"><span class="co"># check the exit status of last command</span></a>
-<a class="sourceLine" id="cb110-14" data-line-number="14"><span class="ex">%</span> echo <span class="va">$?</span></a>
-<a class="sourceLine" id="cb110-15" data-line-number="15"><span class="ex">1</span></a></code></pre></div>
+<div class="sourceCode" id="cb115"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb115-1" data-line-number="1"><span class="co"># list a file we know exists</span></a>
+<a class="sourceLine" id="cb115-2" data-line-number="2"><span class="ex">%</span> ls -d ~/Documents </a>
+<a class="sourceLine" id="cb115-3" data-line-number="3"><span class="ex">/Users/eriq/Documents/</span></a>
+<a class="sourceLine" id="cb115-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb115-5" data-line-number="5"><span class="co"># check exit status of last command</span></a>
+<a class="sourceLine" id="cb115-6" data-line-number="6"><span class="ex">%</span> echo <span class="va">$?</span></a>
+<a class="sourceLine" id="cb115-7" data-line-number="7"><span class="ex">0</span></a>
+<a class="sourceLine" id="cb115-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb115-9" data-line-number="9"><span class="co"># list a file we are pretty sure does not exist</span></a>
+<a class="sourceLine" id="cb115-10" data-line-number="10"><span class="ex">%</span> ls I-doubt-this-file-exists.yeah.sure</a>
+<a class="sourceLine" id="cb115-11" data-line-number="11"><span class="ex">ls</span>: I-doubt-this-file-exists.yeah.sure: No such file or directory</a>
+<a class="sourceLine" id="cb115-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb115-13" data-line-number="13"><span class="co"># check the exit status of last command</span></a>
+<a class="sourceLine" id="cb115-14" data-line-number="14"><span class="ex">%</span> echo <span class="va">$?</span></a>
+<a class="sourceLine" id="cb115-15" data-line-number="15"><span class="ex">1</span></a></code></pre></div>
 <p>While we don’t get to “see” the exit status of a command without
 looking at <code>$?</code>, to the bash shell, when a command has completed
 on the command line, it effectively becomes the value of its exit
@@ -1343,7 +1400,7 @@ do any extra work <em>that it does not need to do</em> will help you
 to understand the behavior of the shell when two (or more)
 commands are joined into a “compound command” with the <code>&amp;&amp;</code> symbol.
 Consider this:</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="ex">command1</span> <span class="kw">&amp;&amp;</span> <span class="ex">command2</span></a></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb116-1" data-line-number="1"><span class="ex">command1</span> <span class="kw">&amp;&amp;</span> <span class="ex">command2</span></a></code></pre></div>
 <p>When bash looks at that, it sees that whoever wrote it wants to
 know the <code>&amp;&amp;</code>-combination of exit statuses of <code>command1</code> and
 <code>command2</code>. <code>bash</code> keeps that thought in the back of its mind,
@@ -1356,10 +1413,10 @@ of <code>command1</code> is”SUCCESS!“, then the shell will proceed to evalua
 was”SUCCESS!&quot;, then it must evaluate <code>command2</code> so as to get its
 exit status to properly evaluate <code>command1 &amp;&amp; command2</code>.</p>
 <p>The upshot of this is a construction like the following:</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb112-1" data-line-number="1"><span class="ex">command1</span> <span class="kw">&amp;&amp;</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb112-2" data-line-number="2">  <span class="ex">command2</span> <span class="kw">&amp;&amp;</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb112-3" data-line-number="3">  <span class="ex">command3</span> <span class="kw">&amp;&amp;</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb112-4" data-line-number="4">  <span class="ex">command4</span></a></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="ex">command1</span> <span class="kw">&amp;&amp;</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb117-2" data-line-number="2">  <span class="ex">command2</span> <span class="kw">&amp;&amp;</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb117-3" data-line-number="3">  <span class="ex">command3</span> <span class="kw">&amp;&amp;</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb117-4" data-line-number="4">  <span class="ex">command4</span></a></code></pre></div>
 <p>can be very useful in bioinformatics. This construction says,
 evaluate each command, if all the preceding commands were successful.
 If any of the commands fails, then none of the commands after them are
@@ -1406,8 +1463,8 @@ with a table like the following:</p>
 <code>ES1 || ES2</code> will have a combined exit status of “SUCCESS!”
 Consequently, we use the <code>||</code> to force evaluation of
 another command in case the previous one failed. Like this:</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="fu">ls</span> I-doubt-this-file-exists.yeah.sure <span class="kw">||</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb113-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;Aw shucks! That file aint there&quot;</span> <span class="op">&gt;</span> /dev/stderr</a></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb118-1" data-line-number="1"><span class="fu">ls</span> I-doubt-this-file-exists.yeah.sure <span class="kw">||</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb118-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;Aw shucks! That file aint there&quot;</span> <span class="op">&gt;</span> /dev/stderr</a></code></pre></div>
 <p>Note, in the above, we redirect the text, “Aw shucks! That file aint there” to
 a file named <code>/dev/stderr</code>. That file, <code>/dev/stderr</code> is a special file: anything
 that you send into it gets immediately printed on <em>stderr</em>.</p>
@@ -1429,111 +1486,111 @@ more! This section will reveal a wonderful construct called the
 the value of a variable to something different that you want to
 be applying some commands to.</p>
 <p>The basic syntax of the <code>for</code> loop is:</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb114-1" data-line-number="1"><span class="co"># here the cycled variable is &quot;i&quot;</span></a>
-<a class="sourceLine" id="cb114-2" data-line-number="2"><span class="kw">for</span> <span class="ex">i</span> in some things separated by whitespace<span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb114-3" data-line-number="3">  <span class="ex">commands</span> involving <span class="va">$i</span></a>
-<a class="sourceLine" id="cb114-4" data-line-number="4"><span class="kw">done</span></a></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb119-1" data-line-number="1"><span class="co"># here the cycled variable is &quot;i&quot;</span></a>
+<a class="sourceLine" id="cb119-2" data-line-number="2"><span class="kw">for</span> <span class="ex">i</span> in some things separated by whitespace<span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb119-3" data-line-number="3">  <span class="ex">commands</span> involving <span class="va">$i</span></a>
+<a class="sourceLine" id="cb119-4" data-line-number="4"><span class="kw">done</span></a></code></pre></div>
 <p>For example:</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb115-1" data-line-number="1"><span class="kw">for</span> <span class="ex">i</span> in oranges bananas apples<span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb115-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;I like </span><span class="va">$i</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb115-3" data-line-number="3"><span class="kw">done</span></a>
-<a class="sourceLine" id="cb115-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb115-5" data-line-number="5"><span class="co"># produces this:</span></a>
-<a class="sourceLine" id="cb115-6" data-line-number="6"><span class="ex">I</span> like oranges</a>
-<a class="sourceLine" id="cb115-7" data-line-number="7"><span class="ex">I</span> like bananas</a>
-<a class="sourceLine" id="cb115-8" data-line-number="8"><span class="ex">I</span> like apples</a></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb120-1" data-line-number="1"><span class="kw">for</span> <span class="ex">i</span> in oranges bananas apples<span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb120-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;I like </span><span class="va">$i</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb120-3" data-line-number="3"><span class="kw">done</span></a>
+<a class="sourceLine" id="cb120-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb120-5" data-line-number="5"><span class="co"># produces this:</span></a>
+<a class="sourceLine" id="cb120-6" data-line-number="6"><span class="ex">I</span> like oranges</a>
+<a class="sourceLine" id="cb120-7" data-line-number="7"><span class="ex">I</span> like bananas</a>
+<a class="sourceLine" id="cb120-8" data-line-number="8"><span class="ex">I</span> like apples</a></code></pre></div>
 <p>When you write a for loop in a script, it is good practice to indent
 the command lines that will get evaluated multiple times. This is
 particularly useful if you have nested for loops (one inside another)
 such as:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb116-1" data-line-number="1"><span class="kw">for</span> <span class="ex">fruit</span> in pears figs<span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb116-2" data-line-number="2">  <span class="kw">for</span> <span class="fu">who</span> in Mark Alice<span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb116-3" data-line-number="3">    <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$who</span><span class="st"> likes </span><span class="va">$fruit</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb116-4" data-line-number="4">  <span class="kw">done</span></a>
-<a class="sourceLine" id="cb116-5" data-line-number="5"><span class="kw">done</span></a>
-<a class="sourceLine" id="cb116-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb116-7" data-line-number="7"><span class="co"># which produces:</span></a>
-<a class="sourceLine" id="cb116-8" data-line-number="8"><span class="ex">Mark</span> likes pears</a>
-<a class="sourceLine" id="cb116-9" data-line-number="9"><span class="ex">Alice</span> likes pears</a>
-<a class="sourceLine" id="cb116-10" data-line-number="10"><span class="ex">Mark</span> likes figs</a>
-<a class="sourceLine" id="cb116-11" data-line-number="11"><span class="ex">Alice</span> likes figs</a></code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw">for</span> <span class="ex">fruit</span> in pears figs<span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb121-2" data-line-number="2">  <span class="kw">for</span> <span class="fu">who</span> in Mark Alice<span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb121-3" data-line-number="3">    <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$who</span><span class="st"> likes </span><span class="va">$fruit</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb121-4" data-line-number="4">  <span class="kw">done</span></a>
+<a class="sourceLine" id="cb121-5" data-line-number="5"><span class="kw">done</span></a>
+<a class="sourceLine" id="cb121-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb121-7" data-line-number="7"><span class="co"># which produces:</span></a>
+<a class="sourceLine" id="cb121-8" data-line-number="8"><span class="ex">Mark</span> likes pears</a>
+<a class="sourceLine" id="cb121-9" data-line-number="9"><span class="ex">Alice</span> likes pears</a>
+<a class="sourceLine" id="cb121-10" data-line-number="10"><span class="ex">Mark</span> likes figs</a>
+<a class="sourceLine" id="cb121-11" data-line-number="11"><span class="ex">Alice</span> likes figs</a></code></pre></div>
 <p>However, in bash (unlike Python, which is particularly obsessed with
 indentation) you are not required to indent things. In fact the above could have
 been written all on one line:</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="kw">for</span> <span class="ex">fruit</span> in pears figs<span class="kw">;</span> <span class="kw">do</span> <span class="kw">for</span> <span class="fu">who</span> in Mark Alice<span class="kw">;</span> <span class="kw">do</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$who</span><span class="st"> likes </span><span class="va">$fruit</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">done</span>; <span class="kw">done</span></a></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb122-1" data-line-number="1"><span class="kw">for</span> <span class="ex">fruit</span> in pears figs<span class="kw">;</span> <span class="kw">do</span> <span class="kw">for</span> <span class="fu">who</span> in Mark Alice<span class="kw">;</span> <span class="kw">do</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$who</span><span class="st"> likes </span><span class="va">$fruit</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">done</span>; <span class="kw">done</span></a></code></pre></div>
 <p>It is also worth pointing out that, while many languages use curly braces to denote
 blocks of repeated code, <code>bash</code> uses the pair <code>do...done</code>, which I find to be quite cute.</p>
 <p>As found with the variable <code>GHNAMES</code> in our example script,
 <code>clone-classroom-repos.sh</code>, you can also use variable
 subsitution to provide a list of terms to cycle over. Here is
 another small example:</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb118-1" data-line-number="1"><span class="va">ITEMS=</span><span class="st">&quot;cats dogs mice shrews&quot;</span></a>
-<a class="sourceLine" id="cb118-2" data-line-number="2"><span class="kw">for</span> <span class="ex">critters</span> in <span class="va">$ITEMS</span><span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb118-3" data-line-number="3">  <span class="bu">echo</span> <span class="va">$critters</span> are vertebrates</a>
-<a class="sourceLine" id="cb118-4" data-line-number="4"><span class="kw">done</span></a></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="va">ITEMS=</span><span class="st">&quot;cats dogs mice shrews&quot;</span></a>
+<a class="sourceLine" id="cb123-2" data-line-number="2"><span class="kw">for</span> <span class="ex">critters</span> in <span class="va">$ITEMS</span><span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb123-3" data-line-number="3">  <span class="bu">echo</span> <span class="va">$critters</span> are vertebrates</a>
+<a class="sourceLine" id="cb123-4" data-line-number="4"><span class="kw">done</span></a></code></pre></div>
 <p>You can also use globbing (path expansion) to provide a list of
 things (files, specifically) to cycle over. The following prints the path
 and the first two
 lines of all files in the directory <code>table_inputs</code> in this book’s repository,
 at this point in the book’s formation:</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb119-1" data-line-number="1"><span class="kw">for</span> <span class="ex">i</span> in table_inputs/*<span class="kw">;</span> <span class="kw">do</span> </a>
-<a class="sourceLine" id="cb119-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;======= file: </span><span class="va">$i</span><span class="st">  =========&quot;</span></a>
-<a class="sourceLine" id="cb119-3" data-line-number="3">  <span class="fu">head</span> -n 2 <span class="va">$i</span></a>
-<a class="sourceLine" id="cb119-4" data-line-number="4"><span class="kw">done</span></a>
-<a class="sourceLine" id="cb119-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb119-6" data-line-number="6"><span class="co"># this produces:</span></a>
-<a class="sourceLine" id="cb119-7" data-line-number="7">======= <span class="ex">file</span>: table_inputs/minimal-tmux.txt  =========</a>
-<a class="sourceLine" id="cb119-8" data-line-number="8"><span class="ex">Within</span> tmux?   <span class="kw">;</span>  <span class="ex">Command</span>         <span class="kw">;</span>  <span class="ex">Effect</span></a>
-<a class="sourceLine" id="cb119-9" data-line-number="9"><span class="ex">N</span>              <span class="kw">;</span> <span class="kw">`</span><span class="ex">tmux</span> ls<span class="kw">`</span>          ; <span class="ex">List</span> any tmux sessions the server knows about</a>
-<a class="sourceLine" id="cb119-10" data-line-number="10">======= <span class="ex">file</span>: table_inputs/sam-columns-table.txt  =========</a>
-<a class="sourceLine" id="cb119-11" data-line-number="11"><span class="ex">Column</span>   <span class="kw">&amp;</span>  <span class="ex">Field</span>   <span class="kw">&amp;</span> <span class="ex">Data</span> Type  <span class="kw">&amp;</span> <span class="ex">Description</span></a>
-<a class="sourceLine" id="cb119-12" data-line-number="12"><span class="ex">1</span>        <span class="kw">&amp;</span> <span class="ex">QNAME</span>    <span class="kw">&amp;</span> <span class="ex">String</span>     <span class="kw">&amp;</span> <span class="ex">Name/ID</span> of the read (from FASTQ file)</a>
-<a class="sourceLine" id="cb119-13" data-line-number="13">======= <span class="ex">file</span>: table_inputs/sam-flag-table.txt  =========</a>
-<a class="sourceLine" id="cb119-14" data-line-number="14"><span class="ex">bit-</span>#    <span class="kw">&amp;</span>   <span class="ex">bit-gram</span>   <span class="kw">&amp;</span>  <span class="va">$2</span>^<span class="ex">x</span>$   <span class="kw">&amp;</span>   <span class="ex">dec</span>    <span class="kw">&amp;</span>   <span class="ex">hex</span>     <span class="kw">&amp;</span> <span class="ex">Meaning</span></a>
-<a class="sourceLine" id="cb119-15" data-line-number="15"><span class="ex">1</span>    <span class="kw">&amp;</span>  $\<span class="ex">bitsa</span>$    <span class="kw">&amp;</span>  <span class="va">$2</span>^<span class="ex">0</span>$   <span class="kw">&amp;</span>    <span class="ex">1</span>     <span class="kw">&amp;</span>   <span class="ex">0x1</span>    <span class="kw">&amp;</span> <span class="ex">the</span> read is paired (i.e. comes from paired-endsequencing.)</a>
-<a class="sourceLine" id="cb119-16" data-line-number="16">======= <span class="ex">file</span>: table_inputs/tmux-pane-strokes.txt  =========</a>
-<a class="sourceLine" id="cb119-17" data-line-number="17"><span class="ex">Within</span> tmux?   <span class="kw">;</span>  <span class="ex">Command</span>         <span class="kw">;</span>  <span class="ex">Effect</span></a>
-<a class="sourceLine" id="cb119-18" data-line-number="18"><span class="ex">Y</span>              <span class="kw">;</span> <span class="kw">`</span><span class="op">&lt;</span><span class="ex">cntrl</span><span class="op">&gt;</span>-b /<span class="kw">`</span>       ; <span class="ex">Split</span> current window/pane vertically into two panes</a></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">for</span> <span class="ex">i</span> in table_inputs/*<span class="kw">;</span> <span class="kw">do</span> </a>
+<a class="sourceLine" id="cb124-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;======= file: </span><span class="va">$i</span><span class="st">  =========&quot;</span></a>
+<a class="sourceLine" id="cb124-3" data-line-number="3">  <span class="fu">head</span> -n 2 <span class="va">$i</span></a>
+<a class="sourceLine" id="cb124-4" data-line-number="4"><span class="kw">done</span></a>
+<a class="sourceLine" id="cb124-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb124-6" data-line-number="6"><span class="co"># this produces:</span></a>
+<a class="sourceLine" id="cb124-7" data-line-number="7">======= <span class="ex">file</span>: table_inputs/minimal-tmux.txt  =========</a>
+<a class="sourceLine" id="cb124-8" data-line-number="8"><span class="ex">Within</span> tmux?   <span class="kw">;</span>  <span class="ex">Command</span>         <span class="kw">;</span>  <span class="ex">Effect</span></a>
+<a class="sourceLine" id="cb124-9" data-line-number="9"><span class="ex">N</span>              <span class="kw">;</span> <span class="kw">`</span><span class="ex">tmux</span> ls<span class="kw">`</span>          ; <span class="ex">List</span> any tmux sessions the server knows about</a>
+<a class="sourceLine" id="cb124-10" data-line-number="10">======= <span class="ex">file</span>: table_inputs/sam-columns-table.txt  =========</a>
+<a class="sourceLine" id="cb124-11" data-line-number="11"><span class="ex">Column</span>   <span class="kw">&amp;</span>  <span class="ex">Field</span>   <span class="kw">&amp;</span> <span class="ex">Data</span> Type  <span class="kw">&amp;</span> <span class="ex">Description</span></a>
+<a class="sourceLine" id="cb124-12" data-line-number="12"><span class="ex">1</span>        <span class="kw">&amp;</span> <span class="ex">QNAME</span>    <span class="kw">&amp;</span> <span class="ex">String</span>     <span class="kw">&amp;</span> <span class="ex">Name/ID</span> of the read (from FASTQ file)</a>
+<a class="sourceLine" id="cb124-13" data-line-number="13">======= <span class="ex">file</span>: table_inputs/sam-flag-table.txt  =========</a>
+<a class="sourceLine" id="cb124-14" data-line-number="14"><span class="ex">bit-</span>#    <span class="kw">&amp;</span>   <span class="ex">bit-gram</span>   <span class="kw">&amp;</span>  <span class="va">$2</span>^<span class="ex">x</span>$   <span class="kw">&amp;</span>   <span class="ex">dec</span>    <span class="kw">&amp;</span>   <span class="ex">hex</span>     <span class="kw">&amp;</span> <span class="ex">Meaning</span></a>
+<a class="sourceLine" id="cb124-15" data-line-number="15"><span class="ex">1</span>    <span class="kw">&amp;</span>  $\<span class="ex">bitsa</span>$    <span class="kw">&amp;</span>  <span class="va">$2</span>^<span class="ex">0</span>$   <span class="kw">&amp;</span>    <span class="ex">1</span>     <span class="kw">&amp;</span>   <span class="ex">0x1</span>    <span class="kw">&amp;</span> <span class="ex">the</span> read is paired (i.e. comes from paired-endsequencing.)</a>
+<a class="sourceLine" id="cb124-16" data-line-number="16">======= <span class="ex">file</span>: table_inputs/tmux-pane-strokes.txt  =========</a>
+<a class="sourceLine" id="cb124-17" data-line-number="17"><span class="ex">Within</span> tmux?   <span class="kw">;</span>  <span class="ex">Command</span>         <span class="kw">;</span>  <span class="ex">Effect</span></a>
+<a class="sourceLine" id="cb124-18" data-line-number="18"><span class="ex">Y</span>              <span class="kw">;</span> <span class="kw">`</span><span class="op">&lt;</span><span class="ex">cntrl</span><span class="op">&gt;</span>-b /<span class="kw">`</span>       ; <span class="ex">Split</span> current window/pane vertically into two panes</a></code></pre></div>
 <p>Those files are the ones used as input to a few of the tables
 in the book.</p>
 <p>If it turns out that you want to cycle over some integers,
 in order (whether increasing or decreasing), from a starting
 value to a stopping value, you can use curly braces and two dots,
 like this: <code>{1..5}</code>, like this:</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb120-1" data-line-number="1"><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..5}</span><span class="kw">;</span> <span class="kw">do</span> <span class="bu">echo</span> The number is: <span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span></a>
-<a class="sourceLine" id="cb120-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb120-3" data-line-number="3"><span class="co"># this makes:</span></a>
-<a class="sourceLine" id="cb120-4" data-line-number="4"><span class="ex">Number</span> 1</a>
-<a class="sourceLine" id="cb120-5" data-line-number="5"><span class="ex">Number</span> 2</a>
-<a class="sourceLine" id="cb120-6" data-line-number="6"><span class="ex">Number</span> 3</a>
-<a class="sourceLine" id="cb120-7" data-line-number="7"><span class="ex">Number</span> 4</a>
-<a class="sourceLine" id="cb120-8" data-line-number="8"><span class="ex">Number</span> 5</a></code></pre></div>
+<div class="sourceCode" id="cb125"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..5}</span><span class="kw">;</span> <span class="kw">do</span> <span class="bu">echo</span> The number is: <span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span></a>
+<a class="sourceLine" id="cb125-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb125-3" data-line-number="3"><span class="co"># this makes:</span></a>
+<a class="sourceLine" id="cb125-4" data-line-number="4"><span class="ex">Number</span> 1</a>
+<a class="sourceLine" id="cb125-5" data-line-number="5"><span class="ex">Number</span> 2</a>
+<a class="sourceLine" id="cb125-6" data-line-number="6"><span class="ex">Number</span> 3</a>
+<a class="sourceLine" id="cb125-7" data-line-number="7"><span class="ex">Number</span> 4</a>
+<a class="sourceLine" id="cb125-8" data-line-number="8"><span class="ex">Number</span> 5</a></code></pre></div>
 <p>And you can have negative numbers and a reverse order, too:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{4..-2}</span><span class="kw">;</span> <span class="kw">do</span> <span class="bu">echo</span> The number is: <span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span></a>
-<a class="sourceLine" id="cb121-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb121-3" data-line-number="3"><span class="co"># this makes</span></a>
-<a class="sourceLine" id="cb121-4" data-line-number="4"><span class="ex">The</span> number is: 4</a>
-<a class="sourceLine" id="cb121-5" data-line-number="5"><span class="ex">The</span> number is: 3</a>
-<a class="sourceLine" id="cb121-6" data-line-number="6"><span class="ex">The</span> number is: 2</a>
-<a class="sourceLine" id="cb121-7" data-line-number="7"><span class="ex">The</span> number is: 1</a>
-<a class="sourceLine" id="cb121-8" data-line-number="8"><span class="ex">The</span> number is: 0</a>
-<a class="sourceLine" id="cb121-9" data-line-number="9"><span class="ex">The</span> number is: -1</a>
-<a class="sourceLine" id="cb121-10" data-line-number="10"><span class="ex">The</span> number is: -2</a></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{4..-2}</span><span class="kw">;</span> <span class="kw">do</span> <span class="bu">echo</span> The number is: <span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span></a>
+<a class="sourceLine" id="cb126-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb126-3" data-line-number="3"><span class="co"># this makes</span></a>
+<a class="sourceLine" id="cb126-4" data-line-number="4"><span class="ex">The</span> number is: 4</a>
+<a class="sourceLine" id="cb126-5" data-line-number="5"><span class="ex">The</span> number is: 3</a>
+<a class="sourceLine" id="cb126-6" data-line-number="6"><span class="ex">The</span> number is: 2</a>
+<a class="sourceLine" id="cb126-7" data-line-number="7"><span class="ex">The</span> number is: 1</a>
+<a class="sourceLine" id="cb126-8" data-line-number="8"><span class="ex">The</span> number is: 0</a>
+<a class="sourceLine" id="cb126-9" data-line-number="9"><span class="ex">The</span> number is: -1</a>
+<a class="sourceLine" id="cb126-10" data-line-number="10"><span class="ex">The</span> number is: -2</a></code></pre></div>
 <p>One cool thing to realize is that any output that goes to <em>stdout</em>
 from within a <code>for</code> loop—if it is not redirected from within the
 loop—effectively comes “flowing out” to <em>stdout</em> from right
 after the <code>done</code> keyword. So, you can redirect it in one swell foop
 from that point in your code like this:</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb122-1" data-line-number="1"><span class="kw">for</span> <span class="ex">i</span> in table_inputs/*<span class="kw">;</span> <span class="kw">do</span> </a>
-<a class="sourceLine" id="cb122-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;======= file: </span><span class="va">$i</span><span class="st">  =========&quot;</span></a>
-<a class="sourceLine" id="cb122-3" data-line-number="3">  <span class="fu">head</span> -n 2 <span class="va">$i</span></a>
-<a class="sourceLine" id="cb122-4" data-line-number="4"><span class="kw">done</span> <span class="op">&gt;</span> <span class="ex">file-to-redirect-it-all-into.txt</span> </a></code></pre></div>
+<div class="sourceCode" id="cb127"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb127-1" data-line-number="1"><span class="kw">for</span> <span class="ex">i</span> in table_inputs/*<span class="kw">;</span> <span class="kw">do</span> </a>
+<a class="sourceLine" id="cb127-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;======= file: </span><span class="va">$i</span><span class="st">  =========&quot;</span></a>
+<a class="sourceLine" id="cb127-3" data-line-number="3">  <span class="fu">head</span> -n 2 <span class="va">$i</span></a>
+<a class="sourceLine" id="cb127-4" data-line-number="4"><span class="kw">done</span> <span class="op">&gt;</span> <span class="ex">file-to-redirect-it-all-into.txt</span> </a></code></pre></div>
 <p>…or, you could even pipe it to another command, like this, to print just the
 first column of text of each line:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="kw">for</span> <span class="ex">i</span> in table_inputs/*<span class="kw">;</span> <span class="kw">do</span> </a>
-<a class="sourceLine" id="cb123-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;======= file: </span><span class="va">$i</span><span class="st">  =========&quot;</span></a>
-<a class="sourceLine" id="cb123-3" data-line-number="3">  <span class="fu">head</span> -n 2 <span class="va">$i</span></a>
-<a class="sourceLine" id="cb123-4" data-line-number="4"><span class="kw">done</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $1}&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="kw">for</span> <span class="ex">i</span> in table_inputs/*<span class="kw">;</span> <span class="kw">do</span> </a>
+<a class="sourceLine" id="cb128-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;======= file: </span><span class="va">$i</span><span class="st">  =========&quot;</span></a>
+<a class="sourceLine" id="cb128-3" data-line-number="3">  <span class="fu">head</span> -n 2 <span class="va">$i</span></a>
+<a class="sourceLine" id="cb128-4" data-line-number="4"><span class="kw">done</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $1}&#39;</span></a></code></pre></div>
 </div>
 <div id="more-conditional-evaluation-if-then-else-and-friends" class="section level2">
 <h2><span class="header-section-number">5.8</span> More Conditional Evaluation: <code>if</code>, <code>then</code>, <code>else</code>, and friends</h2>
@@ -1542,29 +1599,29 @@ first column of text of each line:</p>
 failed, don’t do the next line…). There is also a traditional
 <code>if/then/else</code> construct in bash to control the execution of script
 on the basis of exit status. Thus, we can do something like:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">if</span> <span class="fu">ls</span> README.md<span class="kw">;</span> <span class="kw">then</span></a>
-<a class="sourceLine" id="cb124-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;We found the README&quot;</span></a>
-<a class="sourceLine" id="cb124-3" data-line-number="3"><span class="kw">else</span></a>
-<a class="sourceLine" id="cb124-4" data-line-number="4">  <span class="bu">echo</span> <span class="st">&quot;Can&#39;t find the README&quot;</span></a>
-<a class="sourceLine" id="cb124-5" data-line-number="5"><span class="kw">fi</span></a></code></pre></div>
+<div class="sourceCode" id="cb129"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb129-1" data-line-number="1"><span class="kw">if</span> <span class="fu">ls</span> README.md<span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb129-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;We found the README&quot;</span></a>
+<a class="sourceLine" id="cb129-3" data-line-number="3"><span class="kw">else</span></a>
+<a class="sourceLine" id="cb129-4" data-line-number="4">  <span class="bu">echo</span> <span class="st">&quot;Can&#39;t find the README&quot;</span></a>
+<a class="sourceLine" id="cb129-5" data-line-number="5"><span class="kw">fi</span></a></code></pre></div>
 <p>Note that this opens an <code>if</code> block of code with <code>if</code> and then
 it closes it (after the <code>then</code> and the <code>else</code>) with a backward
 <code>if</code>: <code>fi</code>.</p>
 <p>The general syntax is:</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw">if</span> <span class="ex">exit_status</span><span class="kw">;</span> <span class="kw">then</span></a>
-<a class="sourceLine" id="cb125-2" data-line-number="2">  <span class="ex">Do</span> this if exit_status = SUCCESS!</a>
-<a class="sourceLine" id="cb125-3" data-line-number="3"><span class="kw">else</span></a>
-<a class="sourceLine" id="cb125-4" data-line-number="4">  <span class="ex">Do</span> this if exit_status = NO_SUCCESS</a>
-<a class="sourceLine" id="cb125-5" data-line-number="5"><span class="kw">fi</span></a></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="kw">if</span> <span class="ex">exit_status</span><span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb130-2" data-line-number="2">  <span class="ex">Do</span> this if exit_status = SUCCESS!</a>
+<a class="sourceLine" id="cb130-3" data-line-number="3"><span class="kw">else</span></a>
+<a class="sourceLine" id="cb130-4" data-line-number="4">  <span class="ex">Do</span> this if exit_status = NO_SUCCESS</a>
+<a class="sourceLine" id="cb130-5" data-line-number="5"><span class="kw">fi</span></a></code></pre></div>
 <p>There is also an else-if construct, that is named <code>elif</code>, with
 syntax like this:</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb126-1" data-line-number="1"><span class="kw">if</span> <span class="ex">exit_status1</span><span class="kw">;</span> <span class="kw">then</span></a>
-<a class="sourceLine" id="cb126-2" data-line-number="2">  <span class="ex">Do</span> this if exit_status1 = SUCCESS!</a>
-<a class="sourceLine" id="cb126-3" data-line-number="3"><span class="kw">elif</span> <span class="ex">exit_status2</span><span class="kw">;</span> <span class="kw">then</span></a>
-<a class="sourceLine" id="cb126-4" data-line-number="4">  <span class="ex">Do</span> this if exit_status1 = NO_SUCCESS and exit_status2 = SUCCESS!</a>
-<a class="sourceLine" id="cb126-5" data-line-number="5"><span class="kw">else</span> </a>
-<a class="sourceLine" id="cb126-6" data-line-number="6">  <span class="ex">Do</span> this if both were NO_SUCCESS</a>
-<a class="sourceLine" id="cb126-7" data-line-number="7"><span class="kw">fi</span></a></code></pre></div>
+<div class="sourceCode" id="cb131"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="kw">if</span> <span class="ex">exit_status1</span><span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb131-2" data-line-number="2">  <span class="ex">Do</span> this if exit_status1 = SUCCESS!</a>
+<a class="sourceLine" id="cb131-3" data-line-number="3"><span class="kw">elif</span> <span class="ex">exit_status2</span><span class="kw">;</span> <span class="kw">then</span></a>
+<a class="sourceLine" id="cb131-4" data-line-number="4">  <span class="ex">Do</span> this if exit_status1 = NO_SUCCESS and exit_status2 = SUCCESS!</a>
+<a class="sourceLine" id="cb131-5" data-line-number="5"><span class="kw">else</span> </a>
+<a class="sourceLine" id="cb131-6" data-line-number="6">  <span class="ex">Do</span> this if both were NO_SUCCESS</a>
+<a class="sourceLine" id="cb131-7" data-line-number="7"><span class="kw">fi</span></a></code></pre></div>
 <p>Many of the times when you want to use an <code>if</code> construct, you will
 want to be <em>testing</em> things about files, or strings or variables,
 rather than assessing exit status of functions. Alas, all bash is
@@ -1572,30 +1629,30 @@ capable of is assessing exit statuses. But hark! All is not lost becuase
 there is a function called <code>test</code> that let’s you test if statements
 are true, and if they are, then it returns an exit status of 0 (SUCCESS!).</p>
 <p>For example, to test if a file exists, you can use:</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb127-1" data-line-number="1"><span class="co"># this file does exist in the current directory on my system...</span></a>
-<a class="sourceLine" id="cb127-2" data-line-number="2"><span class="bu">test</span> -f eca-bioinf-handbook.Rproj</a>
-<a class="sourceLine" id="cb127-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb127-4" data-line-number="4"><span class="co"># do this to see what the exit status was</span></a>
-<a class="sourceLine" id="cb127-5" data-line-number="5"><span class="bu">echo</span> <span class="va">$?</span></a></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="co"># this file does exist in the current directory on my system...</span></a>
+<a class="sourceLine" id="cb132-2" data-line-number="2"><span class="bu">test</span> -f eca-bioinf-handbook.Rproj</a>
+<a class="sourceLine" id="cb132-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb132-4" data-line-number="4"><span class="co"># do this to see what the exit status was</span></a>
+<a class="sourceLine" id="cb132-5" data-line-number="5"><span class="bu">echo</span> <span class="va">$?</span></a></code></pre></div>
 <p>Or, if we want to test if the value of a variable is the same as
 some string.</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="va">VAR=</span>big_and_bad <span class="co"># set a variable to some string value</span></a>
-<a class="sourceLine" id="cb128-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb128-3" data-line-number="3"><span class="bu">test</span> <span class="va">$VAR</span> = small_and_sweet</a>
-<a class="sourceLine" id="cb128-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb128-5" data-line-number="5"><span class="co"># get exit status, which will be NO_SUCCESS (1)</span></a>
-<a class="sourceLine" id="cb128-6" data-line-number="6"><span class="bu">echo</span> <span class="va">$?</span></a></code></pre></div>
+<div class="sourceCode" id="cb133"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb133-1" data-line-number="1"><span class="va">VAR=</span>big_and_bad <span class="co"># set a variable to some string value</span></a>
+<a class="sourceLine" id="cb133-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb133-3" data-line-number="3"><span class="bu">test</span> <span class="va">$VAR</span> = small_and_sweet</a>
+<a class="sourceLine" id="cb133-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb133-5" data-line-number="5"><span class="co"># get exit status, which will be NO_SUCCESS (1)</span></a>
+<a class="sourceLine" id="cb133-6" data-line-number="6"><span class="bu">echo</span> <span class="va">$?</span></a></code></pre></div>
 <p>The value of integer variables can be tested too. See <code>man test</code> for
 all the details.</p>
 <p>Now, the thing to remember about the test function is that there
 is an intuitive-looking shorthand for writing it: that is to write
 its arguments between a <code>[</code> and a <code>]</code>, but not touching either of them.</p>
 <p>So:</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb129-1" data-line-number="1"><span class="co"># this</span></a>
-<a class="sourceLine" id="cb129-2" data-line-number="2"><span class="bu">test</span> <span class="va">$VAR</span> = small_and_sweet</a>
-<a class="sourceLine" id="cb129-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb129-4" data-line-number="4"><span class="co"># is equivalent to:</span></a>
-<a class="sourceLine" id="cb129-5" data-line-number="5"><span class="bu">[</span> <span class="va">$VAR</span> <span class="ot">=</span> <span class="st">&quot;small_and_sweet&quot;</span><span class="bu"> ]</span>;</a></code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb134-1" data-line-number="1"><span class="co"># this</span></a>
+<a class="sourceLine" id="cb134-2" data-line-number="2"><span class="bu">test</span> <span class="va">$VAR</span> = small_and_sweet</a>
+<a class="sourceLine" id="cb134-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb134-4" data-line-number="4"><span class="co"># is equivalent to:</span></a>
+<a class="sourceLine" id="cb134-5" data-line-number="5"><span class="bu">[</span> <span class="va">$VAR</span> <span class="ot">=</span> <span class="st">&quot;small_and_sweet&quot;</span><span class="bu"> ]</span>;</a></code></pre></div>
 <p>Note that the RStudio bash shell seems to be doing something weird,
 I don’t think the “last command” is quite what we think it should be,
 so <code>$?</code> does not seem to be reliable.</p>
@@ -1604,12 +1661,12 @@ so <code>$?</code> does not seem to be reliable.</p>
 <h2><span class="header-section-number">5.9</span> Finally…positional parameters</h2>
 <p>Way back when we started this chapter, in the example script, <code>clone-classroom-repos.sh</code>,
 right at the top we see lines like:</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="va">GHP=$1</span></a></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb135-1" data-line-number="1"><span class="va">GHP=$1</span></a></code></pre></div>
 <p>What the heck is that <code>$1</code>. That is not proper syntax for a variable name! A variable
 name can’t start with a number, after all. Aha! <code>$1</code>, <code>$2</code>, <code>$3</code>, and so forth are
 variables that store the <em>positional parameters</em> of a script. In other words if you write a
 script called <code>my_script.sh</code> and you invoke it with some words after it, like:</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="ex">my_script.sh</span>  BigFile.txt  small_file.txt  Yee-ha   <span class="st">&#39;Oh Yeah&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb136"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb136-1" data-line-number="1"><span class="ex">my_script.sh</span>  BigFile.txt  small_file.txt  Yee-ha   <span class="st">&#39;Oh Yeah&#39;</span></a></code></pre></div>
 <p>Then, when that script is executing the code inside it, the value of
 <code>$1</code> will be <code>BigFile.txt</code>, the value of <code>$2</code> will be <code>small-file.txt</code>, the
 value of <code>$3</code> will be <code>Yee-ha</code>, and the value of <code>$4</code> will be <code>Oh Yeah</code>.</p>
@@ -1629,35 +1686,35 @@ First parameters is: -----</code></pre>
 <p>Paths to files and directories expand and are listed as the paths relative
 to the current working directory. Sometimes, you just want the name of the
 file. This is what <code>basename</code> gives you. For example:</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb133-1" data-line-number="1"><span class="co"># expand the filenames a couple directories down:</span></a>
-<a class="sourceLine" id="cb133-2" data-line-number="2"><span class="va">files=</span><span class="st">&quot;figure-creation/1.01-unix/*&quot;</span></a>
-<a class="sourceLine" id="cb133-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb133-4" data-line-number="4"><span class="co"># print all those file names</span></a>
-<a class="sourceLine" id="cb133-5" data-line-number="5"><span class="bu">echo</span> <span class="va">$files</span></a>
-<a class="sourceLine" id="cb133-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb133-7" data-line-number="7"><span class="co"># that produces this output:</span></a>
-<a class="sourceLine" id="cb133-8" data-line-number="8"><span class="ex">figure-creation/1.01-unix/file-hierarchy.dot</span> figure-creation/1.01-unix/file-hierarchy.pdf figure-creation/1.01-unix/file-hierarchy.png figure-creation/1.01-unix/file-hierarchy.sh</a>
-<a class="sourceLine" id="cb133-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb133-10" data-line-number="10"><span class="co"># do this to get just the filenames:</span></a>
-<a class="sourceLine" id="cb133-11" data-line-number="11"><span class="fu">basename</span> <span class="va">$files</span></a>
-<a class="sourceLine" id="cb133-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb133-13" data-line-number="13"><span class="co"># which produces this output:</span></a>
-<a class="sourceLine" id="cb133-14" data-line-number="14"><span class="ex">file-hierarchy.dot</span></a>
-<a class="sourceLine" id="cb133-15" data-line-number="15"><span class="ex">file-hierarchy.pdf</span></a>
-<a class="sourceLine" id="cb133-16" data-line-number="16"><span class="ex">file-hierarchy.png</span></a>
-<a class="sourceLine" id="cb133-17" data-line-number="17"><span class="ex">file-hierarchy.sh</span></a>
-<a class="sourceLine" id="cb133-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb133-19" data-line-number="19"><span class="co"># if you want just the relative path to the directories those files</span></a>
-<a class="sourceLine" id="cb133-20" data-line-number="20"><span class="co"># are in you can use dirname, but have to operate on one file at a time:</span></a>
-<a class="sourceLine" id="cb133-21" data-line-number="21"><span class="kw">for</span> <span class="ex">i</span> in <span class="va">$files</span><span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb133-22" data-line-number="22">  <span class="fu">dirname</span> <span class="va">$i</span></a>
-<a class="sourceLine" id="cb133-23" data-line-number="23"><span class="kw">done</span></a>
-<a class="sourceLine" id="cb133-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb133-25" data-line-number="25"><span class="co"># makes this output:</span></a>
-<a class="sourceLine" id="cb133-26" data-line-number="26"><span class="ex">figure-creation/1.01-unix</span></a>
-<a class="sourceLine" id="cb133-27" data-line-number="27"><span class="ex">figure-creation/1.01-unix</span></a>
-<a class="sourceLine" id="cb133-28" data-line-number="28"><span class="ex">figure-creation/1.01-unix</span></a>
-<a class="sourceLine" id="cb133-29" data-line-number="29"><span class="ex">figure-creation/1.01-unix</span></a></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb138-1" data-line-number="1"><span class="co"># expand the filenames a couple directories down:</span></a>
+<a class="sourceLine" id="cb138-2" data-line-number="2"><span class="va">files=</span><span class="st">&quot;figure-creation/1.01-unix/*&quot;</span></a>
+<a class="sourceLine" id="cb138-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb138-4" data-line-number="4"><span class="co"># print all those file names</span></a>
+<a class="sourceLine" id="cb138-5" data-line-number="5"><span class="bu">echo</span> <span class="va">$files</span></a>
+<a class="sourceLine" id="cb138-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb138-7" data-line-number="7"><span class="co"># that produces this output:</span></a>
+<a class="sourceLine" id="cb138-8" data-line-number="8"><span class="ex">figure-creation/1.01-unix/file-hierarchy.dot</span> figure-creation/1.01-unix/file-hierarchy.pdf figure-creation/1.01-unix/file-hierarchy.png figure-creation/1.01-unix/file-hierarchy.sh</a>
+<a class="sourceLine" id="cb138-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb138-10" data-line-number="10"><span class="co"># do this to get just the filenames:</span></a>
+<a class="sourceLine" id="cb138-11" data-line-number="11"><span class="fu">basename</span> <span class="va">$files</span></a>
+<a class="sourceLine" id="cb138-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb138-13" data-line-number="13"><span class="co"># which produces this output:</span></a>
+<a class="sourceLine" id="cb138-14" data-line-number="14"><span class="ex">file-hierarchy.dot</span></a>
+<a class="sourceLine" id="cb138-15" data-line-number="15"><span class="ex">file-hierarchy.pdf</span></a>
+<a class="sourceLine" id="cb138-16" data-line-number="16"><span class="ex">file-hierarchy.png</span></a>
+<a class="sourceLine" id="cb138-17" data-line-number="17"><span class="ex">file-hierarchy.sh</span></a>
+<a class="sourceLine" id="cb138-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb138-19" data-line-number="19"><span class="co"># if you want just the relative path to the directories those files</span></a>
+<a class="sourceLine" id="cb138-20" data-line-number="20"><span class="co"># are in you can use dirname, but have to operate on one file at a time:</span></a>
+<a class="sourceLine" id="cb138-21" data-line-number="21"><span class="kw">for</span> <span class="ex">i</span> in <span class="va">$files</span><span class="kw">;</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb138-22" data-line-number="22">  <span class="fu">dirname</span> <span class="va">$i</span></a>
+<a class="sourceLine" id="cb138-23" data-line-number="23"><span class="kw">done</span></a>
+<a class="sourceLine" id="cb138-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb138-25" data-line-number="25"><span class="co"># makes this output:</span></a>
+<a class="sourceLine" id="cb138-26" data-line-number="26"><span class="ex">figure-creation/1.01-unix</span></a>
+<a class="sourceLine" id="cb138-27" data-line-number="27"><span class="ex">figure-creation/1.01-unix</span></a>
+<a class="sourceLine" id="cb138-28" data-line-number="28"><span class="ex">figure-creation/1.01-unix</span></a>
+<a class="sourceLine" id="cb138-29" data-line-number="29"><span class="ex">figure-creation/1.01-unix</span></a></code></pre></div>
 </div>
 <div id="bash-functions" class="section level2">
 <h2><span class="header-section-number">5.11</span> <code>bash</code> functions</h2>
@@ -1673,38 +1730,38 @@ within a function are distinct from the positional parameters within, say, the m
 <p>Functions can be defined, most transparently, by using the <code>function</code> keyword.
 As an example, here is a silly function, called <code>Silly</code> that takes two positional parameters
 and then merely prints them separated by monkey noises.</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb134-1" data-line-number="1"><span class="kw">function</span><span class="fu"> Silly</span> <span class="kw">{</span></a>
-<a class="sourceLine" id="cb134-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">  Ooooh-oooh  Aaaah-aaah  </span><span class="va">$2</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb134-3" data-line-number="3"><span class="kw">}</span></a>
-<a class="sourceLine" id="cb134-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb134-5" data-line-number="5"><span class="co"># now, try</span></a>
-<a class="sourceLine" id="cb134-6" data-line-number="6"><span class="ex">Silly</span> foo bar</a></code></pre></div>
+<div class="sourceCode" id="cb139"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb139-1" data-line-number="1"><span class="kw">function</span><span class="fu"> Silly</span> <span class="kw">{</span></a>
+<a class="sourceLine" id="cb139-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">  Ooooh-oooh  Aaaah-aaah  </span><span class="va">$2</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb139-3" data-line-number="3"><span class="kw">}</span></a>
+<a class="sourceLine" id="cb139-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb139-5" data-line-number="5"><span class="co"># now, try</span></a>
+<a class="sourceLine" id="cb139-6" data-line-number="6"><span class="ex">Silly</span> foo bar</a></code></pre></div>
 <p>Another syntax you might see is to not use the <em>function</em> keyword, but rather
 follow the function’s name with <code>()</code>:</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb135-1" data-line-number="1"><span class="fu">Silly2()</span> <span class="kw">{</span></a>
-<a class="sourceLine" id="cb135-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">  Ooooh-oooh  Aaaah-aaah  </span><span class="va">$2</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb135-3" data-line-number="3"><span class="kw">}</span></a>
-<a class="sourceLine" id="cb135-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb135-5" data-line-number="5"><span class="co"># now, try</span></a>
-<a class="sourceLine" id="cb135-6" data-line-number="6"><span class="ex">Silly2</span> boing bonk</a></code></pre></div>
+<div class="sourceCode" id="cb140"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb140-1" data-line-number="1"><span class="fu">Silly2()</span> <span class="kw">{</span></a>
+<a class="sourceLine" id="cb140-2" data-line-number="2">  <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">  Ooooh-oooh  Aaaah-aaah  </span><span class="va">$2</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb140-3" data-line-number="3"><span class="kw">}</span></a>
+<a class="sourceLine" id="cb140-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb140-5" data-line-number="5"><span class="co"># now, try</span></a>
+<a class="sourceLine" id="cb140-6" data-line-number="6"><span class="ex">Silly2</span> boing bonk</a></code></pre></div>
 <p>You can even put it all on one line, but you have to make sure that you respect
 the curly-braces sensitivity to spacing and explicit line ending semicolons:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb136-1" data-line-number="1"><span class="kw">function</span><span class="fu"> Silly3</span> <span class="kw">{</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">  Ooooh-oooh  Aaaah-aaah  </span><span class="va">$2</span><span class="st">&quot;</span><span class="kw">;}</span></a>
-<a class="sourceLine" id="cb136-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb136-3" data-line-number="3"><span class="co"># now, try</span></a>
-<a class="sourceLine" id="cb136-4" data-line-number="4"><span class="ex">Silly3</span> bing bap</a></code></pre></div>
+<div class="sourceCode" id="cb141"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb141-1" data-line-number="1"><span class="kw">function</span><span class="fu"> Silly3</span> <span class="kw">{</span> <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">  Ooooh-oooh  Aaaah-aaah  </span><span class="va">$2</span><span class="st">&quot;</span><span class="kw">;}</span></a>
+<a class="sourceLine" id="cb141-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb141-3" data-line-number="3"><span class="co"># now, try</span></a>
+<a class="sourceLine" id="cb141-4" data-line-number="4"><span class="ex">Silly3</span> bing bap</a></code></pre></div>
 </div>
 <div id="reading-files-line-by-line" class="section level2">
 <h2><span class="header-section-number">5.12</span> reading files line by line</h2>
 <p>This is handy. Note the line can be broken into a shell array:</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb137-1" data-line-number="1"><span class="co"># this is an example of reading a file in which each row is delimited</span></a>
-<a class="sourceLine" id="cb137-2" data-line-number="2"><span class="co"># by whitespace, the second column is a file name and the the</span></a>
-<a class="sourceLine" id="cb137-3" data-line-number="3"><span class="co"># third column is a number</span></a>
-<a class="sourceLine" id="cb137-4" data-line-number="4"><span class="fu">cat</span> a_file <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> -r <span class="va">line</span>; <span class="kw">do</span> </a>
-<a class="sourceLine" id="cb137-5" data-line-number="5">  <span class="va">A=($line)</span>; </a>
-<a class="sourceLine" id="cb137-6" data-line-number="6">  <span class="va">file=${A[1]}</span>; </a>
-<a class="sourceLine" id="cb137-7" data-line-number="7">  <span class="va">num=${A[2]}</span>; </a>
-<a class="sourceLine" id="cb137-8" data-line-number="8"><span class="kw">done</span></a></code></pre></div>
+<div class="sourceCode" id="cb142"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb142-1" data-line-number="1"><span class="co"># this is an example of reading a file in which each row is delimited</span></a>
+<a class="sourceLine" id="cb142-2" data-line-number="2"><span class="co"># by whitespace, the second column is a file name and the the</span></a>
+<a class="sourceLine" id="cb142-3" data-line-number="3"><span class="co"># third column is a number</span></a>
+<a class="sourceLine" id="cb142-4" data-line-number="4"><span class="fu">cat</span> a_file <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> -r <span class="va">line</span>; <span class="kw">do</span> </a>
+<a class="sourceLine" id="cb142-5" data-line-number="5">  <span class="va">A=($line)</span>; </a>
+<a class="sourceLine" id="cb142-6" data-line-number="6">  <span class="va">file=${A[1]}</span>; </a>
+<a class="sourceLine" id="cb142-7" data-line-number="7">  <span class="va">num=${A[2]}</span>; </a>
+<a class="sourceLine" id="cb142-8" data-line-number="8"><span class="kw">done</span></a></code></pre></div>
 </div>
 <div id="further-reading" class="section level2">
 <h2><span class="header-section-number">5.13</span> Further reading</h2>

@@ -226,7 +226,7 @@ of `cd`, and it will tell you which directory you have returned to.  For example
 ```
 Note the output of `cd -` is the newly-returned-to current working directory.
 
-### Updating your command prompt
+### Updating your command prompt {#comm-prompt}
 
 When you are buzzing around in your filesystem, it is often difficult to remember
 which directory you are in.  You can always type `pwd` to figure that out,
