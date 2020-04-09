@@ -504,7 +504,7 @@ granted to a user.  On some systems, you can request a shell for a certain amoun
 
 
 
-### Batch jobs
+### Batch jobs {#slurm-batch}
 
 After you have tested your bioinformatic scripts in an interactive shell and are ready to
 run them "for real," you will want to launch the script in a non-interactive, or _batch_ job.

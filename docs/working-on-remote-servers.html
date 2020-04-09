@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-07" />
+<meta name="date" content="2020-04-09" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -240,6 +240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7.5" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#installing-software-on-an-hpcc"><i class="fa fa-check"></i><b>7.5</b> Installing Software on an HPCC</a><ul>
 <li class="chapter" data-level="7.5.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#modules"><i class="fa fa-check"></i><b>7.5.1</b> Modules</a></li>
 <li class="chapter" data-level="7.5.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#miniconda"><i class="fa fa-check"></i><b>7.5.2</b> Miniconda</a></li>
+<li class="chapter" data-level="7.5.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#installing-java-programs"><i class="fa fa-check"></i><b>7.5.3</b> Installing Java Programs</a></li>
 </ul></li>
 <li class="chapter" data-level="7.6" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#vim-its-time-to-get-serious-with-text-editing"><i class="fa fa-check"></i><b>7.6</b> <code>vim</code>: it’s time to get serious with text editing</a><ul>
 <li class="chapter" data-level="7.6.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster"><i class="fa fa-check"></i><b>7.6.1</b> Using neovim and Nvim-R and tmux to use R well on the cluster</a></li>
@@ -251,7 +252,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#slurm-info"><i class="fa fa-check"></i><b>8.3</b> Learning about the resources on your HPCC</a></li>
 <li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#getting-compute-resources-allocated-to-your-jobs-on-an-hpcc"><i class="fa fa-check"></i><b>8.4</b> Getting compute resources allocated to your jobs on an HPCC</a><ul>
 <li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#interactive-sessions"><i class="fa fa-check"></i><b>8.4.1</b> Interactive sessions</a></li>
-<li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#batch-jobs"><i class="fa fa-check"></i><b>8.4.2</b> Batch jobs</a></li>
+<li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#slurm-batch"><i class="fa fa-check"></i><b>8.4.2</b> Batch jobs</a></li>
 <li class="chapter" data-level="8.4.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#slurm-job-arrays"><i class="fa fa-check"></i><b>8.4.3</b> SLURM Job Arrays</a></li>
 </ul></li>
 <li class="chapter" data-level="8.5" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#prepation-interlude-an-in-class-exercise-to-make-sure-everything-is-configured-correctly"><i class="fa fa-check"></i><b>8.5</b> PREPATION INTERLUDE: An in-class exercise to make sure everything is configured correctly</a></li>
@@ -1861,19 +1862,228 @@ computing environments; however, it has become an incredibly valuable tool for e
 that your analyses are reproducible: you can give people not just the data and scripts that you
 used for the analysis, but also the computing/software environment (with all the same
 software versions) that you used for the analysis. And, finally, all of this
-can be done with Miniconda without have administrative privileges. Effectively,
+can be done with Miniconda without having administrative privileges. Effectively,
 Miniconda manages all these software programs and dependencies <em>within your home directory</em>.
 Section <a href="working-on-remote-servers.html#miniconda">7.5.2</a> provides details about Miniconda and describes how to use it
 to install bioinformatics software.</p>
 <div id="modules" class="section level3">
 <h3><span class="header-section-number">7.5.1</span> Modules</h3>
-<p>(not written)</p>
-<p>This is if your sys admin has made it easy.</p>
-<p>The big point I must make here is that these don’t work like conda environments.
-Environments are “all-or-nothing,” whereas modules are “cumulative” and can be
-layered atop one another. (If doing so creates conflicts, then the sysadmins have to
-figure that out…perhaps this is one reason that modules will often carry older (if not
-completely antiquated) versions of software.)</p>
+<p>The easiest way to install software on a remote computer of HPCC is to have someone
+else do it! On HPCCs it is common for the system administrators to install software into
+different “compartments” using the <code>module</code> utility. This allows for a large number of
+different software packages to be “pre-installed” on the computer, but the software
+is not accessible/usable until the user explicitly asks for the software to be made
+available in a shell. Users ask for software to be made available in the shell
+with the <code>module load</code> <em>modulefile</em> command. The main action of such a command is to
+modify the user’s PATH variable to include the software’s location. (Sometimes, additional
+shell environment variables are set). By managing software in this way, system administrators
+can keep dependency conflicts
+between different software programs that are seldom used together from causing problems.</p>
+<p>If you work on an HPCC with administrators who are attuned to people doing bioinformatic
+work, then all the software you might need could alread be available using in modules. To
+see what software is available you can use <code>module avail</code>. For example, on the SEDNA cluster
+which was developed for genomic research, <code>module avail</code> shows a wide range of different
+software specific to sequence assembly, alignment, and analysis:</p>
+<div class="sourceCode" id="cb239"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb239-1" data-line-number="1"><span class="ex">%</span> module avail</a>
+<a class="sourceLine" id="cb239-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb239-3" data-line-number="3"><span class="ex">-------------------------</span> /usr/share/Modules/modulefiles --------------------------</a>
+<a class="sourceLine" id="cb239-4" data-line-number="4"><span class="ex">dot</span>         module-git  module-info modules     null        use.own</a>
+<a class="sourceLine" id="cb239-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb239-6" data-line-number="6"><span class="ex">--------------------------------</span> /act/modulefiles ---------------------------------</a>
+<a class="sourceLine" id="cb239-7" data-line-number="7"><span class="ex">impi</span>                mvapich2-2.2/gcc    openmpi-1.8/gcc     openmpi-3.0.1/gcc</a>
+<a class="sourceLine" id="cb239-8" data-line-number="8"><span class="ex">intel</span>               mvapich2-2.2/intel  openmpi-1.8/intel   openmpi-3.0.1/intel</a>
+<a class="sourceLine" id="cb239-9" data-line-number="9"><span class="ex">mpich/gcc</span>           openmpi-1.6/gcc     openmpi-2.1.3/gcc</a>
+<a class="sourceLine" id="cb239-10" data-line-number="10"><span class="ex">mpich/intel</span>         openmpi-1.6/intel   openmpi-2.1.3/intel</a>
+<a class="sourceLine" id="cb239-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb239-12" data-line-number="12"><span class="ex">-------------------------</span> /opt/bioinformatics/modulefiles -------------------------</a>
+<a class="sourceLine" id="cb239-13" data-line-number="13"><span class="ex">aligners/bowtie2/2.3.5.1</span> bio/fastqc/0.11.9        bio/stacks/2.5</a>
+<a class="sourceLine" id="cb239-14" data-line-number="14"><span class="ex">aligners/bwa/0.7.17</span>      bio/gatk/4.1.5.0         compilers/gcc/4.9.4</a>
+<a class="sourceLine" id="cb239-15" data-line-number="15"><span class="ex">assemblers/trinity/2.9.1</span> bio/hmmer/3.2.1          compilers/gcc/8.3.0</a>
+<a class="sourceLine" id="cb239-16" data-line-number="16"><span class="ex">bio/angsd/0.931</span>          bio/jellyfish/2.3.0      lib64/mpc-1.1.0</a>
+<a class="sourceLine" id="cb239-17" data-line-number="17"><span class="ex">bio/augustus/3.2.3</span>       bio/mothur/1.43.0        R/3.6.2</a>
+<a class="sourceLine" id="cb239-18" data-line-number="18"><span class="ex">bio/bamtools/2.5.1</span>       bio/picard/2.22.0        tools/cmake/3.16.4</a>
+<a class="sourceLine" id="cb239-19" data-line-number="19"><span class="ex">bio/bcftools/1.10.2</span>      bio/prodigal/2.6.3       tools/pigz/2.4</a>
+<a class="sourceLine" id="cb239-20" data-line-number="20"><span class="ex">bio/blast/2.10.0+</span>        bio/salmon/1.1.0</a>
+<a class="sourceLine" id="cb239-21" data-line-number="21"><span class="ex">bio/blast/2.2.31+</span>        bio/samtools/1.10</a></code></pre></div>
+<p>Most of the bioinformatics tools are stored in the directory
+<code>/opt/bioinformatics/modulefiles</code>, which is not a standard storage location for
+modules, so, if you are using SEDNA, and you want to use these modules,
+you must include that path in the <code>MODULEPATH</code> shell environment variable.
+This can be done by updating the <code>MODULEPATH</code> in your <code>~/.bashrc</code> file, adding
+the line:</p>
+<div class="sourceCode" id="cb240"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb240-1" data-line-number="1"><span class="bu">export</span> <span class="va">MODULEPATH=${MODULEPATH}</span>:/opt/bioinformatics/modulefiles</a></code></pre></div>
+<p>Once that is accomplished, every time you open a new shell, your <code>MODULEPATH</code> will be
+set appropriately.</p>
+<p>If you work on an HPCC that is not heavily focused on bioinformatics (for example, the SUMMIT
+supercomputer at UC Boulder) then you might not find any bioinformatics utilities available in
+the modules. You will then have to install your own software as described in
+Section <a href="working-on-remote-servers.html#miniconda">7.5.2</a>; however, you will still be able to use the modules system
+to run java-based programs, so it is good to understand the <code>module</code> command.</p>
+<p>The <code>module</code> command has a large number of subcommands which are invoked
+with a word immediately following the <code>module</code> command. We have already seen
+how <code>module avail</code> lists the available modules. The other most important commands
+appear in Table <a href="working-on-remote-servers.html#tab:module">7.3</a>.</p>
+<table style="width:79%;">
+<caption><span id="tab:module">TABLE 7.3: </span> Important subcommands used with <code>module</code>. In the following, <em>modulefile</em>, where it appears, refers to the name of a modulefile.</caption>
+<colgroup>
+<col width="33%" />
+<col width="45%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Module Subcommand</th>
+<th align="left">What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><code>avail</code></td>
+<td align="left">Lists available modules (i.e.,
+software that can be loaded as
+a module)</td>
+</tr>
+<tr class="even">
+<td align="left"><code>add</code> <em>modulefile</em></td>
+<td align="left">same as <code>load</code> <em>modulefile</em></td>
+</tr>
+<tr class="odd">
+<td align="left"><code>list</code></td>
+<td align="left">list all currently loaded
+modulefiles.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>load</code> <em>modulefile</em></td>
+<td align="left">add the necessary ingredients
+to one’s shell to be able to
+run the programs contained in
+<em>modulefile</em>.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>purge</code></td>
+<td align="left">unload all the currently
+loaded modulefiles.</td>
+</tr>
+<tr class="even">
+<td align="left"><code>rm</code> <em>modulefile</em></td>
+<td align="left">same as <code>unload</code> <em>modulefile</em>.</td>
+</tr>
+<tr class="odd">
+<td align="left"><code>show</code> <em>modulefile</em></td>
+<td align="left">describe the <em>modulefile</em> and
+the changes to the PATH and
+other shell evironment
+variables that occur when
+loading the <em>modulefile</em></td>
+</tr>
+<tr class="even">
+<td align="left"><code>unload</code> <em>modulefile</em></td>
+<td align="left">reverse the changes made to
+the shell environment made by
+<code>load</code> <em>modulefile</em></td>
+</tr>
+</tbody>
+</table>
+<p>Let’s play with the modulefiles (if any) on your HPCC! First, get an interactive session
+on a compute node. On SUMMIT:</p>
+<div class="sourceCode" id="cb241"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb241-1" data-line-number="1"> <span class="ex">srun</span> --partition=shas-interactive --export=ALL --pty /bin/bash</a></code></pre></div>
+<p>Then list the modulefiles available:</p>
+<div class="sourceCode" id="cb242"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb242-1" data-line-number="1"><span class="ex">module</span> avail</a></code></pre></div>
+<p>You might notice that multiple versions of some programs are available, like:</p>
+<pre><code>R/3.3.0
+R/3.4.3
+R/3.5.0</code></pre>
+<p>In such a case, the latest version is typically the default version that will be loaded
+when you request that a program modulefile be loaded, though you can specifically
+request that a particular version be loaded. On SUMMIT, check to make sure that the R program
+is not available by default:</p>
+<div class="sourceCode" id="cb244"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb244-1" data-line-number="1"><span class="co"># try to launch R</span></a>
+<a class="sourceLine" id="cb244-2" data-line-number="2"><span class="ex">R</span></a></code></pre></div>
+<p>You should be told:</p>
+<pre><code>bash: R: command not found</code></pre>
+<p>If not, you may have already loaded the R modulefile, or you might have R available from
+an activated <code>conda</code> environment (see below).</p>
+<p>To make R available via <code>module</code> you use:</p>
+<div class="sourceCode" id="cb246"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb246-1" data-line-number="1"><span class="ex">module</span> load R</a>
+<a class="sourceLine" id="cb246-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb246-3" data-line-number="3"><span class="co"># now check to see if it works:</span></a>
+<a class="sourceLine" id="cb246-4" data-line-number="4"><span class="ex">R</span></a>
+<a class="sourceLine" id="cb246-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb246-6" data-line-number="6"><span class="co"># check the version number when it launches</span></a>
+<a class="sourceLine" id="cb246-7" data-line-number="7"><span class="co"># to get out of R, type: quit()  and hit RETURN</span></a></code></pre></div>
+<p>To list the active modulefiles, try:</p>
+<div class="sourceCode" id="cb247"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb247-1" data-line-number="1"><span class="ex">module</span> list</a></code></pre></div>
+<p>This is quite interesting. It shows that several other modulefiles,
+above and beyond R,
+have been loaded as well. These are additional dependencies that the R module
+depends on.</p>
+<p>To remove all the modulefiles that have been loaded, do:</p>
+<div class="sourceCode" id="cb248"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb248-1" data-line-number="1"><span class="ex">module</span> purge</a>
+<a class="sourceLine" id="cb248-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb248-3" data-line-number="3"><span class="co"># after that, check to see that no modules are currently loaded:</span></a>
+<a class="sourceLine" id="cb248-4" data-line-number="4"><span class="ex">module</span> list</a></code></pre></div>
+<p>If you are curious about what happens when a module file is loaded,
+you can use the <code>show</code> subcommand, as in <code>module show</code> <em>modulefile</em>:</p>
+<div class="sourceCode" id="cb249"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb249-1" data-line-number="1"><span class="ex">module</span> show R</a></code></pre></div>
+<p>The output is quite informative.</p>
+<p>To get a different version of a program available from <code>module</code>, just
+include the modulefile with its version number as it appears when printed
+from <code>module avail</code>, like:</p>
+<div class="sourceCode" id="cb250"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb250-1" data-line-number="1"><span class="ex">module</span> load R/3.3.0</a>
+<a class="sourceLine" id="cb250-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb250-3" data-line-number="3"><span class="co"># check to see which modulefiles got loaded:</span></a>
+<a class="sourceLine" id="cb250-4" data-line-number="4"><span class="ex">module</span> list  </a>
+<a class="sourceLine" id="cb250-5" data-line-number="5"><span class="co"># aha! this version of R goes with a different version of the</span></a>
+<a class="sourceLine" id="cb250-6" data-line-number="6"><span class="co"># intel compiler...</span></a>
+<a class="sourceLine" id="cb250-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb250-8" data-line-number="8"><span class="co"># check the version number of R by running it:</span></a>
+<a class="sourceLine" id="cb250-9" data-line-number="9"><span class="ex">R</span></a>
+<a class="sourceLine" id="cb250-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb250-11" data-line-number="11"><span class="co"># use quit() to get out of R.</span></a></code></pre></div>
+<p>Once again, purge your modulefiles:</p>
+<div class="sourceCode" id="cb251"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb251-1" data-line-number="1"><span class="ex">module</span> purge</a></code></pre></div>
+<p>and then try to give the <code>java</code> command:</p>
+<div class="sourceCode" id="cb252"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb252-1" data-line-number="1"><span class="ex">java</span></a></code></pre></div>
+<p>You should be told that the command <code>java</code> is not found.</p>
+<p>There are several useful bioinformatics programs that are written in Java.
+Java is a language that can run on many different computer architectures
+<em>without being specifically compiled</em> for that architecture. However, in order to
+run a program written in Java, the computer must have a “Java Runtime Environment” or JRE.
+Running the <code>java</code> command above and having no luck shows that by default, SUMMIT (and most
+supercomputers) do not have a JRE available by default. However, almost all HPCCs will
+have a JRE available as in a modulefile containing the Java Development Kit, or JDK.</p>
+<p>Look at the output of <code>module avail</code> and find <code>jdk</code>, then load that modulefile:</p>
+<div class="sourceCode" id="cb253"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb253-1" data-line-number="1"><span class="ex">module</span> load jdk</a>
+<a class="sourceLine" id="cb253-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb253-3" data-line-number="3"><span class="co"># after that, check to see if java is available:</span></a>
+<a class="sourceLine" id="cb253-4" data-line-number="4"><span class="ex">java</span></a></code></pre></div>
+<p>You will need to load the <code>jdk</code> module file in order to run the Java-based bioinformatics
+program called GATK.</p>
+<p>Note that every time you get a start a new shell on your HPCC, you will typically not have
+any modulefiles loaded (or will only have a few default modulefiles loaded). For this reason
+it is important, when you submit jobs using SLURM (see Section <a href="high-performance-computing-clusters-hpccs.html#slurm-batch">8.4.2</a>) that
+require modulefiles, the <code>module load</code> <em>modulefile</em> command for those modules should appear
+within the script submitted to SLURM.</p>
+<p>Finally, we will note that the <code>module</code> utility works somewhat differently than the
+<code>conda</code> environments described in the next section. Namely, <code>conda</code> environments
+are “all-or-nothing” environments that include different programs. You can’t activate
+a <code>conda</code> environment, and then add more programs to it by activating another
+<code>conda</code> environment “on top of” the previous one. Rather, when activating a <code>conda</code>
+environment, the configurations of any existing, activated environment are completely
+discarded. By contrast, modulefiles can be layered on top of one another. So, for example,
+if you needed <code>R</code>, <code>samtools</code>, and <code>bcftools</code>, and these were all maintained in
+separate modulefiles on your HPCC, then you could load them all, alongside one another,
+with:</p>
+<div class="sourceCode" id="cb254"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb254-1" data-line-number="1"><span class="ex">module</span> load R</a>
+<a class="sourceLine" id="cb254-2" data-line-number="2"><span class="ex">module</span> load samtools</a>
+<a class="sourceLine" id="cb254-3" data-line-number="3"><span class="ex">module</span> load bcftools</a></code></pre></div>
+<p>Unlike a Miniconda environment, when you layer modulefiles no top of one another
+like this, conflicts between the dependencies may occur. When that happens,
+it is up to the sysadmins to figure it out. This is perhaps why the modulefiles
+on a typical HPCC may often carry older (if not
+completely antiquated) versions of software. In general, if you want to run
+newer versions of software on your HPCC, you will often have to install it yourself.
+Doing so has traditionally been difficult, but a packages management system called
+Miniconda has made it considerably easier today.</p>
 </div>
 <div id="miniconda" class="section level3">
 <h3><span class="header-section-number">7.5.2</span> Miniconda</h3>
@@ -1885,31 +2095,31 @@ the underlying philosophy of Miniconda, and how it is operating.</p>
 <ol style="list-style-type: decimal">
 <li><p>To do installation of software, you probably should not be on SUMMIT’s login nodes.
 They offer “compile nodes” that should be suitable for installing with Miniconda. So, do this:</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb239-1" data-line-number="1"><span class="fu">ssh</span> scompile</a></code></pre></div></li>
+<div class="sourceCode" id="cb255"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb255-1" data-line-number="1"><span class="fu">ssh</span> scompile</a></code></pre></div></li>
 <li><p>If you are on Hummingbird, be sure to get a <code>bash</code> shell before doing anything else, by typing <code>bash</code>
 (if you have not already set <code>bash</code> as your default shell (see the previous chapter)).</p></li>
 <li><p>First, check if you have Miniconda. Update it if you do, and install it if you don’t:</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb240-1" data-line-number="1"><span class="co"># just type conda at the command line:</span></a>
-<a class="sourceLine" id="cb240-2" data-line-number="2"><span class="ex">conda</span></a></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb256-1" data-line-number="1"><span class="co"># just type conda at the command line:</span></a>
+<a class="sourceLine" id="cb256-2" data-line-number="2"><span class="ex">conda</span></a></code></pre></div>
 <p>If you see some help information, then you already have Miniconda (or Anaconda) and you
 should merely update it with:</p>
-<div class="sourceCode" id="cb241"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb241-1" data-line-number="1"><span class="ex">conda</span> update conda</a></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb257-1" data-line-number="1"><span class="ex">conda</span> update conda</a></code></pre></div>
 <p>If you get an error telling you that your computer does not know about a command, <code>conda</code>, then
 you do not have Miniconda and you must install it. You do that by downloading the Miniconda package
 with <code>wget</code> and then running the Miniconda installer, like this:</p>
-<div class="sourceCode" id="cb242"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb242-1" data-line-number="1"><span class="co"># start in your home directory and do the following:</span></a>
-<a class="sourceLine" id="cb242-2" data-line-number="2"><span class="fu">mkdir</span> conda_install</a>
-<a class="sourceLine" id="cb242-3" data-line-number="3"><span class="bu">cd</span> conda_install/</a>
-<a class="sourceLine" id="cb242-4" data-line-number="4"><span class="fu">wget</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</a>
-<a class="sourceLine" id="cb242-5" data-line-number="5"><span class="fu">chmod</span> u+x Miniconda3-latest-Linux-x86_64.sh </a>
-<a class="sourceLine" id="cb242-6" data-line-number="6"><span class="ex">./Miniconda3-latest-Linux-x86_64.sh</span> </a></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb258-1" data-line-number="1"><span class="co"># start in your home directory and do the following:</span></a>
+<a class="sourceLine" id="cb258-2" data-line-number="2"><span class="fu">mkdir</span> conda_install</a>
+<a class="sourceLine" id="cb258-3" data-line-number="3"><span class="bu">cd</span> conda_install/</a>
+<a class="sourceLine" id="cb258-4" data-line-number="4"><span class="fu">wget</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</a>
+<a class="sourceLine" id="cb258-5" data-line-number="5"><span class="fu">chmod</span> u+x Miniconda3-latest-Linux-x86_64.sh </a>
+<a class="sourceLine" id="cb258-6" data-line-number="6"><span class="ex">./Miniconda3-latest-Linux-x86_64.sh</span> </a></code></pre></div>
 <p>That launches the Miniconda installer (it is a shell script). Follow the prompts and agree
 to the license and to the default install location and to initialize conda.
 At the end, it tells you to log out of your shell and log back in for changes to take
 effect. It turns out that it suffices to do <code>cd ~; source .bash_profile</code></p></li>
 </ol>
 <p>Once you complete the above, your command prompt should have been changed to something that looks like:</p>
-<div class="sourceCode" id="cb243"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb243-1" data-line-number="1"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span></a></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb259-1" data-line-number="1"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span></a></code></pre></div>
 <p>The <code>(base)</code> is telling you that you are in Miniconda’s <em>base</em> environment. Typically you want to keep the
 <em>base</em> environment clean of installed software, so we will install software into a new environment.</p>
 </div>
@@ -1920,17 +2130,17 @@ install some software for bioinformatics. We will install a few programs that we
 use extensively in the next few weeks: <code>bwa</code>, <code>samtools</code>, and <code>bcftools</code>. We will
 install these programs into a conda environment that we will name <code>bioinf</code> (short
 for “bioinformatics”). It takes just a single command:</p>
-<div class="sourceCode" id="cb244"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb244-1" data-line-number="1"><span class="ex">conda</span> create -n bioinf -c bioconda bwa samtools bcftools</a></code></pre></div>
+<div class="sourceCode" id="cb260"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb260-1" data-line-number="1"><span class="ex">conda</span> create -n bioinf -c bioconda bwa samtools bcftools</a></code></pre></div>
 <p>That should only take a few seconds.</p>
 <p>To test that we got the programs we must <em>activate</em> the <code>bioinf</code> environment, and then issue
 the commands, <code>bwa</code>, <code>samtools</code>, and <code>bcftools</code>. Each of those should spit back some help
 information. If so, that means they are installed correctly! It looks like this:</p>
-<div class="sourceCode" id="cb245"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb245-1" data-line-number="1"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
+<div class="sourceCode" id="cb261"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb261-1" data-line-number="1"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
 <p>After that you should get a command prompt that starts with <code>(bioinf)</code>, telling you that the
 active conda environment is <code>bioinf</code>. Now, try these commands:</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb246-1" data-line-number="1"><span class="ex">bwa</span></a>
-<a class="sourceLine" id="cb246-2" data-line-number="2"><span class="ex">samtools</span></a>
-<a class="sourceLine" id="cb246-3" data-line-number="3"><span class="ex">bcftools</span></a></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb262-1" data-line-number="1"><span class="ex">bwa</span></a>
+<a class="sourceLine" id="cb262-2" data-line-number="2"><span class="ex">samtools</span></a>
+<a class="sourceLine" id="cb262-3" data-line-number="3"><span class="ex">bcftools</span></a></code></pre></div>
 </div>
 <div id="uninstalling-miniconda-and-its-associated-environments" class="section level4">
 <h4><span class="header-section-number">7.5.2.3</span> Uninstalling Miniconda and its associated environments</h4>
@@ -1951,24 +2161,24 @@ called <code>/projects/username</code> where <code>username</code> is replaced b
 for example: <code>/projects/eriq@colostate.edu</code></p>
 <p>To “uninstall” Miniconda, you first must delete the <code>miniconda3</code> directory in your
 home directory (if that is where it got installed to). This can take a while. It is done with:</p>
-<div class="sourceCode" id="cb247"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb247-1" data-line-number="1"><span class="fu">rm</span> -rf ~/miniconda3</a></code></pre></div>
+<div class="sourceCode" id="cb263"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb263-1" data-line-number="1"><span class="fu">rm</span> -rf ~/miniconda3</a></code></pre></div>
 <p>Then you have to delete the lines between <code># &gt;&gt;&gt;</code> and <code># &lt;&lt;&lt;</code>, wherever they occur in your <code>~/.bashrc</code> and <code>~/bash_profile</code>
 files, i.e., you will have to remove all of the lines that look
 something like thius:</p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb248-1" data-line-number="1"><span class="co"># &gt;&gt;&gt; conda initialize &gt;&gt;&gt;</span></a>
-<a class="sourceLine" id="cb248-2" data-line-number="2"><span class="co"># !! Contents within this block are managed by &#39;conda init&#39; !!</span></a>
-<a class="sourceLine" id="cb248-3" data-line-number="3"><span class="va">__conda_setup=</span><span class="st">&quot;</span><span class="va">$(</span><span class="st">&#39;/Users/eriq/miniconda3/bin/conda&#39;</span> <span class="st">&#39;shell.bash&#39;</span> <span class="st">&#39;hook&#39;</span> <span class="op">2&gt;</span> <span class="ex">/dev/null</span><span class="va">)</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb248-4" data-line-number="4"><span class="kw">if</span><span class="bu"> [</span> <span class="va">$?</span> <span class="ot">-eq</span> 0<span class="bu"> ]</span>; <span class="kw">then</span></a>
-<a class="sourceLine" id="cb248-5" data-line-number="5">    <span class="bu">eval</span> <span class="st">&quot;</span><span class="va">$__conda_setup</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb248-6" data-line-number="6"><span class="kw">else</span></a>
-<a class="sourceLine" id="cb248-7" data-line-number="7">    <span class="kw">if</span><span class="bu"> [</span> <span class="ot">-f</span> <span class="st">&quot;/Users/eriq/miniconda3/etc/profile.d/conda.sh&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></a>
-<a class="sourceLine" id="cb248-8" data-line-number="8">        <span class="bu">.</span> <span class="st">&quot;/Users/eriq/miniconda3/etc/profile.d/conda.sh&quot;</span></a>
-<a class="sourceLine" id="cb248-9" data-line-number="9">    <span class="kw">else</span></a>
-<a class="sourceLine" id="cb248-10" data-line-number="10">        <span class="bu">export</span> <span class="va">PATH=</span><span class="st">&quot;/Users/eriq/miniconda3/bin:</span><span class="va">$PATH</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb248-11" data-line-number="11">    <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb248-12" data-line-number="12"><span class="kw">fi</span></a>
-<a class="sourceLine" id="cb248-13" data-line-number="13"><span class="bu">unset</span> <span class="va">__conda_setup</span></a>
-<a class="sourceLine" id="cb248-14" data-line-number="14"><span class="co"># &lt;&lt;&lt; conda initialize &lt;&lt;&lt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb264-1" data-line-number="1"><span class="co"># &gt;&gt;&gt; conda initialize &gt;&gt;&gt;</span></a>
+<a class="sourceLine" id="cb264-2" data-line-number="2"><span class="co"># !! Contents within this block are managed by &#39;conda init&#39; !!</span></a>
+<a class="sourceLine" id="cb264-3" data-line-number="3"><span class="va">__conda_setup=</span><span class="st">&quot;</span><span class="va">$(</span><span class="st">&#39;/Users/eriq/miniconda3/bin/conda&#39;</span> <span class="st">&#39;shell.bash&#39;</span> <span class="st">&#39;hook&#39;</span> <span class="op">2&gt;</span> <span class="ex">/dev/null</span><span class="va">)</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb264-4" data-line-number="4"><span class="kw">if</span><span class="bu"> [</span> <span class="va">$?</span> <span class="ot">-eq</span> 0<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb264-5" data-line-number="5">    <span class="bu">eval</span> <span class="st">&quot;</span><span class="va">$__conda_setup</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb264-6" data-line-number="6"><span class="kw">else</span></a>
+<a class="sourceLine" id="cb264-7" data-line-number="7">    <span class="kw">if</span><span class="bu"> [</span> <span class="ot">-f</span> <span class="st">&quot;/Users/eriq/miniconda3/etc/profile.d/conda.sh&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb264-8" data-line-number="8">        <span class="bu">.</span> <span class="st">&quot;/Users/eriq/miniconda3/etc/profile.d/conda.sh&quot;</span></a>
+<a class="sourceLine" id="cb264-9" data-line-number="9">    <span class="kw">else</span></a>
+<a class="sourceLine" id="cb264-10" data-line-number="10">        <span class="bu">export</span> <span class="va">PATH=</span><span class="st">&quot;/Users/eriq/miniconda3/bin:</span><span class="va">$PATH</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb264-11" data-line-number="11">    <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb264-12" data-line-number="12"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb264-13" data-line-number="13"><span class="bu">unset</span> <span class="va">__conda_setup</span></a>
+<a class="sourceLine" id="cb264-14" data-line-number="14"><span class="co"># &lt;&lt;&lt; conda initialize &lt;&lt;&lt;</span></a></code></pre></div>
 <p>After all those conda lines are removed from your <code>~/.bashrc</code> and <code>~/bash_profile</code>, logging out
 and logging back in, you should be free from conda and ready to reinstall it in
 a different location.</p>
@@ -1983,7 +2193,7 @@ the cluster, then you might want to make an environment with some bioinformatics
 that also has
 the latest version of R on miniconda installed. At the time of writing that was R 3.6.1. So,
 do:</p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb249-1" data-line-number="1"><span class="ex">conda</span> create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials</a></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb265-1" data-line-number="1"><span class="ex">conda</span> create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials</a></code></pre></div>
 <p>That makes an environment called <code>binfr</code> (which turns out to also be <strong>way</strong> easier to type that <code>bioinfr</code>).
 The <code>r-essentials</code> in the above command line is the name for a collection of 200 commonly used R packages (including
 the <code>tidyverse</code>). This procedure takes a little while, but it is still far less painful than using the
@@ -2022,14 +2232,14 @@ within the <code>miniconda3/envs</code> directory. An easy way to see this is si
 inspecting your path variable while in different environments. Here we compare the PATH
 variable in the <code>base</code> environment, versus in the <code>bioinf</code> environment, versus in the
 <code>binfr</code> environment:</p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb250-1" data-line-number="1"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> echo <span class="va">$PATH</span></a>
-<a class="sourceLine" id="cb250-2" data-line-number="2"><span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/bin:<span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/condabin:<span class="ex">/usr/local</span>/bin:/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr/local</span>/sbin:<span class="ex">/usr</span>/sbin:<span class="ex">/home/eriq@colostate.edu</span>/bin:<span class="ex">/home/eriq@colostate.edu/bin</span></a>
-<a class="sourceLine" id="cb250-3" data-line-number="3"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> conda activate bioinf</a>
-<a class="sourceLine" id="cb250-4" data-line-number="4"><span class="kw">(</span><span class="ex">bioinf</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> echo <span class="va">$PATH</span></a>
-<a class="sourceLine" id="cb250-5" data-line-number="5"><span class="ex">/projects/eriq@colostate.edu/miniconda3/envs/bioinf</span>/bin:<span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/condabin:<span class="ex">/usr/local</span>/bin:/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr/local</span>/sbin:<span class="ex">/usr</span>/sbin:<span class="ex">/home/eriq@colostate.edu</span>/bin:<span class="ex">/home/eriq@colostate.edu/bin</span></a>
-<a class="sourceLine" id="cb250-6" data-line-number="6"><span class="kw">(</span><span class="ex">bioinf</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> conda activate binfr</a>
-<a class="sourceLine" id="cb250-7" data-line-number="7"><span class="kw">(</span><span class="ex">binfr</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> echo <span class="va">$PATH</span></a>
-<a class="sourceLine" id="cb250-8" data-line-number="8"><span class="ex">/projects/eriq@colostate.edu/miniconda3/envs/binfr</span>/bin:<span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/condabin:<span class="ex">/usr/local</span>/bin:/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr/local</span>/sbin:<span class="ex">/usr</span>/sbin:<span class="ex">/home/eriq@colostate.edu</span>/bin:<span class="ex">/home/eriq@colostate.edu/bin</span></a></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb266-1" data-line-number="1"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> echo <span class="va">$PATH</span></a>
+<a class="sourceLine" id="cb266-2" data-line-number="2"><span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/bin:<span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/condabin:<span class="ex">/usr/local</span>/bin:/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr/local</span>/sbin:<span class="ex">/usr</span>/sbin:<span class="ex">/home/eriq@colostate.edu</span>/bin:<span class="ex">/home/eriq@colostate.edu/bin</span></a>
+<a class="sourceLine" id="cb266-3" data-line-number="3"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> conda activate bioinf</a>
+<a class="sourceLine" id="cb266-4" data-line-number="4"><span class="kw">(</span><span class="ex">bioinf</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> echo <span class="va">$PATH</span></a>
+<a class="sourceLine" id="cb266-5" data-line-number="5"><span class="ex">/projects/eriq@colostate.edu/miniconda3/envs/bioinf</span>/bin:<span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/condabin:<span class="ex">/usr/local</span>/bin:/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr/local</span>/sbin:<span class="ex">/usr</span>/sbin:<span class="ex">/home/eriq@colostate.edu</span>/bin:<span class="ex">/home/eriq@colostate.edu/bin</span></a>
+<a class="sourceLine" id="cb266-6" data-line-number="6"><span class="kw">(</span><span class="ex">bioinf</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> conda activate binfr</a>
+<a class="sourceLine" id="cb266-7" data-line-number="7"><span class="kw">(</span><span class="ex">binfr</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> echo <span class="va">$PATH</span></a>
+<a class="sourceLine" id="cb266-8" data-line-number="8"><span class="ex">/projects/eriq@colostate.edu/miniconda3/envs/binfr</span>/bin:<span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/condabin:<span class="ex">/usr/local</span>/bin:/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr/local</span>/sbin:<span class="ex">/usr</span>/sbin:<span class="ex">/home/eriq@colostate.edu</span>/bin:<span class="ex">/home/eriq@colostate.edu/bin</span></a></code></pre></div>
 <p>(To be sure, <code>miniconda</code> can change a few more things than just your PATH variable when you activate an environment, but
 for the typical user, the changes to PATH are most important.)</p>
 </div>
@@ -2045,11 +2255,11 @@ applied to the <code>conda create</code> commands above. That options tells cond
 the Bioconda channel for programs and packages.</p>
 <p>Here, you can try searching for a couple of packages that you might
 end up using to analyze genomic data:</p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb251-1" data-line-number="1"><span class="ex">conda</span> search -c bioconda plink</a>
-<a class="sourceLine" id="cb251-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb251-3" data-line-number="3"><span class="co"># and next:</span></a>
-<a class="sourceLine" id="cb251-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb251-5" data-line-number="5"><span class="ex">conda</span> search -c bioconda angsd</a></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb267-1" data-line-number="1"><span class="ex">conda</span> search -c bioconda plink</a>
+<a class="sourceLine" id="cb267-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb267-3" data-line-number="3"><span class="co"># and next:</span></a>
+<a class="sourceLine" id="cb267-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb267-5" data-line-number="5"><span class="ex">conda</span> search -c bioconda angsd</a></code></pre></div>
 </div>
 <div id="can-i-add-more-programs-to-an-environment" class="section level4">
 <h4><span class="header-section-number">7.5.2.6</span> Can I add more programs to an environment?</h4>
@@ -2061,24 +2271,24 @@ want to analyze some of the data with <code>angsd</code> or <code>plink</code>. 
 <li>Activate the environment you wish to add the programs to (i.e. <code>conda activate bioinf</code> for example).</li>
 <li><p>Then use <code>conda install</code>. For example to install specific versions of <code>plink</code> and <code>angsd</code> that we
 saw above while searching for those packages we might do:</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb252-1" data-line-number="1"><span class="ex">conda</span> install -c bioconda plink=1.90b6.12 angsd=0.931</a></code></pre></div></li>
+<div class="sourceCode" id="cb268"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb268-1" data-line-number="1"><span class="ex">conda</span> install -c bioconda plink=1.90b6.12 angsd=0.931</a></code></pre></div></li>
 </ol>
 <p>Now, the longer answer is “Yes, but…” The big “but” there occurs because if different
 programs require the same dependencies, but rely on different versions of the dependencies,
 installing programs over different commands can cause miniconda to not identify some
 incompatibilities between program dependencies. A germane example occurs if you first install
 <code>samtools</code> into an environment, and then, after that, you install <code>bcftools</code>, like this:</p>
-<div class="sourceCode" id="cb253"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb253-1" data-line-number="1"><span class="ex">conda</span> create -n samtools-first        # create an empty environment</a>
-<a class="sourceLine" id="cb253-2" data-line-number="2"><span class="ex">conda</span> activate samtools-first         # activate the environment</a>
-<a class="sourceLine" id="cb253-3" data-line-number="3"><span class="ex">conda</span> install -c bioconda samtools    # install samtools</a>
-<a class="sourceLine" id="cb253-4" data-line-number="4"><span class="ex">conda</span> install -c bioconda bcftools    # install bcftools</a>
-<a class="sourceLine" id="cb253-5" data-line-number="5"><span class="ex">bcftools</span>                              # try running bcftools</a></code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb269-1" data-line-number="1"><span class="ex">conda</span> create -n samtools-first        # create an empty environment</a>
+<a class="sourceLine" id="cb269-2" data-line-number="2"><span class="ex">conda</span> activate samtools-first         # activate the environment</a>
+<a class="sourceLine" id="cb269-3" data-line-number="3"><span class="ex">conda</span> install -c bioconda samtools    # install samtools</a>
+<a class="sourceLine" id="cb269-4" data-line-number="4"><span class="ex">conda</span> install -c bioconda bcftools    # install bcftools</a>
+<a class="sourceLine" id="cb269-5" data-line-number="5"><span class="ex">bcftools</span>                              # try running bcftools</a></code></pre></div>
 <p>When you try running the last line, <code>bcftools</code> barfs on you like so:</p>
-<div class="sourceCode" id="cb254"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb254-1" data-line-number="1"><span class="ex">bcftools</span>: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory</a></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb270-1" data-line-number="1"><span class="ex">bcftools</span>: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory</a></code></pre></div>
 <p>So, often, installing extra programs does not create problems, but it can. If you find yourself battling
 errors from conda-installed programs, see if you can correct that by creating a new environment and installing all the programs
 you want at the same time, in one fell swoop, using <code>conda create</code>, as in:</p>
-<div class="sourceCode" id="cb255"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb255-1" data-line-number="1"><span class="ex">conda</span> create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials</a></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb271-1" data-line-number="1"><span class="ex">conda</span> create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials</a></code></pre></div>
 </div>
 <div id="exporting-environments" class="section level4">
 <h4><span class="header-section-number">7.5.2.7</span> Exporting environments</h4>
@@ -2094,9 +2304,9 @@ exactly how to recreate that environment.</p>
 environment. Here we demonstrate its use by exporting the <code>bioinf</code>
 environment from SUMMIT to a simple text file. Then we use that text file
 to recreate the environment on my laptop.</p>
-<div class="sourceCode" id="cb256"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb256-1" data-line-number="1"><span class="co"># on summit:</span></a>
-<a class="sourceLine" id="cb256-2" data-line-number="2"><span class="ex">conda</span> activate bioinf          # activate the environment</a>
-<a class="sourceLine" id="cb256-3" data-line-number="3"><span class="ex">conda</span> env export               # export the environment</a></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb272-1" data-line-number="1"><span class="co"># on summit:</span></a>
+<a class="sourceLine" id="cb272-2" data-line-number="2"><span class="ex">conda</span> activate bioinf          # activate the environment</a>
+<a class="sourceLine" id="cb272-3" data-line-number="3"><span class="ex">conda</span> env export               # export the environment</a></code></pre></div>
 <p>The last command above just sends the exported environment
 to stdout, looking like this:</p>
 <pre><code>name: bioinf
@@ -2129,29 +2339,146 @@ prefix: /projects/eriq@colostate.edu/miniconda3/envs/bioinf</code></pre>
 <p>The format of this information is YAML (Yet Another Markup Language),
 (which we saw in the headers of RMarkdown documents, too).</p>
 <p>If we stored that output in a file:</p>
-<div class="sourceCode" id="cb258"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb258-1" data-line-number="1"><span class="ex">conda</span> env export <span class="op">&gt;</span> bioinf.yml</a></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb274-1" data-line-number="1"><span class="ex">conda</span> env export <span class="op">&gt;</span> bioinf.yml</a></code></pre></div>
 <p>And then copied that file to another computer, then we can recreate
 the environment on that other computer with:</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb259-1" data-line-number="1"><span class="ex">conda</span> env create -f bioinf.yml</a></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb275-1" data-line-number="1"><span class="ex">conda</span> env create -f bioinf.yml</a></code></pre></div>
 <p>That should work fine if the new computer is of the same architecture (i.e., both
 are Linux computers, or both are Macs). However, the specific build numbers
 referenced in the YAML (i.e. things like the <code>h7b6447c_3</code> part of the program name)
 can create problems when installing on other architectures. In that case, we must
 export without the build names:</p>
-<div class="sourceCode" id="cb260"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb260-1" data-line-number="1"><span class="ex">conda</span> env export --no-builds <span class="op">&gt;</span> bioinf.yml</a></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb276-1" data-line-number="1"><span class="ex">conda</span> env export --no-builds <span class="op">&gt;</span> bioinf.yml</a></code></pre></div>
 <p>Even that might fail if the dependencies differ on different architectures,
 in which case you can export just the list of the actual programs that
 you reqested be installed, by using the <code>--from-history</code> option. For example:</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb261-1" data-line-number="1"><span class="ex">%</span> conda env export --from-history</a>
-<a class="sourceLine" id="cb261-2" data-line-number="2"><span class="ex">name</span>: bioinf</a>
-<a class="sourceLine" id="cb261-3" data-line-number="3"><span class="ex">channels</span>:</a>
-<a class="sourceLine" id="cb261-4" data-line-number="4">  <span class="ex">-</span> defaults</a>
-<a class="sourceLine" id="cb261-5" data-line-number="5"><span class="ex">dependencies</span>:</a>
-<a class="sourceLine" id="cb261-6" data-line-number="6">  <span class="ex">-</span> bwa</a>
-<a class="sourceLine" id="cb261-7" data-line-number="7">  <span class="ex">-</span> bcftools</a>
-<a class="sourceLine" id="cb261-8" data-line-number="8">  <span class="ex">-</span> samtools</a>
-<a class="sourceLine" id="cb261-9" data-line-number="9"><span class="ex">prefix</span>: /projects/eriq@colostate.edu/miniconda3/envs/bioinf</a></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb277-1" data-line-number="1"><span class="ex">%</span> conda env export --from-history</a>
+<a class="sourceLine" id="cb277-2" data-line-number="2"><span class="ex">name</span>: bioinf</a>
+<a class="sourceLine" id="cb277-3" data-line-number="3"><span class="ex">channels</span>:</a>
+<a class="sourceLine" id="cb277-4" data-line-number="4">  <span class="ex">-</span> defaults</a>
+<a class="sourceLine" id="cb277-5" data-line-number="5"><span class="ex">dependencies</span>:</a>
+<a class="sourceLine" id="cb277-6" data-line-number="6">  <span class="ex">-</span> bwa</a>
+<a class="sourceLine" id="cb277-7" data-line-number="7">  <span class="ex">-</span> bcftools</a>
+<a class="sourceLine" id="cb277-8" data-line-number="8">  <span class="ex">-</span> samtools</a>
+<a class="sourceLine" id="cb277-9" data-line-number="9"><span class="ex">prefix</span>: /projects/eriq@colostate.edu/miniconda3/envs/bioinf</a></code></pre></div>
 <p>Though, even that fails, cuz it doesn’t list bioconda in there.</p>
+</div>
+</div>
+<div id="installing-java-programs" class="section level3">
+<h3><span class="header-section-number">7.5.3</span> Installing Java Programs</h3>
+<p>Java programs run without compilation on many different computer architectures, so long
+as the computer has a Java Runtime Environment, or JRE. Thus, the steps to running a Java
+program are usually simply:</p>
+<ol style="list-style-type: decimal">
+<li>Download the Java program, which is usually stored in what is called a Jar file, having a
+<code>.jar</code> extension.</li>
+<li>Ensure that a JRE is available (either loading a JRE or JDK modulefile, or, if that is not
+available, creating a <code>conda</code> environment that includes the JRE.)</li>
+<li>Launch the Java program with <code>java -jar progpath.jar</code> where <code>progpath.jar</code> is the path to the
+Jar file that you have downloaded and wish to run.</li>
+</ol>
+<div id="installing-gatk" class="section level4">
+<h4><span class="header-section-number">7.5.3.1</span> Installing GATK</h4>
+<p>The most important Java based program for bioinformatics is GATK (and its companion
+program, which is now a part of GATK, called PicardTools). This program,
+since version 4,
+comes with a python “wrapper” script that takes care of launching the GATK program
+without using the <code>java -jar</code> syntax, and it also gives it a much more conventional
+Unix command-line program “feel” than it had before, making it somewhat easier
+to use if you are familiar with working on the shell.</p>
+<p>Here, we describe how to download and install GATK for fairly typical or standard use
+cases. There are further dependencies for some GATK analyses that can be installed
+using Miniconda, but we won’t cover that here, as we don’t need those dependencies
+for what we will be doing. (However, if you have digested the previous sections on Miniconda
+you should have no problem installing the other dependencies with <code>conda</code>).</p>
+<ol style="list-style-type: decimal">
+<li>Download the GATK package. GATK, since version 4, is available online
+at GitHub using links found at <a href="https://github.com/broadinstitute/gatk/releases/tag/4.1.6.0">https://github.com/broadinstitute/gatk/releases/tag/4.1.6.0</a>. We use <code>wget</code> on the cluster to download this. I recommend creating a directory called <code>java-programs</code> for
+storing your Java programs. If you are working on SUMMIT, this should go in your <code>projects</code> directory, to avoid
+filling up your tiny home directory. At the time of writing, the latest GATK release was version 4.1.6.0.
+A later version may now be available, and the links below should be modified to get that later
+version if desired.</li>
+</ol>
+<div class="sourceCode" id="cb278"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb278-1" data-line-number="1"><span class="co"># replace user with your username</span></a>
+<a class="sourceLine" id="cb278-2" data-line-number="2"><span class="bu">cd</span> /projects/user\@colostate.edu/</a>
+<a class="sourceLine" id="cb278-3" data-line-number="3"><span class="fu">mkdir</span> java-programs  # if you don<span class="st">&#39;t already have such a directory</span></a>
+<a class="sourceLine" id="cb278-4" data-line-number="4"><span class="st">cd java-programs # enter that directory</span></a>
+<a class="sourceLine" id="cb278-5" data-line-number="5"><span class="st">wget https://github.com/broadinstitute/gatk/releases/download/4.1.6.0/gatk-4.1.6.0.zip</span></a>
+<a class="sourceLine" id="cb278-6" data-line-number="6"><span class="st"># unzip that compressed file into a directory</span></a>
+<a class="sourceLine" id="cb278-7" data-line-number="7"><span class="st">unzip gatk-4.1.6.0.zip</span></a>
+<a class="sourceLine" id="cb278-8" data-line-number="8"><span class="st"># if that step was successful, remove the zip file</span></a>
+<a class="sourceLine" id="cb278-9" data-line-number="9"><span class="st">rm gatk-4.1.6.0.zip</span></a>
+<a class="sourceLine" id="cb278-10" data-line-number="10"><span class="st"># cd into the gatk directory</span></a>
+<a class="sourceLine" id="cb278-11" data-line-number="11"><span class="st">cd gatk-4.1.6.0</span></a>
+<a class="sourceLine" id="cb278-12" data-line-number="12"><span class="st"># finally, print the working directory to get the path</span></a>
+<a class="sourceLine" id="cb278-13" data-line-number="13"><span class="st">pwd</span></a></code></pre></div>
+<p>When I do the last command, I get: <code>/projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0</code> You will
+want to copy the path on your system so that you can include it in your <code>~/.bashrc</code> file. In the following
+I refer to the path to the GATK directory on your system as <code>&lt;PATH_TO&gt;</code>. You should replace <code>&lt;PATH_TO&gt;</code>
+in the following with the paht to the GATK directory on your system. Edit your <code>~/.bashrc</code> file,
+adding the following lines <em>above</em> the <code>&gt;&gt;&gt; conda initialize &gt;&gt;&gt;</code> block:</p>
+<div class="sourceCode" id="cb279"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb279-1" data-line-number="1"><span class="bu">export</span> <span class="va">PATH=$PATH</span>:<span class="op">&lt;</span><span class="ex">PATH_TO</span><span class="op">&gt;</span></a>
+<a class="sourceLine" id="cb279-2" data-line-number="2"><span class="bu">source</span> <span class="op">&lt;</span>PATH_TO<span class="op">&gt;</span>/gatk-completion.sh</a></code></pre></div>
+<p>On my system, it looks like the following when I have replaced <PATH_TO>
+with the appropriate path:</p>
+<div class="sourceCode" id="cb280"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb280-1" data-line-number="1"><span class="bu">export</span> <span class="va">PATH=$PATH</span>:/projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0</a>
+<a class="sourceLine" id="cb280-2" data-line-number="2"><span class="bu">source</span> /projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0/gatk-completion.sh</a></code></pre></div>
+<p>Once that is done, save and close <code>~/.bashrc</code> and then source it for the changes to take
+effect. (You don’t typically need to source it if you login to a new shell, but here,
+since you are not opening a new shell, you need to source it.)</p>
+<div class="sourceCode" id="cb281"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb281-1" data-line-number="1"><span class="bu">source</span> ~/.bashrc</a></code></pre></div>
+<p>Now, you should be able to give the command</p>
+<div class="sourceCode" id="cb282"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb282-1" data-line-number="1"><span class="bu">cd</span> <span class="co"># return to home directory</span></a>
+<a class="sourceLine" id="cb282-2" data-line-number="2"><span class="ex">gatk</span></a></code></pre></div>
+<p>and you will get back a message about the syntax for using <code>gatk</code>. If not,
+then something has gone wrong.</p>
+<p>If <code>gatk</code> above worked as expected (gave you a help message), you are ready
+to run a very quick experiment to test if we are all set
+for calling variants (SNPs and indels) from the .bam files that were
+created in the <code>chr-32-bioinformatics</code> homework. Be <em>certain</em> that you
+are on a compute node before doing this. (Check it with <code>hostname</code>).</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb283-1" data-line-number="1"><span class="co"># cd to your homework folder. On my system, that is:</span></a>
+<a class="sourceLine" id="cb283-2" data-line-number="2"><span class="bu">cd</span> scratch/COURSE_STUFF/chr-32-bioinformatics-eriqande/</a>
+<a class="sourceLine" id="cb283-3" data-line-number="3"><span class="co"># make a file that holds the paths to all the duplicate-marked</span></a>
+<a class="sourceLine" id="cb283-4" data-line-number="4"><span class="co"># bam files you created during the homework:</span></a>
+<a class="sourceLine" id="cb283-5" data-line-number="5"><span class="fu">ls</span> -l mkdup/*_mkdup.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $NF}&#39;</span> <span class="op">&gt;</span> bamfiles.list</a>
+<a class="sourceLine" id="cb283-6" data-line-number="6"><span class="co"># make sure bamfiles.list has the relative paths to a number</span></a>
+<a class="sourceLine" id="cb283-7" data-line-number="7"><span class="co"># of different bamfiles in it:</span></a>
+<a class="sourceLine" id="cb283-8" data-line-number="8"><span class="fu">cat</span> bamfiles.list</a>
+<a class="sourceLine" id="cb283-9" data-line-number="9"><span class="co"># make a directory to put the output into</span></a>
+<a class="sourceLine" id="cb283-10" data-line-number="10"><span class="fu">mkdir</span> vcf</a>
+<a class="sourceLine" id="cb283-11" data-line-number="11"><span class="co"># make sure the JRE is loaded (on SUMMIT)</span></a>
+<a class="sourceLine" id="cb283-12" data-line-number="12"><span class="ex">module</span> load jdk</a>
+<a class="sourceLine" id="cb283-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb283-14" data-line-number="14"><span class="co"># GATK needs two different indexes of the genome.  Unfortunately</span></a>
+<a class="sourceLine" id="cb283-15" data-line-number="15"><span class="co"># the version we have is not compressed with bgzip, so</span></a>
+<a class="sourceLine" id="cb283-16" data-line-number="16"><span class="co"># we will have to make an uncompressed version of it and</span></a>
+<a class="sourceLine" id="cb283-17" data-line-number="17"><span class="co"># then index it. GATK expects the index (or, as they call it, </span></a>
+<a class="sourceLine" id="cb283-18" data-line-number="18"><span class="co"># the &quot;dictionary&quot; to be named a certain way...)</span></a>
+<a class="sourceLine" id="cb283-19" data-line-number="19"><span class="fu">gunzip</span> -c genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz <span class="op">&gt;</span> genome/GCA_002872995.1_Otsh_v1.0_genomic.fna</a>
+<a class="sourceLine" id="cb283-20" data-line-number="20"><span class="ex">conda</span> activate bioinf</a>
+<a class="sourceLine" id="cb283-21" data-line-number="21"><span class="ex">samtools</span> faidx genome/GCA_002872995.1_Otsh_v1.0_genomic.fna</a>
+<a class="sourceLine" id="cb283-22" data-line-number="22"><span class="ex">gatk</span> CreateSequenceDictionary -R genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \</a>
+<a class="sourceLine" id="cb283-23" data-line-number="23">     -O genome/GCA_002872995.1_Otsh_v1.0_genomic.dict</a>
+<a class="sourceLine" id="cb283-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb283-25" data-line-number="25"><span class="co"># then we will launch GATK to do variant calling and create a VCF file</span></a>
+<a class="sourceLine" id="cb283-26" data-line-number="26"><span class="co"># from the BAMs in bamfiles.list in a 5 Kb region (we expect about</span></a>
+<a class="sourceLine" id="cb283-27" data-line-number="27"><span class="co"># 50 variants in such a small part of the genome) on Chromosome 32</span></a>
+<a class="sourceLine" id="cb283-28" data-line-number="28"><span class="co"># which is named CM009233.1</span></a>
+<a class="sourceLine" id="cb283-29" data-line-number="29"><span class="ex">gatk</span> --java-options <span class="st">&quot;-Xmx4g&quot;</span> HaplotypeCaller  \</a>
+<a class="sourceLine" id="cb283-30" data-line-number="30">   -R genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \</a>
+<a class="sourceLine" id="cb283-31" data-line-number="31">   -I bamfiles.list \</a>
+<a class="sourceLine" id="cb283-32" data-line-number="32">   -O vcf/tiny-test.vcf \</a>
+<a class="sourceLine" id="cb283-33" data-line-number="33">   -L CM009233.1:2000000-2005000</a></code></pre></div>
+<p>Once that finishes, look at the resulting VCF file:</p>
+<div class="sourceCode" id="cb284"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb284-1" data-line-number="1"><span class="fu">more</span> vcf/tiny-test.vcf</a>
+<a class="sourceLine" id="cb284-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb284-3" data-line-number="3"><span class="co"># if you get tired of scrolling through the header lines (with</span></a>
+<a class="sourceLine" id="cb284-4" data-line-number="4"><span class="co"># endless small genome fragment names). Then quit that (hit q)</span></a>
+<a class="sourceLine" id="cb284-5" data-line-number="5"><span class="co"># and view it without the header:</span></a>
+<a class="sourceLine" id="cb284-6" data-line-number="6"><span class="ex">bcftools</span> view -H vcf/tiny-test.vcf</a></code></pre></div>
+<p>If that looks like a bunch of gibberish, rejoice! We will learn about the VCF file
+format soon!</p>
 </div>
 </div>
 </div>
@@ -2165,9 +2492,9 @@ you reqested be installed, by using the <code>--from-history</code> option. For 
 at section 2 of <a href="https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc">https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc</a>.
 You can just do 2.1 to 2.6. 2.7 is the routine for user accounts. You don’t need to install Tmux.</p>
 <p>You need to get an interactive session on a compute node and then</p>
-<div class="sourceCode" id="cb262"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb262-1" data-line-number="1"><span class="ex">module</span> load R/3.5.0</a>
-<a class="sourceLine" id="cb262-2" data-line-number="2"><span class="ex">module</span> load intel</a>
-<a class="sourceLine" id="cb262-3" data-line-number="3"><span class="ex">module</span> load mkl  </a></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb285-1" data-line-number="1"><span class="ex">module</span> load R/3.5.0</a>
+<a class="sourceLine" id="cb285-2" data-line-number="2"><span class="ex">module</span> load intel</a>
+<a class="sourceLine" id="cb285-3" data-line-number="3"><span class="ex">module</span> load mkl  </a></code></pre></div>
 <p>The last two are needed to get a random number to start up client through R.
 It is amazing to me that they call a specific Intel library to do that, and apparently
 loading the R module alone doesn’t get you that.</p>

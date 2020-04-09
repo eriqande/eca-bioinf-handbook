@@ -1569,23 +1569,222 @@ computing environments; however, it has become an incredibly valuable tool for e
 that your analyses are reproducible: you can give people not just the data and scripts that you
 used for the analysis, but also the computing/software environment (with all the same
 software versions) that you used for the analysis.  And, finally, all of this
-can be done with Miniconda without have administrative privileges.  Effectively,
+can be done with Miniconda without having administrative privileges.  Effectively,
 Miniconda manages all these software programs and dependencies _within your home directory_.
 Section \@ref(miniconda) provides details about Miniconda and describes how to use it
 to install bioinformatics software.
 
 ### Modules 
 
-(not written)
+The easiest way to install software on a remote computer of HPCC is to have someone
+else do it!  On HPCCs it is common for the system administrators to install software into
+different "compartments" using the `module` utility.  This allows for a large number of
+different software packages to be "pre-installed" on the computer, but the software
+is not accessible/usable until the user explicitly asks for the software to be made
+available in a shell.  Users ask for software to be made available in the shell
+with the `module load` _modulefile_ command.  The main action of such a command is to
+modify the user's PATH variable to include the software's location. (Sometimes, additional
+shell environment variables are set).  By managing software in this way, system administrators
+can keep dependency conflicts
+between different software programs that are seldom used together from causing problems.
 
-This is if your sys admin has made it easy.
+If you work on an HPCC with administrators who are attuned to people doing bioinformatic
+work, then all the software you might need could alread be available using in modules. To 
+see what software is available you can use `module avail`.  For example, on the SEDNA cluster
+which was developed for genomic research, `module avail` shows a wide range of different
+software specific to sequence assembly, alignment, and analysis:
+```sh
+% module avail
 
-The big point I must make here is that these don't work like conda environments.
-Environments are "all-or-nothing," whereas modules are "cumulative" and can be
-layered atop one another.  (If doing so creates conflicts, then the sysadmins have to
-figure that out...perhaps this is one reason that modules will often carry older (if not
-completely antiquated) versions of software.)
+------------------------- /usr/share/Modules/modulefiles --------------------------
+dot         module-git  module-info modules     null        use.own
 
+-------------------------------- /act/modulefiles ---------------------------------
+impi                mvapich2-2.2/gcc    openmpi-1.8/gcc     openmpi-3.0.1/gcc
+intel               mvapich2-2.2/intel  openmpi-1.8/intel   openmpi-3.0.1/intel
+mpich/gcc           openmpi-1.6/gcc     openmpi-2.1.3/gcc
+mpich/intel         openmpi-1.6/intel   openmpi-2.1.3/intel
+
+------------------------- /opt/bioinformatics/modulefiles -------------------------
+aligners/bowtie2/2.3.5.1 bio/fastqc/0.11.9        bio/stacks/2.5
+aligners/bwa/0.7.17      bio/gatk/4.1.5.0         compilers/gcc/4.9.4
+assemblers/trinity/2.9.1 bio/hmmer/3.2.1          compilers/gcc/8.3.0
+bio/angsd/0.931          bio/jellyfish/2.3.0      lib64/mpc-1.1.0
+bio/augustus/3.2.3       bio/mothur/1.43.0        R/3.6.2
+bio/bamtools/2.5.1       bio/picard/2.22.0        tools/cmake/3.16.4
+bio/bcftools/1.10.2      bio/prodigal/2.6.3       tools/pigz/2.4
+bio/blast/2.10.0+        bio/salmon/1.1.0
+bio/blast/2.2.31+        bio/samtools/1.10
+```
+Most of the bioinformatics tools are stored in the directory
+`/opt/bioinformatics/modulefiles`, which is not a standard storage location for
+modules, so, if you are using SEDNA, and you want to use these modules,
+you must include that path in the `MODULEPATH` shell environment variable.
+This can be done by updating the `MODULEPATH` in your `~/.bashrc` file, adding
+the line:
+```sh
+export MODULEPATH=${MODULEPATH}:/opt/bioinformatics/modulefiles
+```
+Once that is accomplished, every time you open a new shell, your `MODULEPATH` will be
+set appropriately.
+
+If you work on an HPCC that is not heavily focused on bioinformatics (for example, the SUMMIT
+supercomputer at UC Boulder) then you might not find any bioinformatics utilities available in
+the modules.  You will then have to install your own software as described in
+Section \@ref(miniconda); however, you will still be able to use the modules system 
+to run java-based programs, so it is good to understand the `module` command.
+
+The `module` command has a large number of subcommands which are invoked
+with a word immediately following the `module` command.  We have already seen
+how `module avail` lists the available modules. The other most important commands
+appear in Table \@ref(tab:module).
+```{r, echo=FALSE, message=FALSE}
+tab <- readr::read_delim("table_inputs/module_subcommands.txt", delim = "&", trim_ws = TRUE)
+pander::pander(
+  tab,
+  booktabs = TRUE,
+  caption = '(\\#tab:module) Important subcommands used with `module`.  In the following, _modulefile_, where it appears, refers to the name of a modulefile.',
+  justify = "left")
+```
+
+Let's play with the modulefiles (if any) on your HPCC! First, get an interactive session
+on a compute node.  On SUMMIT:
+```sh
+ srun --partition=shas-interactive --export=ALL --pty /bin/bash
+```
+Then list the modulefiles available:
+```sh
+module avail
+```
+You might notice that multiple versions of some programs are available, like:
+```
+R/3.3.0
+R/3.4.3
+R/3.5.0
+```
+In such a case, the latest version is typically the default version that will be loaded 
+when you request that a program modulefile be loaded, though you can specifically
+request that a particular version be loaded. On SUMMIT, check to make sure that the R program
+is not available by default:
+```sh
+# try to launch R
+R
+```
+You should be told:
+```
+bash: R: command not found
+```
+If not, you may have already loaded the R modulefile, or you might have R available from
+an activated `conda` environment (see below).
+
+To make R available via `module` you use:
+```sh
+module load R
+
+# now check to see if it works:
+R
+
+# check the version number when it launches
+# to get out of R, type: quit()  and hit RETURN
+```
+To list the active modulefiles, try:
+```sh
+module list
+```
+This is quite interesting.  It shows that several other modulefiles,
+above and beyond R,
+have been loaded as well.  These are additional dependencies that the R module
+depends on. 
+
+To remove all the modulefiles that have been loaded, do:
+```sh
+module purge
+
+# after that, check to see that no modules are currently loaded:
+module list
+```
+
+If you are curious about what happens when a module file is loaded,
+you can use the `show` subcommand, as in `module show` _modulefile_:
+```sh
+module show R
+```
+The output is quite informative.
+
+To get a different version of a program available from `module`, just
+include the modulefile with its version number as it appears when printed
+from `module avail`, like:
+```sh
+module load R/3.3.0
+
+# check to see which modulefiles got loaded:
+module list  
+# aha! this version of R goes with a different version of the
+# intel compiler...
+
+# check the version number of R by running it:
+R
+
+# use quit() to get out of R.
+```
+Once again, purge your modulefiles:
+```sh
+module purge
+```
+and then try to give the `java` command:
+```sh
+java
+```
+You should be told that the command `java` is not found.  
+
+There are several useful bioinformatics programs that are written in Java.
+Java is a language that can run on many different computer architectures
+_without being specifically compiled_ for that architecture.  However, in order to
+run a program written in Java, the computer must have a "Java Runtime Environment" or JRE.
+Running the `java` command above and having no luck shows that by default, SUMMIT (and most
+supercomputers) do not have a JRE available by default. However, almost all HPCCs will
+have a JRE available as in a modulefile containing the Java Development Kit, or JDK.  
+
+Look at the output of `module avail` and find `jdk`, then load that modulefile:
+```sh
+module load jdk
+
+# after that, check to see if java is available:
+java
+```
+You will need to load the `jdk` module file in order to run the Java-based bioinformatics
+program called GATK.
+
+Note that every time you get a start a new shell on your HPCC, you will typically not have
+any modulefiles loaded (or will only have a few default modulefiles loaded).  For this reason
+it is important, when you submit jobs using SLURM (see Section \@ref(slurm-batch)) that
+require modulefiles, the `module load` _modulefile_ command for those modules should appear
+within the script submitted to SLURM. 
+
+Finally, we will note that the `module` utility works somewhat differently than the
+`conda` environments described in the next section. Namely, `conda` environments
+are "all-or-nothing" environments that include different programs.  You can't activate
+a `conda` environment, and then add more programs to it by activating another
+`conda` environment "on top of" the previous one.  Rather, when activating a `conda`
+environment, the configurations of any existing, activated environment are completely
+discarded.  By contrast, modulefiles can be layered on top of one another.  So, for example,
+if you needed `R`, `samtools`, and `bcftools`, and these were all maintained in
+separate modulefiles on your HPCC, then you could load them all, alongside one another,
+with:
+```sh
+module load R
+module load samtools
+module load bcftools
+```
+
+Unlike a Miniconda environment, when you layer modulefiles no top of one another
+like this, conflicts between the dependencies may occur.  When that happens,
+it is up to the sysadmins to figure it out.  This is perhaps why the modulefiles
+on a typical HPCC may often carry older (if not
+completely antiquated) versions of software. In general, if you want to run
+newer versions of software on your HPCC, you will often have to install it yourself.
+Doing so has traditionally been difficult, but a packages management system called
+Miniconda has made it considerably easier today.
 
 
 ### Miniconda {#miniconda}
@@ -1932,7 +2131,137 @@ Though, even that fails, cuz it doesn't list bioconda in there.
 
 
 
+### Installing Java Programs
 
+Java programs run without compilation on many different computer architectures, so long
+as the computer has a Java Runtime Environment, or JRE.  Thus, the steps to running a Java
+program are usually simply:
+
+1. Download the Java program, which is usually stored in what is called a Jar file, having a
+`.jar` extension.
+2. Ensure that a JRE is available (either loading a JRE or JDK modulefile, or, if that is not
+available, creating a `conda` environment that includes the JRE.)
+3. Launch the Java program with `java -jar progpath.jar` where `progpath.jar` is the path to the
+Jar file that you have downloaded and wish to run.
+
+#### Installing GATK
+
+The most important Java based program for bioinformatics is GATK (and its companion
+program, which is now a part of GATK, called PicardTools).  This program,
+since version 4,
+comes with a python "wrapper" script that takes care of launching the GATK program
+without using the `java -jar` syntax, and it also gives it a much more conventional
+Unix command-line program "feel" than it had before, making it somewhat easier
+to use if you are familiar with working on the shell.
+
+Here, we describe how to download and install GATK for fairly typical or standard use
+cases.  There are further dependencies for some GATK analyses that can be installed
+using Miniconda, but we won't cover that here, as we don't need those dependencies
+for what we will be doing. (However, if you have digested the previous sections on Miniconda
+you should have no problem installing the other dependencies with `conda`).  
+
+1. Download the GATK package.  GATK, since version 4, is available online
+at GitHub using links found at [https://github.com/broadinstitute/gatk/releases/tag/4.1.6.0](https://github.com/broadinstitute/gatk/releases/tag/4.1.6.0).  We use `wget` on the cluster to download this.  I recommend creating a directory called `java-programs` for
+storing your Java programs.  If you are working on SUMMIT, this should go in your `projects` directory, to avoid
+filling up your tiny home directory.  At the time of writing, the latest GATK release was version 4.1.6.0.
+A later version may now be available, and the links below should be modified to get that later
+version if desired.
+```sh
+# replace user with your username
+cd /projects/user\@colostate.edu/
+mkdir java-programs  # if you don't already have such a directory
+cd java-programs # enter that directory
+wget https://github.com/broadinstitute/gatk/releases/download/4.1.6.0/gatk-4.1.6.0.zip
+# unzip that compressed file into a directory
+unzip gatk-4.1.6.0.zip
+# if that step was successful, remove the zip file
+rm gatk-4.1.6.0.zip
+# cd into the gatk directory
+cd gatk-4.1.6.0
+# finally, print the working directory to get the path
+pwd
+```
+When I do the last command, I get: `/projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0`  You will
+want to copy the path on your system so that you can include it in your `~/.bashrc` file.  In the following
+I refer to the path to the GATK directory on your system as `<PATH_TO>`.  You should replace `<PATH_TO>`
+in the following with the paht to the GATK directory on your system.  Edit your `~/.bashrc` file,
+adding the following lines _above_ the `>>> conda initialize >>>` block:
+```sh
+export PATH=$PATH:<PATH_TO>
+source <PATH_TO>/gatk-completion.sh
+```
+On my system, it looks like the following when I have replaced <PATH_TO>
+with the appropriate path:
+```sh
+export PATH=$PATH:/projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0
+source /projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0/gatk-completion.sh
+```
+Once that is done, save and close `~/.bashrc` and then source it for the changes to take
+effect. (You don't typically need to source it if you login to a new shell, but here,
+since you are not opening a new shell, you need to source it.)
+```sh
+source ~/.bashrc
+```
+Now, you should be able to give the command
+```sh
+cd # return to home directory
+gatk
+```
+and you will get back a message about the syntax for using `gatk`. If not,
+then something has gone wrong.
+
+If `gatk` above worked as expected (gave you a help message), you are ready
+to run a very quick experiment to test if we are all set
+for calling variants (SNPs and indels) from the .bam files that were
+created in the `chr-32-bioinformatics` homework.  Be _certain_ that you
+are on a compute node before doing this.  (Check it with `hostname`).
+```sh
+# cd to your homework folder. On my system, that is:
+cd scratch/COURSE_STUFF/chr-32-bioinformatics-eriqande/
+# make a file that holds the paths to all the duplicate-marked
+# bam files you created during the homework:
+ls -l mkdup/*_mkdup.bam | awk '{print $NF}' > bamfiles.list
+# make sure bamfiles.list has the relative paths to a number
+# of different bamfiles in it:
+cat bamfiles.list
+# make a directory to put the output into
+mkdir vcf
+# make sure the JRE is loaded (on SUMMIT)
+module load jdk
+
+# GATK needs two different indexes of the genome.  Unfortunately
+# the version we have is not compressed with bgzip, so
+# we will have to make an uncompressed version of it and
+# then index it. GATK expects the index (or, as they call it, 
+# the "dictionary" to be named a certain way...)
+gunzip -c genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz > genome/GCA_002872995.1_Otsh_v1.0_genomic.fna
+conda activate bioinf
+samtools faidx genome/GCA_002872995.1_Otsh_v1.0_genomic.fna
+gatk CreateSequenceDictionary -R genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \
+     -O genome/GCA_002872995.1_Otsh_v1.0_genomic.dict
+
+# then we will launch GATK to do variant calling and create a VCF file
+# from the BAMs in bamfiles.list in a 5 Kb region (we expect about
+# 50 variants in such a small part of the genome) on Chromosome 32
+# which is named CM009233.1
+gatk --java-options "-Xmx4g" HaplotypeCaller  \
+   -R genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \
+   -I bamfiles.list \
+   -O vcf/tiny-test.vcf \
+   -L CM009233.1:2000000-2005000
+```
+
+Once that finishes, look at the resulting VCF file:
+```sh
+more vcf/tiny-test.vcf
+
+# if you get tired of scrolling through the header lines (with
+# endless small genome fragment names). Then quit that (hit q)
+# and view it without the header:
+bcftools view -H vcf/tiny-test.vcf
+```
+If that looks like a bunch of gibberish, rejoice! We will learn about the VCF file
+format soon!
 
 
 ## `vim`: it's time to get serious with text editing

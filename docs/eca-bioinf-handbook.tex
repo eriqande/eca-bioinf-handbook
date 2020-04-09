@@ -210,7 +210,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-04-07}
+\date{2020-04-09}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -6764,7 +6764,7 @@ computing environments; however, it has become an incredibly valuable tool for e
 that your analyses are reproducible: you can give people not just the data and scripts that you
 used for the analysis, but also the computing/software environment (with all the same
 software versions) that you used for the analysis. And, finally, all of this
-can be done with Miniconda without have administrative privileges. Effectively,
+can be done with Miniconda without having administrative privileges. Effectively,
 Miniconda manages all these software programs and dependencies \emph{within your home directory}.
 Section \ref{miniconda} provides details about Miniconda and describes how to use it
 to install bioinformatics software.
@@ -6772,15 +6772,339 @@ to install bioinformatics software.
 \hypertarget{modules}{%
 \subsection{Modules}\label{modules}}
 
-(not written)
+The easiest way to install software on a remote computer of HPCC is to have someone
+else do it! On HPCCs it is common for the system administrators to install software into
+different ``compartments'' using the \texttt{module} utility. This allows for a large number of
+different software packages to be ``pre-installed'' on the computer, but the software
+is not accessible/usable until the user explicitly asks for the software to be made
+available in a shell. Users ask for software to be made available in the shell
+with the \texttt{module\ load} \emph{modulefile} command. The main action of such a command is to
+modify the user's PATH variable to include the software's location. (Sometimes, additional
+shell environment variables are set). By managing software in this way, system administrators
+can keep dependency conflicts
+between different software programs that are seldom used together from causing problems.
 
-This is if your sys admin has made it easy.
+If you work on an HPCC with administrators who are attuned to people doing bioinformatic
+work, then all the software you might need could alread be available using in modules. To
+see what software is available you can use \texttt{module\ avail}. For example, on the SEDNA cluster
+which was developed for genomic research, \texttt{module\ avail} shows a wide range of different
+software specific to sequence assembly, alignment, and analysis:
 
-The big point I must make here is that these don't work like conda environments.
-Environments are ``all-or-nothing,'' whereas modules are ``cumulative'' and can be
-layered atop one another. (If doing so creates conflicts, then the sysadmins have to
-figure that out\ldots{}perhaps this is one reason that modules will often carry older (if not
-completely antiquated) versions of software.)
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{%}\NormalTok{ module avail}
+
+\ExtensionTok{-------------------------}\NormalTok{ /usr/share/Modules/modulefiles --------------------------}
+\ExtensionTok{dot}\NormalTok{         module-git  module-info modules     null        use.own}
+
+\ExtensionTok{--------------------------------}\NormalTok{ /act/modulefiles ---------------------------------}
+\ExtensionTok{impi}\NormalTok{                mvapich2-2.2/gcc    openmpi-1.8/gcc     openmpi-3.0.1/gcc}
+\ExtensionTok{intel}\NormalTok{               mvapich2-2.2/intel  openmpi-1.8/intel   openmpi-3.0.1/intel}
+\ExtensionTok{mpich/gcc}\NormalTok{           openmpi-1.6/gcc     openmpi-2.1.3/gcc}
+\ExtensionTok{mpich/intel}\NormalTok{         openmpi-1.6/intel   openmpi-2.1.3/intel}
+
+\ExtensionTok{-------------------------}\NormalTok{ /opt/bioinformatics/modulefiles -------------------------}
+\ExtensionTok{aligners/bowtie2/2.3.5.1}\NormalTok{ bio/fastqc/0.11.9        bio/stacks/2.5}
+\ExtensionTok{aligners/bwa/0.7.17}\NormalTok{      bio/gatk/4.1.5.0         compilers/gcc/4.9.4}
+\ExtensionTok{assemblers/trinity/2.9.1}\NormalTok{ bio/hmmer/3.2.1          compilers/gcc/8.3.0}
+\ExtensionTok{bio/angsd/0.931}\NormalTok{          bio/jellyfish/2.3.0      lib64/mpc-1.1.0}
+\ExtensionTok{bio/augustus/3.2.3}\NormalTok{       bio/mothur/1.43.0        R/3.6.2}
+\ExtensionTok{bio/bamtools/2.5.1}\NormalTok{       bio/picard/2.22.0        tools/cmake/3.16.4}
+\ExtensionTok{bio/bcftools/1.10.2}\NormalTok{      bio/prodigal/2.6.3       tools/pigz/2.4}
+\ExtensionTok{bio/blast/2.10.0+}\NormalTok{        bio/salmon/1.1.0}
+\ExtensionTok{bio/blast/2.2.31+}\NormalTok{        bio/samtools/1.10}
+\end{Highlighting}
+\end{Shaded}
+
+Most of the bioinformatics tools are stored in the directory
+\texttt{/opt/bioinformatics/modulefiles}, which is not a standard storage location for
+modules, so, if you are using SEDNA, and you want to use these modules,
+you must include that path in the \texttt{MODULEPATH} shell environment variable.
+This can be done by updating the \texttt{MODULEPATH} in your \texttt{\textasciitilde{}/.bashrc} file, adding
+the line:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{export} \VariableTok{MODULEPATH=$\{MODULEPATH\}}\NormalTok{:/opt/bioinformatics/modulefiles}
+\end{Highlighting}
+\end{Shaded}
+
+Once that is accomplished, every time you open a new shell, your \texttt{MODULEPATH} will be
+set appropriately.
+
+If you work on an HPCC that is not heavily focused on bioinformatics (for example, the SUMMIT
+supercomputer at UC Boulder) then you might not find any bioinformatics utilities available in
+the modules. You will then have to install your own software as described in
+Section \ref{miniconda}; however, you will still be able to use the modules system
+to run java-based programs, so it is good to understand the \texttt{module} command.
+
+The \texttt{module} command has a large number of subcommands which are invoked
+with a word immediately following the \texttt{module} command. We have already seen
+how \texttt{module\ avail} lists the available modules. The other most important commands
+appear in Table \ref{tab:module}.
+
+\begin{longtable}[]{@{}ll@{}}
+\caption{\label{tab:module} Important subcommands used with \texttt{module}. In the following, \emph{modulefile}, where it appears, refers to the name of a modulefile.}\tabularnewline
+\toprule
+\begin{minipage}[b]{0.31\columnwidth}\raggedright
+Module Subcommand\strut
+\end{minipage} & \begin{minipage}[b]{0.43\columnwidth}\raggedright
+What it does\strut
+\end{minipage}\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+\begin{minipage}[b]{0.31\columnwidth}\raggedright
+Module Subcommand\strut
+\end{minipage} & \begin{minipage}[b]{0.43\columnwidth}\raggedright
+What it does\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.31\columnwidth}\raggedright
+\texttt{avail}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+Lists available modules (i.e.,
+software that can be loaded as
+a module)\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.31\columnwidth}\raggedright
+\texttt{add} \emph{modulefile}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+same as \texttt{load} \emph{modulefile}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.31\columnwidth}\raggedright
+\texttt{list}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+list all currently loaded
+modulefiles.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.31\columnwidth}\raggedright
+\texttt{load} \emph{modulefile}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+add the necessary ingredients
+to one's shell to be able to
+run the programs contained in
+\emph{modulefile}.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.31\columnwidth}\raggedright
+\texttt{purge}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+unload all the currently
+loaded modulefiles.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.31\columnwidth}\raggedright
+\texttt{rm} \emph{modulefile}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+same as \texttt{unload} \emph{modulefile}.\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.31\columnwidth}\raggedright
+\texttt{show} \emph{modulefile}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+describe the \emph{modulefile} and
+the changes to the PATH and
+other shell evironment
+variables that occur when
+loading the \emph{modulefile}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.31\columnwidth}\raggedright
+\texttt{unload} \emph{modulefile}\strut
+\end{minipage} & \begin{minipage}[t]{0.43\columnwidth}\raggedright
+reverse the changes made to
+the shell environment made by
+\texttt{load} \emph{modulefile}\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Let's play with the modulefiles (if any) on your HPCC! First, get an interactive session
+on a compute node. On SUMMIT:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \ExtensionTok{srun}\NormalTok{ --partition=shas-interactive --export=ALL --pty /bin/bash}
+\end{Highlighting}
+\end{Shaded}
+
+Then list the modulefiles available:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{module}\NormalTok{ avail}
+\end{Highlighting}
+\end{Shaded}
+
+You might notice that multiple versions of some programs are available, like:
+
+\begin{verbatim}
+R/3.3.0
+R/3.4.3
+R/3.5.0
+\end{verbatim}
+
+In such a case, the latest version is typically the default version that will be loaded
+when you request that a program modulefile be loaded, though you can specifically
+request that a particular version be loaded. On SUMMIT, check to make sure that the R program
+is not available by default:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# try to launch R}
+\ExtensionTok{R}
+\end{Highlighting}
+\end{Shaded}
+
+You should be told:
+
+\begin{verbatim}
+bash: R: command not found
+\end{verbatim}
+
+If not, you may have already loaded the R modulefile, or you might have R available from
+an activated \texttt{conda} environment (see below).
+
+To make R available via \texttt{module} you use:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{module}\NormalTok{ load R}
+
+\CommentTok{# now check to see if it works:}
+\ExtensionTok{R}
+
+\CommentTok{# check the version number when it launches}
+\CommentTok{# to get out of R, type: quit()  and hit RETURN}
+\end{Highlighting}
+\end{Shaded}
+
+To list the active modulefiles, try:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{module}\NormalTok{ list}
+\end{Highlighting}
+\end{Shaded}
+
+This is quite interesting. It shows that several other modulefiles,
+above and beyond R,
+have been loaded as well. These are additional dependencies that the R module
+depends on.
+
+To remove all the modulefiles that have been loaded, do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{module}\NormalTok{ purge}
+
+\CommentTok{# after that, check to see that no modules are currently loaded:}
+\ExtensionTok{module}\NormalTok{ list}
+\end{Highlighting}
+\end{Shaded}
+
+If you are curious about what happens when a module file is loaded,
+you can use the \texttt{show} subcommand, as in \texttt{module\ show} \emph{modulefile}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{module}\NormalTok{ show R}
+\end{Highlighting}
+\end{Shaded}
+
+The output is quite informative.
+
+To get a different version of a program available from \texttt{module}, just
+include the modulefile with its version number as it appears when printed
+from \texttt{module\ avail}, like:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{module}\NormalTok{ load R/3.3.0}
+
+\CommentTok{# check to see which modulefiles got loaded:}
+\ExtensionTok{module}\NormalTok{ list  }
+\CommentTok{# aha! this version of R goes with a different version of the}
+\CommentTok{# intel compiler...}
+
+\CommentTok{# check the version number of R by running it:}
+\ExtensionTok{R}
+
+\CommentTok{# use quit() to get out of R.}
+\end{Highlighting}
+\end{Shaded}
+
+Once again, purge your modulefiles:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{module}\NormalTok{ purge}
+\end{Highlighting}
+\end{Shaded}
+
+and then try to give the \texttt{java} command:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{java}
+\end{Highlighting}
+\end{Shaded}
+
+You should be told that the command \texttt{java} is not found.
+
+There are several useful bioinformatics programs that are written in Java.
+Java is a language that can run on many different computer architectures
+\emph{without being specifically compiled} for that architecture. However, in order to
+run a program written in Java, the computer must have a ``Java Runtime Environment'' or JRE.
+Running the \texttt{java} command above and having no luck shows that by default, SUMMIT (and most
+supercomputers) do not have a JRE available by default. However, almost all HPCCs will
+have a JRE available as in a modulefile containing the Java Development Kit, or JDK.
+
+Look at the output of \texttt{module\ avail} and find \texttt{jdk}, then load that modulefile:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{module}\NormalTok{ load jdk}
+
+\CommentTok{# after that, check to see if java is available:}
+\ExtensionTok{java}
+\end{Highlighting}
+\end{Shaded}
+
+You will need to load the \texttt{jdk} module file in order to run the Java-based bioinformatics
+program called GATK.
+
+Note that every time you get a start a new shell on your HPCC, you will typically not have
+any modulefiles loaded (or will only have a few default modulefiles loaded). For this reason
+it is important, when you submit jobs using SLURM (see Section \ref{slurm-batch}) that
+require modulefiles, the \texttt{module\ load} \emph{modulefile} command for those modules should appear
+within the script submitted to SLURM.
+
+Finally, we will note that the \texttt{module} utility works somewhat differently than the
+\texttt{conda} environments described in the next section. Namely, \texttt{conda} environments
+are ``all-or-nothing'' environments that include different programs. You can't activate
+a \texttt{conda} environment, and then add more programs to it by activating another
+\texttt{conda} environment ``on top of'' the previous one. Rather, when activating a \texttt{conda}
+environment, the configurations of any existing, activated environment are completely
+discarded. By contrast, modulefiles can be layered on top of one another. So, for example,
+if you needed \texttt{R}, \texttt{samtools}, and \texttt{bcftools}, and these were all maintained in
+separate modulefiles on your HPCC, then you could load them all, alongside one another,
+with:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{module}\NormalTok{ load R}
+\ExtensionTok{module}\NormalTok{ load samtools}
+\ExtensionTok{module}\NormalTok{ load bcftools}
+\end{Highlighting}
+\end{Shaded}
+
+Unlike a Miniconda environment, when you layer modulefiles no top of one another
+like this, conflicts between the dependencies may occur. When that happens,
+it is up to the sysadmins to figure it out. This is perhaps why the modulefiles
+on a typical HPCC may often carry older (if not
+completely antiquated) versions of software. In general, if you want to run
+newer versions of software on your HPCC, you will often have to install it yourself.
+Doing so has traditionally been difficult, but a packages management system called
+Miniconda has made it considerably easier today.
 
 \hypertarget{miniconda}{%
 \subsection{Miniconda}\label{miniconda}}
@@ -7222,6 +7546,179 @@ you reqested be installed, by using the \texttt{-\/-from-history} option. For ex
 \end{Shaded}
 
 Though, even that fails, cuz it doesn't list bioconda in there.
+
+\hypertarget{installing-java-programs}{%
+\subsection{Installing Java Programs}\label{installing-java-programs}}
+
+Java programs run without compilation on many different computer architectures, so long
+as the computer has a Java Runtime Environment, or JRE. Thus, the steps to running a Java
+program are usually simply:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Download the Java program, which is usually stored in what is called a Jar file, having a
+  \texttt{.jar} extension.
+\item
+  Ensure that a JRE is available (either loading a JRE or JDK modulefile, or, if that is not
+  available, creating a \texttt{conda} environment that includes the JRE.)
+\item
+  Launch the Java program with \texttt{java\ -jar\ progpath.jar} where \texttt{progpath.jar} is the path to the
+  Jar file that you have downloaded and wish to run.
+\end{enumerate}
+
+\hypertarget{installing-gatk}{%
+\subsubsection{Installing GATK}\label{installing-gatk}}
+
+The most important Java based program for bioinformatics is GATK (and its companion
+program, which is now a part of GATK, called PicardTools). This program,
+since version 4,
+comes with a python ``wrapper'' script that takes care of launching the GATK program
+without using the \texttt{java\ -jar} syntax, and it also gives it a much more conventional
+Unix command-line program ``feel'' than it had before, making it somewhat easier
+to use if you are familiar with working on the shell.
+
+Here, we describe how to download and install GATK for fairly typical or standard use
+cases. There are further dependencies for some GATK analyses that can be installed
+using Miniconda, but we won't cover that here, as we don't need those dependencies
+for what we will be doing. (However, if you have digested the previous sections on Miniconda
+you should have no problem installing the other dependencies with \texttt{conda}).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Download the GATK package. GATK, since version 4, is available online
+  at GitHub using links found at \url{https://github.com/broadinstitute/gatk/releases/tag/4.1.6.0}. We use \texttt{wget} on the cluster to download this. I recommend creating a directory called \texttt{java-programs} for
+  storing your Java programs. If you are working on SUMMIT, this should go in your \texttt{projects} directory, to avoid
+  filling up your tiny home directory. At the time of writing, the latest GATK release was version 4.1.6.0.
+  A later version may now be available, and the links below should be modified to get that later
+  version if desired.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# replace user with your username}
+\BuiltInTok{cd}\NormalTok{ /projects/user\textbackslash{}@colostate.edu/}
+\FunctionTok{mkdir}\NormalTok{ java-programs  # if you don}\StringTok{'t already have such a directory}
+\StringTok{cd java-programs # enter that directory}
+\StringTok{wget https://github.com/broadinstitute/gatk/releases/download/4.1.6.0/gatk-4.1.6.0.zip}
+\StringTok{# unzip that compressed file into a directory}
+\StringTok{unzip gatk-4.1.6.0.zip}
+\StringTok{# if that step was successful, remove the zip file}
+\StringTok{rm gatk-4.1.6.0.zip}
+\StringTok{# cd into the gatk directory}
+\StringTok{cd gatk-4.1.6.0}
+\StringTok{# finally, print the working directory to get the path}
+\StringTok{pwd}
+\end{Highlighting}
+\end{Shaded}
+
+When I do the last command, I get: \texttt{/projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0} You will
+want to copy the path on your system so that you can include it in your \texttt{\textasciitilde{}/.bashrc} file. In the following
+I refer to the path to the GATK directory on your system as \texttt{\textless{}PATH\_TO\textgreater{}}. You should replace \texttt{\textless{}PATH\_TO\textgreater{}}
+in the following with the paht to the GATK directory on your system. Edit your \texttt{\textasciitilde{}/.bashrc} file,
+adding the following lines \emph{above} the \texttt{\textgreater{}\textgreater{}\textgreater{}\ conda\ initialize\ \textgreater{}\textgreater{}\textgreater{}} block:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{export} \VariableTok{PATH=$PATH}\NormalTok{:}\OperatorTok{<}\ExtensionTok{PATH_TO}\OperatorTok{>}
+\BuiltInTok{source} \OperatorTok{<}\NormalTok{PATH_TO}\OperatorTok{>}\NormalTok{/gatk-completion.sh}
+\end{Highlighting}
+\end{Shaded}
+
+On my system, it looks like the following when I have replaced
+with the appropriate path:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{export} \VariableTok{PATH=$PATH}\NormalTok{:/projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0}
+\BuiltInTok{source}\NormalTok{ /projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0/gatk-completion.sh}
+\end{Highlighting}
+\end{Shaded}
+
+Once that is done, save and close \texttt{\textasciitilde{}/.bashrc} and then source it for the changes to take
+effect. (You don't typically need to source it if you login to a new shell, but here,
+since you are not opening a new shell, you need to source it.)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{source}\NormalTok{ ~/.bashrc}
+\end{Highlighting}
+\end{Shaded}
+
+Now, you should be able to give the command
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{cd} \CommentTok{# return to home directory}
+\ExtensionTok{gatk}
+\end{Highlighting}
+\end{Shaded}
+
+and you will get back a message about the syntax for using \texttt{gatk}. If not,
+then something has gone wrong.
+
+If \texttt{gatk} above worked as expected (gave you a help message), you are ready
+to run a very quick experiment to test if we are all set
+for calling variants (SNPs and indels) from the .bam files that were
+created in the \texttt{chr-32-bioinformatics} homework. Be \emph{certain} that you
+are on a compute node before doing this. (Check it with \texttt{hostname}).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# cd to your homework folder. On my system, that is:}
+\BuiltInTok{cd}\NormalTok{ scratch/COURSE_STUFF/chr-32-bioinformatics-eriqande/}
+\CommentTok{# make a file that holds the paths to all the duplicate-marked}
+\CommentTok{# bam files you created during the homework:}
+\FunctionTok{ls}\NormalTok{ -l mkdup/*_mkdup.bam }\KeywordTok{|} \FunctionTok{awk} \StringTok{'\{print $NF\}'} \OperatorTok{>}\NormalTok{ bamfiles.list}
+\CommentTok{# make sure bamfiles.list has the relative paths to a number}
+\CommentTok{# of different bamfiles in it:}
+\FunctionTok{cat}\NormalTok{ bamfiles.list}
+\CommentTok{# make a directory to put the output into}
+\FunctionTok{mkdir}\NormalTok{ vcf}
+\CommentTok{# make sure the JRE is loaded (on SUMMIT)}
+\ExtensionTok{module}\NormalTok{ load jdk}
+
+\CommentTok{# GATK needs two different indexes of the genome.  Unfortunately}
+\CommentTok{# the version we have is not compressed with bgzip, so}
+\CommentTok{# we will have to make an uncompressed version of it and}
+\CommentTok{# then index it. GATK expects the index (or, as they call it, }
+\CommentTok{# the "dictionary" to be named a certain way...)}
+\FunctionTok{gunzip}\NormalTok{ -c genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz }\OperatorTok{>}\NormalTok{ genome/GCA_002872995.1_Otsh_v1.0_genomic.fna}
+\ExtensionTok{conda}\NormalTok{ activate bioinf}
+\ExtensionTok{samtools}\NormalTok{ faidx genome/GCA_002872995.1_Otsh_v1.0_genomic.fna}
+\ExtensionTok{gatk}\NormalTok{ CreateSequenceDictionary -R genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \textbackslash{}}
+\NormalTok{     -O genome/GCA_002872995.1_Otsh_v1.0_genomic.dict}
+
+\CommentTok{# then we will launch GATK to do variant calling and create a VCF file}
+\CommentTok{# from the BAMs in bamfiles.list in a 5 Kb region (we expect about}
+\CommentTok{# 50 variants in such a small part of the genome) on Chromosome 32}
+\CommentTok{# which is named CM009233.1}
+\ExtensionTok{gatk}\NormalTok{ --java-options }\StringTok{"-Xmx4g"}\NormalTok{ HaplotypeCaller  \textbackslash{}}
+\NormalTok{   -R genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \textbackslash{}}
+\NormalTok{   -I bamfiles.list \textbackslash{}}
+\NormalTok{   -O vcf/tiny-test.vcf \textbackslash{}}
+\NormalTok{   -L CM009233.1:2000000-2005000}
+\end{Highlighting}
+\end{Shaded}
+
+Once that finishes, look at the resulting VCF file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{more}\NormalTok{ vcf/tiny-test.vcf}
+
+\CommentTok{# if you get tired of scrolling through the header lines (with}
+\CommentTok{# endless small genome fragment names). Then quit that (hit q)}
+\CommentTok{# and view it without the header:}
+\ExtensionTok{bcftools}\NormalTok{ view -H vcf/tiny-test.vcf}
+\end{Highlighting}
+\end{Shaded}
+
+If that looks like a bunch of gibberish, rejoice! We will learn about the VCF file
+format soon!
 
 \hypertarget{vim-its-time-to-get-serious-with-text-editing}{%
 \section{\texorpdfstring{\texttt{vim}: it's time to get serious with text editing}{vim: it's time to get serious with text editing}}\label{vim-its-time-to-get-serious-with-text-editing}}
@@ -7837,8 +8334,8 @@ Different HPCCs have different settings for the default amount of time an intera
 granted to a user. On some systems, you can request a shell for a certain amount of time using the
 \texttt{-\/-time} option to the slurm command.
 
-\hypertarget{batch-jobs}{%
-\subsection{Batch jobs}\label{batch-jobs}}
+\hypertarget{slurm-batch}{%
+\subsection{Batch jobs}\label{slurm-batch}}
 
 After you have tested your bioinformatic scripts in an interactive shell and are ready to
 run them ``for real,'' you will want to launch the script in a non-interactive, or \emph{batch} job.
@@ -13651,7 +14148,7 @@ I copied that to \texttt{inputs} so we can plot it:
 \end{Highlighting}
 \end{Shaded}
 
-\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-74-1.pdf}
+\includegraphics{eca-bioinf-handbook_files/figure-latex/unnamed-chunk-75-1.pdf}
 
 OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.
 

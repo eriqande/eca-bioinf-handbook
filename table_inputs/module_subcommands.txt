@@ -1,0 +1,10 @@
+Module Subcommand   & What it does
+`avail`       & Lists available modules (i.e., software that can be loaded as a module)
+`add` _modulefile_       & same as `load` _modulefile_
+`list`   & list all currently loaded modulefiles.
+`load` _modulefile_  & add the necessary ingredients to one's shell to be able to run the programs contained in _modulefile_.  
+`purge`   & unload all the currently loaded modulefiles.
+`rm` _modulefile_    & same as `unload` _modulefile_.
+`show` _modulefile_ & describe the _modulefile_ and the changes to the PATH and other shell evironment variables that occur when loading the _modulefile_
+`unload` _modulefile_ & reverse the changes made to the shell environment made by `load` _modulefile_
+
