@@ -2268,11 +2268,21 @@ format soon!
 
 Introduce newbs to the `vimtutor`.
 
+Note, on a Mac, add these lines to your `~/.vimrc` file:
+```
+filetype plugin indent on
+syntax on
+```
+That will provide syntax highlighting.
+
+
 
 
 ### Using neovim and Nvim-R and tmux to use R well on the cluster
 
-These are currently just notes to myself.
+
+These are currently just notes to myself.  And I won't end up doing this anyway..
+I should probably replace with with my own rView package...
 
 On Summit you can follow the directions install Neovim and Nvim-R etc, found
 at section 2 of [https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc](https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc).

@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-09" />
+<meta name="date" content="2020-04-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -329,7 +329,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="17.4.7" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#the-bam-format"><i class="fa fa-check"></i><b>17.4.7</b> The BAM format</a></li>
 <li class="chapter" data-level="17.4.8" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#quick-self-study"><i class="fa fa-check"></i><b>17.4.8</b> Quick self study</a></li>
 </ul></li>
-<li class="chapter" data-level="17.5" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#variants"><i class="fa fa-check"></i><b>17.5</b> Variants</a></li>
+<li class="chapter" data-level="17.5" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#variants"><i class="fa fa-check"></i><b>17.5</b> Variants</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#vcf-format-the-body"><i class="fa fa-check"></i><b>17.5.1</b> VCF Format – The Body</a></li>
+<li class="chapter" data-level="17.5.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#vcf-format-the-header"><i class="fa fa-check"></i><b>17.5.2</b> VCF Format – The Header</a></li>
+<li class="chapter" data-level="17.5.3" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#boneyard"><i class="fa fa-check"></i><b>17.5.3</b> Boneyard</a></li>
+</ul></li>
 <li class="chapter" data-level="17.6" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#segments"><i class="fa fa-check"></i><b>17.6</b> Segments</a></li>
 <li class="chapter" data-level="17.7" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#conversionextractions-between-different-formats"><i class="fa fa-check"></i><b>17.7</b> Conversion/Extractions between different formats</a></li>
 <li class="chapter" data-level="17.8" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#visualization-of-genomic-data"><i class="fa fa-check"></i><b>17.8</b> Visualization of Genomic Data</a><ul>
@@ -454,11 +458,11 @@ choosing BetterBibTex, and then selecting “Export” button. That yields a pag
 that gives you a place to omit certain reference fields. You life will be easier
 if you omit fields that are often long, or which are not needed for citation. I recommend
 filling that field with:</p>
-<div class="sourceCode" id="cb402"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb402-1" data-line-number="1">abstract,copyright,file,pmid</a></code></pre></div>
+<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" data-line-number="1">abstract,copyright,file,pmid</a></code></pre></div>
 And, you probably should restart Zotero after doing that.</li>
 <li><p>Install the R package <code>citr</code>. It is on CRAN, but it is probably best
 to first try the latest development version. Install it from within R using:</p>
-<div class="sourceCode" id="cb403"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb403-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;crsh/citr&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb404"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb404-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;crsh/citr&quot;</span>)</a></code></pre></div>
 For more information about this package check out <a href="https://github.com/crsh/citr">https://github.com/crsh/citr</a>.</li>
 <li>Once that package is installed. Quit and re-open RStudio. Now, if you go to the
 “Addins” menu (right under the name panel at the top of the RStudio window) you will
@@ -487,12 +491,12 @@ so you can edit references.bib to put titles in sentence case. Probably want to 
 <p>Whoa! Bookdown has figured out how to do references to sections and tables and things in a reasonable
 way that just isn’t there for the vanilla Rmarkdown. But you can use the bookdown syntax for a non-book
 too. Just put something like this in the YAML:</p>
-<div class="sourceCode" id="cb404"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb404-1" data-line-number="1"><span class="fu">output:</span></a>
-<a class="sourceLine" id="cb404-2" data-line-number="2">  <span class="fu">bookdown:</span><span class="at">:word_document2: default</span></a>
-<a class="sourceLine" id="cb404-3" data-line-number="3">  <span class="fu">bookdown:</span><span class="at">:pdf_document2:</span></a>
-<a class="sourceLine" id="cb404-4" data-line-number="4">    <span class="fu">number_sections:</span><span class="at"> yes</span></a>
-<a class="sourceLine" id="cb404-5" data-line-number="5">  <span class="fu">bookdown:</span><span class="at">:html_document2:</span></a>
-<a class="sourceLine" id="cb404-6" data-line-number="6">    <span class="fu">df_print:</span><span class="at"> paged</span></a></code></pre></div>
+<div class="sourceCode" id="cb405"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb405-1" data-line-number="1"><span class="fu">output:</span></a>
+<a class="sourceLine" id="cb405-2" data-line-number="2">  <span class="fu">bookdown:</span><span class="at">:word_document2: default</span></a>
+<a class="sourceLine" id="cb405-3" data-line-number="3">  <span class="fu">bookdown:</span><span class="at">:pdf_document2:</span></a>
+<a class="sourceLine" id="cb405-4" data-line-number="4">    <span class="fu">number_sections:</span><span class="at"> yes</span></a>
+<a class="sourceLine" id="cb405-5" data-line-number="5">  <span class="fu">bookdown:</span><span class="at">:html_document2:</span></a>
+<a class="sourceLine" id="cb405-6" data-line-number="6">    <span class="fu">df_print:</span><span class="at"> paged</span></a></code></pre></div>
 </div>
 <div id="google-docs" class="section level2">
 <h2><span class="header-section-number">13.4</span> Google Docs</h2>

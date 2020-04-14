@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-09" />
+<meta name="date" content="2020-04-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -329,7 +329,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="17.4.7" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#the-bam-format"><i class="fa fa-check"></i><b>17.4.7</b> The BAM format</a></li>
 <li class="chapter" data-level="17.4.8" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#quick-self-study"><i class="fa fa-check"></i><b>17.4.8</b> Quick self study</a></li>
 </ul></li>
-<li class="chapter" data-level="17.5" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#variants"><i class="fa fa-check"></i><b>17.5</b> Variants</a></li>
+<li class="chapter" data-level="17.5" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#variants"><i class="fa fa-check"></i><b>17.5</b> Variants</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#vcf-format-the-body"><i class="fa fa-check"></i><b>17.5.1</b> VCF Format – The Body</a></li>
+<li class="chapter" data-level="17.5.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#vcf-format-the-header"><i class="fa fa-check"></i><b>17.5.2</b> VCF Format – The Header</a></li>
+<li class="chapter" data-level="17.5.3" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#boneyard"><i class="fa fa-check"></i><b>17.5.3</b> Boneyard</a></li>
+</ul></li>
 <li class="chapter" data-level="17.6" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#segments"><i class="fa fa-check"></i><b>17.6</b> Segments</a></li>
 <li class="chapter" data-level="17.7" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#conversionextractions-between-different-formats"><i class="fa fa-check"></i><b>17.7</b> Conversion/Extractions between different formats</a></li>
 <li class="chapter" data-level="17.8" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#visualization-of-genomic-data"><i class="fa fa-check"></i><b>17.8</b> Visualization of Genomic Data</a><ul>
@@ -2485,16 +2489,21 @@ format soon!</p>
 <div id="vim-its-time-to-get-serious-with-text-editing" class="section level2">
 <h2><span class="header-section-number">7.6</span> <code>vim</code>: it’s time to get serious with text editing</h2>
 <p>Introduce newbs to the <code>vimtutor</code>.</p>
+<p>Note, on a Mac, add these lines to your <code>~/.vimrc</code> file:</p>
+<pre><code>filetype plugin indent on
+syntax on</code></pre>
+<p>That will provide syntax highlighting.</p>
 <div id="using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster" class="section level3">
 <h3><span class="header-section-number">7.6.1</span> Using neovim and Nvim-R and tmux to use R well on the cluster</h3>
-<p>These are currently just notes to myself.</p>
+<p>These are currently just notes to myself. And I won’t end up doing this anyway..
+I should probably replace with with my own rView package…</p>
 <p>On Summit you can follow the directions install Neovim and Nvim-R etc, found
 at section 2 of <a href="https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc">https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc</a>.
 You can just do 2.1 to 2.6. 2.7 is the routine for user accounts. You don’t need to install Tmux.</p>
 <p>You need to get an interactive session on a compute node and then</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb285-1" data-line-number="1"><span class="ex">module</span> load R/3.5.0</a>
-<a class="sourceLine" id="cb285-2" data-line-number="2"><span class="ex">module</span> load intel</a>
-<a class="sourceLine" id="cb285-3" data-line-number="3"><span class="ex">module</span> load mkl  </a></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb286-1" data-line-number="1"><span class="ex">module</span> load R/3.5.0</a>
+<a class="sourceLine" id="cb286-2" data-line-number="2"><span class="ex">module</span> load intel</a>
+<a class="sourceLine" id="cb286-3" data-line-number="3"><span class="ex">module</span> load mkl  </a></code></pre></div>
 <p>The last two are needed to get a random number to start up client through R.
 It is amazing to me that they call a specific Intel library to do that, and apparently
 loading the R module alone doesn’t get you that.</p>

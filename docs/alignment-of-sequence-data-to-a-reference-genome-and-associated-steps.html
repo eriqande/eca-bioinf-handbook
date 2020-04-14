@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-09" />
+<meta name="date" content="2020-04-14" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -329,7 +329,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="17.4.7" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#the-bam-format"><i class="fa fa-check"></i><b>17.4.7</b> The BAM format</a></li>
 <li class="chapter" data-level="17.4.8" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#quick-self-study"><i class="fa fa-check"></i><b>17.4.8</b> Quick self study</a></li>
 </ul></li>
-<li class="chapter" data-level="17.5" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#variants"><i class="fa fa-check"></i><b>17.5</b> Variants</a></li>
+<li class="chapter" data-level="17.5" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#variants"><i class="fa fa-check"></i><b>17.5</b> Variants</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#vcf-format-the-body"><i class="fa fa-check"></i><b>17.5.1</b> VCF Format – The Body</a></li>
+<li class="chapter" data-level="17.5.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#vcf-format-the-header"><i class="fa fa-check"></i><b>17.5.2</b> VCF Format – The Header</a></li>
+<li class="chapter" data-level="17.5.3" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#boneyard"><i class="fa fa-check"></i><b>17.5.3</b> Boneyard</a></li>
+</ul></li>
 <li class="chapter" data-level="17.6" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#segments"><i class="fa fa-check"></i><b>17.6</b> Segments</a></li>
 <li class="chapter" data-level="17.7" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#conversionextractions-between-different-formats"><i class="fa fa-check"></i><b>17.7</b> Conversion/Extractions between different formats</a></li>
 <li class="chapter" data-level="17.8" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#visualization-of-genomic-data"><i class="fa fa-check"></i><b>17.8</b> Visualization of Genomic Data</a><ul>
@@ -658,9 +662,9 @@ with <code>bwa</code>. This is a step that only needs to be done once, since the
 that is stored on the hard drive alongside the genome. So, after you download a reference genome,
 before you can start aligning sequences to it, you must index it using <code>bwa</code>. The syntax for this
 is very straightforward:</p>
-<div class="sourceCode" id="cb463"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb463-1" data-line-number="1"><span class="ex">bwa</span> index path-to-genome</a></code></pre></div>
+<div class="sourceCode" id="cb474"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb474-1" data-line-number="1"><span class="ex">bwa</span> index path-to-genome</a></code></pre></div>
 <p>For example:</p>
-<div class="sourceCode" id="cb464"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb464-1" data-line-number="1"><span class="ex">bwa</span> index genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a></code></pre></div>
+<div class="sourceCode" id="cb475"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb475-1" data-line-number="1"><span class="ex">bwa</span> index genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a></code></pre></div>
 <p>The reference genome must be stored as a FASTA file (Section <a href="bioinformatic-file-formats.html#fasta">17.3</a>), which can
 be compressed using <code>gzip</code>. (In the above example, the <code>.fna.gz</code> prefix means that the
 file is a FASTA file of nucleotides (<code>.fna</code>) and has been gzipped (<code>.gz</code>)).</p>
@@ -695,9 +699,9 @@ the best available <code>bwa</code> algorithm, today, is the <code>mem</code> al
 are many options available to tune the parameters used for alignment, the default values
 usually give good performance. Thus, at its
 simplest, <code>bwa mem</code> simply takes three file arguments:</p>
-<div class="sourceCode" id="cb466"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb466-1" data-line-number="1"><span class="ex">bwa</span> mem   path-to-reference-genome   path-to-read1-fastq-file   path-to-read2-fastq-file</a></code></pre></div>
+<div class="sourceCode" id="cb477"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb477-1" data-line-number="1"><span class="ex">bwa</span> mem   path-to-reference-genome   path-to-read1-fastq-file   path-to-read2-fastq-file</a></code></pre></div>
 <p>An example might look like:</p>
-<div class="sourceCode" id="cb467"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb467-1" data-line-number="1"><span class="ex">bwa</span> mem genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz fastqs/DPCh_plate1_A01_S1_L1_R1.fq.gz fastqs/DPCh_plate1_A01_S1_L1_R2.fq.gz</a></code></pre></div>
+<div class="sourceCode" id="cb478"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb478-1" data-line-number="1"><span class="ex">bwa</span> mem genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz fastqs/DPCh_plate1_A01_S1_L1_R1.fq.gz fastqs/DPCh_plate1_A01_S1_L1_R2.fq.gz</a></code></pre></div>
 <p><code>bwa mem</code> prints progress messages to <em>stderr</em> and prints its output in SAM format to <em>stdout</em>. The read alignments
 come spewing out in the order they are listed in the FASTQ files, such that each read and its
 paired-end mate appear in adjacent rows in the output. It’s all super simple!</p>
@@ -722,13 +726,13 @@ allow variable substitution (Section <a href="shell-programming.html#quotes-and-
 So, in your own scripts, especially when cycling over very many different pairs of
 FASTQ files, it is extremely useful to be able to define the values of the read group
 tags, and then supply them on the command line. Coarsely this would look like:</p>
-<div class="sourceCode" id="cb468"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb468-1" data-line-number="1"><span class="va">ID=</span>HTYYCBBXX.1.CH_plate1_A01</a>
-<a class="sourceLine" id="cb468-2" data-line-number="2"><span class="va">SM=</span>CH_plate1_A01</a>
-<a class="sourceLine" id="cb468-3" data-line-number="3"><span class="va">LB=</span>Lib-1</a>
-<a class="sourceLine" id="cb468-4" data-line-number="4"><span class="va">PU=</span>HTYYCBBXX.1.TCAATCCG+TTCGCAGT</a>
-<a class="sourceLine" id="cb468-5" data-line-number="5"><span class="va">PL=</span>ILLUMINA</a>
-<a class="sourceLine" id="cb468-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb468-7" data-line-number="7"><span class="ex">bwa</span> mem -R <span class="st">&quot;@RG\tID:</span><span class="va">$ID</span><span class="st">\tSM:</span><span class="va">$SM</span><span class="st">\tLB:</span><span class="va">$LB</span><span class="st">\tPU:</span><span class="va">$PU</span><span class="st">\tPL:</span><span class="va">$PL</span><span class="st">&quot;</span>  genome.fasta  file_R1.fq file_R2.fq</a></code></pre></div>
+<div class="sourceCode" id="cb479"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb479-1" data-line-number="1"><span class="va">ID=</span>HTYYCBBXX.1.CH_plate1_A01</a>
+<a class="sourceLine" id="cb479-2" data-line-number="2"><span class="va">SM=</span>CH_plate1_A01</a>
+<a class="sourceLine" id="cb479-3" data-line-number="3"><span class="va">LB=</span>Lib-1</a>
+<a class="sourceLine" id="cb479-4" data-line-number="4"><span class="va">PU=</span>HTYYCBBXX.1.TCAATCCG+TTCGCAGT</a>
+<a class="sourceLine" id="cb479-5" data-line-number="5"><span class="va">PL=</span>ILLUMINA</a>
+<a class="sourceLine" id="cb479-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb479-7" data-line-number="7"><span class="ex">bwa</span> mem -R <span class="st">&quot;@RG\tID:</span><span class="va">$ID</span><span class="st">\tSM:</span><span class="va">$SM</span><span class="st">\tLB:</span><span class="va">$LB</span><span class="st">\tPU:</span><span class="va">$PU</span><span class="st">\tPL:</span><span class="va">$PL</span><span class="st">&quot;</span>  genome.fasta  file_R1.fq file_R2.fq</a></code></pre></div>
 <p>However, you would probably want some way of assigning the values of the
 shell variables <code>ID</code>, <code>SM</code>, etc., programmatically, perhaps from the spreadsheet
 that holds all that information. The exercise this week shows one example of that
@@ -768,12 +772,12 @@ two groups:</p>
 <ol style="list-style-type: decimal">
 <li><p>Subcommands that explicitly require an argument that gives the name of an output file.
 These subcommands are usually described like this:</p>
-<div class="sourceCode" id="cb469"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb469-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options] out.bam in.bam</a></code></pre></div>
+<div class="sourceCode" id="cb480"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb480-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options] out.bam in.bam</a></code></pre></div>
 where an output file is explicitly called for. These commands
 <em>do not write output to stdout</em>! They must be given an output file name. It is
 <em>not possible</em> to pipe output from one of these subcommands to another program or utility.</li>
 <li><p>Subcommands that don’t explicitly require an argument giving an output file:</p>
-<div class="sourceCode" id="cb470"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb470-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options] in.bam</a></code></pre></div>
+<div class="sourceCode" id="cb481"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb481-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options] in.bam</a></code></pre></div>
 <p>These subcommands write their output to stdout, and that output can be piped into other programs or can
 be redirected into a file (some also provide a <code>-o file</code> option to write output to <code>file</code> rather than
 to stdout.)</p></li>
@@ -785,17 +789,17 @@ the next part of your pipeline.</p>
 how you can pipe that into the input for another <code>samtools</code> subcommand. Rejoice! There is a syntactically
 economical and lovely way to do that. Any subcommand which expects a single input file will be described
 like:</p>
-<div class="sourceCode" id="cb471"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb471-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options]  in.bam</a></code></pre></div>
+<div class="sourceCode" id="cb482"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb482-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options]  in.bam</a></code></pre></div>
 <p>You would typically put the path to the input file in the place of <code>in.bam</code> there.
 However, if you put <code>-</code> in place of <code>in.bam</code> then samtools will take input for
 <code>in.bam</code> from <em>stdin</em>.</p>
 <p>So, for example, you can do something like this:</p>
-<div class="sourceCode" id="cb472"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb472-1" data-line-number="1"><span class="ex">bwa</span> mem genome.fna R1.fq R2.fq <span class="kw">|</span></a>
-<a class="sourceLine" id="cb472-2" data-line-number="2">  <span class="ex">samtools</span> view -b -  <span class="kw">|</span>   # <span class="ex">convert</span> the SAM output from bwa mem into BAM format</a>
-<a class="sourceLine" id="cb472-3" data-line-number="3">  <span class="ex">samtools</span> fixmate -m - output_file  # take stdin as the input and write output to output_file</a></code></pre></div>
+<div class="sourceCode" id="cb483"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb483-1" data-line-number="1"><span class="ex">bwa</span> mem genome.fna R1.fq R2.fq <span class="kw">|</span></a>
+<a class="sourceLine" id="cb483-2" data-line-number="2">  <span class="ex">samtools</span> view -b -  <span class="kw">|</span>   # <span class="ex">convert</span> the SAM output from bwa mem into BAM format</a>
+<a class="sourceLine" id="cb483-3" data-line-number="3">  <span class="ex">samtools</span> fixmate -m - output_file  # take stdin as the input and write output to output_file</a></code></pre></div>
 <p>You can download an 11 Mb BAM file to play around with <a href="https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam">here</a>.
 If you are on your HPCC and want to download it, you can use:</p>
-<div class="sourceCode" id="cb473"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb473-1" data-line-number="1"><span class="fu">wget</span> https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam</a></code></pre></div>
+<div class="sourceCode" id="cb484"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb484-1" data-line-number="1"><span class="fu">wget</span> https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam</a></code></pre></div>
 <div id="samtools-subcommands" class="section level3">
 <h3><span class="header-section-number">19.4.1</span> <code>samtools</code> subcommands</h3>
 <p>We will go through some of the subcommands used in the exercises, in a
@@ -809,40 +813,40 @@ text…</p>
 <p>These are the commands
 needed to prepare yourself to go through the following in-class exercises. You
 should be doing this <em>on a compute node</em>.</p>
-<div class="sourceCode" id="cb474"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb474-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb474-2" data-line-number="2"><span class="co"># rclone the file here.  Change the remote name from &quot;gdrive-pers&quot; to whatever</span></a>
-<a class="sourceLine" id="cb474-3" data-line-number="3"><span class="co"># you have named your rclone google drive remote:</span></a>
-<a class="sourceLine" id="cb474-4" data-line-number="4"><span class="ex">rclone</span> copyto -P  --drive-shared-with-me  gdrive-pers:CSU-con-gen-2020/in-class-bam-play-session.tar.gz in-class-bam-play-session.tar.gz</a>
-<a class="sourceLine" id="cb474-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb474-6" data-line-number="6"><span class="co"># extract the contents of the tarball:</span></a>
-<a class="sourceLine" id="cb474-7" data-line-number="7"><span class="fu">gunzip</span> in-class-bam-play-session.tar.gz</a>
-<a class="sourceLine" id="cb474-8" data-line-number="8"><span class="fu">tar</span> -xvf in-class-bam-play-session.tar</a>
-<a class="sourceLine" id="cb474-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb474-10" data-line-number="10"><span class="co"># cd into the directory we will be working in:</span></a>
-<a class="sourceLine" id="cb474-11" data-line-number="11"><span class="bu">cd</span> in-class-bam-play-session</a>
-<a class="sourceLine" id="cb474-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb474-13" data-line-number="13"><span class="co"># make sure you have activated your conda environment that</span></a>
-<a class="sourceLine" id="cb474-14" data-line-number="14"><span class="co"># has samtools</span></a>
-<a class="sourceLine" id="cb474-15" data-line-number="15"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
+<div class="sourceCode" id="cb485"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb485-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb485-2" data-line-number="2"><span class="co"># rclone the file here.  Change the remote name from &quot;gdrive-pers&quot; to whatever</span></a>
+<a class="sourceLine" id="cb485-3" data-line-number="3"><span class="co"># you have named your rclone google drive remote:</span></a>
+<a class="sourceLine" id="cb485-4" data-line-number="4"><span class="ex">rclone</span> copyto -P  --drive-shared-with-me  gdrive-pers:CSU-con-gen-2020/in-class-bam-play-session.tar.gz in-class-bam-play-session.tar.gz</a>
+<a class="sourceLine" id="cb485-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb485-6" data-line-number="6"><span class="co"># extract the contents of the tarball:</span></a>
+<a class="sourceLine" id="cb485-7" data-line-number="7"><span class="fu">gunzip</span> in-class-bam-play-session.tar.gz</a>
+<a class="sourceLine" id="cb485-8" data-line-number="8"><span class="fu">tar</span> -xvf in-class-bam-play-session.tar</a>
+<a class="sourceLine" id="cb485-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb485-10" data-line-number="10"><span class="co"># cd into the directory we will be working in:</span></a>
+<a class="sourceLine" id="cb485-11" data-line-number="11"><span class="bu">cd</span> in-class-bam-play-session</a>
+<a class="sourceLine" id="cb485-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb485-13" data-line-number="13"><span class="co"># make sure you have activated your conda environment that</span></a>
+<a class="sourceLine" id="cb485-14" data-line-number="14"><span class="co"># has samtools</span></a>
+<a class="sourceLine" id="cb485-15" data-line-number="15"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
 <div id="samtools-view" class="section level4">
 <h4><span class="header-section-number">19.4.1.1</span> <code>samtools view</code></h4>
 <p>The <code>view</code> command is a major <code>samtools</code> workhorse.</p>
 <p>It is primarily used for viewing BAM files (-h/-H), which, you will recall,
 are not otherwise human readable.</p>
 <p>View a BAM (or SAM) file like this:</p>
-<div class="sourceCode" id="cb475"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb475-1" data-line-number="1"><span class="co"># from a BAM file</span></a>
-<a class="sourceLine" id="cb475-2" data-line-number="2"><span class="ex">samtools</span> view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">head</span></a>
-<a class="sourceLine" id="cb475-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb475-4" data-line-number="4"><span class="co"># from a SAM file</span></a>
-<a class="sourceLine" id="cb475-5" data-line-number="5"><span class="ex">samtools</span> view sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
+<div class="sourceCode" id="cb486"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb486-1" data-line-number="1"><span class="co"># from a BAM file</span></a>
+<a class="sourceLine" id="cb486-2" data-line-number="2"><span class="ex">samtools</span> view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">head</span></a>
+<a class="sourceLine" id="cb486-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb486-4" data-line-number="4"><span class="co"># from a SAM file</span></a>
+<a class="sourceLine" id="cb486-5" data-line-number="5"><span class="ex">samtools</span> view sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
 <p>That shows the first 10 lines of output.</p>
 <p>Note that there is no header in that output. To see the header also, you
 use the <code>-h</code> option:</p>
-<div class="sourceCode" id="cb476"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb476-1" data-line-number="1"><span class="ex">samtools</span> view -h bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
+<div class="sourceCode" id="cb487"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb487-1" data-line-number="1"><span class="ex">samtools</span> view -h bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
 <p>If all you want to print is the SAM header, then use the <code>-H</code> command:</p>
-<div class="sourceCode" id="cb477"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb477-1" data-line-number="1"><span class="co"># this is a handy way to get the last N (5 in this case) lines of the</span></a>
-<a class="sourceLine" id="cb477-2" data-line-number="2"><span class="co"># SAM header:</span></a>
-<a class="sourceLine" id="cb477-3" data-line-number="3"><span class="ex">samtools</span> view -H bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">tail</span> -n 5</a></code></pre></div>
+<div class="sourceCode" id="cb488"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb488-1" data-line-number="1"><span class="co"># this is a handy way to get the last N (5 in this case) lines of the</span></a>
+<a class="sourceLine" id="cb488-2" data-line-number="2"><span class="co"># SAM header:</span></a>
+<a class="sourceLine" id="cb488-3" data-line-number="3"><span class="ex">samtools</span> view -H bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">tail</span> -n 5</a></code></pre></div>
 <p>Check out that read group line!</p>
 <p><code>samtools view</code> is also used for converting from the text-based SAM format
 to BAM format. Whenever processing SAM/BAM files, you want it to be in BAM format
@@ -854,21 +858,21 @@ uncompressed BAM format. If you are not writing output to the disk, the
 <code>-u</code> option is preferred, since it saves the time that would be spent compressing
 and then decompressing the data as it gets piped from one <code>samtools</code> command
 to the next.</p>
-<div class="sourceCode" id="cb478"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb478-1" data-line-number="1"><span class="co"># write SAM output to BAM file</span></a>
-<a class="sourceLine" id="cb478-2" data-line-number="2"><span class="ex">samtools</span> view -1 sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam  <span class="op">&gt;</span> one.bam</a>
-<a class="sourceLine" id="cb478-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb478-4" data-line-number="4"><span class="co"># write it to a file directly, not through redirection</span></a>
-<a class="sourceLine" id="cb478-5" data-line-number="5"><span class="ex">samtools</span> view -1 -o two.bam sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam</a>
-<a class="sourceLine" id="cb478-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb478-7" data-line-number="7"><span class="co"># see that those are the same:</span></a>
-<a class="sourceLine" id="cb478-8" data-line-number="8"><span class="ex">shasum</span> two.bam one.bam</a>
-<a class="sourceLine" id="cb478-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb478-10" data-line-number="10"><span class="co"># do the same with -b instead of -1</span></a>
-<a class="sourceLine" id="cb478-11" data-line-number="11"><span class="ex">samtools</span> view -b -o three.bam sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam</a></code></pre></div>
+<div class="sourceCode" id="cb489"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb489-1" data-line-number="1"><span class="co"># write SAM output to BAM file</span></a>
+<a class="sourceLine" id="cb489-2" data-line-number="2"><span class="ex">samtools</span> view -1 sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam  <span class="op">&gt;</span> one.bam</a>
+<a class="sourceLine" id="cb489-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb489-4" data-line-number="4"><span class="co"># write it to a file directly, not through redirection</span></a>
+<a class="sourceLine" id="cb489-5" data-line-number="5"><span class="ex">samtools</span> view -1 -o two.bam sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam</a>
+<a class="sourceLine" id="cb489-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb489-7" data-line-number="7"><span class="co"># see that those are the same:</span></a>
+<a class="sourceLine" id="cb489-8" data-line-number="8"><span class="ex">shasum</span> two.bam one.bam</a>
+<a class="sourceLine" id="cb489-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb489-10" data-line-number="10"><span class="co"># do the same with -b instead of -1</span></a>
+<a class="sourceLine" id="cb489-11" data-line-number="11"><span class="ex">samtools</span> view -b -o three.bam sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam</a></code></pre></div>
 <p>Finally, if the you have <em>indexed</em> a BAM file, you can use <code>samtools view</code>
 to retrieve and print all the reads in that indexed BAM file covering one
 or more genomic regions as specified using genomic coordinates:</p>
-<div class="sourceCode" id="cb479"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb479-1" data-line-number="1"><span class="ex">samtools</span> view duplicates-marked/DPCh_plate1_A01_mkdup.bam  CM009233.1:11271560-11271570  CM009233.1:1907820-1907830</a></code></pre></div>
+<div class="sourceCode" id="cb490"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb490-1" data-line-number="1"><span class="ex">samtools</span> view duplicates-marked/DPCh_plate1_A01_mkdup.bam  CM009233.1:11271560-11271570  CM009233.1:1907820-1907830</a></code></pre></div>
 </div>
 <div id="samtools-fixmate" class="section level4">
 <h4><span class="header-section-number">19.4.1.2</span> <code>samtools fixmate</code></h4>
@@ -878,22 +882,22 @@ a “mate-score” field to each alignment. This is used later by <code>samtools
 Mates must be adjacent to one another in the input BAM. This is how mates are arranged
 right after running <code>bwa mem</code>, so it is best to run this right after alignment.</p>
 <p>This subcommand does not write to <em>stdout</em>, so output must be written to a file.</p>
-<div class="sourceCode" id="cb480"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb480-1" data-line-number="1"><span class="co"># run it on the BAM</span></a>
-<a class="sourceLine" id="cb480-2" data-line-number="2"><span class="ex">samtools</span> fixmate -m bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam  fixed.bam</a>
-<a class="sourceLine" id="cb480-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb480-4" data-line-number="4"><span class="co"># do the same, but take input on stdin from the SAM getting coverted</span></a>
-<a class="sourceLine" id="cb480-5" data-line-number="5"><span class="co"># to BAM. Notice the use of &quot;-&quot; in place of the filename for input from stdin.</span></a>
-<a class="sourceLine" id="cb480-6" data-line-number="6"><span class="ex">samtools</span> view -b sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam <span class="kw">|</span> <span class="ex">samtools</span> fixmate -m - fixed2.bam</a>
-<a class="sourceLine" id="cb480-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb480-8" data-line-number="8"><span class="co"># note that both give the same result:</span></a>
-<a class="sourceLine" id="cb480-9" data-line-number="9"><span class="ex">shasum</span> fixed*.bam</a>
-<a class="sourceLine" id="cb480-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb480-11" data-line-number="11"><span class="co"># compare the first alignment in the BAMs before and after running fixmate:</span></a>
-<a class="sourceLine" id="cb480-12" data-line-number="12"><span class="ex">samtools</span> view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">head</span> -n 1</a>
-<a class="sourceLine" id="cb480-13" data-line-number="13"><span class="ex">samtools</span> view fixed.bam <span class="kw">|</span> <span class="fu">head</span> -n 1</a>
-<a class="sourceLine" id="cb480-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb480-15" data-line-number="15"><span class="co"># how do the above two outputs differ?</span></a>
-<a class="sourceLine" id="cb480-16" data-line-number="16"><span class="co"># What new information is in fixed.bam?</span></a></code></pre></div>
+<div class="sourceCode" id="cb491"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb491-1" data-line-number="1"><span class="co"># run it on the BAM</span></a>
+<a class="sourceLine" id="cb491-2" data-line-number="2"><span class="ex">samtools</span> fixmate -m bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam  fixed.bam</a>
+<a class="sourceLine" id="cb491-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb491-4" data-line-number="4"><span class="co"># do the same, but take input on stdin from the SAM getting coverted</span></a>
+<a class="sourceLine" id="cb491-5" data-line-number="5"><span class="co"># to BAM. Notice the use of &quot;-&quot; in place of the filename for input from stdin.</span></a>
+<a class="sourceLine" id="cb491-6" data-line-number="6"><span class="ex">samtools</span> view -b sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam <span class="kw">|</span> <span class="ex">samtools</span> fixmate -m - fixed2.bam</a>
+<a class="sourceLine" id="cb491-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb491-8" data-line-number="8"><span class="co"># note that both give the same result:</span></a>
+<a class="sourceLine" id="cb491-9" data-line-number="9"><span class="ex">shasum</span> fixed*.bam</a>
+<a class="sourceLine" id="cb491-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb491-11" data-line-number="11"><span class="co"># compare the first alignment in the BAMs before and after running fixmate:</span></a>
+<a class="sourceLine" id="cb491-12" data-line-number="12"><span class="ex">samtools</span> view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">head</span> -n 1</a>
+<a class="sourceLine" id="cb491-13" data-line-number="13"><span class="ex">samtools</span> view fixed.bam <span class="kw">|</span> <span class="fu">head</span> -n 1</a>
+<a class="sourceLine" id="cb491-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb491-15" data-line-number="15"><span class="co"># how do the above two outputs differ?</span></a>
+<a class="sourceLine" id="cb491-16" data-line-number="16"><span class="co"># What new information is in fixed.bam?</span></a></code></pre></div>
 </div>
 <div id="samtools-sort" class="section level4">
 <h4><span class="header-section-number">19.4.1.3</span> <code>samtools sort</code></h4>
@@ -902,21 +906,21 @@ in the reference genome. This must be done for
 most downstream operations—especially for merging and for marking duplicates—so
 it is something that you will always do to alignments from <code>bwa mem</code> or any
 other aligner.</p>
-<div class="sourceCode" id="cb481"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb481-1" data-line-number="1"><span class="co"># first note that, when it comes off the seqencer, it is not sorted</span></a>
-<a class="sourceLine" id="cb481-2" data-line-number="2"><span class="ex">samtools</span> view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $1, $3, $4}&#39;</span> <span class="kw">|</span> <span class="fu">less</span></a>
-<a class="sourceLine" id="cb481-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb481-4" data-line-number="4"><span class="co"># how is it sorted?</span></a>
-<a class="sourceLine" id="cb481-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb481-6" data-line-number="6"><span class="co"># coordinate-sort that file:</span></a>
-<a class="sourceLine" id="cb481-7" data-line-number="7"><span class="ex">samtools</span> sort bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="op">&gt;</span> sorted1.bam</a>
-<a class="sourceLine" id="cb481-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb481-9" data-line-number="9"><span class="co"># rather than redirecting sort&#39;s stdout to a file you can use the -o option</span></a>
-<a class="sourceLine" id="cb481-10" data-line-number="10"><span class="ex">samtools</span> sort -o sorted2.bam bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam</a>
-<a class="sourceLine" id="cb481-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb481-12" data-line-number="12"><span class="co"># check they are the same with shasum (this is left for you to do)</span></a>
-<a class="sourceLine" id="cb481-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb481-14" data-line-number="14"><span class="co"># now, look at the order of the positions in the sorted file</span></a>
-<a class="sourceLine" id="cb481-15" data-line-number="15"><span class="ex">samtools</span> view sorted1.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $3, $4}&#39;</span> <span class="kw">|</span> <span class="fu">less</span></a></code></pre></div>
+<div class="sourceCode" id="cb492"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb492-1" data-line-number="1"><span class="co"># first note that, when it comes off the seqencer, it is not sorted</span></a>
+<a class="sourceLine" id="cb492-2" data-line-number="2"><span class="ex">samtools</span> view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $1, $3, $4}&#39;</span> <span class="kw">|</span> <span class="fu">less</span></a>
+<a class="sourceLine" id="cb492-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb492-4" data-line-number="4"><span class="co"># how is it sorted?</span></a>
+<a class="sourceLine" id="cb492-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb492-6" data-line-number="6"><span class="co"># coordinate-sort that file:</span></a>
+<a class="sourceLine" id="cb492-7" data-line-number="7"><span class="ex">samtools</span> sort bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="op">&gt;</span> sorted1.bam</a>
+<a class="sourceLine" id="cb492-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb492-9" data-line-number="9"><span class="co"># rather than redirecting sort&#39;s stdout to a file you can use the -o option</span></a>
+<a class="sourceLine" id="cb492-10" data-line-number="10"><span class="ex">samtools</span> sort -o sorted2.bam bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam</a>
+<a class="sourceLine" id="cb492-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb492-12" data-line-number="12"><span class="co"># check they are the same with shasum (this is left for you to do)</span></a>
+<a class="sourceLine" id="cb492-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb492-14" data-line-number="14"><span class="co"># now, look at the order of the positions in the sorted file</span></a>
+<a class="sourceLine" id="cb492-15" data-line-number="15"><span class="ex">samtools</span> view sorted1.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $3, $4}&#39;</span> <span class="kw">|</span> <span class="fu">less</span></a></code></pre></div>
 <p><code>samtools sort</code> produces intermediate files when it is sorting large BAM files.
 You will sometimes see them if <code>ls</code>-ing the contents of directories while running
 a sort job.
@@ -956,30 +960,30 @@ individual.)</p>
 followed by all the input file names. If you get the order of the filenames wrong—for
 example putting the output file last, then it will usually bark you an error because
 you are, in effect, asking it to overwrite an existing input file.</p>
-<div class="sourceCode" id="cb483"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb483-1" data-line-number="1"><span class="co"># merge 8 input BAMs into a single BAM</span></a>
-<a class="sourceLine" id="cb483-2" data-line-number="2"><span class="ex">samtools</span> merge merged.bam   8-sorted-bams/*.bam</a>
-<a class="sourceLine" id="cb483-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb483-4" data-line-number="4"><span class="co"># now, look at the read groups in the header of that new, merged file:</span></a>
-<a class="sourceLine" id="cb483-5" data-line-number="5"><span class="ex">samtools</span> view -H merged.bam <span class="kw">|</span> <span class="fu">tail</span> -n 20</a></code></pre></div>
+<div class="sourceCode" id="cb494"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb494-1" data-line-number="1"><span class="co"># merge 8 input BAMs into a single BAM</span></a>
+<a class="sourceLine" id="cb494-2" data-line-number="2"><span class="ex">samtools</span> merge merged.bam   8-sorted-bams/*.bam</a>
+<a class="sourceLine" id="cb494-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb494-4" data-line-number="4"><span class="co"># now, look at the read groups in the header of that new, merged file:</span></a>
+<a class="sourceLine" id="cb494-5" data-line-number="5"><span class="ex">samtools</span> view -H merged.bam <span class="kw">|</span> <span class="fu">tail</span> -n 20</a></code></pre></div>
 </div>
 <div id="samtools-markdup" class="section level4">
 <h4><span class="header-section-number">19.4.1.5</span> <code>samtools markdup</code></h4>
 <p>Mark PCR (or optical) duplicates. Input must have a mate-score field (obtained
 from running <code>samtools fixmate -m</code>). And, it must be coordinate-sorted. <em>And</em> it must
 include all the alignments from a single sample from a single library prep.</p>
-<div class="sourceCode" id="cb484"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb484-1" data-line-number="1"><span class="co"># mark duplicates in the merged bam</span></a>
-<a class="sourceLine" id="cb484-2" data-line-number="2"><span class="ex">samtools</span> markdup 8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam marked.bam</a></code></pre></div>
+<div class="sourceCode" id="cb495"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb495-1" data-line-number="1"><span class="co"># mark duplicates in the merged bam</span></a>
+<a class="sourceLine" id="cb495-2" data-line-number="2"><span class="ex">samtools</span> markdup 8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam marked.bam</a></code></pre></div>
 <p>How does this file differ now? Well, reads that look like PCR duplicates have
 been marked as such by including the bits 0x400 to its SAM Flag. We can verify
 that by using the <code>-f</code> option to <code>samtools view</code> to print alignments that have the
 0x400 bit set:</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb485-1" data-line-number="1"><span class="co"># see the reads marked as PCR duplicates:</span></a>
-<a class="sourceLine" id="cb485-2" data-line-number="2"><span class="ex">samtools</span> view -f 0x400 marked.bam <span class="kw">|</span> <span class="fu">less</span></a>
-<a class="sourceLine" id="cb485-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb485-4" data-line-number="4"><span class="co"># note that there are none before marking duplicates</span></a>
-<a class="sourceLine" id="cb485-5" data-line-number="5"><span class="ex">samtools</span> view -f 0x400 8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam</a>
-<a class="sourceLine" id="cb485-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb485-7" data-line-number="7"><span class="co"># (nothing, nada, zip, goose-eggs...)</span></a></code></pre></div>
+<div class="sourceCode" id="cb496"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb496-1" data-line-number="1"><span class="co"># see the reads marked as PCR duplicates:</span></a>
+<a class="sourceLine" id="cb496-2" data-line-number="2"><span class="ex">samtools</span> view -f 0x400 marked.bam <span class="kw">|</span> <span class="fu">less</span></a>
+<a class="sourceLine" id="cb496-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb496-4" data-line-number="4"><span class="co"># note that there are none before marking duplicates</span></a>
+<a class="sourceLine" id="cb496-5" data-line-number="5"><span class="ex">samtools</span> view -f 0x400 8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam</a>
+<a class="sourceLine" id="cb496-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb496-7" data-line-number="7"><span class="co"># (nothing, nada, zip, goose-eggs...)</span></a></code></pre></div>
 <p>The file produced here (<code>marked.bam</code>) is ready to go for variant calling, but
 you will also want to index it for rapid access to reads aligned to any genomic
 regions. Indexing is required for most variant callers.</p>
@@ -989,7 +993,7 @@ regions. Indexing is required for most variant callers.</p>
 <p>Once you have a sorted BAM file that is ready for variant calling, you will want
 to <em>index</em> it. This is also necessary for some other operations, like <code>idxstats</code>.
 The syntax is simple:</p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb486-1" data-line-number="1"><span class="ex">samtools</span> index duplicates-marked/DPCh_plate1_A01_mkdup.bam</a></code></pre></div>
+<div class="sourceCode" id="cb497"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb497-1" data-line-number="1"><span class="ex">samtools</span> index duplicates-marked/DPCh_plate1_A01_mkdup.bam</a></code></pre></div>
 <p>The index for file <code>FILE.bam</code> is stored alongside the file in
 <code>FILE.bam.bai</code>. The <code>bai</code> extension means “bam index.”</p>
 <p>Now, your file would be read to go for variant calling!
@@ -1002,21 +1006,21 @@ to the reference genome.</p>
 <p>Provide summary information about the SAM flags of the alignments.
 This is a great utility to assess how many reads mapped, how many didn’t,
 and the nature of their mapping (as relayed by their SAM flags).</p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb487-1" data-line-number="1"><span class="co"># SAM flag summary for the final dupe-marked file</span></a>
-<a class="sourceLine" id="cb487-2" data-line-number="2"><span class="ex">samtools</span> flagstat duplicates-marked/DPCh_plate1_A01_mkdup.bam</a>
-<a class="sourceLine" id="cb487-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb487-4" data-line-number="4"><span class="co"># Summary for the merged file before dupe-marking</span></a>
-<a class="sourceLine" id="cb487-5" data-line-number="5"><span class="ex">samtools</span> flagstat  8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam</a>
-<a class="sourceLine" id="cb487-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb487-7" data-line-number="7"><span class="co"># how do those two differ?</span></a></code></pre></div>
+<div class="sourceCode" id="cb498"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb498-1" data-line-number="1"><span class="co"># SAM flag summary for the final dupe-marked file</span></a>
+<a class="sourceLine" id="cb498-2" data-line-number="2"><span class="ex">samtools</span> flagstat duplicates-marked/DPCh_plate1_A01_mkdup.bam</a>
+<a class="sourceLine" id="cb498-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb498-4" data-line-number="4"><span class="co"># Summary for the merged file before dupe-marking</span></a>
+<a class="sourceLine" id="cb498-5" data-line-number="5"><span class="ex">samtools</span> flagstat  8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam</a>
+<a class="sourceLine" id="cb498-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb498-7" data-line-number="7"><span class="co"># how do those two differ?</span></a></code></pre></div>
 </div>
 <div id="samtools-idxstats" class="section level4">
 <h4><span class="header-section-number">19.4.1.8</span> <code>samtools idxstats</code></h4>
 <p>From an indexed BAM file, report how many reads map to each
 sequence in the reference genome.</p>
-<div class="sourceCode" id="cb488"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb488-1" data-line-number="1"><span class="co"># see how many reads mapped to each of the &quot;named&quot; chromosomes</span></a>
-<a class="sourceLine" id="cb488-2" data-line-number="2"><span class="co"># in the reference genome (those that start with &quot;CM&quot;)</span></a>
-<a class="sourceLine" id="cb488-3" data-line-number="3"><span class="ex">samtools</span> idxstats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^CM/&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb499"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb499-1" data-line-number="1"><span class="co"># see how many reads mapped to each of the &quot;named&quot; chromosomes</span></a>
+<a class="sourceLine" id="cb499-2" data-line-number="2"><span class="co"># in the reference genome (those that start with &quot;CM&quot;)</span></a>
+<a class="sourceLine" id="cb499-3" data-line-number="3"><span class="ex">samtools</span> idxstats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^CM/&#39;</span></a></code></pre></div>
 <p>The columns that come out of this are:</p>
 <ol style="list-style-type: decimal">
 <li>Reference sequence name</li>
@@ -1028,19 +1032,19 @@ sequence in the reference genome.</p>
 <div id="samtools-stats" class="section level4">
 <h4><span class="header-section-number">19.4.1.9</span> <code>samtools stats</code></h4>
 <p>Comprehensive summaries of features of the alignments.</p>
-<div class="sourceCode" id="cb489"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb489-1" data-line-number="1"><span class="co"># check them all out:</span></a>
-<a class="sourceLine" id="cb489-2" data-line-number="2"><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">more</span></a>
-<a class="sourceLine" id="cb489-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb489-4" data-line-number="4"><span class="co"># look at the headers for each of the different sections:</span></a>
-<a class="sourceLine" id="cb489-5" data-line-number="5"><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^#/&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb500"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb500-1" data-line-number="1"><span class="co"># check them all out:</span></a>
+<a class="sourceLine" id="cb500-2" data-line-number="2"><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">more</span></a>
+<a class="sourceLine" id="cb500-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb500-4" data-line-number="4"><span class="co"># look at the headers for each of the different sections:</span></a>
+<a class="sourceLine" id="cb500-5" data-line-number="5"><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^#/&#39;</span></a></code></pre></div>
 <p>Note that, in the headers for each of the different summaries in the output
 from <code>samtools stats</code>, instructions are given on how to extract just that
 summary. For example,</p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb490-1" data-line-number="1"><span class="co"># extract the Summary Numbers:</span></a>
-<a class="sourceLine" id="cb490-2" data-line-number="2"><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">grep</span> ^SN <span class="kw">|</span> <span class="fu">cut</span> -f 2-</a>
-<a class="sourceLine" id="cb490-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb490-4" data-line-number="4"><span class="co"># extract the distribution of read lengths</span></a>
-<a class="sourceLine" id="cb490-5" data-line-number="5"><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">grep</span> ^RL <span class="kw">|</span> <span class="fu">cut</span> -f 2-</a></code></pre></div>
+<div class="sourceCode" id="cb501"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb501-1" data-line-number="1"><span class="co"># extract the Summary Numbers:</span></a>
+<a class="sourceLine" id="cb501-2" data-line-number="2"><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">grep</span> ^SN <span class="kw">|</span> <span class="fu">cut</span> -f 2-</a>
+<a class="sourceLine" id="cb501-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb501-4" data-line-number="4"><span class="co"># extract the distribution of read lengths</span></a>
+<a class="sourceLine" id="cb501-5" data-line-number="5"><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">grep</span> ^RL <span class="kw">|</span> <span class="fu">cut</span> -f 2-</a></code></pre></div>
 </div>
 </div>
 </div>
@@ -1057,17 +1061,17 @@ put that in a separate chapter of “preliminaries”</p>
 <div id="quick-notes-to-self-on-chaining-things" class="section level2">
 <h2><span class="header-section-number">19.7</span> Quick notes to self on chaining things:</h2>
 <p>When using samtools markdup you can do like this:</p>
-<div class="sourceCode" id="cb491"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb491-1" data-line-number="1"><span class="co"># first step</span></a>
-<a class="sourceLine" id="cb491-2" data-line-number="2"><span class="ex">bwa</span> mem chinook-play/chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R1.fq chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R2.fq <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb491-3" data-line-number="3">    <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb491-4" data-line-number="4">    <span class="ex">samtools</span> fixmate -m -O BAM - fixed.bam</a>
-<a class="sourceLine" id="cb491-5" data-line-number="5">    </a>
-<a class="sourceLine" id="cb491-6" data-line-number="6"><span class="co"># unfortunately, fixmate can&#39;t write to stdout.</span></a>
-<a class="sourceLine" id="cb491-7" data-line-number="7"><span class="co"># then, after this, we have to sort it into coordinate order and</span></a>
-<a class="sourceLine" id="cb491-8" data-line-number="8"><span class="co"># markdup them.</span></a>
-<a class="sourceLine" id="cb491-9" data-line-number="9"><span class="ex">samtools</span> sort fixed.bam <span class="kw">|</span> <span class="ex">samtools</span> markdup - marked.bam</a>
-<a class="sourceLine" id="cb491-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb491-11" data-line-number="11"><span class="co"># after that, fixed.bam could get tossed.</span></a></code></pre></div>
+<div class="sourceCode" id="cb502"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb502-1" data-line-number="1"><span class="co"># first step</span></a>
+<a class="sourceLine" id="cb502-2" data-line-number="2"><span class="ex">bwa</span> mem chinook-play/chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R1.fq chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R2.fq <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb502-3" data-line-number="3">    <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
+<a class="sourceLine" id="cb502-4" data-line-number="4">    <span class="ex">samtools</span> fixmate -m -O BAM - fixed.bam</a>
+<a class="sourceLine" id="cb502-5" data-line-number="5">    </a>
+<a class="sourceLine" id="cb502-6" data-line-number="6"><span class="co"># unfortunately, fixmate can&#39;t write to stdout.</span></a>
+<a class="sourceLine" id="cb502-7" data-line-number="7"><span class="co"># then, after this, we have to sort it into coordinate order and</span></a>
+<a class="sourceLine" id="cb502-8" data-line-number="8"><span class="co"># markdup them.</span></a>
+<a class="sourceLine" id="cb502-9" data-line-number="9"><span class="ex">samtools</span> sort fixed.bam <span class="kw">|</span> <span class="ex">samtools</span> markdup - marked.bam</a>
+<a class="sourceLine" id="cb502-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb502-11" data-line-number="11"><span class="co"># after that, fixed.bam could get tossed.</span></a></code></pre></div>
 </div>
 <div id="merging-bam-files" class="section level2">
 <h2><span class="header-section-number">19.8</span> Merging BAM files</h2>

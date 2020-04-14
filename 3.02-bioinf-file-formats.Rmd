@@ -1137,11 +1137,379 @@ reverse-strand
 
 ## Variants
 
-In terms of the format/standard, is going to be well worth explaining the early
-part of section 5 of the standard so that people know how insertions and deletions 
-are coded.  I hadn't really digested that until just today.  Basically, the position
-in the VCF file correponds to the first character in either the REF or the ALT field.  
-When you remember that, it all falls into place.
+Most conservation geneticists who started working in the field before the
+genomic revolution will recognize _variant_ data as being most similar to what
+they have traditionally thought of as "genotype data" or, simply, "the data."
+As the name implies, variant data consist of data only at those places in the genome
+where there is variation within a population or a species. This variation is the
+informative portion of the data for many analyses.  In other words, you needn't always
+carry with you information about every single base in the genome, because at most
+positions in the genome, every individual you are studying will carry the same
+base, and such fixed sites are not informative for many genetic analyses.
+
+On the one hand, you can think of sites with no variation as being a little like
+monomorphic microsatellite loci (if that analogy is helpful for our older, more
+experienced, readers, who have been doing conservation genetics for a while...)
+Typically, such monomorphic loci were dropped for many analyses.  On the other hand,
+when you are sampling genetic variation from an entire genome, it is also very
+useful to be able to keep track of how many sites in the genome are variable versus not variable.
+Accordingly,with genomic variant data it is important to keep
+track of how many variants exists within a given portion of the genome, so, we
+must keep track of _where_, within our reference genome, the variant sites are.
+
+Finally, decades ago, many of the different types of genetic variant data were a
+reflection of the methodology used to assay them. So, for example, restriction-fragment
+length polymorphisms and amplified fragment length polymorphisms were somewhat crude
+summaries that were responsive to
+differences in the underlying sequences of bases, but were only telling us about
+sequence at a very small (like 6 bp) section of the genome).
+Meanwhile minisatellites and microsatellites
+were expressed in terms of the number of repeated short motifs in a location of the genome,
+without telling us what the sequence there actually was. Today, however,
+with the resolution provided by genome sequencing, many such polymorphisms that were defined
+by gross or summarized features of the sequence can now be
+categorized and described in terms of the actual
+genome sequence carried by the two copies of a chromosome in a diploid individual. The variants
+in this context are define according to how those sequences differ from the
+corresponding sequence in the reference genome. The latter point bears repeating: currently,
+variant data are defined in terms of differences between the sequence carried by an
+individual and the genome sequence as it is listed in the reference genome. 
+
+(We note that there is exciting work on developing a more "de-centralized" notion of
+variation data: one in which variants are not defined as departures from a "canonical"
+reference genome, but rather one in which all the known variation is recorded in
+a single "genomic variation graph."  This has exciting possibilities for reducing biases
+that might arise from the use of a single reference genome; however its use in conservation
+genetics is still likely a few (or more) years distant.)
+
+The resolution of genetic data now allows us to define many different kinds of
+polymorphisms in terms of the sequence data itself.  At the same time, just as
+the instruments used to gather sequence data can attach a variety
+of additional information (like base-quality and mapping scores) to sequence data,
+the methods used to infer the variants carried by an individual also may provide an
+abundance of additional information that should remain attached to the genotypes
+of individuals.  Further, as is a constant theme in genomics, the scale of variant
+data one can obtain is huge and we will often want to access information about only
+certain defined subsets of the variants carried by any particular individual. And finally,
+as more data gets collected, we will want to be able to combine data from different sources
+and studies and use the combined data in a unified fashion.
+
+For all the above reasons, the genomics community has recognized the need for a flexible
+and extensible format for storing variant data. Developing such a format and helping it
+to evolve as new types of genomic data allow new types of variants to be recorded, has been
+a major focus, driven largely by research in human genetics. For the most part, this
+community has converged on a format known as Variant Call Format or VCF. This format
+makes it possible to do all of the following:
+
+1. Record variants such as SNPs, and short insertions and deletions, in a single
+framework, in terms of the
+sequences carried by individuals. (There is also now support for reording large structural
+variations and copy number variations; however, those have not, as yet, become central in
+conservation genetics).
+2. Attach to each particular locus or variant an arbitrary quantity of extra information, which
+might include confidence/quality scores or annotation information (which genes is the variant
+in), etc.
+3. Attach to each particular inferred genotype of an individual a variety of information
+such as confidence scores, read depth, haplotypic phase, etc.
+4. Compress all of the data in an efficient fashion and still allow the data to be
+processed (by some utilities) without uncompressing the data.
+5. Index the data so that fast access to information about specific genomic regions can
+be extracted quickly.  
+
+The flexibility and extensibility of the VCF format comes with a small cost to
+conservation genomicists in that the format might look like nothing you have ever
+seen before!  On top of that, if you want to work with VCF files, you really ought to
+learn to use specialized tools that have been developed for handling VCF files.
+This turns out to be essential in conservation genomics for the simple reason that
+even if you don't end up doing most of your own bioinformatics (i.e. you leave the
+alignment and variant calling to a genotyping/bioinformatics service
+(or to a graduate student or postdoc)),
+the chances are good that whomever does that for you will (or, at least, _should_)
+send results to you in a VCF file.  So, while you might be able to do work in
+conservation genomics without ever having to crack open a BAM file, or parse the
+lines of a FASTQ file, you will almost invariably have to bang your head
+against a VCF file at some point. 
+
+So, what I am saying, is don't be a complete noob like I was in 2011 when I received
+my first data set in VCF format.  I didn't have any idea what it was, and
+after wracking my brain over it finally wrote back to the genotyping service
+that had sent it to me:
+```
+I have looked over the file and everything makes sense save for a few 
+things.   I was hoping you could answer just a few (should be easy) 
+questions.  You went over this when we videoconferenced, but just a 
+few things are hazy. Sorry.
+
+QUAL column:  How is this scaled? There are 13990 distinct values 
+ranging from 6.2 to 250.64.  Is it just sort of relative?  What is 
+"good" quality.
+
+The INFO column:  what does this mean: "NS=22:AN=1:DP=541"
+
+In other words what are NS, AN, and DP?
+
+The FORMAT column.  Looking at the file it appears that 
+"GT:DP:GQ:EC:SG" means that the first field is a genotype (0,1, or 
+0/1, for homozygous reference, homozygous non-reference, and 
+heterozygous).  And SG must be the IUPAC code for the individual's 
+genotype, but what are DP, GQ, and EC?  If I had to hazard a guess I 
+would say:
+DP = # of reads with reference base
+GQ = # of reads total whether or not they overlapped the position of 
+the base in question
+EC = # of reads with alternate base
+```
+Hah!  I just put that out there to remind myself that VCF files will
+seem super mysterious to _everyone_ when they first encounter them. My goal
+in the next section is to help you be better informed than I was when
+I saw my first VCF file.  So,
+with that in mind, let's jump into learning about the format...
+
+
+### VCF Format -- The Body
+
+VCF files, just like SAM files, have a header section and a main "body" section.
+We will start by describing the body section, in which each row holds information
+about a variant and the genotypes carried by individuals in a sample.  We will discuss
+the header section after that.
+
+To download a VCF file that you might view in a text editor you can use this link:
+
+* [https://www.dropbox.com/s/dzwixabvy3wwfdr/chinook-32-3Mb.vcf.gz?dl=1](https://www.dropbox.com/s/dzwixabvy3wwfdr/chinook-32-3Mb.vcf.gz?dl=1)
+
+If you want to, you can decompress that file and open it with an _able_ text editor (like
+TextWrangler or BBedit on a Mac or Notepad++ on Windows).
+Don't open it with MS Word!  Also, on you laptop, _don't try to just double click it!_  The
+.vcf extension is often interpreted as a "Virtual Contact File", meaning that your computer
+will try to open it---and possibly try to import it---using whatever program you handle
+your contacts' phone numbers and addresses with.  
+
+To get download the "index" for that file, use this:
+
+* [https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1](https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1)
+
+If you want to download these onto a remote Unix server you can use:
+```sh
+wget https://www.dropbox.com/s/dzwixabvy3wwfdr/chinook-32-3Mb.vcf.gz?dl=1
+wget https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1
+```
+
+At their core, VCF files are TAB-delimited text files. Below is a fragment of a VCF file body (and the final header line) holding information
+about 9 variants (in 9 rows below the final header line) and the genotypes at
+those variants carried in four 
+individuals (the four right-most columns).  
+```
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	DPCh_plate1_A05_S5	DPCh_plate1_A06_S6	DPCh_plate1_A11_S11	DPCh_plate1_A12_S12
+NC_037124.1	4001417	.	T	G	1528.4	.	AC=14;AF=0.245;AN=44;BaseQRankSum=2.296;ClippingRankSum=-1.168;DP=206;FS=0;MLEAC=51;MLEAF=0.236;MQ=60;MQRankSum=1.501;QD=23.88;ReadPosRankSum=1.685;SOR=0.608	GT:AD:DP:GQ:PL	1/1:0,1:1:3:45,3,0	./.:.:.:.:.	0/0:1,0:1:3:0,3,46	./.:.:.:.:.
+NC_037124.1	4001912	.	A	G	4886.98	.	AC=29;AF=0.652;AN=48;BaseQRankSum=4.315;ClippingRankSum=-0.984;DP=220;FS=0.753;MLEAC=139;MLEAF=0.662;MQ=59.92;MQRankSum=0.311;QD=29.62;ReadPosRankSum=-1.071;SOR=0.737	GT:AD:DP:GQ:PL	0/0:1,0:1:3:0,3,46	./.:.:.:.:.	0/1:3,1:4:33:33,0,120	1/1:0,2:2:6:87,6,0
+NC_037124.1	4004574	.	AAAGG	A	957.91	.	AC=12;AF=0.176;AN=48;BaseQRankSum=1.052;ClippingRankSum=0.887;DP=201;FS=0;MLEAC=28;MLEAF=0.149;MQ=60;MQRankSum=0.73;QD=26.61;ReadPosRankSum=-1.135;SOR=0.591	GT:AD:DP:GQ:PL	1/1:0,1:1:3:45,3,0	./.:.:.:.:.	0/0:2,0:2:6:0,6,119	0/0:2,0:2:6:0,6,109
+NC_037124.1	4006558	.	T	TG	3442.71	.	AC=24;AF=0.56;AN=28;BaseQRankSum=-1.068;ClippingRankSum=-1.509;DP=191;FS=5.394;MLEAC=102;MLEAF=0.554;MQ=60;MQRankSum=-0.621;QD=29.42;ReadPosRankSum=0.552;SOR=0.464	GT:AD:DP:GQ:PL	./.:.:.:.:.	1/1:0,2:2:6:75,6,0	1/1:0,2:2:6:82,6,0	./.:.:.:.:.
+NC_037124.1	4006887	.	G	T	109.29	.	AC=2;AF=0.048;AN=40;BaseQRankSum=-0.411;ClippingRankSum=-0.145;DP=175;FS=0;MLEAC=6;MLEAF=0.032;MQ=60;MQRankSum=-0.718;QD=15.61;ReadPosRankSum=-0.502;SOR=1.323	GT:AD:DP:GQ:PL	0/0:2,0:2:6:0,6,90	./.:.:.:.:.	0/0:1,0:1:3:0,3,46	0/0:1,0:1:3:0,3,42
+NC_037124.1	4007343	.	T	TGGAAGGAAGGAAACG	7696.07	.	AC=42;AF=0.985;AN=42;BaseQRankSum=2.278;ClippingRankSum=1.604;DP=213;FS=0;MLEAC=192;MLEAF=0.99;MQ=60;MQRankSum=0.139;QD=31.22;ReadPosRankSum=0.973;SOR=0.7	GT:AD:DP:GQ:PL	./.:.:.:.:.	1/1:0,1:1:3:34,3,0	./.:.:.:.:.	1/1:0,1:1:9:135,9,0
+NC_037124.1	4007526	.	C	T	1040.07	.	AC=13;AF=0.17;AN=54;BaseQRankSum=1.507;ClippingRankSum=0.333;DP=227;FS=2.374;MLEAC=35;MLEAF=0.165;MQ=60;MQRankSum=2.562;QD=17.05;ReadPosRankSum=1.567;SOR=0.679	GT:AD:DP:GQ:PL	0/1:1,1:2:19:19,0,39	0/0:1,0:1:3:0,3,45	0/0:2,0:2:6:0,6,49	0/0:2,0:2:6:0,6,90
+NC_037124.1	4007583	.	C	CAA	596.58	.	AC=3;AF=0.084;AN=54;BaseQRankSum=-0.197;ClippingRankSum=-0.445;DP=224;FS=0;MLEAC=19;MLEAF=0.089;MQ=60;MQRankSum=0.096;QD=20.57;ReadPosRankSum=-1.754;SOR=1.127	GT:AD:DP:GQ:PL	./.:.:.:.:.	0/0:1,0:1:3:0,3,45	0/0:2,0:2:6:0,6,90	0/0:1,0:1:3:0,3,45
+NC_037124.1	4007584	.	GCC	G,CCC	3246.17	.	AC=3,25;AF=0.083,0.324;AN=54;BaseQRankSum=1.157;ClippingRankSum=-0.459;DP=227;FS=2.342;MLEAC=16,56;MLEAF=0.074,0.259;MQ=60;MQRankSum=0.412;QD=28.98;ReadPosRankSum=-0.656;SOR=0.527	GT:AD:DP:GQ:PL	./.:.:.:.:.	2/2:0,0,1:1:3:37,39,45,3,3,0	2/2:0,0,2:2:6:82,84,90,6,6,0	2/2:0,0,1:1:3:45,45,45,3,3,0
+```
+Wow! That is really hard to look at.  The column corresponding to the INFO field
+is quite long and obtrusive.  Below we turn that column into a `.` in every row:
+```
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	DPCh_plate1_A05_S5	DPCh_plate1_A06_S6	DPCh_plate1_A11_S11	DPCh_plate1_A12_S12
+NC_037124.1	4001417	.	T	G	1528.4	.	.	GT:AD:DP:GQ:PL	1/1:0,1:1:3:45,3,0	./.:.:.:.:.	0/0:1,0:1:3:0,3,46	./.:.:.:.:.
+NC_037124.1	4001912	.	A	G	4886.98	.	.	GT:AD:DP:GQ:PL	0/0:1,0:1:3:0,3,46	./.:.:.:.:.	0/1:3,1:4:33:33,0,120	1/1:0,2:2:6:87,6,0
+NC_037124.1	4004574	.	AAAGG	A	957.91	.	.	GT:AD:DP:GQ:PL	1/1:0,1:1:3:45,3,0	./.:.:.:.:.	0/0:2,0:2:6:0,6,119	0/0:2,0:2:6:0,6,109
+NC_037124.1	4006558	.	T	TG	3442.71	.	.	GT:AD:DP:GQ:PL	./.:.:.:.:.	1/1:0,2:2:6:75,6,0	1/1:0,2:2:6:82,6,0	./.:.:.:.:.
+NC_037124.1	4006887	.	G	T	109.29	.	.	GT:AD:DP:GQ:PL	0/0:2,0:2:6:0,6,90	./.:.:.:.:.	0/0:1,0:1:3:0,3,46	0/0:1,0:1:3:0,3,42
+NC_037124.1	4007343	.	T	TGGAAGGAAGGAAACG	7696.07	.	GT:AD:DP:GQ:PL	./.:.:.:.:.	1/1:0,1:1:3:34,3,0	./.:.:.:.:.	1/1:0,1:1:9:135,9,0
+NC_037124.1	4007526	.	C	T	1040.07	.	.	GT:AD:DP:GQ:PL	0/1:1,1:2:19:19,0,39	0/0:1,0:1:3:0,3,45	0/0:2,0:2:6:0,6,49	0/0:2,0:2:6:0,6,90
+NC_037124.1	4007583	.	C	CAA	596.58	.	.	GT:AD:DP:GQ:PL	./.:.:.:.:.	0/0:1,0:1:3:0,3,45	0/0:2,0:2:6:0,6,90	0/0:1,0:1:3:0,3,45
+NC_037124.1	4007584	.	GCC	G,CCC	3246.17	.	.	GT:AD:DP:GQ:PL	./.:.:.:.:.	2/2:0,0,1:1:3:37,39,45,3,3,0	2/2:0,0,2:2:6:82,84,90,6,6,0	2/2:0,0,1:1:3:45,45,45,3,3,0
+```
+Phew!  That is easier on the eyes at this point.  Looking at the above, notice that
+the first _nine columns_ carry information that pertains to the variant itself (i.e.,
+the SNP or the indel that is being described in this row).  These nine columns are followed
+by four columns, each one pertaining to one of the four samples whose names are given in the
+top row: `DPCh_plate1_A05_S5	DPCh_plate1_A06_S6	DPCh_plate1_A11_S11	DPCh_plate1_A12_S12`.
+
+We will start by describing the 9 standard variant-specific columns:
+
+1. `CHROM`: the name of the reference sequence upon which the variant was found. This
+comes from the FASTA file that was used as a reference to align the sequencing data to,
+orinally.
+2. `POS`: The 1-based position within `CHROM` that the variant is found at.  For SNPs,
+this is straightforward.  For insertions and deletions it is also straightforward, but
+you must remember that the value in the `POS` columns give the first position in the
+entry in the `REF` column.  More on that below...
+3. `ID`: An identifier for a particular variant.  These identifiers are used to
+indicate the name of the variant in different data bases, like the human dbSNP data
+base.  For non-model organisms of conservation concern, there are typically no such
+data bases, so the values in this column will be "missing" which is always denoted
+by a single period, `.`, in a VCF file.
+4. `REF` the sequence of the reference---i.e. the "reference allele" at the variant.  See below for
+more description about how this is designated.
+5. `ALT` the sequence of the alternate allele(s) at the variant.  If there is
+more than one alternate allele at the variant, the sequences for each
+are separated by a comma. (See more below). 
+6. `QUAL`: a Phred-scaled assessment of whether the variant truly represents variation
+in the sample that was sequenced and genotyped, or whether it might be a spurious
+variant---for example, not a true polymorphism, but rather
+due to a sequencing error.  If an alternate allele is given in `ALT`, then the QUAL is
+$-10\log_{10} P(\mathrm{there~truly~is~NOT~such~an~alternate~allele(s)})$.  A larger number means
+more confidence that the alternate allele is real.  If there is no alternate allele
+given in `ALT` (i.e. the `ALT` field holds a `.`), then the value in QUAL is
+$-10\log_{10} P(\mathrm{there~actually~IS~a~variant~here})$.
+7. `FILTER`: a semicolon-delimited list of filters that this variant tests positive for.
+This provides a way of creating different possible sets of variants that can be tagged
+in different ways, but not removed from the data set.  Not used extensively in conservation
+genomics.
+8. `INFO`: a semicolon-delimited list of "key=value" pairs that describe properties of the
+variant.  GATK attaches a large number of these. The meaning of different keys is
+given in the header (see below).
+9. `FORMAT`: this is a column that says, "In the remaining columns, information about the
+genotypes of different individuals will be given in the following fields separated by
+colons."  It is basically a key to deciphering the following columns of the
+genotype data of the individuals, _in that row_.  Specifying the genotype column formats
+_for each row_, in this fashion, makes it possible to attach
+different types of information to different variants, as might be appopriate. 
+
+#### Coding of REF and ALT
+
+When coding for insertions and deletions---or for more complex variants
+in which some of the insertions might carry SNPs, etc.---the convention is
+followed that the `REF` column always shows the sequence in the reference
+sequence _starting at_ `POS`.  For understanding how insertions and deletions
+are encoded in this system, it is helpful to view them in columnar format with
+positions running down the first column, and different alleles in different columns.
+Thus, a simple SNP, such as the first row in the above VCF example
+would appear as:
+```sh
+# meaning of: NC_037124.1 4001417 .   T   G 
+
+pos         Ref  Alt
+4001417	    T	   G
+```
+By contrast, an insertion, relative to the reference genome, creates bases that
+don't have a standard coordinate that they align to.  Thus, if we take the
+second-to-last variant in the above example (at position 4007583), and we assume
+that positions 4007582 and 4007584 in the reference sequence are a G and a T,
+respectively, then the first five columns of the row
+indicate that the variation appears as follows:
+```sh
+# meaning of: NC_037124.1 4007583 .   C   CAA
+
+Pos         Ref  Alt
+4007582     G    G
+4007583     C    C
+.           -    A
+.           -    A
+4007584     T    T
+```
+where the `-` represents an insertion relative to the reference genome.  
+
+A deletion relative to the reference genome, like that in the third row
+of the above example:
+would appear in columnar format as:
+```sh
+# meaning of: NC_037124.1 4004574 .   AAAGG   A
+
+Pos         Ref  Alt
+4004573     C    C
+4004574     A    A
+4004575     A    -
+4004576     A    -
+4004577     G    -
+4004578     G    -
+4004579     T    T
+```
+where we are imagining that the reference holds a C at position 4004573 and a T at
+position 4004579, and where the `-`'s indicate deletions relative to the reference.
+
+Finally, the multiallelic and complex example on the last row,
+in columnar format, if the reference held an A at position 4007583 and
+a T at position 4007587, would 
+show the two possible alternate alleles like:
+```sh
+# meaning of: NC_037124.1 4007584 .   GCC G,CCC
+
+Pos         Ref   Alt1  Alt2
+4007583     A     A     A
+4007584     G     G     C
+4007585     C     -     C
+4007586     C     -     C
+4007587     T     T     T
+```
+
+#### The Genotype Columns
+
+Each of the columns after the 9th column correspond to genotype information
+at a single one of the samples.  The `FORMAT` string for each in the example is:
+`GT:AD:DP:GQ:PL`.  There could be more fields than these five (and, if so, information
+about those fields will be stored in the header section of the VCF file); however, these five
+are pretty standard, and will be described here.  For a concrete example, we will focus in the
+following on the genotype column for the first sample on the third line from the bottom
+(POS = 4007526):
+```
+0/1:1,1:2:19:19,0,39
+```
+Broken into the five fields we would see:
+
+1. `GT` = `0/1`  ---  The `GT` stands for _GenoType_. This field gives the "called" genotype of the individual as two alleles
+(0 and 1, here) separated by either a `/` or a `|`. The `0` always refers to the reference
+allele (`REF`), and a number greater than 0 refers to an alternate allele (from the `ALT` column).
+If there are only two alleles,
+(a reference allele and one alternate allele) then the alternate allele will always be denoted
+by a 1. If there are two alternate alleles, the two alternate alleles will be denoted as 1 and 2,
+respectively.  
+    - A `/` means that the two gene copies are
+      not _phased_---in other words, it is not known which _haplotype_ they occur on.
+    - A `|` as the separator means that the two gene copies in the individual are recorded
+      as being phased.  If an indiduals `GT` field in a series of variants looks like:
+        ```{r, eval=FALSE}
+        0|1
+        1|0
+        1|0
+        1|1
+        0|0
+        1|0
+        ```
+      Then this is recording that on one of the (diploid) individual's two chromosomes, the
+      alleles would be strung along like: `0-1-1-1-0-1`, and the other chromosome would carry
+      the alleles strung along like: `1-0-0-1-0-1`.  
+2. `AD` = `1,1`  ---  The `AD` stands for _Allele Depth_. This field gives the comma-separated depths of reads from the
+individual that carried the different alleles at this position.  In this case there are only
+two alleles (a REF and an ALT), so that there is one comma separating two values.  The `1` before
+the comma
+says that we saw one read with the REF allele, and the `1` after the comma says that we
+saw one read that had the ALT allele.  If there is more than one ALT allele, then there
+will be more commas, each one separating a different allele read depth (i.e., REF,ALT1,ALT2,etc).
+These values can sometimes be extracted and used in place of the actual genotypes for making
+inferences (for example, doing PCAs or computing Fst values using
+_single read sampling_).
+3. `DP` = `2`  ---  The `DP` denotes _DePth_. This field gives the total number of reads
+from this individual mapped on top of this position.  It is typically the sum of the allele depths,
+but not always, owing to some reads indicating an allele at the position that the variant caller
+might have deemed a sequening error, etc. In general, the greater the read depth, the
+more confidence you can have in the genotype calls. Though it might be worthwhile to
+focus on the read depth itself to identify variants in repetitive regions or copy-number variation.
+4. `GQ` = `19`  ---  The `GQ` stands for _Genotype Quality_.  This field gives a Phred scaled
+measure of confidence in the genotype call.  This value is given conditional on there actually
+being a variant (in the population) at this position.  Thus, it says, "If we set aside the
+question of whether or not the variant we see here is real, its genotype quality is
+given by $-10\log_{10} P(\mathrm{the~genotype~call~is~wrong})$."  So, colloquially,
+the probability that the genotype recorded for the individual is incorrect is
+$10^{-GQ/10}$.  So, if GQ = 19, we have (ostensibly) the probability that the genotype
+call is incorrect equalling $10^{-19/10} = 0.0126$.  These probabilities must be taken
+with a grain of salt.  Often, the raw genotype calls from low-ish coverage sequencing data
+can be somewhat more error prone.  
+5. `PL` = `19,0,39`  ---  `PL` stands for 
+
+
+### VCF Format -- The Header
+
+Let's just get in there and take a look at it.
+
+
+
+### Boneyard
 
 VCF.  I've mostly used vcftools until now, but I've gotta admit that the interface
 is awful with all the --recode BS.  Also, it is viciously slow.  So, let's just 

@@ -1038,7 +1038,7 @@ Be warned, however, that SLURM does not check your `<array_spec>` to ensure that
 each task index if given only once.  If you specify the same index should be run
 twice, as is the case for 4 in the following:
 ```sh
-#SBATCH --array=1:10,4
+#SBATCH --array=1-10,4
 ```
 then the job will be run twice, and possibly those two jobs will run at
 the same time so that output from each job will intermittently overwrite output
@@ -1050,7 +1050,7 @@ and want no more than X of your array tasks to be running at any time,
 you can stipulate that by ending the `<array_spec>` with `%X`.  For example,
 to have no more than 5 array tasks running at any one time, you could do:
 ```sh
-#SBATCH --array=1:20%5
+#SBATCH --array=1-20%5
 ```
 
 
