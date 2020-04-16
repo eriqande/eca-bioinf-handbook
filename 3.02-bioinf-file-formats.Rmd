@@ -1292,6 +1292,11 @@ If you want to download these onto a remote Unix server you can use:
 ```sh
 wget https://www.dropbox.com/s/dzwixabvy3wwfdr/chinook-32-3Mb.vcf.gz?dl=1
 wget https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1
+
+# after which you might need to rename them, if wget retained the `?dl=1`
+# in the resulting file names:
+mv chinook-32-3Mb.vcf.gz\?dl\=1 chinook-32-3Mb.vcf.gz
+mv chinook-32-3Mb.vcf.gz.csi\?dl\=1 chinook-32-3Mb.vcf.gz.csi
 ```
 
 At their core, VCF files are TAB-delimited text files. Below is a fragment of a VCF file body (and the final header line) holding information

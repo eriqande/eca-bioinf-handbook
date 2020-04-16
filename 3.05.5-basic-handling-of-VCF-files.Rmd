@@ -1,0 +1,241 @@
+# Basic Handling of VCF files
+
+As we saw in the section on bioinformatic formats, VCF files can be
+large and unwieldy.  The format specification is also such that fields
+might have different numbers of subfields, depending, for example, on the
+number of alleles found at a variant.  Both of these features make it
+hard to directly read a VCF file into a, say, R, or some other program
+that may wish to treat it purely as tabular data.  
+
+This is not to say that you couldn't just read a VCF file into R directly
+as a TAB delimited text file, and then start splitting fields up on it.
+However, there are specialized tools for doing operations of VCF files,
+and becoming familiar with them can relieve a lot
+of the pain of dealing with VCF files.
+
+To have an example indexed-and-bgzipped VCF file to play with, you can
+download them from your Unix workstation with the following commands.
+I'd recommend putting them into a directory called `bcftools-play` in
+`scratch` somewhere.
+```sh
+wget https://www.dropbox.com/s/dzwixabvy3wwfdr/chinook-32-3Mb.vcf.gz?dl=1
+wget https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1
+
+# after which you might need to rename them, if wget retained the `?dl=1`
+# in the resulting file names:
+mv chinook-32-3Mb.vcf.gz\?dl\=1 chinook-32-3Mb.vcf.gz
+mv chinook-32-3Mb.vcf.gz.csi\?dl\=1 chinook-32-3Mb.vcf.gz.csi
+
+# after that, make sure you are ready to use bcftools by doing
+conda activate bioinf
+```
+
+There are two main programs for handling VCF files: `vcftools` and `bcftools`.  Both
+of these grew out of the 1000 Genomes effort starting about a decade ago. It seems
+that `vcftools` may have been developed first, but, currently, `bcftools` is being
+more actively developed, with new versions and new features being added to it
+regularly.  `vcftools` provides some very specific commands for particular analyses
+or operations, some of which are not available from `bcftools`.  On the other hand,
+`bcftools` provides a more general interface for operations on VCF files. By this
+interface, a great number of the operations done in `vcftools` are available, but
+a little extra knowledge is required to implement them.  That said, the range of
+possible operations seems much larger in `bcftools` than in `vcftools`.
+
+## bcftools
+
+Here, we just want to give everyone the chance to run through a few
+operations with `bcftools`, to start to get familiar with its interface.
+The first thing to note is that, like `samtools` (which is maintained by
+the same group of people), `bcftools` possesses a number of different
+_subcommands_.  So, the syntax is always like:
+
+* `bcftools` _subcommand_ options file(s)
+
+Also like `samtools`, `bcftools` will take input from _stdin_ rather than
+from a file---you just pass it `-` instead of a file name.
+
+The full documentation/manual for `bcftools` is maintained at:
+[http://samtools.github.io/bcftools/bcftools.html](http://samtools.github.io/bcftools/bcftools.html).  It is well worth reading through this whole documentation, though it
+can be quite terse and intimidating.  A friendlier "tutorial" introduction to the
+software can be found at [https://samtools.github.io/bcftools/howtos/index.html](https://samtools.github.io/bcftools/howtos/index.html).
+
+
+Here we are going to get our feet with with a few operations.
+
+### Tell me about my VCF file!
+
+VCF files are a little daunting.  Especially when they are gzipped they
+can seem particularly opaque---learning anything about them in the traditional
+manner of uncompressing them and then searching for lines within them
+or counting up the number of records can be time consuming.  Here are some
+`bcftools` solutions to a few different questions you might have.
+
+**Who is in this file?** You can always try to find the last header line
+in a VCF file using grep or awk and parse the individuals out yourself, but
+it turns out to be faster and safer to use the `query` subcommand from `bcftools`
+with the `-l` option. Do it here:
+```sh
+bcftools query -l chinook-32-3Mb.vcf.gz
+```
+Then read about it on the manual page.  Find the part that talks describes it.
+
+**How many variants are in this file?** This question can be answered quickly with
+`bcftools stats`, which also returns to you a plethora of information about the variants.
+```sh
+bcftools stats chinook-32-3Mb.vcf.gz
+```
+The top part of the output tells you how many SNPs and indels (and other types
+of variants) there are. Then it tells you about Ts/Tv ratios, allele frequencies
+and read depths.
+
+**Where are these variants?**  There are several ways to answer this question.
+One might be simply to print the CHROM and the POS for each row in the VCF file:
+```sh
+bcftools query -f '%CHROM\t%POS\n' chinook-32-3Mb.vcf.gz
+```
+If you want to see where it starts and where it finishes you can do:
+```sh
+bcftools query -f '%CHROM\t%POS\n' chinook-32-3Mb.vcf.gz | head 
+bcftools query -f '%CHROM\t%POS\n' chinook-32-3Mb.vcf.gz | tail
+```
+From that we see that our example file runs from 4 Mb to 7 Mb or so
+on chromosome NC_037124.1.  This shows one use of the subcommand `query`,
+which is quite useful.
+
+**Give me a glimpse of the file**  You can use `bcftools view` for a number
+of things, but at its simplest, you can merely look at the file in VCF format.
+(In this manner, it behaves much like `samtools view` for VCF files).
+```sh
+# show the whole file from the top (use show just the first 10 lines)
+bcftools view chinook-32-3Mb.vcf.gz | head
+
+# show just the header with -h.  Here look at just the last 10 lines of the header
+bcftools view -h chinook-32-3Mb.vcf.gz | tail
+
+# show the variants themslves (no header) with -H
+bcftools view -H chinook-32-3Mb.vcf.gz | head
+```
+When we did that, we see that there is a lot of information in the INFO
+field.  What if we wanted to extract that?
+
+
+### Get fragments/parts of my VCF file
+
+**Extract keyed values from the INFO field** This is another job for `bcftools query`. You pass a _format string_ to the `-f` option that tells the program which fields you want
+to extract and how you want to format it.  Check out some examples:
+```sh
+# extract CHROM POS and BaseQRankSum, separated by TABs
+bcftools query -f '%CHROM\t%POS\t%INFO/BaseQRankSum\n' chinook-32-3Mb.vcf.gz | head
+
+# extract CHROM POS and total read depth DP
+bcftools query -f '%CHROM\t%POS\t%INFO/DP\n' chinook-32-3Mb.vcf.gz | head
+```
+
+**View data from specified regions**
+
+What if we want to look at variants only in two 10 Kb regions, like
+`NC_037124.1:5000000-5010000` and `NC_037124.1:6000000-6010000`?  Pass those,
+separated by commas, to the `-r` option (which is an option that applies to many
+of the subcommands):
+```sh
+bcftools view -H -r NC_037124.1:5000000-5010000,NC_037124.1:6000000-6010000 chinook-32-3Mb.vcf.gz
+```
+You can also specify those regions in a file with `-R` option.
+
+
+**View data from specified individuals**
+
+You can give the sample names (comma separated) to the `-s` option:
+```sh
+bcftools view -H -s DPCh_plate1_G05_S77,DPCh_plate1_G06_S78 chinook-32-3Mb.vcf.gz | head
+```
+Or, if you wanted to view all _but_ those two individuals, precede them with a `^`:
+```sh
+bcftools view -H -s ^DPCh_plate1_G05_S77,DPCh_plate1_G06_S78 chinook-32-3Mb.vcf.gz | head
+```
+You can also supply a text file with sample names (one-per-line) to the capital letter `-S` option.
+
+You can combine options, like `-r` and `-s`, as well.
+
+### Combine VCF files in various ways
+
+**Catenate VCF files**
+
+If you have VCF files called from the same reference genome filled with
+the same samples, it is easy to catenate the together with `bcftools concat`:
+```sh
+# make two files from different regions
+bcftools view -Oz -r NC_037124.1:4000000-5000000 chinook-32-3Mb.vcf.gz  > A.vcf.gz
+bcftools view -Oz -r NC_037124.1:6000000-7000000 chinook-32-3Mb.vcf.gz  > B.vcf.gz
+
+# how many variants in each of those?
+bcftools stats A.vcf.gz | awk '/^SN/'
+bcftools stats B.vcf.gz | awk '/^SN/'
+
+# catenate the back together
+bcftools concat -Oz  A.vcf.gz B.vcf.gz > CAT.vcf.gz
+
+# how many variants in that?
+bcftools stats CAT.vcf.gz | awk '/^SN/'
+```
+Note the use of the `-O` (capital "o") option to specify the output
+type: `v` = VCF, `b` = BCF, `u` = uncompressed BCF, `z` = bgzipped VCF.
+
+**Merge VCF files**
+
+If you have files with different samples in them you
+can easily combine them:
+```sh
+# make file with first three samples
+bcftools view -Oz -s DPCh_plate1_A05_S5,DPCh_plate1_A06_S6,DPCh_plate1_A11_S11 chinook-32-3Mb.vcf.gz > first3.vcf.gz
+
+# make another with the last three samples
+bcftools view -Oz -s DPCh_plate1_H06_S90,DPCh_plate1_H11_S95,DPCh_plate1_H12_S96 chinook-32-3Mb.vcf.gz > last3.vcf.gz
+
+# merging requires that the files be indexed
+bcftools index first3.vcf.gz
+bcftools index last3.vcf.gz
+
+# merge those into a file with 6 samples
+bcftools merge -Oz first3.vcf.gz last3.vcf.gz > 6-samples.vcf.gz
+
+```
+
+### Filter out variants for a variety of reasons
+
+There are a lot of ways to filter out variants.  `bcftools` leaves things
+very general here, and so just about anything is possible.  Some simple ones:
+
+**Just the biallelic SNPs please**  Get things with no more than 2 alleles and
+no fewer than two alleles, and of a type = SNP:
+```sh
+# do it and see the result all in one line:
+bcftools view -Ou -m 2 -M 2 --types=snps chinook-32-3Mb.vcf.gz | bcftools stats - | awk '/^SN/'
+```
+
+**Just the biallelic indels please**
+```sh
+# do it and see the result all in one line:
+bcftools view -Ou -m 2 -M 2 --types=indels chinook-32-3Mb.vcf.gz | bcftools stats - | awk '/^SN/'
+```
+
+Note the use of `-Ou` in order to pipe uncompressed BCF output directly into
+`bcftools stats` using the `-` for a filename.
+
+**Fraction of missing sites less than X**
+
+If you want to make sure that 60% of your individuals have at least
+one read at the genotype, you can do this:
+```sh
+bcftools view -i 'F_MISSING < 0.4' chinook-32-3Mb.vcf.gz | bcftools stats - | awk '/^SN/'
+```
+Play with setting the `F_MISSING` to different values and see how that affects
+the number of variants retained.
+
+---
+
+This has just scratched the surface of what you can do with bcftools.
+
+
+
+

@@ -210,7 +210,7 @@
 
 \title{Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics}
 \author{Eric C. Anderson}
-\date{2020-04-14}
+\date{2020-04-16}
 
 \let\BeginKnitrBlock\begin \let\EndKnitrBlock\end
 \begin{document}
@@ -12996,6 +12996,11 @@ If you want to download these onto a remote Unix server you can use:
 \begin{Highlighting}[]
 \FunctionTok{wget}\NormalTok{ https://www.dropbox.com/s/dzwixabvy3wwfdr/chinook-32-3Mb.vcf.gz?dl=1}
 \FunctionTok{wget}\NormalTok{ https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1}
+
+\CommentTok{# after which you might need to rename them, if wget retained the `?dl=1`}
+\CommentTok{# in the resulting file names:}
+\FunctionTok{mv}\NormalTok{ chinook-32-3Mb.vcf.gz\textbackslash{}?dl\textbackslash{}=1 chinook-32-3Mb.vcf.gz}
+\FunctionTok{mv}\NormalTok{ chinook-32-3Mb.vcf.gz.csi\textbackslash{}?dl\textbackslash{}=1 chinook-32-3Mb.vcf.gz.csi}
 \end{Highlighting}
 \end{Shaded}
 
@@ -14418,6 +14423,305 @@ on your cluster.
 Standard stuff here.
 
 Big focus on parallelizing.
+
+\hypertarget{basic-handling-of-vcf-files}{%
+\chapter{Basic Handling of VCF files}\label{basic-handling-of-vcf-files}}
+
+As we saw in the section on bioinformatic formats, VCF files can be
+large and unwieldy. The format specification is also such that fields
+might have different numbers of subfields, depending, for example, on the
+number of alleles found at a variant. Both of these features make it
+hard to directly read a VCF file into a, say, R, or some other program
+that may wish to treat it purely as tabular data.
+
+This is not to say that you couldn't just read a VCF file into R directly
+as a TAB delimited text file, and then start splitting fields up on it.
+However, there are specialized tools for doing operations of VCF files,
+and becoming familiar with them can relieve a lot
+of the pain of dealing with VCF files.
+
+To have an example indexed-and-bgzipped VCF file to play with, you can
+download them from your Unix workstation with the following commands.
+I'd recommend putting them into a directory called \texttt{bcftools-play} in
+\texttt{scratch} somewhere.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{wget}\NormalTok{ https://www.dropbox.com/s/dzwixabvy3wwfdr/chinook-32-3Mb.vcf.gz?dl=1}
+\FunctionTok{wget}\NormalTok{ https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1}
+
+\CommentTok{# after which you might need to rename them, if wget retained the `?dl=1`}
+\CommentTok{# in the resulting file names:}
+\FunctionTok{mv}\NormalTok{ chinook-32-3Mb.vcf.gz\textbackslash{}?dl\textbackslash{}=1 chinook-32-3Mb.vcf.gz}
+\FunctionTok{mv}\NormalTok{ chinook-32-3Mb.vcf.gz.csi\textbackslash{}?dl\textbackslash{}=1 chinook-32-3Mb.vcf.gz.csi}
+
+\CommentTok{# after that, make sure you are ready to use bcftools by doing}
+\ExtensionTok{conda}\NormalTok{ activate bioinf}
+\end{Highlighting}
+\end{Shaded}
+
+There are two main programs for handling VCF files: \texttt{vcftools} and \texttt{bcftools}. Both
+of these grew out of the 1000 Genomes effort starting about a decade ago. It seems
+that \texttt{vcftools} may have been developed first, but, currently, \texttt{bcftools} is being
+more actively developed, with new versions and new features being added to it
+regularly. \texttt{vcftools} provides some very specific commands for particular analyses
+or operations, some of which are not available from \texttt{bcftools}. On the other hand,
+\texttt{bcftools} provides a more general interface for operations on VCF files. By this
+interface, a great number of the operations done in \texttt{vcftools} are available, but
+a little extra knowledge is required to implement them. That said, the range of
+possible operations seems much larger in \texttt{bcftools} than in \texttt{vcftools}.
+
+\hypertarget{bcftools}{%
+\section{bcftools}\label{bcftools}}
+
+Here, we just want to give everyone the chance to run through a few
+operations with \texttt{bcftools}, to start to get familiar with its interface.
+The first thing to note is that, like \texttt{samtools} (which is maintained by
+the same group of people), \texttt{bcftools} possesses a number of different
+\emph{subcommands}. So, the syntax is always like:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{bcftools} \emph{subcommand} options file(s)
+\end{itemize}
+
+Also like \texttt{samtools}, \texttt{bcftools} will take input from \emph{stdin} rather than
+from a file---you just pass it \texttt{-} instead of a file name.
+
+The full documentation/manual for \texttt{bcftools} is maintained at:
+\url{http://samtools.github.io/bcftools/bcftools.html}. It is well worth reading through this whole documentation, though it
+can be quite terse and intimidating. A friendlier ``tutorial'' introduction to the
+software can be found at \url{https://samtools.github.io/bcftools/howtos/index.html}.
+
+Here we are going to get our feet with with a few operations.
+
+\hypertarget{tell-me-about-my-vcf-file}{%
+\subsection{Tell me about my VCF file!}\label{tell-me-about-my-vcf-file}}
+
+VCF files are a little daunting. Especially when they are gzipped they
+can seem particularly opaque---learning anything about them in the traditional
+manner of uncompressing them and then searching for lines within them
+or counting up the number of records can be time consuming. Here are some
+\texttt{bcftools} solutions to a few different questions you might have.
+
+\textbf{Who is in this file?} You can always try to find the last header line
+in a VCF file using grep or awk and parse the individuals out yourself, but
+it turns out to be faster and safer to use the \texttt{query} subcommand from \texttt{bcftools}
+with the \texttt{-l} option. Do it here:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bcftools}\NormalTok{ query -l chinook-32-3Mb.vcf.gz}
+\end{Highlighting}
+\end{Shaded}
+
+Then read about it on the manual page. Find the part that talks describes it.
+
+\textbf{How many variants are in this file?} This question can be answered quickly with
+\texttt{bcftools\ stats}, which also returns to you a plethora of information about the variants.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bcftools}\NormalTok{ stats chinook-32-3Mb.vcf.gz}
+\end{Highlighting}
+\end{Shaded}
+
+The top part of the output tells you how many SNPs and indels (and other types
+of variants) there are. Then it tells you about Ts/Tv ratios, allele frequencies
+and read depths.
+
+\textbf{Where are these variants?} There are several ways to answer this question.
+One might be simply to print the CHROM and the POS for each row in the VCF file:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bcftools}\NormalTok{ query -f }\StringTok{'%CHROM\textbackslash{}t%POS\textbackslash{}n'}\NormalTok{ chinook-32-3Mb.vcf.gz}
+\end{Highlighting}
+\end{Shaded}
+
+If you want to see where it starts and where it finishes you can do:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bcftools}\NormalTok{ query -f }\StringTok{'%CHROM\textbackslash{}t%POS\textbackslash{}n'}\NormalTok{ chinook-32-3Mb.vcf.gz }\KeywordTok{|} \FunctionTok{head} 
+\ExtensionTok{bcftools}\NormalTok{ query -f }\StringTok{'%CHROM\textbackslash{}t%POS\textbackslash{}n'}\NormalTok{ chinook-32-3Mb.vcf.gz }\KeywordTok{|} \FunctionTok{tail}
+\end{Highlighting}
+\end{Shaded}
+
+From that we see that our example file runs from 4 Mb to 7 Mb or so
+on chromosome NC\_037124.1. This shows one use of the subcommand \texttt{query},
+which is quite useful.
+
+\textbf{Give me a glimpse of the file} You can use \texttt{bcftools\ view} for a number
+of things, but at its simplest, you can merely look at the file in VCF format.
+(In this manner, it behaves much like \texttt{samtools\ view} for VCF files).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# show the whole file from the top (use show just the first 10 lines)}
+\ExtensionTok{bcftools}\NormalTok{ view chinook-32-3Mb.vcf.gz }\KeywordTok{|} \FunctionTok{head}
+
+\CommentTok{# show just the header with -h.  Here look at just the last 10 lines of the header}
+\ExtensionTok{bcftools}\NormalTok{ view -h chinook-32-3Mb.vcf.gz }\KeywordTok{|} \FunctionTok{tail}
+
+\CommentTok{# show the variants themslves (no header) with -H}
+\ExtensionTok{bcftools}\NormalTok{ view -H chinook-32-3Mb.vcf.gz }\KeywordTok{|} \FunctionTok{head}
+\end{Highlighting}
+\end{Shaded}
+
+When we did that, we see that there is a lot of information in the INFO
+field. What if we wanted to extract that?
+
+\hypertarget{get-fragmentsparts-of-my-vcf-file}{%
+\subsection{Get fragments/parts of my VCF file}\label{get-fragmentsparts-of-my-vcf-file}}
+
+\textbf{Extract keyed values from the INFO field} This is another job for \texttt{bcftools\ query}. You pass a \emph{format string} to the \texttt{-f} option that tells the program which fields you want
+to extract and how you want to format it. Check out some examples:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# extract CHROM POS and BaseQRankSum, separated by TABs}
+\ExtensionTok{bcftools}\NormalTok{ query -f }\StringTok{'%CHROM\textbackslash{}t%POS\textbackslash{}t%INFO/BaseQRankSum\textbackslash{}n'}\NormalTok{ chinook-32-3Mb.vcf.gz }\KeywordTok{|} \FunctionTok{head}
+
+\CommentTok{# extract CHROM POS and total read depth DP}
+\ExtensionTok{bcftools}\NormalTok{ query -f }\StringTok{'%CHROM\textbackslash{}t%POS\textbackslash{}t%INFO/DP\textbackslash{}n'}\NormalTok{ chinook-32-3Mb.vcf.gz }\KeywordTok{|} \FunctionTok{head}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{View data from specified regions}
+
+What if we want to look at variants only in two 10 Kb regions, like
+\texttt{NC\_037124.1:5000000-5010000} and \texttt{NC\_037124.1:6000000-6010000}? Pass those,
+separated by commas, to the \texttt{-r} option (which is an option that applies to many
+of the subcommands):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bcftools}\NormalTok{ view -H -r NC_037124.1:5000000-5010000,NC_037124.1:6000000-6010000 chinook-32-3Mb.vcf.gz}
+\end{Highlighting}
+\end{Shaded}
+
+You can also specify those regions in a file with \texttt{-R} option.
+
+\textbf{View data from specified individuals}
+
+You can give the sample names (comma separated) to the \texttt{-s} option:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bcftools}\NormalTok{ view -H -s DPCh_plate1_G05_S77,DPCh_plate1_G06_S78 chinook-32-3Mb.vcf.gz }\KeywordTok{|} \FunctionTok{head}
+\end{Highlighting}
+\end{Shaded}
+
+Or, if you wanted to view all \emph{but} those two individuals, precede them with a \texttt{\^{}}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bcftools}\NormalTok{ view -H -s ^DPCh_plate1_G05_S77,DPCh_plate1_G06_S78 chinook-32-3Mb.vcf.gz }\KeywordTok{|} \FunctionTok{head}
+\end{Highlighting}
+\end{Shaded}
+
+You can also supply a text file with sample names (one-per-line) to the capital letter \texttt{-S} option.
+
+You can combine options, like \texttt{-r} and \texttt{-s}, as well.
+
+\hypertarget{combine-vcf-files-in-various-ways}{%
+\subsection{Combine VCF files in various ways}\label{combine-vcf-files-in-various-ways}}
+
+\textbf{Catenate VCF files}
+
+If you have VCF files called from the same reference genome filled with
+the same samples, it is easy to catenate the together with \texttt{bcftools\ concat}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# make two files from different regions}
+\ExtensionTok{bcftools}\NormalTok{ view -Oz -r NC_037124.1:4000000-5000000 chinook-32-3Mb.vcf.gz  }\OperatorTok{>}\NormalTok{ A.vcf.gz}
+\ExtensionTok{bcftools}\NormalTok{ view -Oz -r NC_037124.1:6000000-7000000 chinook-32-3Mb.vcf.gz  }\OperatorTok{>}\NormalTok{ B.vcf.gz}
+
+\CommentTok{# how many variants in each of those?}
+\ExtensionTok{bcftools}\NormalTok{ stats A.vcf.gz }\KeywordTok{|} \FunctionTok{awk} \StringTok{'/^SN/'}
+\ExtensionTok{bcftools}\NormalTok{ stats B.vcf.gz }\KeywordTok{|} \FunctionTok{awk} \StringTok{'/^SN/'}
+
+\CommentTok{# catenate the back together}
+\ExtensionTok{bcftools}\NormalTok{ concat -Oz  A.vcf.gz B.vcf.gz }\OperatorTok{>}\NormalTok{ CAT.vcf.gz}
+
+\CommentTok{# how many variants in that?}
+\ExtensionTok{bcftools}\NormalTok{ stats CAT.vcf.gz }\KeywordTok{|} \FunctionTok{awk} \StringTok{'/^SN/'}
+\end{Highlighting}
+\end{Shaded}
+
+Note the use of the \texttt{-O} (capital ``o'') option to specify the output
+type: \texttt{v} = VCF, \texttt{b} = BCF, \texttt{u} = uncompressed BCF, \texttt{z} = bgzipped VCF.
+
+\textbf{Merge VCF files}
+
+If you have files with different samples in them you
+can easily combine them:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# make file with first three samples}
+\ExtensionTok{bcftools}\NormalTok{ view -Oz -s DPCh_plate1_A05_S5,DPCh_plate1_A06_S6,DPCh_plate1_A11_S11 chinook-32-3Mb.vcf.gz }\OperatorTok{>}\NormalTok{ first3.vcf.gz}
+
+\CommentTok{# make another with the last three samples}
+\ExtensionTok{bcftools}\NormalTok{ view -Oz -s DPCh_plate1_H06_S90,DPCh_plate1_H11_S95,DPCh_plate1_H12_S96 chinook-32-3Mb.vcf.gz }\OperatorTok{>}\NormalTok{ last3.vcf.gz}
+
+\CommentTok{# merging requires that the files be indexed}
+\ExtensionTok{bcftools}\NormalTok{ index first3.vcf.gz}
+\ExtensionTok{bcftools}\NormalTok{ index last3.vcf.gz}
+
+\CommentTok{# merge those into a file with 6 samples}
+\ExtensionTok{bcftools}\NormalTok{ merge -Oz first3.vcf.gz last3.vcf.gz }\OperatorTok{>}\NormalTok{ 6-samples.vcf.gz}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{filter-out-variants-for-a-variety-of-reasons}{%
+\subsection{Filter out variants for a variety of reasons}\label{filter-out-variants-for-a-variety-of-reasons}}
+
+There are a lot of ways to filter out variants. \texttt{bcftools} leaves things
+very general here, and so just about anything is possible. Some simple ones:
+
+\textbf{Just the biallelic SNPs please} Get things with no more than 2 alleles and
+no fewer than two alleles, and of a type = SNP:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# do it and see the result all in one line:}
+\ExtensionTok{bcftools}\NormalTok{ view -Ou -m 2 -M 2 --types=snps chinook-32-3Mb.vcf.gz }\KeywordTok{|} \ExtensionTok{bcftools}\NormalTok{ stats - }\KeywordTok{|} \FunctionTok{awk} \StringTok{'/^SN/'}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Just the biallelic indels please}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# do it and see the result all in one line:}
+\ExtensionTok{bcftools}\NormalTok{ view -Ou -m 2 -M 2 --types=indels chinook-32-3Mb.vcf.gz }\KeywordTok{|} \ExtensionTok{bcftools}\NormalTok{ stats - }\KeywordTok{|} \FunctionTok{awk} \StringTok{'/^SN/'}
+\end{Highlighting}
+\end{Shaded}
+
+Note the use of \texttt{-Ou} in order to pipe uncompressed BCF output directly into
+\texttt{bcftools\ stats} using the \texttt{-} for a filename.
+
+\textbf{Fraction of missing sites less than X}
+
+If you want to make sure that 60\% of your individuals have at least
+one read at the genotype, you can do this:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{bcftools}\NormalTok{ view -i }\StringTok{'F_MISSING < 0.4'}\NormalTok{ chinook-32-3Mb.vcf.gz }\KeywordTok{|} \ExtensionTok{bcftools}\NormalTok{ stats - }\KeywordTok{|} \FunctionTok{awk} \StringTok{'/^SN/'}
+\end{Highlighting}
+\end{Shaded}
+
+Play with setting the \texttt{F\_MISSING} to different values and see how that affects
+the number of variants retained.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+This has just scratched the surface of what you can do with bcftools.
 
 \hypertarget{bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome}{%
 \chapter{Bioinformatics for RAD seq data with and without a reference genome}\label{bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome}}
