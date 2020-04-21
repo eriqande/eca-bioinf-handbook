@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 21 Basic Handling of VCF files | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
+  <title>Chapter 22 Basic Handling of VCF files | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
   <meta name="description" content="A book example for a Chapman &amp; Hall book." />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 21 Basic Handling of VCF files | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
+  <meta property="og:title" content="Chapter 22 Basic Handling of VCF files | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="yihui/bookdown-crc" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 21 Basic Handling of VCF files | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
+  <meta name="twitter:title" content="Chapter 22 Basic Handling of VCF files | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   
   <meta name="twitter:description" content="A book example for a Chapman &amp; Hall book." />
   
@@ -24,14 +24,14 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-16" />
+<meta name="date" content="2020-04-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="variant-calling-with-gatk.html"/>
+<link rel="prev" href="boneyard-1.html"/>
 <link rel="next" href="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"/>
 <script src="libs/jquery/jquery.min.js"></script>
 <link href="libs/gitbook/css/style.css" rel="stylesheet" />
@@ -310,7 +310,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="17.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#sequences"><i class="fa fa-check"></i><b>17.1</b> Sequences</a></li>
 <li class="chapter" data-level="17.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#fastq"><i class="fa fa-check"></i><b>17.2</b> FASTQ</a><ul>
 <li class="chapter" data-level="17.2.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#illumina-ids"><i class="fa fa-check"></i><b>17.2.1</b> Line 1: Illumina identifier lines</a></li>
-<li class="chapter" data-level="17.2.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#line-4-base-quality-scores"><i class="fa fa-check"></i><b>17.2.2</b> Line 4: Base quality scores</a></li>
+<li class="chapter" data-level="17.2.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#bqscores"><i class="fa fa-check"></i><b>17.2.2</b> Line 4: Base quality scores</a></li>
 <li class="chapter" data-level="17.2.3" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#a-fastq-tidyverse-interlude"><i class="fa fa-check"></i><b>17.2.3</b> A FASTQ ‘tidyverse’ Interlude</a></li>
 <li class="chapter" data-level="17.2.4" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#comparing-read-1-to-read-2"><i class="fa fa-check"></i><b>17.2.4</b> Comparing read 1 to read 2</a></li>
 </ul></li>
@@ -358,39 +358,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="19.8" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#merging-bam-files"><i class="fa fa-check"></i><b>19.8</b> Merging BAM files</a></li>
 <li class="chapter" data-level="19.9" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#divide-and-conquer-strategies"><i class="fa fa-check"></i><b>19.9</b> Divide and Conquer Strategies</a></li>
 </ul></li>
-<li class="chapter" data-level="20" data-path="variant-calling-with-gatk.html"><a href="variant-calling-with-gatk.html"><i class="fa fa-check"></i><b>20</b> Variant calling with GATK</a></li>
-<li class="chapter" data-level="21" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html"><i class="fa fa-check"></i><b>21</b> Basic Handling of VCF files</a><ul>
-<li class="chapter" data-level="21.1" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#bcftools"><i class="fa fa-check"></i><b>21.1</b> bcftools</a><ul>
-<li class="chapter" data-level="21.1.1" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#tell-me-about-my-vcf-file"><i class="fa fa-check"></i><b>21.1.1</b> Tell me about my VCF file!</a></li>
-<li class="chapter" data-level="21.1.2" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#get-fragmentsparts-of-my-vcf-file"><i class="fa fa-check"></i><b>21.1.2</b> Get fragments/parts of my VCF file</a></li>
-<li class="chapter" data-level="21.1.3" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#combine-vcf-files-in-various-ways"><i class="fa fa-check"></i><b>21.1.3</b> Combine VCF files in various ways</a></li>
-<li class="chapter" data-level="21.1.4" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#filter-out-variants-for-a-variety-of-reasons"><i class="fa fa-check"></i><b>21.1.4</b> Filter out variants for a variety of reasons</a></li>
+<li class="chapter" data-level="20" data-path="variant-calling.html"><a href="variant-calling.html"><i class="fa fa-check"></i><b>20</b> Variant calling</a><ul>
+<li class="chapter" data-level="20.1" data-path="variant-calling.html"><a href="variant-calling.html#genotype-likelihoods"><i class="fa fa-check"></i><b>20.1</b> Genotype Likelihoods</a><ul>
+<li class="chapter" data-level="20.1.1" data-path="variant-calling.html"><a href="variant-calling.html#basic-sketch-of-genotype-likelihood-calculations"><i class="fa fa-check"></i><b>20.1.1</b> Basic Sketch of Genotype Likelihood Calculations</a></li>
+<li class="chapter" data-level="20.1.2" data-path="variant-calling.html"><a href="variant-calling.html#specifics-of-different-genotype-likelihoods"><i class="fa fa-check"></i><b>20.1.2</b> Specifics of different genotype likelihoods</a></li>
+<li class="chapter" data-level="20.1.3" data-path="variant-calling.html"><a href="variant-calling.html#computing-genotype-likelihoods-with-three-different-softwares"><i class="fa fa-check"></i><b>20.1.3</b> Computing genotype likelihoods with three different softwares</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="22" data-path="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><i class="fa fa-check"></i><b>22</b> Bioinformatics for RAD seq data with and without a reference genome</a></li>
-<li class="chapter" data-level="23" data-path="processing-amplicon-sequencing-data.html"><a href="processing-amplicon-sequencing-data.html"><i class="fa fa-check"></i><b>23</b> Processing amplicon sequencing data</a></li>
-<li class="chapter" data-level="24" data-path="genome-annotation.html"><a href="genome-annotation.html"><i class="fa fa-check"></i><b>24</b> Genome Annotation</a></li>
-<li class="chapter" data-level="25" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html"><i class="fa fa-check"></i><b>25</b> Whole genome alignment strategies</a><ul>
-<li class="chapter" data-level="25.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#mapping-of-scaffolds-to-a-closely-related-genome"><i class="fa fa-check"></i><b>25.1</b> Mapping of scaffolds to a closely related genome</a></li>
-<li class="chapter" data-level="25.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#obtaining-ancestral-states-from-an-outgroup-genome"><i class="fa fa-check"></i><b>25.2</b> Obtaining Ancestral States from an Outgroup Genome</a><ul>
-<li class="chapter" data-level="25.2.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#using-lastz-to-align-coho-to-the-chinook-genome"><i class="fa fa-check"></i><b>25.2.1</b> Using LASTZ to align coho to the chinook genome</a></li>
-<li class="chapter" data-level="25.2.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#try-on-the-chinook-chromosomes"><i class="fa fa-check"></i><b>25.2.2</b> Try on the chinook chromosomes</a></li>
-<li class="chapter" data-level="25.2.3" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#explore-the-other-parameters-more"><i class="fa fa-check"></i><b>25.2.3</b> Explore the other parameters more</a></li>
+<li class="chapter" data-level="21" data-path="boneyard-1.html"><a href="boneyard-1.html"><i class="fa fa-check"></i><b>21</b> Boneyard</a></li>
+<li class="chapter" data-level="22" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html"><i class="fa fa-check"></i><b>22</b> Basic Handling of VCF files</a><ul>
+<li class="chapter" data-level="22.1" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#bcftools"><i class="fa fa-check"></i><b>22.1</b> bcftools</a><ul>
+<li class="chapter" data-level="22.1.1" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#tell-me-about-my-vcf-file"><i class="fa fa-check"></i><b>22.1.1</b> Tell me about my VCF file!</a></li>
+<li class="chapter" data-level="22.1.2" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#get-fragmentsparts-of-my-vcf-file"><i class="fa fa-check"></i><b>22.1.2</b> Get fragments/parts of my VCF file</a></li>
+<li class="chapter" data-level="22.1.3" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#combine-vcf-files-in-various-ways"><i class="fa fa-check"></i><b>22.1.3</b> Combine VCF files in various ways</a></li>
+<li class="chapter" data-level="22.1.4" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#filter-out-variants-for-a-variety-of-reasons"><i class="fa fa-check"></i><b>22.1.4</b> Filter out variants for a variety of reasons</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><i class="fa fa-check"></i><b>23</b> Bioinformatics for RAD seq data with and without a reference genome</a></li>
+<li class="chapter" data-level="24" data-path="processing-amplicon-sequencing-data.html"><a href="processing-amplicon-sequencing-data.html"><i class="fa fa-check"></i><b>24</b> Processing amplicon sequencing data</a></li>
+<li class="chapter" data-level="25" data-path="genome-annotation.html"><a href="genome-annotation.html"><i class="fa fa-check"></i><b>25</b> Genome Annotation</a></li>
+<li class="chapter" data-level="26" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html"><i class="fa fa-check"></i><b>26</b> Whole genome alignment strategies</a><ul>
+<li class="chapter" data-level="26.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#mapping-of-scaffolds-to-a-closely-related-genome"><i class="fa fa-check"></i><b>26.1</b> Mapping of scaffolds to a closely related genome</a></li>
+<li class="chapter" data-level="26.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#obtaining-ancestral-states-from-an-outgroup-genome"><i class="fa fa-check"></i><b>26.2</b> Obtaining Ancestral States from an Outgroup Genome</a><ul>
+<li class="chapter" data-level="26.2.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#using-lastz-to-align-coho-to-the-chinook-genome"><i class="fa fa-check"></i><b>26.2.1</b> Using LASTZ to align coho to the chinook genome</a></li>
+<li class="chapter" data-level="26.2.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#try-on-the-chinook-chromosomes"><i class="fa fa-check"></i><b>26.2.2</b> Try on the chinook chromosomes</a></li>
+<li class="chapter" data-level="26.2.3" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#explore-the-other-parameters-more"><i class="fa fa-check"></i><b>26.2.3</b> Explore the other parameters more</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>IV Part IV: Analysis of Big Variant Data</b></span></li>
-<li class="chapter" data-level="26" data-path="bioinformatic-analysis-on-variant-data.html"><a href="bioinformatic-analysis-on-variant-data.html"><i class="fa fa-check"></i><b>26</b> Bioinformatic analysis on variant data</a></li>
+<li class="chapter" data-level="27" data-path="bioinformatic-analysis-on-variant-data.html"><a href="bioinformatic-analysis-on-variant-data.html"><i class="fa fa-check"></i><b>27</b> Bioinformatic analysis on variant data</a></li>
 <li class="part"><span><b>V Part V: Population Genomics</b></span></li>
-<li class="chapter" data-level="27" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html"><i class="fa fa-check"></i><b>27</b> Topics in pop gen</a><ul>
-<li class="chapter" data-level="27.1" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#coalescent"><i class="fa fa-check"></i><b>27.1</b> Coalescent</a></li>
-<li class="chapter" data-level="27.2" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#measures-of-genetic-diversity-and-such"><i class="fa fa-check"></i><b>27.2</b> Measures of genetic diversity and such</a></li>
-<li class="chapter" data-level="27.3" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#demographic-inference-with-partial-a-partial-i-and-moments"><i class="fa fa-check"></i><b>27.3</b> Demographic inference with <span class="math inline">\(\partial a \partial i\)</span> and <em>moments</em></a></li>
-<li class="chapter" data-level="27.4" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#balls-in-boxes"><i class="fa fa-check"></i><b>27.4</b> Balls in Boxes</a></li>
-<li class="chapter" data-level="27.5" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#some-landscape-genetics"><i class="fa fa-check"></i><b>27.5</b> Some landscape genetics</a></li>
-<li class="chapter" data-level="27.6" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#relationship-inference"><i class="fa fa-check"></i><b>27.6</b> Relationship Inference</a></li>
-<li class="chapter" data-level="27.7" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#tests-for-selection"><i class="fa fa-check"></i><b>27.7</b> Tests for Selection</a></li>
-<li class="chapter" data-level="27.8" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#multivariate-associations-gea-etc."><i class="fa fa-check"></i><b>27.8</b> Multivariate Associations, GEA, etc.</a></li>
-<li class="chapter" data-level="27.9" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#estimating-heritability-in-the-wild"><i class="fa fa-check"></i><b>27.9</b> Estimating heritability in the wild</a></li>
+<li class="chapter" data-level="28" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html"><i class="fa fa-check"></i><b>28</b> Topics in pop gen</a><ul>
+<li class="chapter" data-level="28.1" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#coalescent"><i class="fa fa-check"></i><b>28.1</b> Coalescent</a></li>
+<li class="chapter" data-level="28.2" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#measures-of-genetic-diversity-and-such"><i class="fa fa-check"></i><b>28.2</b> Measures of genetic diversity and such</a></li>
+<li class="chapter" data-level="28.3" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#demographic-inference-with-partial-a-partial-i-and-moments"><i class="fa fa-check"></i><b>28.3</b> Demographic inference with <span class="math inline">\(\partial a \partial i\)</span> and <em>moments</em></a></li>
+<li class="chapter" data-level="28.4" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#balls-in-boxes"><i class="fa fa-check"></i><b>28.4</b> Balls in Boxes</a></li>
+<li class="chapter" data-level="28.5" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#some-landscape-genetics"><i class="fa fa-check"></i><b>28.5</b> Some landscape genetics</a></li>
+<li class="chapter" data-level="28.6" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#relationship-inference"><i class="fa fa-check"></i><b>28.6</b> Relationship Inference</a></li>
+<li class="chapter" data-level="28.7" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#tests-for-selection"><i class="fa fa-check"></i><b>28.7</b> Tests for Selection</a></li>
+<li class="chapter" data-level="28.8" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#multivariate-associations-gea-etc."><i class="fa fa-check"></i><b>28.8</b> Multivariate Associations, GEA, etc.</a></li>
+<li class="chapter" data-level="28.9" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#estimating-heritability-in-the-wild"><i class="fa fa-check"></i><b>28.9</b> Estimating heritability in the wild</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -414,7 +421,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="basic-handling-of-vcf-files" class="section level1">
-<h1><span class="header-section-number">Chapter 21</span> Basic Handling of VCF files</h1>
+<h1><span class="header-section-number">Chapter 22</span> Basic Handling of VCF files</h1>
 <p>As we saw in the section on bioinformatic formats, VCF files can be
 large and unwieldy. The format specification is also such that fields
 might have different numbers of subfields, depending, for example, on the
@@ -430,16 +437,16 @@ of the pain of dealing with VCF files.</p>
 download them from your Unix workstation with the following commands.
 I’d recommend putting them into a directory called <code>bcftools-play</code> in
 <code>scratch</code> somewhere.</p>
-<div class="sourceCode" id="cb503"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb503-1" data-line-number="1"><span class="fu">wget</span> https://www.dropbox.com/s/dzwixabvy3wwfdr/chinook-32-3Mb.vcf.gz?dl=1</a>
-<a class="sourceLine" id="cb503-2" data-line-number="2"><span class="fu">wget</span> https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1</a>
-<a class="sourceLine" id="cb503-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb503-4" data-line-number="4"><span class="co"># after which you might need to rename them, if wget retained the `?dl=1`</span></a>
-<a class="sourceLine" id="cb503-5" data-line-number="5"><span class="co"># in the resulting file names:</span></a>
-<a class="sourceLine" id="cb503-6" data-line-number="6"><span class="fu">mv</span> chinook-32-3Mb.vcf.gz\?dl\=1 chinook-32-3Mb.vcf.gz</a>
-<a class="sourceLine" id="cb503-7" data-line-number="7"><span class="fu">mv</span> chinook-32-3Mb.vcf.gz.csi\?dl\=1 chinook-32-3Mb.vcf.gz.csi</a>
-<a class="sourceLine" id="cb503-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb503-9" data-line-number="9"><span class="co"># after that, make sure you are ready to use bcftools by doing</span></a>
-<a class="sourceLine" id="cb503-10" data-line-number="10"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
+<div class="sourceCode" id="cb507"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb507-1" data-line-number="1"><span class="fu">wget</span> https://www.dropbox.com/s/dzwixabvy3wwfdr/chinook-32-3Mb.vcf.gz?dl=1</a>
+<a class="sourceLine" id="cb507-2" data-line-number="2"><span class="fu">wget</span> https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1</a>
+<a class="sourceLine" id="cb507-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb507-4" data-line-number="4"><span class="co"># after which you might need to rename them, if wget retained the `?dl=1`</span></a>
+<a class="sourceLine" id="cb507-5" data-line-number="5"><span class="co"># in the resulting file names:</span></a>
+<a class="sourceLine" id="cb507-6" data-line-number="6"><span class="fu">mv</span> chinook-32-3Mb.vcf.gz\?dl\=1 chinook-32-3Mb.vcf.gz</a>
+<a class="sourceLine" id="cb507-7" data-line-number="7"><span class="fu">mv</span> chinook-32-3Mb.vcf.gz.csi\?dl\=1 chinook-32-3Mb.vcf.gz.csi</a>
+<a class="sourceLine" id="cb507-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb507-9" data-line-number="9"><span class="co"># after that, make sure you are ready to use bcftools by doing</span></a>
+<a class="sourceLine" id="cb507-10" data-line-number="10"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
 <p>There are two main programs for handling VCF files: <code>vcftools</code> and <code>bcftools</code>. Both
 of these grew out of the 1000 Genomes effort starting about a decade ago. It seems
 that <code>vcftools</code> may have been developed first, but, currently, <code>bcftools</code> is being
@@ -451,7 +458,7 @@ interface, a great number of the operations done in <code>vcftools</code> are av
 a little extra knowledge is required to implement them. That said, the range of
 possible operations seems much larger in <code>bcftools</code> than in <code>vcftools</code>.</p>
 <div id="bcftools" class="section level2">
-<h2><span class="header-section-number">21.1</span> bcftools</h2>
+<h2><span class="header-section-number">22.1</span> bcftools</h2>
 <p>Here, we just want to give everyone the chance to run through a few
 operations with <code>bcftools</code>, to start to get familiar with its interface.
 The first thing to note is that, like <code>samtools</code> (which is maintained by
@@ -468,7 +475,7 @@ can be quite terse and intimidating. A friendlier “tutorial” introduction to
 software can be found at <a href="https://samtools.github.io/bcftools/howtos/index.html">https://samtools.github.io/bcftools/howtos/index.html</a>.</p>
 <p>Here we are going to get our feet with with a few operations.</p>
 <div id="tell-me-about-my-vcf-file" class="section level3">
-<h3><span class="header-section-number">21.1.1</span> Tell me about my VCF file!</h3>
+<h3><span class="header-section-number">22.1.1</span> Tell me about my VCF file!</h3>
 <p>VCF files are a little daunting. Especially when they are gzipped they
 can seem particularly opaque—learning anything about them in the traditional
 manner of uncompressing them and then searching for lines within them
@@ -478,114 +485,114 @@ or counting up the number of records can be time consuming. Here are some
 in a VCF file using grep or awk and parse the individuals out yourself, but
 it turns out to be faster and safer to use the <code>query</code> subcommand from <code>bcftools</code>
 with the <code>-l</code> option. Do it here:</p>
-<div class="sourceCode" id="cb504"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb504-1" data-line-number="1"><span class="ex">bcftools</span> query -l chinook-32-3Mb.vcf.gz</a></code></pre></div>
+<div class="sourceCode" id="cb508"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb508-1" data-line-number="1"><span class="ex">bcftools</span> query -l chinook-32-3Mb.vcf.gz</a></code></pre></div>
 <p>Then read about it on the manual page. Find the part that talks describes it.</p>
 <p><strong>How many variants are in this file?</strong> This question can be answered quickly with
 <code>bcftools stats</code>, which also returns to you a plethora of information about the variants.</p>
-<div class="sourceCode" id="cb505"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb505-1" data-line-number="1"><span class="ex">bcftools</span> stats chinook-32-3Mb.vcf.gz</a></code></pre></div>
+<div class="sourceCode" id="cb509"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb509-1" data-line-number="1"><span class="ex">bcftools</span> stats chinook-32-3Mb.vcf.gz</a></code></pre></div>
 <p>The top part of the output tells you how many SNPs and indels (and other types
 of variants) there are. Then it tells you about Ts/Tv ratios, allele frequencies
 and read depths.</p>
 <p><strong>Where are these variants?</strong> There are several ways to answer this question.
 One might be simply to print the CHROM and the POS for each row in the VCF file:</p>
-<div class="sourceCode" id="cb506"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb506-1" data-line-number="1"><span class="ex">bcftools</span> query -f <span class="st">&#39;%CHROM\t%POS\n&#39;</span> chinook-32-3Mb.vcf.gz</a></code></pre></div>
+<div class="sourceCode" id="cb510"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb510-1" data-line-number="1"><span class="ex">bcftools</span> query -f <span class="st">&#39;%CHROM\t%POS\n&#39;</span> chinook-32-3Mb.vcf.gz</a></code></pre></div>
 <p>If you want to see where it starts and where it finishes you can do:</p>
-<div class="sourceCode" id="cb507"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb507-1" data-line-number="1"><span class="ex">bcftools</span> query -f <span class="st">&#39;%CHROM\t%POS\n&#39;</span> chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span> </a>
-<a class="sourceLine" id="cb507-2" data-line-number="2"><span class="ex">bcftools</span> query -f <span class="st">&#39;%CHROM\t%POS\n&#39;</span> chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">tail</span></a></code></pre></div>
+<div class="sourceCode" id="cb511"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb511-1" data-line-number="1"><span class="ex">bcftools</span> query -f <span class="st">&#39;%CHROM\t%POS\n&#39;</span> chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span> </a>
+<a class="sourceLine" id="cb511-2" data-line-number="2"><span class="ex">bcftools</span> query -f <span class="st">&#39;%CHROM\t%POS\n&#39;</span> chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">tail</span></a></code></pre></div>
 <p>From that we see that our example file runs from 4 Mb to 7 Mb or so
 on chromosome NC_037124.1. This shows one use of the subcommand <code>query</code>,
 which is quite useful.</p>
 <p><strong>Give me a glimpse of the file</strong> You can use <code>bcftools view</code> for a number
 of things, but at its simplest, you can merely look at the file in VCF format.
 (In this manner, it behaves much like <code>samtools view</code> for VCF files).</p>
-<div class="sourceCode" id="cb508"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb508-1" data-line-number="1"><span class="co"># show the whole file from the top (use show just the first 10 lines)</span></a>
-<a class="sourceLine" id="cb508-2" data-line-number="2"><span class="ex">bcftools</span> view chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span></a>
-<a class="sourceLine" id="cb508-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb508-4" data-line-number="4"><span class="co"># show just the header with -h.  Here look at just the last 10 lines of the header</span></a>
-<a class="sourceLine" id="cb508-5" data-line-number="5"><span class="ex">bcftools</span> view -h chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">tail</span></a>
-<a class="sourceLine" id="cb508-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb508-7" data-line-number="7"><span class="co"># show the variants themslves (no header) with -H</span></a>
-<a class="sourceLine" id="cb508-8" data-line-number="8"><span class="ex">bcftools</span> view -H chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
+<div class="sourceCode" id="cb512"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb512-1" data-line-number="1"><span class="co"># show the whole file from the top (use show just the first 10 lines)</span></a>
+<a class="sourceLine" id="cb512-2" data-line-number="2"><span class="ex">bcftools</span> view chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span></a>
+<a class="sourceLine" id="cb512-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb512-4" data-line-number="4"><span class="co"># show just the header with -h.  Here look at just the last 10 lines of the header</span></a>
+<a class="sourceLine" id="cb512-5" data-line-number="5"><span class="ex">bcftools</span> view -h chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">tail</span></a>
+<a class="sourceLine" id="cb512-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb512-7" data-line-number="7"><span class="co"># show the variants themslves (no header) with -H</span></a>
+<a class="sourceLine" id="cb512-8" data-line-number="8"><span class="ex">bcftools</span> view -H chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
 <p>When we did that, we see that there is a lot of information in the INFO
 field. What if we wanted to extract that?</p>
 </div>
 <div id="get-fragmentsparts-of-my-vcf-file" class="section level3">
-<h3><span class="header-section-number">21.1.2</span> Get fragments/parts of my VCF file</h3>
+<h3><span class="header-section-number">22.1.2</span> Get fragments/parts of my VCF file</h3>
 <p><strong>Extract keyed values from the INFO field</strong> This is another job for <code>bcftools query</code>. You pass a <em>format string</em> to the <code>-f</code> option that tells the program which fields you want
 to extract and how you want to format it. Check out some examples:</p>
-<div class="sourceCode" id="cb509"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb509-1" data-line-number="1"><span class="co"># extract CHROM POS and BaseQRankSum, separated by TABs</span></a>
-<a class="sourceLine" id="cb509-2" data-line-number="2"><span class="ex">bcftools</span> query -f <span class="st">&#39;%CHROM\t%POS\t%INFO/BaseQRankSum\n&#39;</span> chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span></a>
-<a class="sourceLine" id="cb509-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb509-4" data-line-number="4"><span class="co"># extract CHROM POS and total read depth DP</span></a>
-<a class="sourceLine" id="cb509-5" data-line-number="5"><span class="ex">bcftools</span> query -f <span class="st">&#39;%CHROM\t%POS\t%INFO/DP\n&#39;</span> chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
+<div class="sourceCode" id="cb513"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb513-1" data-line-number="1"><span class="co"># extract CHROM POS and BaseQRankSum, separated by TABs</span></a>
+<a class="sourceLine" id="cb513-2" data-line-number="2"><span class="ex">bcftools</span> query -f <span class="st">&#39;%CHROM\t%POS\t%INFO/BaseQRankSum\n&#39;</span> chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span></a>
+<a class="sourceLine" id="cb513-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb513-4" data-line-number="4"><span class="co"># extract CHROM POS and total read depth DP</span></a>
+<a class="sourceLine" id="cb513-5" data-line-number="5"><span class="ex">bcftools</span> query -f <span class="st">&#39;%CHROM\t%POS\t%INFO/DP\n&#39;</span> chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
 <p><strong>View data from specified regions</strong></p>
 <p>What if we want to look at variants only in two 10 Kb regions, like
 <code>NC_037124.1:5000000-5010000</code> and <code>NC_037124.1:6000000-6010000</code>? Pass those,
 separated by commas, to the <code>-r</code> option (which is an option that applies to many
 of the subcommands):</p>
-<div class="sourceCode" id="cb510"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb510-1" data-line-number="1"><span class="ex">bcftools</span> view -H -r NC_037124.1:5000000-5010000,NC_037124.1:6000000-6010000 chinook-32-3Mb.vcf.gz</a></code></pre></div>
+<div class="sourceCode" id="cb514"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb514-1" data-line-number="1"><span class="ex">bcftools</span> view -H -r NC_037124.1:5000000-5010000,NC_037124.1:6000000-6010000 chinook-32-3Mb.vcf.gz</a></code></pre></div>
 <p>You can also specify those regions in a file with <code>-R</code> option.</p>
 <p><strong>View data from specified individuals</strong></p>
 <p>You can give the sample names (comma separated) to the <code>-s</code> option:</p>
-<div class="sourceCode" id="cb511"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb511-1" data-line-number="1"><span class="ex">bcftools</span> view -H -s DPCh_plate1_G05_S77,DPCh_plate1_G06_S78 chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
+<div class="sourceCode" id="cb515"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb515-1" data-line-number="1"><span class="ex">bcftools</span> view -H -s DPCh_plate1_G05_S77,DPCh_plate1_G06_S78 chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
 <p>Or, if you wanted to view all <em>but</em> those two individuals, precede them with a <code>^</code>:</p>
-<div class="sourceCode" id="cb512"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb512-1" data-line-number="1"><span class="ex">bcftools</span> view -H -s ^DPCh_plate1_G05_S77,DPCh_plate1_G06_S78 chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
+<div class="sourceCode" id="cb516"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb516-1" data-line-number="1"><span class="ex">bcftools</span> view -H -s ^DPCh_plate1_G05_S77,DPCh_plate1_G06_S78 chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
 <p>You can also supply a text file with sample names (one-per-line) to the capital letter <code>-S</code> option.</p>
 <p>You can combine options, like <code>-r</code> and <code>-s</code>, as well.</p>
 </div>
 <div id="combine-vcf-files-in-various-ways" class="section level3">
-<h3><span class="header-section-number">21.1.3</span> Combine VCF files in various ways</h3>
+<h3><span class="header-section-number">22.1.3</span> Combine VCF files in various ways</h3>
 <p><strong>Catenate VCF files</strong></p>
 <p>If you have VCF files called from the same reference genome filled with
 the same samples, it is easy to catenate the together with <code>bcftools concat</code>:</p>
-<div class="sourceCode" id="cb513"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb513-1" data-line-number="1"><span class="co"># make two files from different regions</span></a>
-<a class="sourceLine" id="cb513-2" data-line-number="2"><span class="ex">bcftools</span> view -Oz -r NC_037124.1:4000000-5000000 chinook-32-3Mb.vcf.gz  <span class="op">&gt;</span> A.vcf.gz</a>
-<a class="sourceLine" id="cb513-3" data-line-number="3"><span class="ex">bcftools</span> view -Oz -r NC_037124.1:6000000-7000000 chinook-32-3Mb.vcf.gz  <span class="op">&gt;</span> B.vcf.gz</a>
-<a class="sourceLine" id="cb513-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb513-5" data-line-number="5"><span class="co"># how many variants in each of those?</span></a>
-<a class="sourceLine" id="cb513-6" data-line-number="6"><span class="ex">bcftools</span> stats A.vcf.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^SN/&#39;</span></a>
-<a class="sourceLine" id="cb513-7" data-line-number="7"><span class="ex">bcftools</span> stats B.vcf.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^SN/&#39;</span></a>
-<a class="sourceLine" id="cb513-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb513-9" data-line-number="9"><span class="co"># catenate the back together</span></a>
-<a class="sourceLine" id="cb513-10" data-line-number="10"><span class="ex">bcftools</span> concat -Oz  A.vcf.gz B.vcf.gz <span class="op">&gt;</span> CAT.vcf.gz</a>
-<a class="sourceLine" id="cb513-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb513-12" data-line-number="12"><span class="co"># how many variants in that?</span></a>
-<a class="sourceLine" id="cb513-13" data-line-number="13"><span class="ex">bcftools</span> stats CAT.vcf.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^SN/&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb517"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb517-1" data-line-number="1"><span class="co"># make two files from different regions</span></a>
+<a class="sourceLine" id="cb517-2" data-line-number="2"><span class="ex">bcftools</span> view -Oz -r NC_037124.1:4000000-5000000 chinook-32-3Mb.vcf.gz  <span class="op">&gt;</span> A.vcf.gz</a>
+<a class="sourceLine" id="cb517-3" data-line-number="3"><span class="ex">bcftools</span> view -Oz -r NC_037124.1:6000000-7000000 chinook-32-3Mb.vcf.gz  <span class="op">&gt;</span> B.vcf.gz</a>
+<a class="sourceLine" id="cb517-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb517-5" data-line-number="5"><span class="co"># how many variants in each of those?</span></a>
+<a class="sourceLine" id="cb517-6" data-line-number="6"><span class="ex">bcftools</span> stats A.vcf.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^SN/&#39;</span></a>
+<a class="sourceLine" id="cb517-7" data-line-number="7"><span class="ex">bcftools</span> stats B.vcf.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^SN/&#39;</span></a>
+<a class="sourceLine" id="cb517-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb517-9" data-line-number="9"><span class="co"># catenate the back together</span></a>
+<a class="sourceLine" id="cb517-10" data-line-number="10"><span class="ex">bcftools</span> concat -Oz  A.vcf.gz B.vcf.gz <span class="op">&gt;</span> CAT.vcf.gz</a>
+<a class="sourceLine" id="cb517-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb517-12" data-line-number="12"><span class="co"># how many variants in that?</span></a>
+<a class="sourceLine" id="cb517-13" data-line-number="13"><span class="ex">bcftools</span> stats CAT.vcf.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^SN/&#39;</span></a></code></pre></div>
 <p>Note the use of the <code>-O</code> (capital “o”) option to specify the output
 type: <code>v</code> = VCF, <code>b</code> = BCF, <code>u</code> = uncompressed BCF, <code>z</code> = bgzipped VCF.</p>
 <p><strong>Merge VCF files</strong></p>
 <p>If you have files with different samples in them you
 can easily combine them:</p>
-<div class="sourceCode" id="cb514"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb514-1" data-line-number="1"><span class="co"># make file with first three samples</span></a>
-<a class="sourceLine" id="cb514-2" data-line-number="2"><span class="ex">bcftools</span> view -Oz -s DPCh_plate1_A05_S5,DPCh_plate1_A06_S6,DPCh_plate1_A11_S11 chinook-32-3Mb.vcf.gz <span class="op">&gt;</span> first3.vcf.gz</a>
-<a class="sourceLine" id="cb514-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb514-4" data-line-number="4"><span class="co"># make another with the last three samples</span></a>
-<a class="sourceLine" id="cb514-5" data-line-number="5"><span class="ex">bcftools</span> view -Oz -s DPCh_plate1_H06_S90,DPCh_plate1_H11_S95,DPCh_plate1_H12_S96 chinook-32-3Mb.vcf.gz <span class="op">&gt;</span> last3.vcf.gz</a>
-<a class="sourceLine" id="cb514-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb514-7" data-line-number="7"><span class="co"># merging requires that the files be indexed</span></a>
-<a class="sourceLine" id="cb514-8" data-line-number="8"><span class="ex">bcftools</span> index first3.vcf.gz</a>
-<a class="sourceLine" id="cb514-9" data-line-number="9"><span class="ex">bcftools</span> index last3.vcf.gz</a>
-<a class="sourceLine" id="cb514-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb514-11" data-line-number="11"><span class="co"># merge those into a file with 6 samples</span></a>
-<a class="sourceLine" id="cb514-12" data-line-number="12"><span class="ex">bcftools</span> merge -Oz first3.vcf.gz last3.vcf.gz <span class="op">&gt;</span> 6-samples.vcf.gz</a></code></pre></div>
+<div class="sourceCode" id="cb518"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb518-1" data-line-number="1"><span class="co"># make file with first three samples</span></a>
+<a class="sourceLine" id="cb518-2" data-line-number="2"><span class="ex">bcftools</span> view -Oz -s DPCh_plate1_A05_S5,DPCh_plate1_A06_S6,DPCh_plate1_A11_S11 chinook-32-3Mb.vcf.gz <span class="op">&gt;</span> first3.vcf.gz</a>
+<a class="sourceLine" id="cb518-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb518-4" data-line-number="4"><span class="co"># make another with the last three samples</span></a>
+<a class="sourceLine" id="cb518-5" data-line-number="5"><span class="ex">bcftools</span> view -Oz -s DPCh_plate1_H06_S90,DPCh_plate1_H11_S95,DPCh_plate1_H12_S96 chinook-32-3Mb.vcf.gz <span class="op">&gt;</span> last3.vcf.gz</a>
+<a class="sourceLine" id="cb518-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb518-7" data-line-number="7"><span class="co"># merging requires that the files be indexed</span></a>
+<a class="sourceLine" id="cb518-8" data-line-number="8"><span class="ex">bcftools</span> index first3.vcf.gz</a>
+<a class="sourceLine" id="cb518-9" data-line-number="9"><span class="ex">bcftools</span> index last3.vcf.gz</a>
+<a class="sourceLine" id="cb518-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb518-11" data-line-number="11"><span class="co"># merge those into a file with 6 samples</span></a>
+<a class="sourceLine" id="cb518-12" data-line-number="12"><span class="ex">bcftools</span> merge -Oz first3.vcf.gz last3.vcf.gz <span class="op">&gt;</span> 6-samples.vcf.gz</a></code></pre></div>
 </div>
 <div id="filter-out-variants-for-a-variety-of-reasons" class="section level3">
-<h3><span class="header-section-number">21.1.4</span> Filter out variants for a variety of reasons</h3>
+<h3><span class="header-section-number">22.1.4</span> Filter out variants for a variety of reasons</h3>
 <p>There are a lot of ways to filter out variants. <code>bcftools</code> leaves things
 very general here, and so just about anything is possible. Some simple ones:</p>
 <p><strong>Just the biallelic SNPs please</strong> Get things with no more than 2 alleles and
 no fewer than two alleles, and of a type = SNP:</p>
-<div class="sourceCode" id="cb515"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb515-1" data-line-number="1"><span class="co"># do it and see the result all in one line:</span></a>
-<a class="sourceLine" id="cb515-2" data-line-number="2"><span class="ex">bcftools</span> view -Ou -m 2 -M 2 --types=snps chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="ex">bcftools</span> stats - <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^SN/&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb519"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb519-1" data-line-number="1"><span class="co"># do it and see the result all in one line:</span></a>
+<a class="sourceLine" id="cb519-2" data-line-number="2"><span class="ex">bcftools</span> view -Ou -m 2 -M 2 --types=snps chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="ex">bcftools</span> stats - <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^SN/&#39;</span></a></code></pre></div>
 <p><strong>Just the biallelic indels please</strong></p>
-<div class="sourceCode" id="cb516"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb516-1" data-line-number="1"><span class="co"># do it and see the result all in one line:</span></a>
-<a class="sourceLine" id="cb516-2" data-line-number="2"><span class="ex">bcftools</span> view -Ou -m 2 -M 2 --types=indels chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="ex">bcftools</span> stats - <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^SN/&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb520"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb520-1" data-line-number="1"><span class="co"># do it and see the result all in one line:</span></a>
+<a class="sourceLine" id="cb520-2" data-line-number="2"><span class="ex">bcftools</span> view -Ou -m 2 -M 2 --types=indels chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="ex">bcftools</span> stats - <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^SN/&#39;</span></a></code></pre></div>
 <p>Note the use of <code>-Ou</code> in order to pipe uncompressed BCF output directly into
 <code>bcftools stats</code> using the <code>-</code> for a filename.</p>
 <p><strong>Fraction of missing sites less than X</strong></p>
 <p>If you want to make sure that 60% of your individuals have at least
 one read at the genotype, you can do this:</p>
-<div class="sourceCode" id="cb517"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb517-1" data-line-number="1"><span class="ex">bcftools</span> view -i <span class="st">&#39;F_MISSING &lt; 0.4&#39;</span> chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="ex">bcftools</span> stats - <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^SN/&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb521"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb521-1" data-line-number="1"><span class="ex">bcftools</span> view -i <span class="st">&#39;F_MISSING &lt; 0.4&#39;</span> chinook-32-3Mb.vcf.gz <span class="kw">|</span> <span class="ex">bcftools</span> stats - <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^SN/&#39;</span></a></code></pre></div>
 <p>Play with setting the <code>F_MISSING</code> to different values and see how that affects
 the number of variants retained.</p>
 <hr />
@@ -599,7 +606,7 @@ the number of variants retained.</p>
           </div>
         </div>
       </div>
-<a href="variant-calling-with-gatk.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="boneyard-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

@@ -2144,7 +2144,7 @@ available, creating a `conda` environment that includes the JRE.)
 3. Launch the Java program with `java -jar progpath.jar` where `progpath.jar` is the path to the
 Jar file that you have downloaded and wish to run.
 
-#### Installing GATK
+#### Installing GATK {#install-gatk}
 
 The most important Java based program for bioinformatics is GATK (and its companion
 program, which is now a part of GATK, called PicardTools).  This program,

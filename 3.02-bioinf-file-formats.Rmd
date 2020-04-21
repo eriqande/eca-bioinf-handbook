@@ -111,7 +111,7 @@ Question: For paired reads, do you expect the x- and y-coordinates for read 1 an
 be the same?
 
 
-### Line 4: Base quality scores  
+### Line 4: Base quality scores  {#bqscores}
 
 The base quality scores give an estimate of the probability that the base call is incorrect. 
 This comes from data the sequencer collects on the brightness and compactness of the cluster

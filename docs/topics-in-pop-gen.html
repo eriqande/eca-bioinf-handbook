@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 27 Topics in pop gen | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
+  <title>Chapter 28 Topics in pop gen | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
   <meta name="description" content="A book example for a Chapman &amp; Hall book." />
   <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 27 Topics in pop gen | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
+  <meta property="og:title" content="Chapter 28 Topics in pop gen | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="yihui/bookdown-crc" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 27 Topics in pop gen | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
+  <meta name="twitter:title" content="Chapter 28 Topics in pop gen | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   
   <meta name="twitter:description" content="A book example for a Chapman &amp; Hall book." />
   
@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-16" />
+<meta name="date" content="2020-04-21" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -310,7 +310,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="17.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#sequences"><i class="fa fa-check"></i><b>17.1</b> Sequences</a></li>
 <li class="chapter" data-level="17.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#fastq"><i class="fa fa-check"></i><b>17.2</b> FASTQ</a><ul>
 <li class="chapter" data-level="17.2.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#illumina-ids"><i class="fa fa-check"></i><b>17.2.1</b> Line 1: Illumina identifier lines</a></li>
-<li class="chapter" data-level="17.2.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#line-4-base-quality-scores"><i class="fa fa-check"></i><b>17.2.2</b> Line 4: Base quality scores</a></li>
+<li class="chapter" data-level="17.2.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#bqscores"><i class="fa fa-check"></i><b>17.2.2</b> Line 4: Base quality scores</a></li>
 <li class="chapter" data-level="17.2.3" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#a-fastq-tidyverse-interlude"><i class="fa fa-check"></i><b>17.2.3</b> A FASTQ ‘tidyverse’ Interlude</a></li>
 <li class="chapter" data-level="17.2.4" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#comparing-read-1-to-read-2"><i class="fa fa-check"></i><b>17.2.4</b> Comparing read 1 to read 2</a></li>
 </ul></li>
@@ -358,39 +358,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="19.8" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#merging-bam-files"><i class="fa fa-check"></i><b>19.8</b> Merging BAM files</a></li>
 <li class="chapter" data-level="19.9" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#divide-and-conquer-strategies"><i class="fa fa-check"></i><b>19.9</b> Divide and Conquer Strategies</a></li>
 </ul></li>
-<li class="chapter" data-level="20" data-path="variant-calling-with-gatk.html"><a href="variant-calling-with-gatk.html"><i class="fa fa-check"></i><b>20</b> Variant calling with GATK</a></li>
-<li class="chapter" data-level="21" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html"><i class="fa fa-check"></i><b>21</b> Basic Handling of VCF files</a><ul>
-<li class="chapter" data-level="21.1" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#bcftools"><i class="fa fa-check"></i><b>21.1</b> bcftools</a><ul>
-<li class="chapter" data-level="21.1.1" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#tell-me-about-my-vcf-file"><i class="fa fa-check"></i><b>21.1.1</b> Tell me about my VCF file!</a></li>
-<li class="chapter" data-level="21.1.2" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#get-fragmentsparts-of-my-vcf-file"><i class="fa fa-check"></i><b>21.1.2</b> Get fragments/parts of my VCF file</a></li>
-<li class="chapter" data-level="21.1.3" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#combine-vcf-files-in-various-ways"><i class="fa fa-check"></i><b>21.1.3</b> Combine VCF files in various ways</a></li>
-<li class="chapter" data-level="21.1.4" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#filter-out-variants-for-a-variety-of-reasons"><i class="fa fa-check"></i><b>21.1.4</b> Filter out variants for a variety of reasons</a></li>
+<li class="chapter" data-level="20" data-path="variant-calling.html"><a href="variant-calling.html"><i class="fa fa-check"></i><b>20</b> Variant calling</a><ul>
+<li class="chapter" data-level="20.1" data-path="variant-calling.html"><a href="variant-calling.html#genotype-likelihoods"><i class="fa fa-check"></i><b>20.1</b> Genotype Likelihoods</a><ul>
+<li class="chapter" data-level="20.1.1" data-path="variant-calling.html"><a href="variant-calling.html#basic-sketch-of-genotype-likelihood-calculations"><i class="fa fa-check"></i><b>20.1.1</b> Basic Sketch of Genotype Likelihood Calculations</a></li>
+<li class="chapter" data-level="20.1.2" data-path="variant-calling.html"><a href="variant-calling.html#specifics-of-different-genotype-likelihoods"><i class="fa fa-check"></i><b>20.1.2</b> Specifics of different genotype likelihoods</a></li>
+<li class="chapter" data-level="20.1.3" data-path="variant-calling.html"><a href="variant-calling.html#computing-genotype-likelihoods-with-three-different-softwares"><i class="fa fa-check"></i><b>20.1.3</b> Computing genotype likelihoods with three different softwares</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="22" data-path="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><i class="fa fa-check"></i><b>22</b> Bioinformatics for RAD seq data with and without a reference genome</a></li>
-<li class="chapter" data-level="23" data-path="processing-amplicon-sequencing-data.html"><a href="processing-amplicon-sequencing-data.html"><i class="fa fa-check"></i><b>23</b> Processing amplicon sequencing data</a></li>
-<li class="chapter" data-level="24" data-path="genome-annotation.html"><a href="genome-annotation.html"><i class="fa fa-check"></i><b>24</b> Genome Annotation</a></li>
-<li class="chapter" data-level="25" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html"><i class="fa fa-check"></i><b>25</b> Whole genome alignment strategies</a><ul>
-<li class="chapter" data-level="25.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#mapping-of-scaffolds-to-a-closely-related-genome"><i class="fa fa-check"></i><b>25.1</b> Mapping of scaffolds to a closely related genome</a></li>
-<li class="chapter" data-level="25.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#obtaining-ancestral-states-from-an-outgroup-genome"><i class="fa fa-check"></i><b>25.2</b> Obtaining Ancestral States from an Outgroup Genome</a><ul>
-<li class="chapter" data-level="25.2.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#using-lastz-to-align-coho-to-the-chinook-genome"><i class="fa fa-check"></i><b>25.2.1</b> Using LASTZ to align coho to the chinook genome</a></li>
-<li class="chapter" data-level="25.2.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#try-on-the-chinook-chromosomes"><i class="fa fa-check"></i><b>25.2.2</b> Try on the chinook chromosomes</a></li>
-<li class="chapter" data-level="25.2.3" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#explore-the-other-parameters-more"><i class="fa fa-check"></i><b>25.2.3</b> Explore the other parameters more</a></li>
+<li class="chapter" data-level="21" data-path="boneyard-1.html"><a href="boneyard-1.html"><i class="fa fa-check"></i><b>21</b> Boneyard</a></li>
+<li class="chapter" data-level="22" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html"><i class="fa fa-check"></i><b>22</b> Basic Handling of VCF files</a><ul>
+<li class="chapter" data-level="22.1" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#bcftools"><i class="fa fa-check"></i><b>22.1</b> bcftools</a><ul>
+<li class="chapter" data-level="22.1.1" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#tell-me-about-my-vcf-file"><i class="fa fa-check"></i><b>22.1.1</b> Tell me about my VCF file!</a></li>
+<li class="chapter" data-level="22.1.2" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#get-fragmentsparts-of-my-vcf-file"><i class="fa fa-check"></i><b>22.1.2</b> Get fragments/parts of my VCF file</a></li>
+<li class="chapter" data-level="22.1.3" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#combine-vcf-files-in-various-ways"><i class="fa fa-check"></i><b>22.1.3</b> Combine VCF files in various ways</a></li>
+<li class="chapter" data-level="22.1.4" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#filter-out-variants-for-a-variety-of-reasons"><i class="fa fa-check"></i><b>22.1.4</b> Filter out variants for a variety of reasons</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><i class="fa fa-check"></i><b>23</b> Bioinformatics for RAD seq data with and without a reference genome</a></li>
+<li class="chapter" data-level="24" data-path="processing-amplicon-sequencing-data.html"><a href="processing-amplicon-sequencing-data.html"><i class="fa fa-check"></i><b>24</b> Processing amplicon sequencing data</a></li>
+<li class="chapter" data-level="25" data-path="genome-annotation.html"><a href="genome-annotation.html"><i class="fa fa-check"></i><b>25</b> Genome Annotation</a></li>
+<li class="chapter" data-level="26" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html"><i class="fa fa-check"></i><b>26</b> Whole genome alignment strategies</a><ul>
+<li class="chapter" data-level="26.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#mapping-of-scaffolds-to-a-closely-related-genome"><i class="fa fa-check"></i><b>26.1</b> Mapping of scaffolds to a closely related genome</a></li>
+<li class="chapter" data-level="26.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#obtaining-ancestral-states-from-an-outgroup-genome"><i class="fa fa-check"></i><b>26.2</b> Obtaining Ancestral States from an Outgroup Genome</a><ul>
+<li class="chapter" data-level="26.2.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#using-lastz-to-align-coho-to-the-chinook-genome"><i class="fa fa-check"></i><b>26.2.1</b> Using LASTZ to align coho to the chinook genome</a></li>
+<li class="chapter" data-level="26.2.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#try-on-the-chinook-chromosomes"><i class="fa fa-check"></i><b>26.2.2</b> Try on the chinook chromosomes</a></li>
+<li class="chapter" data-level="26.2.3" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#explore-the-other-parameters-more"><i class="fa fa-check"></i><b>26.2.3</b> Explore the other parameters more</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>IV Part IV: Analysis of Big Variant Data</b></span></li>
-<li class="chapter" data-level="26" data-path="bioinformatic-analysis-on-variant-data.html"><a href="bioinformatic-analysis-on-variant-data.html"><i class="fa fa-check"></i><b>26</b> Bioinformatic analysis on variant data</a></li>
+<li class="chapter" data-level="27" data-path="bioinformatic-analysis-on-variant-data.html"><a href="bioinformatic-analysis-on-variant-data.html"><i class="fa fa-check"></i><b>27</b> Bioinformatic analysis on variant data</a></li>
 <li class="part"><span><b>V Part V: Population Genomics</b></span></li>
-<li class="chapter" data-level="27" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html"><i class="fa fa-check"></i><b>27</b> Topics in pop gen</a><ul>
-<li class="chapter" data-level="27.1" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#coalescent"><i class="fa fa-check"></i><b>27.1</b> Coalescent</a></li>
-<li class="chapter" data-level="27.2" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#measures-of-genetic-diversity-and-such"><i class="fa fa-check"></i><b>27.2</b> Measures of genetic diversity and such</a></li>
-<li class="chapter" data-level="27.3" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#demographic-inference-with-partial-a-partial-i-and-moments"><i class="fa fa-check"></i><b>27.3</b> Demographic inference with <span class="math inline">\(\partial a \partial i\)</span> and <em>moments</em></a></li>
-<li class="chapter" data-level="27.4" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#balls-in-boxes"><i class="fa fa-check"></i><b>27.4</b> Balls in Boxes</a></li>
-<li class="chapter" data-level="27.5" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#some-landscape-genetics"><i class="fa fa-check"></i><b>27.5</b> Some landscape genetics</a></li>
-<li class="chapter" data-level="27.6" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#relationship-inference"><i class="fa fa-check"></i><b>27.6</b> Relationship Inference</a></li>
-<li class="chapter" data-level="27.7" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#tests-for-selection"><i class="fa fa-check"></i><b>27.7</b> Tests for Selection</a></li>
-<li class="chapter" data-level="27.8" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#multivariate-associations-gea-etc."><i class="fa fa-check"></i><b>27.8</b> Multivariate Associations, GEA, etc.</a></li>
-<li class="chapter" data-level="27.9" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#estimating-heritability-in-the-wild"><i class="fa fa-check"></i><b>27.9</b> Estimating heritability in the wild</a></li>
+<li class="chapter" data-level="28" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html"><i class="fa fa-check"></i><b>28</b> Topics in pop gen</a><ul>
+<li class="chapter" data-level="28.1" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#coalescent"><i class="fa fa-check"></i><b>28.1</b> Coalescent</a></li>
+<li class="chapter" data-level="28.2" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#measures-of-genetic-diversity-and-such"><i class="fa fa-check"></i><b>28.2</b> Measures of genetic diversity and such</a></li>
+<li class="chapter" data-level="28.3" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#demographic-inference-with-partial-a-partial-i-and-moments"><i class="fa fa-check"></i><b>28.3</b> Demographic inference with <span class="math inline">\(\partial a \partial i\)</span> and <em>moments</em></a></li>
+<li class="chapter" data-level="28.4" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#balls-in-boxes"><i class="fa fa-check"></i><b>28.4</b> Balls in Boxes</a></li>
+<li class="chapter" data-level="28.5" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#some-landscape-genetics"><i class="fa fa-check"></i><b>28.5</b> Some landscape genetics</a></li>
+<li class="chapter" data-level="28.6" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#relationship-inference"><i class="fa fa-check"></i><b>28.6</b> Relationship Inference</a></li>
+<li class="chapter" data-level="28.7" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#tests-for-selection"><i class="fa fa-check"></i><b>28.7</b> Tests for Selection</a></li>
+<li class="chapter" data-level="28.8" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#multivariate-associations-gea-etc."><i class="fa fa-check"></i><b>28.8</b> Multivariate Associations, GEA, etc.</a></li>
+<li class="chapter" data-level="28.9" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#estimating-heritability-in-the-wild"><i class="fa fa-check"></i><b>28.9</b> Estimating heritability in the wild</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -414,28 +421,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="topics-in-pop-gen" class="section level1">
-<h1><span class="header-section-number">Chapter 27</span> Topics in pop gen</h1>
+<h1><span class="header-section-number">Chapter 28</span> Topics in pop gen</h1>
 <p>This is just a bunch of ideas. But basically, I want to have some topics here that
 everyone should know about. Slanted toward things that are relevant for inference
 or simulation.</p>
 <div id="coalescent" class="section level2">
-<h2><span class="header-section-number">27.1</span> Coalescent</h2>
+<h2><span class="header-section-number">28.1</span> Coalescent</h2>
 <p>Gotta have a lecture on the coalescent. It would be nice to try to motivate
 all the topics from this backward in time perspective.</p>
 <p>Get far enough to discuss <span class="math inline">\(\pi\)</span> and the expected site frequency spectrum.</p>
 </div>
 <div id="measures-of-genetic-diversity-and-such" class="section level2">
-<h2><span class="header-section-number">27.2</span> Measures of genetic diversity and such</h2>
+<h2><span class="header-section-number">28.2</span> Measures of genetic diversity and such</h2>
 <p>It would really be good for me to write a chapter / give a few lectures
 on different measures like dxy and fst</p>
 <p>From Ash’s paper: However, population genomic analyses (outlined below) use FST only, as dxy was highly correlated to nucleotide diversity (for early stage diverging populations the correlation between dxy and <span class="math inline">\(\pi\)</span> is &gt; 0.91, Pearson correlation). As such variation in dxy across the genome reflects variation in diversity, not differentiation (Riesch et al., 2017).</p>
 <p>Tajima’s <span class="math inline">\(D\)</span> and such. The influence of selection on such measures.</p>
 </div>
 <div id="demographic-inference-with-partial-a-partial-i-and-moments" class="section level2">
-<h2><span class="header-section-number">27.3</span> Demographic inference with <span class="math inline">\(\partial a \partial i\)</span> and <em>moments</em></h2>
+<h2><span class="header-section-number">28.3</span> Demographic inference with <span class="math inline">\(\partial a \partial i\)</span> and <em>moments</em></h2>
 </div>
 <div id="balls-in-boxes" class="section level2">
-<h2><span class="header-section-number">27.4</span> Balls in Boxes</h2>
+<h2><span class="header-section-number">28.4</span> Balls in Boxes</h2>
 <p>Would be worthwhile to have a review of all these sorts of variants of
 population assignment, structure, admixture, etc.</p>
 <p>Population structure and PCAs.</p>
@@ -446,26 +453,26 @@ population assignment, structure, admixture, etc.</p>
 <p>What if we go and try to put the same one in? Like Pritch 2000 again: <span class="citation">(Pritchard, Stephens, and Donnelly <a href="#ref-PritchardInferencePopulationStructure2000">2000</a>)</span></p>
 </div>
 <div id="some-landscape-genetics" class="section level2">
-<h2><span class="header-section-number">27.5</span> Some landscape genetics</h2>
+<h2><span class="header-section-number">28.5</span> Some landscape genetics</h2>
 <p>After talking with Amanda about her dissertation I realized it would be good
 to talk about some landscape genetics stuff. For sure I want to talk about
 EEMS and maybe CircuitScape, just so I know well what is going on with the
 latter.</p>
 </div>
 <div id="relationship-inference" class="section level2">
-<h2><span class="header-section-number">27.6</span> Relationship Inference</h2>
+<h2><span class="header-section-number">28.6</span> Relationship Inference</h2>
 <p>Maybe do a lecture on this…</p>
 </div>
 <div id="tests-for-selection" class="section level2">
-<h2><span class="header-section-number">27.7</span> Tests for Selection</h2>
+<h2><span class="header-section-number">28.7</span> Tests for Selection</h2>
 <p>A look at a selection of the methods that are out there. FST outliers, <em>Bayescan</em>, <em>Lositan</em>, <em>PCAdapt</em>, and friends. It would be good to get a nice succinct explanation/understanding of all of these.</p>
 </div>
 <div id="multivariate-associations-gea-etc." class="section level2">
-<h2><span class="header-section-number">27.8</span> Multivariate Associations, GEA, etc.</h2>
+<h2><span class="header-section-number">28.8</span> Multivariate Associations, GEA, etc.</h2>
 <p>It really is time for me to wrap my head around this stuff.</p>
 </div>
 <div id="estimating-heritability-in-the-wild" class="section level2">
-<h2><span class="header-section-number">27.9</span> Estimating heritability in the wild</h2>
+<h2><span class="header-section-number">28.9</span> Estimating heritability in the wild</h2>
 <p>Another from Amanda. It would be good to do some light Quant Genet so that
 we all understand how we might be able to use NGS data to estimate heritability
 in wild populations.</p>
