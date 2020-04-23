@@ -189,7 +189,6 @@ L(G=CC | B_1 = C, B_3 = T) &=   P(B_1 = C| G=CC, \epsilon_1) \times P(B_3 = T| G
 L(G=CT | B_1 = C, B_3 = T) &=   P(B_1 = C| G=CT, \epsilon_1) \times P(B_3 = T| G=CT, \epsilon_3) & &=  0.5 * 0.5 & &= 0.25\\ 
 L(G=TT | B_1 = C, B_3 = T) &=  P(B_1 = C| G=CT, \epsilon_1) \times P(B_3 = T| G=TT, \epsilon_3) & &=  0.00063 * 0.99969 & &= 0.00063
 \end{align*}
-
 $$
 So, with only two reads, one of each allele, the likelihood of a heterozygote can be quite high.
 
@@ -319,6 +318,70 @@ Compare those to the variants found by GATK (listed above)
 #### `angsd`
 
 We will do this later.
+
+### A Directed Acyclic Graph For Genotype Likelihoods
+
+The assumptions about independence between reads and the formulation of the
+genotype likelihood model can be captured in an _acyclic directed graph_ (called a DAG, for short) like
+that in Figure \@ref(fig:single-geno-like-dag).  We expand the notation established above,
+but subscript each variable by an additional $i$ to indicate the data are from the $i$-th individual,
+and, rather than referring to the genotype as $G$ we specifically indicate the allelic type of
+each gene copy within individual $i$ with the variable $Y$.  
+Thus, $B_{i,1}$ is the base covering the SNP at the first read from indivdiual $i$,  $\epsilon_{i,1}$ is the
+base quality score (as a probability of a sequencing error) at that SNP on the first read from
+individual $i$, and $Y_{i,1} = C$ and $Y_{i,2} = T$ denote that the genotype of individual
+$i$ is heterozygous, $CT$.
+```{r single-geno-like-dag, echo=FALSE, fig.align='center', dpi=80, fig.cap='A simple DAG expressing the genotype likelihood for a single read'}
+knitr::include_graphics("figs/single-geno-like.svg", auto_pdf = TRUE)
+```
+
+Of course, we may will typically have sequencing data from multiple individuals. So let us imagine
+that we have data from $N$ individuals ($i=1,\ldots, N$).  Additionally, each individual will have a
+variable number of reads covering the SNP we are focused on.  We denote that number of reads by
+$R_i$ for the $i$-th individual, and subscript each read by $j$.  Hence, in the $i$-th individual,
+$j=1,\ldots,R_i$.  Then, our DAG can be expanded to what we find in Figure \@ref(fig:plated-single-geno-like).
+```{r plated-single-geno-like, echo=FALSE, fig.align='center', dpi=80, fig.cap='An expanded DAG showing replication over individuals, and over reads within individuals.'}
+knitr::include_graphics("figs/plated-single-geno-like.svg", auto_pdf = TRUE)
+```
+
+Acyclic directed graphs can be very useful for gleaning the underlying structure of statistical models
+and also for developing intuition for what is involved in the process of _inference_.
+
+I haven't quite figured out how/where to incorporate a discussion of these topics into this handbook, but
+in the meantime I want to cherry-pick a few topics about probability and statistics from:
+[https://eriqande.github.io/con-gen-2018/bayes-mcmc-gtyperr-narrative.nb.html](https://eriqande.github.io/con-gen-2018/bayes-mcmc-gtyperr-narrative.nb.html)
+
+
+There, we will discuss _inference_ and directed acyclic graphs from the perspective of
+inferring allele frequencies from genotype data.  After that discussion, we will understand that
+inference is the process of learning about unobserved "parent" nodes in a DAG from the data that
+has been observed in the daughter nodes of such a DAG.
+
+Knowing that, we can go back to \@ref(fig:plated-single-geno-like) to see that making inference
+about the actual alleles carried in each individual's genotype requires some sort of "prior" for
+those genotypes.  Such a model is, graphically, what we were just talking about in terms of
+estimating allele frequencies.  Which leads us to a full DAG for making inference about genotypes
+within individuals (Figure \@ref(fig:full-geno-like-dag))
+```{r full-geno-like-dag, echo=FALSE, fig.align='center', dpi=80, fig.cap='A full DAG expressing a probabilistic model for Bayesian inference of genotypes from read data.'}
+knitr::include_graphics("figs/full-geno-like-dag.svg", auto_pdf = TRUE)
+```
+
+This is really how genotype inference should be done! And, it is _extremely important_ to understand that
+many genotype caller provide a "called genotype" in a VCF file that _do not infer genotypes using this sort of model_.
+Rather, they may often simply report the genotype with the highest _likelihood_ (but not necessarily the highest
+posterior probability.)
+
+As a consequence, especially with low coverage sequencing data, these genotypes provided by default in a VCF
+will have far fewer heterozygotes than there should be.
+
+Now we will jump to some slides from a talk I gave a couple years ago about this topic as it relates to RADseq data:
+[gbs-miscall.pdf](./downloads/gbs-miscall.pdf)
+
+
+
+
+
+
 
 
 
