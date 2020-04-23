@@ -367,7 +367,7 @@ knitr::include_graphics("figs/full-geno-like-dag.svg", auto_pdf = TRUE)
 ```
 
 This is really how genotype inference should be done! And, it is _extremely important_ to understand that
-many genotype caller provide a "called genotype" in a VCF file that _do not infer genotypes using this sort of model_.
+many genotype callers provide a "called genotype" in a VCF file that _do not infer genotypes using this sort of model_.
 Rather, they may often simply report the genotype with the highest _likelihood_ (but not necessarily the highest
 posterior probability.)
 
@@ -376,6 +376,34 @@ will have far fewer heterozygotes than there should be.
 
 Now we will jump to some slides from a talk I gave a couple years ago about this topic as it relates to RADseq data:
 [gbs-miscall.pdf](./downloads/gbs-miscall.pdf)
+
+And, point out that the very same problem occurs in low-coverage whole genome sequencing data if you
+just try to use the genotypes reported in a VCF like that produced by GATK.
+
+For an illustration of that, here is a VCF file with 5.16 Mb of Chromosome 28 from
+48 fall/late-fall-run Chinook salmon from the Central Valley of California.  These fish
+are from different populations, but the populations are so similar, genetically, that you don't
+expect a Wahlund effect by mixing them into a single sample.
+
+[raw-fall-late-fall-geno-calls.vcf.gz](https://www.dropbox.com/s/5sb7ygwmpgsz09p/raw-fall-late-fall-geno-calls.vcf.gz?dl=1).
+
+Download that to your laptop, then use R within RStudio to get the 'whoa' package from CRAN and then make a plot:
+```{r, eval=FALSE}
+install.packages("whoa")
+library(whoa)
+library(vcfR)
+
+# you might have to change the file location, depending on where
+# files get downloaded to on your laptop
+v <- read.vcfR("~/Downloads/raw-fall-late-fall-geno-calls.vcf.gz")
+
+gfreqs <- exp_and_obs_geno_freqs(v)
+
+geno_freqs_scatter(gfreqs, alpha = 0.04, max_plot_loci = 1e15)
+
+```
+
+Whoa!
 
 
 

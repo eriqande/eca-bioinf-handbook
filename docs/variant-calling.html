@@ -760,13 +760,33 @@ FIGURE 20.4: A full DAG expressing a probabilistic model for Bayesian inference 
 </p>
 </div>
 <p>This is really how genotype inference should be done! And, it is <em>extremely important</em> to understand that
-many genotype caller provide a “called genotype” in a VCF file that <em>do not infer genotypes using this sort of model</em>.
+many genotype callers provide a “called genotype” in a VCF file that <em>do not infer genotypes using this sort of model</em>.
 Rather, they may often simply report the genotype with the highest <em>likelihood</em> (but not necessarily the highest
 posterior probability.)</p>
 <p>As a consequence, especially with low coverage sequencing data, these genotypes provided by default in a VCF
 will have far fewer heterozygotes than there should be.</p>
 <p>Now we will jump to some slides from a talk I gave a couple years ago about this topic as it relates to RADseq data:
 <a href="./downloads/gbs-miscall.pdf">gbs-miscall.pdf</a></p>
+<p>And, point out that the very same problem occurs in low-coverage whole genome sequencing data if you
+just try to use the genotypes reported in a VCF like that produced by GATK.</p>
+<p>For an illustration of that, here is a VCF file with 5.16 Mb of Chromosome 28 from
+48 fall/late-fall-run Chinook salmon from the Central Valley of California. These fish
+are from different populations, but the populations are so similar, genetically, that you don’t
+expect a Wahlund effect by mixing them into a single sample.</p>
+<p><a href="https://www.dropbox.com/s/5sb7ygwmpgsz09p/raw-fall-late-fall-geno-calls.vcf.gz?dl=1">raw-fall-late-fall-geno-calls.vcf.gz</a>.</p>
+<p>Download that to your laptop, then use R within RStudio to get the ‘whoa’ package from CRAN and then make a plot:</p>
+<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb507-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;whoa&quot;</span>)</a>
+<a class="sourceLine" id="cb507-2" data-line-number="2"><span class="kw">library</span>(whoa)</a>
+<a class="sourceLine" id="cb507-3" data-line-number="3"><span class="kw">library</span>(vcfR)</a>
+<a class="sourceLine" id="cb507-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb507-5" data-line-number="5"><span class="co"># you might have to change the file location, depending on where</span></a>
+<a class="sourceLine" id="cb507-6" data-line-number="6"><span class="co"># files get downloaded to on your laptop</span></a>
+<a class="sourceLine" id="cb507-7" data-line-number="7">v &lt;-<span class="st"> </span><span class="kw">read.vcfR</span>(<span class="st">&quot;~/Downloads/raw-fall-late-fall-geno-calls.vcf.gz&quot;</span>)</a>
+<a class="sourceLine" id="cb507-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb507-9" data-line-number="9">gfreqs &lt;-<span class="st"> </span><span class="kw">exp_and_obs_geno_freqs</span>(v)</a>
+<a class="sourceLine" id="cb507-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb507-11" data-line-number="11"><span class="kw">geno_freqs_scatter</span>(gfreqs, <span class="dt">alpha =</span> <span class="fl">0.04</span>, <span class="dt">max_plot_loci =</span> <span class="fl">1e15</span>)</a></code></pre></div>
+<p>Whoa!</p>
 </div>
 </div>
 </div>
