@@ -157,11 +157,11 @@ P(B_1=C~|~G=TT, \epsilon_1) = \epsilon_1
 $$
 So, summarizing the information from the first read we have:
 $$
-\begin{align*} 
+\begin{aligned} 
 L(G=CC | B_1 = C) &=   P(B_1 = C| G=CC, \epsilon_1) &  &=  1 - \epsilon_1 & &= 0.99937 \\ 
 L(G=CT | B_1 = C) &=   P(B_1 = C| G=CT, \epsilon_1) & &=  \frac{1}{2}(1 - \epsilon_1) + \frac{1}{2}\epsilon_1 & &= 0.5 \\ 
 L(G=TT | B_1 = C) &=   P(B_1 = C| G=TT, \epsilon_1) & &=  \epsilon_1 & &= 0.00063
-\end{align*}
+\end{aligned}
 $$
 A higher likelihood implies more support for a hypothesis. So, with that one
 read we have good evidence that the true genotype is not $G=TT$, and twice
@@ -170,11 +170,11 @@ the likelihood that $G=CC$ compared to $G=CT$.
 
 Now, more quickly, we can consider how much evidence **read 3**, $B_3 = T$ with $\epsilon_3 = 0.00031$ offers:
 $$
-\begin{align*} 
+\begin{aligned} 
 L(G=CC | B_3 = T) &=   P(B_3 = T| G=CC, \epsilon_3) &  &=   & \epsilon_3 &= 0.00031 \\ 
 L(G=CT | B_3 = T) &=   P(B_3 = T| G=CT, \epsilon_3) & &=  \frac{1}{2}(1 - \epsilon_3) + \frac{1}{2}\epsilon_3 & &= 0.5 \\ 
 L(G=TT | B_3 = T) &=   P(B_3 = T| G=TT, \epsilon_3) & &=  1 - \epsilon_3 & &= 0.99969
-\end{align*}
+\end{aligned}
 $$
 OK, that tells us there is very little support for $G=CC$, and twice as much support for $G=TT$ as
 there is for $G=CT$.  
@@ -184,11 +184,12 @@ both of those reads.  Since we assumed that reads are sampled independently from
 chromosomes, the joint probability of both reads is merely the product of probabilities for each read.
 So, we have:
 $$
-\begin{align*} 
+\small
+\begin{aligned} 
 L(G=CC | B_1 = C, B_3 = T) &=   P(B_1 = C| G=CC, \epsilon_1) \times P(B_3 = T| G=CC, \epsilon_3) & &= 0.99937 * 0.00031  & &= 0.00031\\ 
 L(G=CT | B_1 = C, B_3 = T) &=   P(B_1 = C| G=CT, \epsilon_1) \times P(B_3 = T| G=CT, \epsilon_3) & &=  0.5 * 0.5 & &= 0.25\\ 
 L(G=TT | B_1 = C, B_3 = T) &=  P(B_1 = C| G=CT, \epsilon_1) \times P(B_3 = T| G=TT, \epsilon_3) & &=  0.00063 * 0.99969 & &= 0.00063
-\end{align*}
+\end{aligned}
 $$
 So, with only two reads, one of each allele, the likelihood of a heterozygote can be quite high.
 
