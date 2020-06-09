@@ -71,9 +71,9 @@ For now, however, we will offer that the main errors/effects that can
 be controlled for by careful accounting of reads into read groups are:
 1) controlling for effects on the reported
 base quality scores of the particular flowcell
-or the particular lane on a flowcell that a read was sequenced on.
+or the particular lane on a flowcell that a read was sequenced on;
 2) The identification of sequencing reads which are PCR duplicates of another
-read in the data set; and   Thus,
+read in the data set.   Thus,
 most of the focus on defining read groups is concerned with identifying
 features of a read's journey that can be used to ameliorate those two
 types of errors/biases.
@@ -107,10 +107,10 @@ position would have only occurred because of a sequencing error in that case.
 If we saw 10 reads from individual X, and they all had the `A` base at position Y, however,
 we could be quite confident that the genotype is `AA` rather than `AG`, because if the indvidual
 had genotype `AG`, then each read should have a 50% chance of carrying an `A`
-and a 50% chance of carrying a `G`, and it is very unlikely, in that case that
+and a 50% chance of carrying a `G`, and it is very unlikely, in that case, that
 all 10 would carry the `A` allele.  However, imagine how your conclusions would
 change if someone were to tell you that 95% of the reads were PCR duplicates of another one of
-the reads.  In that case, even if the individual has genotype `AG`, there is high probabaility
+the reads.  In that case, even if the individual has genotype `AG`, there is high probability
 that only a single, true template carrying an `A` came from the individual, and the remaining
 9 reads that carry an `A` are just PCR copies of that first original template.  
 
@@ -124,10 +124,10 @@ flanking sequence.  In the figure, note that the length of the fragments gives
 information about which fragments are duplicated and which are not---if two fragments of the
 same length are identified, then one of them is considered a PCR duplicate.  It is worth
 noting that it isn't (to my knowledge) really known which fragment is the
-duplicate and which is the "original," but one (or more of them) will be identified
+duplicate and which is the "original," but, in order to correct the situtation, one (or more of them) will be identified
 as duplicates, and one of them will be identified as an "original."
 
-```{r pcr-duplicates, echo=FALSE, fig.align='center', dpi=80, fig.cap='An example of PCR duplicates.  Note that in paired end data, duplicates are identified by the lengths of both reads as well as the insert length.  This figure represents a simplified, "toy" situation, showing just single-end data.'}
+```{r pcr-duplicates, echo=FALSE, fig.align='center', dpi=80, fig.cap='An example of PCR duplicates.  Note that in paired end data, duplicates are identified by the lengths of both reads as well as the insert length.  This figure represents a simplified, toy, situation, showing just single-end data.'}
 knitr::include_graphics("figs/pcr-duplicates.svg", auto_pdf = TRUE)
 ```
 
@@ -137,8 +137,8 @@ two different paired-end reads that mapped to the same location in the genome, b
 were from different individuals (i.e. had different sample-specific DNA barcodes),
 you would not suspect that they were PCR duplicates.
 Likewise, DNA fragments from two different library preps, even if they came from the
-same individuals (in the case that DNA from that individual had been prepared
-in two separate libraries) would not be considered to be PCR duplicates.
+same individual---in the case that DNA from that individual had been prepared
+in two separate libraries---would not be considered to be PCR duplicates.
 (We should pause here to note what is considered a "library prep." Basically,
 if a batch of samples were all processed together in the same day with reagents
 from the same kit, that is considered a single "library prep.")
