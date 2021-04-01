@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 4 Essential Unix/Linux Terminal Knowledge | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
   <meta name="description" content="A book example for a Chapman &amp; Hall book." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 4 Essential Unix/Linux Terminal Knowledge | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-23" />
+<meta name="date" content="2021-04-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,12 +50,13 @@
 
 
 
+<script src="libs/accessible-code-block/empty-anchor.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +65,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +83,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -196,7 +199,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="shell-programming.html"><a href="shell-programming.html#exit-status"><i class="fa fa-check"></i><b>5.6</b> Exit Status</a><ul>
 <li class="chapter" data-level="5.6.1" data-path="shell-programming.html"><a href="shell-programming.html#combinations-of-exit-statuses"><i class="fa fa-check"></i><b>5.6.1</b> Combinations of exit statuses</a></li>
 </ul></li>
-<li class="chapter" data-level="5.7" data-path="shell-programming.html"><a href="shell-programming.html#loops-and-repetition"><i class="fa fa-check"></i><b>5.7</b> Loops and repetition</a></li>
+<li class="chapter" data-level="5.7" data-path="shell-programming.html"><a href="shell-programming.html#unix-for-loops"><i class="fa fa-check"></i><b>5.7</b> Loops and repetition</a></li>
 <li class="chapter" data-level="5.8" data-path="shell-programming.html"><a href="shell-programming.html#more-conditional-evaluation-if-then-else-and-friends"><i class="fa fa-check"></i><b>5.8</b> More Conditional Evaluation: <code>if</code>, <code>then</code>, <code>else</code>, and friends</a></li>
 <li class="chapter" data-level="5.9" data-path="shell-programming.html"><a href="shell-programming.html#finallypositional-parameters"><i class="fa fa-check"></i><b>5.9</b> Finally…positional parameters</a></li>
 <li class="chapter" data-level="5.10" data-path="shell-programming.html"><a href="shell-programming.html#basename-and-dirname-two-useful-little-utilities"><i class="fa fa-check"></i><b>5.10</b> <code>basename</code> and <code>dirname</code> two useful little utilities</a></li>
@@ -289,7 +292,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.3" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#bookdown"><i class="fa fa-check"></i><b>13.3</b> Bookdown</a></li>
 <li class="chapter" data-level="13.4" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#google-docs"><i class="fa fa-check"></i><b>13.4</b> Google Docs</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="using-python.html"><a href="using-python.html"><i class="fa fa-check"></i><b>14</b> Using python</a></li>
+<li class="chapter" data-level="14" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html"><i class="fa fa-check"></i><b>14</b> Managing Workflows with Snakemake</a><ul>
+<li class="chapter" data-level="14.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#a-simple-snakemake-example"><i class="fa fa-check"></i><b>14.1</b> A Simple Snakemake Example</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-1-a-simple-rule-to-trimmomcawesome-the-files-from-001"><i class="fa fa-check"></i><b>14.1.1</b> Snakefile #1: A simple rule to TrimmoMcAwesome the files from 001</a></li>
+<li class="chapter" data-level="14.1.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-2-a-single-trimmomcawesome-rule-using-wildcards"><i class="fa fa-check"></i><b>14.1.2</b> Snakefile #2: A single TrimmoMcAwesome rule using wildcards</a></li>
+<li class="chapter" data-level="14.1.3" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-3-add-trim_stupendous-in-there"><i class="fa fa-check"></i><b>14.1.3</b> Snakefile #3: Add <code>trim_stupendous</code> in there</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#ugly-complex-file-namesa-job-for-snakemake-input-functions"><i class="fa fa-check"></i><b>14.2</b> Ugly, complex file names…a job for Snakemake input functions!</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#playing-with-pandas"><i class="fa fa-check"></i><b>14.2.1</b> Playing with Pandas</a></li>
+<li class="chapter" data-level="14.2.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#spoofing-a-snakemake-input-function"><i class="fa fa-check"></i><b>14.2.2</b> Spoofing a Snakemake input function</a></li>
+</ul></li>
+</ul></li>
 <li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
 <li class="chapter" data-level="15" data-path="overview-of-bioinformatic-analyses.html"><a href="overview-of-bioinformatic-analyses.html"><i class="fa fa-check"></i><b>15</b> Overview of Bioinformatic Analyses</a></li>
 <li class="chapter" data-level="16" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html"><i class="fa fa-check"></i><b>16</b> DNA Sequences and Sequencing</a><ul>
@@ -462,10 +475,10 @@ use laptops that run a flavor of Linux like Ubuntu, Debian, or RedHat. Linux
 users should ensure that they are running the bash shell. This can be done
 by typing “bash” at the command line, or inserting that into their profile.
 To know what shell is currently running you can type:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$0</span></a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="essential-unixlinux-terminal-knowledge.html#cb1-1"></a><span class="bu">echo</span> <span class="va">$0</span></span></code></pre></div>
 <p>at the Unix command line. If you are running <code>bash</code> the result should
 be</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="ex">-bash</span></a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="essential-unixlinux-terminal-knowledge.html#cb2-1"></a><span class="ex">-bash</span></span></code></pre></div>
 <p>PCs running Microsoft Windows are something of the exception in the computer world, in that
 they are not running an operating system built on Unix. However, Windows 10 now allows for
 a Linux Subsystem to be run. For Windows, it is also possible to install a lightweight
@@ -484,17 +497,17 @@ the Unix filesystem from a terminal prompt. So,
 we begin our foray into Unix and its command prompt with this essential skill.</p>
 <p>When you start a Unix shell in a terminal window you get a <em>command prompt</em>
 that might look something like this:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="ex">my-laptop</span>:~ me$</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb3-1"><a href="essential-unixlinux-terminal-knowledge.html#cb3-1"></a><span class="ex">my-laptop</span>:~ me$</span></code></pre></div>
 <p>or, perhaps something as simple as:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb4-1" data-line-number="1">$</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="essential-unixlinux-terminal-knowledge.html#cb4-1"></a>$</span></code></pre></div>
 <p>or maybe something like:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb5-1" data-line-number="1">/<span class="ex">~/--%</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb5-1"><a href="essential-unixlinux-terminal-knowledge.html#cb5-1"></a>/<span class="ex">~/--%</span></span></code></pre></div>
 <p>We will adopt the convention in this book that, unless we are intentionally doing something
 fancier, the Unix command prompt is given
 by a percent sign, and this will be used when displaying text typed at a command
 prompt, followed by output from the command. For example</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="ex">%</span> pwd</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="ex">/Users/eriq</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb6-1"><a href="essential-unixlinux-terminal-knowledge.html#cb6-1"></a><span class="ex">%</span> pwd</span>
+<span id="cb6-2"><a href="essential-unixlinux-terminal-knowledge.html#cb6-2"></a><span class="ex">/Users/eriq</span></span></code></pre></div>
 <p>shows that I issued the Unix command <code>pwd</code>, which instructs the computer to
 <strong>p</strong>rint <strong>w</strong>orking <strong>d</strong>irectory, and the computer responded by printing
 <code>/Users/eriq</code>, which, on my Mac OS X system is my <em>home directory</em>.
@@ -577,14 +590,14 @@ stands for <strong>c</strong>hange <strong>d</strong>irectory. The syntax is sup
 get to the <code>git-repos</code> directory from my home directory would require
 a simple command <code>cd Documents/git-repos</code>. Once there, I could change to
 my <code>Desktop</code> directory with <code>cd ../../Desktop</code>. Witness:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="ex">%</span> pwd</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="ex">/Users/eriq</span></a>
-<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="ex">%</span> cd Documents/git-repos/</a>
-<a class="sourceLine" id="cb7-4" data-line-number="4"><span class="ex">%</span> pwd</a>
-<a class="sourceLine" id="cb7-5" data-line-number="5"><span class="ex">/Users/eriq/Documents/git-repos</span></a>
-<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="ex">%</span> cd ../../Desktop</a>
-<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="ex">%</span> pwd</a>
-<a class="sourceLine" id="cb7-8" data-line-number="8"><span class="ex">/Users/eriq/Desktop</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="essential-unixlinux-terminal-knowledge.html#cb7-1"></a><span class="ex">%</span> pwd</span>
+<span id="cb7-2"><a href="essential-unixlinux-terminal-knowledge.html#cb7-2"></a><span class="ex">/Users/eriq</span></span>
+<span id="cb7-3"><a href="essential-unixlinux-terminal-knowledge.html#cb7-3"></a><span class="ex">%</span> cd Documents/git-repos/</span>
+<span id="cb7-4"><a href="essential-unixlinux-terminal-knowledge.html#cb7-4"></a><span class="ex">%</span> pwd</span>
+<span id="cb7-5"><a href="essential-unixlinux-terminal-knowledge.html#cb7-5"></a><span class="ex">/Users/eriq/Documents/git-repos</span></span>
+<span id="cb7-6"><a href="essential-unixlinux-terminal-knowledge.html#cb7-6"></a><span class="ex">%</span> cd ../../Desktop</span>
+<span id="cb7-7"><a href="essential-unixlinux-terminal-knowledge.html#cb7-7"></a><span class="ex">%</span> pwd</span>
+<span id="cb7-8"><a href="essential-unixlinux-terminal-knowledge.html#cb7-8"></a><span class="ex">/Users/eriq/Desktop</span></span></code></pre></div>
 <p>Once you have used <code>cd</code>, the working directory of your current shell will
 remain the same no matter how many other commands you issue,
 until you invoke the <code>cd</code> command another time and change
@@ -593,21 +606,21 @@ to a different directory.</p>
 will be set to your home directory. This is super-handy if you have been
 exploring the levels of a Unix filesystem above your home directory and cannot
 remember how to get back to your home directory. Just remember that</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="ex">%</span> cd</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb8-1"><a href="essential-unixlinux-terminal-knowledge.html#cb8-1"></a><span class="ex">%</span> cd</span></code></pre></div>
 <p>will get you back home.</p>
 <p>Another useful shortcut is to supply <code>-</code> (a hyphen) as the path to <code>cd</code>. This will
 change the working directory back to where you were before your last invocation
 of <code>cd</code>, and it will tell you which directory you have returned to. For example, if you start in <code>/Users/eriq/Documents/git-repos</code> and then
 <code>cd</code> to <code>/bin</code>, you can get back to <code>git-repos</code> with <code>cd -</code> like so:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="ex">%</span> pwd</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="ex">/Users/eriq/Documents/git-repos</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="ex">%</span> cd /bin/</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="ex">%</span> pwd</a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="ex">/bin</span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="ex">%</span> cd -</a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="ex">/Users/eriq/Documents/git-repos</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="ex">%</span> pwd</a>
-<a class="sourceLine" id="cb9-9" data-line-number="9"><span class="ex">/Users/eriq/Documents/git-repos</span></a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb9-1"><a href="essential-unixlinux-terminal-knowledge.html#cb9-1"></a><span class="ex">%</span> pwd</span>
+<span id="cb9-2"><a href="essential-unixlinux-terminal-knowledge.html#cb9-2"></a><span class="ex">/Users/eriq/Documents/git-repos</span></span>
+<span id="cb9-3"><a href="essential-unixlinux-terminal-knowledge.html#cb9-3"></a><span class="ex">%</span> cd /bin/</span>
+<span id="cb9-4"><a href="essential-unixlinux-terminal-knowledge.html#cb9-4"></a><span class="ex">%</span> pwd</span>
+<span id="cb9-5"><a href="essential-unixlinux-terminal-knowledge.html#cb9-5"></a><span class="ex">/bin</span></span>
+<span id="cb9-6"><a href="essential-unixlinux-terminal-knowledge.html#cb9-6"></a><span class="ex">%</span> cd -</span>
+<span id="cb9-7"><a href="essential-unixlinux-terminal-knowledge.html#cb9-7"></a><span class="ex">/Users/eriq/Documents/git-repos</span></span>
+<span id="cb9-8"><a href="essential-unixlinux-terminal-knowledge.html#cb9-8"></a><span class="ex">%</span> pwd</span>
+<span id="cb9-9"><a href="essential-unixlinux-terminal-knowledge.html#cb9-9"></a><span class="ex">/Users/eriq/Documents/git-repos</span></span></code></pre></div>
 <p>Note the output of <code>cd -</code> is the newly-returned-to current working directory.</p>
 </div>
 <div id="comm-prompt" class="section level3">
@@ -617,16 +630,16 @@ which directory you are in. You can always type <code>pwd</code> to figure that 
 but the bash shell also provides a way to print the current working directory
 <em>within your command prompt</em>.</p>
 <p>For example, the command:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="va">PS1=</span><span class="st">&#39;[\W]--% &#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb10-1"><a href="essential-unixlinux-terminal-knowledge.html#cb10-1"></a><span class="va">PS1=</span><span class="st">&#39;[\W]--% &#39;</span></span></code></pre></div>
 <p>redefines the command prompt to be the basename of the current directory surrounded
 by brackets and followed by <code>--%</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="ex">%</span> pwd</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="ex">/Users/eriq/Documents/git-repos</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="ex">%</span> PS1=<span class="st">&#39;[\W]--% &#39;</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4">[<span class="ex">git-repos</span>]--% cd ../</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">[<span class="ex">Documents</span>]--% cd ../</a>
-<a class="sourceLine" id="cb11-6" data-line-number="6">[<span class="ex">~</span>]<span class="ex">--%</span> cd ../</a>
-<a class="sourceLine" id="cb11-7" data-line-number="7">[<span class="ex">Users</span>]--% </a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb11-1"><a href="essential-unixlinux-terminal-knowledge.html#cb11-1"></a><span class="ex">%</span> pwd</span>
+<span id="cb11-2"><a href="essential-unixlinux-terminal-knowledge.html#cb11-2"></a><span class="ex">/Users/eriq/Documents/git-repos</span></span>
+<span id="cb11-3"><a href="essential-unixlinux-terminal-knowledge.html#cb11-3"></a><span class="ex">%</span> PS1=<span class="st">&#39;[\W]--% &#39;</span></span>
+<span id="cb11-4"><a href="essential-unixlinux-terminal-knowledge.html#cb11-4"></a>[<span class="ex">git-repos</span>]--% cd ../</span>
+<span id="cb11-5"><a href="essential-unixlinux-terminal-knowledge.html#cb11-5"></a>[<span class="ex">Documents</span>]--% cd ../</span>
+<span id="cb11-6"><a href="essential-unixlinux-terminal-knowledge.html#cb11-6"></a>[<span class="ex">~</span>]<span class="ex">--%</span> cd ../</span>
+<span id="cb11-7"><a href="essential-unixlinux-terminal-knowledge.html#cb11-7"></a>[<span class="ex">Users</span>]--% </span></code></pre></div>
 <p>This can make it considerably easier to keep track of where you are in your file system.</p>
 <p>We will discuss later how to invoke this change automatically in every terminal session
 when we talk about customizing environments in Section <a href="essential-unixlinux-terminal-knowledge.html#unix-env">4.5</a>.</p>
@@ -642,7 +655,7 @@ your every keystroke and trying to guess what you are about to type. If you type
 of a directory name after a command like <code>cd</code> and then hit the TAB key, the shell will respond
 with its best guess of how you want to complete what you are typing.</p>
 <p>Take the file hierarchy of Figure <a href="essential-unixlinux-terminal-knowledge.html#fig:file-hierarchy">4.1</a>, and imagine that we are in the root
-directory. At that point, if we type <code>cd A</code>, the shell will think &quot;Ooh! I’ll bet they want to
+directory. At that point, if we type <code>cd A</code>, the shell will think "Ooh! I’ll bet they want to
 change into the directory <code>Applications</code> because that is the only directory that starts with <code>A</code>. Sure enough,
 if you hit TAB, the shell adds to the command line so that <code>cd A</code> becomes <code>cd Applications/</code>
 and the cursor is still waiting for further input at the end of the command.
@@ -664,22 +677,22 @@ time you hit TAB, nothing happens, but the <em>second</em> time you hit TAB, the
 names that match what you have written so far. For example, in our Figure <a href="essential-unixlinux-terminal-knowledge.html#fig:file-hierarchy">4.1</a> example,
 hitting TAB after typing <code>cd ~/D</code> does nothing. But the second time we hit TAB we get a list of
 matching names:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="ex">%</span> cd ~/D</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2"><span class="ex">Desktop/</span>  Documents/  Downloads/</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="essential-unixlinux-terminal-knowledge.html#cb12-1"></a><span class="ex">%</span> cd ~/D</span>
+<span id="cb12-2"><a href="essential-unixlinux-terminal-knowledge.html#cb12-2"></a><span class="ex">Desktop/</span>  Documents/  Downloads/</span></code></pre></div>
 <p>So, if we are heading to <code>Documents</code> we can see that adding <code>oc</code> to our command line, to create <code>cd Doc</code> would be sufficient to allow the shell to
 uniquely and correctly guess where we are heading. <code>cd Doc</code> will TAB-complete into <code>cd Documents/</code></p></li>
 <li><p>If there are multiple directory or file names that match the current command line, and they share
 more letters than those currently on the command line, TAB-completion will complete
 the name to the end of the shared portion of the name. An example helps: let’s say
 I have the following two directories with hideously long names in my <code>Downloads</code> folder:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="ex">WIFL.rep_indiv_est.mixture_collection.count.gr8-results</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="ex">WIFL.rep_indiv_est.mixture_collection.count-results</span></a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb13-1"><a href="essential-unixlinux-terminal-knowledge.html#cb13-1"></a><span class="ex">WIFL.rep_indiv_est.mixture_collection.count.gr8-results</span></span>
+<span id="cb13-2"><a href="essential-unixlinux-terminal-knowledge.html#cb13-2"></a><span class="ex">WIFL.rep_indiv_est.mixture_collection.count-results</span></span></code></pre></div>
 <p>Then, TAB completing on <code>~/Downloads/WIFL.rep</code> will partially complete so that the prompt and command look like:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="ex">%</span> cd ~/Downloads/WIFL.rep_indiv_est.mixture_collection.count</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="essential-unixlinux-terminal-knowledge.html#cb14-1"></a><span class="ex">%</span> cd ~/Downloads/WIFL.rep_indiv_est.mixture_collection.count</span></code></pre></div>
 <p>and hitting TAB twice gives:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="ex">%</span> cd ~/Downloads/WIFL.rep_indiv_est.mixture_collection.count</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="ex">WIFL.rep_indiv_est.mixture_collection.count-results</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="ex">WIFL.rep_indiv_est.mixture_collection.count.gr8-results</span></a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb15-1"><a href="essential-unixlinux-terminal-knowledge.html#cb15-1"></a><span class="ex">%</span> cd ~/Downloads/WIFL.rep_indiv_est.mixture_collection.count</span>
+<span id="cb15-2"><a href="essential-unixlinux-terminal-knowledge.html#cb15-2"></a><span class="ex">WIFL.rep_indiv_est.mixture_collection.count-results</span></span>
+<span id="cb15-3"><a href="essential-unixlinux-terminal-knowledge.html#cb15-3"></a><span class="ex">WIFL.rep_indiv_est.mixture_collection.count.gr8-results</span></span></code></pre></div>
 <p>At this point, adding <code>-</code> and TAB completing will give the first of those directories.</p></li>
 </ol>
 <p>The last example shows just how much typing TAB completion can save you. So, don’t be
@@ -699,19 +712,19 @@ other directories—within a directory.</p>
 <p>Invoking the <code>ls</code> command without any other arguments (without anything after it)
 returns the contents of the current working directory. In our example,
 if we are in <code>/Users</code> then we get:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="ex">%</span> ls</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="ex">eriq</span>  zoe</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb16-1"><a href="essential-unixlinux-terminal-knowledge.html#cb16-1"></a><span class="ex">%</span> ls</span>
+<span id="cb16-2"><a href="essential-unixlinux-terminal-knowledge.html#cb16-2"></a><span class="ex">eriq</span>  zoe</span></code></pre></div>
 <p>By default, <code>ls</code> gives output in several columns of text, with the directory contents
 sorted lexicographically. For example, the following is output from the <code>ls</code> command
 in a directory on a remote Unix machine:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="ex">%</span> ls</a>
-<a class="sourceLine" id="cb17-2" data-line-number="2"><span class="ex">bam</span>                      map-sliced-fastqs-etc.sh</a>
-<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="ex">bam-slices</span>               play</a>
-<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="ex">bwa-run-list.txt</span>         REDOS-map-sliced-fastqs-etc.sh</a>
-<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="ex">fastq-file-prefixes.txt</span>  sliced</a>
-<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="ex">fqslice-22.error</span>         slice-fastqs.sh</a>
-<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="ex">fqslice-22.log</span>           slicer-lines.txt</a>
-<a class="sourceLine" id="cb17-8" data-line-number="8"><span class="ex">map-etc.sh</span>               Slicer-Logs-summary.txt</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="essential-unixlinux-terminal-knowledge.html#cb17-1"></a><span class="ex">%</span> ls</span>
+<span id="cb17-2"><a href="essential-unixlinux-terminal-knowledge.html#cb17-2"></a><span class="ex">bam</span>                      map-sliced-fastqs-etc.sh</span>
+<span id="cb17-3"><a href="essential-unixlinux-terminal-knowledge.html#cb17-3"></a><span class="ex">bam-slices</span>               play</span>
+<span id="cb17-4"><a href="essential-unixlinux-terminal-knowledge.html#cb17-4"></a><span class="ex">bwa-run-list.txt</span>         REDOS-map-sliced-fastqs-etc.sh</span>
+<span id="cb17-5"><a href="essential-unixlinux-terminal-knowledge.html#cb17-5"></a><span class="ex">fastq-file-prefixes.txt</span>  sliced</span>
+<span id="cb17-6"><a href="essential-unixlinux-terminal-knowledge.html#cb17-6"></a><span class="ex">fqslice-22.error</span>         slice-fastqs.sh</span>
+<span id="cb17-7"><a href="essential-unixlinux-terminal-knowledge.html#cb17-7"></a><span class="ex">fqslice-22.log</span>           slicer-lines.txt</span>
+<span id="cb17-8"><a href="essential-unixlinux-terminal-knowledge.html#cb17-8"></a><span class="ex">map-etc.sh</span>               Slicer-Logs-summary.txt</span></code></pre></div>
 <p>The first line shows the command prompt and the command: <code>% ls</code>, and the remainder is
 the output of the command.</p>
 <p>Invoked without any further arguments, the <code>ls</code>
@@ -721,31 +734,31 @@ adding the path (absolute or relative) of that directory on the command line. Fo
 the example in Figure <a href="essential-unixlinux-terminal-knowledge.html#fig:file-hierarchy">4.1</a>, when we are in the home directory (<code>eriq</code>)
 we can see the directories/files
 contained within <code>Documents</code> like so:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb18-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ls Documents</a>
-<a class="sourceLine" id="cb18-2" data-line-number="2"><span class="ex">git-repos/</span>   pers/   work/</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="essential-unixlinux-terminal-knowledge.html#cb18-1"></a>[<span class="ex">~</span>]<span class="ex">--%</span> ls Documents</span>
+<span id="cb18-2"><a href="essential-unixlinux-terminal-knowledge.html#cb18-2"></a><span class="ex">git-repos/</span>   pers/   work/</span></code></pre></div>
 <p>If you give paths to more than one directory as arguments to <code>ls</code>, then
 the contents of each directory are listed after a heading line that gives
 the directory’s path (as given as an argument to <code>ls</code>), followed by a colon. For example:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb19-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ls Documents/git-repos Documents/work</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="ex">Documents</span>/git-repos:</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="ex">ARCHIVED_mega-bioinf-pop-gen.zip</span>  lowergranite_0.0.1.tar.gz</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="ex">AssignmentAdustment/</span>              mega-bioinf-pop-gen-examples/</a>
-<a class="sourceLine" id="cb19-5" data-line-number="5"><span class="ex">CKMRsim/</span>                          microhaps_np/</a>
-<a class="sourceLine" id="cb19-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="ex">Documents</span>/work:</a>
-<a class="sourceLine" id="cb19-8" data-line-number="8"><span class="ex">assist/</span>          maps/            oxford/          uw_days/</a>
-<a class="sourceLine" id="cb19-9" data-line-number="9"><span class="ex">courses_audited/</span> misc/            personnel/</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb19-1"><a href="essential-unixlinux-terminal-knowledge.html#cb19-1"></a>[<span class="ex">~</span>]<span class="ex">--%</span> ls Documents/git-repos Documents/work</span>
+<span id="cb19-2"><a href="essential-unixlinux-terminal-knowledge.html#cb19-2"></a><span class="ex">Documents</span>/git-repos:</span>
+<span id="cb19-3"><a href="essential-unixlinux-terminal-knowledge.html#cb19-3"></a><span class="ex">ARCHIVED_mega-bioinf-pop-gen.zip</span>  lowergranite_0.0.1.tar.gz</span>
+<span id="cb19-4"><a href="essential-unixlinux-terminal-knowledge.html#cb19-4"></a><span class="ex">AssignmentAdustment/</span>              mega-bioinf-pop-gen-examples/</span>
+<span id="cb19-5"><a href="essential-unixlinux-terminal-knowledge.html#cb19-5"></a><span class="ex">CKMRsim/</span>                          microhaps_np/</span>
+<span id="cb19-6"><a href="essential-unixlinux-terminal-knowledge.html#cb19-6"></a></span>
+<span id="cb19-7"><a href="essential-unixlinux-terminal-knowledge.html#cb19-7"></a><span class="ex">Documents</span>/work:</span>
+<span id="cb19-8"><a href="essential-unixlinux-terminal-knowledge.html#cb19-8"></a><span class="ex">assist/</span>          maps/            oxford/          uw_days/</span>
+<span id="cb19-9"><a href="essential-unixlinux-terminal-knowledge.html#cb19-9"></a><span class="ex">courses_audited/</span> misc/            personnel/</span></code></pre></div>
 <p>You might also note in the above example, that some of the paths listed within
 each of the two directories are followed by a slash, <code>/</code>. This <code>ls</code> customization denotes that
 they are directories themselves. Much like your command prompt, <code>ls</code> can be customized in ways
 that make its output more informative. We will return to that in Section <a href="essential-unixlinux-terminal-knowledge.html#unix-env">4.5</a>.</p>
 <p>If you pass the path of a file to <code>ls</code>, and that file exists in your filesystem,
 then <code>ls</code> will respond by printing the file’s path:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb20-1" data-line-number="1"><span class="ex">%</span> ls Documents/git-repos/lowergranite_0.0.1.tar.gz </a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="ex">Documents/git-repos/lowergranite_0.0.1.tar.gz</span></a></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb20-1"><a href="essential-unixlinux-terminal-knowledge.html#cb20-1"></a><span class="ex">%</span> ls Documents/git-repos/lowergranite_0.0.1.tar.gz </span>
+<span id="cb20-2"><a href="essential-unixlinux-terminal-knowledge.html#cb20-2"></a><span class="ex">Documents/git-repos/lowergranite_0.0.1.tar.gz</span></span></code></pre></div>
 <p>If the file does not exist you get an error message to that effect:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="ex">%</span> ls Documents/try-this-name</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2"><span class="ex">ls</span>: Documents/try-this-name: No such file or directory</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb21-1"><a href="essential-unixlinux-terminal-knowledge.html#cb21-1"></a><span class="ex">%</span> ls Documents/try-this-name</span>
+<span id="cb21-2"><a href="essential-unixlinux-terminal-knowledge.html#cb21-2"></a><span class="ex">ls</span>: Documents/try-this-name: No such file or directory</span></code></pre></div>
 <p>The multi-column, default output of <code>ls</code> is useful when you want
 to scan the contents of a directory, and quickly see as many files
 as possible in the fewest lines of output.
@@ -757,21 +770,21 @@ offers little information beyond the names of the files.</p>
 <p>You can tell the <code>ls</code> command to provide more information, by using it with the <code>-l</code>
 option. Appropriately, with the <code>-l</code> option, the <code>ls</code> command will return
 output in <em>long</em> format:</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="ex">2019-02-08</span> 21:09 /osu-chinook/--% ls -l</a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="ex">total</span> 108</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"><span class="ex">drwxr-xr-x</span>  2 eriq kruegg  4096 Feb  7 08:26 bam</a>
-<a class="sourceLine" id="cb22-4" data-line-number="4"><span class="ex">drwxr-xr-x</span> 14 eriq kruegg  4096 Feb  8 15:56 bam-slices</a>
-<a class="sourceLine" id="cb22-5" data-line-number="5"><span class="ex">-rw-r--r--</span>  1 eriq kruegg 17114 Feb  7 20:16 bwa-run-list.txt</a>
-<a class="sourceLine" id="cb22-6" data-line-number="6"><span class="ex">-rw-r--r--</span>  1 eriq kruegg   824 Feb  6 14:14 fastq-file-prefixes.txt</a>
-<a class="sourceLine" id="cb22-7" data-line-number="7"><span class="ex">-rw-r--r--</span>  1 eriq kruegg     0 Feb  7 20:14 fqslice-22.error</a>
-<a class="sourceLine" id="cb22-8" data-line-number="8"><span class="ex">-rw-r--r--</span>  1 eriq kruegg     0 Feb  7 20:14 fqslice-22.log</a>
-<a class="sourceLine" id="cb22-9" data-line-number="9"><span class="ex">-rwxr--r--</span>  1 eriq kruegg  1012 Feb  7 07:59 map-etc.sh</a>
-<a class="sourceLine" id="cb22-10" data-line-number="10"><span class="ex">-rwxr--r--</span>  1 eriq kruegg  1138 Feb  7 20:56 map-sliced-fastqs-etc.sh</a>
-<a class="sourceLine" id="cb22-11" data-line-number="11"><span class="ex">drwxr-xr-x</span>  3 eriq kruegg  4096 Feb  7 13:01 play</a>
-<a class="sourceLine" id="cb22-12" data-line-number="12"><span class="ex">-rwxr--r--</span>  1 eriq kruegg  1157 Feb  8 15:08 REDOS-map-sliced-fastqs-etc.sh</a>
-<a class="sourceLine" id="cb22-13" data-line-number="13"><span class="ex">drwxr-xr-x</span> 14 eriq kruegg  4096 Feb  8 15:49 sliced</a>
-<a class="sourceLine" id="cb22-14" data-line-number="14"><span class="ex">-rwxr--r--</span>  1 eriq kruegg   826 Feb  7 20:09 slice-fastqs.sh</a>
-<a class="sourceLine" id="cb22-15" data-line-number="15"><span class="ex">-rw-r--r--</span>  1 eriq kruegg  1729 Feb  7 16:11 slicer-lines.txt</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb22-1"><a href="essential-unixlinux-terminal-knowledge.html#cb22-1"></a><span class="ex">2019-02-08</span> 21:09 /osu-chinook/--% ls -l</span>
+<span id="cb22-2"><a href="essential-unixlinux-terminal-knowledge.html#cb22-2"></a><span class="ex">total</span> 108</span>
+<span id="cb22-3"><a href="essential-unixlinux-terminal-knowledge.html#cb22-3"></a><span class="ex">drwxr-xr-x</span>  2 eriq kruegg  4096 Feb  7 08:26 bam</span>
+<span id="cb22-4"><a href="essential-unixlinux-terminal-knowledge.html#cb22-4"></a><span class="ex">drwxr-xr-x</span> 14 eriq kruegg  4096 Feb  8 15:56 bam-slices</span>
+<span id="cb22-5"><a href="essential-unixlinux-terminal-knowledge.html#cb22-5"></a><span class="ex">-rw-r--r--</span>  1 eriq kruegg 17114 Feb  7 20:16 bwa-run-list.txt</span>
+<span id="cb22-6"><a href="essential-unixlinux-terminal-knowledge.html#cb22-6"></a><span class="ex">-rw-r--r--</span>  1 eriq kruegg   824 Feb  6 14:14 fastq-file-prefixes.txt</span>
+<span id="cb22-7"><a href="essential-unixlinux-terminal-knowledge.html#cb22-7"></a><span class="ex">-rw-r--r--</span>  1 eriq kruegg     0 Feb  7 20:14 fqslice-22.error</span>
+<span id="cb22-8"><a href="essential-unixlinux-terminal-knowledge.html#cb22-8"></a><span class="ex">-rw-r--r--</span>  1 eriq kruegg     0 Feb  7 20:14 fqslice-22.log</span>
+<span id="cb22-9"><a href="essential-unixlinux-terminal-knowledge.html#cb22-9"></a><span class="ex">-rwxr--r--</span>  1 eriq kruegg  1012 Feb  7 07:59 map-etc.sh</span>
+<span id="cb22-10"><a href="essential-unixlinux-terminal-knowledge.html#cb22-10"></a><span class="ex">-rwxr--r--</span>  1 eriq kruegg  1138 Feb  7 20:56 map-sliced-fastqs-etc.sh</span>
+<span id="cb22-11"><a href="essential-unixlinux-terminal-knowledge.html#cb22-11"></a><span class="ex">drwxr-xr-x</span>  3 eriq kruegg  4096 Feb  7 13:01 play</span>
+<span id="cb22-12"><a href="essential-unixlinux-terminal-knowledge.html#cb22-12"></a><span class="ex">-rwxr--r--</span>  1 eriq kruegg  1157 Feb  8 15:08 REDOS-map-sliced-fastqs-etc.sh</span>
+<span id="cb22-13"><a href="essential-unixlinux-terminal-knowledge.html#cb22-13"></a><span class="ex">drwxr-xr-x</span> 14 eriq kruegg  4096 Feb  8 15:49 sliced</span>
+<span id="cb22-14"><a href="essential-unixlinux-terminal-knowledge.html#cb22-14"></a><span class="ex">-rwxr--r--</span>  1 eriq kruegg   826 Feb  7 20:09 slice-fastqs.sh</span>
+<span id="cb22-15"><a href="essential-unixlinux-terminal-knowledge.html#cb22-15"></a><span class="ex">-rw-r--r--</span>  1 eriq kruegg  1729 Feb  7 16:11 slicer-lines.txt</span></code></pre></div>
 <p>Each row contains information about only a single file.
 The first column indicates what kind of file
 each entry is, and also tells us which users have permission to
@@ -861,9 +874,9 @@ address them by either backslash escaping the spaces, or putting the whole
 file name in quotation marks (single or double quotation marks will work).
 If you have a file called <code>dumb file name.jpg</code>, you can address it on the
 command line as either of the following three:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="ex">dumb\ file\ name.jpg</span></a>
-<a class="sourceLine" id="cb23-2" data-line-number="2"><span class="st">&quot;dumb file name.jpg&quot;</span></a>
-<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="st">&#39;dumb file name.jpg&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb23-1"><a href="essential-unixlinux-terminal-knowledge.html#cb23-1"></a><span class="ex">dumb\ file\ name.jpg</span></span>
+<span id="cb23-2"><a href="essential-unixlinux-terminal-knowledge.html#cb23-2"></a><span class="st">&quot;dumb file name.jpg&quot;</span></span>
+<span id="cb23-3"><a href="essential-unixlinux-terminal-knowledge.html#cb23-3"></a><span class="st">&#39;dumb file name.jpg&#39;</span></span></code></pre></div>
 <p>To make your life easier, however, the bottom line is that you should name your files
 on a Unix system using only upper- and lowercase letters (Unix file systems are
 case-sensitive), numerals, and the following three punctuation characters: <code>.</code>, <code>-</code>, and <code>_</code>.
@@ -906,9 +919,9 @@ commands will alleviate a lot of frustration that often arises with Unix.</p>
 an <em>environment variable</em> called <code>PATH</code> that is a colon-separated list of pathnames
 where the shell searches for commands. You can print the <code>PATH</code> variable using
 the <code>echo</code> command:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="bu">echo</span> <span class="va">$PATH</span></a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb24-1"><a href="essential-unixlinux-terminal-knowledge.html#cb24-1"></a><span class="bu">echo</span> <span class="va">$PATH</span></span></code></pre></div>
 <p>On a freshly installed system without many customizations the <code>PATH</code> might look like:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="ex">/usr</span>/bin:/bin:<span class="ex">/usr</span>/sbin:<span class="ex">/sbin</span></a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb25-1"><a href="essential-unixlinux-terminal-knowledge.html#cb25-1"></a><span class="ex">/usr</span>/bin:/bin:<span class="ex">/usr</span>/sbin:<span class="ex">/sbin</span></span></code></pre></div>
 <p>which is telling us that, when bash is searching for a command, it searches for a file
 of the same name as the command first in the directory <code>/usr/bin</code>. If it finds it there, then
 it uses the contents of that file to invoke the command. If it doesn’t find it there,
@@ -918,7 +931,7 @@ then it returns the error <code>command not found</code>.</p>
 <p>When you install programs on your own computer system, quite often the installer will modify
 a system file that specifies the <code>PATH</code> variable upon startup. Thus after installing some
 programs that use the command line on a Mac system, the “default” <code>PATH</code> might look like:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="ex">/usr/local</span>/bin:<span class="ex">/usr</span>/bin:/bin:<span class="ex">/usr</span>/sbin:/sbin:<span class="ex">/opt/X11</span>/bin:<span class="ex">/Library/TeX/texbin</span></a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb26-1"><a href="essential-unixlinux-terminal-knowledge.html#cb26-1"></a><span class="ex">/usr/local</span>/bin:<span class="ex">/usr</span>/bin:/bin:<span class="ex">/usr</span>/sbin:/sbin:<span class="ex">/opt/X11</span>/bin:<span class="ex">/Library/TeX/texbin</span></span></code></pre></div>
 </div>
 <div id="the-options" class="section level3">
 <h3><span class="header-section-number">4.3.2</span> The <em>options</em></h3>
@@ -945,7 +958,7 @@ you really get in there and starting playing around in Unix…</p>
 <h3><span class="header-section-number">4.3.3</span> Arguments</h3>
 <p>These are often file names, or other things that are not preceded by an option flag.
 For example, in the <code>ls</code> command:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="fu">ls</span> -lrt dir3</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb27-1"><a href="essential-unixlinux-terminal-knowledge.html#cb27-1"></a><span class="fu">ls</span> -lrt dir3</span></code></pre></div>
 <p><code>-lrt</code> is giving <code>ls</code> the options <code>-l</code>, <code>-r</code>, and <code>-t</code> and <code>dir3</code> is the <em>argument</em>—the
 name of the directory whose contents you should list.</p>
 </div>
@@ -974,16 +987,16 @@ include <em>directories</em> which you’ve already seen, and <em>symbolic links
 <div id="creating-new-directories" class="section level3">
 <h3><span class="header-section-number">4.4.1</span> Creating new directories</h3>
 <p>You can make a new directory with:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="fu">mkdir</span> path</a></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb28-1"><a href="essential-unixlinux-terminal-knowledge.html#cb28-1"></a><span class="fu">mkdir</span> path</span></code></pre></div>
 <p>where <code>path</code> is a path specification (either absolute or relative). Note that if you
 want to make a directory within a subdirectory that does currently not exist, for example:</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="fu">mkdir</span> new-dir/under-new-dir</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb29-1"><a href="essential-unixlinux-terminal-knowledge.html#cb29-1"></a><span class="fu">mkdir</span> new-dir/under-new-dir</span></code></pre></div>
 <p>when <code>new-dir</code> does not already exist, then you have to either create <code>new-dir</code> first, like:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="fu">mkdir</span> new-dir</a>
-<a class="sourceLine" id="cb30-2" data-line-number="2"><span class="ex">mdkir</span> new-dir/under-new-dir</a></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb30-1"><a href="essential-unixlinux-terminal-knowledge.html#cb30-1"></a><span class="fu">mkdir</span> new-dir</span>
+<span id="cb30-2"><a href="essential-unixlinux-terminal-knowledge.html#cb30-2"></a><span class="ex">mdkir</span> new-dir/under-new-dir</span></code></pre></div>
 <p>or you have to use the <code>-p</code> option of <code>mkdir</code>, which creates all necessary parent directories
 as well, like:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="fu">mkdir</span> -p new-dir/under-new-dir</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb31-1"><a href="essential-unixlinux-terminal-knowledge.html#cb31-1"></a><span class="fu">mkdir</span> -p new-dir/under-new-dir</span></code></pre></div>
 <p>If there is already a file (regular or directory) with the same path specifiation as a directory you are
 trying to create, you will get an error from <code>mkdir</code>.</p>
 </div>
@@ -1027,9 +1040,9 @@ In all cases, whatever used to exist at path <code>this</code> will no longer be
 <p>And <code>mv</code> can be invoked with multiple arguments, in which case the last one must be a directory
 <em>that already exists</em> that receives all the earlier arguments inside it. So, if you already have
 a directory named <code>dest_dir</code> then you can move a lot of things into it like:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="fu">mv</span> file1 file2 dir1 dir2 dest_dir</a></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb33-1"><a href="essential-unixlinux-terminal-knowledge.html#cb33-1"></a><span class="fu">mv</span> file1 file2 dir1 dir2 dest_dir</span></code></pre></div>
 <p>You can also write that as as</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="fu">mv</span> file1 file2 dir1 dir2 dest_dir/</a></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb34-1"><a href="essential-unixlinux-terminal-knowledge.html#cb34-1"></a><span class="fu">mv</span> file1 file2 dir1 dir2 dest_dir/</span></code></pre></div>
 <p>which makes its meaning a little more clear, but there is no requirement that the
 final argument have a trailing <code>/</code>.</p>
 <p>Note, if any files in <code>dest_dir</code> have the same name as the files you are moving into
@@ -1039,11 +1052,11 @@ final argument have a trailing <code>/</code>.</p>
 <div id="cp" class="section level4">
 <h4><span class="header-section-number">4.4.2.2</span> <code>cp</code></h4>
 <p>This works much the same way as <code>mv</code> with two different flavors:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb35-1" data-line-number="1"><span class="fu">cp</span> this there</a></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb35-1"><a href="essential-unixlinux-terminal-knowledge.html#cb35-1"></a><span class="fu">cp</span> this there</span></code></pre></div>
 <p>and</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="fu">cp</span> file1 file2 dest_dir</a>
-<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="co"># or</span></a>
-<a class="sourceLine" id="cb36-3" data-line-number="3"><span class="fu">cp</span> file1 file2 dest_dir/</a></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb36-1"><a href="essential-unixlinux-terminal-knowledge.html#cb36-1"></a><span class="fu">cp</span> file1 file2 dest_dir</span>
+<span id="cb36-2"><a href="essential-unixlinux-terminal-knowledge.html#cb36-2"></a><span class="co"># or</span></span>
+<span id="cb36-3"><a href="essential-unixlinux-terminal-knowledge.html#cb36-3"></a><span class="fu">cp</span> file1 file2 dest_dir/</span></code></pre></div>
 <p>The result is very much like that of <code>mv</code>, but instead of moving the file
 from one place to another (an operation that can actually be done without moving the
 data within the file to a different place on the hard drive), the <code>cp</code> command actually
@@ -1101,7 +1114,7 @@ shows a file one screenful at a time. You can hit the space bar to see the next 
 and you can hit <code>q</code> to quit viewing the file.</p>
 <p>Try navigating to a file and using <code>cat</code>, <code>head</code>, and <code>less</code> on it.</p>
 <p>One particularly cool thing about <code>cat</code> is that if you say</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="fu">cat</span> file1 file2</a></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb37-1"><a href="essential-unixlinux-terminal-knowledge.html#cb37-1"></a><span class="fu">cat</span> file1 file2</span></code></pre></div>
 <p>it will catenate the contents of both files, in order, to <em>stdout</em>.</p>
 <p>Now, one Big Important Unix fact is that many programs written to run in the
 Unix shell behave in the same way regarding their output: they write their
@@ -1116,21 +1129,21 @@ to a file. To do that, you merely follow the command (and all its options and ar
 with <code>&gt; path</code> where <code>path</code> is the path specifying the file into which you
 wish to redirect <em>stdout</em>.</p>
 <p>Witness, try this:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co"># echo three lines of text to a file in the /tmp directory</span></a>
-<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="bu">echo</span> <span class="st">&quot;bing</span></a>
-<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="st">bong</span></a>
-<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="st">boing&quot;</span> <span class="op">&gt;</span> /tmp/file1</a>
-<a class="sourceLine" id="cb38-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb38-6" data-line-number="6"><span class="co"># echo three more lines of text to another file</span></a>
-<a class="sourceLine" id="cb38-7" data-line-number="7"><span class="bu">echo</span> <span class="st">&quot;foo</span></a>
-<a class="sourceLine" id="cb38-8" data-line-number="8"><span class="st">bar</span></a>
-<a class="sourceLine" id="cb38-9" data-line-number="9"><span class="st">baz&quot;</span> <span class="op">&gt;</span> /tmp/file2</a>
-<a class="sourceLine" id="cb38-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb38-11" data-line-number="11"><span class="co"># now view the contents of the first file</span></a>
-<a class="sourceLine" id="cb38-12" data-line-number="12"><span class="fu">cat</span> /tmp/file1</a>
-<a class="sourceLine" id="cb38-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb38-14" data-line-number="14"><span class="co"># and the second file:</span></a>
-<a class="sourceLine" id="cb38-15" data-line-number="15"><span class="fu">cat</span> /tmp/file2</a></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb38-1"><a href="essential-unixlinux-terminal-knowledge.html#cb38-1"></a><span class="co"># echo three lines of text to a file in the /tmp directory</span></span>
+<span id="cb38-2"><a href="essential-unixlinux-terminal-knowledge.html#cb38-2"></a><span class="bu">echo</span> <span class="st">&quot;bing</span></span>
+<span id="cb38-3"><a href="essential-unixlinux-terminal-knowledge.html#cb38-3"></a><span class="st">bong</span></span>
+<span id="cb38-4"><a href="essential-unixlinux-terminal-knowledge.html#cb38-4"></a><span class="st">boing&quot;</span> <span class="op">&gt;</span> /tmp/file1</span>
+<span id="cb38-5"><a href="essential-unixlinux-terminal-knowledge.html#cb38-5"></a></span>
+<span id="cb38-6"><a href="essential-unixlinux-terminal-knowledge.html#cb38-6"></a><span class="co"># echo three more lines of text to another file</span></span>
+<span id="cb38-7"><a href="essential-unixlinux-terminal-knowledge.html#cb38-7"></a><span class="bu">echo</span> <span class="st">&quot;foo</span></span>
+<span id="cb38-8"><a href="essential-unixlinux-terminal-knowledge.html#cb38-8"></a><span class="st">bar</span></span>
+<span id="cb38-9"><a href="essential-unixlinux-terminal-knowledge.html#cb38-9"></a><span class="st">baz&quot;</span> <span class="op">&gt;</span> /tmp/file2</span>
+<span id="cb38-10"><a href="essential-unixlinux-terminal-knowledge.html#cb38-10"></a></span>
+<span id="cb38-11"><a href="essential-unixlinux-terminal-knowledge.html#cb38-11"></a><span class="co"># now view the contents of the first file</span></span>
+<span id="cb38-12"><a href="essential-unixlinux-terminal-knowledge.html#cb38-12"></a><span class="fu">cat</span> /tmp/file1</span>
+<span id="cb38-13"><a href="essential-unixlinux-terminal-knowledge.html#cb38-13"></a></span>
+<span id="cb38-14"><a href="essential-unixlinux-terminal-knowledge.html#cb38-14"></a><span class="co"># and the second file:</span></span>
+<span id="cb38-15"><a href="essential-unixlinux-terminal-knowledge.html#cb38-15"></a><span class="fu">cat</span> /tmp/file2</span></code></pre></div>
 <p>It is important to realize that when you redirect output into a file
 with <code>&gt;</code>, any contents that previously existed in that file will
 be deleted (wiped out!). So be careful about redirecting. Don’t
@@ -1146,17 +1159,17 @@ most utilities can also receive input from a file stream called <em>stdin</em> w
 is short for “standard input.”</p>
 <p>If you have data in a file that you want to send into standard input
 for a utility, you can use the <code>&lt;</code> like this:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="bu">command</span> <span class="op">&lt;</span> file</a></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb39-1"><a href="essential-unixlinux-terminal-knowledge.html#cb39-1"></a><span class="bu">command</span> <span class="op">&lt;</span> file</span></code></pre></div>
 <p>But, since most Unix utilities also let you specify the file as an argument,
 this is not used very much.</p>
 <p>However, what is used all the time in Unix, and it is one of the things
-that makes it super fun, is the pipe, <code>|</code>, which says, &quot;take <em>stdout</em> coming
+that makes it super fun, is the pipe, <code>|</code>, which says, "take <em>stdout</em> coming
 out of the command on the left and redirect it into <em>stdin</em> going into
 the command on the right of the pipe.</p>
 <p>For example, if I wanted to count the number of files and directories stored in my <code>git-repos</code>
 directory, I could do</p>
-<div class="sourceCode" id="cb40"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="ex">%</span> ls -dl Documents/git-repos/* <span class="kw">|</span> <span class="fu">wc</span> </a>
-<a class="sourceLine" id="cb40-2" data-line-number="2">     <span class="ex">174</span>    1566   14657</a></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb40-1"><a href="essential-unixlinux-terminal-knowledge.html#cb40-1"></a><span class="ex">%</span> ls -dl Documents/git-repos/* <span class="kw">|</span> <span class="fu">wc</span> </span>
+<span id="cb40-2"><a href="essential-unixlinux-terminal-knowledge.html#cb40-2"></a>     <span class="ex">174</span>    1566   14657</span></code></pre></div>
 <p>which pipes the output of <code>ls -dl</code> (one line per file) into the <em>stdin</em> for the <code>wc</code> command, which
 counts the number of lines, words, and letters sent to its standard input. So, the output tells
 me that there are 174 files and directories in my directory <code>Documents/git-repos</code>.</p>
@@ -1174,20 +1187,20 @@ guessed it! is short for “standard error”. By default, both <em>stdout</em> 
 to the terminal, which is why it can be hard for beginners to think of them as separate streams.<br />
 But, indeed, they are. Redirecting <em>stdout</em> with <code>&gt;</code>, that does <strong>not</strong> redirect <em>stderr</em>.</p>
 <p>For example. See what happens when we ask <code>ls</code> to list a file that does not exist:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb41-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ls file-not-here.txt </a>
-<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="ex">ls</span>: file-not-here.txt: No such file or directory</a></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb41-1"><a href="essential-unixlinux-terminal-knowledge.html#cb41-1"></a>[<span class="ex">~</span>]<span class="ex">--%</span> ls file-not-here.txt </span>
+<span id="cb41-2"><a href="essential-unixlinux-terminal-knowledge.html#cb41-2"></a><span class="ex">ls</span>: file-not-here.txt: No such file or directory</span></code></pre></div>
 <p>The error message comes back to the screen. If you redirect the output
 it still comes back to the screen!</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb42-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ls file-not-here.txt <span class="op">&gt;</span> out.txt </a>
-<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="ex">ls</span>: file-not-here.txt: No such file or directory</a></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb42-1"><a href="essential-unixlinux-terminal-knowledge.html#cb42-1"></a>[<span class="ex">~</span>]<span class="ex">--%</span> ls file-not-here.txt <span class="op">&gt;</span> out.txt </span>
+<span id="cb42-2"><a href="essential-unixlinux-terminal-knowledge.html#cb42-2"></a><span class="ex">ls</span>: file-not-here.txt: No such file or directory</span></code></pre></div>
 <p>If you want to redirect <em>stderr</em>, then you need to specify which stream
 it is. On all Unix systems, <em>stderr</em> is stream #2, so the <code>2&gt;</code> syntax can be
 used:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb43-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ls file-not-here.txt <span class="op">2&gt;</span> out.txt </a></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb43-1"><a href="essential-unixlinux-terminal-knowledge.html#cb43-1"></a>[<span class="ex">~</span>]<span class="ex">--%</span> ls file-not-here.txt <span class="op">2&gt;</span> out.txt </span></code></pre></div>
 <p>Then there is no output of <em>stderr</em> to the terminal, and when you <code>cat</code> the output
 file, you see that it went there!</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb44-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> cat out.txt </a>
-<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="ex">ls</span>: file-not-here.txt: No such file or directory</a></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb44-1"><a href="essential-unixlinux-terminal-knowledge.html#cb44-1"></a>[<span class="ex">~</span>]<span class="ex">--%</span> cat out.txt </span>
+<span id="cb44-2"><a href="essential-unixlinux-terminal-knowledge.html#cb44-2"></a><span class="ex">ls</span>: file-not-here.txt: No such file or directory</span></code></pre></div>
 <p>Doing bioinformatics, you will find that there will be failures of various programs.
 It is essential when you write bioinformatic pipelines to redirect <em>stderr</em> to a
 file so that you can go back, after the fact, to sleuth out why the failure occurred.
@@ -1203,9 +1216,9 @@ as “shortcuts” to different locations in your file system. There are many
 useful applications of symbolic links.</p>
 <p>Symbolic links are made using the <code>ln</code> command with the <code>-s</code> option. For example,
 if I did this in my home directory:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb45-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ln -s /Users/eriq/Documents/git-repos/srsStuff srs</a></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb45-1"><a href="essential-unixlinux-terminal-knowledge.html#cb45-1"></a>[<span class="ex">~</span>]<span class="ex">--%</span> ln -s /Users/eriq/Documents/git-repos/srsStuff srs</span></code></pre></div>
 <p>then <code>srs</code> becomes a file whose full listing (from <code>ls -l srs</code>) looks like:</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="ex">lrwxrwxr-x</span>  1 eriq  staff    40B Jan  9 19:24 srs@ -<span class="op">&gt;</span> /Users/eriq/Documents/git-repos/srsStuff</a></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb46-1"><a href="essential-unixlinux-terminal-knowledge.html#cb46-1"></a><span class="ex">lrwxrwxr-x</span>  1 eriq  staff    40B Jan  9 19:24 srs@ -<span class="op">&gt;</span> /Users/eriq/Documents/git-repos/srsStuff</span></code></pre></div>
 </div>
 <div id="file-permissions" class="section level3">
 <h3><span class="header-section-number">4.4.8</span> File Permissions</h3>
@@ -1257,15 +1270,15 @@ of customization is unnecessary and requires duplication of your efforts, and ca
 and confusing results, so here is what we will do:</p>
 <ol style="list-style-type: decimal">
 <li>Keep all of our customization in <code>~/.bashrc</code>.</li>
-<li>Insert commands in <code>~/.bash_profile</code> that say, &quot;Hey computer! If you are looking
+<li>Insert commands in <code>~/.bash_profile</code> that say, "Hey computer! If you are looking
 for customization in here, don’t bother, just get them straight out of <code>~/.bashrc</code>.</li>
 </ol>
 <p>We take care of #2, by creating the file <code>~/.bash_profile</code> to have the following
 lines in it:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb47-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-f</span> ~/.bashrc<span class="bu"> ]</span>; <span class="kw">then</span></a>
-<a class="sourceLine" id="cb47-3" data-line-number="3">    <span class="bu">source</span> ~/.bashrc</a>
-<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="kw">fi</span></a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb47-1"><a href="essential-unixlinux-terminal-knowledge.html#cb47-1"></a></span>
+<span id="cb47-2"><a href="essential-unixlinux-terminal-knowledge.html#cb47-2"></a><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-f</span> ~/.bashrc<span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb47-3"><a href="essential-unixlinux-terminal-knowledge.html#cb47-3"></a>    <span class="bu">source</span> ~/.bashrc</span>
+<span id="cb47-4"><a href="essential-unixlinux-terminal-knowledge.html#cb47-4"></a><span class="kw">fi</span></span></code></pre></div>
 <p>Taking care of #1 is now just a matter of writing commands into <code>~/.bashrc</code>. In the following
 are some recommended customization.</p>
 <div id="appearances-matter" class="section level3">
@@ -1273,11 +1286,11 @@ are some recommended customization.</p>
 <p>Some customization just change the way your shell looks or what type of output
 is given from different commands. Here are some lines to add to your <code>~/.bashrc</code>
 along with some discussion of each.</p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="bu">export</span> <span class="va">PS1=</span><span class="st">&#39;[\W]--% &#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb48-1"><a href="essential-unixlinux-terminal-knowledge.html#cb48-1"></a><span class="bu">export</span> <span class="va">PS1=</span><span class="st">&#39;[\W]--% &#39;</span></span></code></pre></div>
 <p>This gives a tidier and more informative command prompt. The <code>export</code> command before
 it tells the system to pass the value of this <em>environment variable</em>, <code>PS1</code>, along
 to any other shells that get spawned by the current one.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="bu">alias</span> ls=<span class="st">&#39;ls -GFh&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb49-1"><a href="essential-unixlinux-terminal-knowledge.html#cb49-1"></a><span class="bu">alias</span> ls=<span class="st">&#39;ls -GFh&#39;</span></span></code></pre></div>
 <p>This makes it so that each time you invoke the <code>ls</code> command, you do so with the
 options <code>-G</code>, <code>-F</code>, and <code>-h</code>. To find out on your own what those options do, you can
 type <code>man ls</code> at the command line and read the output, but briefly: <code>-G</code> causes directories and
@@ -1294,7 +1307,7 @@ directories where you have installed different programs. In doing so, you want t
 that you don’t lose any of the other directories in <code>PATH</code>, so there is a certain way to
 go about redefining <code>PATH</code>. If you want to add the path <code>/a-new/program/directory</code> to your
 PATH variable you do it like this:</p>
-<div class="sourceCode" id="cb50"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="va">PATH=$PATH</span>:/a-new/program/directory</a></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb50-1"><a href="essential-unixlinux-terminal-knowledge.html#cb50-1"></a><span class="va">PATH=$PATH</span>:/a-new/program/directory</span></code></pre></div>
 </div>
 </div>
 <div id="a-few-more-important-keystrokes" class="section level2">
@@ -1385,19 +1398,19 @@ as a demonstration, I store the recursive listing of my <code>git-repos</code> d
 a file and I hash it. Then I add just a single line ending to the end
 of the file, and hash that, to note that the two hashes are not at all similar
 even though the two files differ by only one character:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb51-1" data-line-number="1">[<span class="ex">~</span>]<span class="ex">--%</span> ls -R Documents/git-repos/* <span class="op">&gt;</span> /tmp/gr-list.txt </a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">[<span class="ex">~</span>]<span class="ex">--%</span> <span class="co"># how many lines is that?</span></a>
-<a class="sourceLine" id="cb51-3" data-line-number="3">[<span class="ex">~</span>]<span class="ex">--%</span> wc /tmp/gr-list.txt </a>
-<a class="sourceLine" id="cb51-4" data-line-number="4">   <span class="ex">93096</span>   88177 2310967 /tmp/gr-list.txt</a>
-<a class="sourceLine" id="cb51-5" data-line-number="5">[<span class="ex">~</span>]<span class="ex">--%</span> shasum /tmp/gr-list.txt </a>
-<a class="sourceLine" id="cb51-6" data-line-number="6"><span class="ex">1396f2fec4eebdee079830e1eff9e3a64ba5588c</span>  /tmp/gr-list.txt</a>
-<a class="sourceLine" id="cb51-7" data-line-number="7">[<span class="ex">~</span>]<span class="ex">--%</span> <span class="co"># now add a line ending to the end</span></a>
-<a class="sourceLine" id="cb51-8" data-line-number="8">[<span class="ex">~</span>]<span class="ex">--%</span> (cat /tmp/gr-list.txt<span class="kw">;</span> <span class="bu">echo</span>) <span class="op">&gt;</span> <span class="ex">/tmp/gr-list2.txt</span> </a>
-<a class="sourceLine" id="cb51-9" data-line-number="9">[<span class="ex">~</span>]<span class="ex">--%</span> <span class="co"># hash both and compare</span></a>
-<a class="sourceLine" id="cb51-10" data-line-number="10">[<span class="ex">~</span>]<span class="ex">--%</span> shasum /tmp/gr-list.txt /tmp/gr-list2.txt </a>
-<a class="sourceLine" id="cb51-11" data-line-number="11"><span class="ex">1396f2fec4eebdee079830e1eff9e3a64ba5588c</span>  /tmp/gr-list.txt</a>
-<a class="sourceLine" id="cb51-12" data-line-number="12"><span class="ex">23bff8776ff86e5ebbe39e11cc2f5e31c286ae91</span>  /tmp/gr-list2.txt</a>
-<a class="sourceLine" id="cb51-13" data-line-number="13">[<span class="ex">~</span>]<span class="ex">--%</span> <span class="co"># whoa! cool.</span></a></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb51-1"><a href="essential-unixlinux-terminal-knowledge.html#cb51-1"></a>[<span class="ex">~</span>]<span class="ex">--%</span> ls -R Documents/git-repos/* <span class="op">&gt;</span> /tmp/gr-list.txt </span>
+<span id="cb51-2"><a href="essential-unixlinux-terminal-knowledge.html#cb51-2"></a>[<span class="ex">~</span>]<span class="ex">--%</span> <span class="co"># how many lines is that?</span></span>
+<span id="cb51-3"><a href="essential-unixlinux-terminal-knowledge.html#cb51-3"></a>[<span class="ex">~</span>]<span class="ex">--%</span> wc /tmp/gr-list.txt </span>
+<span id="cb51-4"><a href="essential-unixlinux-terminal-knowledge.html#cb51-4"></a>   <span class="ex">93096</span>   88177 2310967 /tmp/gr-list.txt</span>
+<span id="cb51-5"><a href="essential-unixlinux-terminal-knowledge.html#cb51-5"></a>[<span class="ex">~</span>]<span class="ex">--%</span> shasum /tmp/gr-list.txt </span>
+<span id="cb51-6"><a href="essential-unixlinux-terminal-knowledge.html#cb51-6"></a><span class="ex">1396f2fec4eebdee079830e1eff9e3a64ba5588c</span>  /tmp/gr-list.txt</span>
+<span id="cb51-7"><a href="essential-unixlinux-terminal-knowledge.html#cb51-7"></a>[<span class="ex">~</span>]<span class="ex">--%</span> <span class="co"># now add a line ending to the end</span></span>
+<span id="cb51-8"><a href="essential-unixlinux-terminal-knowledge.html#cb51-8"></a>[<span class="ex">~</span>]<span class="ex">--%</span> (cat /tmp/gr-list.txt<span class="kw">;</span> <span class="bu">echo</span>) <span class="op">&gt;</span> <span class="ex">/tmp/gr-list2.txt</span> </span>
+<span id="cb51-9"><a href="essential-unixlinux-terminal-knowledge.html#cb51-9"></a>[<span class="ex">~</span>]<span class="ex">--%</span> <span class="co"># hash both and compare</span></span>
+<span id="cb51-10"><a href="essential-unixlinux-terminal-knowledge.html#cb51-10"></a>[<span class="ex">~</span>]<span class="ex">--%</span> shasum /tmp/gr-list.txt /tmp/gr-list2.txt </span>
+<span id="cb51-11"><a href="essential-unixlinux-terminal-knowledge.html#cb51-11"></a><span class="ex">1396f2fec4eebdee079830e1eff9e3a64ba5588c</span>  /tmp/gr-list.txt</span>
+<span id="cb51-12"><a href="essential-unixlinux-terminal-knowledge.html#cb51-12"></a><span class="ex">23bff8776ff86e5ebbe39e11cc2f5e31c286ae91</span>  /tmp/gr-list2.txt</span>
+<span id="cb51-13"><a href="essential-unixlinux-terminal-knowledge.html#cb51-13"></a>[<span class="ex">~</span>]<span class="ex">--%</span> <span class="co"># whoa! cool.</span></span></code></pre></div>
 </div>
 </div>
 <div id="unix-quick-study-guide" class="section level2">

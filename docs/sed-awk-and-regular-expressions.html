@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 6 Sed, awk, and regular expressions | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
   <meta name="description" content="A book example for a Chapman &amp; Hall book." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 6 Sed, awk, and regular expressions | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-23" />
+<meta name="date" content="2021-04-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,12 +50,13 @@
 
 
 
+<script src="libs/accessible-code-block/empty-anchor.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +65,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +83,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -196,7 +199,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="shell-programming.html"><a href="shell-programming.html#exit-status"><i class="fa fa-check"></i><b>5.6</b> Exit Status</a><ul>
 <li class="chapter" data-level="5.6.1" data-path="shell-programming.html"><a href="shell-programming.html#combinations-of-exit-statuses"><i class="fa fa-check"></i><b>5.6.1</b> Combinations of exit statuses</a></li>
 </ul></li>
-<li class="chapter" data-level="5.7" data-path="shell-programming.html"><a href="shell-programming.html#loops-and-repetition"><i class="fa fa-check"></i><b>5.7</b> Loops and repetition</a></li>
+<li class="chapter" data-level="5.7" data-path="shell-programming.html"><a href="shell-programming.html#unix-for-loops"><i class="fa fa-check"></i><b>5.7</b> Loops and repetition</a></li>
 <li class="chapter" data-level="5.8" data-path="shell-programming.html"><a href="shell-programming.html#more-conditional-evaluation-if-then-else-and-friends"><i class="fa fa-check"></i><b>5.8</b> More Conditional Evaluation: <code>if</code>, <code>then</code>, <code>else</code>, and friends</a></li>
 <li class="chapter" data-level="5.9" data-path="shell-programming.html"><a href="shell-programming.html#finallypositional-parameters"><i class="fa fa-check"></i><b>5.9</b> Finally…positional parameters</a></li>
 <li class="chapter" data-level="5.10" data-path="shell-programming.html"><a href="shell-programming.html#basename-and-dirname-two-useful-little-utilities"><i class="fa fa-check"></i><b>5.10</b> <code>basename</code> and <code>dirname</code> two useful little utilities</a></li>
@@ -289,7 +292,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.3" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#bookdown"><i class="fa fa-check"></i><b>13.3</b> Bookdown</a></li>
 <li class="chapter" data-level="13.4" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#google-docs"><i class="fa fa-check"></i><b>13.4</b> Google Docs</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="using-python.html"><a href="using-python.html"><i class="fa fa-check"></i><b>14</b> Using python</a></li>
+<li class="chapter" data-level="14" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html"><i class="fa fa-check"></i><b>14</b> Managing Workflows with Snakemake</a><ul>
+<li class="chapter" data-level="14.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#a-simple-snakemake-example"><i class="fa fa-check"></i><b>14.1</b> A Simple Snakemake Example</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-1-a-simple-rule-to-trimmomcawesome-the-files-from-001"><i class="fa fa-check"></i><b>14.1.1</b> Snakefile #1: A simple rule to TrimmoMcAwesome the files from 001</a></li>
+<li class="chapter" data-level="14.1.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-2-a-single-trimmomcawesome-rule-using-wildcards"><i class="fa fa-check"></i><b>14.1.2</b> Snakefile #2: A single TrimmoMcAwesome rule using wildcards</a></li>
+<li class="chapter" data-level="14.1.3" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-3-add-trim_stupendous-in-there"><i class="fa fa-check"></i><b>14.1.3</b> Snakefile #3: Add <code>trim_stupendous</code> in there</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#ugly-complex-file-namesa-job-for-snakemake-input-functions"><i class="fa fa-check"></i><b>14.2</b> Ugly, complex file names…a job for Snakemake input functions!</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#playing-with-pandas"><i class="fa fa-check"></i><b>14.2.1</b> Playing with Pandas</a></li>
+<li class="chapter" data-level="14.2.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#spoofing-a-snakemake-input-function"><i class="fa fa-check"></i><b>14.2.2</b> Spoofing a Snakemake input function</a></li>
+</ul></li>
+</ul></li>
 <li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
 <li class="chapter" data-level="15" data-path="overview-of-bioinformatic-analyses.html"><a href="overview-of-bioinformatic-analyses.html"><i class="fa fa-check"></i><b>15</b> Overview of Bioinformatic Analyses</a></li>
 <li class="chapter" data-level="16" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html"><i class="fa fa-check"></i><b>16</b> DNA Sequences and Sequencing</a><ul>
@@ -456,7 +469,7 @@ have a short look at regular expressions, then we will use those further in <cod
 will play with <code>sed</code> a little bit.</p>
 <p>In order to have a set of files to use in the examples, I have made a small GitHub
 repository called <code>awk-and-sed-inputs</code>. You can get that with</p>
-<div class="sourceCode" id="cb143"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb143-1" data-line-number="1"><span class="fu">git</span> clone https://github.com/eriqande/awk-and-sed-inputs</a></code></pre></div>
+<div class="sourceCode" id="cb143"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb143-1"><a href="sed-awk-and-regular-expressions.html#cb143-1"></a><span class="fu">git</span> clone https://github.com/eriqande/awk-and-sed-inputs</span></code></pre></div>
 <p>All of the examples in this chapter that use such external files
 assume that the current working directory is
 the repository directory <code>awk-and-sed-inputs</code>.</p>
@@ -472,10 +485,10 @@ the most common use of <code>awk</code> is to print parts of the line, or do sma
 line. The instructions that describe the tests and the actions are included in the <code>awk</code> “script”, though,
 in practice, this script is often given to <code>awk</code> not as a file, but, rather, as text between single-quotes on the
 command line. The basic syntax looks like this:</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb144-1" data-line-number="1"><span class="ex">%</span> awk <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb144-2" data-line-number="2"><span class="st">  test1  {action1}</span></a>
-<a class="sourceLine" id="cb144-3" data-line-number="3"><span class="st">  test2  {action2}</span></a>
-<a class="sourceLine" id="cb144-4" data-line-number="4"><span class="st">&#39;</span> file</a></code></pre></div>
+<div class="sourceCode" id="cb144"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb144-1"><a href="sed-awk-and-regular-expressions.html#cb144-1"></a><span class="ex">%</span> awk <span class="st">&#39;</span></span>
+<span id="cb144-2"><a href="sed-awk-and-regular-expressions.html#cb144-2"></a><span class="st">  test1  {action1}</span></span>
+<span id="cb144-3"><a href="sed-awk-and-regular-expressions.html#cb144-3"></a><span class="st">  test2  {action2}</span></span>
+<span id="cb144-4"><a href="sed-awk-and-regular-expressions.html#cb144-4"></a><span class="st">&#39;</span> file</span></code></pre></div>
 <p>Where <code>file</code> is the path of the file you want <code>awk</code> to read, and the “tests” and “actions”
 above are just placeholders showing where those parts of the script are written. The layout
 makes it clear that if <code>test1</code> is TRUE, <code>action1</code> will be executed, and if <code>test2</code> is TRUE, then
@@ -488,25 +501,25 @@ Second, if you don’t supply a file path to <code>awk</code> it expects (and gl
 This makes it easy to pipe data into <code>awk</code>. For example, putting the above two points together,
 the above <code>awk</code> script skeleton could
 have been written this way:</p>
-<div class="sourceCode" id="cb145"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb145-1" data-line-number="1"><span class="ex">%</span> cat file <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;test1  {action1} test2  {action2}&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb145"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb145-1"><a href="sed-awk-and-regular-expressions.html#cb145-1"></a><span class="ex">%</span> cat file <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;test1  {action1} test2  {action2}&#39;</span></span></code></pre></div>
 <p>Before we get too abstract talking about tests and actions, let’s look at a few
 examples:</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb146-1" data-line-number="1"><span class="co"># print lines starting with @SQ in the SAM header of a file</span></a>
-<a class="sourceLine" id="cb146-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;/^@SQ/ {print}&#39;</span> data/DPCh_plate1_F12_S72.sam</a>
-<a class="sourceLine" id="cb146-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb146-4" data-line-number="4"><span class="co"># print only those @SQ lines with a sequence name tag starting with &quot;NC_&quot;</span></a>
-<a class="sourceLine" id="cb146-5" data-line-number="5"><span class="fu">awk</span> <span class="st">&#39;/^@SQ/ &amp;&amp; /SN:NC_/ {print}&#39;</span> data/DPCh_plate1_F12_S72.sam</a>
-<a class="sourceLine" id="cb146-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb146-7" data-line-number="7"><span class="co"># same as above, but quit processing the file as soon as you hit</span></a>
-<a class="sourceLine" id="cb146-8" data-line-number="8"><span class="co"># an @SQ line with a sequence name starting with &quot;NW_&quot;</span></a>
-<a class="sourceLine" id="cb146-9" data-line-number="9"><span class="fu">awk</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb146-10" data-line-number="10"><span class="st">  /^@SQ/ &amp;&amp; /SN:NC_/ {print}</span></a>
-<a class="sourceLine" id="cb146-11" data-line-number="11"><span class="st">  /^@SQ/ &amp;&amp; /SN:NW_/ {exit}  </span></a>
-<a class="sourceLine" id="cb146-12" data-line-number="12"><span class="st">&#39;</span> data/DPCh_plate1_F12_S72.sam</a>
-<a class="sourceLine" id="cb146-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb146-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb146-15" data-line-number="15"><span class="co"># print only lines 101, and 103 from the fastq file</span></a>
-<a class="sourceLine" id="cb146-16" data-line-number="16"><span class="ex">gzcat</span> data/DPCh_plate1_F12_S72.R1.fq.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;NR==101 || NR==102 {print}&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb146"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb146-1"><a href="sed-awk-and-regular-expressions.html#cb146-1"></a><span class="co"># print lines starting with @SQ in the SAM header of a file</span></span>
+<span id="cb146-2"><a href="sed-awk-and-regular-expressions.html#cb146-2"></a><span class="fu">awk</span> <span class="st">&#39;/^@SQ/ {print}&#39;</span> data/DPCh_plate1_F12_S72.sam</span>
+<span id="cb146-3"><a href="sed-awk-and-regular-expressions.html#cb146-3"></a></span>
+<span id="cb146-4"><a href="sed-awk-and-regular-expressions.html#cb146-4"></a><span class="co"># print only those @SQ lines with a sequence name tag starting with &quot;NC_&quot;</span></span>
+<span id="cb146-5"><a href="sed-awk-and-regular-expressions.html#cb146-5"></a><span class="fu">awk</span> <span class="st">&#39;/^@SQ/ &amp;&amp; /SN:NC_/ {print}&#39;</span> data/DPCh_plate1_F12_S72.sam</span>
+<span id="cb146-6"><a href="sed-awk-and-regular-expressions.html#cb146-6"></a></span>
+<span id="cb146-7"><a href="sed-awk-and-regular-expressions.html#cb146-7"></a><span class="co"># same as above, but quit processing the file as soon as you hit</span></span>
+<span id="cb146-8"><a href="sed-awk-and-regular-expressions.html#cb146-8"></a><span class="co"># an @SQ line with a sequence name starting with &quot;NW_&quot;</span></span>
+<span id="cb146-9"><a href="sed-awk-and-regular-expressions.html#cb146-9"></a><span class="fu">awk</span> <span class="st">&#39;</span></span>
+<span id="cb146-10"><a href="sed-awk-and-regular-expressions.html#cb146-10"></a><span class="st">  /^@SQ/ &amp;&amp; /SN:NC_/ {print}</span></span>
+<span id="cb146-11"><a href="sed-awk-and-regular-expressions.html#cb146-11"></a><span class="st">  /^@SQ/ &amp;&amp; /SN:NW_/ {exit}  </span></span>
+<span id="cb146-12"><a href="sed-awk-and-regular-expressions.html#cb146-12"></a><span class="st">&#39;</span> data/DPCh_plate1_F12_S72.sam</span>
+<span id="cb146-13"><a href="sed-awk-and-regular-expressions.html#cb146-13"></a></span>
+<span id="cb146-14"><a href="sed-awk-and-regular-expressions.html#cb146-14"></a></span>
+<span id="cb146-15"><a href="sed-awk-and-regular-expressions.html#cb146-15"></a><span class="co"># print only lines 101, and 103 from the fastq file</span></span>
+<span id="cb146-16"><a href="sed-awk-and-regular-expressions.html#cb146-16"></a><span class="ex">gzcat</span> data/DPCh_plate1_F12_S72.R1.fq.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;NR==101 || NR==102 {print}&#39;</span></span></code></pre></div>
 <p>The above examples show only two different actions (<code>print</code> and <code>exit</code>) and
 a variety of tests based on matching substrings in each line, or on which
 line number (<code>NR</code>, which stands for “number of the record”).</p>
@@ -520,11 +533,11 @@ can think of as columns (as in a spreadsheet). By default, any number of whitesp
 characters constitutes a break between columns. If you want field-splitting to be done using
 more specific characters, you can specify that on the command line with the the <code>-F</code> option.
 For example:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  # split lines into fields on single TAB characters</a>
-<a class="sourceLine" id="cb147-2" data-line-number="2"><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  # split lines into fields on single commas</a>
-<a class="sourceLine" id="cb147-3" data-line-number="3"><span class="fu">awk</span> -F<span class="st">&quot;:&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  # split lines into fields on single colons</a>
-<a class="sourceLine" id="cb147-4" data-line-number="4"><span class="fu">awk</span> -F<span class="st">&quot;;&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  # split lines into fields on single semicolons</a>
-<a class="sourceLine" id="cb147-5" data-line-number="5"><span class="co"># and so forth...</span></a></code></pre></div>
+<div class="sourceCode" id="cb147"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb147-1"><a href="sed-awk-and-regular-expressions.html#cb147-1"></a><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  <span class="co"># split lines into fields on single TAB characters</span></span>
+<span id="cb147-2"><a href="sed-awk-and-regular-expressions.html#cb147-2"></a><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  <span class="co"># split lines into fields on single commas</span></span>
+<span id="cb147-3"><a href="sed-awk-and-regular-expressions.html#cb147-3"></a><span class="fu">awk</span> -F<span class="st">&quot;:&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  <span class="co"># split lines into fields on single colons</span></span>
+<span id="cb147-4"><a href="sed-awk-and-regular-expressions.html#cb147-4"></a><span class="fu">awk</span> -F<span class="st">&quot;;&quot;</span> <span class="st">&#39;test {action}&#39;</span> file  <span class="co"># split lines into fields on single semicolons</span></span>
+<span id="cb147-5"><a href="sed-awk-and-regular-expressions.html#cb147-5"></a><span class="co"># and so forth...</span></span></code></pre></div>
 <p>While in all those examples, the field separator is a single character, in full-blown
 practice, the field separator can be specified as a <em>regular expression</em> (see below).</p>
 <p>Within an action block, you can access the different fields that <code>awk</code> has split out
@@ -542,14 +555,14 @@ DPCh_plate1_A03_S3  CH_Plate1_3A    T145109 T1515   7G  Salmon River Spring 3.52
 DPCh_plate1_A04_S4  CH_Plate1_4A    T145118 T1515   8H  Salmon River Spring 10.3    Spring
 DPCh_plate1_A05_S5  CH_Plate1_5A    T144863 T1513   1A  Feather River Hatchery Fall 220 Fall</code></pre>
 <p>Then, if we wanted to print the first and the last columns (fields) we could do</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb149-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;{print $1, $NF}&#39;</span> data/wgs-chinook-samples.tsv</a>
-<a class="sourceLine" id="cb149-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb149-3" data-line-number="3"><span class="co"># the first few lines of output look like:</span></a>
-<a class="sourceLine" id="cb149-4" data-line-number="4"><span class="ex">vcf_name</span> run_type</a>
-<a class="sourceLine" id="cb149-5" data-line-number="5"><span class="ex">DPCh_plate1_A01_S1</span> Fall</a>
-<a class="sourceLine" id="cb149-6" data-line-number="6"><span class="ex">DPCh_plate1_A02_S2</span> Fall</a>
-<a class="sourceLine" id="cb149-7" data-line-number="7"><span class="ex">DPCh_plate1_A03_S3</span> Spring</a>
-<a class="sourceLine" id="cb149-8" data-line-number="8"><span class="ex">DPCh_plate1_A04_S4</span> Spring</a></code></pre></div>
+<div class="sourceCode" id="cb149"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb149-1"><a href="sed-awk-and-regular-expressions.html#cb149-1"></a><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;{print $1, $NF}&#39;</span> data/wgs-chinook-samples.tsv</span>
+<span id="cb149-2"><a href="sed-awk-and-regular-expressions.html#cb149-2"></a></span>
+<span id="cb149-3"><a href="sed-awk-and-regular-expressions.html#cb149-3"></a><span class="co"># the first few lines of output look like:</span></span>
+<span id="cb149-4"><a href="sed-awk-and-regular-expressions.html#cb149-4"></a><span class="ex">vcf_name</span> run_type</span>
+<span id="cb149-5"><a href="sed-awk-and-regular-expressions.html#cb149-5"></a><span class="ex">DPCh_plate1_A01_S1</span> Fall</span>
+<span id="cb149-6"><a href="sed-awk-and-regular-expressions.html#cb149-6"></a><span class="ex">DPCh_plate1_A02_S2</span> Fall</span>
+<span id="cb149-7"><a href="sed-awk-and-regular-expressions.html#cb149-7"></a><span class="ex">DPCh_plate1_A03_S3</span> Spring</span>
+<span id="cb149-8"><a href="sed-awk-and-regular-expressions.html#cb149-8"></a><span class="ex">DPCh_plate1_A04_S4</span> Spring</span></code></pre></div>
 <p>Notice that if there is no <code>test</code> before the action block, then the action is
 done on every line.</p>
 <p>The <code>print</code> command prints variables to <em>stdout</em>, if you separate those variables with
@@ -557,42 +570,42 @@ a comma, then in the output, they will be separated by the <em>output field sepa
 by default, is a single space. You can set the <em>output field separator</em> using the <code>OFS</code>
 variable, in an action block that is forced to run at the beginning of execution using the
 special <code>BEGIN</code> test keyword:</p>
-<div class="sourceCode" id="cb150"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb150-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb150-2" data-line-number="2"><span class="st">  BEGIN {OFS=&quot;;&quot;}</span></a>
-<a class="sourceLine" id="cb150-3" data-line-number="3"><span class="st">  {print $1, $NF}</span></a>
-<a class="sourceLine" id="cb150-4" data-line-number="4"><span class="st">&#39;</span> data/wgs-chinook-samples.tsv</a>
-<a class="sourceLine" id="cb150-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb150-6" data-line-number="6"><span class="co"># makes output like:</span></a>
-<a class="sourceLine" id="cb150-7" data-line-number="7"><span class="ex">vcf_name</span><span class="kw">;</span><span class="ex">run_type</span></a>
-<a class="sourceLine" id="cb150-8" data-line-number="8"><span class="ex">DPCh_plate1_A01_S1</span><span class="kw">;</span><span class="ex">Fall</span></a>
-<a class="sourceLine" id="cb150-9" data-line-number="9"><span class="ex">DPCh_plate1_A02_S2</span><span class="kw">;</span><span class="ex">Fall</span></a>
-<a class="sourceLine" id="cb150-10" data-line-number="10"><span class="ex">DPCh_plate1_A03_S3</span><span class="kw">;</span><span class="ex">Spring</span></a>
-<a class="sourceLine" id="cb150-11" data-line-number="11"><span class="ex">DPCh_plate1_A04_S4</span><span class="kw">;</span><span class="ex">Spring</span></a>
-<a class="sourceLine" id="cb150-12" data-line-number="12"><span class="ex">DPCh_plate1_A05_S5</span><span class="kw">;</span><span class="ex">Fall</span></a></code></pre></div>
+<div class="sourceCode" id="cb150"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb150-1"><a href="sed-awk-and-regular-expressions.html#cb150-1"></a><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;</span></span>
+<span id="cb150-2"><a href="sed-awk-and-regular-expressions.html#cb150-2"></a><span class="st">  BEGIN {OFS=&quot;;&quot;}</span></span>
+<span id="cb150-3"><a href="sed-awk-and-regular-expressions.html#cb150-3"></a><span class="st">  {print $1, $NF}</span></span>
+<span id="cb150-4"><a href="sed-awk-and-regular-expressions.html#cb150-4"></a><span class="st">&#39;</span> data/wgs-chinook-samples.tsv</span>
+<span id="cb150-5"><a href="sed-awk-and-regular-expressions.html#cb150-5"></a></span>
+<span id="cb150-6"><a href="sed-awk-and-regular-expressions.html#cb150-6"></a><span class="co"># makes output like:</span></span>
+<span id="cb150-7"><a href="sed-awk-and-regular-expressions.html#cb150-7"></a><span class="ex">vcf_name</span><span class="kw">;</span><span class="ex">run_type</span></span>
+<span id="cb150-8"><a href="sed-awk-and-regular-expressions.html#cb150-8"></a><span class="ex">DPCh_plate1_A01_S1</span><span class="kw">;</span><span class="ex">Fall</span></span>
+<span id="cb150-9"><a href="sed-awk-and-regular-expressions.html#cb150-9"></a><span class="ex">DPCh_plate1_A02_S2</span><span class="kw">;</span><span class="ex">Fall</span></span>
+<span id="cb150-10"><a href="sed-awk-and-regular-expressions.html#cb150-10"></a><span class="ex">DPCh_plate1_A03_S3</span><span class="kw">;</span><span class="ex">Spring</span></span>
+<span id="cb150-11"><a href="sed-awk-and-regular-expressions.html#cb150-11"></a><span class="ex">DPCh_plate1_A04_S4</span><span class="kw">;</span><span class="ex">Spring</span></span>
+<span id="cb150-12"><a href="sed-awk-and-regular-expressions.html#cb150-12"></a><span class="ex">DPCh_plate1_A05_S5</span><span class="kw">;</span><span class="ex">Fall</span></span></code></pre></div>
 <p>The comma between the arguments to <code>print</code> is what makes <code>awk</code> print the output field
 separator between the items. If you
 separate arguments to <code>print</code> with just a space (and not a comma), there will be nothing
 printed between the two arguments on output. This, coupled with the fact that
 <code>print</code> will happily print any strings and numbers (in addition to variables!) you pass to it,
 provides a way to do some light formatting of the output text:</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb151-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;NR &gt; 1 {print &quot;sample_name:&quot; $1, &quot;run_type:&quot; $NF}&#39;</span> data/wgs-chinook-samples.tsv</a>
-<a class="sourceLine" id="cb151-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb151-3" data-line-number="3"><span class="co"># gives output like:</span></a>
-<a class="sourceLine" id="cb151-4" data-line-number="4"><span class="ex">sample_name</span>:DPCh_plate1_A01_S1 run_type:Fall</a>
-<a class="sourceLine" id="cb151-5" data-line-number="5"><span class="ex">sample_name</span>:DPCh_plate1_A02_S2 run_type:Fall</a>
-<a class="sourceLine" id="cb151-6" data-line-number="6"><span class="ex">sample_name</span>:DPCh_plate1_A03_S3 run_type:Spring</a>
-<a class="sourceLine" id="cb151-7" data-line-number="7"><span class="ex">sample_name</span>:DPCh_plate1_A04_S4 run_type:Spring</a>
-<a class="sourceLine" id="cb151-8" data-line-number="8"><span class="ex">sample_name</span>:DPCh_plate1_A05_S5 run_type:Fall</a></code></pre></div>
+<div class="sourceCode" id="cb151"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb151-1"><a href="sed-awk-and-regular-expressions.html#cb151-1"></a><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;NR &gt; 1 {print &quot;sample_name:&quot; $1, &quot;run_type:&quot; $NF}&#39;</span> data/wgs-chinook-samples.tsv</span>
+<span id="cb151-2"><a href="sed-awk-and-regular-expressions.html#cb151-2"></a></span>
+<span id="cb151-3"><a href="sed-awk-and-regular-expressions.html#cb151-3"></a><span class="co"># gives output like:</span></span>
+<span id="cb151-4"><a href="sed-awk-and-regular-expressions.html#cb151-4"></a><span class="ex">sample_name</span>:DPCh_plate1_A01_S1 run_type:Fall</span>
+<span id="cb151-5"><a href="sed-awk-and-regular-expressions.html#cb151-5"></a><span class="ex">sample_name</span>:DPCh_plate1_A02_S2 run_type:Fall</span>
+<span id="cb151-6"><a href="sed-awk-and-regular-expressions.html#cb151-6"></a><span class="ex">sample_name</span>:DPCh_plate1_A03_S3 run_type:Spring</span>
+<span id="cb151-7"><a href="sed-awk-and-regular-expressions.html#cb151-7"></a><span class="ex">sample_name</span>:DPCh_plate1_A04_S4 run_type:Spring</span>
+<span id="cb151-8"><a href="sed-awk-and-regular-expressions.html#cb151-8"></a><span class="ex">sample_name</span>:DPCh_plate1_A05_S5 run_type:Fall</span></code></pre></div>
 <p>Note that if you don’t provide an action block after a test, the default action, if the
 test is true, is assumed to be “print the whole line as is.” Thus you can use <code>awk</code> to
 print matching lines simply like this:</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb152-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;/regex/&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb152"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb152-1"><a href="sed-awk-and-regular-expressions.html#cb152-1"></a><span class="fu">awk</span> <span class="st">&#39;/regex/&#39;</span></span></code></pre></div>
 <p>where <code>/regex/</code> just means “some regular expression,” as is explained in the
 next section.</p>
 <p><strong>Now it’s your turn!</strong></p>
-<div class="sourceCode" id="cb153"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb153-1" data-line-number="1"><span class="co"># 1. Using the file data/wgs-chinook-samples.csv, print out the</span></a>
-<a class="sourceLine" id="cb153-2" data-line-number="2"><span class="co"># NMFS_DNA_ID the BOX_ID and the BOX_POSITION, separated by periods</span></a>
-<a class="sourceLine" id="cb153-3" data-line-number="3"></a></code></pre></div>
+<div class="sourceCode" id="cb153"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb153-1"><a href="sed-awk-and-regular-expressions.html#cb153-1"></a><span class="co"># 1. Using the file data/wgs-chinook-samples.csv, print out the</span></span>
+<span id="cb153-2"><a href="sed-awk-and-regular-expressions.html#cb153-2"></a><span class="co"># NMFS_DNA_ID the BOX_ID and the BOX_POSITION, separated by periods</span></span>
+<span id="cb153-3"><a href="sed-awk-and-regular-expressions.html#cb153-3"></a></span></code></pre></div>
 </div>
 <div id="a-brief-introduction-to-regular-expressions" class="section level3">
 <h3><span class="header-section-number">6.1.3</span> A brief introduction to regular expressions</h3>
@@ -718,7 +731,7 @@ groups)</td>
 These are similar to what you are already
 familiar with in terms of <em>globbing</em> file names. In short, if you
 put a variety of characters between square brackets, it means “match any one of these characters.”
-For example, <code>/[aceACE]/</code> means &quot;match any upper- or lowercase <code>a</code>, <code>c</code>, or <code>e</code>. Within
+For example, <code>/[aceACE]/</code> means "match any upper- or lowercase <code>a</code>, <code>c</code>, or <code>e</code>. Within
 those square brackets, <code>^</code> and <code>-</code> have special meaning depending on where between
 the square brackets they occur:</p>
 <ul>
@@ -735,47 +748,47 @@ then it carries no special meaning: <code>[:;^%]</code> matches any of those fou
 </ul>
 <p>All these metacharacters might seem a little cryptic, so I provide a few
 examples, here, that might help to make it more clear. They are presented
-(i.e. “match any line”) as if they are part of an <code>awk</code> test.</p>
-<div class="sourceCode" id="cb156"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb156-1" data-line-number="1"><span class="co"># match any line that starts with @RG</span></a>
-<a class="sourceLine" id="cb156-2" data-line-number="2">/^<span class="ex">@RG/</span></a>
-<a class="sourceLine" id="cb156-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb156-4" data-line-number="4"><span class="co"># match any line that starts with @ followed by any two characters</span></a>
-<a class="sourceLine" id="cb156-5" data-line-number="5">/^<span class="ex">@../</span></a>
-<a class="sourceLine" id="cb156-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb156-7" data-line-number="7"><span class="co"># match any line that starts with @ followed by any</span></a>
-<a class="sourceLine" id="cb156-8" data-line-number="8"><span class="co"># two uppercase letters</span></a>
-<a class="sourceLine" id="cb156-9" data-line-number="9">/^<span class="ex">@</span>[A-Z][A-Z]/</a>
-<a class="sourceLine" id="cb156-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb156-11" data-line-number="11"><span class="co"># the above could also be written as:</span></a>
-<a class="sourceLine" id="cb156-12" data-line-number="12">/^<span class="ex">@</span>[A-Z]<span class="dt">{2}</span>/</a>
-<a class="sourceLine" id="cb156-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb156-14" data-line-number="14"><span class="co"># This matches phone numbers formatted either like </span></a>
-<a class="sourceLine" id="cb156-15" data-line-number="15"><span class="co"># (</span><span class="al">###</span><span class="co">) </span><span class="al">###</span><span class="co">-####, or </span><span class="al">###</span><span class="co">-</span><span class="al">###</span><span class="co">-####</span></a>
-<a class="sourceLine" id="cb156-16" data-line-number="16">/<span class="dt">\(</span><span class="ex">?</span>[0-9]<span class="dt">{3}</span>(<span class="dt">\)</span> <span class="kw">|</span><span class="ex">-</span>)[<span class="ex">0-9</span>]<span class="dt">{3}-[0-9]{4}</span>/</a>
-<a class="sourceLine" id="cb156-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb156-18" data-line-number="18"><span class="co"># And if you can parse that out, you get an A for the day!</span></a>
-<a class="sourceLine" id="cb156-19" data-line-number="19"></a>
-<a class="sourceLine" id="cb156-20" data-line-number="20"><span class="co"># match anything that starts with T456, then has any</span></a>
-<a class="sourceLine" id="cb156-21" data-line-number="21"><span class="co"># number (including 0) of any other characters, then</span></a>
-<a class="sourceLine" id="cb156-22" data-line-number="22"><span class="co"># ends with &quot;.fq&quot;</span></a>
-<a class="sourceLine" id="cb156-23" data-line-number="23">/<span class="ex">T456.*</span>\.fq/</a>
-<a class="sourceLine" id="cb156-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb156-25" data-line-number="25"><span class="co"># Note the use of backslash to escape the .</span></a>
-<a class="sourceLine" id="cb156-26" data-line-number="26"></a>
-<a class="sourceLine" id="cb156-27" data-line-number="27"><span class="co"># Match either &quot;big mess&quot; or &quot;huge mess&quot;</span></a>
-<a class="sourceLine" id="cb156-28" data-line-number="28">/<span class="kw">(</span><span class="ex">big</span><span class="kw">|</span><span class="ex">huge</span><span class="kw">)</span> <span class="ex">mess/</span></a></code></pre></div>
+(i.e. “match any line”) as if they are part of an <code>awk</code> test.</p>
+<div class="sourceCode" id="cb156"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb156-1"><a href="sed-awk-and-regular-expressions.html#cb156-1"></a><span class="co"># match any line that starts with @RG</span></span>
+<span id="cb156-2"><a href="sed-awk-and-regular-expressions.html#cb156-2"></a>/^<span class="ex">@RG/</span></span>
+<span id="cb156-3"><a href="sed-awk-and-regular-expressions.html#cb156-3"></a></span>
+<span id="cb156-4"><a href="sed-awk-and-regular-expressions.html#cb156-4"></a><span class="co"># match any line that starts with @ followed by any two characters</span></span>
+<span id="cb156-5"><a href="sed-awk-and-regular-expressions.html#cb156-5"></a>/^<span class="ex">@../</span></span>
+<span id="cb156-6"><a href="sed-awk-and-regular-expressions.html#cb156-6"></a></span>
+<span id="cb156-7"><a href="sed-awk-and-regular-expressions.html#cb156-7"></a><span class="co"># match any line that starts with @ followed by any</span></span>
+<span id="cb156-8"><a href="sed-awk-and-regular-expressions.html#cb156-8"></a><span class="co"># two uppercase letters</span></span>
+<span id="cb156-9"><a href="sed-awk-and-regular-expressions.html#cb156-9"></a>/^<span class="ex">@</span>[A-Z][A-Z]/</span>
+<span id="cb156-10"><a href="sed-awk-and-regular-expressions.html#cb156-10"></a></span>
+<span id="cb156-11"><a href="sed-awk-and-regular-expressions.html#cb156-11"></a><span class="co"># the above could also be written as:</span></span>
+<span id="cb156-12"><a href="sed-awk-and-regular-expressions.html#cb156-12"></a>/^<span class="ex">@</span>[A-Z]<span class="dt">{2}</span>/</span>
+<span id="cb156-13"><a href="sed-awk-and-regular-expressions.html#cb156-13"></a></span>
+<span id="cb156-14"><a href="sed-awk-and-regular-expressions.html#cb156-14"></a><span class="co"># This matches phone numbers formatted either like </span></span>
+<span id="cb156-15"><a href="sed-awk-and-regular-expressions.html#cb156-15"></a><span class="co"># (</span><span class="al">###</span><span class="co">) </span><span class="al">###</span><span class="co">-####, or </span><span class="al">###</span><span class="co">-</span><span class="al">###</span><span class="co">-####</span></span>
+<span id="cb156-16"><a href="sed-awk-and-regular-expressions.html#cb156-16"></a>/<span class="dt">\(</span><span class="ex">?</span>[0-9]<span class="dt">{3}</span>(<span class="dt">\)</span> <span class="kw">|</span><span class="ex">-</span>)[<span class="ex">0-9</span>]<span class="dt">{3}</span>-[0-9]<span class="dt">{4}</span>/</span>
+<span id="cb156-17"><a href="sed-awk-and-regular-expressions.html#cb156-17"></a></span>
+<span id="cb156-18"><a href="sed-awk-and-regular-expressions.html#cb156-18"></a><span class="co"># And if you can parse that out, you get an A for the day!</span></span>
+<span id="cb156-19"><a href="sed-awk-and-regular-expressions.html#cb156-19"></a></span>
+<span id="cb156-20"><a href="sed-awk-and-regular-expressions.html#cb156-20"></a><span class="co"># match anything that starts with T456, then has any</span></span>
+<span id="cb156-21"><a href="sed-awk-and-regular-expressions.html#cb156-21"></a><span class="co"># number (including 0) of any other characters, then</span></span>
+<span id="cb156-22"><a href="sed-awk-and-regular-expressions.html#cb156-22"></a><span class="co"># ends with &quot;.fq&quot;</span></span>
+<span id="cb156-23"><a href="sed-awk-and-regular-expressions.html#cb156-23"></a>/<span class="ex">T456.*</span>\.fq/</span>
+<span id="cb156-24"><a href="sed-awk-and-regular-expressions.html#cb156-24"></a></span>
+<span id="cb156-25"><a href="sed-awk-and-regular-expressions.html#cb156-25"></a><span class="co"># Note the use of backslash to escape the .</span></span>
+<span id="cb156-26"><a href="sed-awk-and-regular-expressions.html#cb156-26"></a></span>
+<span id="cb156-27"><a href="sed-awk-and-regular-expressions.html#cb156-27"></a><span class="co"># Match either &quot;big mess&quot; or &quot;huge mess&quot;</span></span>
+<span id="cb156-28"><a href="sed-awk-and-regular-expressions.html#cb156-28"></a>/<span class="kw">(</span><span class="ex">big</span><span class="kw">|</span><span class="ex">huge</span><span class="kw">)</span> <span class="ex">mess/</span></span></code></pre></div>
 <p><strong>Now it’s your turn</strong></p>
 <p>Here are some things to try.</p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb157-1" data-line-number="1"><span class="co"># 1. use alternation (the |) to match lines in the SAM file data/DPCh_plate1_F12_S72.sam</span></a>
-<a class="sourceLine" id="cb157-2" data-line-number="2"><span class="co"># that start with either @PG or @RG</span></a>
-<a class="sourceLine" id="cb157-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb157-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb157-5" data-line-number="5"><span class="co"># 2. search through the fastq file data/DPCh_plate1_F12_S72.R1.fq.gz </span></a>
-<a class="sourceLine" id="cb157-6" data-line-number="6"><span class="co"># to find any line with exactly two consecutive occurrences of any of the following characters:</span></a>
-<a class="sourceLine" id="cb157-7" data-line-number="7"><span class="co"># ! &quot; # $ % &amp;</span></a>
-<a class="sourceLine" id="cb157-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb157-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb157-10" data-line-number="10"><span class="co"># What are we searching for in the above?</span></a></code></pre></div>
+<div class="sourceCode" id="cb157"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb157-1"><a href="sed-awk-and-regular-expressions.html#cb157-1"></a><span class="co"># 1. use alternation (the |) to match lines in the SAM file data/DPCh_plate1_F12_S72.sam</span></span>
+<span id="cb157-2"><a href="sed-awk-and-regular-expressions.html#cb157-2"></a><span class="co"># that start with either @PG or @RG</span></span>
+<span id="cb157-3"><a href="sed-awk-and-regular-expressions.html#cb157-3"></a></span>
+<span id="cb157-4"><a href="sed-awk-and-regular-expressions.html#cb157-4"></a></span>
+<span id="cb157-5"><a href="sed-awk-and-regular-expressions.html#cb157-5"></a><span class="co"># 2. search through the fastq file data/DPCh_plate1_F12_S72.R1.fq.gz </span></span>
+<span id="cb157-6"><a href="sed-awk-and-regular-expressions.html#cb157-6"></a><span class="co"># to find any line with exactly two consecutive occurrences of any of the following characters:</span></span>
+<span id="cb157-7"><a href="sed-awk-and-regular-expressions.html#cb157-7"></a><span class="co"># ! &quot; # $ % &amp;</span></span>
+<span id="cb157-8"><a href="sed-awk-and-regular-expressions.html#cb157-8"></a></span>
+<span id="cb157-9"><a href="sed-awk-and-regular-expressions.html#cb157-9"></a></span>
+<span id="cb157-10"><a href="sed-awk-and-regular-expressions.html#cb157-10"></a><span class="co"># What are we searching for in the above?</span></span></code></pre></div>
 </div>
 <div id="a-variety-of-tests" class="section level3">
 <h3><span class="header-section-number">6.1.4</span> A variety of tests</h3>
@@ -783,34 +796,34 @@ examples, here, that might help to make it more clear. They are presented
 you have many options. Among the major ones (each given with an example or two) are:</p>
 <ol style="list-style-type: decimal">
 <li><p>match a regular expression anywhere in a line:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb158-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;/^@RG/&#39;</span></a>
-<a class="sourceLine" id="cb158-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;/Fall/&#39;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb158"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb158-1"><a href="sed-awk-and-regular-expressions.html#cb158-1"></a><span class="fu">awk</span> <span class="st">&#39;/^@RG/&#39;</span></span>
+<span id="cb158-2"><a href="sed-awk-and-regular-expressions.html#cb158-2"></a><span class="fu">awk</span> <span class="st">&#39;/Fall/&#39;</span></span></code></pre></div></li>
 <li><p>match a regular expression in a specific column/field</p>
-<div class="sourceCode" id="cb159"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb159-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;$3 ~ /Sacramento/&#39;</span></a>
-<a class="sourceLine" id="cb159-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;$1 ~ /Chr[123]/&#39;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb159"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb159-1"><a href="sed-awk-and-regular-expressions.html#cb159-1"></a><span class="fu">awk</span> <span class="st">&#39;$3 ~ /Sacramento/&#39;</span></span>
+<span id="cb159-2"><a href="sed-awk-and-regular-expressions.html#cb159-2"></a><span class="fu">awk</span> <span class="st">&#39;$1 ~ /Chr[123]/&#39;</span></span></code></pre></div></li>
 <li><p>test for equality, using <code>==</code>, of a single column to a string, or a number. Note
 these are <em>not</em> regular expressions, but actual statements of equality. Strings in
 such a context are surrounded by double quotes.</p>
-<div class="sourceCode" id="cb160"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb160-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;$1 == &quot;NC_07124.1&quot;&#39;</span></a>
-<a class="sourceLine" id="cb160-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;$5 == 100&#39;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb160"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb160-1"><a href="sed-awk-and-regular-expressions.html#cb160-1"></a><span class="fu">awk</span> <span class="st">&#39;$1 == &quot;NC_07124.1&quot;&#39;</span></span>
+<span id="cb160-2"><a href="sed-awk-and-regular-expressions.html#cb160-2"></a><span class="fu">awk</span> <span class="st">&#39;$5 == 100&#39;</span></span></code></pre></div></li>
 <li><p>Use comparison operators <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, and <code>!=</code> (not equals) to compare
 a column to a string (compared by lexicographical order) or a number
 (compared by numerical order)</p>
-<div class="sourceCode" id="cb161"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb161-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;$2 &lt;= &quot;Aardvark&quot;&#39;</span></a>
-<a class="sourceLine" id="cb161-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;$7 &gt; 25&#39;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb161"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb161-1"><a href="sed-awk-and-regular-expressions.html#cb161-1"></a><span class="fu">awk</span> <span class="st">&#39;$2 &lt;= &quot;Aardvark&quot;&#39;</span></span>
+<span id="cb161-2"><a href="sed-awk-and-regular-expressions.html#cb161-2"></a><span class="fu">awk</span> <span class="st">&#39;$7 &gt; 25&#39;</span></span></code></pre></div></li>
 <li><p>test the value of a user-defined variable that may be changing as lines are getting
 processed.</p>
-<div class="sourceCode" id="cb162"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;n &gt; 356&#39;</span></a>
-<a class="sourceLine" id="cb162-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;my_word == &quot;Loony&quot;&#39;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb162"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb162-1"><a href="sed-awk-and-regular-expressions.html#cb162-1"></a><span class="fu">awk</span> <span class="st">&#39;n &gt; 356&#39;</span></span>
+<span id="cb162-2"><a href="sed-awk-and-regular-expressions.html#cb162-2"></a><span class="fu">awk</span> <span class="st">&#39;my_word == &quot;Loony&quot;&#39;</span></span></code></pre></div></li>
 <li><p>test the value of an internal variable, like <code>NR</code> or <code>NF</code></p>
-<div class="sourceCode" id="cb163"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb163-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;NR &lt; 25&#39;</span></a>
-<a class="sourceLine" id="cb163-2" data-line-number="2"><span class="fu">awk</span> <span class="st">&#39;NF == 13&#39;</span></a></code></pre></div></li>
+<div class="sourceCode" id="cb163"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb163-1"><a href="sed-awk-and-regular-expressions.html#cb163-1"></a><span class="fu">awk</span> <span class="st">&#39;NR &lt; 25&#39;</span></span>
+<span id="cb163-2"><a href="sed-awk-and-regular-expressions.html#cb163-2"></a><span class="fu">awk</span> <span class="st">&#39;NF == 13&#39;</span></span></code></pre></div></li>
 </ol>
 <p>As these tests are effectively things that return a value of TRUE or FALSE, they can
 be combined with logical AND and logical OR operators. In awk, the logical AND is
 <code>&amp;&amp;</code> and the logical OR is <code>||</code>. To make the intent of long combinations clear, and to
 specify specific combinations, the tests can be grouped with parentheses:</p>
-<div class="sourceCode" id="cb164"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="fu">awk</span> <span class="st">&#39;(units = &quot;days&quot; &amp;&amp; n &gt; 356) || (units == &quot;months&quot; &amp;&amp; n &gt; 12) {print &quot;More than a year!&quot;}&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb164"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb164-1"><a href="sed-awk-and-regular-expressions.html#cb164-1"></a><span class="fu">awk</span> <span class="st">&#39;(units = &quot;days&quot; &amp;&amp; n &gt; 356) || (units == &quot;months&quot; &amp;&amp; n &gt; 12) {print &quot;More than a year!&quot;}&#39;</span></span></code></pre></div>
 </div>
 <div id="code-in-the-action-blocks" class="section level3">
 <h3><span class="header-section-number">6.1.5</span> Code in the action blocks</h3>
@@ -826,32 +839,32 @@ but when used in a numeric context, if it makes sense, the variable will be trea
 as a number. So, you don’t have to worry too much about the type of variables.</p>
 <p>If a value has not yet been assigned to a variable, but it is used in a numeric
 context, the value is assumed to be 0; if used in a string context, its value
-is assumed to be the empty string <code>&quot;&quot;</code>.</p>
+is assumed to be the empty string <code>""</code>.</p>
 <p><strong>You can use <code>for</code> loops within <code>awk</code></strong>. They have the syntax of the C language:</p>
-<div class="sourceCode" id="cb165"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb165-1" data-line-number="1"><span class="kw">for(</span><span class="ex">var</span> = initial<span class="kw">;</span> <span class="bu">test</span><span class="kw">;</span> <span class="ex">increment</span><span class="kw">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb165"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb165-1"><a href="sed-awk-and-regular-expressions.html#cb165-1"></a><span class="kw">for(</span><span class="ex">var</span> = initial<span class="kw">;</span> <span class="bu">test</span><span class="kw">;</span> <span class="ex">increment</span><span class="kw">)</span></span></code></pre></div>
 <p>For example, this cycles <code>i</code> over values starting from 1, until 10, each
 time incrementing the value by 1:</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb166-1" data-line-number="1"><span class="kw">for(</span><span class="va">i=</span>1;<span class="ex">i</span><span class="op">&lt;</span>=10<span class="kw">;</span><span class="ex">i++</span><span class="kw">)</span></a></code></pre></div>
+<div class="sourceCode" id="cb166"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb166-1"><a href="sed-awk-and-regular-expressions.html#cb166-1"></a><span class="kw">for(</span><span class="va">i=</span>1;<span class="ex">i</span><span class="op">&lt;</span>=10<span class="kw">;</span><span class="ex">i++</span><span class="kw">)</span></span></code></pre></div>
 <p>Note that the <code>++</code> means “add one to the variable to my left.”</p>
 <p>You can also increment by larger amounts. What do you think this would do?</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb167-1" data-line-number="1"><span class="bu">echo</span> boing <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{for(i=5; i&lt;=25; i+=5) print i}&#39;</span> </a></code></pre></div>
+<div class="sourceCode" id="cb167"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb167-1"><a href="sed-awk-and-regular-expressions.html#cb167-1"></a><span class="bu">echo</span> boing <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{for(i=5; i&lt;=25; i+=5) print i}&#39;</span> </span></code></pre></div>
 <p>If the body of the loop consists of multiple lines of code (or even just one) those lines
 can be <em>grouped</em> using curly braces.
 Here is an examle of using a <code>for</code> loop to print the columns of the Chinook sample sheet
 in row format:</p>
-<div class="sourceCode" id="cb168"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb168-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb168-2" data-line-number="2"><span class="st">  NR == 1 {for(i=1;i&lt;=NF;i++) head[i] = $i; next}</span></a>
-<a class="sourceLine" id="cb168-3" data-line-number="3"><span class="st">  {for(i=1;i&lt;=NF;i++) {</span></a>
-<a class="sourceLine" id="cb168-4" data-line-number="4"><span class="st">      print i &quot;. &quot; head[i] &quot;: &quot; $i; </span></a>
-<a class="sourceLine" id="cb168-5" data-line-number="5"><span class="st">    }</span></a>
-<a class="sourceLine" id="cb168-6" data-line-number="6"><span class="st">    print &quot;----------------------&quot;</span></a>
-<a class="sourceLine" id="cb168-7" data-line-number="7"><span class="st">  }</span></a>
-<a class="sourceLine" id="cb168-8" data-line-number="8"><span class="st">&#39;</span> data/wgs-chinook-samples.csv</a></code></pre></div>
+<div class="sourceCode" id="cb168"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb168-1"><a href="sed-awk-and-regular-expressions.html#cb168-1"></a><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;</span></span>
+<span id="cb168-2"><a href="sed-awk-and-regular-expressions.html#cb168-2"></a><span class="st">  NR == 1 {for(i=1;i&lt;=NF;i++) head[i] = $i; next}</span></span>
+<span id="cb168-3"><a href="sed-awk-and-regular-expressions.html#cb168-3"></a><span class="st">  {for(i=1;i&lt;=NF;i++) {</span></span>
+<span id="cb168-4"><a href="sed-awk-and-regular-expressions.html#cb168-4"></a><span class="st">      print i &quot;. &quot; head[i] &quot;: &quot; $i; </span></span>
+<span id="cb168-5"><a href="sed-awk-and-regular-expressions.html#cb168-5"></a><span class="st">    }</span></span>
+<span id="cb168-6"><a href="sed-awk-and-regular-expressions.html#cb168-6"></a><span class="st">    print &quot;----------------------&quot;</span></span>
+<span id="cb168-7"><a href="sed-awk-and-regular-expressions.html#cb168-7"></a><span class="st">  }</span></span>
+<span id="cb168-8"><a href="sed-awk-and-regular-expressions.html#cb168-8"></a><span class="st">&#39;</span> data/wgs-chinook-samples.csv</span></code></pre></div>
 <p><strong>Arrays are implemented as <em>associative arrays</em>.</strong> Thus, rather than being arrays
-with elements indexed (and accessed) by natural numbers (i.e. <code>array[1]</code>, <code>array[2]</code>, etc.),
+with elements indexed (and accessed) by natural numbers (i.e. <code>array[1]</code>, <code>array[2]</code>, etc.),
 arrays are indexed by any string. This is sometimes called a hash. In python it is
 called a <em>dictionary</em>. So, within an awk action block you could see</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="ex">n</span>[<span class="va">$3</span>]++</a></code></pre></div>
+<div class="sourceCode" id="cb169"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb169-1"><a href="sed-awk-and-regular-expressions.html#cb169-1"></a><span class="ex">n</span>[<span class="va">$3</span>]++</span></code></pre></div>
 <p>which means “find the element of the array <code>n</code> that is associated with the <em>key</em> $3, and then
 add 1 to that element”. This can
 be quite useful for counting up the occurrences of different strings or values
@@ -863,24 +876,24 @@ value for each. In <code>awk</code>, you cycle over the keys of an array using</
 <p>where <code>for</code> and <code>in</code> are keywords, <code>i</code> is any variable name you want, and <code>array</code> is the
 name of an array variable. Unfortunately, you have no control over the <em>order</em> in which the
 different keys in the array are visited! Example:</p>
-<div class="sourceCode" id="cb171"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb171-1" data-line-number="1"><span class="co"># count the number of fish from different sampling collections</span></a>
-<a class="sourceLine" id="cb171-2" data-line-number="2"><span class="co"># in the wgs-chinook-samples.tsv file:</span></a>
-<a class="sourceLine" id="cb171-3" data-line-number="3"><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb171-4" data-line-number="4"><span class="st">  NR &gt; 1 {n[$6]++}</span></a>
-<a class="sourceLine" id="cb171-5" data-line-number="5"><span class="st">  END {for(i in n) print i &quot;:&quot;, n[i]}</span></a>
-<a class="sourceLine" id="cb171-6" data-line-number="6"><span class="st">&#39;</span> data/wgs-chinook-samples.tsv </a>
-<a class="sourceLine" id="cb171-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb171-8" data-line-number="8"><span class="co"># gives us:</span></a>
-<a class="sourceLine" id="cb171-9" data-line-number="9"><span class="ex">Coleman</span> Hatchery Late Fall: 16</a>
-<a class="sourceLine" id="cb171-10" data-line-number="10"><span class="ex">Feather</span> River Hatchery Spring: 16</a>
-<a class="sourceLine" id="cb171-11" data-line-number="11"><span class="ex">Feather</span> River Hatchery Fall: 16</a>
-<a class="sourceLine" id="cb171-12" data-line-number="12"><span class="ex">Salmon</span> River Spring: 16</a>
-<a class="sourceLine" id="cb171-13" data-line-number="13"><span class="ex">Trinity</span> River Hatchery Fall: 16</a>
-<a class="sourceLine" id="cb171-14" data-line-number="14"><span class="ex">Trinity</span> River Hatchery Spring: 16</a>
-<a class="sourceLine" id="cb171-15" data-line-number="15"><span class="ex">Butte</span> Creek Spring: 16</a>
-<a class="sourceLine" id="cb171-16" data-line-number="16"><span class="ex">Sacramento</span> River Winter: 16</a>
-<a class="sourceLine" id="cb171-17" data-line-number="17"><span class="ex">Salmon</span> River Fall: 16</a>
-<a class="sourceLine" id="cb171-18" data-line-number="18"><span class="ex">San</span> Joaquin River Fall: 16</a></code></pre></div>
+<div class="sourceCode" id="cb171"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb171-1"><a href="sed-awk-and-regular-expressions.html#cb171-1"></a><span class="co"># count the number of fish from different sampling collections</span></span>
+<span id="cb171-2"><a href="sed-awk-and-regular-expressions.html#cb171-2"></a><span class="co"># in the wgs-chinook-samples.tsv file:</span></span>
+<span id="cb171-3"><a href="sed-awk-and-regular-expressions.html#cb171-3"></a><span class="fu">awk</span> -F<span class="st">&quot;\t&quot;</span> <span class="st">&#39;</span></span>
+<span id="cb171-4"><a href="sed-awk-and-regular-expressions.html#cb171-4"></a><span class="st">  NR &gt; 1 {n[$6]++}</span></span>
+<span id="cb171-5"><a href="sed-awk-and-regular-expressions.html#cb171-5"></a><span class="st">  END {for(i in n) print i &quot;:&quot;, n[i]}</span></span>
+<span id="cb171-6"><a href="sed-awk-and-regular-expressions.html#cb171-6"></a><span class="st">&#39;</span> data/wgs-chinook-samples.tsv </span>
+<span id="cb171-7"><a href="sed-awk-and-regular-expressions.html#cb171-7"></a></span>
+<span id="cb171-8"><a href="sed-awk-and-regular-expressions.html#cb171-8"></a><span class="co"># gives us:</span></span>
+<span id="cb171-9"><a href="sed-awk-and-regular-expressions.html#cb171-9"></a><span class="ex">Coleman</span> Hatchery Late Fall: 16</span>
+<span id="cb171-10"><a href="sed-awk-and-regular-expressions.html#cb171-10"></a><span class="ex">Feather</span> River Hatchery Spring: 16</span>
+<span id="cb171-11"><a href="sed-awk-and-regular-expressions.html#cb171-11"></a><span class="ex">Feather</span> River Hatchery Fall: 16</span>
+<span id="cb171-12"><a href="sed-awk-and-regular-expressions.html#cb171-12"></a><span class="ex">Salmon</span> River Spring: 16</span>
+<span id="cb171-13"><a href="sed-awk-and-regular-expressions.html#cb171-13"></a><span class="ex">Trinity</span> River Hatchery Fall: 16</span>
+<span id="cb171-14"><a href="sed-awk-and-regular-expressions.html#cb171-14"></a><span class="ex">Trinity</span> River Hatchery Spring: 16</span>
+<span id="cb171-15"><a href="sed-awk-and-regular-expressions.html#cb171-15"></a><span class="ex">Butte</span> Creek Spring: 16</span>
+<span id="cb171-16"><a href="sed-awk-and-regular-expressions.html#cb171-16"></a><span class="ex">Sacramento</span> River Winter: 16</span>
+<span id="cb171-17"><a href="sed-awk-and-regular-expressions.html#cb171-17"></a><span class="ex">Salmon</span> River Fall: 16</span>
+<span id="cb171-18"><a href="sed-awk-and-regular-expressions.html#cb171-18"></a><span class="ex">San</span> Joaquin River Fall: 16</span></code></pre></div>
 <p>The above demonstrates the use of the very important <code>END</code> specifier in the
 test position. The <code>END</code> there means “perform the actions in the action block
 once all the lines of the file have been processed.”</p>
@@ -891,11 +904,11 @@ base quality scores occur on lines 4, 8, 12, … (so, the line number divided by
 no remainder. Note that <code>x % 4</code> gives the remainder when <code>x</code> is divided by 4. We want the
 output on each line to be in the format:</p>
 <pre><code>Number_of_occurrences  Base_quality_score_sequence</code></pre>
-<div class="sourceCode" id="cb173"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="co"># go for it!</span></a>
-<a class="sourceLine" id="cb173-2" data-line-number="2"></a></code></pre></div>
+<div class="sourceCode" id="cb173"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb173-1"><a href="sed-awk-and-regular-expressions.html#cb173-1"></a><span class="co"># go for it!</span></span>
+<span id="cb173-2"><a href="sed-awk-and-regular-expressions.html#cb173-2"></a></span></code></pre></div>
 <p>After doing that, you might wish that things were sorted differently, like highest to lowest
 in terms of # of occurrences. Try piping the output into:</p>
-<div class="sourceCode" id="cb174"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb174-1" data-line-number="1"><span class="fu">sort</span> -n -b -r -k 1</a></code></pre></div>
+<div class="sourceCode" id="cb174"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb174-1"><a href="sed-awk-and-regular-expressions.html#cb174-1"></a><span class="fu">sort</span> -n -b -r -k 1</span></code></pre></div>
 <p>Pipe that to less and look through it. It is actually pretty cool.</p>
 <p><strong>Conditional tests use <code>if</code> and <code>else</code>, with blocking by curly braces.</strong><br />
 Below we will demonstrate the use of <code>if</code> and <code>else</code> and, how they can be put together
@@ -906,21 +919,21 @@ the <code>awk</code> script itself. This uses much the same syntax as the shell.
 in <code>data/wgs-chinook-samples.csv</code> into separate files, one for each
 of the <code>run_types</code> of “Fall”, “Winter”, and “Spring”, and another file
 for anything else. We could do that like this:</p>
-<div class="sourceCode" id="cb175"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb175-1" data-line-number="1"><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb175-2" data-line-number="2"><span class="st">  NR &gt; 1 {</span></a>
-<a class="sourceLine" id="cb175-3" data-line-number="3"><span class="st">    if($NF == &quot;Fall&quot;) {</span></a>
-<a class="sourceLine" id="cb175-4" data-line-number="4"><span class="st">      print $1, $NF &gt; &quot;fall.txt&quot;</span></a>
-<a class="sourceLine" id="cb175-5" data-line-number="5"><span class="st">    } else if($NF == &quot;Winter&quot;) {</span></a>
-<a class="sourceLine" id="cb175-6" data-line-number="6"><span class="st">      print $1, $NF &gt; &quot;winter.txt&quot;</span></a>
-<a class="sourceLine" id="cb175-7" data-line-number="7"><span class="st">    } else if($NF == &quot;Spring&quot;) {</span></a>
-<a class="sourceLine" id="cb175-8" data-line-number="8"><span class="st">      print $1, $NF &gt; &quot;spring.txt&quot;</span></a>
-<a class="sourceLine" id="cb175-9" data-line-number="9"><span class="st">    } else {</span></a>
-<a class="sourceLine" id="cb175-10" data-line-number="10"><span class="st">      print $1, $NF &gt; &quot;other.txt&quot;</span></a>
-<a class="sourceLine" id="cb175-11" data-line-number="11"><span class="st">    }</span></a>
-<a class="sourceLine" id="cb175-12" data-line-number="12"><span class="st">  }</span></a>
-<a class="sourceLine" id="cb175-13" data-line-number="13"><span class="st">&#39;</span> data/wgs-chinook-samples.csv</a></code></pre></div>
+<div class="sourceCode" id="cb175"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb175-1"><a href="sed-awk-and-regular-expressions.html#cb175-1"></a><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;</span></span>
+<span id="cb175-2"><a href="sed-awk-and-regular-expressions.html#cb175-2"></a><span class="st">  NR &gt; 1 {</span></span>
+<span id="cb175-3"><a href="sed-awk-and-regular-expressions.html#cb175-3"></a><span class="st">    if($NF == &quot;Fall&quot;) {</span></span>
+<span id="cb175-4"><a href="sed-awk-and-regular-expressions.html#cb175-4"></a><span class="st">      print $1, $NF &gt; &quot;fall.txt&quot;</span></span>
+<span id="cb175-5"><a href="sed-awk-and-regular-expressions.html#cb175-5"></a><span class="st">    } else if($NF == &quot;Winter&quot;) {</span></span>
+<span id="cb175-6"><a href="sed-awk-and-regular-expressions.html#cb175-6"></a><span class="st">      print $1, $NF &gt; &quot;winter.txt&quot;</span></span>
+<span id="cb175-7"><a href="sed-awk-and-regular-expressions.html#cb175-7"></a><span class="st">    } else if($NF == &quot;Spring&quot;) {</span></span>
+<span id="cb175-8"><a href="sed-awk-and-regular-expressions.html#cb175-8"></a><span class="st">      print $1, $NF &gt; &quot;spring.txt&quot;</span></span>
+<span id="cb175-9"><a href="sed-awk-and-regular-expressions.html#cb175-9"></a><span class="st">    } else {</span></span>
+<span id="cb175-10"><a href="sed-awk-and-regular-expressions.html#cb175-10"></a><span class="st">      print $1, $NF &gt; &quot;other.txt&quot;</span></span>
+<span id="cb175-11"><a href="sed-awk-and-regular-expressions.html#cb175-11"></a><span class="st">    }</span></span>
+<span id="cb175-12"><a href="sed-awk-and-regular-expressions.html#cb175-12"></a><span class="st">  }</span></span>
+<span id="cb175-13"><a href="sed-awk-and-regular-expressions.html#cb175-13"></a><span class="st">&#39;</span> data/wgs-chinook-samples.csv</span></code></pre></div>
 <p>Now look at the four files produced.</p>
-<p><strong>NB:</strong> Parsing CSV files with <code>awk</code> is not always so straightforward as doing <code>-F&quot;,&quot;</code> because
+<p><strong>NB:</strong> Parsing CSV files with <code>awk</code> is not always so straightforward as doing <code>-F","</code> because
 the CSV specification allows for commas that do not separate fields to be hidden within quotation marks.
 Don’t expect to parse complex CSV files made by Excel, for example, to be parsed this easily
 with <code>awk</code>. It is better to save them as TAB separate files, typically.</p>
@@ -949,11 +962,11 @@ cycling over them) with.</p>
 <p>For example, imagine we wanted to do something to all the FASTQ files associated with
 the fish in <code>data/wgs-chinook-samples.csv</code> that are of <code>run_type</code> = “Winter”. We can
 get all their IDs using command substitution and then cycle over them in the shell like this:</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb176-1" data-line-number="1"><span class="va">WINTERS=$(</span><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;$NF == &quot;Winter&quot; {print $1}&#39;</span> data/wgs-chinook-samples.csv<span class="va">)</span></a>
-<a class="sourceLine" id="cb176-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb176-3" data-line-number="3"><span class="kw">for</span> <span class="ex">i</span> in <span class="va">$WINTERS</span><span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb176-4" data-line-number="4">  <span class="bu">echo</span> <span class="st">&quot;FASTQS are: </span><span class="va">$i</span><span class="st">.R1.fq.gz     </span><span class="va">$i</span><span class="st">.R2.fq.gz&quot;</span></a>
-<a class="sourceLine" id="cb176-5" data-line-number="5"><span class="kw">done</span></a></code></pre></div>
+<div class="sourceCode" id="cb176"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb176-1"><a href="sed-awk-and-regular-expressions.html#cb176-1"></a><span class="va">WINTERS=$(</span><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;$NF == &quot;Winter&quot; {print $1}&#39;</span> data/wgs-chinook-samples.csv<span class="va">)</span></span>
+<span id="cb176-2"><a href="sed-awk-and-regular-expressions.html#cb176-2"></a></span>
+<span id="cb176-3"><a href="sed-awk-and-regular-expressions.html#cb176-3"></a><span class="kw">for</span> <span class="ex">i</span> in <span class="va">$WINTERS</span><span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb176-4"><a href="sed-awk-and-regular-expressions.html#cb176-4"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQS are: </span><span class="va">$i</span><span class="st">.R1.fq.gz     </span><span class="va">$i</span><span class="st">.R2.fq.gz&quot;</span></span>
+<span id="cb176-5"><a href="sed-awk-and-regular-expressions.html#cb176-5"></a><span class="kw">done</span></span></code></pre></div>
 </div>
 <div id="passing-variables-into-awk-with--v" class="section level3">
 <h3><span class="header-section-number">6.1.7</span> Passing Variables into <code>awk</code> with <code>-v</code></h3>
@@ -969,25 +982,25 @@ get all their IDs using command substitution and then cycle over them in the she
 <p><code>sed</code> is a “stream editor”. Though it is capable of all sorts of things,
 to be honest, I use it almost exclusively to
 do simple find-and-replace operations. The syntax for that is:</p>
-<div class="sourceCode" id="cb177"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb177-1" data-line-number="1"><span class="fu">sed</span> <span class="st">&#39;s/regex/replacement/g;&#39;</span> file</a></code></pre></div>
+<div class="sourceCode" id="cb177"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb177-1"><a href="sed-awk-and-regular-expressions.html#cb177-1"></a><span class="fu">sed</span> <span class="st">&#39;s/regex/replacement/g;&#39;</span> file</span></code></pre></div>
 <p>where <code>regex</code> is a regular expression and <code>replacement</code> is the string you wish to replace
 any segments of <code>file</code> that match <code>regex</code>. The <code>s</code> means “substitute” and is like
 a command to <code>sed</code>, and the <code>g</code> means “globally”, without which only the first
 match of <code>regex</code> on each line would be replaced.</p>
 <p>Multiple instances of the “s” command can be given, like:</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb178-1" data-line-number="1"><span class="fu">sed</span> <span class="st">&#39;</span></a>
-<a class="sourceLine" id="cb178-2" data-line-number="2"><span class="st">  s/regex1/replacement1/g;</span></a>
-<a class="sourceLine" id="cb178-3" data-line-number="3"><span class="st">  s/regex2/replacement2/g;</span></a>
-<a class="sourceLine" id="cb178-4" data-line-number="4"><span class="st">  s/regex3/replacement3/g;</span></a>
-<a class="sourceLine" id="cb178-5" data-line-number="5"><span class="st">&#39;</span> file</a></code></pre></div>
+<div class="sourceCode" id="cb178"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb178-1"><a href="sed-awk-and-regular-expressions.html#cb178-1"></a><span class="fu">sed</span> <span class="st">&#39;</span></span>
+<span id="cb178-2"><a href="sed-awk-and-regular-expressions.html#cb178-2"></a><span class="st">  s/regex1/replacement1/g;</span></span>
+<span id="cb178-3"><a href="sed-awk-and-regular-expressions.html#cb178-3"></a><span class="st">  s/regex2/replacement2/g;</span></span>
+<span id="cb178-4"><a href="sed-awk-and-regular-expressions.html#cb178-4"></a><span class="st">  s/regex3/replacement3/g;</span></span>
+<span id="cb178-5"><a href="sed-awk-and-regular-expressions.html#cb178-5"></a><span class="st">&#39;</span> file</span></code></pre></div>
 <p>The separate commands are done in order, line by line.</p>
 <p><strong>Now it’s your turn!</strong><br />
 Take the output of:</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb179-1" data-line-number="1"><span class="va">WINTERS=$(</span><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;$NF == &quot;Winter&quot; {print $1}&#39;</span> data/wgs-chinook-samples.csv<span class="va">)</span></a>
-<a class="sourceLine" id="cb179-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb179-3" data-line-number="3"><span class="kw">for</span> <span class="ex">i</span> in <span class="va">$WINTERS</span><span class="kw">;</span> <span class="kw">do</span></a>
-<a class="sourceLine" id="cb179-4" data-line-number="4">  <span class="bu">echo</span> <span class="st">&quot;FASTQS are: </span><span class="va">$i</span><span class="st">.R1.fq.gz     </span><span class="va">$i</span><span class="st">.R2.fq.gz&quot;</span></a>
-<a class="sourceLine" id="cb179-5" data-line-number="5"><span class="kw">done</span></a></code></pre></div>
+<div class="sourceCode" id="cb179"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb179-1"><a href="sed-awk-and-regular-expressions.html#cb179-1"></a><span class="va">WINTERS=$(</span><span class="fu">awk</span> -F<span class="st">&quot;,&quot;</span> <span class="st">&#39;$NF == &quot;Winter&quot; {print $1}&#39;</span> data/wgs-chinook-samples.csv<span class="va">)</span></span>
+<span id="cb179-2"><a href="sed-awk-and-regular-expressions.html#cb179-2"></a></span>
+<span id="cb179-3"><a href="sed-awk-and-regular-expressions.html#cb179-3"></a><span class="kw">for</span> <span class="ex">i</span> in <span class="va">$WINTERS</span><span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb179-4"><a href="sed-awk-and-regular-expressions.html#cb179-4"></a>  <span class="bu">echo</span> <span class="st">&quot;FASTQS are: </span><span class="va">$i</span><span class="st">.R1.fq.gz     </span><span class="va">$i</span><span class="st">.R2.fq.gz&quot;</span></span>
+<span id="cb179-5"><a href="sed-awk-and-regular-expressions.html#cb179-5"></a><span class="kw">done</span></span></code></pre></div>
 <p>and pipe it into <code>sed</code> to changes the <code>R1</code> and <code>R2</code> into <code>r1</code> and <code>r2</code>,
 and to remove the <code>.gz</code> from the end of each file name. Remember to
 backslash-escape that period!</p>

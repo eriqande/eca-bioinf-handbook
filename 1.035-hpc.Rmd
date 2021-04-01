@@ -899,7 +899,7 @@ sbatch map-it.sh
 ```
 
 
-### SLURM Job Arrays
+### SLURM Job Arrays {#slurm-job-arrays}
 
 Very often in bioinformatics, large jobs can be broken down into a series of
 smaller tasks.  As an example, aligning sequencing read data from an individual sample

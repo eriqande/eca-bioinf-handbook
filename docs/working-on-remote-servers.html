@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 7 Working on remote servers | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
   <meta name="description" content="A book example for a Chapman &amp; Hall book." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 7 Working on remote servers | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-23" />
+<meta name="date" content="2021-04-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,12 +50,13 @@
 
 
 
+<script src="libs/accessible-code-block/empty-anchor.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +65,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +83,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -196,7 +199,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="shell-programming.html"><a href="shell-programming.html#exit-status"><i class="fa fa-check"></i><b>5.6</b> Exit Status</a><ul>
 <li class="chapter" data-level="5.6.1" data-path="shell-programming.html"><a href="shell-programming.html#combinations-of-exit-statuses"><i class="fa fa-check"></i><b>5.6.1</b> Combinations of exit statuses</a></li>
 </ul></li>
-<li class="chapter" data-level="5.7" data-path="shell-programming.html"><a href="shell-programming.html#loops-and-repetition"><i class="fa fa-check"></i><b>5.7</b> Loops and repetition</a></li>
+<li class="chapter" data-level="5.7" data-path="shell-programming.html"><a href="shell-programming.html#unix-for-loops"><i class="fa fa-check"></i><b>5.7</b> Loops and repetition</a></li>
 <li class="chapter" data-level="5.8" data-path="shell-programming.html"><a href="shell-programming.html#more-conditional-evaluation-if-then-else-and-friends"><i class="fa fa-check"></i><b>5.8</b> More Conditional Evaluation: <code>if</code>, <code>then</code>, <code>else</code>, and friends</a></li>
 <li class="chapter" data-level="5.9" data-path="shell-programming.html"><a href="shell-programming.html#finallypositional-parameters"><i class="fa fa-check"></i><b>5.9</b> Finally…positional parameters</a></li>
 <li class="chapter" data-level="5.10" data-path="shell-programming.html"><a href="shell-programming.html#basename-and-dirname-two-useful-little-utilities"><i class="fa fa-check"></i><b>5.10</b> <code>basename</code> and <code>dirname</code> two useful little utilities</a></li>
@@ -289,7 +292,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.3" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#bookdown"><i class="fa fa-check"></i><b>13.3</b> Bookdown</a></li>
 <li class="chapter" data-level="13.4" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#google-docs"><i class="fa fa-check"></i><b>13.4</b> Google Docs</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="using-python.html"><a href="using-python.html"><i class="fa fa-check"></i><b>14</b> Using python</a></li>
+<li class="chapter" data-level="14" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html"><i class="fa fa-check"></i><b>14</b> Managing Workflows with Snakemake</a><ul>
+<li class="chapter" data-level="14.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#a-simple-snakemake-example"><i class="fa fa-check"></i><b>14.1</b> A Simple Snakemake Example</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-1-a-simple-rule-to-trimmomcawesome-the-files-from-001"><i class="fa fa-check"></i><b>14.1.1</b> Snakefile #1: A simple rule to TrimmoMcAwesome the files from 001</a></li>
+<li class="chapter" data-level="14.1.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-2-a-single-trimmomcawesome-rule-using-wildcards"><i class="fa fa-check"></i><b>14.1.2</b> Snakefile #2: A single TrimmoMcAwesome rule using wildcards</a></li>
+<li class="chapter" data-level="14.1.3" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-3-add-trim_stupendous-in-there"><i class="fa fa-check"></i><b>14.1.3</b> Snakefile #3: Add <code>trim_stupendous</code> in there</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#ugly-complex-file-namesa-job-for-snakemake-input-functions"><i class="fa fa-check"></i><b>14.2</b> Ugly, complex file names…a job for Snakemake input functions!</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#playing-with-pandas"><i class="fa fa-check"></i><b>14.2.1</b> Playing with Pandas</a></li>
+<li class="chapter" data-level="14.2.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#spoofing-a-snakemake-input-function"><i class="fa fa-check"></i><b>14.2.2</b> Spoofing a Snakemake input function</a></li>
+</ul></li>
+</ul></li>
 <li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
 <li class="chapter" data-level="15" data-path="overview-of-bioinformatic-analyses.html"><a href="overview-of-bioinformatic-analyses.html"><i class="fa fa-check"></i><b>15</b> Overview of Bioinformatic Analyses</a></li>
 <li class="chapter" data-level="16" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html"><i class="fa fa-check"></i><b>16</b> DNA Sequences and Sequencing</a><ul>
@@ -456,6 +469,8 @@ are going to be accessing remote computers. It is recommended that you install a
 use the program <a href="https://www.ssh.com/ssh/putty">PuTTy</a>. The steps are pretty self-explanatory
 and well documented. Instead of using <code>ssh</code> on a command line you put a host name into
 a dialog box, etc.</p>
+<p>WHOA! I’m not a Windows person, but I just Matthew Hopken working on Windows using <a href="https://mobaxterm.mobatek.net/">MobaXterm</a> to connect to the server and it looks
+pretty nice.</p>
 </div>
 <div id="hummingbird" class="section level3">
 <h3><span class="header-section-number">7.1.2</span> Hummingbird</h3>
@@ -465,8 +480,8 @@ If you are not on the UCSC campus network, you need to use the UCSC VPN to conne
 <p>By default, this cluster uses <code>tcsh</code> for a shell rather than <code>bash</code>. To keep things
 consistent with what you have learned about <code>bash</code>, you will want to automatically switch
 to <code>bash</code> upon login. You can do this by adding a file <code>~/.tcshrc</code> whose contents are:</p>
-<div class="sourceCode" id="cb180"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb180-1" data-line-number="1"><span class="ex">setenv</span> SHELL /usr/bin/bash</a>
-<a class="sourceLine" id="cb180-2" data-line-number="2"><span class="bu">exec</span> /usr/bin/bash --login</a></code></pre></div>
+<div class="sourceCode" id="cb180"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb180-1"><a href="working-on-remote-servers.html#cb180-1"></a><span class="ex">setenv</span> SHELL /usr/bin/bash</span>
+<span id="cb180-2"><a href="working-on-remote-servers.html#cb180-2"></a><span class="bu">exec</span> /usr/bin/bash --login</span></code></pre></div>
 <p>Then, configure your <code>bash</code> environment with your <code>~/.bashrc</code> and <code>~/.bash_profile</code> as
 described in Chapter <a href="essential-unixlinux-terminal-knowledge.html#unix-env">4.5</a>.</p>
 <p>The <code>tmux</code> settings (See section <a href="working-on-remote-servers.html#tmux">7.3</a>) in hummingbird are a little messed up as well, making
@@ -481,7 +496,7 @@ that you get an app called Duo on your phone for doing two-factor authentication
 <p>Instructions for logging into Summit are at <a href="https://www.acns.colostate.edu/hpc/#remote-login">https://www.acns.colostate.edu/hpc/#remote-login</a>.</p>
 <p>On your local machine (i.e., laptop), you might consider adding an alias to your
 <code>.bashrc</code> that will let you type <code>summit</code> to issue the login command. For example:</p>
-<div class="sourceCode" id="cb182"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb182-1" data-line-number="1"><span class="bu">alias</span> summit=<span class="st">&#39;ssh csu_eid@colostate.edu@login.rc.colorado.edu&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb182"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb182-1"><a href="working-on-remote-servers.html#cb182-1"></a><span class="bu">alias</span> summit=<span class="st">&#39;ssh csu_eid@colostate.edu@login.rc.colorado.edu&#39;</span></span></code></pre></div>
 <p>where you replace <code>csu_eid</code> with your actual CSU eID.</p>
 </div>
 <div id="sedna" class="section level3">
@@ -508,10 +523,10 @@ alternatives.</p>
 <p>The administrators of the SUMMIT supercomputer at CU Boulder recommend
 the <code>sftp</code> utility for transferring files from your laptop to the server.
 This works reasonably well. The syntax for a CSU student or affiliate connecting to the server is</p>
-<div class="sourceCode" id="cb184"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb184-1" data-line-number="1"><span class="ex">sftp</span> csu_userEID@colostate.edu@login.rc.colorado.edu</a>
-<a class="sourceLine" id="cb184-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb184-3" data-line-number="3"><span class="co"># for example, here is mine:</span></a>
-<a class="sourceLine" id="cb184-4" data-line-number="4"><span class="ex">sftp</span> eriq@colostate.edu@login.rc.colorado.edu</a></code></pre></div>
+<div class="sourceCode" id="cb184"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb184-1"><a href="working-on-remote-servers.html#cb184-1"></a><span class="ex">sftp</span> csu_userEID@colostate.edu@login.rc.colorado.edu</span>
+<span id="cb184-2"><a href="working-on-remote-servers.html#cb184-2"></a></span>
+<span id="cb184-3"><a href="working-on-remote-servers.html#cb184-3"></a><span class="co"># for example, here is mine:</span></span>
+<span id="cb184-4"><a href="working-on-remote-servers.html#cb184-4"></a><span class="ex">sftp</span> eriq@colostate.edu@login.rc.colorado.edu</span></code></pre></div>
 <p>After doing this you have to give your eID password followed by <code>,push</code>, and then
 approve the DUO push request on your phone. Once that is done, you have a “line open”
 to the server and can use the commands of <code>sftp</code> to transfer files around.
@@ -531,16 +546,16 @@ know and love and expect.</p>
 want to do in order to get nicely colored output, and to avoid having to login repeatedly
 during your <code>lftp</code> session. You must make a file on your laptop called <code>~/.lftprc</code> and put
 the following lines in it:</p>
-<div class="sourceCode" id="cb185"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb185-1" data-line-number="1"><span class="kw">set</span> <span class="ex">color</span>:dir-colors <span class="st">&quot;rs=0:di=01;36:fi=01;32:ln=01;31:*.txt=01;35:*.html=00;35:&quot;</span></a>
-<a class="sourceLine" id="cb185-2" data-line-number="2"><span class="kw">set</span> <span class="ex">color</span>:use-color true</a>
-<a class="sourceLine" id="cb185-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb185-4" data-line-number="4"><span class="kw">set</span> <span class="ex">net</span>:idle 5h</a>
-<a class="sourceLine" id="cb185-5" data-line-number="5"><span class="kw">set</span> <span class="ex">net</span>:timeout 5h</a></code></pre></div>
+<div class="sourceCode" id="cb185"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb185-1"><a href="working-on-remote-servers.html#cb185-1"></a><span class="kw">set</span> <span class="ex">color</span>:dir-colors <span class="st">&quot;rs=0:di=01;36:fi=01;32:ln=01;31:*.txt=01;35:*.html=00;35:&quot;</span></span>
+<span id="cb185-2"><a href="working-on-remote-servers.html#cb185-2"></a><span class="kw">set</span> <span class="ex">color</span>:use-color true</span>
+<span id="cb185-3"><a href="working-on-remote-servers.html#cb185-3"></a></span>
+<span id="cb185-4"><a href="working-on-remote-servers.html#cb185-4"></a><span class="kw">set</span> <span class="ex">net</span>:idle 5h</span>
+<span id="cb185-5"><a href="working-on-remote-servers.html#cb185-5"></a><span class="kw">set</span> <span class="ex">net</span>:timeout 5h</span></code></pre></div>
 <p>Now, to connect to SUMMIT with <code>lftp</code>, you use this syntax (shown for my username):</p>
-<div class="sourceCode" id="cb186"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb186-1" data-line-number="1"><span class="ex">lftp</span> sftp://eriq@colostate.edu@login.rc.colorado.edu</a></code></pre></div>
+<div class="sourceCode" id="cb186"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb186-1"><a href="working-on-remote-servers.html#cb186-1"></a><span class="ex">lftp</span> sftp://eriq@colostate.edu@login.rc.colorado.edu</span></code></pre></div>
 <p>That can be a lot to type, so I would recommend putting something this in your
 <code>.bashrc</code>:</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb187-1" data-line-number="1"><span class="bu">alias</span> summit_ftp=<span class="st">&#39;lftp sftp://eriq@colostate.edu@login.rc.colorado.edu&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb187"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb187-1"><a href="working-on-remote-servers.html#cb187-1"></a><span class="bu">alias</span> summit_ftp=<span class="st">&#39;lftp sftp://eriq@colostate.edu@login.rc.colorado.edu&#39;</span></span></code></pre></div>
 <p>so you can just type <code>summit_ftp</code> (which will TAB complete…) to launch that command.</p>
 <p>After you issue that command, you put in your password (on SUMMIT, followed by <code>,push</code>). <code>lftp</code> then caches your
 password, and will re-issue it, if necessary, to execute commands. It doesn’t actually send your
@@ -607,26 +622,26 @@ The main <code>lftp</code> commands for those tasks are: <code>get</code>, <code
 not too much to have to remember.</p>
 <p>As the name suggests, <code>put</code> is for <em>putting</em> files from your laptop onto the server. By default it
 puts files into the server working directory. Here is an example:</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb188-1" data-line-number="1"><span class="ex">put</span> laptopFile_1 laptopFile_2</a></code></pre></div>
+<div class="sourceCode" id="cb188"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb188-1"><a href="working-on-remote-servers.html#cb188-1"></a><span class="ex">put</span> laptopFile_1 laptopFile_2</span></code></pre></div>
 <p>If you want to put the file into a different directory on the server (that must already exist)
 you can use the <code>-O</code> option:</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb189-1" data-line-number="1"><span class="ex">put</span> -O server_dest_dir laptopFile_1 laptopFile_2</a></code></pre></div>
+<div class="sourceCode" id="cb189"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb189-1"><a href="working-on-remote-servers.html#cb189-1"></a><span class="ex">put</span> -O server_dest_dir laptopFile_1 laptopFile_2</span></code></pre></div>
 <p>The command <code>get</code> works in much the same way, but in reverse: you are <em>getting</em> things
 <em>from the server to your laptop</em>. For example:</p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb190-1" data-line-number="1"><span class="co"># copy to laptop working directory</span></a>
-<a class="sourceLine" id="cb190-2" data-line-number="2"><span class="ex">get</span> serverFile_1 serverFile1_2</a>
-<a class="sourceLine" id="cb190-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb190-4" data-line-number="4"><span class="co"># copy to existing directory laptop_dest_dir </span></a>
-<a class="sourceLine" id="cb190-5" data-line-number="5"><span class="ex">get</span> -O laptop_dest_dir serverFile_1 serverFile1_2</a></code></pre></div>
+<div class="sourceCode" id="cb190"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb190-1"><a href="working-on-remote-servers.html#cb190-1"></a><span class="co"># copy to laptop working directory</span></span>
+<span id="cb190-2"><a href="working-on-remote-servers.html#cb190-2"></a><span class="ex">get</span> serverFile_1 serverFile1_2</span>
+<span id="cb190-3"><a href="working-on-remote-servers.html#cb190-3"></a></span>
+<span id="cb190-4"><a href="working-on-remote-servers.html#cb190-4"></a><span class="co"># copy to existing directory laptop_dest_dir </span></span>
+<span id="cb190-5"><a href="working-on-remote-servers.html#cb190-5"></a><span class="ex">get</span> -O laptop_dest_dir serverFile_1 serverFile1_2</span></code></pre></div>
 <p>Neither of the commands <code>get</code> or <code>put</code> do any of the pathname expansion (or “globbing” as it
 we have called it) that you will be familiar with from the <code>bash</code> shell. To effect that sort
 of functionality you must use <code>mput</code> and <code>mget</code>, which, as the <code>m</code> prefix in the
 command names suggests, are the “multi-file” versions of <code>put</code> and <code>get</code>. Both of these
 commands also take the -O option, if desired, so that the above commands could be
 rewritten like this:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb191-1" data-line-number="1"><span class="ex">mput</span> -O server_dest_dir laptopFile_[12]</a>
-<a class="sourceLine" id="cb191-2" data-line-number="2"><span class="co"># and</span></a>
-<a class="sourceLine" id="cb191-3" data-line-number="3"><span class="ex">mget</span> -O laptop_dest_dir serverFile_[12]</a></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb191-1"><a href="working-on-remote-servers.html#cb191-1"></a><span class="ex">mput</span> -O server_dest_dir laptopFile_[12]</span>
+<span id="cb191-2"><a href="working-on-remote-servers.html#cb191-2"></a><span class="co"># and</span></span>
+<span id="cb191-3"><a href="working-on-remote-servers.html#cb191-3"></a><span class="ex">mget</span> -O laptop_dest_dir serverFile_[12]</span></code></pre></div>
 <p>Finally, there is not a <em>recursive</em> option, like there is with <code>cp</code>, to any of <code>get</code>, <code>put</code>, <code>mget</code>,
 or <code>mput</code>. Thus, you cannot use any of those four to put/get entire directories on/from the
 server. For that purpose, <code>lftp</code> has reserved the <code>mirror</code> command. It does what it sounds like:
@@ -638,10 +653,10 @@ However, here, we will demonstrate only its common use case
 of copying directories between a server and laptop here.</p>
 <p>To copy a directory <code>dir</code>, and its contents, from your server to your
 laptop current directory you use:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb192-1" data-line-number="1"><span class="ex">mirror</span> dir</a></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb192-1"><a href="working-on-remote-servers.html#cb192-1"></a><span class="ex">mirror</span> dir</span></code></pre></div>
 <p>To copy a directory <code>ldir</code> from your laptop to your server current directory you
 use <code>-R</code> which transmits the directory in the reverse direction:</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb193-1" data-line-number="1"><span class="ex">mirror</span> -R ldir</a></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb193-1"><a href="working-on-remote-servers.html#cb193-1"></a><span class="ex">mirror</span> -R ldir</span></code></pre></div>
 <p>Learning to use <code>lftp</code> will require a little bit more of your time, but it is worth
 it, allowing you to keep a dedicated terminal window open for file transfers with sensible
 TAB-completion capability.</p>
@@ -689,10 +704,10 @@ the fact that the changes you are committing were made on the server.</p>
 <p>For example, for my own setup on the Summit cluster at Boulder, I might
 do my git configurations by issuing these commands on the
 command line on the server:</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb194-1" data-line-number="1"><span class="fu">git</span> config --global user.name <span class="st">&quot;Eric C. Anderson (From Summit)&quot;</span></a>
-<a class="sourceLine" id="cb194-2" data-line-number="2"><span class="fu">git</span> config --global user.email eriq@rams.colostate.edu</a>
-<a class="sourceLine" id="cb194-3" data-line-number="3"><span class="fu">git</span> config --global credential.helper cache</a>
-<a class="sourceLine" id="cb194-4" data-line-number="4"><span class="fu">git</span> config --global core.editor nano</a></code></pre></div>
+<div class="sourceCode" id="cb194"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb194-1"><a href="working-on-remote-servers.html#cb194-1"></a><span class="fu">git</span> config --global user.name <span class="st">&quot;Eric C. Anderson (From Summit)&quot;</span></span>
+<span id="cb194-2"><a href="working-on-remote-servers.html#cb194-2"></a><span class="fu">git</span> config --global user.email eriq@rams.colostate.edu</span>
+<span id="cb194-3"><a href="working-on-remote-servers.html#cb194-3"></a><span class="fu">git</span> config --global credential.helper cache</span>
+<span id="cb194-4"><a href="working-on-remote-servers.html#cb194-4"></a><span class="fu">git</span> config --global core.editor nano</span></code></pre></div>
 <p>In all actuality, I would set my editor to be <code>vim</code> or <code>emacs</code>, because those are
 more powerful editors and I am familiar with then; however, if you are new to Unix,
 then <code>nano</code> is an easy-to-use editor.</p>
@@ -739,24 +754,24 @@ FIGURE 7.1: An example of what an RStudio git window might look like.
 <p>That view is merely showing you a graphical view of the output of
 the <code>git status</code> command run at the top level of the repository which
 looks like this:</p>
-<div class="sourceCode" id="cb198"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb198-1" data-line-number="1"><span class="ex">%</span> git status</a>
-<a class="sourceLine" id="cb198-2" data-line-number="2"><span class="ex">On</span> branch master</a>
-<a class="sourceLine" id="cb198-3" data-line-number="3"><span class="ex">Changes</span> not staged for commit:</a>
-<a class="sourceLine" id="cb198-4" data-line-number="4">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed<span class="kw">)</span></a>
-<a class="sourceLine" id="cb198-5" data-line-number="5">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git checkout -- &lt;file&gt;...&quot;</span> to discard changes in working directory<span class="kw">)</span></a>
-<a class="sourceLine" id="cb198-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb198-7" data-line-number="7">    <span class="ex">modified</span>:   .gitignore</a>
-<a class="sourceLine" id="cb198-8" data-line-number="8">    <span class="ex">modified</span>:   002-homeologue-permutation-with-bedr.Rmd</a>
-<a class="sourceLine" id="cb198-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb198-10" data-line-number="10"><span class="ex">Untracked</span> files:</a>
-<a class="sourceLine" id="cb198-11" data-line-number="11">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git add &lt;file&gt;...&quot;</span> to include in what will be committed<span class="kw">)</span></a>
-<a class="sourceLine" id="cb198-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb198-13" data-line-number="13">    <span class="ex">002-homeologue-permutation-with-bedr.nb.html</span></a>
-<a class="sourceLine" id="cb198-14" data-line-number="14">    <span class="ex">data/</span></a>
-<a class="sourceLine" id="cb198-15" data-line-number="15">    <span class="ex">mykiss-rad-project-with-mac-and-devon.Rproj</span></a>
-<a class="sourceLine" id="cb198-16" data-line-number="16">    <span class="ex">reconcile/</span></a>
-<a class="sourceLine" id="cb198-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb198-18" data-line-number="18"><span class="ex">no</span> changes added to commit (use <span class="st">&quot;git add&quot;</span> and/or <span class="st">&quot;git commit -a&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb198-1"><a href="working-on-remote-servers.html#cb198-1"></a><span class="ex">%</span> git status</span>
+<span id="cb198-2"><a href="working-on-remote-servers.html#cb198-2"></a><span class="ex">On</span> branch master</span>
+<span id="cb198-3"><a href="working-on-remote-servers.html#cb198-3"></a><span class="ex">Changes</span> not staged for commit:</span>
+<span id="cb198-4"><a href="working-on-remote-servers.html#cb198-4"></a>  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed<span class="kw">)</span></span>
+<span id="cb198-5"><a href="working-on-remote-servers.html#cb198-5"></a>  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git checkout -- &lt;file&gt;...&quot;</span> to discard changes in working directory<span class="kw">)</span></span>
+<span id="cb198-6"><a href="working-on-remote-servers.html#cb198-6"></a></span>
+<span id="cb198-7"><a href="working-on-remote-servers.html#cb198-7"></a>    <span class="ex">modified</span>:   .gitignore</span>
+<span id="cb198-8"><a href="working-on-remote-servers.html#cb198-8"></a>    <span class="ex">modified</span>:   002-homeologue-permutation-with-bedr.Rmd</span>
+<span id="cb198-9"><a href="working-on-remote-servers.html#cb198-9"></a></span>
+<span id="cb198-10"><a href="working-on-remote-servers.html#cb198-10"></a><span class="ex">Untracked</span> files:</span>
+<span id="cb198-11"><a href="working-on-remote-servers.html#cb198-11"></a>  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git add &lt;file&gt;...&quot;</span> to include in what will be committed<span class="kw">)</span></span>
+<span id="cb198-12"><a href="working-on-remote-servers.html#cb198-12"></a></span>
+<span id="cb198-13"><a href="working-on-remote-servers.html#cb198-13"></a>    <span class="ex">002-homeologue-permutation-with-bedr.nb.html</span></span>
+<span id="cb198-14"><a href="working-on-remote-servers.html#cb198-14"></a>    <span class="ex">data/</span></span>
+<span id="cb198-15"><a href="working-on-remote-servers.html#cb198-15"></a>    <span class="ex">mykiss-rad-project-with-mac-and-devon.Rproj</span></span>
+<span id="cb198-16"><a href="working-on-remote-servers.html#cb198-16"></a>    <span class="ex">reconcile/</span></span>
+<span id="cb198-17"><a href="working-on-remote-servers.html#cb198-17"></a></span>
+<span id="cb198-18"><a href="working-on-remote-servers.html#cb198-18"></a><span class="ex">no</span> changes added to commit (use <span class="st">&quot;git add&quot;</span> and/or <span class="st">&quot;git commit -a&quot;</span>)</span></code></pre></div>
 <p>Aha! Be sure to read that and understand that the output tells you which
 files are tracked by git and Modified (blue M in RStudio) and which
 are untracked (Yellow ? in RStudio).</p>
@@ -778,30 +793,30 @@ FIGURE 7.2: An example of what an RStudio git window might look like.
 <p>In order to do the equivalent operations with <code>git</code> on the command line
 you would use the <code>git add</code> command, explicitly naming the files you wish to
 <em>stage</em> for committing:</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb199-1" data-line-number="1"><span class="fu">git</span> add .gitignore 002-homeologue-permutation-with-bedr.Rmd data</a></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb199-1"><a href="working-on-remote-servers.html#cb199-1"></a><span class="fu">git</span> add .gitignore 002-homeologue-permutation-with-bedr.Rmd data</span></code></pre></div>
 <p>Now, if you check <code>git status</code> you will see:</p>
-<div class="sourceCode" id="cb200"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb200-1" data-line-number="1"><span class="ex">%</span> git status</a>
-<a class="sourceLine" id="cb200-2" data-line-number="2"><span class="ex">On</span> branch master</a>
-<a class="sourceLine" id="cb200-3" data-line-number="3"><span class="ex">Changes</span> to be committed:</a>
-<a class="sourceLine" id="cb200-4" data-line-number="4">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git reset HEAD &lt;file&gt;...&quot;</span> to unstage<span class="kw">)</span></a>
-<a class="sourceLine" id="cb200-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb200-6" data-line-number="6">    <span class="ex">modified</span>:   .gitignore</a>
-<a class="sourceLine" id="cb200-7" data-line-number="7">    <span class="ex">modified</span>:   002-homeologue-permutation-with-bedr.Rmd</a>
-<a class="sourceLine" id="cb200-8" data-line-number="8">    <span class="ex">new</span> file:   data/Pearse_Barson_etal_Supp_Table_7.tsv</a>
-<a class="sourceLine" id="cb200-9" data-line-number="9">    <span class="ex">new</span> file:   data/high-fst-rad-locus-indices.txt</a>
-<a class="sourceLine" id="cb200-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb200-11" data-line-number="11"><span class="ex">Untracked</span> files:</a>
-<a class="sourceLine" id="cb200-12" data-line-number="12">  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git add &lt;file&gt;...&quot;</span> to include in what will be committed<span class="kw">)</span></a>
-<a class="sourceLine" id="cb200-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb200-14" data-line-number="14">    <span class="ex">002-homeologue-permutation-with-bedr.nb.html</span></a>
-<a class="sourceLine" id="cb200-15" data-line-number="15">    <span class="ex">mykiss-rad-project-with-mac-and-devon.Rproj</span></a>
-<a class="sourceLine" id="cb200-16" data-line-number="16">    <span class="ex">reconcile/</span></a></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb200-1"><a href="working-on-remote-servers.html#cb200-1"></a><span class="ex">%</span> git status</span>
+<span id="cb200-2"><a href="working-on-remote-servers.html#cb200-2"></a><span class="ex">On</span> branch master</span>
+<span id="cb200-3"><a href="working-on-remote-servers.html#cb200-3"></a><span class="ex">Changes</span> to be committed:</span>
+<span id="cb200-4"><a href="working-on-remote-servers.html#cb200-4"></a>  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git reset HEAD &lt;file&gt;...&quot;</span> to unstage<span class="kw">)</span></span>
+<span id="cb200-5"><a href="working-on-remote-servers.html#cb200-5"></a></span>
+<span id="cb200-6"><a href="working-on-remote-servers.html#cb200-6"></a>    <span class="ex">modified</span>:   .gitignore</span>
+<span id="cb200-7"><a href="working-on-remote-servers.html#cb200-7"></a>    <span class="ex">modified</span>:   002-homeologue-permutation-with-bedr.Rmd</span>
+<span id="cb200-8"><a href="working-on-remote-servers.html#cb200-8"></a>    <span class="ex">new</span> file:   data/Pearse_Barson_etal_Supp_Table_7.tsv</span>
+<span id="cb200-9"><a href="working-on-remote-servers.html#cb200-9"></a>    <span class="ex">new</span> file:   data/high-fst-rad-locus-indices.txt</span>
+<span id="cb200-10"><a href="working-on-remote-servers.html#cb200-10"></a></span>
+<span id="cb200-11"><a href="working-on-remote-servers.html#cb200-11"></a><span class="ex">Untracked</span> files:</span>
+<span id="cb200-12"><a href="working-on-remote-servers.html#cb200-12"></a>  <span class="kw">(</span><span class="ex">use</span> <span class="st">&quot;git add &lt;file&gt;...&quot;</span> to include in what will be committed<span class="kw">)</span></span>
+<span id="cb200-13"><a href="working-on-remote-servers.html#cb200-13"></a></span>
+<span id="cb200-14"><a href="working-on-remote-servers.html#cb200-14"></a>    <span class="ex">002-homeologue-permutation-with-bedr.nb.html</span></span>
+<span id="cb200-15"><a href="working-on-remote-servers.html#cb200-15"></a>    <span class="ex">mykiss-rad-project-with-mac-and-devon.Rproj</span></span>
+<span id="cb200-16"><a href="working-on-remote-servers.html#cb200-16"></a>    <span class="ex">reconcile/</span></span></code></pre></div>
 <p>It tells you which files are ready to be committed!</p>
 <p>In order to commit the files to git you do:</p>
-<div class="sourceCode" id="cb201"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="fu">git</span> commit</a></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb201-1"><a href="working-on-remote-servers.html#cb201-1"></a><span class="fu">git</span> commit</span></code></pre></div>
 <p>And then, to push them back to GitHub (if you cloned this repository
 from GitHub), you can simply do:</p>
-<div class="sourceCode" id="cb202"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb202-1" data-line-number="1"><span class="fu">git</span> push origin master</a></code></pre></div>
+<div class="sourceCode" id="cb202"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb202-1"><a href="working-on-remote-servers.html#cb202-1"></a><span class="fu">git</span> push origin master</span></code></pre></div>
 <p>That syntax is telling git to push the <code>master</code> branch (which is
 the default branch in a git repository), to the repository labeled as
 <code>origin</code>, which will be the GitHub repository if you cloned the repository
@@ -813,72 +828,72 @@ server, here are the steps involved in editing a file, committing the
 changes, and then pushing them back to GitHub. The command in the following
 is written as <code>[alignment-play]--%</code> which is telling us that we are in the
 <code>alignment-play</code> repository.</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="co"># check git status</span></a>
-<a class="sourceLine" id="cb203-2" data-line-number="2">[<span class="ex">alignment-play</span>]--% git status</a>
-<a class="sourceLine" id="cb203-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb203-4" data-line-number="4"><span class="co"># On branch master</span></a>
-<a class="sourceLine" id="cb203-5" data-line-number="5"><span class="ex">nothing</span> to commit, working directory clean</a>
-<a class="sourceLine" id="cb203-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb203-7" data-line-number="7"><span class="co"># Aha! That says nothing has been modified.</span></a>
-<a class="sourceLine" id="cb203-8" data-line-number="8"><span class="co"># But, now we edit the file alignment-play.Rmd</span></a>
-<a class="sourceLine" id="cb203-9" data-line-number="9">[<span class="ex">alignment-play</span>]--% nano alignment-play.Rmd</a>
-<a class="sourceLine" id="cb203-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb203-11" data-line-number="11"><span class="co"># In this case I merely added a line to the YAML header.</span></a>
-<a class="sourceLine" id="cb203-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb203-13" data-line-number="13"><span class="co"># Now, check status of the files:</span></a>
-<a class="sourceLine" id="cb203-14" data-line-number="14">[<span class="ex">alignment-play</span>]--% git status</a>
-<a class="sourceLine" id="cb203-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb203-16" data-line-number="16"><span class="co"># On branch master</span></a>
-<a class="sourceLine" id="cb203-17" data-line-number="17"><span class="co"># Changes not staged for commit:</span></a>
-<a class="sourceLine" id="cb203-18" data-line-number="18"><span class="co">#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span></a>
-<a class="sourceLine" id="cb203-19" data-line-number="19"><span class="co">#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span></a>
-<a class="sourceLine" id="cb203-20" data-line-number="20"><span class="co">#</span></a>
-<a class="sourceLine" id="cb203-21" data-line-number="21"><span class="co">#   modified:   alignment-play.Rmd</span></a>
-<a class="sourceLine" id="cb203-22" data-line-number="22"><span class="co">#</span></a>
-<a class="sourceLine" id="cb203-23" data-line-number="23"><span class="ex">no</span> changes added to commit (use <span class="st">&quot;git add&quot;</span> and/or <span class="st">&quot;git commit -a&quot;</span>)</a>
-<a class="sourceLine" id="cb203-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb203-25" data-line-number="25"><span class="co"># We see that the file has been modified.</span></a>
-<a class="sourceLine" id="cb203-26" data-line-number="26"></a>
-<a class="sourceLine" id="cb203-27" data-line-number="27"><span class="co"># Now we can use git diff to see what the changes were</span></a>
-<a class="sourceLine" id="cb203-28" data-line-number="28">[<span class="ex">alignment-play</span>]--% git diff alignment-play.Rmd </a>
-<a class="sourceLine" id="cb203-29" data-line-number="29"></a>
-<a class="sourceLine" id="cb203-30" data-line-number="30"><span class="fu">diff</span> --git a/alignment-play.Rmd b/alignment-play.Rmd</a>
-<a class="sourceLine" id="cb203-31" data-line-number="31"><span class="ex">index</span> 9f75ebb..b389fae 100644</a>
-<a class="sourceLine" id="cb203-32" data-line-number="32"><span class="ex">---</span> a/alignment-play.Rmd</a>
-<a class="sourceLine" id="cb203-33" data-line-number="33"><span class="ex">+++</span> b/alignment-play.Rmd</a>
-<a class="sourceLine" id="cb203-34" data-line-number="34"><span class="ex">@@</span> -3,6 +3,7 @@ title: <span class="st">&quot;Alignment Play!&quot;</span></a>
-<a class="sourceLine" id="cb203-35" data-line-number="35"> <span class="ex">output</span>: </a>
-<a class="sourceLine" id="cb203-36" data-line-number="36">   <span class="ex">html_notebook</span>:</a>
-<a class="sourceLine" id="cb203-37" data-line-number="37">     <span class="ex">toc</span>: true</a>
-<a class="sourceLine" id="cb203-38" data-line-number="38"><span class="ex">+</span>    toc_float: true</a>
-<a class="sourceLine" id="cb203-39" data-line-number="39"> <span class="ex">---</span></a>
-<a class="sourceLine" id="cb203-40" data-line-number="40"> </a>
-<a class="sourceLine" id="cb203-41" data-line-number="41"><span class="co"># The output above is a little hard to parse, but it shows</span></a>
-<a class="sourceLine" id="cb203-42" data-line-number="42"><span class="co"># the line that has been added: &quot;  toc_float: true&quot; with a</span></a>
-<a class="sourceLine" id="cb203-43" data-line-number="43"><span class="co"># &quot;+&quot; sign.</span></a>
-<a class="sourceLine" id="cb203-44" data-line-number="44"></a>
-<a class="sourceLine" id="cb203-45" data-line-number="45"><span class="co"># In order to commit the changes, we do:</span></a>
-<a class="sourceLine" id="cb203-46" data-line-number="46">[<span class="ex">alignment-play</span>]--% git add alignment-play.Rmd </a>
-<a class="sourceLine" id="cb203-47" data-line-number="47">[<span class="ex">alignment-play</span>]--% git commit</a>
-<a class="sourceLine" id="cb203-48" data-line-number="48"></a>
-<a class="sourceLine" id="cb203-49" data-line-number="49"><span class="co"># after that, we are bumped into the nano text editor</span></a>
-<a class="sourceLine" id="cb203-50" data-line-number="50"><span class="co"># to write a short message about the commit. After exiting</span></a>
-<a class="sourceLine" id="cb203-51" data-line-number="51"><span class="co"># from the editor, it tells us:</span></a>
-<a class="sourceLine" id="cb203-52" data-line-number="52">[<span class="ex">master</span> 001e650] yaml change</a>
-<a class="sourceLine" id="cb203-53" data-line-number="53"> <span class="ex">1</span> file changed, 1 insertion(+)</a>
-<a class="sourceLine" id="cb203-54" data-line-number="54"> </a>
-<a class="sourceLine" id="cb203-55" data-line-number="55"><span class="co"># Now, to send that new commit to GitHub, we use git push origin master</span></a>
-<a class="sourceLine" id="cb203-56" data-line-number="56">[<span class="ex">alignment-play</span>]--% git push origin master</a>
-<a class="sourceLine" id="cb203-57" data-line-number="57"><span class="ex">Password</span> for <span class="st">&#39;https://eriqande@github.com&#39;</span>:</a>
-<a class="sourceLine" id="cb203-58" data-line-number="58"></a>
-<a class="sourceLine" id="cb203-59" data-line-number="59"><span class="ex">Counting</span> objects: 5, done.</a>
-<a class="sourceLine" id="cb203-60" data-line-number="60"><span class="ex">Delta</span> compression using up to 24 threads.</a>
-<a class="sourceLine" id="cb203-61" data-line-number="61"><span class="ex">Compressing</span> objects: 100% (3/3), <span class="kw">done</span><span class="ex">.</span></a>
-<a class="sourceLine" id="cb203-62" data-line-number="62"><span class="ex">Writing</span> objects: 100% (3/3), <span class="ex">325</span> bytes <span class="kw">|</span> <span class="ex">0</span> bytes/s, done.</a>
-<a class="sourceLine" id="cb203-63" data-line-number="63"><span class="ex">Total</span> 3 (delta 2), <span class="ex">reused</span> 0 (delta 0)</a>
-<a class="sourceLine" id="cb203-64" data-line-number="64"><span class="ex">remote</span>: Resolving deltas: 100% (2/2), <span class="ex">completed</span> with 2 local objects.</a>
-<a class="sourceLine" id="cb203-65" data-line-number="65"><span class="ex">To</span> https://eriqande@github.com/eriqande/alignment-play</a>
-<a class="sourceLine" id="cb203-66" data-line-number="66">   <span class="ex">0c1707f..001e650</span>  master -<span class="op">&gt;</span> master</a></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb203-1"><a href="working-on-remote-servers.html#cb203-1"></a><span class="co"># check git status</span></span>
+<span id="cb203-2"><a href="working-on-remote-servers.html#cb203-2"></a>[<span class="ex">alignment-play</span>]--% git status</span>
+<span id="cb203-3"><a href="working-on-remote-servers.html#cb203-3"></a></span>
+<span id="cb203-4"><a href="working-on-remote-servers.html#cb203-4"></a><span class="co"># On branch master</span></span>
+<span id="cb203-5"><a href="working-on-remote-servers.html#cb203-5"></a><span class="ex">nothing</span> to commit, working directory clean</span>
+<span id="cb203-6"><a href="working-on-remote-servers.html#cb203-6"></a></span>
+<span id="cb203-7"><a href="working-on-remote-servers.html#cb203-7"></a><span class="co"># Aha! That says nothing has been modified.</span></span>
+<span id="cb203-8"><a href="working-on-remote-servers.html#cb203-8"></a><span class="co"># But, now we edit the file alignment-play.Rmd</span></span>
+<span id="cb203-9"><a href="working-on-remote-servers.html#cb203-9"></a>[<span class="ex">alignment-play</span>]--% nano alignment-play.Rmd</span>
+<span id="cb203-10"><a href="working-on-remote-servers.html#cb203-10"></a></span>
+<span id="cb203-11"><a href="working-on-remote-servers.html#cb203-11"></a><span class="co"># In this case I merely added a line to the YAML header.</span></span>
+<span id="cb203-12"><a href="working-on-remote-servers.html#cb203-12"></a></span>
+<span id="cb203-13"><a href="working-on-remote-servers.html#cb203-13"></a><span class="co"># Now, check status of the files:</span></span>
+<span id="cb203-14"><a href="working-on-remote-servers.html#cb203-14"></a>[<span class="ex">alignment-play</span>]--% git status</span>
+<span id="cb203-15"><a href="working-on-remote-servers.html#cb203-15"></a></span>
+<span id="cb203-16"><a href="working-on-remote-servers.html#cb203-16"></a><span class="co"># On branch master</span></span>
+<span id="cb203-17"><a href="working-on-remote-servers.html#cb203-17"></a><span class="co"># Changes not staged for commit:</span></span>
+<span id="cb203-18"><a href="working-on-remote-servers.html#cb203-18"></a><span class="co">#   (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)</span></span>
+<span id="cb203-19"><a href="working-on-remote-servers.html#cb203-19"></a><span class="co">#   (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)</span></span>
+<span id="cb203-20"><a href="working-on-remote-servers.html#cb203-20"></a><span class="co">#</span></span>
+<span id="cb203-21"><a href="working-on-remote-servers.html#cb203-21"></a><span class="co">#   modified:   alignment-play.Rmd</span></span>
+<span id="cb203-22"><a href="working-on-remote-servers.html#cb203-22"></a><span class="co">#</span></span>
+<span id="cb203-23"><a href="working-on-remote-servers.html#cb203-23"></a><span class="ex">no</span> changes added to commit (use <span class="st">&quot;git add&quot;</span> and/or <span class="st">&quot;git commit -a&quot;</span>)</span>
+<span id="cb203-24"><a href="working-on-remote-servers.html#cb203-24"></a></span>
+<span id="cb203-25"><a href="working-on-remote-servers.html#cb203-25"></a><span class="co"># We see that the file has been modified.</span></span>
+<span id="cb203-26"><a href="working-on-remote-servers.html#cb203-26"></a></span>
+<span id="cb203-27"><a href="working-on-remote-servers.html#cb203-27"></a><span class="co"># Now we can use git diff to see what the changes were</span></span>
+<span id="cb203-28"><a href="working-on-remote-servers.html#cb203-28"></a>[<span class="ex">alignment-play</span>]--% git diff alignment-play.Rmd </span>
+<span id="cb203-29"><a href="working-on-remote-servers.html#cb203-29"></a></span>
+<span id="cb203-30"><a href="working-on-remote-servers.html#cb203-30"></a><span class="fu">diff</span> --git a/alignment-play.Rmd b/alignment-play.Rmd</span>
+<span id="cb203-31"><a href="working-on-remote-servers.html#cb203-31"></a><span class="ex">index</span> 9f75ebb..b389fae 100644</span>
+<span id="cb203-32"><a href="working-on-remote-servers.html#cb203-32"></a><span class="ex">---</span> a/alignment-play.Rmd</span>
+<span id="cb203-33"><a href="working-on-remote-servers.html#cb203-33"></a><span class="ex">+++</span> b/alignment-play.Rmd</span>
+<span id="cb203-34"><a href="working-on-remote-servers.html#cb203-34"></a><span class="ex">@@</span> -3,6 +3,7 @@ title: <span class="st">&quot;Alignment Play!&quot;</span></span>
+<span id="cb203-35"><a href="working-on-remote-servers.html#cb203-35"></a> <span class="ex">output</span>: </span>
+<span id="cb203-36"><a href="working-on-remote-servers.html#cb203-36"></a>   <span class="ex">html_notebook</span>:</span>
+<span id="cb203-37"><a href="working-on-remote-servers.html#cb203-37"></a>     <span class="ex">toc</span>: true</span>
+<span id="cb203-38"><a href="working-on-remote-servers.html#cb203-38"></a><span class="ex">+</span>    toc_float: true</span>
+<span id="cb203-39"><a href="working-on-remote-servers.html#cb203-39"></a> <span class="ex">---</span></span>
+<span id="cb203-40"><a href="working-on-remote-servers.html#cb203-40"></a> </span>
+<span id="cb203-41"><a href="working-on-remote-servers.html#cb203-41"></a><span class="co"># The output above is a little hard to parse, but it shows</span></span>
+<span id="cb203-42"><a href="working-on-remote-servers.html#cb203-42"></a><span class="co"># the line that has been added: &quot;  toc_float: true&quot; with a</span></span>
+<span id="cb203-43"><a href="working-on-remote-servers.html#cb203-43"></a><span class="co"># &quot;+&quot; sign.</span></span>
+<span id="cb203-44"><a href="working-on-remote-servers.html#cb203-44"></a></span>
+<span id="cb203-45"><a href="working-on-remote-servers.html#cb203-45"></a><span class="co"># In order to commit the changes, we do:</span></span>
+<span id="cb203-46"><a href="working-on-remote-servers.html#cb203-46"></a>[<span class="ex">alignment-play</span>]--% git add alignment-play.Rmd </span>
+<span id="cb203-47"><a href="working-on-remote-servers.html#cb203-47"></a>[<span class="ex">alignment-play</span>]--% git commit</span>
+<span id="cb203-48"><a href="working-on-remote-servers.html#cb203-48"></a></span>
+<span id="cb203-49"><a href="working-on-remote-servers.html#cb203-49"></a><span class="co"># after that, we are bumped into the nano text editor</span></span>
+<span id="cb203-50"><a href="working-on-remote-servers.html#cb203-50"></a><span class="co"># to write a short message about the commit. After exiting</span></span>
+<span id="cb203-51"><a href="working-on-remote-servers.html#cb203-51"></a><span class="co"># from the editor, it tells us:</span></span>
+<span id="cb203-52"><a href="working-on-remote-servers.html#cb203-52"></a>[<span class="ex">master</span> 001e650] yaml change</span>
+<span id="cb203-53"><a href="working-on-remote-servers.html#cb203-53"></a> <span class="ex">1</span> file changed, 1 insertion(+)</span>
+<span id="cb203-54"><a href="working-on-remote-servers.html#cb203-54"></a> </span>
+<span id="cb203-55"><a href="working-on-remote-servers.html#cb203-55"></a><span class="co"># Now, to send that new commit to GitHub, we use git push origin master</span></span>
+<span id="cb203-56"><a href="working-on-remote-servers.html#cb203-56"></a>[<span class="ex">alignment-play</span>]--% git push origin master</span>
+<span id="cb203-57"><a href="working-on-remote-servers.html#cb203-57"></a><span class="ex">Password</span> for <span class="st">&#39;https://eriqande@github.com&#39;</span>:</span>
+<span id="cb203-58"><a href="working-on-remote-servers.html#cb203-58"></a></span>
+<span id="cb203-59"><a href="working-on-remote-servers.html#cb203-59"></a><span class="ex">Counting</span> objects: 5, done.</span>
+<span id="cb203-60"><a href="working-on-remote-servers.html#cb203-60"></a><span class="ex">Delta</span> compression using up to 24 threads.</span>
+<span id="cb203-61"><a href="working-on-remote-servers.html#cb203-61"></a><span class="ex">Compressing</span> objects: 100% (3/3), <span class="kw">done</span><span class="ex">.</span></span>
+<span id="cb203-62"><a href="working-on-remote-servers.html#cb203-62"></a><span class="ex">Writing</span> objects: 100% (3/3), <span class="ex">325</span> bytes <span class="kw">|</span> <span class="ex">0</span> bytes/s, done.</span>
+<span id="cb203-63"><a href="working-on-remote-servers.html#cb203-63"></a><span class="ex">Total</span> 3 (delta 2), <span class="ex">reused</span> 0 (delta 0)</span>
+<span id="cb203-64"><a href="working-on-remote-servers.html#cb203-64"></a><span class="ex">remote</span>: Resolving deltas: 100% (2/2), <span class="ex">completed</span> with 2 local objects.</span>
+<span id="cb203-65"><a href="working-on-remote-servers.html#cb203-65"></a><span class="ex">To</span> https://eriqande@github.com/eriqande/alignment-play</span>
+<span id="cb203-66"><a href="working-on-remote-servers.html#cb203-66"></a>   <span class="ex">0c1707f..001e650</span>  master -<span class="op">&gt;</span> master</span></code></pre></div>
 <p>When pushing to a GitHub repository for the first
 time from your remote server you
 will be asked for your GitHub password. Once you have successfully
@@ -889,7 +904,7 @@ down to our laptop, and make more changes on top of them and push those
 back to GitHub, we can retrieve from GitHub to the server those changes we
 made on our laptop with <code>git pull origin master</code>. In other words, from the
 server we simply issue the command:</p>
-<div class="sourceCode" id="cb204"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb204-1" data-line-number="1">[<span class="ex">alignment-play</span>]--% git pull origin master</a></code></pre></div>
+<div class="sourceCode" id="cb204"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb204-1"><a href="working-on-remote-servers.html#cb204-1"></a>[<span class="ex">alignment-play</span>]--% git pull origin master</span></code></pre></div>
 </div>
 </div>
 <div id="globus" class="section level3">
@@ -1017,56 +1032,56 @@ it looks like in clear text.</p>
 every time you make an rclone command, but it is worth it to have the
 security.</p>
 <p>Here is what it looks like when choosing to encrypt one’s config file:</p>
-<div class="sourceCode" id="cb206"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb206-1" data-line-number="1"><span class="ex">%</span> rclone config</a>
-<a class="sourceLine" id="cb206-2" data-line-number="2"><span class="ex">Current</span> remotes:</a>
-<a class="sourceLine" id="cb206-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb206-4" data-line-number="4"><span class="ex">Name</span>                 Type</a>
-<a class="sourceLine" id="cb206-5" data-line-number="5">====                 ====</a>
-<a class="sourceLine" id="cb206-6" data-line-number="6"><span class="ex">gdrive-rclone</span>        drive</a>
-<a class="sourceLine" id="cb206-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb206-8" data-line-number="8"><span class="ex">e</span>) <span class="ex">Edit</span> existing remote</a>
-<a class="sourceLine" id="cb206-9" data-line-number="9"><span class="ex">n</span>) <span class="ex">New</span> remote</a>
-<a class="sourceLine" id="cb206-10" data-line-number="10"><span class="ex">d</span>) <span class="ex">Delete</span> remote</a>
-<a class="sourceLine" id="cb206-11" data-line-number="11"><span class="ex">r</span>) <span class="ex">Rename</span> remote</a>
-<a class="sourceLine" id="cb206-12" data-line-number="12"><span class="ex">c</span>) <span class="ex">Copy</span> remote</a>
-<a class="sourceLine" id="cb206-13" data-line-number="13"><span class="ex">s</span>) <span class="ex">Set</span> configuration password</a>
-<a class="sourceLine" id="cb206-14" data-line-number="14"><span class="ex">q</span>) <span class="ex">Quit</span> config</a>
-<a class="sourceLine" id="cb206-15" data-line-number="15"><span class="ex">e/n/d/r/c/s</span>/<span class="ex">q</span><span class="op">&gt;</span> s </a>
-<a class="sourceLine" id="cb206-16" data-line-number="16"><span class="ex">Your</span> configuration is not encrypted.</a>
-<a class="sourceLine" id="cb206-17" data-line-number="17"><span class="ex">If</span> you add a password, you will protect your login information to cloud services.</a>
-<a class="sourceLine" id="cb206-18" data-line-number="18"><span class="ex">a</span>) <span class="ex">Add</span> Password</a>
-<a class="sourceLine" id="cb206-19" data-line-number="19"><span class="ex">q</span>) <span class="ex">Quit</span> to main menu</a>
-<a class="sourceLine" id="cb206-20" data-line-number="20"><span class="ex">a</span>/<span class="ex">q</span><span class="op">&gt;</span> a</a>
-<a class="sourceLine" id="cb206-21" data-line-number="21"><span class="ex">Enter</span> NEW configuration password:</a>
-<a class="sourceLine" id="cb206-22" data-line-number="22"><span class="ex">password</span>:</a>
-<a class="sourceLine" id="cb206-23" data-line-number="23"><span class="ex">Confirm</span> NEW configuration password:</a>
-<a class="sourceLine" id="cb206-24" data-line-number="24"><span class="ex">password</span>:</a>
-<a class="sourceLine" id="cb206-25" data-line-number="25"><span class="ex">Password</span> set</a>
-<a class="sourceLine" id="cb206-26" data-line-number="26"><span class="ex">Your</span> configuration is encrypted.</a>
-<a class="sourceLine" id="cb206-27" data-line-number="27"><span class="ex">c</span>) <span class="ex">Change</span> Password</a>
-<a class="sourceLine" id="cb206-28" data-line-number="28"><span class="ex">u</span>) <span class="ex">Unencrypt</span> configuration</a>
-<a class="sourceLine" id="cb206-29" data-line-number="29"><span class="ex">q</span>) <span class="ex">Quit</span> to main menu</a>
-<a class="sourceLine" id="cb206-30" data-line-number="30"><span class="ex">c/u</span>/<span class="ex">q</span><span class="op">&gt;</span> q</a>
-<a class="sourceLine" id="cb206-31" data-line-number="31"><span class="ex">Current</span> remotes:</a>
-<a class="sourceLine" id="cb206-32" data-line-number="32"></a>
-<a class="sourceLine" id="cb206-33" data-line-number="33"><span class="ex">Name</span>                 Type</a>
-<a class="sourceLine" id="cb206-34" data-line-number="34">====                 ====</a>
-<a class="sourceLine" id="cb206-35" data-line-number="35"><span class="ex">gdrive-rclone</span>        drive</a>
-<a class="sourceLine" id="cb206-36" data-line-number="36"></a>
-<a class="sourceLine" id="cb206-37" data-line-number="37"><span class="ex">e</span>) <span class="ex">Edit</span> existing remote</a>
-<a class="sourceLine" id="cb206-38" data-line-number="38"><span class="ex">n</span>) <span class="ex">New</span> remote</a>
-<a class="sourceLine" id="cb206-39" data-line-number="39"><span class="ex">d</span>) <span class="ex">Delete</span> remote</a>
-<a class="sourceLine" id="cb206-40" data-line-number="40"><span class="ex">r</span>) <span class="ex">Rename</span> remote</a>
-<a class="sourceLine" id="cb206-41" data-line-number="41"><span class="ex">c</span>) <span class="ex">Copy</span> remote</a>
-<a class="sourceLine" id="cb206-42" data-line-number="42"><span class="ex">s</span>) <span class="ex">Set</span> configuration password</a>
-<a class="sourceLine" id="cb206-43" data-line-number="43"><span class="ex">q</span>) <span class="ex">Quit</span> config</a>
-<a class="sourceLine" id="cb206-44" data-line-number="44"><span class="ex">e/n/d/r/c/s</span>/<span class="ex">q</span><span class="op">&gt;</span> q</a></code></pre></div>
+<div class="sourceCode" id="cb206"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb206-1"><a href="working-on-remote-servers.html#cb206-1"></a><span class="ex">%</span> rclone config</span>
+<span id="cb206-2"><a href="working-on-remote-servers.html#cb206-2"></a><span class="ex">Current</span> remotes:</span>
+<span id="cb206-3"><a href="working-on-remote-servers.html#cb206-3"></a></span>
+<span id="cb206-4"><a href="working-on-remote-servers.html#cb206-4"></a><span class="ex">Name</span>                 Type</span>
+<span id="cb206-5"><a href="working-on-remote-servers.html#cb206-5"></a>====                 ====</span>
+<span id="cb206-6"><a href="working-on-remote-servers.html#cb206-6"></a><span class="ex">gdrive-rclone</span>        drive</span>
+<span id="cb206-7"><a href="working-on-remote-servers.html#cb206-7"></a></span>
+<span id="cb206-8"><a href="working-on-remote-servers.html#cb206-8"></a><span class="ex">e</span>) <span class="ex">Edit</span> existing remote</span>
+<span id="cb206-9"><a href="working-on-remote-servers.html#cb206-9"></a><span class="ex">n</span>) <span class="ex">New</span> remote</span>
+<span id="cb206-10"><a href="working-on-remote-servers.html#cb206-10"></a><span class="ex">d</span>) <span class="ex">Delete</span> remote</span>
+<span id="cb206-11"><a href="working-on-remote-servers.html#cb206-11"></a><span class="ex">r</span>) <span class="ex">Rename</span> remote</span>
+<span id="cb206-12"><a href="working-on-remote-servers.html#cb206-12"></a><span class="ex">c</span>) <span class="ex">Copy</span> remote</span>
+<span id="cb206-13"><a href="working-on-remote-servers.html#cb206-13"></a><span class="ex">s</span>) <span class="ex">Set</span> configuration password</span>
+<span id="cb206-14"><a href="working-on-remote-servers.html#cb206-14"></a><span class="ex">q</span>) <span class="ex">Quit</span> config</span>
+<span id="cb206-15"><a href="working-on-remote-servers.html#cb206-15"></a><span class="ex">e/n/d/r/c/s</span>/<span class="ex">q</span><span class="op">&gt;</span> s </span>
+<span id="cb206-16"><a href="working-on-remote-servers.html#cb206-16"></a><span class="ex">Your</span> configuration is not encrypted.</span>
+<span id="cb206-17"><a href="working-on-remote-servers.html#cb206-17"></a><span class="ex">If</span> you add a password, you will protect your login information to cloud services.</span>
+<span id="cb206-18"><a href="working-on-remote-servers.html#cb206-18"></a><span class="ex">a</span>) <span class="ex">Add</span> Password</span>
+<span id="cb206-19"><a href="working-on-remote-servers.html#cb206-19"></a><span class="ex">q</span>) <span class="ex">Quit</span> to main menu</span>
+<span id="cb206-20"><a href="working-on-remote-servers.html#cb206-20"></a><span class="ex">a</span>/<span class="ex">q</span><span class="op">&gt;</span> a</span>
+<span id="cb206-21"><a href="working-on-remote-servers.html#cb206-21"></a><span class="ex">Enter</span> NEW configuration password:</span>
+<span id="cb206-22"><a href="working-on-remote-servers.html#cb206-22"></a><span class="ex">password</span>:</span>
+<span id="cb206-23"><a href="working-on-remote-servers.html#cb206-23"></a><span class="ex">Confirm</span> NEW configuration password:</span>
+<span id="cb206-24"><a href="working-on-remote-servers.html#cb206-24"></a><span class="ex">password</span>:</span>
+<span id="cb206-25"><a href="working-on-remote-servers.html#cb206-25"></a><span class="ex">Password</span> set</span>
+<span id="cb206-26"><a href="working-on-remote-servers.html#cb206-26"></a><span class="ex">Your</span> configuration is encrypted.</span>
+<span id="cb206-27"><a href="working-on-remote-servers.html#cb206-27"></a><span class="ex">c</span>) <span class="ex">Change</span> Password</span>
+<span id="cb206-28"><a href="working-on-remote-servers.html#cb206-28"></a><span class="ex">u</span>) <span class="ex">Unencrypt</span> configuration</span>
+<span id="cb206-29"><a href="working-on-remote-servers.html#cb206-29"></a><span class="ex">q</span>) <span class="ex">Quit</span> to main menu</span>
+<span id="cb206-30"><a href="working-on-remote-servers.html#cb206-30"></a><span class="ex">c/u</span>/<span class="ex">q</span><span class="op">&gt;</span> q</span>
+<span id="cb206-31"><a href="working-on-remote-servers.html#cb206-31"></a><span class="ex">Current</span> remotes:</span>
+<span id="cb206-32"><a href="working-on-remote-servers.html#cb206-32"></a></span>
+<span id="cb206-33"><a href="working-on-remote-servers.html#cb206-33"></a><span class="ex">Name</span>                 Type</span>
+<span id="cb206-34"><a href="working-on-remote-servers.html#cb206-34"></a>====                 ====</span>
+<span id="cb206-35"><a href="working-on-remote-servers.html#cb206-35"></a><span class="ex">gdrive-rclone</span>        drive</span>
+<span id="cb206-36"><a href="working-on-remote-servers.html#cb206-36"></a></span>
+<span id="cb206-37"><a href="working-on-remote-servers.html#cb206-37"></a><span class="ex">e</span>) <span class="ex">Edit</span> existing remote</span>
+<span id="cb206-38"><a href="working-on-remote-servers.html#cb206-38"></a><span class="ex">n</span>) <span class="ex">New</span> remote</span>
+<span id="cb206-39"><a href="working-on-remote-servers.html#cb206-39"></a><span class="ex">d</span>) <span class="ex">Delete</span> remote</span>
+<span id="cb206-40"><a href="working-on-remote-servers.html#cb206-40"></a><span class="ex">r</span>) <span class="ex">Rename</span> remote</span>
+<span id="cb206-41"><a href="working-on-remote-servers.html#cb206-41"></a><span class="ex">c</span>) <span class="ex">Copy</span> remote</span>
+<span id="cb206-42"><a href="working-on-remote-servers.html#cb206-42"></a><span class="ex">s</span>) <span class="ex">Set</span> configuration password</span>
+<span id="cb206-43"><a href="working-on-remote-servers.html#cb206-43"></a><span class="ex">q</span>) <span class="ex">Quit</span> config</span>
+<span id="cb206-44"><a href="working-on-remote-servers.html#cb206-44"></a><span class="ex">e/n/d/r/c/s</span>/<span class="ex">q</span><span class="op">&gt;</span> q</span></code></pre></div>
 <p>Once that file is encrypted, you can copy it to other machines for use.</p>
 </div>
 <div id="basic-maneuvers" class="section level4">
 <h4><span class="header-section-number">7.2.4.2</span> Basic Maneuvers</h4>
 <p>The syntax for use is:</p>
-<div class="sourceCode" id="cb207"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="ex">rclone</span> [options] subcommand  parameter1 [parameter 2...]</a></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb207-1"><a href="working-on-remote-servers.html#cb207-1"></a><span class="ex">rclone</span> [options] subcommand  parameter1 [parameter 2...]</span></code></pre></div>
 <p>The “subcommand” part tells <code>rclone</code> what you want to do, like <code>copy</code> or <code>sync</code>, and
 the “parameter” part of the above syntax is typically a path
 specification to a directory or a file. In using rclone to access the
@@ -1078,21 +1093,21 @@ start a path with it. Thus <code>gdrive-rclone:this_dir/that_dir</code> is a
 valid path for <code>rclone</code> to a location on my Google Drive.</p>
 <p>Very often when moving, copying, or syncing files, the parameters
 consist of:</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><a class="sourceLine" id="cb208-1" data-line-number="1">source-directory  destination-directory</a></code></pre></div>
+<div class="sourceCode" id="cb208"><pre class="sourceCode s"><code class="sourceCode gnuassembler"><span id="cb208-1"><a href="working-on-remote-servers.html#cb208-1"></a>source-directory  destination-directory</span></code></pre></div>
 <p>One very important point is that, unlike the Unix commands <code>cp</code> and <code>mv</code>, rclone
 likes to operate on directories, not on multiple named files.</p>
 <p>A few key subcommands:</p>
 <ul>
 <li><code>ls</code>, <code>lsd</code>, and <code>lsl</code> are like <code>ls</code>, <code>ls -d</code> and <code>ls -l</code></li>
 </ul>
-<div class="sourceCode" id="cb209"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb209-1" data-line-number="1"><span class="ex">rclone</span>  lsd gdrive-rclone:</a>
-<a class="sourceLine" id="cb209-2" data-line-number="2"><span class="ex">rclone</span>  lsd gdrive-rclone:NOFU</a></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb209-1"><a href="working-on-remote-servers.html#cb209-1"></a><span class="ex">rclone</span>  lsd gdrive-rclone:</span>
+<span id="cb209-2"><a href="working-on-remote-servers.html#cb209-2"></a><span class="ex">rclone</span>  lsd gdrive-rclone:NOFU</span></code></pre></div>
 <ul>
 <li><code>copy</code>: copy the <em>contents</em> of a source <em>directory</em> to a destination <em>directory</em>. One super cool
 thing about this is that <code>rclone</code> won’t re-copy files that are already on the destination and which
 are identical to those in the source directory.</li>
 </ul>
-<div class="sourceCode" id="cb210"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb210-1" data-line-number="1"><span class="ex">rclone</span> copy bams gdrive-rclone:NOFU/bams</a></code></pre></div>
+<div class="sourceCode" id="cb210"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb210-1"><a href="working-on-remote-servers.html#cb210-1"></a><span class="ex">rclone</span> copy bams gdrive-rclone:NOFU/bams</span></code></pre></div>
 <p>Note that the destination directory will be created if it does not already exist.<br />
 - <code>sync</code>: make the contents of the destination directory look just like the
 contents of the source directory. <em>WARNING</em> This will delete files in the destination
@@ -1112,7 +1127,7 @@ of the Google Drive folders that people have shared with you. This is key for ac
 folders that have been shared with you.</li>
 </ul>
 <p>For example, try something like:</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="ex">rclone</span> --drive-shared-with-me lsd gdrive-rclone:</a></code></pre></div>
+<div class="sourceCode" id="cb211"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb211-1"><a href="working-on-remote-servers.html#cb211-1"></a><span class="ex">rclone</span> --drive-shared-with-me lsd gdrive-rclone:</span></code></pre></div>
 <p><strong>Important Configuration Notes!!</strong> Rather than always giving the <code>--progress</code>
 option on the command line, or always having to remember to use
 <code>--fast-list</code> and <code>--tpslimit 10</code> (and remember what they should be…),
@@ -1126,10 +1141,10 @@ drop the first two dashes of the option name, replace the remaining dashes
 with underscores, and turn it all into uppercase to make the
 environment variable. So, you should, at a minimum add these
 lines to your <code>~/.bashrc</code>:</p>
-<div class="sourceCode" id="cb212"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb212-1" data-line-number="1"><span class="co"># Environment variables to use with rclone/google drive always</span></a>
-<a class="sourceLine" id="cb212-2" data-line-number="2"><span class="bu">export</span> <span class="va">RCLONE_TPSLIMIT=</span>10</a>
-<a class="sourceLine" id="cb212-3" data-line-number="3"><span class="bu">export</span> <span class="va">RCLONE_FAST_LIST=</span>true</a>
-<a class="sourceLine" id="cb212-4" data-line-number="4"><span class="bu">export</span> <span class="va">RCLONE_PROGRESS=</span>true</a></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb212-1"><a href="working-on-remote-servers.html#cb212-1"></a><span class="co"># Environment variables to use with rclone/google drive always</span></span>
+<span id="cb212-2"><a href="working-on-remote-servers.html#cb212-2"></a><span class="bu">export</span> <span class="va">RCLONE_TPSLIMIT=</span>10</span>
+<span id="cb212-3"><a href="working-on-remote-servers.html#cb212-3"></a><span class="bu">export</span> <span class="va">RCLONE_FAST_LIST=</span>true</span>
+<span id="cb212-4"><a href="working-on-remote-servers.html#cb212-4"></a><span class="bu">export</span> <span class="va">RCLONE_PROGRESS=</span>true</span></code></pre></div>
 </div>
 <div id="rclone-filter" class="section level4">
 <h4><span class="header-section-number">7.2.4.3</span> filtering: Be particular about the files you transfer</h4>
@@ -1138,7 +1153,7 @@ lines to your <code>~/.bashrc</code>:</p>
 an <code>rclone</code> command known as <code>copyto</code> that will allow you copy a single file,
 you cannot (apparently) specify multiple, individual files that you wish to copy.</p>
 <p>In other words, you can’t do:</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb213-1" data-line-number="1"><span class="ex">rclone</span> copyto this_file.txt that_file.txt another_file.bam gdrive-rclone:dest_dir</a></code></pre></div>
+<div class="sourceCode" id="cb213"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb213-1"><a href="working-on-remote-servers.html#cb213-1"></a><span class="ex">rclone</span> copyto this_file.txt that_file.txt another_file.bam gdrive-rclone:dest_dir</span></code></pre></div>
 <p>In general, you will be better off using <code>rclone</code> to copy the <em>contents</em> of a directory
 to the inside of the destination directory. However, there are options in <code>rclone</code> that
 can keep you from being totally indiscriminate about the files you transfer. In other words,
@@ -1147,12 +1162,12 @@ you can <em>filter</em> the files that get transferred. You can read about that 
 <p>For a quick example, imagine that you have a directory called <code>Data</code> on you Google Drive
 that contains both VCF and BAM files. You want to get only the VCF files (ending with <code>.vcf.gz</code>, say)
 onto the current working directory on your cluster. Then something like this works:</p>
-<div class="sourceCode" id="cb214"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb214-1" data-line-number="1"><span class="ex">rclone</span> copy --include *.vcf.gz gdrive-rclone:Data ./</a></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb214-1"><a href="working-on-remote-servers.html#cb214-1"></a><span class="ex">rclone</span> copy --include *.vcf.gz gdrive-rclone:Data ./</span></code></pre></div>
 <p>Note that, if you are issuing this command on a Unix system in a directory
 where the pattern <code>*.vcf.gz</code> will expand (by globbing) to multiple files, you will
 get an error. In that case, wrap the pattern in a pair of single quotes to keep
 the shell from expanding it, like this:</p>
-<div class="sourceCode" id="cb215"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="ex">rclone</span> copy --include <span class="st">&#39;*.vcf.gz&#39;</span> gdrive-rclone:Data ./</a></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb215-1"><a href="working-on-remote-servers.html#cb215-1"></a><span class="ex">rclone</span> copy --include <span class="st">&#39;*.vcf.gz&#39;</span> gdrive-rclone:Data ./</span></code></pre></div>
 </div>
 <div id="feel-free-to-make-lots-of-configurations" class="section level4">
 <h4><span class="header-section-number">7.2.4.4</span> Feel free to make lots of configurations</h4>
@@ -1180,7 +1195,7 @@ client_secret = MMq3jdsjdjgKTGH4rNV_y-NbbG</code></pre>
 <p>As long as the directory is still within the same Google Drive account, you can re-use
 all the authorization information, and just change the <code>[name]</code> part and the <code>root_folder_id</code>.
 Now this:</p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb217-1" data-line-number="1"><span class="ex">rclone</span> copy src_dir gdrive-winter-run: </a></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb217-1"><a href="working-on-remote-servers.html#cb217-1"></a><span class="ex">rclone</span> copy src_dir gdrive-winter-run: </span></code></pre></div>
 <p>puts items into <code>Projects/NGS/Species/Salmon/Chinook/CentralValley/WinterRun</code> on the Google Drive
 without having to type that God-awful long path name.</p>
 </div>
@@ -1201,7 +1216,7 @@ cp rclone-current-linux-amd64/rclone ~/bin</code></pre>
 <h4><span class="header-section-number">7.2.4.6</span> Setting up configurations on the remote machine…</h4>
 <p>Is as easy as copying your config file to where it should go, which
 is easy to find using the command:</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb219-1" data-line-number="1"><span class="ex">rclone</span> config file</a></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb219-1"><a href="working-on-remote-servers.html#cb219-1"></a><span class="ex">rclone</span> config file</span></code></pre></div>
 </div>
 <div id="some-other-usage-tips" class="section level4">
 <h4><span class="header-section-number">7.2.4.7</span> Some other usage tips</h4>
@@ -1232,45 +1247,45 @@ done by passing <code>rclone</code> the URL address via the <code>--http-url</co
 then, after that, telling it what protocol to use by adding <code>:http:</code> to
 the command. Here is what you would use to list the directories available
 at the sequencing center URL:</p>
-<div class="sourceCode" id="cb220"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb220-1" data-line-number="1"><span class="co"># here is the command</span></a>
-<a class="sourceLine" id="cb220-2" data-line-number="2"><span class="ex">%</span> rclone lsd --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:</a>
-<a class="sourceLine" id="cb220-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb220-4" data-line-number="4"><span class="co"># and here is the output</span></a>
-<a class="sourceLine" id="cb220-5" data-line-number="5">          <span class="ex">-1</span> 1969-12-31 16:00:00        -1 sjg73_fqs</a>
-<a class="sourceLine" id="cb220-6" data-line-number="6">          <span class="ex">-1</span> 1969-12-31 16:00:00        -1 sjg73_supernova_fqs</a></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb220-1"><a href="working-on-remote-servers.html#cb220-1"></a><span class="co"># here is the command</span></span>
+<span id="cb220-2"><a href="working-on-remote-servers.html#cb220-2"></a><span class="ex">%</span> rclone lsd --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:</span>
+<span id="cb220-3"><a href="working-on-remote-servers.html#cb220-3"></a></span>
+<span id="cb220-4"><a href="working-on-remote-servers.html#cb220-4"></a><span class="co"># and here is the output</span></span>
+<span id="cb220-5"><a href="working-on-remote-servers.html#cb220-5"></a>          <span class="ex">-1</span> 1969-12-31 16:00:00        -1 sjg73_fqs</span>
+<span id="cb220-6"><a href="working-on-remote-servers.html#cb220-6"></a>          <span class="ex">-1</span> 1969-12-31 16:00:00        -1 sjg73_supernova_fqs</span></code></pre></div>
 <p>Aha! There are two directories that might hold our sequencing data.
 I wonder what is in those diretories? The <code>rclone tree</code> command is the
 perfect way to drill down into those diretories and look at their contents:</p>
-<div class="sourceCode" id="cb221"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb221-1" data-line-number="1"><span class="ex">%</span> rclone tree --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:</a>
-<a class="sourceLine" id="cb221-2" data-line-number="2"><span class="ex">/</span></a>
-<a class="sourceLine" id="cb221-3" data-line-number="3">├── <span class="ex">sjg73_fqs</span></a>
-<a class="sourceLine" id="cb221-4" data-line-number="4">│   ├── <span class="ex">AW_F1</span></a>
-<a class="sourceLine" id="cb221-5" data-line-number="5">│   │   ├── <span class="ex">AW_F1_S2_L001_I1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-6" data-line-number="6">│   │   ├── <span class="ex">AW_F1_S2_L001_R1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-7" data-line-number="7">│   │   └── <span class="ex">AW_F1_S2_L001_R2_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-8" data-line-number="8">│   ├── <span class="ex">AW_M1</span></a>
-<a class="sourceLine" id="cb221-9" data-line-number="9">│   │   ├── <span class="ex">AW_M1_S3_L001_I1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-10" data-line-number="10">│   │   ├── <span class="ex">AW_M1_S3_L001_R1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-11" data-line-number="11">│   │   └── <span class="ex">AW_M1_S3_L001_R2_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-12" data-line-number="12">│   └── <span class="ex">ESP_A1</span></a>
-<a class="sourceLine" id="cb221-13" data-line-number="13">│       ├── <span class="ex">ESP_A1_S1_L001_I1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-14" data-line-number="14">│       ├── <span class="ex">ESP_A1_S1_L001_R1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-15" data-line-number="15">│       └── <span class="ex">ESP_A1_S1_L001_R2_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-16" data-line-number="16">└── <span class="ex">sjg73_supernova_fqs</span></a>
-<a class="sourceLine" id="cb221-17" data-line-number="17">    ├── <span class="ex">AW_F1</span></a>
-<a class="sourceLine" id="cb221-18" data-line-number="18">    │   ├── <span class="ex">AW_F1_S2_L001_I1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-19" data-line-number="19">    │   ├── <span class="ex">AW_F1_S2_L001_R1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-20" data-line-number="20">    │   └── <span class="ex">AW_F1_S2_L001_R2_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-21" data-line-number="21">    ├── <span class="ex">AW_M1</span></a>
-<a class="sourceLine" id="cb221-22" data-line-number="22">    │   ├── <span class="ex">AW_M1_S3_L001_I1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-23" data-line-number="23">    │   ├── <span class="ex">AW_M1_S3_L001_R1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-24" data-line-number="24">    │   └── <span class="ex">AW_M1_S3_L001_R2_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-25" data-line-number="25">    └── <span class="ex">ESP_A1</span></a>
-<a class="sourceLine" id="cb221-26" data-line-number="26">        ├── <span class="ex">ESP_A1_S1_L001_I1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-27" data-line-number="27">        ├── <span class="ex">ESP_A1_S1_L001_R1_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-28" data-line-number="28">        └── <span class="ex">ESP_A1_S1_L001_R2_001.fastq.gz</span></a>
-<a class="sourceLine" id="cb221-29" data-line-number="29"></a>
-<a class="sourceLine" id="cb221-30" data-line-number="30"><span class="ex">8</span> directories, 18 files</a></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb221-1"><a href="working-on-remote-servers.html#cb221-1"></a><span class="ex">%</span> rclone tree --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http:</span>
+<span id="cb221-2"><a href="working-on-remote-servers.html#cb221-2"></a><span class="ex">/</span></span>
+<span id="cb221-3"><a href="working-on-remote-servers.html#cb221-3"></a>├── <span class="ex">sjg73_fqs</span></span>
+<span id="cb221-4"><a href="working-on-remote-servers.html#cb221-4"></a>│   ├── <span class="ex">AW_F1</span></span>
+<span id="cb221-5"><a href="working-on-remote-servers.html#cb221-5"></a>│   │   ├── <span class="ex">AW_F1_S2_L001_I1_001.fastq.gz</span></span>
+<span id="cb221-6"><a href="working-on-remote-servers.html#cb221-6"></a>│   │   ├── <span class="ex">AW_F1_S2_L001_R1_001.fastq.gz</span></span>
+<span id="cb221-7"><a href="working-on-remote-servers.html#cb221-7"></a>│   │   └── <span class="ex">AW_F1_S2_L001_R2_001.fastq.gz</span></span>
+<span id="cb221-8"><a href="working-on-remote-servers.html#cb221-8"></a>│   ├── <span class="ex">AW_M1</span></span>
+<span id="cb221-9"><a href="working-on-remote-servers.html#cb221-9"></a>│   │   ├── <span class="ex">AW_M1_S3_L001_I1_001.fastq.gz</span></span>
+<span id="cb221-10"><a href="working-on-remote-servers.html#cb221-10"></a>│   │   ├── <span class="ex">AW_M1_S3_L001_R1_001.fastq.gz</span></span>
+<span id="cb221-11"><a href="working-on-remote-servers.html#cb221-11"></a>│   │   └── <span class="ex">AW_M1_S3_L001_R2_001.fastq.gz</span></span>
+<span id="cb221-12"><a href="working-on-remote-servers.html#cb221-12"></a>│   └── <span class="ex">ESP_A1</span></span>
+<span id="cb221-13"><a href="working-on-remote-servers.html#cb221-13"></a>│       ├── <span class="ex">ESP_A1_S1_L001_I1_001.fastq.gz</span></span>
+<span id="cb221-14"><a href="working-on-remote-servers.html#cb221-14"></a>│       ├── <span class="ex">ESP_A1_S1_L001_R1_001.fastq.gz</span></span>
+<span id="cb221-15"><a href="working-on-remote-servers.html#cb221-15"></a>│       └── <span class="ex">ESP_A1_S1_L001_R2_001.fastq.gz</span></span>
+<span id="cb221-16"><a href="working-on-remote-servers.html#cb221-16"></a>└── <span class="ex">sjg73_supernova_fqs</span></span>
+<span id="cb221-17"><a href="working-on-remote-servers.html#cb221-17"></a>    ├── <span class="ex">AW_F1</span></span>
+<span id="cb221-18"><a href="working-on-remote-servers.html#cb221-18"></a>    │   ├── <span class="ex">AW_F1_S2_L001_I1_001.fastq.gz</span></span>
+<span id="cb221-19"><a href="working-on-remote-servers.html#cb221-19"></a>    │   ├── <span class="ex">AW_F1_S2_L001_R1_001.fastq.gz</span></span>
+<span id="cb221-20"><a href="working-on-remote-servers.html#cb221-20"></a>    │   └── <span class="ex">AW_F1_S2_L001_R2_001.fastq.gz</span></span>
+<span id="cb221-21"><a href="working-on-remote-servers.html#cb221-21"></a>    ├── <span class="ex">AW_M1</span></span>
+<span id="cb221-22"><a href="working-on-remote-servers.html#cb221-22"></a>    │   ├── <span class="ex">AW_M1_S3_L001_I1_001.fastq.gz</span></span>
+<span id="cb221-23"><a href="working-on-remote-servers.html#cb221-23"></a>    │   ├── <span class="ex">AW_M1_S3_L001_R1_001.fastq.gz</span></span>
+<span id="cb221-24"><a href="working-on-remote-servers.html#cb221-24"></a>    │   └── <span class="ex">AW_M1_S3_L001_R2_001.fastq.gz</span></span>
+<span id="cb221-25"><a href="working-on-remote-servers.html#cb221-25"></a>    └── <span class="ex">ESP_A1</span></span>
+<span id="cb221-26"><a href="working-on-remote-servers.html#cb221-26"></a>        ├── <span class="ex">ESP_A1_S1_L001_I1_001.fastq.gz</span></span>
+<span id="cb221-27"><a href="working-on-remote-servers.html#cb221-27"></a>        ├── <span class="ex">ESP_A1_S1_L001_R1_001.fastq.gz</span></span>
+<span id="cb221-28"><a href="working-on-remote-servers.html#cb221-28"></a>        └── <span class="ex">ESP_A1_S1_L001_R2_001.fastq.gz</span></span>
+<span id="cb221-29"><a href="working-on-remote-servers.html#cb221-29"></a></span>
+<span id="cb221-30"><a href="working-on-remote-servers.html#cb221-30"></a><span class="ex">8</span> directories, 18 files</span></code></pre></div>
 <p>Whoa! That is pretty cool!. From this output we see that there are
 subdirectories named <code>AW_F1</code> and <code>AW_M1</code> that hold the files that
 we want. And, of course, the <code>ESP_A1</code> samples must belong to someone
@@ -1281,43 +1296,43 @@ patterns (see Section <a href="working-on-remote-servers.html#rclone-filter">7.2
 experiment by giving <code>rclone copy</code> the <code>--dry-run</code> command to see which
 files will be transferred. If we don’t do any filtering, we see this
 when we try to dry-run copy the directories to our local directory <code>Alewife/fastqs</code>:</p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb222-1" data-line-number="1"><span class="ex">%</span> rclone copy --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</a>
-<a class="sourceLine" id="cb222-2" data-line-number="2"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-3" data-line-number="3"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-4" data-line-number="4"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-5" data-line-number="5"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-6" data-line-number="6"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-7" data-line-number="7"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-8" data-line-number="8"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-9" data-line-number="9"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-10" data-line-number="10"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-11" data-line-number="11"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-12" data-line-number="12"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-13" data-line-number="13"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-14" data-line-number="14"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-15" data-line-number="15"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-16" data-line-number="16"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-17" data-line-number="17"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-18" data-line-number="18"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb222-19" data-line-number="19"><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</a></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb222-1"><a href="working-on-remote-servers.html#cb222-1"></a><span class="ex">%</span> rclone copy --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</span>
+<span id="cb222-2"><a href="working-on-remote-servers.html#cb222-2"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-3"><a href="working-on-remote-servers.html#cb222-3"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-4"><a href="working-on-remote-servers.html#cb222-4"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-5"><a href="working-on-remote-servers.html#cb222-5"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-6"><a href="working-on-remote-servers.html#cb222-6"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-7"><a href="working-on-remote-servers.html#cb222-7"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-8"><a href="working-on-remote-servers.html#cb222-8"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-9"><a href="working-on-remote-servers.html#cb222-9"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-10"><a href="working-on-remote-servers.html#cb222-10"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-11"><a href="working-on-remote-servers.html#cb222-11"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_I1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-12"><a href="working-on-remote-servers.html#cb222-12"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-13"><a href="working-on-remote-servers.html#cb222-13"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_supernova_fqs/ESP_A1/ESP_A1_S1_L001_R2_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-14"><a href="working-on-remote-servers.html#cb222-14"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-15"><a href="working-on-remote-servers.html#cb222-15"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-16"><a href="working-on-remote-servers.html#cb222-16"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-17"><a href="working-on-remote-servers.html#cb222-17"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-18"><a href="working-on-remote-servers.html#cb222-18"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb222-19"><a href="working-on-remote-servers.html#cb222-19"></a><span class="ex">2019/07/11</span> 10:33:43 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</span></code></pre></div>
 <p>Since we do not want to copy the <code>ESP_A1</code> files we see if we can exclude
 them:</p>
-<div class="sourceCode" id="cb223"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb223-1" data-line-number="1"><span class="ex">%</span> rclone copy --exclude */ESP_A1/* --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</a>
-<a class="sourceLine" id="cb223-2" data-line-number="2"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb223-3" data-line-number="3"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb223-4" data-line-number="4"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb223-5" data-line-number="5"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb223-6" data-line-number="6"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb223-7" data-line-number="7"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb223-8" data-line-number="8"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb223-9" data-line-number="9"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb223-10" data-line-number="10"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb223-11" data-line-number="11"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb223-12" data-line-number="12"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</a>
-<a class="sourceLine" id="cb223-13" data-line-number="13"><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</a></code></pre></div>
+<div class="sourceCode" id="cb223"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb223-1"><a href="working-on-remote-servers.html#cb223-1"></a><span class="ex">%</span> rclone copy --exclude */ESP_A1/* --dry-run --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</span>
+<span id="cb223-2"><a href="working-on-remote-servers.html#cb223-2"></a><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb223-3"><a href="working-on-remote-servers.html#cb223-3"></a><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb223-4"><a href="working-on-remote-servers.html#cb223-4"></a><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb223-5"><a href="working-on-remote-servers.html#cb223-5"></a><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb223-6"><a href="working-on-remote-servers.html#cb223-6"></a><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb223-7"><a href="working-on-remote-servers.html#cb223-7"></a><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb223-8"><a href="working-on-remote-servers.html#cb223-8"></a><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_I1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb223-9"><a href="working-on-remote-servers.html#cb223-9"></a><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R2_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb223-10"><a href="working-on-remote-servers.html#cb223-10"></a><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_F1/AW_F1_S2_L001_R1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb223-11"><a href="working-on-remote-servers.html#cb223-11"></a><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_I1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb223-12"><a href="working-on-remote-servers.html#cb223-12"></a><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R1_001.fastq.gz: Not copying as --dry-run</span>
+<span id="cb223-13"><a href="working-on-remote-servers.html#cb223-13"></a><span class="ex">2019/07/11</span> 10:37:22 NOTICE: sjg73_supernova_fqs/AW_M1/AW_M1_S3_L001_R2_001.fastq.gz: Not copying as --dry-run</span></code></pre></div>
 <p>Booyah! That gets us just what we want. So, then we remove the <code>--dry-run</code> option,
 and maybe add <code>-v -P</code> to give us verbose output and progress information, and copy all of our files:</p>
-<div class="sourceCode" id="cb224"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb224-1" data-line-number="1"><span class="ex">%</span> rclone copy --exclude */ESP_A1/* -v -P  --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</a></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb224-1"><a href="working-on-remote-servers.html#cb224-1"></a><span class="ex">%</span> rclone copy --exclude */ESP_A1/* -v -P  --http-url http://sysg1.cs.yale.edu:3010/5lnO9bs3zfa8LOhESfsYfq3Dc/061719/ :http: Alewife/fastqs/</span></code></pre></div>
 </div>
 </div>
 <div id="tmux" class="section level2">
@@ -1426,7 +1441,7 @@ if you want to start another <em>session</em> with him.</p>
 <h3><span class="header-section-number">7.3.2</span> First steps with <code>tmux</code></h3>
 <p>The first thing you want to
 do to make sure Tmux is ready to help you is to simply type:</p>
-<div class="sourceCode" id="cb225"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb225-1" data-line-number="1"><span class="ex">%</span> which tmux</a></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb225-1"><a href="working-on-remote-servers.html#cb225-1"></a><span class="ex">%</span> which tmux</span></code></pre></div>
 <p>This should return something like:</p>
 <pre><code>/usr/bin/tmux</code></pre>
 <p>If, instead, you get a response like <code>tmux: Command not found.</code> then <code>tmux</code>
@@ -1444,7 +1459,7 @@ a <em>session</em>. In order to be able to tell Tmux that you want to reconnect
 to a session, you
 will <em>always</em> want to name your sessions so you will request a new
 session with this syntax:</p>
-<div class="sourceCode" id="cb227"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb227-1" data-line-number="1"><span class="ex">%</span> tmux new -s froggies</a></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb227-1"><a href="working-on-remote-servers.html#cb227-1"></a><span class="ex">%</span> tmux new -s froggies</span></code></pre></div>
 <p>You can think of the <code>-s</code> as being short for “session.” So it is basically a short
 way of saying, “Hey Tmux, give me a new session named <code>froggies</code>.”
 That creates a new session called <code>froggies</code>, and you can imagine we’ve
@@ -1538,26 +1553,26 @@ on his mustard stained shirt.</p>
 tell Tmux that you want to be attached again via his miracle-mirroring device. Since we
 are no longer in a <code>tmux</code> window, we don’t use our <code>&lt;cntrl-b&gt;</code> bell to get Tmux’s attention.
 We have to shout:</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb232-1" data-line-number="1"><span class="ex">%</span> tmux attach -t froggies</a></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb232-1"><a href="working-on-remote-servers.html#cb232-1"></a><span class="ex">%</span> tmux attach -t froggies</span></code></pre></div>
 <p>The <code>-t</code> flag stands for “target.” The <code>froggies</code> session is the target of our
 attach request. Note that if you don’t like typing that much, you can shorten this to:</p>
-<div class="sourceCode" id="cb233"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb233-1" data-line-number="1"><span class="ex">%</span> tmux a -t froggies</a></code></pre></div>
+<div class="sourceCode" id="cb233"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb233-1"><a href="working-on-remote-servers.html#cb233-1"></a><span class="ex">%</span> tmux a -t froggies</span></code></pre></div>
 <p>Of course, sometimes, when you log back onto the server, you won’t remember the name
 of the <code>tmux</code> session(s) you started. Use this command to list them all:</p>
-<div class="sourceCode" id="cb234"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb234-1" data-line-number="1"><span class="ex">%</span> tmux ls</a></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb234-1"><a href="working-on-remote-servers.html#cb234-1"></a><span class="ex">%</span> tmux ls</span></code></pre></div>
 <p>The <code>ls</code> here stands for “list-sessions.” This can be particularly useful if you
 actually have multiple sessions. For example, suppose you are a poly-taxa genomicist,
 with projects not only on a frog species, but also on a fish and a bird species. You
 might have a separate session for each of those, so that when you issue <code>tmux ls</code> the
 result could look something like:</p>
-<div class="sourceCode" id="cb235"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb235-1" data-line-number="1"><span class="ex">%</span> tmux ls</a>
-<a class="sourceLine" id="cb235-2" data-line-number="2"><span class="ex">birdies</span>: 4 windows (created Sun Feb 16 07:23:30 2020) [<span class="ex">203x59</span>]</a>
-<a class="sourceLine" id="cb235-3" data-line-number="3"><span class="ex">fishies</span>: 2 windows (created Sun Feb 16 07:23:55 2020) [<span class="ex">203x59</span>]</a>
-<a class="sourceLine" id="cb235-4" data-line-number="4"><span class="ex">froggies</span>: 3 windows (created Sun Feb 16 07:22:36 2020) [<span class="ex">203x59</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb235"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb235-1"><a href="working-on-remote-servers.html#cb235-1"></a><span class="ex">%</span> tmux ls</span>
+<span id="cb235-2"><a href="working-on-remote-servers.html#cb235-2"></a><span class="ex">birdies</span>: 4 windows (created Sun Feb 16 07:23:30 2020) [<span class="ex">203x59</span>]</span>
+<span id="cb235-3"><a href="working-on-remote-servers.html#cb235-3"></a><span class="ex">fishies</span>: 2 windows (created Sun Feb 16 07:23:55 2020) [<span class="ex">203x59</span>]</span>
+<span id="cb235-4"><a href="working-on-remote-servers.html#cb235-4"></a><span class="ex">froggies</span>: 3 windows (created Sun Feb 16 07:22:36 2020) [<span class="ex">203x59</span>]</span></code></pre></div>
 <p>That is enough to remind you of which session you might wish to reattach to.</p>
 <p>Finally, if you are all done with a <code>tmux</code> session, and you have detached from it,
 then from your shell prompt (not within a <code>tmux</code> session) you can do, for example:</p>
-<div class="sourceCode" id="cb236"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb236-1" data-line-number="1"><span class="ex">tmux</span> kill-session -t  birdies</a></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb236-1"><a href="working-on-remote-servers.html#cb236-1"></a><span class="ex">tmux</span> kill-session -t  birdies</span></code></pre></div>
 <p>to kill the session. There are other ways to kill sessions while you
 are in them, but that is not so much needed.</p>
 <p>Table <a href="working-on-remote-servers.html#tab:minimal-tmux">7.1</a> reviews the minimal set of
@@ -1653,15 +1668,15 @@ sections, each one running its own bash shell.</p>
 establishment of panes more intuitive (by using keystrokes that are easier
 to remember) and others that make it easier to quickly adjust the size of the panes.
 So, first, add these lines to <code>~/.tmux.conf</code>:</p>
-<div class="sourceCode" id="cb237"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb237-1" data-line-number="1"><span class="co"># splitting panes</span></a>
-<a class="sourceLine" id="cb237-2" data-line-number="2"><span class="bu">bind</span> <span class="dt">\ </span>split-window -h -c <span class="st">&#39;#{pane_current_path}&#39;</span></a>
-<a class="sourceLine" id="cb237-3" data-line-number="3"><span class="bu">bind</span> - split-window -v -c <span class="st">&#39;#{pane_current_path}&#39;</span></a>
-<a class="sourceLine" id="cb237-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb237-5" data-line-number="5"><span class="co"># easily resize panes with &lt;C-b&gt; + one of j, k, h, l</span></a>
-<a class="sourceLine" id="cb237-6" data-line-number="6"><span class="ex">bind-key</span> j resize-pane -D 10</a>
-<a class="sourceLine" id="cb237-7" data-line-number="7"><span class="ex">bind-key</span> k resize-pane -U 10</a>
-<a class="sourceLine" id="cb237-8" data-line-number="8"><span class="ex">bind-key</span> h resize-pane -L 10</a>
-<a class="sourceLine" id="cb237-9" data-line-number="9"><span class="ex">bind-key</span> l resize-pane -R 10</a></code></pre></div>
+<div class="sourceCode" id="cb237"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb237-1"><a href="working-on-remote-servers.html#cb237-1"></a><span class="co"># splitting panes</span></span>
+<span id="cb237-2"><a href="working-on-remote-servers.html#cb237-2"></a><span class="bu">bind</span> <span class="dt">\ </span>split-window -h -c <span class="st">&#39;#{pane_current_path}&#39;</span></span>
+<span id="cb237-3"><a href="working-on-remote-servers.html#cb237-3"></a><span class="bu">bind</span> - split-window -v -c <span class="st">&#39;#{pane_current_path}&#39;</span></span>
+<span id="cb237-4"><a href="working-on-remote-servers.html#cb237-4"></a></span>
+<span id="cb237-5"><a href="working-on-remote-servers.html#cb237-5"></a><span class="co"># easily resize panes with &lt;C-b&gt; + one of j, k, h, l</span></span>
+<span id="cb237-6"><a href="working-on-remote-servers.html#cb237-6"></a><span class="ex">bind-key</span> j resize-pane -D 10</span>
+<span id="cb237-7"><a href="working-on-remote-servers.html#cb237-7"></a><span class="ex">bind-key</span> k resize-pane -U 10</span>
+<span id="cb237-8"><a href="working-on-remote-servers.html#cb237-8"></a><span class="ex">bind-key</span> h resize-pane -L 10</span>
+<span id="cb237-9"><a href="working-on-remote-servers.html#cb237-9"></a><span class="ex">bind-key</span> l resize-pane -R 10</span></code></pre></div>
 <p>Once you have updated <code>~/.tmux.conf</code> you need to reload that
 configuration file in <code>tmux</code>. So, from within a <code>tmux</code> session,
 you do <code>&lt;cntrl&gt;-b :</code>. This let’s you type a <code>tmux</code> command in the lower
@@ -1805,7 +1820,7 @@ to install tmux version 2.9 into your base environment with <code>conda install 
 Before you do that, be sure to kill all existing tmux sessions on your remote server.
 Then, you could make a profile named, say <code>summit-tmux</code>, that launched with a command
 that was like this:</p>
-<div class="sourceCode" id="cb238"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb238-1" data-line-number="1"><span class="fu">ssh</span> -t eriq@colostate.edu@login11.rc.colorado.edu <span class="st">&quot;/projects/eriq@colostate.edu/miniconda3/bin/tmux -CC attach -t summit || /projects/eriq@colostate.edu/miniconda3/bin/tmux -CC new -s summit&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb238-1"><a href="working-on-remote-servers.html#cb238-1"></a><span class="fu">ssh</span> -t eriq@colostate.edu@login11.rc.colorado.edu <span class="st">&quot;/projects/eriq@colostate.edu/miniconda3/bin/tmux -CC attach -t summit || /projects/eriq@colostate.edu/miniconda3/bin/tmux -CC new -s summit&quot;</span></span></code></pre></div>
 But customized to your own account name. What that does when you open a <code>summit-tmux</code> session is
 <code>ssh</code> to SUMMIT, and immediately run the command in the double quotes. That command says,
 “try to attach to a <code>tmux</code> session named <code>summit</code>. If that fails, then create a new
@@ -1904,34 +1919,34 @@ work, then all the software you might need could alread be available using in mo
 see what software is available you can use <code>module avail</code>. For example, on the SEDNA cluster
 which was developed for genomic research, <code>module avail</code> shows a wide range of different
 software specific to sequence assembly, alignment, and analysis:</p>
-<div class="sourceCode" id="cb239"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb239-1" data-line-number="1"><span class="ex">%</span> module avail</a>
-<a class="sourceLine" id="cb239-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb239-3" data-line-number="3"><span class="ex">-------------------------</span> /usr/share/Modules/modulefiles --------------------------</a>
-<a class="sourceLine" id="cb239-4" data-line-number="4"><span class="ex">dot</span>         module-git  module-info modules     null        use.own</a>
-<a class="sourceLine" id="cb239-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb239-6" data-line-number="6"><span class="ex">--------------------------------</span> /act/modulefiles ---------------------------------</a>
-<a class="sourceLine" id="cb239-7" data-line-number="7"><span class="ex">impi</span>                mvapich2-2.2/gcc    openmpi-1.8/gcc     openmpi-3.0.1/gcc</a>
-<a class="sourceLine" id="cb239-8" data-line-number="8"><span class="ex">intel</span>               mvapich2-2.2/intel  openmpi-1.8/intel   openmpi-3.0.1/intel</a>
-<a class="sourceLine" id="cb239-9" data-line-number="9"><span class="ex">mpich/gcc</span>           openmpi-1.6/gcc     openmpi-2.1.3/gcc</a>
-<a class="sourceLine" id="cb239-10" data-line-number="10"><span class="ex">mpich/intel</span>         openmpi-1.6/intel   openmpi-2.1.3/intel</a>
-<a class="sourceLine" id="cb239-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb239-12" data-line-number="12"><span class="ex">-------------------------</span> /opt/bioinformatics/modulefiles -------------------------</a>
-<a class="sourceLine" id="cb239-13" data-line-number="13"><span class="ex">aligners/bowtie2/2.3.5.1</span> bio/fastqc/0.11.9        bio/stacks/2.5</a>
-<a class="sourceLine" id="cb239-14" data-line-number="14"><span class="ex">aligners/bwa/0.7.17</span>      bio/gatk/4.1.5.0         compilers/gcc/4.9.4</a>
-<a class="sourceLine" id="cb239-15" data-line-number="15"><span class="ex">assemblers/trinity/2.9.1</span> bio/hmmer/3.2.1          compilers/gcc/8.3.0</a>
-<a class="sourceLine" id="cb239-16" data-line-number="16"><span class="ex">bio/angsd/0.931</span>          bio/jellyfish/2.3.0      lib64/mpc-1.1.0</a>
-<a class="sourceLine" id="cb239-17" data-line-number="17"><span class="ex">bio/augustus/3.2.3</span>       bio/mothur/1.43.0        R/3.6.2</a>
-<a class="sourceLine" id="cb239-18" data-line-number="18"><span class="ex">bio/bamtools/2.5.1</span>       bio/picard/2.22.0        tools/cmake/3.16.4</a>
-<a class="sourceLine" id="cb239-19" data-line-number="19"><span class="ex">bio/bcftools/1.10.2</span>      bio/prodigal/2.6.3       tools/pigz/2.4</a>
-<a class="sourceLine" id="cb239-20" data-line-number="20"><span class="ex">bio/blast/2.10.0+</span>        bio/salmon/1.1.0</a>
-<a class="sourceLine" id="cb239-21" data-line-number="21"><span class="ex">bio/blast/2.2.31+</span>        bio/samtools/1.10</a></code></pre></div>
+<div class="sourceCode" id="cb239"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb239-1"><a href="working-on-remote-servers.html#cb239-1"></a><span class="ex">%</span> module avail</span>
+<span id="cb239-2"><a href="working-on-remote-servers.html#cb239-2"></a></span>
+<span id="cb239-3"><a href="working-on-remote-servers.html#cb239-3"></a><span class="ex">-------------------------</span> /usr/share/Modules/modulefiles --------------------------</span>
+<span id="cb239-4"><a href="working-on-remote-servers.html#cb239-4"></a><span class="ex">dot</span>         module-git  module-info modules     null        use.own</span>
+<span id="cb239-5"><a href="working-on-remote-servers.html#cb239-5"></a></span>
+<span id="cb239-6"><a href="working-on-remote-servers.html#cb239-6"></a><span class="ex">--------------------------------</span> /act/modulefiles ---------------------------------</span>
+<span id="cb239-7"><a href="working-on-remote-servers.html#cb239-7"></a><span class="ex">impi</span>                mvapich2-2.2/gcc    openmpi-1.8/gcc     openmpi-3.0.1/gcc</span>
+<span id="cb239-8"><a href="working-on-remote-servers.html#cb239-8"></a><span class="ex">intel</span>               mvapich2-2.2/intel  openmpi-1.8/intel   openmpi-3.0.1/intel</span>
+<span id="cb239-9"><a href="working-on-remote-servers.html#cb239-9"></a><span class="ex">mpich/gcc</span>           openmpi-1.6/gcc     openmpi-2.1.3/gcc</span>
+<span id="cb239-10"><a href="working-on-remote-servers.html#cb239-10"></a><span class="ex">mpich/intel</span>         openmpi-1.6/intel   openmpi-2.1.3/intel</span>
+<span id="cb239-11"><a href="working-on-remote-servers.html#cb239-11"></a></span>
+<span id="cb239-12"><a href="working-on-remote-servers.html#cb239-12"></a><span class="ex">-------------------------</span> /opt/bioinformatics/modulefiles -------------------------</span>
+<span id="cb239-13"><a href="working-on-remote-servers.html#cb239-13"></a><span class="ex">aligners/bowtie2/2.3.5.1</span> bio/fastqc/0.11.9        bio/stacks/2.5</span>
+<span id="cb239-14"><a href="working-on-remote-servers.html#cb239-14"></a><span class="ex">aligners/bwa/0.7.17</span>      bio/gatk/4.1.5.0         compilers/gcc/4.9.4</span>
+<span id="cb239-15"><a href="working-on-remote-servers.html#cb239-15"></a><span class="ex">assemblers/trinity/2.9.1</span> bio/hmmer/3.2.1          compilers/gcc/8.3.0</span>
+<span id="cb239-16"><a href="working-on-remote-servers.html#cb239-16"></a><span class="ex">bio/angsd/0.931</span>          bio/jellyfish/2.3.0      lib64/mpc-1.1.0</span>
+<span id="cb239-17"><a href="working-on-remote-servers.html#cb239-17"></a><span class="ex">bio/augustus/3.2.3</span>       bio/mothur/1.43.0        R/3.6.2</span>
+<span id="cb239-18"><a href="working-on-remote-servers.html#cb239-18"></a><span class="ex">bio/bamtools/2.5.1</span>       bio/picard/2.22.0        tools/cmake/3.16.4</span>
+<span id="cb239-19"><a href="working-on-remote-servers.html#cb239-19"></a><span class="ex">bio/bcftools/1.10.2</span>      bio/prodigal/2.6.3       tools/pigz/2.4</span>
+<span id="cb239-20"><a href="working-on-remote-servers.html#cb239-20"></a><span class="ex">bio/blast/2.10.0+</span>        bio/salmon/1.1.0</span>
+<span id="cb239-21"><a href="working-on-remote-servers.html#cb239-21"></a><span class="ex">bio/blast/2.2.31+</span>        bio/samtools/1.10</span></code></pre></div>
 <p>Most of the bioinformatics tools are stored in the directory
 <code>/opt/bioinformatics/modulefiles</code>, which is not a standard storage location for
 modules, so, if you are using SEDNA, and you want to use these modules,
 you must include that path in the <code>MODULEPATH</code> shell environment variable.
 This can be done by updating the <code>MODULEPATH</code> in your <code>~/.bashrc</code> file, adding
 the line:</p>
-<div class="sourceCode" id="cb240"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb240-1" data-line-number="1"><span class="bu">export</span> <span class="va">MODULEPATH=${MODULEPATH}</span>:/opt/bioinformatics/modulefiles</a></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb240-1"><a href="working-on-remote-servers.html#cb240-1"></a><span class="bu">export</span> <span class="va">MODULEPATH=${MODULEPATH}</span>:/opt/bioinformatics/modulefiles</span></code></pre></div>
 <p>Once that is accomplished, every time you open a new shell, your <code>MODULEPATH</code> will be
 set appropriately.</p>
 <p>If you work on an HPCC that is not heavily focused on bioinformatics (for example, the SUMMIT
@@ -2005,9 +2020,9 @@ the shell environment made by
 </table>
 <p>Let’s play with the modulefiles (if any) on your HPCC! First, get an interactive session
 on a compute node. On SUMMIT:</p>
-<div class="sourceCode" id="cb241"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb241-1" data-line-number="1"> <span class="ex">srun</span> --partition=shas-interactive --export=ALL --pty /bin/bash</a></code></pre></div>
+<div class="sourceCode" id="cb241"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb241-1"><a href="working-on-remote-servers.html#cb241-1"></a> <span class="ex">srun</span> --partition=shas-interactive --export=ALL --pty /bin/bash</span></code></pre></div>
 <p>Then list the modulefiles available:</p>
-<div class="sourceCode" id="cb242"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb242-1" data-line-number="1"><span class="ex">module</span> avail</a></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb242-1"><a href="working-on-remote-servers.html#cb242-1"></a><span class="ex">module</span> avail</span></code></pre></div>
 <p>You might notice that multiple versions of some programs are available, like:</p>
 <pre><code>R/3.3.0
 R/3.4.3
@@ -2016,53 +2031,53 @@ R/3.5.0</code></pre>
 when you request that a program modulefile be loaded, though you can specifically
 request that a particular version be loaded. On SUMMIT, check to make sure that the R program
 is not available by default:</p>
-<div class="sourceCode" id="cb244"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb244-1" data-line-number="1"><span class="co"># try to launch R</span></a>
-<a class="sourceLine" id="cb244-2" data-line-number="2"><span class="ex">R</span></a></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb244-1"><a href="working-on-remote-servers.html#cb244-1"></a><span class="co"># try to launch R</span></span>
+<span id="cb244-2"><a href="working-on-remote-servers.html#cb244-2"></a><span class="ex">R</span></span></code></pre></div>
 <p>You should be told:</p>
 <pre><code>bash: R: command not found</code></pre>
 <p>If not, you may have already loaded the R modulefile, or you might have R available from
 an activated <code>conda</code> environment (see below).</p>
 <p>To make R available via <code>module</code> you use:</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb246-1" data-line-number="1"><span class="ex">module</span> load R</a>
-<a class="sourceLine" id="cb246-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb246-3" data-line-number="3"><span class="co"># now check to see if it works:</span></a>
-<a class="sourceLine" id="cb246-4" data-line-number="4"><span class="ex">R</span></a>
-<a class="sourceLine" id="cb246-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb246-6" data-line-number="6"><span class="co"># check the version number when it launches</span></a>
-<a class="sourceLine" id="cb246-7" data-line-number="7"><span class="co"># to get out of R, type: quit()  and hit RETURN</span></a></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb246-1"><a href="working-on-remote-servers.html#cb246-1"></a><span class="ex">module</span> load R</span>
+<span id="cb246-2"><a href="working-on-remote-servers.html#cb246-2"></a></span>
+<span id="cb246-3"><a href="working-on-remote-servers.html#cb246-3"></a><span class="co"># now check to see if it works:</span></span>
+<span id="cb246-4"><a href="working-on-remote-servers.html#cb246-4"></a><span class="ex">R</span></span>
+<span id="cb246-5"><a href="working-on-remote-servers.html#cb246-5"></a></span>
+<span id="cb246-6"><a href="working-on-remote-servers.html#cb246-6"></a><span class="co"># check the version number when it launches</span></span>
+<span id="cb246-7"><a href="working-on-remote-servers.html#cb246-7"></a><span class="co"># to get out of R, type: quit()  and hit RETURN</span></span></code></pre></div>
 <p>To list the active modulefiles, try:</p>
-<div class="sourceCode" id="cb247"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb247-1" data-line-number="1"><span class="ex">module</span> list</a></code></pre></div>
+<div class="sourceCode" id="cb247"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb247-1"><a href="working-on-remote-servers.html#cb247-1"></a><span class="ex">module</span> list</span></code></pre></div>
 <p>This is quite interesting. It shows that several other modulefiles,
 above and beyond R,
 have been loaded as well. These are additional dependencies that the R module
 depends on.</p>
 <p>To remove all the modulefiles that have been loaded, do:</p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb248-1" data-line-number="1"><span class="ex">module</span> purge</a>
-<a class="sourceLine" id="cb248-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb248-3" data-line-number="3"><span class="co"># after that, check to see that no modules are currently loaded:</span></a>
-<a class="sourceLine" id="cb248-4" data-line-number="4"><span class="ex">module</span> list</a></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb248-1"><a href="working-on-remote-servers.html#cb248-1"></a><span class="ex">module</span> purge</span>
+<span id="cb248-2"><a href="working-on-remote-servers.html#cb248-2"></a></span>
+<span id="cb248-3"><a href="working-on-remote-servers.html#cb248-3"></a><span class="co"># after that, check to see that no modules are currently loaded:</span></span>
+<span id="cb248-4"><a href="working-on-remote-servers.html#cb248-4"></a><span class="ex">module</span> list</span></code></pre></div>
 <p>If you are curious about what happens when a module file is loaded,
 you can use the <code>show</code> subcommand, as in <code>module show</code> <em>modulefile</em>:</p>
-<div class="sourceCode" id="cb249"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb249-1" data-line-number="1"><span class="ex">module</span> show R</a></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb249-1"><a href="working-on-remote-servers.html#cb249-1"></a><span class="ex">module</span> show R</span></code></pre></div>
 <p>The output is quite informative.</p>
 <p>To get a different version of a program available from <code>module</code>, just
 include the modulefile with its version number as it appears when printed
 from <code>module avail</code>, like:</p>
-<div class="sourceCode" id="cb250"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb250-1" data-line-number="1"><span class="ex">module</span> load R/3.3.0</a>
-<a class="sourceLine" id="cb250-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb250-3" data-line-number="3"><span class="co"># check to see which modulefiles got loaded:</span></a>
-<a class="sourceLine" id="cb250-4" data-line-number="4"><span class="ex">module</span> list  </a>
-<a class="sourceLine" id="cb250-5" data-line-number="5"><span class="co"># aha! this version of R goes with a different version of the</span></a>
-<a class="sourceLine" id="cb250-6" data-line-number="6"><span class="co"># intel compiler...</span></a>
-<a class="sourceLine" id="cb250-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb250-8" data-line-number="8"><span class="co"># check the version number of R by running it:</span></a>
-<a class="sourceLine" id="cb250-9" data-line-number="9"><span class="ex">R</span></a>
-<a class="sourceLine" id="cb250-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb250-11" data-line-number="11"><span class="co"># use quit() to get out of R.</span></a></code></pre></div>
+<div class="sourceCode" id="cb250"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb250-1"><a href="working-on-remote-servers.html#cb250-1"></a><span class="ex">module</span> load R/3.3.0</span>
+<span id="cb250-2"><a href="working-on-remote-servers.html#cb250-2"></a></span>
+<span id="cb250-3"><a href="working-on-remote-servers.html#cb250-3"></a><span class="co"># check to see which modulefiles got loaded:</span></span>
+<span id="cb250-4"><a href="working-on-remote-servers.html#cb250-4"></a><span class="ex">module</span> list  </span>
+<span id="cb250-5"><a href="working-on-remote-servers.html#cb250-5"></a><span class="co"># aha! this version of R goes with a different version of the</span></span>
+<span id="cb250-6"><a href="working-on-remote-servers.html#cb250-6"></a><span class="co"># intel compiler...</span></span>
+<span id="cb250-7"><a href="working-on-remote-servers.html#cb250-7"></a></span>
+<span id="cb250-8"><a href="working-on-remote-servers.html#cb250-8"></a><span class="co"># check the version number of R by running it:</span></span>
+<span id="cb250-9"><a href="working-on-remote-servers.html#cb250-9"></a><span class="ex">R</span></span>
+<span id="cb250-10"><a href="working-on-remote-servers.html#cb250-10"></a></span>
+<span id="cb250-11"><a href="working-on-remote-servers.html#cb250-11"></a><span class="co"># use quit() to get out of R.</span></span></code></pre></div>
 <p>Once again, purge your modulefiles:</p>
-<div class="sourceCode" id="cb251"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb251-1" data-line-number="1"><span class="ex">module</span> purge</a></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb251-1"><a href="working-on-remote-servers.html#cb251-1"></a><span class="ex">module</span> purge</span></code></pre></div>
 <p>and then try to give the <code>java</code> command:</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb252-1" data-line-number="1"><span class="ex">java</span></a></code></pre></div>
+<div class="sourceCode" id="cb252"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb252-1"><a href="working-on-remote-servers.html#cb252-1"></a><span class="ex">java</span></span></code></pre></div>
 <p>You should be told that the command <code>java</code> is not found.</p>
 <p>There are several useful bioinformatics programs that are written in Java.
 Java is a language that can run on many different computer architectures
@@ -2072,10 +2087,10 @@ Running the <code>java</code> command above and having no luck shows that by def
 supercomputers) do not have a JRE available by default. However, almost all HPCCs will
 have a JRE available as in a modulefile containing the Java Development Kit, or JDK.</p>
 <p>Look at the output of <code>module avail</code> and find <code>jdk</code>, then load that modulefile:</p>
-<div class="sourceCode" id="cb253"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb253-1" data-line-number="1"><span class="ex">module</span> load jdk</a>
-<a class="sourceLine" id="cb253-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb253-3" data-line-number="3"><span class="co"># after that, check to see if java is available:</span></a>
-<a class="sourceLine" id="cb253-4" data-line-number="4"><span class="ex">java</span></a></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb253-1"><a href="working-on-remote-servers.html#cb253-1"></a><span class="ex">module</span> load jdk</span>
+<span id="cb253-2"><a href="working-on-remote-servers.html#cb253-2"></a></span>
+<span id="cb253-3"><a href="working-on-remote-servers.html#cb253-3"></a><span class="co"># after that, check to see if java is available:</span></span>
+<span id="cb253-4"><a href="working-on-remote-servers.html#cb253-4"></a><span class="ex">java</span></span></code></pre></div>
 <p>You will need to load the <code>jdk</code> module file in order to run the Java-based bioinformatics
 program called GATK.</p>
 <p>Note that every time you get a start a new shell on your HPCC, you will typically not have
@@ -2093,9 +2108,9 @@ discarded. By contrast, modulefiles can be layered on top of one another. So, fo
 if you needed <code>R</code>, <code>samtools</code>, and <code>bcftools</code>, and these were all maintained in
 separate modulefiles on your HPCC, then you could load them all, alongside one another,
 with:</p>
-<div class="sourceCode" id="cb254"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb254-1" data-line-number="1"><span class="ex">module</span> load R</a>
-<a class="sourceLine" id="cb254-2" data-line-number="2"><span class="ex">module</span> load samtools</a>
-<a class="sourceLine" id="cb254-3" data-line-number="3"><span class="ex">module</span> load bcftools</a></code></pre></div>
+<div class="sourceCode" id="cb254"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb254-1"><a href="working-on-remote-servers.html#cb254-1"></a><span class="ex">module</span> load R</span>
+<span id="cb254-2"><a href="working-on-remote-servers.html#cb254-2"></a><span class="ex">module</span> load samtools</span>
+<span id="cb254-3"><a href="working-on-remote-servers.html#cb254-3"></a><span class="ex">module</span> load bcftools</span></code></pre></div>
 <p>Unlike a Miniconda environment, when you layer modulefiles no top of one another
 like this, conflicts between the dependencies may occur. When that happens,
 it is up to the sysadmins to figure it out. This is perhaps why the modulefiles
@@ -2115,31 +2130,31 @@ the underlying philosophy of Miniconda, and how it is operating.</p>
 <ol style="list-style-type: decimal">
 <li><p>To do installation of software, you probably should not be on SUMMIT’s login nodes.
 They offer “compile nodes” that should be suitable for installing with Miniconda. So, do this:</p>
-<div class="sourceCode" id="cb255"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb255-1" data-line-number="1"><span class="fu">ssh</span> scompile</a></code></pre></div></li>
+<div class="sourceCode" id="cb255"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb255-1"><a href="working-on-remote-servers.html#cb255-1"></a><span class="fu">ssh</span> scompile</span></code></pre></div></li>
 <li><p>If you are on Hummingbird, be sure to get a <code>bash</code> shell before doing anything else, by typing <code>bash</code>
 (if you have not already set <code>bash</code> as your default shell (see the previous chapter)).</p></li>
 <li><p>First, check if you have Miniconda. Update it if you do, and install it if you don’t:</p>
-<div class="sourceCode" id="cb256"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb256-1" data-line-number="1"><span class="co"># just type conda at the command line:</span></a>
-<a class="sourceLine" id="cb256-2" data-line-number="2"><span class="ex">conda</span></a></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb256-1"><a href="working-on-remote-servers.html#cb256-1"></a><span class="co"># just type conda at the command line:</span></span>
+<span id="cb256-2"><a href="working-on-remote-servers.html#cb256-2"></a><span class="ex">conda</span></span></code></pre></div>
 <p>If you see some help information, then you already have Miniconda (or Anaconda) and you
 should merely update it with:</p>
-<div class="sourceCode" id="cb257"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb257-1" data-line-number="1"><span class="ex">conda</span> update conda</a></code></pre></div>
+<div class="sourceCode" id="cb257"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb257-1"><a href="working-on-remote-servers.html#cb257-1"></a><span class="ex">conda</span> update conda</span></code></pre></div>
 <p>If you get an error telling you that your computer does not know about a command, <code>conda</code>, then
 you do not have Miniconda and you must install it. You do that by downloading the Miniconda package
 with <code>wget</code> and then running the Miniconda installer, like this:</p>
-<div class="sourceCode" id="cb258"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb258-1" data-line-number="1"><span class="co"># start in your home directory and do the following:</span></a>
-<a class="sourceLine" id="cb258-2" data-line-number="2"><span class="fu">mkdir</span> conda_install</a>
-<a class="sourceLine" id="cb258-3" data-line-number="3"><span class="bu">cd</span> conda_install/</a>
-<a class="sourceLine" id="cb258-4" data-line-number="4"><span class="fu">wget</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</a>
-<a class="sourceLine" id="cb258-5" data-line-number="5"><span class="fu">chmod</span> u+x Miniconda3-latest-Linux-x86_64.sh </a>
-<a class="sourceLine" id="cb258-6" data-line-number="6"><span class="ex">./Miniconda3-latest-Linux-x86_64.sh</span> </a></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb258-1"><a href="working-on-remote-servers.html#cb258-1"></a><span class="co"># start in your home directory and do the following:</span></span>
+<span id="cb258-2"><a href="working-on-remote-servers.html#cb258-2"></a><span class="fu">mkdir</span> conda_install</span>
+<span id="cb258-3"><a href="working-on-remote-servers.html#cb258-3"></a><span class="bu">cd</span> conda_install/</span>
+<span id="cb258-4"><a href="working-on-remote-servers.html#cb258-4"></a><span class="fu">wget</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</span>
+<span id="cb258-5"><a href="working-on-remote-servers.html#cb258-5"></a><span class="fu">chmod</span> u+x Miniconda3-latest-Linux-x86_64.sh </span>
+<span id="cb258-6"><a href="working-on-remote-servers.html#cb258-6"></a><span class="ex">./Miniconda3-latest-Linux-x86_64.sh</span> </span></code></pre></div>
 <p>That launches the Miniconda installer (it is a shell script). Follow the prompts and agree
 to the license and to the default install location and to initialize conda.
 At the end, it tells you to log out of your shell and log back in for changes to take
 effect. It turns out that it suffices to do <code>cd ~; source .bash_profile</code></p></li>
 </ol>
 <p>Once you complete the above, your command prompt should have been changed to something that looks like:</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb259-1" data-line-number="1"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span></a></code></pre></div>
+<div class="sourceCode" id="cb259"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb259-1"><a href="working-on-remote-servers.html#cb259-1"></a><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span></span></code></pre></div>
 <p>The <code>(base)</code> is telling you that you are in Miniconda’s <em>base</em> environment. Typically you want to keep the
 <em>base</em> environment clean of installed software, so we will install software into a new environment.</p>
 </div>
@@ -2150,17 +2165,17 @@ install some software for bioinformatics. We will install a few programs that we
 use extensively in the next few weeks: <code>bwa</code>, <code>samtools</code>, and <code>bcftools</code>. We will
 install these programs into a conda environment that we will name <code>bioinf</code> (short
 for “bioinformatics”). It takes just a single command:</p>
-<div class="sourceCode" id="cb260"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb260-1" data-line-number="1"><span class="ex">conda</span> create -n bioinf -c bioconda bwa samtools bcftools</a></code></pre></div>
+<div class="sourceCode" id="cb260"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb260-1"><a href="working-on-remote-servers.html#cb260-1"></a><span class="ex">conda</span> create -n bioinf -c bioconda bwa samtools bcftools</span></code></pre></div>
 <p>That should only take a few seconds.</p>
 <p>To test that we got the programs we must <em>activate</em> the <code>bioinf</code> environment, and then issue
 the commands, <code>bwa</code>, <code>samtools</code>, and <code>bcftools</code>. Each of those should spit back some help
 information. If so, that means they are installed correctly! It looks like this:</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb261-1" data-line-number="1"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
+<div class="sourceCode" id="cb261"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb261-1"><a href="working-on-remote-servers.html#cb261-1"></a><span class="ex">conda</span> activate bioinf</span></code></pre></div>
 <p>After that you should get a command prompt that starts with <code>(bioinf)</code>, telling you that the
 active conda environment is <code>bioinf</code>. Now, try these commands:</p>
-<div class="sourceCode" id="cb262"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb262-1" data-line-number="1"><span class="ex">bwa</span></a>
-<a class="sourceLine" id="cb262-2" data-line-number="2"><span class="ex">samtools</span></a>
-<a class="sourceLine" id="cb262-3" data-line-number="3"><span class="ex">bcftools</span></a></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb262-1"><a href="working-on-remote-servers.html#cb262-1"></a><span class="ex">bwa</span></span>
+<span id="cb262-2"><a href="working-on-remote-servers.html#cb262-2"></a><span class="ex">samtools</span></span>
+<span id="cb262-3"><a href="working-on-remote-servers.html#cb262-3"></a><span class="ex">bcftools</span></span></code></pre></div>
 </div>
 <div id="uninstalling-miniconda-and-its-associated-environments" class="section level4">
 <h4><span class="header-section-number">7.5.2.3</span> Uninstalling Miniconda and its associated environments</h4>
@@ -2181,24 +2196,24 @@ called <code>/projects/username</code> where <code>username</code> is replaced b
 for example: <code>/projects/eriq@colostate.edu</code></p>
 <p>To “uninstall” Miniconda, you first must delete the <code>miniconda3</code> directory in your
 home directory (if that is where it got installed to). This can take a while. It is done with:</p>
-<div class="sourceCode" id="cb263"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb263-1" data-line-number="1"><span class="fu">rm</span> -rf ~/miniconda3</a></code></pre></div>
+<div class="sourceCode" id="cb263"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb263-1"><a href="working-on-remote-servers.html#cb263-1"></a><span class="fu">rm</span> -rf ~/miniconda3</span></code></pre></div>
 <p>Then you have to delete the lines between <code># &gt;&gt;&gt;</code> and <code># &lt;&lt;&lt;</code>, wherever they occur in your <code>~/.bashrc</code> and <code>~/bash_profile</code>
 files, i.e., you will have to remove all of the lines that look
 something like thius:</p>
-<div class="sourceCode" id="cb264"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb264-1" data-line-number="1"><span class="co"># &gt;&gt;&gt; conda initialize &gt;&gt;&gt;</span></a>
-<a class="sourceLine" id="cb264-2" data-line-number="2"><span class="co"># !! Contents within this block are managed by &#39;conda init&#39; !!</span></a>
-<a class="sourceLine" id="cb264-3" data-line-number="3"><span class="va">__conda_setup=</span><span class="st">&quot;</span><span class="va">$(</span><span class="st">&#39;/Users/eriq/miniconda3/bin/conda&#39;</span> <span class="st">&#39;shell.bash&#39;</span> <span class="st">&#39;hook&#39;</span> <span class="op">2&gt;</span> <span class="ex">/dev/null</span><span class="va">)</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb264-4" data-line-number="4"><span class="kw">if</span><span class="bu"> [</span> <span class="va">$?</span> <span class="ot">-eq</span> 0<span class="bu"> ]</span>; <span class="kw">then</span></a>
-<a class="sourceLine" id="cb264-5" data-line-number="5">    <span class="bu">eval</span> <span class="st">&quot;</span><span class="va">$__conda_setup</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb264-6" data-line-number="6"><span class="kw">else</span></a>
-<a class="sourceLine" id="cb264-7" data-line-number="7">    <span class="kw">if</span><span class="bu"> [</span> <span class="ot">-f</span> <span class="st">&quot;/Users/eriq/miniconda3/etc/profile.d/conda.sh&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></a>
-<a class="sourceLine" id="cb264-8" data-line-number="8">        <span class="bu">.</span> <span class="st">&quot;/Users/eriq/miniconda3/etc/profile.d/conda.sh&quot;</span></a>
-<a class="sourceLine" id="cb264-9" data-line-number="9">    <span class="kw">else</span></a>
-<a class="sourceLine" id="cb264-10" data-line-number="10">        <span class="bu">export</span> <span class="va">PATH=</span><span class="st">&quot;/Users/eriq/miniconda3/bin:</span><span class="va">$PATH</span><span class="st">&quot;</span></a>
-<a class="sourceLine" id="cb264-11" data-line-number="11">    <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb264-12" data-line-number="12"><span class="kw">fi</span></a>
-<a class="sourceLine" id="cb264-13" data-line-number="13"><span class="bu">unset</span> <span class="va">__conda_setup</span></a>
-<a class="sourceLine" id="cb264-14" data-line-number="14"><span class="co"># &lt;&lt;&lt; conda initialize &lt;&lt;&lt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb264-1"><a href="working-on-remote-servers.html#cb264-1"></a><span class="co"># &gt;&gt;&gt; conda initialize &gt;&gt;&gt;</span></span>
+<span id="cb264-2"><a href="working-on-remote-servers.html#cb264-2"></a><span class="co"># !! Contents within this block are managed by &#39;conda init&#39; !!</span></span>
+<span id="cb264-3"><a href="working-on-remote-servers.html#cb264-3"></a><span class="va">__conda_setup=</span><span class="st">&quot;</span><span class="va">$(</span><span class="st">&#39;/Users/eriq/miniconda3/bin/conda&#39;</span> <span class="st">&#39;shell.bash&#39;</span> <span class="st">&#39;hook&#39;</span> <span class="op">2&gt;</span> <span class="ex">/dev/null</span><span class="va">)</span><span class="st">&quot;</span></span>
+<span id="cb264-4"><a href="working-on-remote-servers.html#cb264-4"></a><span class="kw">if</span><span class="bu"> [</span> <span class="va">$?</span> <span class="ot">-eq</span> 0<span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb264-5"><a href="working-on-remote-servers.html#cb264-5"></a>    <span class="bu">eval</span> <span class="st">&quot;</span><span class="va">$__conda_setup</span><span class="st">&quot;</span></span>
+<span id="cb264-6"><a href="working-on-remote-servers.html#cb264-6"></a><span class="kw">else</span></span>
+<span id="cb264-7"><a href="working-on-remote-servers.html#cb264-7"></a>    <span class="kw">if</span><span class="bu"> [</span> <span class="ot">-f</span> <span class="st">&quot;/Users/eriq/miniconda3/etc/profile.d/conda.sh&quot;</span><span class="bu"> ]</span>; <span class="kw">then</span></span>
+<span id="cb264-8"><a href="working-on-remote-servers.html#cb264-8"></a>        <span class="bu">.</span> <span class="st">&quot;/Users/eriq/miniconda3/etc/profile.d/conda.sh&quot;</span></span>
+<span id="cb264-9"><a href="working-on-remote-servers.html#cb264-9"></a>    <span class="kw">else</span></span>
+<span id="cb264-10"><a href="working-on-remote-servers.html#cb264-10"></a>        <span class="bu">export</span> <span class="va">PATH=</span><span class="st">&quot;/Users/eriq/miniconda3/bin:</span><span class="va">$PATH</span><span class="st">&quot;</span></span>
+<span id="cb264-11"><a href="working-on-remote-servers.html#cb264-11"></a>    <span class="kw">fi</span></span>
+<span id="cb264-12"><a href="working-on-remote-servers.html#cb264-12"></a><span class="kw">fi</span></span>
+<span id="cb264-13"><a href="working-on-remote-servers.html#cb264-13"></a><span class="bu">unset</span> <span class="va">__conda_setup</span></span>
+<span id="cb264-14"><a href="working-on-remote-servers.html#cb264-14"></a><span class="co"># &lt;&lt;&lt; conda initialize &lt;&lt;&lt;</span></span></code></pre></div>
 <p>After all those conda lines are removed from your <code>~/.bashrc</code> and <code>~/bash_profile</code>, logging out
 and logging back in, you should be free from conda and ready to reinstall it in
 a different location.</p>
@@ -2213,7 +2228,7 @@ the cluster, then you might want to make an environment with some bioinformatics
 that also has
 the latest version of R on miniconda installed. At the time of writing that was R 3.6.1. So,
 do:</p>
-<div class="sourceCode" id="cb265"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb265-1" data-line-number="1"><span class="ex">conda</span> create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials</a></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb265-1"><a href="working-on-remote-servers.html#cb265-1"></a><span class="ex">conda</span> create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials</span></code></pre></div>
 <p>That makes an environment called <code>binfr</code> (which turns out to also be <strong>way</strong> easier to type that <code>bioinfr</code>).
 The <code>r-essentials</code> in the above command line is the name for a collection of 200 commonly used R packages (including
 the <code>tidyverse</code>). This procedure takes a little while, but it is still far less painful than using the
@@ -2239,7 +2254,7 @@ just a few bioinformatics programs it is unlikely to ever take too terribly long
 <p>Once miniconda has decided on which versions of which programs and dependencies to install,
 it downloads them and then places them into the requested environment (or the active environment
 if no environment is specifically requested). If a program is installed into an environment, then you
-can access that program by activating the environment (i.e. <code>conda activate bioinf</code>). Importantly,
+can access that program by activating the environment (i.e. <code>conda activate bioinf</code>). Importantly,
 if you don’t activate the environment, you won’t be able to use the programs installed there.
 We will see later in writing bioinformatic scripts, you will always have to explicitly
 activate a desired conda environment when you run a script on a compute node through the job
@@ -2252,14 +2267,14 @@ within the <code>miniconda3/envs</code> directory. An easy way to see this is si
 inspecting your path variable while in different environments. Here we compare the PATH
 variable in the <code>base</code> environment, versus in the <code>bioinf</code> environment, versus in the
 <code>binfr</code> environment:</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb266-1" data-line-number="1"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> echo <span class="va">$PATH</span></a>
-<a class="sourceLine" id="cb266-2" data-line-number="2"><span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/bin:<span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/condabin:<span class="ex">/usr/local</span>/bin:/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr/local</span>/sbin:<span class="ex">/usr</span>/sbin:<span class="ex">/home/eriq@colostate.edu</span>/bin:<span class="ex">/home/eriq@colostate.edu/bin</span></a>
-<a class="sourceLine" id="cb266-3" data-line-number="3"><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> conda activate bioinf</a>
-<a class="sourceLine" id="cb266-4" data-line-number="4"><span class="kw">(</span><span class="ex">bioinf</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> echo <span class="va">$PATH</span></a>
-<a class="sourceLine" id="cb266-5" data-line-number="5"><span class="ex">/projects/eriq@colostate.edu/miniconda3/envs/bioinf</span>/bin:<span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/condabin:<span class="ex">/usr/local</span>/bin:/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr/local</span>/sbin:<span class="ex">/usr</span>/sbin:<span class="ex">/home/eriq@colostate.edu</span>/bin:<span class="ex">/home/eriq@colostate.edu/bin</span></a>
-<a class="sourceLine" id="cb266-6" data-line-number="6"><span class="kw">(</span><span class="ex">bioinf</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> conda activate binfr</a>
-<a class="sourceLine" id="cb266-7" data-line-number="7"><span class="kw">(</span><span class="ex">binfr</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> echo <span class="va">$PATH</span></a>
-<a class="sourceLine" id="cb266-8" data-line-number="8"><span class="ex">/projects/eriq@colostate.edu/miniconda3/envs/binfr</span>/bin:<span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/condabin:<span class="ex">/usr/local</span>/bin:/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr/local</span>/sbin:<span class="ex">/usr</span>/sbin:<span class="ex">/home/eriq@colostate.edu</span>/bin:<span class="ex">/home/eriq@colostate.edu/bin</span></a></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb266-1"><a href="working-on-remote-servers.html#cb266-1"></a><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> echo <span class="va">$PATH</span></span>
+<span id="cb266-2"><a href="working-on-remote-servers.html#cb266-2"></a><span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/bin:<span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/condabin:<span class="ex">/usr/local</span>/bin:/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr/local</span>/sbin:<span class="ex">/usr</span>/sbin:<span class="ex">/home/eriq@colostate.edu</span>/bin:<span class="ex">/home/eriq@colostate.edu/bin</span></span>
+<span id="cb266-3"><a href="working-on-remote-servers.html#cb266-3"></a><span class="kw">(</span><span class="ex">base</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> conda activate bioinf</span>
+<span id="cb266-4"><a href="working-on-remote-servers.html#cb266-4"></a><span class="kw">(</span><span class="ex">bioinf</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> echo <span class="va">$PATH</span></span>
+<span id="cb266-5"><a href="working-on-remote-servers.html#cb266-5"></a><span class="ex">/projects/eriq@colostate.edu/miniconda3/envs/bioinf</span>/bin:<span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/condabin:<span class="ex">/usr/local</span>/bin:/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr/local</span>/sbin:<span class="ex">/usr</span>/sbin:<span class="ex">/home/eriq@colostate.edu</span>/bin:<span class="ex">/home/eriq@colostate.edu/bin</span></span>
+<span id="cb266-6"><a href="working-on-remote-servers.html#cb266-6"></a><span class="kw">(</span><span class="ex">bioinf</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> conda activate binfr</span>
+<span id="cb266-7"><a href="working-on-remote-servers.html#cb266-7"></a><span class="kw">(</span><span class="ex">binfr</span><span class="kw">)</span> [<span class="ex">~</span>]<span class="ex">--%</span> echo <span class="va">$PATH</span></span>
+<span id="cb266-8"><a href="working-on-remote-servers.html#cb266-8"></a><span class="ex">/projects/eriq@colostate.edu/miniconda3/envs/binfr</span>/bin:<span class="ex">/projects/eriq@colostate.edu/miniconda3</span>/condabin:<span class="ex">/usr/local</span>/bin:/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr</span>/bin:<span class="ex">/usr/local</span>/sbin:<span class="ex">/usr</span>/sbin:<span class="ex">/home/eriq@colostate.edu</span>/bin:<span class="ex">/home/eriq@colostate.edu/bin</span></span></code></pre></div>
 <p>(To be sure, <code>miniconda</code> can change a few more things than just your PATH variable when you activate an environment, but
 for the typical user, the changes to PATH are most important.)</p>
 </div>
@@ -2275,11 +2290,11 @@ applied to the <code>conda create</code> commands above. That options tells cond
 the Bioconda channel for programs and packages.</p>
 <p>Here, you can try searching for a couple of packages that you might
 end up using to analyze genomic data:</p>
-<div class="sourceCode" id="cb267"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb267-1" data-line-number="1"><span class="ex">conda</span> search -c bioconda plink</a>
-<a class="sourceLine" id="cb267-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb267-3" data-line-number="3"><span class="co"># and next:</span></a>
-<a class="sourceLine" id="cb267-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb267-5" data-line-number="5"><span class="ex">conda</span> search -c bioconda angsd</a></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb267-1"><a href="working-on-remote-servers.html#cb267-1"></a><span class="ex">conda</span> search -c bioconda plink</span>
+<span id="cb267-2"><a href="working-on-remote-servers.html#cb267-2"></a></span>
+<span id="cb267-3"><a href="working-on-remote-servers.html#cb267-3"></a><span class="co"># and next:</span></span>
+<span id="cb267-4"><a href="working-on-remote-servers.html#cb267-4"></a></span>
+<span id="cb267-5"><a href="working-on-remote-servers.html#cb267-5"></a><span class="ex">conda</span> search -c bioconda angsd</span></code></pre></div>
 </div>
 <div id="can-i-add-more-programs-to-an-environment" class="section level4">
 <h4><span class="header-section-number">7.5.2.6</span> Can I add more programs to an environment?</h4>
@@ -2288,27 +2303,27 @@ for a few months. We have finished all our tasks with <code>bwa</code>, <code>sa
 want to analyze some of the data with <code>angsd</code> or <code>plink</code>. Can we add those programs to our
 <code>bioinf</code> environment? The short answer is “Yes!”. The steps are easy.</p>
 <ol style="list-style-type: decimal">
-<li>Activate the environment you wish to add the programs to (i.e. <code>conda activate bioinf</code> for example).</li>
+<li><p>Activate the environment you wish to add the programs to (i.e. <code>conda activate bioinf</code> for example).</p></li>
 <li><p>Then use <code>conda install</code>. For example to install specific versions of <code>plink</code> and <code>angsd</code> that we
 saw above while searching for those packages we might do:</p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb268-1" data-line-number="1"><span class="ex">conda</span> install -c bioconda plink=1.90b6.12 angsd=0.931</a></code></pre></div></li>
+<div class="sourceCode" id="cb268"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb268-1"><a href="working-on-remote-servers.html#cb268-1"></a><span class="ex">conda</span> install -c bioconda plink=1.90b6.12 angsd=0.931</span></code></pre></div></li>
 </ol>
 <p>Now, the longer answer is “Yes, but…” The big “but” there occurs because if different
 programs require the same dependencies, but rely on different versions of the dependencies,
 installing programs over different commands can cause miniconda to not identify some
 incompatibilities between program dependencies. A germane example occurs if you first install
 <code>samtools</code> into an environment, and then, after that, you install <code>bcftools</code>, like this:</p>
-<div class="sourceCode" id="cb269"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb269-1" data-line-number="1"><span class="ex">conda</span> create -n samtools-first        # create an empty environment</a>
-<a class="sourceLine" id="cb269-2" data-line-number="2"><span class="ex">conda</span> activate samtools-first         # activate the environment</a>
-<a class="sourceLine" id="cb269-3" data-line-number="3"><span class="ex">conda</span> install -c bioconda samtools    # install samtools</a>
-<a class="sourceLine" id="cb269-4" data-line-number="4"><span class="ex">conda</span> install -c bioconda bcftools    # install bcftools</a>
-<a class="sourceLine" id="cb269-5" data-line-number="5"><span class="ex">bcftools</span>                              # try running bcftools</a></code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb269-1"><a href="working-on-remote-servers.html#cb269-1"></a><span class="ex">conda</span> create -n samtools-first        <span class="co"># create an empty environment</span></span>
+<span id="cb269-2"><a href="working-on-remote-servers.html#cb269-2"></a><span class="ex">conda</span> activate samtools-first         <span class="co"># activate the environment</span></span>
+<span id="cb269-3"><a href="working-on-remote-servers.html#cb269-3"></a><span class="ex">conda</span> install -c bioconda samtools    <span class="co"># install samtools</span></span>
+<span id="cb269-4"><a href="working-on-remote-servers.html#cb269-4"></a><span class="ex">conda</span> install -c bioconda bcftools    <span class="co"># install bcftools</span></span>
+<span id="cb269-5"><a href="working-on-remote-servers.html#cb269-5"></a><span class="ex">bcftools</span>                              <span class="co"># try running bcftools</span></span></code></pre></div>
 <p>When you try running the last line, <code>bcftools</code> barfs on you like so:</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb270-1" data-line-number="1"><span class="ex">bcftools</span>: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory</a></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb270-1"><a href="working-on-remote-servers.html#cb270-1"></a><span class="ex">bcftools</span>: error while loading shared libraries: libcrypto.so.1.0.0: cannot open shared object file: No such file or directory</span></code></pre></div>
 <p>So, often, installing extra programs does not create problems, but it can. If you find yourself battling
 errors from conda-installed programs, see if you can correct that by creating a new environment and installing all the programs
 you want at the same time, in one fell swoop, using <code>conda create</code>, as in:</p>
-<div class="sourceCode" id="cb271"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb271-1" data-line-number="1"><span class="ex">conda</span> create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials</a></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb271-1"><a href="working-on-remote-servers.html#cb271-1"></a><span class="ex">conda</span> create -n binfr -c bioconda bwa samtools bcftools r-base=3.6.1 r-essentials</span></code></pre></div>
 </div>
 <div id="exporting-environments" class="section level4">
 <h4><span class="header-section-number">7.5.2.7</span> Exporting environments</h4>
@@ -2324,9 +2339,9 @@ exactly how to recreate that environment.</p>
 environment. Here we demonstrate its use by exporting the <code>bioinf</code>
 environment from SUMMIT to a simple text file. Then we use that text file
 to recreate the environment on my laptop.</p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb272-1" data-line-number="1"><span class="co"># on summit:</span></a>
-<a class="sourceLine" id="cb272-2" data-line-number="2"><span class="ex">conda</span> activate bioinf          # activate the environment</a>
-<a class="sourceLine" id="cb272-3" data-line-number="3"><span class="ex">conda</span> env export               # export the environment</a></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb272-1"><a href="working-on-remote-servers.html#cb272-1"></a><span class="co"># on summit:</span></span>
+<span id="cb272-2"><a href="working-on-remote-servers.html#cb272-2"></a><span class="ex">conda</span> activate bioinf          <span class="co"># activate the environment</span></span>
+<span id="cb272-3"><a href="working-on-remote-servers.html#cb272-3"></a><span class="ex">conda</span> env export               <span class="co"># export the environment</span></span></code></pre></div>
 <p>The last command above just sends the exported environment
 to stdout, looking like this:</p>
 <pre><code>name: bioinf
@@ -2359,28 +2374,28 @@ prefix: /projects/eriq@colostate.edu/miniconda3/envs/bioinf</code></pre>
 <p>The format of this information is YAML (Yet Another Markup Language),
 (which we saw in the headers of RMarkdown documents, too).</p>
 <p>If we stored that output in a file:</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb274-1" data-line-number="1"><span class="ex">conda</span> env export <span class="op">&gt;</span> bioinf.yml</a></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb274-1"><a href="working-on-remote-servers.html#cb274-1"></a><span class="ex">conda</span> env export <span class="op">&gt;</span> bioinf.yml</span></code></pre></div>
 <p>And then copied that file to another computer, then we can recreate
 the environment on that other computer with:</p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb275-1" data-line-number="1"><span class="ex">conda</span> env create -f bioinf.yml</a></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb275-1"><a href="working-on-remote-servers.html#cb275-1"></a><span class="ex">conda</span> env create -f bioinf.yml</span></code></pre></div>
 <p>That should work fine if the new computer is of the same architecture (i.e., both
 are Linux computers, or both are Macs). However, the specific build numbers
 referenced in the YAML (i.e. things like the <code>h7b6447c_3</code> part of the program name)
 can create problems when installing on other architectures. In that case, we must
 export without the build names:</p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb276-1" data-line-number="1"><span class="ex">conda</span> env export --no-builds <span class="op">&gt;</span> bioinf.yml</a></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb276-1"><a href="working-on-remote-servers.html#cb276-1"></a><span class="ex">conda</span> env export --no-builds <span class="op">&gt;</span> bioinf.yml</span></code></pre></div>
 <p>Even that might fail if the dependencies differ on different architectures,
 in which case you can export just the list of the actual programs that
 you reqested be installed, by using the <code>--from-history</code> option. For example:</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb277-1" data-line-number="1"><span class="ex">%</span> conda env export --from-history</a>
-<a class="sourceLine" id="cb277-2" data-line-number="2"><span class="ex">name</span>: bioinf</a>
-<a class="sourceLine" id="cb277-3" data-line-number="3"><span class="ex">channels</span>:</a>
-<a class="sourceLine" id="cb277-4" data-line-number="4">  <span class="ex">-</span> defaults</a>
-<a class="sourceLine" id="cb277-5" data-line-number="5"><span class="ex">dependencies</span>:</a>
-<a class="sourceLine" id="cb277-6" data-line-number="6">  <span class="ex">-</span> bwa</a>
-<a class="sourceLine" id="cb277-7" data-line-number="7">  <span class="ex">-</span> bcftools</a>
-<a class="sourceLine" id="cb277-8" data-line-number="8">  <span class="ex">-</span> samtools</a>
-<a class="sourceLine" id="cb277-9" data-line-number="9"><span class="ex">prefix</span>: /projects/eriq@colostate.edu/miniconda3/envs/bioinf</a></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb277-1"><a href="working-on-remote-servers.html#cb277-1"></a><span class="ex">%</span> conda env export --from-history</span>
+<span id="cb277-2"><a href="working-on-remote-servers.html#cb277-2"></a><span class="ex">name</span>: bioinf</span>
+<span id="cb277-3"><a href="working-on-remote-servers.html#cb277-3"></a><span class="ex">channels</span>:</span>
+<span id="cb277-4"><a href="working-on-remote-servers.html#cb277-4"></a>  <span class="ex">-</span> defaults</span>
+<span id="cb277-5"><a href="working-on-remote-servers.html#cb277-5"></a><span class="ex">dependencies</span>:</span>
+<span id="cb277-6"><a href="working-on-remote-servers.html#cb277-6"></a>  <span class="ex">-</span> bwa</span>
+<span id="cb277-7"><a href="working-on-remote-servers.html#cb277-7"></a>  <span class="ex">-</span> bcftools</span>
+<span id="cb277-8"><a href="working-on-remote-servers.html#cb277-8"></a>  <span class="ex">-</span> samtools</span>
+<span id="cb277-9"><a href="working-on-remote-servers.html#cb277-9"></a><span class="ex">prefix</span>: /projects/eriq@colostate.edu/miniconda3/envs/bioinf</span></code></pre></div>
 <p>Though, even that fails, cuz it doesn’t list bioconda in there.</p>
 </div>
 </div>
@@ -2419,37 +2434,37 @@ filling up your tiny home directory. At the time of writing, the latest GATK rel
 A later version may now be available, and the links below should be modified to get that later
 version if desired.</li>
 </ol>
-<div class="sourceCode" id="cb278"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb278-1" data-line-number="1"><span class="co"># replace user with your username</span></a>
-<a class="sourceLine" id="cb278-2" data-line-number="2"><span class="bu">cd</span> /projects/user\@colostate.edu/</a>
-<a class="sourceLine" id="cb278-3" data-line-number="3"><span class="fu">mkdir</span> java-programs  # if you don<span class="st">&#39;t already have such a directory</span></a>
-<a class="sourceLine" id="cb278-4" data-line-number="4"><span class="st">cd java-programs # enter that directory</span></a>
-<a class="sourceLine" id="cb278-5" data-line-number="5"><span class="st">wget https://github.com/broadinstitute/gatk/releases/download/4.1.6.0/gatk-4.1.6.0.zip</span></a>
-<a class="sourceLine" id="cb278-6" data-line-number="6"><span class="st"># unzip that compressed file into a directory</span></a>
-<a class="sourceLine" id="cb278-7" data-line-number="7"><span class="st">unzip gatk-4.1.6.0.zip</span></a>
-<a class="sourceLine" id="cb278-8" data-line-number="8"><span class="st"># if that step was successful, remove the zip file</span></a>
-<a class="sourceLine" id="cb278-9" data-line-number="9"><span class="st">rm gatk-4.1.6.0.zip</span></a>
-<a class="sourceLine" id="cb278-10" data-line-number="10"><span class="st"># cd into the gatk directory</span></a>
-<a class="sourceLine" id="cb278-11" data-line-number="11"><span class="st">cd gatk-4.1.6.0</span></a>
-<a class="sourceLine" id="cb278-12" data-line-number="12"><span class="st"># finally, print the working directory to get the path</span></a>
-<a class="sourceLine" id="cb278-13" data-line-number="13"><span class="st">pwd</span></a></code></pre></div>
+<div class="sourceCode" id="cb278"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb278-1"><a href="working-on-remote-servers.html#cb278-1"></a><span class="co"># replace user with your username</span></span>
+<span id="cb278-2"><a href="working-on-remote-servers.html#cb278-2"></a><span class="bu">cd</span> /projects/user\@colostate.edu/</span>
+<span id="cb278-3"><a href="working-on-remote-servers.html#cb278-3"></a><span class="fu">mkdir</span> java-programs  <span class="co"># if you don&#39;t already have such a directory</span></span>
+<span id="cb278-4"><a href="working-on-remote-servers.html#cb278-4"></a><span class="bu">cd</span> java-programs <span class="co"># enter that directory</span></span>
+<span id="cb278-5"><a href="working-on-remote-servers.html#cb278-5"></a><span class="fu">wget</span> https://github.com/broadinstitute/gatk/releases/download/4.1.6.0/gatk-4.1.6.0.zip</span>
+<span id="cb278-6"><a href="working-on-remote-servers.html#cb278-6"></a><span class="co"># unzip that compressed file into a directory</span></span>
+<span id="cb278-7"><a href="working-on-remote-servers.html#cb278-7"></a><span class="fu">unzip</span> gatk-4.1.6.0.zip</span>
+<span id="cb278-8"><a href="working-on-remote-servers.html#cb278-8"></a><span class="co"># if that step was successful, remove the zip file</span></span>
+<span id="cb278-9"><a href="working-on-remote-servers.html#cb278-9"></a><span class="fu">rm</span> gatk-4.1.6.0.zip</span>
+<span id="cb278-10"><a href="working-on-remote-servers.html#cb278-10"></a><span class="co"># cd into the gatk directory</span></span>
+<span id="cb278-11"><a href="working-on-remote-servers.html#cb278-11"></a><span class="bu">cd</span> gatk-4.1.6.0</span>
+<span id="cb278-12"><a href="working-on-remote-servers.html#cb278-12"></a><span class="co"># finally, print the working directory to get the path</span></span>
+<span id="cb278-13"><a href="working-on-remote-servers.html#cb278-13"></a><span class="bu">pwd</span></span></code></pre></div>
 <p>When I do the last command, I get: <code>/projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0</code> You will
 want to copy the path on your system so that you can include it in your <code>~/.bashrc</code> file. In the following
 I refer to the path to the GATK directory on your system as <code>&lt;PATH_TO&gt;</code>. You should replace <code>&lt;PATH_TO&gt;</code>
 in the following with the paht to the GATK directory on your system. Edit your <code>~/.bashrc</code> file,
 adding the following lines <em>above</em> the <code>&gt;&gt;&gt; conda initialize &gt;&gt;&gt;</code> block:</p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb279-1" data-line-number="1"><span class="bu">export</span> <span class="va">PATH=$PATH</span>:<span class="op">&lt;</span><span class="ex">PATH_TO</span><span class="op">&gt;</span></a>
-<a class="sourceLine" id="cb279-2" data-line-number="2"><span class="bu">source</span> <span class="op">&lt;</span>PATH_TO<span class="op">&gt;</span>/gatk-completion.sh</a></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb279-1"><a href="working-on-remote-servers.html#cb279-1"></a><span class="bu">export</span> <span class="va">PATH=$PATH</span>:<span class="op">&lt;</span><span class="ex">PATH_TO</span><span class="op">&gt;</span></span>
+<span id="cb279-2"><a href="working-on-remote-servers.html#cb279-2"></a><span class="bu">source</span> <span class="op">&lt;</span>PATH_TO<span class="op">&gt;</span>/gatk-completion.sh</span></code></pre></div>
 <p>On my system, it looks like the following when I have replaced <PATH_TO>
 with the appropriate path:</p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb280-1" data-line-number="1"><span class="bu">export</span> <span class="va">PATH=$PATH</span>:/projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0</a>
-<a class="sourceLine" id="cb280-2" data-line-number="2"><span class="bu">source</span> /projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0/gatk-completion.sh</a></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb280-1"><a href="working-on-remote-servers.html#cb280-1"></a><span class="bu">export</span> <span class="va">PATH=$PATH</span>:/projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0</span>
+<span id="cb280-2"><a href="working-on-remote-servers.html#cb280-2"></a><span class="bu">source</span> /projects/eriq@colostate.edu/java-programs/gatk-4.1.6.0/gatk-completion.sh</span></code></pre></div>
 <p>Once that is done, save and close <code>~/.bashrc</code> and then source it for the changes to take
 effect. (You don’t typically need to source it if you login to a new shell, but here,
 since you are not opening a new shell, you need to source it.)</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb281-1" data-line-number="1"><span class="bu">source</span> ~/.bashrc</a></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb281-1"><a href="working-on-remote-servers.html#cb281-1"></a><span class="bu">source</span> ~/.bashrc</span></code></pre></div>
 <p>Now, you should be able to give the command</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb282-1" data-line-number="1"><span class="bu">cd</span> <span class="co"># return to home directory</span></a>
-<a class="sourceLine" id="cb282-2" data-line-number="2"><span class="ex">gatk</span></a></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb282-1"><a href="working-on-remote-servers.html#cb282-1"></a><span class="bu">cd</span> <span class="co"># return to home directory</span></span>
+<span id="cb282-2"><a href="working-on-remote-servers.html#cb282-2"></a><span class="ex">gatk</span></span></code></pre></div>
 <p>and you will get back a message about the syntax for using <code>gatk</code>. If not,
 then something has gone wrong.</p>
 <p>If <code>gatk</code> above worked as expected (gave you a help message), you are ready
@@ -2457,46 +2472,46 @@ to run a very quick experiment to test if we are all set
 for calling variants (SNPs and indels) from the .bam files that were
 created in the <code>chr-32-bioinformatics</code> homework. Be <em>certain</em> that you
 are on a compute node before doing this. (Check it with <code>hostname</code>).</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb283-1" data-line-number="1"><span class="co"># cd to your homework folder. On my system, that is:</span></a>
-<a class="sourceLine" id="cb283-2" data-line-number="2"><span class="bu">cd</span> scratch/COURSE_STUFF/chr-32-bioinformatics-eriqande/</a>
-<a class="sourceLine" id="cb283-3" data-line-number="3"><span class="co"># make a file that holds the paths to all the duplicate-marked</span></a>
-<a class="sourceLine" id="cb283-4" data-line-number="4"><span class="co"># bam files you created during the homework:</span></a>
-<a class="sourceLine" id="cb283-5" data-line-number="5"><span class="fu">ls</span> -l mkdup/*_mkdup.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $NF}&#39;</span> <span class="op">&gt;</span> bamfiles.list</a>
-<a class="sourceLine" id="cb283-6" data-line-number="6"><span class="co"># make sure bamfiles.list has the relative paths to a number</span></a>
-<a class="sourceLine" id="cb283-7" data-line-number="7"><span class="co"># of different bamfiles in it:</span></a>
-<a class="sourceLine" id="cb283-8" data-line-number="8"><span class="fu">cat</span> bamfiles.list</a>
-<a class="sourceLine" id="cb283-9" data-line-number="9"><span class="co"># make a directory to put the output into</span></a>
-<a class="sourceLine" id="cb283-10" data-line-number="10"><span class="fu">mkdir</span> vcf</a>
-<a class="sourceLine" id="cb283-11" data-line-number="11"><span class="co"># make sure the JRE is loaded (on SUMMIT)</span></a>
-<a class="sourceLine" id="cb283-12" data-line-number="12"><span class="ex">module</span> load jdk</a>
-<a class="sourceLine" id="cb283-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb283-14" data-line-number="14"><span class="co"># GATK needs two different indexes of the genome.  Unfortunately</span></a>
-<a class="sourceLine" id="cb283-15" data-line-number="15"><span class="co"># the version we have is not compressed with bgzip, so</span></a>
-<a class="sourceLine" id="cb283-16" data-line-number="16"><span class="co"># we will have to make an uncompressed version of it and</span></a>
-<a class="sourceLine" id="cb283-17" data-line-number="17"><span class="co"># then index it. GATK expects the index (or, as they call it, </span></a>
-<a class="sourceLine" id="cb283-18" data-line-number="18"><span class="co"># the &quot;dictionary&quot; to be named a certain way...)</span></a>
-<a class="sourceLine" id="cb283-19" data-line-number="19"><span class="fu">gunzip</span> -c genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz <span class="op">&gt;</span> genome/GCA_002872995.1_Otsh_v1.0_genomic.fna</a>
-<a class="sourceLine" id="cb283-20" data-line-number="20"><span class="ex">conda</span> activate bioinf</a>
-<a class="sourceLine" id="cb283-21" data-line-number="21"><span class="ex">samtools</span> faidx genome/GCA_002872995.1_Otsh_v1.0_genomic.fna</a>
-<a class="sourceLine" id="cb283-22" data-line-number="22"><span class="ex">gatk</span> CreateSequenceDictionary -R genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \</a>
-<a class="sourceLine" id="cb283-23" data-line-number="23">     -O genome/GCA_002872995.1_Otsh_v1.0_genomic.dict</a>
-<a class="sourceLine" id="cb283-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb283-25" data-line-number="25"><span class="co"># then we will launch GATK to do variant calling and create a VCF file</span></a>
-<a class="sourceLine" id="cb283-26" data-line-number="26"><span class="co"># from the BAMs in bamfiles.list in a 5 Kb region (we expect about</span></a>
-<a class="sourceLine" id="cb283-27" data-line-number="27"><span class="co"># 50 variants in such a small part of the genome) on Chromosome 32</span></a>
-<a class="sourceLine" id="cb283-28" data-line-number="28"><span class="co"># which is named CM009233.1</span></a>
-<a class="sourceLine" id="cb283-29" data-line-number="29"><span class="ex">gatk</span> --java-options <span class="st">&quot;-Xmx4g&quot;</span> HaplotypeCaller  \</a>
-<a class="sourceLine" id="cb283-30" data-line-number="30">   -R genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \</a>
-<a class="sourceLine" id="cb283-31" data-line-number="31">   -I bamfiles.list \</a>
-<a class="sourceLine" id="cb283-32" data-line-number="32">   -O vcf/tiny-test.vcf \</a>
-<a class="sourceLine" id="cb283-33" data-line-number="33">   -L CM009233.1:2000000-2005000</a></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb283-1"><a href="working-on-remote-servers.html#cb283-1"></a><span class="co"># cd to your homework folder. On my system, that is:</span></span>
+<span id="cb283-2"><a href="working-on-remote-servers.html#cb283-2"></a><span class="bu">cd</span> scratch/COURSE_STUFF/chr-32-bioinformatics-eriqande/</span>
+<span id="cb283-3"><a href="working-on-remote-servers.html#cb283-3"></a><span class="co"># make a file that holds the paths to all the duplicate-marked</span></span>
+<span id="cb283-4"><a href="working-on-remote-servers.html#cb283-4"></a><span class="co"># bam files you created during the homework:</span></span>
+<span id="cb283-5"><a href="working-on-remote-servers.html#cb283-5"></a><span class="fu">ls</span> -l mkdup/*_mkdup.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $NF}&#39;</span> <span class="op">&gt;</span> bamfiles.list</span>
+<span id="cb283-6"><a href="working-on-remote-servers.html#cb283-6"></a><span class="co"># make sure bamfiles.list has the relative paths to a number</span></span>
+<span id="cb283-7"><a href="working-on-remote-servers.html#cb283-7"></a><span class="co"># of different bamfiles in it:</span></span>
+<span id="cb283-8"><a href="working-on-remote-servers.html#cb283-8"></a><span class="fu">cat</span> bamfiles.list</span>
+<span id="cb283-9"><a href="working-on-remote-servers.html#cb283-9"></a><span class="co"># make a directory to put the output into</span></span>
+<span id="cb283-10"><a href="working-on-remote-servers.html#cb283-10"></a><span class="fu">mkdir</span> vcf</span>
+<span id="cb283-11"><a href="working-on-remote-servers.html#cb283-11"></a><span class="co"># make sure the JRE is loaded (on SUMMIT)</span></span>
+<span id="cb283-12"><a href="working-on-remote-servers.html#cb283-12"></a><span class="ex">module</span> load jdk</span>
+<span id="cb283-13"><a href="working-on-remote-servers.html#cb283-13"></a></span>
+<span id="cb283-14"><a href="working-on-remote-servers.html#cb283-14"></a><span class="co"># GATK needs two different indexes of the genome.  Unfortunately</span></span>
+<span id="cb283-15"><a href="working-on-remote-servers.html#cb283-15"></a><span class="co"># the version we have is not compressed with bgzip, so</span></span>
+<span id="cb283-16"><a href="working-on-remote-servers.html#cb283-16"></a><span class="co"># we will have to make an uncompressed version of it and</span></span>
+<span id="cb283-17"><a href="working-on-remote-servers.html#cb283-17"></a><span class="co"># then index it. GATK expects the index (or, as they call it, </span></span>
+<span id="cb283-18"><a href="working-on-remote-servers.html#cb283-18"></a><span class="co"># the &quot;dictionary&quot; to be named a certain way...)</span></span>
+<span id="cb283-19"><a href="working-on-remote-servers.html#cb283-19"></a><span class="fu">gunzip</span> -c genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz <span class="op">&gt;</span> genome/GCA_002872995.1_Otsh_v1.0_genomic.fna</span>
+<span id="cb283-20"><a href="working-on-remote-servers.html#cb283-20"></a><span class="ex">conda</span> activate bioinf</span>
+<span id="cb283-21"><a href="working-on-remote-servers.html#cb283-21"></a><span class="ex">samtools</span> faidx genome/GCA_002872995.1_Otsh_v1.0_genomic.fna</span>
+<span id="cb283-22"><a href="working-on-remote-servers.html#cb283-22"></a><span class="ex">gatk</span> CreateSequenceDictionary -R genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \</span>
+<span id="cb283-23"><a href="working-on-remote-servers.html#cb283-23"></a>     -O genome/GCA_002872995.1_Otsh_v1.0_genomic.dict</span>
+<span id="cb283-24"><a href="working-on-remote-servers.html#cb283-24"></a></span>
+<span id="cb283-25"><a href="working-on-remote-servers.html#cb283-25"></a><span class="co"># then we will launch GATK to do variant calling and create a VCF file</span></span>
+<span id="cb283-26"><a href="working-on-remote-servers.html#cb283-26"></a><span class="co"># from the BAMs in bamfiles.list in a 5 Kb region (we expect about</span></span>
+<span id="cb283-27"><a href="working-on-remote-servers.html#cb283-27"></a><span class="co"># 50 variants in such a small part of the genome) on Chromosome 32</span></span>
+<span id="cb283-28"><a href="working-on-remote-servers.html#cb283-28"></a><span class="co"># which is named CM009233.1</span></span>
+<span id="cb283-29"><a href="working-on-remote-servers.html#cb283-29"></a><span class="ex">gatk</span> --java-options <span class="st">&quot;-Xmx4g&quot;</span> HaplotypeCaller  \</span>
+<span id="cb283-30"><a href="working-on-remote-servers.html#cb283-30"></a>   -R genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \</span>
+<span id="cb283-31"><a href="working-on-remote-servers.html#cb283-31"></a>   -I bamfiles.list \</span>
+<span id="cb283-32"><a href="working-on-remote-servers.html#cb283-32"></a>   -O vcf/tiny-test.vcf \</span>
+<span id="cb283-33"><a href="working-on-remote-servers.html#cb283-33"></a>   -L CM009233.1:2000000-2005000</span></code></pre></div>
 <p>Once that finishes, look at the resulting VCF file:</p>
-<div class="sourceCode" id="cb284"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb284-1" data-line-number="1"><span class="fu">more</span> vcf/tiny-test.vcf</a>
-<a class="sourceLine" id="cb284-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb284-3" data-line-number="3"><span class="co"># if you get tired of scrolling through the header lines (with</span></a>
-<a class="sourceLine" id="cb284-4" data-line-number="4"><span class="co"># endless small genome fragment names). Then quit that (hit q)</span></a>
-<a class="sourceLine" id="cb284-5" data-line-number="5"><span class="co"># and view it without the header:</span></a>
-<a class="sourceLine" id="cb284-6" data-line-number="6"><span class="ex">bcftools</span> view -H vcf/tiny-test.vcf</a></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb284-1"><a href="working-on-remote-servers.html#cb284-1"></a><span class="fu">more</span> vcf/tiny-test.vcf</span>
+<span id="cb284-2"><a href="working-on-remote-servers.html#cb284-2"></a></span>
+<span id="cb284-3"><a href="working-on-remote-servers.html#cb284-3"></a><span class="co"># if you get tired of scrolling through the header lines (with</span></span>
+<span id="cb284-4"><a href="working-on-remote-servers.html#cb284-4"></a><span class="co"># endless small genome fragment names). Then quit that (hit q)</span></span>
+<span id="cb284-5"><a href="working-on-remote-servers.html#cb284-5"></a><span class="co"># and view it without the header:</span></span>
+<span id="cb284-6"><a href="working-on-remote-servers.html#cb284-6"></a><span class="ex">bcftools</span> view -H vcf/tiny-test.vcf</span></code></pre></div>
 <p>If that looks like a bunch of gibberish, rejoice! We will learn about the VCF file
 format soon!</p>
 </div>
@@ -2517,9 +2532,9 @@ I should probably replace with with my own rView package…</p>
 at section 2 of <a href="https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc">https://gist.github.com/tgirke/7a7c197b443243937f68c422e5471899#ucrhpcc</a>.
 You can just do 2.1 to 2.6. 2.7 is the routine for user accounts. You don’t need to install Tmux.</p>
 <p>You need to get an interactive session on a compute node and then</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb286-1" data-line-number="1"><span class="ex">module</span> load R/3.5.0</a>
-<a class="sourceLine" id="cb286-2" data-line-number="2"><span class="ex">module</span> load intel</a>
-<a class="sourceLine" id="cb286-3" data-line-number="3"><span class="ex">module</span> load mkl  </a></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb286-1"><a href="working-on-remote-servers.html#cb286-1"></a><span class="ex">module</span> load R/3.5.0</span>
+<span id="cb286-2"><a href="working-on-remote-servers.html#cb286-2"></a><span class="ex">module</span> load intel</span>
+<span id="cb286-3"><a href="working-on-remote-servers.html#cb286-3"></a><span class="ex">module</span> load mkl  </span></code></pre></div>
 <p>The last two are needed to get a random number to start up client through R.
 It is amazing to me that they call a specific Intel library to do that, and apparently
 loading the R module alone doesn’t get you that.</p>

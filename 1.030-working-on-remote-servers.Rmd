@@ -42,6 +42,9 @@ use the program [PuTTy](https://www.ssh.com/ssh/putty).  The steps are pretty se
 and well documented.  Instead of using `ssh` on a command line you put a host name into
 a dialog box, etc.
 
+WHOA!  I'm not a Windows person, but I just Matthew Hopken working on Windows using [MobaXterm](https://mobaxterm.mobatek.net/) to connect to the server and it looks
+pretty nice.  
+
 ### Hummingbird
 
 Directions for UCSC students and staff to login to Hummingbird are available

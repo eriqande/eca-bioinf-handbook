@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 14 Managing Workflows with Snakemake | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
+  <meta name="description" content="A book example for a Chapman &amp; Hall book." />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 14 Managing Workflows with Snakemake | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A book example for a Chapman &amp; Hall book." />
+  <meta name="github-repo" content="yihui/bookdown-crc" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 14 Managing Workflows with Snakemake | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
+  
+  <meta name="twitter:description" content="A book example for a Chapman &amp; Hall book." />
+  
+
+<meta name="author" content="Eric C. Anderson" />
+
+
+<meta name="date" content="2021-04-01" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="authoring-reproducibly-with-rmarkdown.html"/>
+<link rel="next" href="overview-of-bioinformatic-analyses.html"/>
+<script src="libs/jquery/jquery.min.js"></script>
+<link href="libs/gitbook/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<script src="libs/accessible-code-block/empty-anchor.js"></script>
+
+
+<style type="text/css">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">ECA's Bioinformatics Handbook</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="erics-notes-of-what-he-might-do.html"><a href="erics-notes-of-what-he-might-do.html"><i class="fa fa-check"></i><b>2</b> Eric’s Notes of what he might do</a><ul>
+<li class="chapter" data-level="2.1" data-path="erics-notes-of-what-he-might-do.html"><a href="erics-notes-of-what-he-might-do.html#table-of-topics"><i class="fa fa-check"></i><b>2.1</b> Table of topics</a></li>
+</ul></li>
+<li class="part"><span><b>I Part I: Essential Computing Skills</b></span></li>
+<li class="chapter" data-level="3" data-path="overview-of-essential-computing-skills.html"><a href="overview-of-essential-computing-skills.html"><i class="fa fa-check"></i><b>3</b> Overview of Essential Computing Skills</a></li>
+<li class="chapter" data-level="4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html"><i class="fa fa-check"></i><b>4</b> Essential Unix/Linux Terminal Knowledge</a><ul>
+<li class="chapter" data-level="4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#getting-a-bash-shell-on-your-system"><i class="fa fa-check"></i><b>4.1</b> Getting a bash shell on your system</a></li>
+<li class="chapter" data-level="4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#navigating-the-unix-filesystem"><i class="fa fa-check"></i><b>4.2</b> Navigating the Unix filesystem</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#changing-the-working-directory-with-cd"><i class="fa fa-check"></i><b>4.2.1</b> Changing the working directory with <code>cd</code></a></li>
+<li class="chapter" data-level="4.2.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#comm-prompt"><i class="fa fa-check"></i><b>4.2.2</b> Updating your command prompt</a></li>
+<li class="chapter" data-level="4.2.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#tab-completion-for-paths"><i class="fa fa-check"></i><b>4.2.3</b> TAB-completion for paths</a></li>
+<li class="chapter" data-level="4.2.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#listing-the-contents-of-a-directory-with-ls"><i class="fa fa-check"></i><b>4.2.4</b> Listing the contents of a directory with <code>ls</code></a></li>
+<li class="chapter" data-level="4.2.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#globbing"><i class="fa fa-check"></i><b>4.2.5</b> Globbing</a></li>
+<li class="chapter" data-level="4.2.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#what-makes-a-good-file-name"><i class="fa fa-check"></i><b>4.2.6</b> What makes a good file-name?</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#the-anatomy-of-a-unix-command"><i class="fa fa-check"></i><b>4.3</b> The anatomy of a Unix command</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#anatomy-command"><i class="fa fa-check"></i><b>4.3.1</b> The <code>command</code></a></li>
+<li class="chapter" data-level="4.3.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#the-options"><i class="fa fa-check"></i><b>4.3.2</b> The <em>options</em></a></li>
+<li class="chapter" data-level="4.3.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#arguments"><i class="fa fa-check"></i><b>4.3.3</b> Arguments</a></li>
+<li class="chapter" data-level="4.3.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#getting-information-about-unix-commands"><i class="fa fa-check"></i><b>4.3.4</b> Getting information about Unix commands</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#handling-manipulating-and-viewing-files-and-streams"><i class="fa fa-check"></i><b>4.4</b> Handling, Manipulating, and Viewing files and streams</a><ul>
+<li class="chapter" data-level="4.4.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#creating-new-directories"><i class="fa fa-check"></i><b>4.4.1</b> Creating new directories</a></li>
+<li class="chapter" data-level="4.4.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#fundamental-file-handling-commands"><i class="fa fa-check"></i><b>4.4.2</b> Fundamental file-handling commands</a></li>
+<li class="chapter" data-level="4.4.3" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#viewing-files"><i class="fa fa-check"></i><b>4.4.3</b> “Viewing” Files</a></li>
+<li class="chapter" data-level="4.4.4" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#redirecting-standard-output-and"><i class="fa fa-check"></i><b>4.4.4</b> Redirecting standard output: <code>&gt;</code> and <code>&gt;&gt;</code></a></li>
+<li class="chapter" data-level="4.4.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#stdin-and"><i class="fa fa-check"></i><b>4.4.5</b> stdin, <code>&lt;</code> and <code>|</code></a></li>
+<li class="chapter" data-level="4.4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#stderr"><i class="fa fa-check"></i><b>4.4.6</b> stderr</a></li>
+<li class="chapter" data-level="4.4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#symbolic-links"><i class="fa fa-check"></i><b>4.4.7</b> Symbolic links</a></li>
+<li class="chapter" data-level="4.4.8" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#file-permissions"><i class="fa fa-check"></i><b>4.4.8</b> File Permissions</a></li>
+<li class="chapter" data-level="4.4.9" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#editing-text-files-at-the-terminal"><i class="fa fa-check"></i><b>4.4.9</b> Editing text files at the terminal</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-env"><i class="fa fa-check"></i><b>4.5</b> Customizing your Environment</a><ul>
+<li class="chapter" data-level="4.5.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#appearances-matter"><i class="fa fa-check"></i><b>4.5.1</b> Appearances matter</a></li>
+<li class="chapter" data-level="4.5.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#where-are-my-programscommands-at"><i class="fa fa-check"></i><b>4.5.2</b> Where are my programs/commands at?!</a></li>
+</ul></li>
+<li class="chapter" data-level="4.6" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#a-few-more-important-keystrokes"><i class="fa fa-check"></i><b>4.6</b> A Few More Important Keystrokes</a></li>
+<li class="chapter" data-level="4.7" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#a-short-list-of-additional-useful-commands."><i class="fa fa-check"></i><b>4.7</b> A short list of additional useful commands.</a></li>
+<li class="chapter" data-level="4.8" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#two-important-computing-concepts"><i class="fa fa-check"></i><b>4.8</b> Two important computing concepts</a><ul>
+<li class="chapter" data-level="4.8.1" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#compression"><i class="fa fa-check"></i><b>4.8.1</b> Compression</a></li>
+<li class="chapter" data-level="4.8.2" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#hashing"><i class="fa fa-check"></i><b>4.8.2</b> Hashing</a></li>
+</ul></li>
+<li class="chapter" data-level="4.9" data-path="essential-unixlinux-terminal-knowledge.html"><a href="essential-unixlinux-terminal-knowledge.html#unix-quick-study-guide"><i class="fa fa-check"></i><b>4.9</b> Unix: Quick Study Guide</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="shell-programming.html"><a href="shell-programming.html"><i class="fa fa-check"></i><b>5</b> Shell programming</a><ul>
+<li class="chapter" data-level="5.1" data-path="shell-programming.html"><a href="shell-programming.html#an-example-script"><i class="fa fa-check"></i><b>5.1</b> An example script</a></li>
+<li class="chapter" data-level="5.2" data-path="shell-programming.html"><a href="shell-programming.html#the-structure-of-a-bash-script"><i class="fa fa-check"></i><b>5.2</b> The Structure of a Bash Script</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="shell-programming.html"><a href="shell-programming.html#paragraph-before-shebang"><i class="fa fa-check"></i><b>5.2.1</b> A bit more on <code>;</code> and <code>&amp;</code></a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="shell-programming.html"><a href="shell-programming.html#variables"><i class="fa fa-check"></i><b>5.3</b> Variables</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="shell-programming.html"><a href="shell-programming.html#assigning-values-to-variables"><i class="fa fa-check"></i><b>5.3.1</b> Assigning values to variables</a></li>
+<li class="chapter" data-level="5.3.2" data-path="shell-programming.html"><a href="shell-programming.html#accessing-values-from-variables"><i class="fa fa-check"></i><b>5.3.2</b> Accessing values from variables</a></li>
+<li class="chapter" data-level="5.3.3" data-path="shell-programming.html"><a href="shell-programming.html#what-does-the-shell-do-with-the-value-substituted-for-a-variable"><i class="fa fa-check"></i><b>5.3.3</b> What does the shell do with the value substituted for a variable?</a></li>
+<li class="chapter" data-level="5.3.4" data-path="shell-programming.html"><a href="shell-programming.html#quotes-and-var-subs"><i class="fa fa-check"></i><b>5.3.4</b> Double and Single Quotation Marks and Variable Substitution</a></li>
+<li class="chapter" data-level="5.3.5" data-path="shell-programming.html"><a href="shell-programming.html#one-useful-fancy-variable-substitution-method"><i class="fa fa-check"></i><b>5.3.5</b> One useful, fancy, variable-substitution method</a></li>
+<li class="chapter" data-level="5.3.6" data-path="shell-programming.html"><a href="shell-programming.html#bash-arithmetic"><i class="fa fa-check"></i><b>5.3.6</b> Integer Arithmetic with Shell Variables</a></li>
+<li class="chapter" data-level="5.3.7" data-path="shell-programming.html"><a href="shell-programming.html#variable-arrays"><i class="fa fa-check"></i><b>5.3.7</b> Variable arrays</a></li>
+</ul></li>
+<li class="chapter" data-level="5.4" data-path="shell-programming.html"><a href="shell-programming.html#evaluate-a-command-and-substitute-the-result-on-the-command-line"><i class="fa fa-check"></i><b>5.4</b> Evaluate a command and substitute the result on the command line</a></li>
+<li class="chapter" data-level="5.5" data-path="shell-programming.html"><a href="shell-programming.html#groupingcollecting-output-from-multiple-commands-commands-and-commands"><i class="fa fa-check"></i><b>5.5</b> Grouping/Collecting output from multiple commands: <code>(commands)</code> and <code>{ commands; }</code></a></li>
+<li class="chapter" data-level="5.6" data-path="shell-programming.html"><a href="shell-programming.html#exit-status"><i class="fa fa-check"></i><b>5.6</b> Exit Status</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="shell-programming.html"><a href="shell-programming.html#combinations-of-exit-statuses"><i class="fa fa-check"></i><b>5.6.1</b> Combinations of exit statuses</a></li>
+</ul></li>
+<li class="chapter" data-level="5.7" data-path="shell-programming.html"><a href="shell-programming.html#unix-for-loops"><i class="fa fa-check"></i><b>5.7</b> Loops and repetition</a></li>
+<li class="chapter" data-level="5.8" data-path="shell-programming.html"><a href="shell-programming.html#more-conditional-evaluation-if-then-else-and-friends"><i class="fa fa-check"></i><b>5.8</b> More Conditional Evaluation: <code>if</code>, <code>then</code>, <code>else</code>, and friends</a></li>
+<li class="chapter" data-level="5.9" data-path="shell-programming.html"><a href="shell-programming.html#finallypositional-parameters"><i class="fa fa-check"></i><b>5.9</b> Finally…positional parameters</a></li>
+<li class="chapter" data-level="5.10" data-path="shell-programming.html"><a href="shell-programming.html#basename-and-dirname-two-useful-little-utilities"><i class="fa fa-check"></i><b>5.10</b> <code>basename</code> and <code>dirname</code> two useful little utilities</a></li>
+<li class="chapter" data-level="5.11" data-path="shell-programming.html"><a href="shell-programming.html#bash-functions"><i class="fa fa-check"></i><b>5.11</b> <code>bash</code> functions</a></li>
+<li class="chapter" data-level="5.12" data-path="shell-programming.html"><a href="shell-programming.html#reading-files-line-by-line"><i class="fa fa-check"></i><b>5.12</b> reading files line by line</a></li>
+<li class="chapter" data-level="5.13" data-path="shell-programming.html"><a href="shell-programming.html#further-reading"><i class="fa fa-check"></i><b>5.13</b> Further reading</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html"><i class="fa fa-check"></i><b>6</b> Sed, awk, and regular expressions</a><ul>
+<li class="chapter" data-level="6.1" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#awk"><i class="fa fa-check"></i><b>6.1</b> awk</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#line-cycling-tests-and-actions"><i class="fa fa-check"></i><b>6.1.1</b> Line-cycling, tests and actions</a></li>
+<li class="chapter" data-level="6.1.2" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#column-splitting-fields--f-nf-print-ofs-and-begin"><i class="fa fa-check"></i><b>6.1.2</b> Column splitting, fields, <code>-F</code>, <code>$</code>, <code>NF</code>, <code>print</code>, <code>OFS</code> and <code>BEGIN</code></a></li>
+<li class="chapter" data-level="6.1.3" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#a-brief-introduction-to-regular-expressions"><i class="fa fa-check"></i><b>6.1.3</b> A brief introduction to regular expressions</a></li>
+<li class="chapter" data-level="6.1.4" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#a-variety-of-tests"><i class="fa fa-check"></i><b>6.1.4</b> A variety of tests</a></li>
+<li class="chapter" data-level="6.1.5" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#code-in-the-action-blocks"><i class="fa fa-check"></i><b>6.1.5</b> Code in the action blocks</a></li>
+<li class="chapter" data-level="6.1.6" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#using-awk-to-assign-to-shell-variables"><i class="fa fa-check"></i><b>6.1.6</b> Using <code>awk</code> to assign to shell variables</a></li>
+<li class="chapter" data-level="6.1.7" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#passing-variables-into-awk-with--v"><i class="fa fa-check"></i><b>6.1.7</b> Passing Variables into <code>awk</code> with <code>-v</code></a></li>
+<li class="chapter" data-level="6.1.8" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#writing-awk-scripts-in-files"><i class="fa fa-check"></i><b>6.1.8</b> Writing awk scripts in files</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="sed-awk-and-regular-expressions.html"><a href="sed-awk-and-regular-expressions.html#sed"><i class="fa fa-check"></i><b>6.2</b> sed</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html"><i class="fa fa-check"></i><b>7</b> Working on remote servers</a><ul>
+<li class="chapter" data-level="7.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#accessing-remote-computers"><i class="fa fa-check"></i><b>7.1</b> Accessing remote computers</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#windows"><i class="fa fa-check"></i><b>7.1.1</b> Windows</a></li>
+<li class="chapter" data-level="7.1.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#hummingbird"><i class="fa fa-check"></i><b>7.1.2</b> Hummingbird</a></li>
+<li class="chapter" data-level="7.1.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#summit"><i class="fa fa-check"></i><b>7.1.3</b> Summit</a></li>
+<li class="chapter" data-level="7.1.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#sedna"><i class="fa fa-check"></i><b>7.1.4</b> Sedna</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#transferring-files-to-remote-computers"><i class="fa fa-check"></i><b>7.2</b> Transferring files to remote computers</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#sftp-via-lftp"><i class="fa fa-check"></i><b>7.2.1</b> <code>sftp</code> (via <code>lftp</code>)</a></li>
+<li class="chapter" data-level="7.2.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#git"><i class="fa fa-check"></i><b>7.2.2</b> git</a></li>
+<li class="chapter" data-level="7.2.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#globus"><i class="fa fa-check"></i><b>7.2.3</b> Globus</a></li>
+<li class="chapter" data-level="7.2.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#interfacing-with-the-cloud"><i class="fa fa-check"></i><b>7.2.4</b> Interfacing with “The Cloud”</a></li>
+<li class="chapter" data-level="7.2.5" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#get-seqs"><i class="fa fa-check"></i><b>7.2.5</b> Getting files from a sequencing center</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#tmux"><i class="fa fa-check"></i><b>7.3</b> <code>tmux</code>: the terminal multiplexer</a><ul>
+<li class="chapter" data-level="7.3.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#an-analogy-for-how-tmux-works"><i class="fa fa-check"></i><b>7.3.1</b> An analogy for how <code>tmux</code> works</a></li>
+<li class="chapter" data-level="7.3.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#first-steps-with-tmux"><i class="fa fa-check"></i><b>7.3.2</b> First steps with <code>tmux</code></a></li>
+<li class="chapter" data-level="7.3.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#further-steps-with-tmux"><i class="fa fa-check"></i><b>7.3.3</b> Further steps with <code>tmux</code></a></li>
+</ul></li>
+<li class="chapter" data-level="7.4" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#tmux-for-mac-users"><i class="fa fa-check"></i><b>7.4</b> <code>tmux</code> for Mac users</a></li>
+<li class="chapter" data-level="7.5" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#installing-software-on-an-hpcc"><i class="fa fa-check"></i><b>7.5</b> Installing Software on an HPCC</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#modules"><i class="fa fa-check"></i><b>7.5.1</b> Modules</a></li>
+<li class="chapter" data-level="7.5.2" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#miniconda"><i class="fa fa-check"></i><b>7.5.2</b> Miniconda</a></li>
+<li class="chapter" data-level="7.5.3" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#installing-java-programs"><i class="fa fa-check"></i><b>7.5.3</b> Installing Java Programs</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#vim-its-time-to-get-serious-with-text-editing"><i class="fa fa-check"></i><b>7.6</b> <code>vim</code>: it’s time to get serious with text editing</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="working-on-remote-servers.html"><a href="working-on-remote-servers.html#using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster"><i class="fa fa-check"></i><b>7.6.1</b> Using neovim and Nvim-R and tmux to use R well on the cluster</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html"><i class="fa fa-check"></i><b>8</b> High Performance Computing Clusters (HPCC’s)</a><ul>
+<li class="chapter" data-level="8.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#an-oversimplified-but-useful-view-of-a-computing-cluster"><i class="fa fa-check"></i><b>8.1</b> An oversimplified, but useful, view of a computing cluster</a></li>
+<li class="chapter" data-level="8.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#cluster-computing-and-the-job-scheduler"><i class="fa fa-check"></i><b>8.2</b> Cluster computing and the job scheduler</a></li>
+<li class="chapter" data-level="8.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#slurm-info"><i class="fa fa-check"></i><b>8.3</b> Learning about the resources on your HPCC</a></li>
+<li class="chapter" data-level="8.4" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#getting-compute-resources-allocated-to-your-jobs-on-an-hpcc"><i class="fa fa-check"></i><b>8.4</b> Getting compute resources allocated to your jobs on an HPCC</a><ul>
+<li class="chapter" data-level="8.4.1" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#interactive-sessions"><i class="fa fa-check"></i><b>8.4.1</b> Interactive sessions</a></li>
+<li class="chapter" data-level="8.4.2" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#slurm-batch"><i class="fa fa-check"></i><b>8.4.2</b> Batch jobs</a></li>
+<li class="chapter" data-level="8.4.3" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#slurm-job-arrays"><i class="fa fa-check"></i><b>8.4.3</b> SLURM Job Arrays</a></li>
+</ul></li>
+<li class="chapter" data-level="8.5" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#prepation-interlude-an-in-class-exercise-to-make-sure-everything-is-configured-correctly"><i class="fa fa-check"></i><b>8.5</b> PREPATION INTERLUDE: An in-class exercise to make sure everything is configured correctly</a></li>
+<li class="chapter" data-level="8.6" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#more-boneyard"><i class="fa fa-check"></i><b>8.6</b> More Boneyard…</a></li>
+<li class="chapter" data-level="8.7" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#the-queue-slurmsgeuge"><i class="fa fa-check"></i><b>8.7</b> The Queue (SLURM/SGE/UGE)</a></li>
+<li class="chapter" data-level="8.8" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#modules-package"><i class="fa fa-check"></i><b>8.8</b> Modules package</a></li>
+<li class="chapter" data-level="8.9" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#compiling-programs-without-admin-privileges"><i class="fa fa-check"></i><b>8.9</b> Compiling programs without admin privileges</a></li>
+<li class="chapter" data-level="8.10" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#job-arrays"><i class="fa fa-check"></i><b>8.10</b> Job arrays</a></li>
+<li class="chapter" data-level="8.11" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#writing-stdout-and-stderr-to-files"><i class="fa fa-check"></i><b>8.11</b> Writing stdout and stderr to files</a></li>
+<li class="chapter" data-level="8.12" data-path="high-performance-computing-clusters-hpccs.html"><a href="high-performance-computing-clusters-hpccs.html#breaking-stuff-down"><i class="fa fa-check"></i><b>8.12</b> Breaking stuff down</a></li>
+</ul></li>
+<li class="part"><span><b>II Part II: Reproducible Research Strategies</b></span></li>
+<li class="chapter" data-level="9" data-path="introduction-to-reproducible-research.html"><a href="introduction-to-reproducible-research.html"><i class="fa fa-check"></i><b>9</b> Introduction to Reproducible Research</a></li>
+<li class="chapter" data-level="10" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html"><i class="fa fa-check"></i><b>10</b> Rstudio and Project-centered Organization</a><ul>
+<li class="chapter" data-level="10.1" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#organizing-big-projects"><i class="fa fa-check"></i><b>10.1</b> Organizing big projects</a></li>
+<li class="chapter" data-level="10.2" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#using-rstudio-in-workflows-with-remote-computers-and-hpccs"><i class="fa fa-check"></i><b>10.2</b> Using RStudio in workflows with remote computers and HPCCs</a><ul>
+<li class="chapter" data-level="10.2.1" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#keeping-an-rstudio-project-in-sync-with-github"><i class="fa fa-check"></i><b>10.2.1</b> Keeping an RStudio project “in sync” with GitHub</a></li>
+<li class="chapter" data-level="10.2.2" data-path="rstudio-and-project-centered-organization.html"><a href="rstudio-and-project-centered-organization.html#evaluating-scripts-line-by-line-on-a-remote-machine-from-within-rstudio"><i class="fa fa-check"></i><b>10.2.2</b> Evaluating scripts line by line on a remote machine from within RStudio</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="version-control.html"><a href="version-control.html"><i class="fa fa-check"></i><b>11</b> Version control</a><ul>
+<li class="chapter" data-level="11.1" data-path="version-control.html"><a href="version-control.html#why-use-version-control"><i class="fa fa-check"></i><b>11.1</b> Why use version control?</a></li>
+<li class="chapter" data-level="11.2" data-path="version-control.html"><a href="version-control.html#git-workings"><i class="fa fa-check"></i><b>11.2</b> How git works</a></li>
+<li class="chapter" data-level="11.3" data-path="version-control.html"><a href="version-control.html#git-workflow-patterns"><i class="fa fa-check"></i><b>11.3</b> git workflow patterns</a></li>
+<li class="chapter" data-level="11.4" data-path="version-control.html"><a href="version-control.html#using-git-with-rstudio"><i class="fa fa-check"></i><b>11.4</b> using git with Rstudio</a></li>
+<li class="chapter" data-level="11.5" data-path="version-control.html"><a href="version-control.html#git-on-the-command-line"><i class="fa fa-check"></i><b>11.5</b> git on the command line</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="a-fast-furious-overview-of-the-tidyverse.html"><a href="a-fast-furious-overview-of-the-tidyverse.html"><i class="fa fa-check"></i><b>12</b> A fast, furious overview of the tidyverse</a></li>
+<li class="chapter" data-level="13" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html"><i class="fa fa-check"></i><b>13</b> Authoring reproducibly with Rmarkdown</a><ul>
+<li class="chapter" data-level="13.1" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#notebooks"><i class="fa fa-check"></i><b>13.1</b> Notebooks</a></li>
+<li class="chapter" data-level="13.2" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#references"><i class="fa fa-check"></i><b>13.2</b> References</a><ul>
+<li class="chapter" data-level="13.2.1" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#zotero-and-rmarkdown"><i class="fa fa-check"></i><b>13.2.1</b> Zotero and Rmarkdown</a></li>
+</ul></li>
+<li class="chapter" data-level="13.3" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#bookdown"><i class="fa fa-check"></i><b>13.3</b> Bookdown</a></li>
+<li class="chapter" data-level="13.4" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#google-docs"><i class="fa fa-check"></i><b>13.4</b> Google Docs</a></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html"><i class="fa fa-check"></i><b>14</b> Managing Workflows with Snakemake</a><ul>
+<li class="chapter" data-level="14.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#a-simple-snakemake-example"><i class="fa fa-check"></i><b>14.1</b> A Simple Snakemake Example</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-1-a-simple-rule-to-trimmomcawesome-the-files-from-001"><i class="fa fa-check"></i><b>14.1.1</b> Snakefile #1: A simple rule to TrimmoMcAwesome the files from 001</a></li>
+<li class="chapter" data-level="14.1.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-2-a-single-trimmomcawesome-rule-using-wildcards"><i class="fa fa-check"></i><b>14.1.2</b> Snakefile #2: A single TrimmoMcAwesome rule using wildcards</a></li>
+<li class="chapter" data-level="14.1.3" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-3-add-trim_stupendous-in-there"><i class="fa fa-check"></i><b>14.1.3</b> Snakefile #3: Add <code>trim_stupendous</code> in there</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#ugly-complex-file-namesa-job-for-snakemake-input-functions"><i class="fa fa-check"></i><b>14.2</b> Ugly, complex file names…a job for Snakemake input functions!</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#playing-with-pandas"><i class="fa fa-check"></i><b>14.2.1</b> Playing with Pandas</a></li>
+<li class="chapter" data-level="14.2.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#spoofing-a-snakemake-input-function"><i class="fa fa-check"></i><b>14.2.2</b> Spoofing a Snakemake input function</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
+<li class="chapter" data-level="15" data-path="overview-of-bioinformatic-analyses.html"><a href="overview-of-bioinformatic-analyses.html"><i class="fa fa-check"></i><b>15</b> Overview of Bioinformatic Analyses</a></li>
+<li class="chapter" data-level="16" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html"><i class="fa fa-check"></i><b>16</b> DNA Sequences and Sequencing</a><ul>
+<li class="chapter" data-level="16.1" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#dna-stuff"><i class="fa fa-check"></i><b>16.1</b> DNA Stuff</a><ul>
+<li class="chapter" data-level="16.1.1" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#dna-replication-with-dna-polymerase"><i class="fa fa-check"></i><b>16.1.1</b> DNA Replication with DNA Polymerase</a></li>
+<li class="chapter" data-level="16.1.2" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#the-importance-of-the-3-hydroxyl"><i class="fa fa-check"></i><b>16.1.2</b> The importance of the 3’ hydroxyl…</a></li>
+</ul></li>
+<li class="chapter" data-level="16.2" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#sanger-sequencing"><i class="fa fa-check"></i><b>16.2</b> Sanger sequencing</a></li>
+<li class="chapter" data-level="16.3" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#illumina-sequencing-by-synthesis"><i class="fa fa-check"></i><b>16.3</b> Illumina Sequencing by Synthesis</a></li>
+<li class="chapter" data-level="16.4" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#library-prep-protocols"><i class="fa fa-check"></i><b>16.4</b> Library Prep Protocols</a><ul>
+<li class="chapter" data-level="16.4.1" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#wgs"><i class="fa fa-check"></i><b>16.4.1</b> WGS</a></li>
+<li class="chapter" data-level="16.4.2" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#rad-seq-methods"><i class="fa fa-check"></i><b>16.4.2</b> RAD-Seq methods</a></li>
+<li class="chapter" data-level="16.4.3" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#amplicon-sequencing"><i class="fa fa-check"></i><b>16.4.3</b> Amplicon Sequencing</a></li>
+<li class="chapter" data-level="16.4.4" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html#capture-arrays-rapture-etc."><i class="fa fa-check"></i><b>16.4.4</b> Capture arrays, RAPTURE, etc.</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html"><i class="fa fa-check"></i><b>17</b> Bioinformatic file formats</a><ul>
+<li class="chapter" data-level="17.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#sequences"><i class="fa fa-check"></i><b>17.1</b> Sequences</a></li>
+<li class="chapter" data-level="17.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#fastq"><i class="fa fa-check"></i><b>17.2</b> FASTQ</a><ul>
+<li class="chapter" data-level="17.2.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#illumina-ids"><i class="fa fa-check"></i><b>17.2.1</b> Line 1: Illumina identifier lines</a></li>
+<li class="chapter" data-level="17.2.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#bqscores"><i class="fa fa-check"></i><b>17.2.2</b> Line 4: Base quality scores</a></li>
+<li class="chapter" data-level="17.2.3" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#a-fastq-tidyverse-interlude"><i class="fa fa-check"></i><b>17.2.3</b> A FASTQ ‘tidyverse’ Interlude</a></li>
+<li class="chapter" data-level="17.2.4" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#comparing-read-1-to-read-2"><i class="fa fa-check"></i><b>17.2.4</b> Comparing read 1 to read 2</a></li>
+</ul></li>
+<li class="chapter" data-level="17.3" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#fasta"><i class="fa fa-check"></i><b>17.3</b> FASTA</a><ul>
+<li class="chapter" data-level="17.3.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#genomic-ranges"><i class="fa fa-check"></i><b>17.3.1</b> Genomic ranges</a></li>
+<li class="chapter" data-level="17.3.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#extracting-genomic-ranges-from-a-fasta-file"><i class="fa fa-check"></i><b>17.3.2</b> Extracting genomic ranges from a FASTA file</a></li>
+<li class="chapter" data-level="17.3.3" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#downloading-reference-genomes-from-ncbi"><i class="fa fa-check"></i><b>17.3.3</b> Downloading reference genomes from NCBI</a></li>
+</ul></li>
+<li class="chapter" data-level="17.4" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#alignments"><i class="fa fa-check"></i><b>17.4</b> Alignments</a><ul>
+<li class="chapter" data-level="17.4.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#how-might-i-align-to-thee-let-me-count-the-ways"><i class="fa fa-check"></i><b>17.4.1</b> How might I align to thee? Let me count the ways…</a></li>
+<li class="chapter" data-level="17.4.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#play-with-simple-alignments"><i class="fa fa-check"></i><b>17.4.2</b> Play with simple alignments</a></li>
+<li class="chapter" data-level="17.4.3" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#sam-flags"><i class="fa fa-check"></i><b>17.4.3</b> SAM Flags</a></li>
+<li class="chapter" data-level="17.4.4" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#cigar"><i class="fa fa-check"></i><b>17.4.4</b> The CIGAR string</a></li>
+<li class="chapter" data-level="17.4.5" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#the-seq-and-qual-columns"><i class="fa fa-check"></i><b>17.4.5</b> The SEQ and QUAL columns</a></li>
+<li class="chapter" data-level="17.4.6" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#sam-headers"><i class="fa fa-check"></i><b>17.4.6</b> SAM File Headers</a></li>
+<li class="chapter" data-level="17.4.7" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#the-bam-format"><i class="fa fa-check"></i><b>17.4.7</b> The BAM format</a></li>
+<li class="chapter" data-level="17.4.8" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#quick-self-study"><i class="fa fa-check"></i><b>17.4.8</b> Quick self study</a></li>
+</ul></li>
+<li class="chapter" data-level="17.5" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#variants"><i class="fa fa-check"></i><b>17.5</b> Variants</a><ul>
+<li class="chapter" data-level="17.5.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#vcf-format-the-body"><i class="fa fa-check"></i><b>17.5.1</b> VCF Format – The Body</a></li>
+<li class="chapter" data-level="17.5.2" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#vcf-format-the-header"><i class="fa fa-check"></i><b>17.5.2</b> VCF Format – The Header</a></li>
+<li class="chapter" data-level="17.5.3" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#boneyard"><i class="fa fa-check"></i><b>17.5.3</b> Boneyard</a></li>
+</ul></li>
+<li class="chapter" data-level="17.6" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#segments"><i class="fa fa-check"></i><b>17.6</b> Segments</a></li>
+<li class="chapter" data-level="17.7" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#conversionextractions-between-different-formats"><i class="fa fa-check"></i><b>17.7</b> Conversion/Extractions between different formats</a></li>
+<li class="chapter" data-level="17.8" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#visualization-of-genomic-data"><i class="fa fa-check"></i><b>17.8</b> Visualization of Genomic Data</a><ul>
+<li class="chapter" data-level="17.8.1" data-path="bioinformatic-file-formats.html"><a href="bioinformatic-file-formats.html#sample-data"><i class="fa fa-check"></i><b>17.8.1</b> Sample Data</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="genome-assembly.html"><a href="genome-assembly.html"><i class="fa fa-check"></i><b>18</b> Genome Assembly</a></li>
+<li class="chapter" data-level="19" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><i class="fa fa-check"></i><b>19</b> Alignment of sequence data to a reference genome (and associated steps)</a><ul>
+<li class="chapter" data-level="19.1" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#the-journey-of-each-dna-fragment-from-organism-to-sequencing-read"><i class="fa fa-check"></i><b>19.1</b> The Journey of each DNA Fragment from Organism to Sequencing Read</a></li>
+<li class="chapter" data-level="19.2" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#read-groups"><i class="fa fa-check"></i><b>19.2</b> Read Groups</a></li>
+<li class="chapter" data-level="19.3" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#aligning-reads-with-bwa"><i class="fa fa-check"></i><b>19.3</b> Aligning reads with <code>bwa</code></a><ul>
+<li class="chapter" data-level="19.3.1" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#indexing-the-genome-for-alignment"><i class="fa fa-check"></i><b>19.3.1</b> Indexing the genome for alignment</a></li>
+<li class="chapter" data-level="19.3.2" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#mapping-reads-with-bwa-mem"><i class="fa fa-check"></i><b>19.3.2</b> Mapping reads with <code>bwa mem</code></a></li>
+<li class="chapter" data-level="19.3.3" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#hold-it-right-there-buddy-what-about-the-read-groups"><i class="fa fa-check"></i><b>19.3.3</b> Hold it Right There, Buddy! What about the Read Groups?</a></li>
+</ul></li>
+<li class="chapter" data-level="19.4" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#processing-alignment-output-with-samtools"><i class="fa fa-check"></i><b>19.4</b> Processing alignment output with <code>samtools</code></a><ul>
+<li class="chapter" data-level="19.4.1" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#samtools-subcommands"><i class="fa fa-check"></i><b>19.4.1</b> <code>samtools</code> subcommands</a></li>
+</ul></li>
+<li class="chapter" data-level="19.5" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#boneyard-below-here"><i class="fa fa-check"></i><b>19.5</b> BONEYARD BELOW HERE</a></li>
+<li class="chapter" data-level="19.6" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#preprocess"><i class="fa fa-check"></i><b>19.6</b> Preprocess ?</a></li>
+<li class="chapter" data-level="19.7" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#quick-notes-to-self-on-chaining-things"><i class="fa fa-check"></i><b>19.7</b> Quick notes to self on chaining things:</a></li>
+<li class="chapter" data-level="19.8" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#merging-bam-files"><i class="fa fa-check"></i><b>19.8</b> Merging BAM files</a></li>
+<li class="chapter" data-level="19.9" data-path="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#divide-and-conquer-strategies"><i class="fa fa-check"></i><b>19.9</b> Divide and Conquer Strategies</a></li>
+</ul></li>
+<li class="chapter" data-level="20" data-path="variant-calling.html"><a href="variant-calling.html"><i class="fa fa-check"></i><b>20</b> Variant calling</a><ul>
+<li class="chapter" data-level="20.1" data-path="variant-calling.html"><a href="variant-calling.html#genotype-likelihoods"><i class="fa fa-check"></i><b>20.1</b> Genotype Likelihoods</a><ul>
+<li class="chapter" data-level="20.1.1" data-path="variant-calling.html"><a href="variant-calling.html#basic-sketch-of-genotype-likelihood-calculations"><i class="fa fa-check"></i><b>20.1.1</b> Basic Sketch of Genotype Likelihood Calculations</a></li>
+<li class="chapter" data-level="20.1.2" data-path="variant-calling.html"><a href="variant-calling.html#specifics-of-different-genotype-likelihoods"><i class="fa fa-check"></i><b>20.1.2</b> Specifics of different genotype likelihoods</a></li>
+<li class="chapter" data-level="20.1.3" data-path="variant-calling.html"><a href="variant-calling.html#computing-genotype-likelihoods-with-three-different-softwares"><i class="fa fa-check"></i><b>20.1.3</b> Computing genotype likelihoods with three different softwares</a></li>
+<li class="chapter" data-level="20.1.4" data-path="variant-calling.html"><a href="variant-calling.html#a-directed-acyclic-graph-for-genotype-likelihoods"><i class="fa fa-check"></i><b>20.1.4</b> A Directed Acyclic Graph For Genotype Likelihoods</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="21" data-path="boneyard-1.html"><a href="boneyard-1.html"><i class="fa fa-check"></i><b>21</b> Boneyard</a></li>
+<li class="chapter" data-level="22" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html"><i class="fa fa-check"></i><b>22</b> Basic Handling of VCF files</a><ul>
+<li class="chapter" data-level="22.1" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#bcftools"><i class="fa fa-check"></i><b>22.1</b> bcftools</a><ul>
+<li class="chapter" data-level="22.1.1" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#tell-me-about-my-vcf-file"><i class="fa fa-check"></i><b>22.1.1</b> Tell me about my VCF file!</a></li>
+<li class="chapter" data-level="22.1.2" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#get-fragmentsparts-of-my-vcf-file"><i class="fa fa-check"></i><b>22.1.2</b> Get fragments/parts of my VCF file</a></li>
+<li class="chapter" data-level="22.1.3" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#combine-vcf-files-in-various-ways"><i class="fa fa-check"></i><b>22.1.3</b> Combine VCF files in various ways</a></li>
+<li class="chapter" data-level="22.1.4" data-path="basic-handling-of-vcf-files.html"><a href="basic-handling-of-vcf-files.html#filter-out-variants-for-a-variety-of-reasons"><i class="fa fa-check"></i><b>22.1.4</b> Filter out variants for a variety of reasons</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="23" data-path="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><a href="bioinformatics-for-rad-seq-data-with-and-without-a-reference-genome.html"><i class="fa fa-check"></i><b>23</b> Bioinformatics for RAD seq data with and without a reference genome</a></li>
+<li class="chapter" data-level="24" data-path="processing-amplicon-sequencing-data.html"><a href="processing-amplicon-sequencing-data.html"><i class="fa fa-check"></i><b>24</b> Processing amplicon sequencing data</a></li>
+<li class="chapter" data-level="25" data-path="genome-annotation.html"><a href="genome-annotation.html"><i class="fa fa-check"></i><b>25</b> Genome Annotation</a></li>
+<li class="chapter" data-level="26" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html"><i class="fa fa-check"></i><b>26</b> Whole genome alignment strategies</a><ul>
+<li class="chapter" data-level="26.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#mapping-of-scaffolds-to-a-closely-related-genome"><i class="fa fa-check"></i><b>26.1</b> Mapping of scaffolds to a closely related genome</a></li>
+<li class="chapter" data-level="26.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#obtaining-ancestral-states-from-an-outgroup-genome"><i class="fa fa-check"></i><b>26.2</b> Obtaining Ancestral States from an Outgroup Genome</a><ul>
+<li class="chapter" data-level="26.2.1" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#using-lastz-to-align-coho-to-the-chinook-genome"><i class="fa fa-check"></i><b>26.2.1</b> Using LASTZ to align coho to the chinook genome</a></li>
+<li class="chapter" data-level="26.2.2" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#try-on-the-chinook-chromosomes"><i class="fa fa-check"></i><b>26.2.2</b> Try on the chinook chromosomes</a></li>
+<li class="chapter" data-level="26.2.3" data-path="whole-genome-alignment-strategies.html"><a href="whole-genome-alignment-strategies.html#explore-the-other-parameters-more"><i class="fa fa-check"></i><b>26.2.3</b> Explore the other parameters more</a></li>
+</ul></li>
+</ul></li>
+<li class="part"><span><b>IV Part IV: Analysis of Big Variant Data</b></span></li>
+<li class="chapter" data-level="27" data-path="bioinformatic-analysis-on-variant-data.html"><a href="bioinformatic-analysis-on-variant-data.html"><i class="fa fa-check"></i><b>27</b> Bioinformatic analysis on variant data</a></li>
+<li class="part"><span><b>V Part V: Population Genomics</b></span></li>
+<li class="chapter" data-level="28" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html"><i class="fa fa-check"></i><b>28</b> Topics in pop gen</a><ul>
+<li class="chapter" data-level="28.1" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#coalescent"><i class="fa fa-check"></i><b>28.1</b> Coalescent</a></li>
+<li class="chapter" data-level="28.2" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#measures-of-genetic-diversity-and-such"><i class="fa fa-check"></i><b>28.2</b> Measures of genetic diversity and such</a></li>
+<li class="chapter" data-level="28.3" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#demographic-inference-with-partial-a-partial-i-and-moments"><i class="fa fa-check"></i><b>28.3</b> Demographic inference with <span class="math inline">\(\partial a \partial i\)</span> and <em>moments</em></a></li>
+<li class="chapter" data-level="28.4" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#balls-in-boxes"><i class="fa fa-check"></i><b>28.4</b> Balls in Boxes</a></li>
+<li class="chapter" data-level="28.5" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#some-landscape-genetics"><i class="fa fa-check"></i><b>28.5</b> Some landscape genetics</a></li>
+<li class="chapter" data-level="28.6" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#relationship-inference"><i class="fa fa-check"></i><b>28.6</b> Relationship Inference</a></li>
+<li class="chapter" data-level="28.7" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#tests-for-selection"><i class="fa fa-check"></i><b>28.7</b> Tests for Selection</a></li>
+<li class="chapter" data-level="28.8" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#multivariate-associations-gea-etc."><i class="fa fa-check"></i><b>28.8</b> Multivariate Associations, GEA, etc.</a></li>
+<li class="chapter" data-level="28.9" data-path="topics-in-pop-gen.html"><a href="topics-in-pop-gen.html#estimating-heritability-in-the-wild"><i class="fa fa-check"></i><b>28.9</b> Estimating heritability in the wild</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references-1.html"><a href="references-1.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://bookdown.org" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="managing-workflows-with-snakemake" class="section level1">
+<h1><span class="header-section-number">Chapter 14</span> Managing Workflows with Snakemake</h1>
+<p>In the preceding sections we have covered a few approaches for using RStudio
+projects and RMarkdown to create reproducible research repositories with visually
+pleasing HTML outputs that can help readers quickly see what was required to
+generate different figures/tables/outputs. Such an approach
+is well suited to projects that are undertaken primarily on one’s own desktop or
+laptop computer, and which don’t take an inordinately long time to run. Unfortunately,
+that does not describe most <em>bioinformatic</em> analyses handling whole-genome sequencing
+or RAD sequencing data for conservation genetics. Most of those analyses will be
+run on a university computer cluster, and trying to manage all of that within
+an RMarkdown-based framework is at best rather difficult, and at worst it can
+become a shrieking horror.</p>
+<p>For managing these sorts of bioinformatic workflows there is a Python-based
+framework called <a href="https://snakemake.readthedocs.io/en/stable/">Snakemake</a>
+that is well-supported, flexible, and incredibly powerful.
+Understanding how Snakemake works and becoming familiar with its many
+features involves a non-trivial learning curve; however, for anyone spending
+a sizable chunk of their graduate career managing bioinformatic analyses, or for anyone that is
+a lab bioinformatician running bioinformatic workflows across
+many species (for example), the benefits of learning
+Snakemake will continue to pay dividends for years to come.</p>
+<p>Someone who has mastered all the topics in Part I of this handbook (Unix programming,
+working on remote computers, etc.) certainly will have the skills to write
+what I will call <em>input-oriented</em>, <em>forward-marching</em> workflows. I call these
+“forward-marching” because they start from a set of
+input files (for example files of sequences from a sequencer), and then
+the workflow is defined as a series of sequential steps, one after the other.
+They are “input-oriented” in the sense that such a workflow starts
+with a series of inputs, but the workflow itself doesn’t really know
+what it is trying to produce from those inputs until it has run all the
+way through and actually turned those inputs into outputs.
+For example, all the input
+files might get trimmed or cleaned, then they would all get mapped to a genome,
+and then those mapped sequences would be used to call variants, so as to
+find SNPs in the data, etc. If you were writing this in an
+input-oriented, forward-marching fashion, then, to deal with the fact that you had multiple files of
+DNA sequences (for example, one for each individual bird or fish that had
+been sampled), you might write Unix <code>for</code> loops to cycle over all the input files
+as in Section <a href="shell-programming.html#unix-for-loops">5.7</a>, or, you could define a SLURM job array to start a separate job
+instance for each input file, as in Section <a href="high-performance-computing-clusters-hpccs.html#slurm-job-arrays">8.4.3</a>. In each case,
+you would have to do some extra programming to deal with the different input files, and
+if one of the steps of your workflow failed on just one, or a few, of the files,
+you might spend a large amount of time tracking those failures down and than
+manually re-running that small number of jobs.</p>
+<p>By contrast, Snakemake takes a different approach to managing workflows.
+We will call it an <em>output-oriented</em>, <em>backward-looking</em> approach. We call it
+that because workflows in Snakemake are defined first and foremost in terms of the <em>output files</em>
+that are desired, along with instructions on how to create those output files
+from necessary input files and bioinformatic programs. They are <em>backward-looking</em>
+in the sense that, once you have developed a Snakemake workflow, you get results by
+telling Snakemake which output files you
+want to create, and then it “looks backwards” through the workflow to determine which
+input files are needed to create the requested outputs. Sometimes it has to look backwards
+through several steps before it identifies all the necessary input files.<br />
+Once it has found those necessary inputs, it then runs forward through the steps to
+create the output files. In this phase, the workflow looks like it is “forward-marching”, in the
+sense that outputs are being created from inputs. But, in order to get to that
+“forward-running” phase, Snakemake had to look backward to figure out what inputs to use.</p>
+<p>The above constitutes some subtle points, that might not be clear upon first reading,
+but we will try to summarize it in a few pithy phrases:</p>
+<ul>
+<li>A workflow defined as a typical Unix shell script can be thought of as a process that runs
+forward. You give it a lot of input files and it just cranks through a bunch of steps until
+the output files are made.</li>
+<li>A workflow defined with Snakemake works differently. First you define the workflow in terms
+of a series of “rules.” Then, when you request any given set of output files, Snakemake
+will look backwards through
+the rules of the workflow and figure out exactly which steps must be performed, on which input
+files, in order to create the requested output files. Once it has determined that,
+it runs just those necessary steps.</li>
+</ul>
+<p>There are many advantages to this output-oriented, backward-looking approach:</p>
+<ol style="list-style-type: decimal">
+<li>If your workflow has many steps, and some of them have already been run,
+then Snakemake automatically recognizes that, and will not re-run steps
+in the workflow that have already been completed. In an input-oriented system (like
+a traditional Unix script), you would have to spend the time to figure out
+which steps had already been run, and then run your script only from that
+point forward. Doing so can be a hassle and can also be prone to errors.</li>
+<li>A workflow defined by Snakemake, being explicit about the inputs needed
+for each step, naturally defines “work units” that can be run independently of
+one another. Accordingly, Snakemake, itself, can break a huge bioinformatic workflow
+into a number of small jobs that can be run in parallel, saving you, the user,
+from having to write scripts to launch a series of SLURM job arrays.</li>
+<li>The fact that Snakemake automatically keeps track of which inputs already
+exist—and which might still need to be generated—provides huge benefits when some of your jobs fail.
+Anyone who has used a cluster has stories about jobs that inexplicably fail. Without a workflow
+management system like Snakemake, you can spend almost as much of your own time managing these
+failed jobs as it took to launch all the jobs in the first place.</li>
+</ol>
+<p>In addition to these obvious advantages of the output-oriented approach, Snakemake also
+includes a number of features that make it easy to use your workflow on a variety of
+different platforms. It is tightly integrated with conda (Section <a href="working-on-remote-servers.html#miniconda">7.5.2</a>),
+letting the user define
+conda environments for each step in the workflow. This means that if you move your whole
+workflow to a new cluster, you don’t have to spend any time coordinating the installation
+of the programs you need—if you set things up properly with Snakemake and conda,
+that will happen automatically.
+If you distribute your workflows to other people to use, this is particularly helpful, since
+you will spend far less time assisting them in setting up their computer environment to run
+your workflow. Snakemake can also be customized to work in your own cluster environment. Finally,
+there are interfaces to allow your Snakemake workflows to run seamlessly in the cloud.</p>
+<p>Full documentation for Snakemake can be found at
+<a href="https://snakemake.readthedocs.io/en/stable/">https://snakemake.readthedocs.io/en/stable/</a>.
+This documentation is comprehensive, but can feel a little daunting at first.
+On the other hand, the developers of Snakemake also provide an excellent and accessible
+tutorial at
+<a href="https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html">https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html</a>.
+If you have not run through that tutorial yet, you should do that before
+going through the next sections in this chapter.</p>
+<p>In the following I present another short tutorial that focuses a little more
+on understanding how <em>wildcards</em> in Snakemake work, as this seems to be a
+stumbling block for many students. In addition, I try to offer a few tidbits
+of advice regarding <em>input functions</em> and simple ways to work interactively with
+Python while you are developing your Snakemake workflows. I hope this will be particularly
+helpful for students that aren’t super familiar with Python.</p>
+<p>Before proceeding, you will need to follow the instructions
+<a href="https://snakemake.readthedocs.io/en/stable/getting_started/installation.html#installation-via-conda">here</a> to install Snakemake into a conda environment named <code>snakemake</code>.
+Once installed, activate the <code>snakemake</code> environment and then add the <code>tree</code> Unix utility to
+it:</p>
+<div class="sourceCode" id="cb406"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb406-1"><a href="managing-workflows-with-snakemake.html#cb406-1"></a><span class="ex">conda</span> activate snakemake</span>
+<span id="cb406-2"><a href="managing-workflows-with-snakemake.html#cb406-2"></a><span class="ex">conda</span> install -c conda-forge tree</span></code></pre></div>
+<p><code>tree</code> is a utility that we will use in the following. It
+provides a nice way of visualizing directories and their contents.</p>
+<p>Once you have done that, make a directory called <code>smk-tut</code> and
+<code>cd</code> into it to do this tutorial.</p>
+<div class="sourceCode" id="cb407"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb407-1"><a href="managing-workflows-with-snakemake.html#cb407-1"></a><span class="fu">mkdir</span> smk-tut</span>
+<span id="cb407-2"><a href="managing-workflows-with-snakemake.html#cb407-2"></a><span class="bu">cd</span> smk-tut</span></code></pre></div>
+<div id="a-simple-snakemake-example" class="section level2">
+<h2><span class="header-section-number">14.1</span> A Simple Snakemake Example</h2>
+<p>Here is a somewhat make-believe example that will let us grok out the
+basics of Snakemake and the logic of simple workflows without worrying about
+performing actual operations (like trimming or mapping) on files. This
+a useful excercise because it can also be helpful when you are developing
+your own complex workflows to first make sure that the workflow logic (from
+Snakemake’s point of view) is correct, without having to spend a long
+time on the actual processing of files.</p>
+<p>We will pretend that we have paired-end sequence files from a sequencing center and
+we want to compare the outcome of using two different programs to trim leftover adapters
+and low-quality sequence from these files. These two (utterly fictitious) programs
+are <code>TrimmoMcAwesome</code> and <code>trim_stupendous</code><a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.
+We will pretend that both <code>TrimmoMcAwesome</code> and <code>trim_stupendous</code> work with this sort of syntax:</p>
+<div class="sourceCode" id="cb408"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb408-1"><a href="managing-workflows-with-snakemake.html#cb408-1"></a><span class="ex">TrimmoMcAwesome</span> file_read1.fq file_read2.fq outpath1  outpath2</span>
+<span id="cb408-2"><a href="managing-workflows-with-snakemake.html#cb408-2"></a><span class="co"># or</span></span>
+<span id="cb408-3"><a href="managing-workflows-with-snakemake.html#cb408-3"></a><span class="ex">trim_stupendous</span> file_read1.fq file_read2.fq outpath1  outpath2</span></code></pre></div>
+<p>which will trim the paired-end reads <code>file_read1.fq</code> and <code>file_read2.fq</code> and put the
+results for read1 and read2, respectively, into the files <code>outpath1</code> and <code>outpath2</code>.</p>
+<p>For now, let us assume that we have 10 input files: 2 paired-end read files
+for each of 5 samples named <code>001</code> through <code>005</code>. Please create those files
+(even though they will be empty) with this Unix command:</p>
+<div class="sourceCode" id="cb409"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb409-1"><a href="managing-workflows-with-snakemake.html#cb409-1"></a><span class="fu">mkdir</span> -p data/raw</span>
+<span id="cb409-2"><a href="managing-workflows-with-snakemake.html#cb409-2"></a><span class="fu">touch</span> data/raw/00<span class="dt">{1..5}</span>_R<span class="dt">{1,2}</span>.fq</span></code></pre></div>
+<p>(Please note that the use of curly braces here is an example of “brace expansion” within
+the Unix shell. You will see lots of curly braces in the upcoming material, and
+most of those are serving a different purpose.)</p>
+<p>Once you have done that, use <code>tree</code> to see what the directory structure in
+<code>smk-tut</code> looks like:</p>
+<div class="sourceCode" id="cb410"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb410-1"><a href="managing-workflows-with-snakemake.html#cb410-1"></a><span class="ex">%</span> tree .</span>
+<span id="cb410-2"><a href="managing-workflows-with-snakemake.html#cb410-2"></a><span class="ex">.</span></span>
+<span id="cb410-3"><a href="managing-workflows-with-snakemake.html#cb410-3"></a>└── <span class="ex">data</span></span>
+<span id="cb410-4"><a href="managing-workflows-with-snakemake.html#cb410-4"></a>    └── <span class="ex">raw</span></span>
+<span id="cb410-5"><a href="managing-workflows-with-snakemake.html#cb410-5"></a>        ├── <span class="ex">001_R1.fq</span></span>
+<span id="cb410-6"><a href="managing-workflows-with-snakemake.html#cb410-6"></a>        ├── <span class="ex">001_R2.fq</span></span>
+<span id="cb410-7"><a href="managing-workflows-with-snakemake.html#cb410-7"></a>        ├── <span class="ex">002_R1.fq</span></span>
+<span id="cb410-8"><a href="managing-workflows-with-snakemake.html#cb410-8"></a>        ├── <span class="ex">002_R2.fq</span></span>
+<span id="cb410-9"><a href="managing-workflows-with-snakemake.html#cb410-9"></a>        ├── <span class="ex">003_R1.fq</span></span>
+<span id="cb410-10"><a href="managing-workflows-with-snakemake.html#cb410-10"></a>        ├── <span class="ex">003_R2.fq</span></span>
+<span id="cb410-11"><a href="managing-workflows-with-snakemake.html#cb410-11"></a>        ├── <span class="ex">004_R1.fq</span></span>
+<span id="cb410-12"><a href="managing-workflows-with-snakemake.html#cb410-12"></a>        ├── <span class="ex">004_R2.fq</span></span>
+<span id="cb410-13"><a href="managing-workflows-with-snakemake.html#cb410-13"></a>        ├── <span class="ex">005_R1.fq</span></span>
+<span id="cb410-14"><a href="managing-workflows-with-snakemake.html#cb410-14"></a>        └── <span class="ex">005_R2.fq</span></span></code></pre></div>
+<p>That handy little summary shows the names of 10 files inside a directory called
+<code>raw</code> inside a directory called <code>data</code>.</p>
+<div id="snakefile-1-a-simple-rule-to-trimmomcawesome-the-files-from-001" class="section level3">
+<h3><span class="header-section-number">14.1.1</span> Snakefile #1: A simple rule to TrimmoMcAwesome the files from 001</h3>
+<p>If you did the tutorial, you will recall that the instructions for the workflow
+go into the file, <code>Snakefile</code>. Make a Snakefile within the <code>smk-tut</code> directory
+with these contents, which give it the rule for running TrimmoMcAwesome on
+the reads from sample <code>001</code>:</p>
+<div class="sourceCode" id="cb411"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb411-1"><a href="managing-workflows-with-snakemake.html#cb411-1"></a><span class="fu">rule trim_awesome</span><span class="kw">:</span></span>
+<span id="cb411-2"><a href="managing-workflows-with-snakemake.html#cb411-2"></a><span class="at">    </span><span class="fu">input</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb411-3"><a href="managing-workflows-with-snakemake.html#cb411-3"></a><span class="at">        </span><span class="st">&quot;data/raw/001_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb411-4"><a href="managing-workflows-with-snakemake.html#cb411-4"></a><span class="at">        </span><span class="st">&quot;data/raw/001_R1.fq&quot;</span></span>
+<span id="cb411-5"><a href="managing-workflows-with-snakemake.html#cb411-5"></a><span class="at">    </span><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb411-6"><a href="managing-workflows-with-snakemake.html#cb411-6"></a><span class="at">        </span><span class="st">&quot;results/awesome/001_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb411-7"><a href="managing-workflows-with-snakemake.html#cb411-7"></a><span class="at">        </span><span class="st">&quot;results/awesome/001_R2.fq&quot;</span></span>
+<span id="cb411-8"><a href="managing-workflows-with-snakemake.html#cb411-8"></a><span class="at">    </span><span class="fu">shell</span><span class="kw">:</span></span>
+<span id="cb411-9"><a href="managing-workflows-with-snakemake.html#cb411-9"></a><span class="at">        </span><span class="st">&quot;TrimmoMcAwesome {input} {output}&quot;</span></span></code></pre></div>
+<p>Once you have that Snakefile, you can ask snakemake to show you what it
+would do if you ran it. Give it the <code>-n</code> option (dry run) and the <code>-p</code> option
+(print the shell commands) by putting them together with <code>-np</code>:</p>
+<div class="sourceCode" id="cb412"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb412-1"><a href="managing-workflows-with-snakemake.html#cb412-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
+<span id="cb412-2"><a href="managing-workflows-with-snakemake.html#cb412-2"></a><span class="ex">snakemake</span> -np</span></code></pre></div>
+<p>The result you get should look like this:</p>
+<pre><code>Building DAG of jobs...
+Job counts:
+    count   jobs
+    1   trim_awesome
+    1
+
+[Thu Apr  1 07:36:01 2021]
+rule trim_awesome:
+    input: data/raw/001_R1.fq, data/raw/001_R1.fq
+    output: results/awesome/001_R1.fq, results/awesome/001_R2.fq
+    jobid: 0
+
+TrimmoMcAwesome data/raw/001_R1.fq data/raw/001_R1.fq results/awesome/001_R1.fq results/awesome/001_R2.fq
+Job counts:
+    count   jobs
+    1   trim_awesome
+    1
+This was a dry-run (flag -n). The order of jobs does not reflect the order of execution.
+</code></pre>
+<p>It is worth sitting down and looking closely at this output. The first block shows how many
+jobs will run. The second block shows the rule that will be run in the job, and it
+explicitly shows the values of the <code>input</code> and <code>output</code> of the block. The line at the top
+of the third block shows the shell command that would be run. It looks correct. Great!</p>
+<p>Another thing worthy of note: the requested output files in this rule are
+actual file names and they appear in the first block of the Snakefile.
+Because of this, we could just run <code>snakemake -np</code> without
+explicitly requesting any output files on the command line—Snakemake used
+the two outputs from that first rule block.</p>
+<p>Alternatively, we could have explicitly requested those output files on the command line,
+like:</p>
+<div class="sourceCode" id="cb414"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb414-1"><a href="managing-workflows-with-snakemake.html#cb414-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
+<span id="cb414-2"><a href="managing-workflows-with-snakemake.html#cb414-2"></a><span class="ex">snakemake</span> -np results/awesome/001_R1.fq results/awesome/001_R2.fq</span></code></pre></div>
+<p>Try that, and note that you get the same result.</p>
+<p>But now, try requesting (on the command line) the TrimmoMcAwesome output for a different sample,
+like 002:</p>
+<div class="sourceCode" id="cb415"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb415-1"><a href="managing-workflows-with-snakemake.html#cb415-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
+<span id="cb415-2"><a href="managing-workflows-with-snakemake.html#cb415-2"></a><span class="ex">snakemake</span> -np results/awesome/002_R1.fq results/awesome/002_R2.fq</span></code></pre></div>
+<p>What happened when you did that? Well Snakemake should have replied with an error
+message telling you, essentially, “What’s your problem asking for those output files? My Snakefile
+doesn’t tell me how to make that output file!” And that is what it should tell you because
+the rule <code>trim_awesome</code> only gives instructions on how to make the output files
+<code>results/awesome/001_R1.fq</code> and <code>results/awesome/001_R2.fq</code></p>
+<p>So, what if we want a rule to make <code>results/awesome/002_R1.fq</code> and <code>results/awesome/002_R2.fq</code> and
+awesome-trimmed output for all the other samples too. The naive approach would be to
+write a new rule block for every sample in your Snakefile till it looked like:</p>
+<div class="sourceCode" id="cb416"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb416-1"><a href="managing-workflows-with-snakemake.html#cb416-1"></a><span class="fu">rule trim_awesome_001</span><span class="kw">:</span></span>
+<span id="cb416-2"><a href="managing-workflows-with-snakemake.html#cb416-2"></a><span class="at">    </span><span class="fu">input</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb416-3"><a href="managing-workflows-with-snakemake.html#cb416-3"></a><span class="at">        </span><span class="st">&quot;data/raw/001_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb416-4"><a href="managing-workflows-with-snakemake.html#cb416-4"></a><span class="at">        </span><span class="st">&quot;data/raw/001_R1.fq&quot;</span></span>
+<span id="cb416-5"><a href="managing-workflows-with-snakemake.html#cb416-5"></a><span class="at">    </span><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb416-6"><a href="managing-workflows-with-snakemake.html#cb416-6"></a><span class="at">        </span><span class="st">&quot;results/awesome/001_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb416-7"><a href="managing-workflows-with-snakemake.html#cb416-7"></a><span class="at">        </span><span class="st">&quot;results/awesome/001_R2.fq&quot;</span></span>
+<span id="cb416-8"><a href="managing-workflows-with-snakemake.html#cb416-8"></a><span class="at">    </span><span class="fu">shell</span><span class="kw">:</span></span>
+<span id="cb416-9"><a href="managing-workflows-with-snakemake.html#cb416-9"></a><span class="at">        </span><span class="st">&quot;TrimmoMcAwesome {input} {output}&quot;</span></span>
+<span id="cb416-10"><a href="managing-workflows-with-snakemake.html#cb416-10"></a></span>
+<span id="cb416-11"><a href="managing-workflows-with-snakemake.html#cb416-11"></a></span>
+<span id="cb416-12"><a href="managing-workflows-with-snakemake.html#cb416-12"></a><span class="fu">rule trim_awesome_002</span><span class="kw">:</span></span>
+<span id="cb416-13"><a href="managing-workflows-with-snakemake.html#cb416-13"></a><span class="at">    </span><span class="fu">input</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb416-14"><a href="managing-workflows-with-snakemake.html#cb416-14"></a><span class="at">        </span><span class="st">&quot;data/raw/002_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb416-15"><a href="managing-workflows-with-snakemake.html#cb416-15"></a><span class="at">        </span><span class="st">&quot;data/raw/002_R1.fq&quot;</span></span>
+<span id="cb416-16"><a href="managing-workflows-with-snakemake.html#cb416-16"></a><span class="at">    </span><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb416-17"><a href="managing-workflows-with-snakemake.html#cb416-17"></a><span class="at">        </span><span class="st">&quot;results/awesome/002_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb416-18"><a href="managing-workflows-with-snakemake.html#cb416-18"></a><span class="at">        </span><span class="st">&quot;results/awesome/002_R2.fq&quot;</span></span>
+<span id="cb416-19"><a href="managing-workflows-with-snakemake.html#cb416-19"></a><span class="at">    </span><span class="fu">shell</span><span class="kw">:</span></span>
+<span id="cb416-20"><a href="managing-workflows-with-snakemake.html#cb416-20"></a><span class="at">        </span><span class="st">&quot;TrimmoMcAwesome {input} {output}&quot;</span></span>
+<span id="cb416-21"><a href="managing-workflows-with-snakemake.html#cb416-21"></a></span>
+<span id="cb416-22"><a href="managing-workflows-with-snakemake.html#cb416-22"></a><span class="co"># and so forth, until</span></span>
+<span id="cb416-23"><a href="managing-workflows-with-snakemake.html#cb416-23"></a></span>
+<span id="cb416-24"><a href="managing-workflows-with-snakemake.html#cb416-24"></a><span class="fu">rule trim_awesome_005</span><span class="kw">:</span></span>
+<span id="cb416-25"><a href="managing-workflows-with-snakemake.html#cb416-25"></a><span class="at">    </span><span class="fu">input</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb416-26"><a href="managing-workflows-with-snakemake.html#cb416-26"></a><span class="at">        </span><span class="st">&quot;data/raw/005_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb416-27"><a href="managing-workflows-with-snakemake.html#cb416-27"></a><span class="at">        </span><span class="st">&quot;data/raw/005_R1.fq&quot;</span></span>
+<span id="cb416-28"><a href="managing-workflows-with-snakemake.html#cb416-28"></a><span class="at">    </span><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb416-29"><a href="managing-workflows-with-snakemake.html#cb416-29"></a><span class="at">        </span><span class="st">&quot;results/awesome/005_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb416-30"><a href="managing-workflows-with-snakemake.html#cb416-30"></a><span class="at">        </span><span class="st">&quot;results/awesome/005_R2.fq&quot;</span></span>
+<span id="cb416-31"><a href="managing-workflows-with-snakemake.html#cb416-31"></a><span class="at">    </span><span class="fu">shell</span><span class="kw">:</span></span>
+<span id="cb416-32"><a href="managing-workflows-with-snakemake.html#cb416-32"></a><span class="at">        </span><span class="st">&quot;TrimmoMcAwesome {input} {output}&quot;</span></span></code></pre></div>
+<p>Boy! Doing that would really suck! It would require lots of typing, lots of
+chances to make an error, and if you wanted to change something in the shell
+block, for example, you would have to change all of the rules. What a hassle! Obviously,
+no sane person would do that. And, thankfully no one has to, because
+Snakemake allows a single block to apply to multiple instances of output
+(and hence input) by using <em>wildcards</em>. The next section takes us through
+that.</p>
+</div>
+<div id="snakefile-2-a-single-trimmomcawesome-rule-using-wildcards" class="section level3">
+<h3><span class="header-section-number">14.1.2</span> Snakefile #2: A single TrimmoMcAwesome rule using wildcards</h3>
+<p>The best way to start thinking about wildcards is to imagine all the different
+output files you would want from a rule, and then investigate the parts that
+change. With samples 001 through 005, the TrimmoMcAwesome output we would want
+would be these pairs of files:</p>
+<pre><code>results/awesome/001_R1.fq
+results/awesome/001_R2.fq
+
+results/awesome/002_R1.fq
+results/awesome/002_R2.fq
+
+results/awesome/003_R1.fq
+results/awesome/003_R2.fq
+
+results/awesome/004_R1.fq
+results/awesome/004_R2.fq
+
+results/awesome/005_R1.fq
+results/awesome/005_R2.fq</code></pre>
+<p>OK! So, these are really similar, except that there is a part pertaining
+to the sample number that is changing between each pair of files.</p>
+<p>In fact, we could write down the general pattern for all of these output
+file names in a sort of shorthand like this:</p>
+<pre><code>results/awesome/{sample}_R1.fq
+results/awesome/{sample}_R2.fq</code></pre>
+<p>In other words every one of the 10 file names can be generated by replacing
+<code>{sample}</code> in</p>
+<pre><code>results/awesome/{sample}_R1.fq
+results/awesome/{sample}_R2.fq</code></pre>
+<p>with a value. For example, if you replace <code>{sample}</code> with <code>003</code>:</p>
+<pre><code>results/awesome/003_R1.fq
+results/awesome/003_R2.fq</code></pre>
+<p>This shorthand is exactly the way that Snakemake specifies a whole family
+of output files using <em>wildcards</em>. We will call
+<code>"results/awesome/{sample}_R1.fq", "results/awesome/{sample}_R2.fq"</code> the
+<em>wildcard phrase</em>. The wildcards in that wildcard phrase
+is<code>{sample}</code>. Each of those wildcard in a wildcard phrase can take
+<em>values</em> or <em>instances</em>. When wildcard phrases are used in a Snakemake rule
+block, the values/instances of the wildcards within them are found when an output file is requested
+that <em>matches</em> the wildcard phrase. This will become more clear as we proceed.</p>
+<p>First, let us update our Snakefile to look like this:</p>
+<div class="sourceCode" id="cb421"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb421-1"><a href="managing-workflows-with-snakemake.html#cb421-1"></a><span class="fu">rule trim_awesome</span><span class="kw">:</span></span>
+<span id="cb421-2"><a href="managing-workflows-with-snakemake.html#cb421-2"></a><span class="at">    </span><span class="fu">input</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb421-3"><a href="managing-workflows-with-snakemake.html#cb421-3"></a><span class="at">        </span><span class="st">&quot;data/raw/{sample}_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb421-4"><a href="managing-workflows-with-snakemake.html#cb421-4"></a><span class="at">        </span><span class="st">&quot;data/raw/{sample}_R2.fq&quot;</span></span>
+<span id="cb421-5"><a href="managing-workflows-with-snakemake.html#cb421-5"></a><span class="at">    </span><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb421-6"><a href="managing-workflows-with-snakemake.html#cb421-6"></a><span class="at">        </span><span class="st">&quot;results/awesome/{sample}_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb421-7"><a href="managing-workflows-with-snakemake.html#cb421-7"></a><span class="at">        </span><span class="st">&quot;results/awesome/{sample}_R2.fq&quot;</span></span>
+<span id="cb421-8"><a href="managing-workflows-with-snakemake.html#cb421-8"></a><span class="at">    </span><span class="fu">shell</span><span class="kw">:</span></span>
+<span id="cb421-9"><a href="managing-workflows-with-snakemake.html#cb421-9"></a><span class="at">        </span><span class="st">&quot;TrimmoMcAwesome {input} {output}&quot;</span></span></code></pre></div>
+<p>So, go ahead and make that your Snakefile.</p>
+<p>Now, see what happens if you do:</p>
+<div class="sourceCode" id="cb422"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb422-1"><a href="managing-workflows-with-snakemake.html#cb422-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
+<span id="cb422-2"><a href="managing-workflows-with-snakemake.html#cb422-2"></a><span class="ex">snakemake</span> -np</span></code></pre></div>
+<p>Aha! Snakemake gets upset at you because it is trying to run rule trim_awesome
+but the output requested in it is a wildcard phrase with no values or instances
+for the wilcards. Snakemake doesn’t really know how to run a rule to obtain a file
+that is a wilcard phrase in which the wildcards do not have explicit values.</p>
+<p>However, if you explicitly ask for certain output files, like:</p>
+<div class="sourceCode" id="cb423"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb423-1"><a href="managing-workflows-with-snakemake.html#cb423-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
+<span id="cb423-2"><a href="managing-workflows-with-snakemake.html#cb423-2"></a><span class="ex">snakemake</span> -np results/awesome/002_R1.fq results/awesome/002_R2.fq</span></code></pre></div>
+<p>This time, Snakemake finds the rule to create those output files and it knows
+what the input files should be because it <em>propagates wildcard values from the
+requested output into the wildcard phrases of the input</em>. Diagrammatically
+that process looks like this:</p>
+<div class="figure" style="text-align: center">
+<img src="figs/wildcard_propagation_1.svg" alt="A diagrammatic view of how wildcard values get propagated."  />
+<p class="caption">
+(#fig:wildcard_propagation_1)A diagrammatic view of how wildcard values get propagated.
+</p>
+</div>
+<p>The upshot of this is that we can now easily request all the sample output files
+like this. Again, we note that these curly braces are different from the curly
+braces you have seen in the Snakemake/Python wildcards. These are just
+Unix brace-expansion curly braces.</p>
+<div class="sourceCode" id="cb424"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb424-1"><a href="managing-workflows-with-snakemake.html#cb424-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
+<span id="cb424-2"><a href="managing-workflows-with-snakemake.html#cb424-2"></a><span class="ex">snakemake</span> -np results/awesome/00<span class="dt">{1..5}</span>_R<span class="dt">{1,2}</span>.fq</span></code></pre></div>
+<p>Again, we note that these curly braces are different from the curly
+braces you have seen in the Snakemake/Python wildcards. These are just
+Unix brace-expansion curly braces. They merely expand into <code>results/awesome/001_R1.fq results/awesome/001_R2.fq results/awesome/002_R1.fq results/awesome/002_R2.fq results/awesome/003_R1.fq results/awesome/003_R2.fq results/awesome/004_R1.fq results/awesome/004_R2.fq results/awesome/005_R1.fq results/awesome/005_R2.fq</code></p>
+<p>Cool! Snakemake was able to figure out how to generate all of those output files by
+running 5 jobs!</p>
+<p>Before we leave this section, let’s see what kind of error message Snakemake
+gives us when we ask for output that it doesn’t have what it needs to generate.
+Try this:</p>
+<div class="sourceCode" id="cb425"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb425-1"><a href="managing-workflows-with-snakemake.html#cb425-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
+<span id="cb425-2"><a href="managing-workflows-with-snakemake.html#cb425-2"></a><span class="ex">snakemake</span> -np results/awesome/006_R1.fq  results/awesome/006_R2.fq</span></code></pre></div>
+<p>From the error message, we see that Snakemake propagated the wildcard
+value <code>{sample} = 002</code> to the input, but didn’t find the appropriate input
+files:</p>
+<pre><code>Building DAG of jobs...
+MissingInputException in line 4 of /Users/eriq/Desktop/smk-tut/Snakefile:
+Missing input files for rule trim_awesome:
+data/raw/006_R1.fq
+data/raw/006_R2.fq</code></pre>
+<p>That is good!</p>
+</div>
+<div id="snakefile-3-add-trim_stupendous-in-there" class="section level3">
+<h3><span class="header-section-number">14.1.3</span> Snakefile #3: Add <code>trim_stupendous</code> in there</h3>
+<p>Now that we know how to deploy wildcards in our output and input file names
+we can use them when we make another block for our <code>trim_stupendous</code> jobs:</p>
+<p>Update your Snakefile so it looks like this:</p>
+<div class="sourceCode" id="cb427"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb427-1"><a href="managing-workflows-with-snakemake.html#cb427-1"></a><span class="fu">rule trim_awesome</span><span class="kw">:</span></span>
+<span id="cb427-2"><a href="managing-workflows-with-snakemake.html#cb427-2"></a><span class="at">    </span><span class="fu">input</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb427-3"><a href="managing-workflows-with-snakemake.html#cb427-3"></a><span class="at">        </span><span class="st">&quot;data/raw/{sample}_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb427-4"><a href="managing-workflows-with-snakemake.html#cb427-4"></a><span class="at">        </span><span class="st">&quot;data/raw/{sample}_R2.fq&quot;</span></span>
+<span id="cb427-5"><a href="managing-workflows-with-snakemake.html#cb427-5"></a><span class="at">    </span><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb427-6"><a href="managing-workflows-with-snakemake.html#cb427-6"></a><span class="at">        </span><span class="st">&quot;results/awesome/{sample}_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb427-7"><a href="managing-workflows-with-snakemake.html#cb427-7"></a><span class="at">        </span><span class="st">&quot;results/awesome/{sample}_R2.fq&quot;</span></span>
+<span id="cb427-8"><a href="managing-workflows-with-snakemake.html#cb427-8"></a><span class="at">    </span><span class="fu">shell</span><span class="kw">:</span></span>
+<span id="cb427-9"><a href="managing-workflows-with-snakemake.html#cb427-9"></a><span class="at">        </span><span class="st">&quot;TrimmoMcAwesome {input} {output}&quot;</span></span>
+<span id="cb427-10"><a href="managing-workflows-with-snakemake.html#cb427-10"></a></span>
+<span id="cb427-11"><a href="managing-workflows-with-snakemake.html#cb427-11"></a></span>
+<span id="cb427-12"><a href="managing-workflows-with-snakemake.html#cb427-12"></a><span class="fu">rule trim_stupendous</span><span class="kw">:</span></span>
+<span id="cb427-13"><a href="managing-workflows-with-snakemake.html#cb427-13"></a><span class="at">    </span><span class="fu">input</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb427-14"><a href="managing-workflows-with-snakemake.html#cb427-14"></a><span class="at">        fq1=&quot;data/raw/{sample}_R1.fq&quot;,</span></span>
+<span id="cb427-15"><a href="managing-workflows-with-snakemake.html#cb427-15"></a><span class="at">        fq2=&quot;data/raw/{sample}_R2.fq&quot;</span></span>
+<span id="cb427-16"><a href="managing-workflows-with-snakemake.html#cb427-16"></a><span class="at">    </span><span class="fu">output</span><span class="kw">:</span></span>
+<span id="cb427-17"><a href="managing-workflows-with-snakemake.html#cb427-17"></a><span class="at">        </span><span class="st">&quot;results/stupendous/{sample}_R1.fq&quot;</span><span class="at">,</span></span>
+<span id="cb427-18"><a href="managing-workflows-with-snakemake.html#cb427-18"></a><span class="at">        </span><span class="st">&quot;results/stupendous/{sample}_R2.fq&quot;</span></span>
+<span id="cb427-19"><a href="managing-workflows-with-snakemake.html#cb427-19"></a><span class="at">    </span><span class="fu">shell</span><span class="kw">:</span></span>
+<span id="cb427-20"><a href="managing-workflows-with-snakemake.html#cb427-20"></a><span class="at">        </span><span class="st">&quot;trim_stupendous {input.fq1} {input.fq2} {output}&quot;</span></span></code></pre></div>
+<p>Note that we have written the <code>input</code> block a little bit differently
+in that we named the different input file wildcard phrases. We named
+them as <code>fq1</code> and <code>fq2</code> using this syntax:</p>
+<pre><code>    input: 
+        fq1=&quot;data/raw/{sample}_R1.fq&quot;,
+        fq2=&quot;data/raw/{sample}_R2.fq&quot;</code></pre>
+<p>And then we also explicitly put those files into the shell command by accessing
+the <code>input</code> with a <code>.fq1</code> and <code>.fq2</code>, where appropriate, like this:</p>
+<pre><code>&quot;trim_stupendous {input.fq1} {input.fq2} {output}&quot;</code></pre>
+<p>The reason for this is so that we explore the <code>unpack()</code> function later.
+For now, we don’t worry too much about it, except to note that we can
+request all the different TrimmoMcAwesome and trim_stupendous output files
+like this:</p>
+<div class="sourceCode" id="cb430"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb430-1"><a href="managing-workflows-with-snakemake.html#cb430-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
+<span id="cb430-2"><a href="managing-workflows-with-snakemake.html#cb430-2"></a><span class="ex">snakemake</span> -np results/awesome/00<span class="dt">{1..5}</span>_R<span class="dt">{1,2}</span>.fq results/stupendous/00<span class="dt">{1..5}</span>_R<span class="dt">{1,2}</span>.fq</span></code></pre></div>
+<p>and Snakemake can figure out that it needs to run 10 jobs.</p>
+</div>
+</div>
+<div id="ugly-complex-file-namesa-job-for-snakemake-input-functions" class="section level2">
+<h2><span class="header-section-number">14.2</span> Ugly, complex file names…a job for Snakemake input functions!</h2>
+<p>I hope that all of the above has been fine and well for everyone. But I suspect that
+the same question is on everyone’s mind: <em>“Hey! What kind of unrealistic BS is this? I
+never get files named something like <code>001_R1.fq</code> from the sequencing center!!”</em>
+Indeed, more often than not, you will be dealing with FASTQ files that might be named
+something like this:</p>
+<pre><code>kcr-wiwa-885261-L002-HGGXXX_R1.fastq.gz
+kcr-wiwa-885261-L002-HGGXXX_R2.fastq.gz
+
+kcr-wiwa-896753-L002-HGGXXX_R1.fastq.gz
+kcr-wiwa-896753-L002-HGGXXX_R2.fastq.gz
+
+plate2-WIWA67365-L002-HHHGYY_R1.fastq.gz
+plate2-WIWA67365-L002-HHHGYY_R2.fastq.gz</code></pre>
+<p>where R1 and R2 are obvious parts of the name, <code>885261</code>, <code>896753</code>, and
+<code>WIWA67365</code> are sample IDs
+or field numbers for the animals you are sequencing, and the rest is
+not only short of gibberishy, but also is not consistent across the
+different individuals. In this sort of case, you cannot easily
+propagate wildcard values into an input file name that is specified
+by a single, consistent, wildcard phrase. Not only that, but
+we probably don’t want to specify a wildcard like <code>{sample}</code> to take values like
+<code>885261</code>, <code>896753</code>, and <code>WIWA67365</code>. We certainly could, but because the
+these field numbers are somewhat long and complex, if we do so, our
+output file names will end up being kind of ugly too.</p>
+<p>But don’t fear! Snakemake allows for what are called <em>input functions</em> that
+make it possible to deal with these types of cases. An input function is merely
+a Python function that takes as input some wildcard values, and will map those
+to any arbitrary output values. And, used in conjunction with a simple table that
+gives clean sample names to the complex field_numbers, it is possible to
+keep the whole workflow much cleaner.</p>
+<p>Let’s step back and imagine that we have a CSV file that gives us some
+sample ID’s that go to each of the field_numbers which are also associated with
+the paths to the fastq files. It would look something like this:</p>
+<pre class="csv"><code>sample,field_number,fastq1,fastq2
+s001,885261,data/raw_nasty_names/kcr-wiwa-885261-L002-HGGXXX_R1.fastq.gz,data/raw_nasty_names/kcr-wiwa-885261-L002-HGGXXX_R2.fastq.gz
+s002,896753,data/raw_nasty_names/kcr-wiwa-896753-L002-HGGXXX_R1.fastq.gz,data/raw_nasty_names/kcr-wiwa-896753-L002-HGGXXX_R2.fastq.gz
+s003,WIWA67395,data/raw_nasty_names/plate2-WIWA67365-L002-HHHGYY_R1.fastq.gz,data/raw_nasty_names/plate2-WIWA67365-L002-HHHGYY_R2.fastq.gz</code></pre>
+<p>In fact, this file is super important. It tells you how nice tidy sample names like <code>s001</code> and <code>s002</code> correspond to the
+field numbers of your animals, and also to the paths of the FASTQ files for them.</p>
+<p>The next step is very important. Copy the above contents into a file called <code>samples.csv</code> within your
+<code>smk-tut</code> directory. Once you have done that, we are ready to proceed.</p>
+<p>Here is where we are going: we are going to read the <code>samples.csv</code> table into Python variable that will
+be accessible by Snakemake, and which
+can be used by it to translate wildcards like <code>{sample} = s001</code> into paths to FASTQ files.</p>
+<p>In order to easily handle the <code>samples.csv</code> file as a variable in Python we will rely on the Pandas
+package. If you are new to Python, you can think of Pandas as the Python equivalent of R’s ‘dplyr’ package.
+Let’s play with it a little bit to familiarize ourselves with it…</p>
+<div id="playing-with-pandas" class="section level3">
+<h3><span class="header-section-number">14.2.1</span> Playing with Pandas</h3>
+<p>The Pandas package is inluded in your <code>snakemake</code> conda environment, and we are going to play with
+it a little bit, so, open a new terminal window, activate your snakemake conda environment and then
+start an interactive python session:</p>
+<div class="sourceCode" id="cb433"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb433-1"><a href="managing-workflows-with-snakemake.html#cb433-1"></a><span class="co"># do this in a new unix terminal in directory smk-tut</span></span>
+<span id="cb433-2"><a href="managing-workflows-with-snakemake.html#cb433-2"></a><span class="ex">conda</span> activate snakemake</span>
+<span id="cb433-3"><a href="managing-workflows-with-snakemake.html#cb433-3"></a><span class="ex">python</span></span></code></pre></div>
+<p>Now, you have an interactive Python session in that terminal window. And you can do this
+to import the Pandas package into the session and read in the CSV file and print it:</p>
+<div class="sourceCode" id="cb434"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb434-1"><a href="managing-workflows-with-snakemake.html#cb434-1"></a><span class="co"># do this in your python interpreter...</span></span>
+<span id="cb434-2"><a href="managing-workflows-with-snakemake.html#cb434-2"></a></span>
+<span id="cb434-3"><a href="managing-workflows-with-snakemake.html#cb434-3"></a><span class="co"># this imports the pandas package functionality in an object named pd</span></span>
+<span id="cb434-4"><a href="managing-workflows-with-snakemake.html#cb434-4"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb434-5"><a href="managing-workflows-with-snakemake.html#cb434-5"></a></span>
+<span id="cb434-6"><a href="managing-workflows-with-snakemake.html#cb434-6"></a><span class="co"># this reads the CSV file and sets an index using the values is the &quot;sample&quot; column.</span></span>
+<span id="cb434-7"><a href="managing-workflows-with-snakemake.html#cb434-7"></a><span class="co"># For R people you can think of this &quot;index&quot; as serving the role of rownames.</span></span>
+<span id="cb434-8"><a href="managing-workflows-with-snakemake.html#cb434-8"></a>samples_table <span class="op">=</span> pd.read_csv(<span class="st">&quot;samples.csv&quot;</span>).set_index(<span class="st">&quot;sample&quot;</span>, drop<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb434-9"><a href="managing-workflows-with-snakemake.html#cb434-9"></a></span>
+<span id="cb434-10"><a href="managing-workflows-with-snakemake.html#cb434-10"></a><span class="co"># now print the table</span></span>
+<span id="cb434-11"><a href="managing-workflows-with-snakemake.html#cb434-11"></a>samples_table</span></code></pre></div>
+<p>After running the last line, you should have seen something like:</p>
+<pre><code>       sample field_number                                             fastq1                                             fastq2
+sample
+s001     s001       885261  data/raw_nasty_names/kcr-wiwa-885261-L002-HGGX...  data/raw_nasty_names/kcr-wiwa-885261-L002-HGGX...
+s002     s002       896753  data/raw_nasty_names/kcr-wiwa-896753-L002-HGGX...  data/raw_nasty_names/kcr-wiwa-896753-L002-HGGX...
+s003     s003    WIWA67395  data/raw_nasty_names/plate2-WIWA67365-L002-HHH...  data/raw_nasty_names/plate2-WIWA67365-L002-HHH...</code></pre>
+<p>OK, <code>samples_table</code> is just a table of data. Importantly, it is indexed by the sample name (s001, s002, etc.) This
+means that if we want to access values in any particular row, we can find that row according to
+the sample name, and then pick values out of particular columns within that row using this syntax:</p>
+<div class="sourceCode" id="cb436"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb436-1"><a href="managing-workflows-with-snakemake.html#cb436-1"></a><span class="co"># do this in your python interpreter...</span></span>
+<span id="cb436-2"><a href="managing-workflows-with-snakemake.html#cb436-2"></a></span>
+<span id="cb436-3"><a href="managing-workflows-with-snakemake.html#cb436-3"></a><span class="co"># get the field number of sample s002</span></span>
+<span id="cb436-4"><a href="managing-workflows-with-snakemake.html#cb436-4"></a>samples_table.loc[<span class="st">&quot;s002&quot;</span>, <span class="st">&quot;field_number&quot;</span>]</span>
+<span id="cb436-5"><a href="managing-workflows-with-snakemake.html#cb436-5"></a></span>
+<span id="cb436-6"><a href="managing-workflows-with-snakemake.html#cb436-6"></a><span class="co"># get the paths to fastq file 1 for sample s003:</span></span>
+<span id="cb436-7"><a href="managing-workflows-with-snakemake.html#cb436-7"></a>samples_table.loc[<span class="st">&quot;s003&quot;</span>, <span class="st">&quot;fastq1&quot;</span>]</span></code></pre></div>
+<p>That is quite tasty! The <code>.loc</code> is method in Pandas to return the location (i.e., the row)
+of a table according to its index. And then if you want to get the value from any particular
+column, you just put the column name in there.</p>
+<p>Note that if you want to get the values in multiple columns as a Python list
+you can do like this:</p>
+<div class="sourceCode" id="cb437"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb437-1"><a href="managing-workflows-with-snakemake.html#cb437-1"></a><span class="co"># do this in your python interpreter...</span></span>
+<span id="cb437-2"><a href="managing-workflows-with-snakemake.html#cb437-2"></a></span>
+<span id="cb437-3"><a href="managing-workflows-with-snakemake.html#cb437-3"></a><span class="co"># get the paths to both fastq files for sample s003 in a list:</span></span>
+<span id="cb437-4"><a href="managing-workflows-with-snakemake.html#cb437-4"></a><span class="bu">list</span>(samples_table.loc[<span class="st">&quot;s003&quot;</span>, [<span class="st">&quot;fastq1&quot;</span>, <span class="st">&quot;fastq2&quot;</span>]])</span></code></pre></div>
+<p>This is totally sweet! This python code takes a value like <code>s002</code>—which could be the value
+of a wildcard—and it returns another value based on it. In fact, it can return the
+path of a FASTQ file. This is just the sort of thing we need, but we have to wrap it up
+into a Snakemake <em>input function</em>.</p>
+<p>Before we go big and do that in our Snakefile, we are going to spoof
+it in our interactive Python session. This turns out to be a great way to test and develop
+and test your Snakemake input functions.</p>
+</div>
+<div id="spoofing-a-snakemake-input-function" class="section level3">
+<h3><span class="header-section-number">14.2.2</span> Spoofing a Snakemake input function</h3>
+<p>Snakemake input functions are simply Python functions that take a single
+input which is a Python object called <code>wildcards</code>. This object will have different
+attributes, which are the particular values/instances of the wildcards themselves.
+In our above example with the <code>trim_awesome</code> block, if you were requesting the
+files <code>results/awesome/001_R1.fq</code> and <code>results/awesome/001_R2.fq</code>, Snakemake would
+match that to the <code>trim_awesome</code> block, knowing that the value of the wildcard, <code>{sample}</code>
+was <code>001</code>. In this case, Snakemake would be carrying around “in its brain” a little variable
+called <code>wildcards</code> such that its <code>sample</code> attribute—accessible as <code>wildcards.sample</code> would be
+<code>001</code>.</p>
+<p>We can use our Python interactive session to create a fictitious <code>wildcards</code> object and give
+values to its attributes, which will give us a chance to test its use in an input function.</p>
+<div class="sourceCode" id="cb438"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb438-1"><a href="managing-workflows-with-snakemake.html#cb438-1"></a><span class="co"># do this in your python interpreter...</span></span>
+<span id="cb438-2"><a href="managing-workflows-with-snakemake.html#cb438-2"></a></span>
+<span id="cb438-3"><a href="managing-workflows-with-snakemake.html#cb438-3"></a><span class="co"># create a generic object class (called Foo here)</span></span>
+<span id="cb438-4"><a href="managing-workflows-with-snakemake.html#cb438-4"></a><span class="kw">class</span> Foo(<span class="bu">object</span>):</span>
+<span id="cb438-5"><a href="managing-workflows-with-snakemake.html#cb438-5"></a>    <span class="cf">pass</span></span>
+<span id="cb438-6"><a href="managing-workflows-with-snakemake.html#cb438-6"></a></span>
+<span id="cb438-7"><a href="managing-workflows-with-snakemake.html#cb438-7"></a><span class="co"># make a variable, wildcards, which is an object of that class</span></span>
+<span id="cb438-8"><a href="managing-workflows-with-snakemake.html#cb438-8"></a>wildcards <span class="op">=</span> Foo()</span>
+<span id="cb438-9"><a href="managing-workflows-with-snakemake.html#cb438-9"></a></span>
+<span id="cb438-10"><a href="managing-workflows-with-snakemake.html#cb438-10"></a><span class="co"># now, if you want to test specific values for different wildcards you can do like:</span></span>
+<span id="cb438-11"><a href="managing-workflows-with-snakemake.html#cb438-11"></a>wildcards.sample <span class="op">=</span> <span class="st">&quot;s002&quot;</span></span>
+<span id="cb438-12"><a href="managing-workflows-with-snakemake.html#cb438-12"></a></span>
+<span id="cb438-13"><a href="managing-workflows-with-snakemake.html#cb438-13"></a><span class="co"># print that value:</span></span>
+<span id="cb438-14"><a href="managing-workflows-with-snakemake.html#cb438-14"></a>wildcards.sample</span></code></pre></div>
+
+</div>
+</div>
+</div>
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p>The astute reader will note that these names are similar
+to the actual programs <code>Trimmomatic</code> and <code>trim_galore</code>. Just having some fun…<a href="managing-workflows-with-snakemake.html#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="authoring-reproducibly-with-rmarkdown.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="overview-of-bioinformatic-analyses.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook/js/app.min.js"></script>
+<script src="libs/gitbook/js/lunr.js"></script>
+<script src="libs/gitbook/js/clipboard.min.js"></script>
+<script src="libs/gitbook/js/plugin-search.js"></script>
+<script src="libs/gitbook/js/plugin-sharing.js"></script>
+<script src="libs/gitbook/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook/js/jquery.highlight.js"></script>
+<script src="libs/gitbook/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": false,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/eriqande/eca-bioinf-handbook/edit/master/2.05-managing-workflows-with-snakemake.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": "https://github.com/eriqande/eca-bioinf-handbook/commits/master/2.05-managing-workflows-with-snakemake.Rmd",
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["eca-bioinf-handbook.pdf", "eca-bioinf-handbook.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

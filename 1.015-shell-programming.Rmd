@@ -1201,7 +1201,7 @@ have to deal with that.  I find it much easier to think in terms of exit statuse
 of `SUCCESS!` and `NO_SUCCESS`, than in terms of the 0's and 1's, respectively,
 by which those statuses are represented in the computer.  
 
-## Loops and repetition
+## Loops and repetition {#unix-for-loops}
 
 By this point, you have probably heard, or been told,
 many times over, that Unix shell scripting is particularly good

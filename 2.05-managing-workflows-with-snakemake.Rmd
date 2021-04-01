@@ -1,18 +1,662 @@
-# Using python
+# Managing Workflows with Snakemake
 
-Many people live and breathe python.  Most conservation geneticists and most
-biologists in general are probably more familiar and comfortable with R.  Nonetheless,
-there are some pieces of software that are available in python and it behooves us
-to know at least enough to crack those open and start using them.
+In the preceding sections we have covered a few approaches for using RStudio 
+projects and RMarkdown to create reproducible research repositories with visually
+pleasing HTML outputs that can help readers quickly see what was required to
+generate different figures/tables/outputs. Such an approach
+is well suited to projects that are undertaken primarily on one's own desktop or
+laptop computer, and which don't take an inordinately long time to run.  Unfortunately,
+that does not describe most _bioinformatic_ analyses handling whole-genome sequencing
+or RAD sequencing data for conservation genetics.  Most of those analyses will be
+run on a university computer cluster, and trying to manage all of that within
+an RMarkdown-based framework is at best rather difficult, and at worst it can
+become a shrieking horror.  
 
-Happily, the makers of RStudio have made it very easy to use python within the
-RStudio IDE.  This makes the transition considerably easier.  
+For managing these sorts of bioinformatic workflows there is a Python-based
+framework called [Snakemake](https://snakemake.readthedocs.io/en/stable/)
+that is well-supported, flexible, and incredibly powerful.
+Understanding how Snakemake works and becoming familiar with its many
+features involves a non-trivial learning curve; however, for anyone spending
+a sizable chunk of their graduate career managing bioinformatic analyses, or for anyone that is
+a lab bioinformatician running bioinformatic workflows across
+many species (for example), the benefits of learning
+Snakemake will continue to pay dividends for years to come. 
 
-Topics:
 
-- conda and installing and setting up python environments.  (What are they under
-the hood?)
-- the reticulate package
-- step-by-step instructions.
-- An example: 2Dsfs and the moments package.
+Someone who has mastered all the topics in Part I of this handbook (Unix programming,
+working on remote computers, etc.) certainly will have the skills to write
+what I will call _input-oriented_, _forward-marching_ workflows. I call these
+"forward-marching" because they start from a set of
+input files (for example files of sequences from a sequencer), and then
+the workflow is defined as a series of sequential steps, one after the other.
+They are "input-oriented" in the sense that such a workflow starts
+with a series of inputs, but the workflow itself doesn't really know
+what it is trying to produce from those inputs until it has run all the
+way through and actually turned those inputs into outputs.
+For example, all the input
+files might get trimmed or cleaned, then they would all get mapped to a genome,
+and then those mapped sequences would be used to call variants, so as to
+find SNPs in the data, etc.  If you were writing this in an
+input-oriented, forward-marching fashion, then, to deal with the fact that you had multiple files of
+DNA sequences (for example, one for each individual bird or fish that had
+been sampled), you might write Unix `for` loops to cycle over all the input files
+as in Section&nbsp;\@ref(unix-for-loops), or, you could define a SLURM job array to start a separate job
+instance for each input file, as in Section&nbsp;\@ref(slurm-job-arrays).  In each case, 
+you would have to do some extra programming to deal with the different input files, and
+if one of the steps of your workflow failed on just one, or a few, of the files,
+you might spend a large amount of time tracking those failures down and than
+manually re-running that small number of jobs.  
 
+By contrast, Snakemake takes a different approach to managing workflows.
+We will call it an _output-oriented_, _backward-looking_ approach. We call it
+that because workflows in Snakemake are defined first and foremost in terms of the _output files_
+that are desired, along with instructions on how to create those output files
+from necessary input files and bioinformatic programs.  They are _backward-looking_
+in the sense that, once you have developed a Snakemake workflow, you get results by
+telling Snakemake which output files you
+want to create, and then it "looks backwards" through the workflow to determine which
+input files are needed to create the requested outputs.  Sometimes it has to look backwards
+through several steps before it identifies all the necessary input files.  
+Once it has found those necessary inputs, it then runs forward through the steps to
+create the output files. In this phase, the workflow looks like it is "forward-marching", in the
+sense that outputs are being created from inputs.  But, in order to get to that
+"forward-running" phase, Snakemake had to look backward to figure out what inputs to use.
+
+The above constitutes some subtle points, that might not be clear upon first reading,
+but we will try to summarize it in a few pithy phrases:
+
+- A workflow defined as a typical Unix shell script can be thought of as a process that runs
+forward. You give it a lot of input files and it just cranks through a bunch of steps until
+the output files are made.
+- A workflow defined with Snakemake works differently. First you define the workflow in terms
+of a series of "rules." Then, when you request any given set of output files, Snakemake
+will look backwards through
+the rules of the workflow and figure out exactly which steps must be performed, on which input
+files, in order to create the requested output files. Once it has determined that,
+it runs just those necessary steps.  
+
+There are many advantages to this output-oriented, backward-looking approach:
+
+1. If your workflow has many steps, and some of them have already been run,
+then Snakemake automatically recognizes that, and will not re-run steps
+in the workflow that have already been completed. In an input-oriented system (like
+a traditional Unix script), you would have to spend the time to figure out
+which steps had already been run, and then run your script only from that
+point forward.  Doing so can be a hassle and can also be prone to errors.
+2. A workflow defined by Snakemake, being explicit about the inputs needed
+for each step, naturally defines "work units" that can be run independently of
+one another.  Accordingly, Snakemake, itself, can break a huge bioinformatic workflow
+into a number of small jobs that can be run in parallel, saving you, the user,
+from having to write scripts to launch a series of SLURM job arrays.
+3. The fact that Snakemake automatically keeps track of which inputs already
+exist---and which might still need to be generated---provides huge benefits when some of your jobs fail. 
+Anyone who has used a cluster has stories about jobs that inexplicably fail.  Without a workflow 
+management system like Snakemake, you can spend almost as much of your own time managing these
+failed jobs as it took to launch all the jobs in the first place.
+
+In addition to these obvious advantages of the output-oriented approach, Snakemake also
+includes a number of features that make it easy to use your workflow on a variety of
+different platforms.  It is tightly integrated with conda (Section&nbsp;\@ref(miniconda)),
+letting the user define
+conda environments for each step in the workflow.  This means that if you move your whole
+workflow to a new cluster, you don't have to spend any time coordinating the installation
+of the programs you need---if you set things up properly with Snakemake and conda,
+that will happen automatically.
+If you distribute your workflows to other people to use, this is particularly helpful, since
+you will spend far less time assisting them in setting up their computer environment to run
+your workflow. Snakemake can also be customized to work in your own cluster environment.  Finally,
+there are interfaces to allow your Snakemake workflows to run seamlessly in the cloud.  
+
+Full  documentation for Snakemake can be found at
+[https://snakemake.readthedocs.io/en/stable/](https://snakemake.readthedocs.io/en/stable/).
+This documentation is comprehensive, but can feel a little daunting at first.
+On the other hand, the developers of Snakemake also provide an excellent and accessible
+tutorial at
+[https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html](https://snakemake.readthedocs.io/en/stable/tutorial/tutorial.html).
+If you have not run through that tutorial yet, you should do that before
+going through the next sections in this chapter.
+
+In the following I present another short tutorial that focuses a little more
+on understanding how _wildcards_ in Snakemake work, as this seems to be a
+stumbling block for many students.  In addition, I try to offer a few tidbits
+of advice regarding _input functions_ and simple ways to work interactively with
+Python while you are developing your Snakemake workflows.  I hope this will be particularly
+helpful for students that aren't super familiar with Python.
+
+Before proceeding, you will need to follow the instructions
+[here](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html#installation-via-conda) to install Snakemake into a conda environment named `snakemake`.
+Once installed, activate the `snakemake` environment and then add the `tree` Unix utility to
+it:
+```sh
+conda activate snakemake
+conda install -c conda-forge tree
+```
+`tree` is a utility that we will use in the following. It
+provides a nice way of visualizing directories and their contents.
+
+Once you have done that, make a directory called `smk-tut` and
+`cd` into it to do this tutorial.
+```sh
+mkdir smk-tut
+cd smk-tut
+```
+
+## A Simple Snakemake Example
+
+Here is a somewhat make-believe example that will let us grok out the
+basics of Snakemake and the logic of simple workflows without worrying about
+performing actual operations (like trimming or mapping) on files.  This
+a useful excercise because it can also be helpful when you are developing
+your own complex workflows to first make sure that the workflow logic (from
+Snakemake's point of view) is correct, without having to spend a long
+time on the actual processing of files.
+
+We will pretend that we have paired-end sequence files from a sequencing center and
+we want to compare the outcome of using two different programs to trim leftover adapters
+and low-quality sequence from these files.  These two (utterly fictitious) programs
+are `TrimmoMcAwesome` and `trim_stupendous`^[The astute reader will note that these names are similar
+to the actual programs `Trimmomatic` and `trim_galore`.  Just having some fun...].
+We will pretend that both `TrimmoMcAwesome` and `trim_stupendous` work with this sort of syntax:
+```sh
+TrimmoMcAwesome file_read1.fq file_read2.fq outpath1  outpath2
+# or
+trim_stupendous file_read1.fq file_read2.fq outpath1  outpath2
+```
+which will trim the paired-end reads `file_read1.fq` and `file_read2.fq` and put the
+results for read1 and read2, respectively, into the files `outpath1` and `outpath2`.
+
+For now, let us assume that we have 10 input files: 2 paired-end read files
+for each of 5 samples named `001` through `005`.  Please create those files
+(even though they will be empty) with this Unix command:
+```sh
+mkdir -p data/raw
+touch data/raw/00{1..5}_R{1,2}.fq
+```
+(Please note that the use of curly braces here is an example of "brace expansion" within
+the Unix shell. You will see lots of curly braces in the upcoming material, and
+most of those are serving a different purpose.)
+
+Once you have done that, use `tree` to see what the directory structure in
+`smk-tut` looks like:
+```sh
+% tree .
+.
+└── data
+    └── raw
+        ├── 001_R1.fq
+        ├── 001_R2.fq
+        ├── 002_R1.fq
+        ├── 002_R2.fq
+        ├── 003_R1.fq
+        ├── 003_R2.fq
+        ├── 004_R1.fq
+        ├── 004_R2.fq
+        ├── 005_R1.fq
+        └── 005_R2.fq
+```
+That handy little summary shows the names of 10 files inside a directory called
+`raw` inside a directory called `data`.  
+
+### Snakefile #1: A simple rule to TrimmoMcAwesome the files from 001
+
+If you did the tutorial, you will recall that the instructions for the workflow
+go into the file, `Snakefile`.  Make a Snakefile within the `smk-tut` directory
+with these contents, which give it the rule for running TrimmoMcAwesome on
+the reads from sample `001`:
+```yaml
+rule trim_awesome:
+	input: 
+		"data/raw/001_R1.fq",
+		"data/raw/001_R1.fq"
+	output:
+		"results/awesome/001_R1.fq",
+		"results/awesome/001_R2.fq"
+	shell:
+		"TrimmoMcAwesome {input} {output}"
+```
+Once you have that Snakefile, you can ask snakemake to show you what it
+would do if you ran it.  Give it the `-n` option (dry run) and the `-p` option
+(print the shell commands) by putting them together with `-np`:
+```sh
+# do this on your unix terminal in directory smk-tut
+snakemake -np
+```
+
+The result you get should look like this:
+```
+Building DAG of jobs...
+Job counts:
+	count	jobs
+	1	trim_awesome
+	1
+
+[Thu Apr  1 07:36:01 2021]
+rule trim_awesome:
+    input: data/raw/001_R1.fq, data/raw/001_R1.fq
+    output: results/awesome/001_R1.fq, results/awesome/001_R2.fq
+    jobid: 0
+
+TrimmoMcAwesome data/raw/001_R1.fq data/raw/001_R1.fq results/awesome/001_R1.fq results/awesome/001_R2.fq
+Job counts:
+	count	jobs
+	1	trim_awesome
+	1
+This was a dry-run (flag -n). The order of jobs does not reflect the order of execution.
+
+```
+
+It is worth sitting down and looking closely at this output. The first block shows how many
+jobs will run.  The second block shows the rule that will be run in the job, and it
+explicitly shows the values of the `input` and `output` of the block.  The line at the top
+of the third block shows the shell command that would be run.  It looks correct.  Great!
+
+Another thing worthy of note: the requested output files in this rule are
+actual file names and they appear in the first block of the Snakefile.
+Because of this, we could just run `snakemake -np` without
+explicitly requesting any output files on the command line---Snakemake used
+the two outputs from that first rule block.
+
+Alternatively, we could have explicitly requested those output files on the command line,
+like:
+```sh
+# do this on your unix terminal in directory smk-tut
+snakemake -np results/awesome/001_R1.fq results/awesome/001_R2.fq
+```
+Try that, and note that you get the same result.
+
+But now, try requesting (on the command line) the TrimmoMcAwesome output for a different sample,
+like 002:
+```sh
+# do this on your unix terminal in directory smk-tut
+snakemake -np results/awesome/002_R1.fq results/awesome/002_R2.fq
+```
+What happened when you did that?  Well Snakemake should have replied with an error
+message telling you, essentially,  "What's your problem asking for those output files? My Snakefile
+doesn't tell me how to make that output file!"  And that is what it should tell you because
+the rule `trim_awesome` only gives instructions on how to make the output files
+`results/awesome/001_R1.fq` and  `results/awesome/001_R2.fq`
+
+So, what if we want a rule to make `results/awesome/002_R1.fq` and `results/awesome/002_R2.fq` and
+awesome-trimmed output for all the other samples too.  The naive approach would be to
+write a new rule block for every sample in your Snakefile till it looked like:
+```yaml
+rule trim_awesome_001:
+	input: 
+		"data/raw/001_R1.fq",
+		"data/raw/001_R1.fq"
+	output:
+		"results/awesome/001_R1.fq",
+		"results/awesome/001_R2.fq"
+	shell:
+		"TrimmoMcAwesome {input} {output}"
+
+
+rule trim_awesome_002:
+	input: 
+		"data/raw/002_R1.fq",
+		"data/raw/002_R1.fq"
+	output:
+		"results/awesome/002_R1.fq",
+		"results/awesome/002_R2.fq"
+	shell:
+		"TrimmoMcAwesome {input} {output}"
+
+# and so forth, until
+
+rule trim_awesome_005:
+	input: 
+		"data/raw/005_R1.fq",
+		"data/raw/005_R1.fq"
+	output:
+		"results/awesome/005_R1.fq",
+		"results/awesome/005_R2.fq"
+	shell:
+		"TrimmoMcAwesome {input} {output}"
+```
+
+Boy! Doing that would really suck! It would require lots of typing, lots of
+chances to make an error, and if you wanted to change something in the shell
+block, for example, you would have to change all of the rules. What a hassle!  Obviously,
+no sane person would do that.  And, thankfully no one has to, because
+Snakemake allows a single block to apply to multiple instances of output
+(and hence input) by using _wildcards_.  The next section takes us through
+that.
+
+### Snakefile #2: A single TrimmoMcAwesome rule using wildcards
+
+The best way to start thinking about wildcards is to imagine all the different
+output files you would want from a rule, and then investigate the parts that
+change.  With samples 001 through 005, the TrimmoMcAwesome output we would want
+would be these pairs of files:
+```
+results/awesome/001_R1.fq
+results/awesome/001_R2.fq
+
+results/awesome/002_R1.fq
+results/awesome/002_R2.fq
+
+results/awesome/003_R1.fq
+results/awesome/003_R2.fq
+
+results/awesome/004_R1.fq
+results/awesome/004_R2.fq
+
+results/awesome/005_R1.fq
+results/awesome/005_R2.fq
+```
+OK! So, these are really similar, except that there is a part pertaining
+to the sample number that is changing between each pair of files.
+
+In fact, we could write down the general pattern for all of these output
+file names in a sort of shorthand like this:
+```
+results/awesome/{sample}_R1.fq
+results/awesome/{sample}_R2.fq
+```
+In other words every one of the 10 file names can be generated by replacing
+`{sample}` in
+```
+results/awesome/{sample}_R1.fq
+results/awesome/{sample}_R2.fq
+```
+with a value.  For example, if you replace `{sample}` with `003`:
+```
+results/awesome/003_R1.fq
+results/awesome/003_R2.fq
+```
+
+This shorthand is exactly the way that Snakemake specifies a whole family
+of output files using _wildcards_.  We will call 
+`"results/awesome/{sample}_R1.fq", "results/awesome/{sample}_R2.fq"` the
+_wildcard phrase_. The wildcards in that wildcard phrase
+is`{sample}`.  Each of those wildcard in a wildcard phrase can take
+_values_ or _instances_.  When wildcard phrases are used in a Snakemake rule
+block, the values/instances of the wildcards within them are found when an output file is requested
+that _matches_ the wildcard phrase.  This will become more clear as we proceed.
+
+First, let us update our Snakefile to look like this:
+```yaml
+rule trim_awesome:
+	input: 
+		"data/raw/{sample}_R1.fq",
+		"data/raw/{sample}_R2.fq"
+	output:
+		"results/awesome/{sample}_R1.fq",
+		"results/awesome/{sample}_R2.fq"
+	shell:
+		"TrimmoMcAwesome {input} {output}"
+```
+So, go ahead and make that your Snakefile.
+
+Now, see what happens if you do:
+```sh
+# do this on your unix terminal in directory smk-tut
+snakemake -np
+```
+Aha!  Snakemake gets upset at you because it is trying to run rule trim_awesome
+but the output requested in it is a wildcard phrase with no values or instances
+for the wilcards.  Snakemake doesn't really know how to run a rule to obtain a file
+that is a wilcard phrase in which the wildcards do not have explicit values.
+
+However, if you explicitly ask for certain output files, like:
+```sh
+# do this on your unix terminal in directory smk-tut
+snakemake -np results/awesome/002_R1.fq results/awesome/002_R2.fq
+```
+This time, Snakemake finds the rule to create those output files and it knows
+what the input files should be because it _propagates wildcard values from the
+requested output into the wildcard phrases of the input_.  Diagrammatically
+that process looks like this:
+
+```{r wildcard_propagation_1, echo=FALSE, fig.align='center', dpi=45, fig.cap="A diagrammatic view of how wildcard values get propagated."}
+knitr::include_graphics("figs/wildcard_propagation_1.svg")
+```
+
+
+The upshot of this is that we can now easily request all the sample output files
+like this.  Again, we note that these curly braces are different from the curly 
+braces you have seen in the Snakemake/Python wildcards.  These are just
+Unix brace-expansion curly braces.
+```sh
+# do this on your unix terminal in directory smk-tut
+snakemake -np results/awesome/00{1..5}_R{1,2}.fq
+```
+Again, we note that these curly braces are different from the curly 
+braces you have seen in the Snakemake/Python wildcards.  These are just
+Unix brace-expansion curly braces.  They merely expand into `results/awesome/001_R1.fq results/awesome/001_R2.fq results/awesome/002_R1.fq results/awesome/002_R2.fq results/awesome/003_R1.fq results/awesome/003_R2.fq results/awesome/004_R1.fq results/awesome/004_R2.fq results/awesome/005_R1.fq results/awesome/005_R2.fq`
+
+Cool! Snakemake was able to figure out how to generate all of those output files by
+running 5 jobs!
+
+Before we leave this section, let's see what kind of error message Snakemake
+gives us when we ask for output that it doesn't have what it needs to generate.
+Try this:
+```sh
+# do this on your unix terminal in directory smk-tut
+snakemake -np results/awesome/006_R1.fq  results/awesome/006_R2.fq
+```
+From the error message, we see that Snakemake propagated the wildcard
+value `{sample} = 002` to the input, but didn't find the appropriate input
+files:
+```
+Building DAG of jobs...
+MissingInputException in line 4 of /Users/eriq/Desktop/smk-tut/Snakefile:
+Missing input files for rule trim_awesome:
+data/raw/006_R1.fq
+data/raw/006_R2.fq
+```
+That is good!
+
+
+### Snakefile #3: Add `trim_stupendous` in there
+
+Now that we know how to deploy wildcards in our output and input file names
+we can use them when we make another block for our `trim_stupendous` jobs:
+
+Update your Snakefile so it looks like this:
+```yaml
+rule trim_awesome:
+	input: 
+		"data/raw/{sample}_R1.fq",
+		"data/raw/{sample}_R2.fq"
+	output:
+		"results/awesome/{sample}_R1.fq",
+		"results/awesome/{sample}_R2.fq"
+	shell:
+		"TrimmoMcAwesome {input} {output}"
+
+
+rule trim_stupendous:
+	input: 
+		fq1="data/raw/{sample}_R1.fq",
+		fq2="data/raw/{sample}_R2.fq"
+	output:
+		"results/stupendous/{sample}_R1.fq",
+		"results/stupendous/{sample}_R2.fq"
+	shell:
+		"trim_stupendous {input.fq1} {input.fq2} {output}"
+```
+
+Note that we have written the `input` block a little bit differently
+in that we named the different input file wildcard phrases.  We named
+them as `fq1` and `fq2` using this syntax:
+```
+	input: 
+		fq1="data/raw/{sample}_R1.fq",
+		fq2="data/raw/{sample}_R2.fq"
+```
+And then we also explicitly put those files into the shell command by accessing
+the `input` with a `.fq1` and `.fq2`, where appropriate, like this:
+```
+"trim_stupendous {input.fq1} {input.fq2} {output}"
+```
+
+The reason for this is so that we explore the `unpack()` function later.
+For now, we don't worry too much about it, except to note that we can
+request all the different TrimmoMcAwesome and trim_stupendous output files
+like this:
+```sh
+# do this on your unix terminal in directory smk-tut
+snakemake -np results/awesome/00{1..5}_R{1,2}.fq results/stupendous/00{1..5}_R{1,2}.fq
+```
+and Snakemake can figure out that it needs to run 10 jobs.
+
+
+## Ugly, complex file names...a job for Snakemake input functions!
+
+I hope that all of the above has been fine and well for everyone.  But I suspect that
+the same question is on everyone's mind: _"Hey! What kind of unrealistic BS is this?  I
+never get files named something like `001_R1.fq` from the sequencing center!!"_
+Indeed, more often than not, you will be dealing with FASTQ files that might be named
+something like this:
+```
+kcr-wiwa-885261-L002-HGGXXX_R1.fastq.gz
+kcr-wiwa-885261-L002-HGGXXX_R2.fastq.gz
+
+kcr-wiwa-896753-L002-HGGXXX_R1.fastq.gz
+kcr-wiwa-896753-L002-HGGXXX_R2.fastq.gz
+
+plate2-WIWA67365-L002-HHHGYY_R1.fastq.gz
+plate2-WIWA67365-L002-HHHGYY_R2.fastq.gz
+```
+where R1 and R2 are obvious parts of the name, `885261`, `896753`, and
+`WIWA67365` are sample IDs
+or field numbers for the animals you are sequencing, and the rest is
+not only short of gibberishy, but also is not consistent across the
+different individuals.  In this sort of case, you cannot easily
+propagate wildcard values into an input file name that is specified
+by a single, consistent, wildcard phrase.  Not only that, but
+we probably don't want to specify a wildcard like `{sample}` to take values like
+`885261`, `896753`, and `WIWA67365`.  We certainly could, but because the
+these field numbers are somewhat long and complex, if we do so, our
+output file names will end up being kind of ugly too.
+
+But don't fear!  Snakemake allows for what are called _input functions_ that
+make it possible to deal with these types of cases.  An input function is merely
+a Python function that takes as input some wildcard values, and will map those
+to any arbitrary output values.  And, used in conjunction with a simple table that
+gives clean sample names to the complex field_numbers, it is possible to
+keep the whole workflow much cleaner.
+
+Let's step back and imagine that we have a CSV file that gives us some
+sample ID's that go to each of the field_numbers which are also associated with
+the paths to the fastq files.  It would look something like this:
+```csv
+sample,field_number,fastq1,fastq2
+s001,885261,data/raw_nasty_names/kcr-wiwa-885261-L002-HGGXXX_R1.fastq.gz,data/raw_nasty_names/kcr-wiwa-885261-L002-HGGXXX_R2.fastq.gz
+s002,896753,data/raw_nasty_names/kcr-wiwa-896753-L002-HGGXXX_R1.fastq.gz,data/raw_nasty_names/kcr-wiwa-896753-L002-HGGXXX_R2.fastq.gz
+s003,WIWA67395,data/raw_nasty_names/plate2-WIWA67365-L002-HHHGYY_R1.fastq.gz,data/raw_nasty_names/plate2-WIWA67365-L002-HHHGYY_R2.fastq.gz
+```
+In fact, this file is super important.  It tells you how nice tidy sample names like `s001` and `s002` correspond to the
+field numbers of your animals, and also to the paths of the FASTQ files for them.
+
+The next step is very important.  Copy the above contents into a file called `samples.csv` within your
+`smk-tut` directory. Once you have done that, we are ready to proceed.
+
+Here is where we are going: we are going to read the `samples.csv` table into Python variable that will
+be accessible by Snakemake, and which
+can be used by it to translate wildcards like `{sample} = s001` into paths to FASTQ files.
+
+In order to easily handle the `samples.csv` file as a variable in Python we will rely on the Pandas
+package.  If you are new to Python, you can think of Pandas as the Python equivalent of R's 'dplyr' package.
+Let's play with it a little bit to familiarize ourselves with it...
+
+### Playing with Pandas
+
+The Pandas package is inluded in your `snakemake` conda environment, and we are going to play with
+it a little bit, so, open a new terminal window, activate your snakemake conda environment and then
+start an interactive python session:
+```sh
+# do this in a new unix terminal in directory smk-tut
+conda activate snakemake
+python
+```
+Now, you have an interactive Python session in that terminal window. And you can do this
+to import the Pandas package into the session and read in the CSV file and print it:
+```python
+# do this in your python interpreter...
+
+# this imports the pandas package functionality in an object named pd
+import pandas as pd
+
+# this reads the CSV file and sets an index using the values is the "sample" column.
+# For R people you can think of this "index" as serving the role of rownames.
+samples_table = pd.read_csv("samples.csv").set_index("sample", drop=False)
+
+# now print the table
+samples_table
+```
+
+After running the last line, you should have seen something like:
+```
+       sample field_number                                             fastq1                                             fastq2
+sample
+s001     s001       885261  data/raw_nasty_names/kcr-wiwa-885261-L002-HGGX...  data/raw_nasty_names/kcr-wiwa-885261-L002-HGGX...
+s002     s002       896753  data/raw_nasty_names/kcr-wiwa-896753-L002-HGGX...  data/raw_nasty_names/kcr-wiwa-896753-L002-HGGX...
+s003     s003    WIWA67395  data/raw_nasty_names/plate2-WIWA67365-L002-HHH...  data/raw_nasty_names/plate2-WIWA67365-L002-HHH...
+```
+OK, `samples_table` is just a table of data.  Importantly, it is indexed by the sample name (s001, s002, etc.)  This
+means that if we want to access values in any particular row, we can find that row according to
+the sample name, and then pick values out of particular columns within that row using this syntax:
+```python
+# do this in your python interpreter...
+
+# get the field number of sample s002
+samples_table.loc["s002", "field_number"]
+
+# get the paths to fastq file 1 for sample s003:
+samples_table.loc["s003", "fastq1"]
+```
+That is quite tasty!  The `.loc` is method in Pandas to return the location (i.e., the row)
+of a table according to its index.  And then if you want to get the value from any particular
+column, you just put the column name in there.
+
+Note that if you want to get the values in multiple columns as a Python list
+you can do like this:
+```python
+# do this in your python interpreter...
+
+# get the paths to both fastq files for sample s003 in a list:
+list(samples_table.loc["s003", ["fastq1", "fastq2"]])
+```
+
+This is totally sweet!  This python code takes a value like `s002`---which could be the value
+of a wildcard---and it returns another value based on it.  In fact, it can return the
+path of a FASTQ file.  This is just the sort of thing we need, but we have to wrap it up
+into a Snakemake _input function_.
+
+Before we go big and do that in our Snakefile, we are going to spoof
+it in our interactive Python session.  This turns out to be a great way to test and develop
+and test your Snakemake input functions.
+
+### Spoofing a Snakemake input function
+
+Snakemake input functions are simply Python functions that take a single
+input which is a Python object called `wildcards`.  This object will have different
+attributes, which are the particular values/instances of the wildcards themselves.
+In our above example with the `trim_awesome` block, if you were requesting the
+files `results/awesome/001_R1.fq` and `results/awesome/001_R2.fq`, Snakemake would
+match that to the `trim_awesome` block, knowing that the value of the wildcard, `{sample}`
+was `001`.  In this case, Snakemake would be carrying around "in its brain" a little variable
+called `wildcards` such that its `sample` attribute---accessible as `wildcards.sample` would be
+`001`.
+
+We can use our Python interactive session to create a fictitious `wildcards` object and give
+values to its attributes, which will give us a chance to test its use in an input function.
+```python
+# do this in your python interpreter...
+
+# create a generic object class (called Foo here)
+class Foo(object):
+    pass
+
+# make a variable, wildcards, which is an object of that class
+wildcards = Foo()
+
+# now, if you want to test specific values for different wildcards you can do like:
+wildcards.sample = "s002"
+
+# print that value:
+wildcards.sample
+
+```

@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 19 Alignment of sequence data to a reference genome (and associated steps) | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
   <meta name="description" content="A book example for a Chapman &amp; Hall book." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 19 Alignment of sequence data to a reference genome (and associated steps) | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-23" />
+<meta name="date" content="2021-04-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,12 +50,13 @@
 
 
 
+<script src="libs/accessible-code-block/empty-anchor.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +65,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +83,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -196,7 +199,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="shell-programming.html"><a href="shell-programming.html#exit-status"><i class="fa fa-check"></i><b>5.6</b> Exit Status</a><ul>
 <li class="chapter" data-level="5.6.1" data-path="shell-programming.html"><a href="shell-programming.html#combinations-of-exit-statuses"><i class="fa fa-check"></i><b>5.6.1</b> Combinations of exit statuses</a></li>
 </ul></li>
-<li class="chapter" data-level="5.7" data-path="shell-programming.html"><a href="shell-programming.html#loops-and-repetition"><i class="fa fa-check"></i><b>5.7</b> Loops and repetition</a></li>
+<li class="chapter" data-level="5.7" data-path="shell-programming.html"><a href="shell-programming.html#unix-for-loops"><i class="fa fa-check"></i><b>5.7</b> Loops and repetition</a></li>
 <li class="chapter" data-level="5.8" data-path="shell-programming.html"><a href="shell-programming.html#more-conditional-evaluation-if-then-else-and-friends"><i class="fa fa-check"></i><b>5.8</b> More Conditional Evaluation: <code>if</code>, <code>then</code>, <code>else</code>, and friends</a></li>
 <li class="chapter" data-level="5.9" data-path="shell-programming.html"><a href="shell-programming.html#finallypositional-parameters"><i class="fa fa-check"></i><b>5.9</b> Finally…positional parameters</a></li>
 <li class="chapter" data-level="5.10" data-path="shell-programming.html"><a href="shell-programming.html#basename-and-dirname-two-useful-little-utilities"><i class="fa fa-check"></i><b>5.10</b> <code>basename</code> and <code>dirname</code> two useful little utilities</a></li>
@@ -289,7 +292,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.3" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#bookdown"><i class="fa fa-check"></i><b>13.3</b> Bookdown</a></li>
 <li class="chapter" data-level="13.4" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#google-docs"><i class="fa fa-check"></i><b>13.4</b> Google Docs</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="using-python.html"><a href="using-python.html"><i class="fa fa-check"></i><b>14</b> Using python</a></li>
+<li class="chapter" data-level="14" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html"><i class="fa fa-check"></i><b>14</b> Managing Workflows with Snakemake</a><ul>
+<li class="chapter" data-level="14.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#a-simple-snakemake-example"><i class="fa fa-check"></i><b>14.1</b> A Simple Snakemake Example</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-1-a-simple-rule-to-trimmomcawesome-the-files-from-001"><i class="fa fa-check"></i><b>14.1.1</b> Snakefile #1: A simple rule to TrimmoMcAwesome the files from 001</a></li>
+<li class="chapter" data-level="14.1.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-2-a-single-trimmomcawesome-rule-using-wildcards"><i class="fa fa-check"></i><b>14.1.2</b> Snakefile #2: A single TrimmoMcAwesome rule using wildcards</a></li>
+<li class="chapter" data-level="14.1.3" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-3-add-trim_stupendous-in-there"><i class="fa fa-check"></i><b>14.1.3</b> Snakefile #3: Add <code>trim_stupendous</code> in there</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#ugly-complex-file-namesa-job-for-snakemake-input-functions"><i class="fa fa-check"></i><b>14.2</b> Ugly, complex file names…a job for Snakemake input functions!</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#playing-with-pandas"><i class="fa fa-check"></i><b>14.2.1</b> Playing with Pandas</a></li>
+<li class="chapter" data-level="14.2.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#spoofing-a-snakemake-input-function"><i class="fa fa-check"></i><b>14.2.2</b> Spoofing a Snakemake input function</a></li>
+</ul></li>
+</ul></li>
 <li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
 <li class="chapter" data-level="15" data-path="overview-of-bioinformatic-analyses.html"><a href="overview-of-bioinformatic-analyses.html"><i class="fa fa-check"></i><b>15</b> Overview of Bioinformatic Analyses</a></li>
 <li class="chapter" data-level="16" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html"><i class="fa fa-check"></i><b>16</b> DNA Sequences and Sequencing</a><ul>
@@ -485,9 +498,9 @@ For now, however, we will offer that the main errors/effects that can
 be controlled for by careful accounting of reads into read groups are:
 1) controlling for effects on the reported
 base quality scores of the particular flowcell
-or the particular lane on a flowcell that a read was sequenced on.
+or the particular lane on a flowcell that a read was sequenced on;
 2) The identification of sequencing reads which are PCR duplicates of another
-read in the data set; and Thus,
+read in the data set. Thus,
 most of the focus on defining read groups is concerned with identifying
 features of a read’s journey that can be used to ameliorate those two
 types of errors/biases.</p>
@@ -519,10 +532,10 @@ position would have only occurred because of a sequencing error in that case.
 If we saw 10 reads from individual X, and they all had the <code>A</code> base at position Y, however,
 we could be quite confident that the genotype is <code>AA</code> rather than <code>AG</code>, because if the indvidual
 had genotype <code>AG</code>, then each read should have a 50% chance of carrying an <code>A</code>
-and a 50% chance of carrying a <code>G</code>, and it is very unlikely, in that case that
+and a 50% chance of carrying a <code>G</code>, and it is very unlikely, in that case, that
 all 10 would carry the <code>A</code> allele. However, imagine how your conclusions would
 change if someone were to tell you that 95% of the reads were PCR duplicates of another one of
-the reads. In that case, even if the individual has genotype <code>AG</code>, there is high probabaility
+the reads. In that case, even if the individual has genotype <code>AG</code>, there is high probability
 that only a single, true template carrying an <code>A</code> came from the individual, and the remaining
 9 reads that carry an <code>A</code> are just PCR copies of that first original template.</p>
 <p>PCR duplicates are copies of the same template fragments. Therefore in paired-end data
@@ -535,12 +548,12 @@ flanking sequence. In the figure, note that the length of the fragments gives
 information about which fragments are duplicated and which are not—if two fragments of the
 same length are identified, then one of them is considered a PCR duplicate. It is worth
 noting that it isn’t (to my knowledge) really known which fragment is the
-duplicate and which is the “original,” but one (or more of them) will be identified
+duplicate and which is the “original,” but, in order to correct the situtation, one (or more of them) will be identified
 as duplicates, and one of them will be identified as an “original.”</p>
 <div class="figure" style="text-align: center"><span id="fig:pcr-duplicates"></span>
-<img src="figs/pcr-duplicates.svg" alt="An example of PCR duplicates.  Note that in paired end data, duplicates are identified by the lengths of both reads as well as the insert length.  This figure represents a simplified, &quot;toy&quot; situation, showing just single-end data."  />
+<img src="figs/pcr-duplicates.svg" alt="An example of PCR duplicates.  Note that in paired end data, duplicates are identified by the lengths of both reads as well as the insert length.  This figure represents a simplified, toy, situation, showing just single-end data."  />
 <p class="caption">
-FIGURE 19.1: An example of PCR duplicates. Note that in paired end data, duplicates are identified by the lengths of both reads as well as the insert length. This figure represents a simplified, “toy” situation, showing just single-end data.
+FIGURE 19.1: An example of PCR duplicates. Note that in paired end data, duplicates are identified by the lengths of both reads as well as the insert length. This figure represents a simplified, toy, situation, showing just single-end data.
 </p>
 </div>
 <p>PCR duplicates occur during the library prep stage, and also are only possible for
@@ -549,8 +562,8 @@ two different paired-end reads that mapped to the same location in the genome, b
 were from different individuals (i.e. had different sample-specific DNA barcodes),
 you would not suspect that they were PCR duplicates.
 Likewise, DNA fragments from two different library preps, even if they came from the
-same individuals (in the case that DNA from that individual had been prepared
-in two separate libraries) would not be considered to be PCR duplicates.
+same individual—in the case that DNA from that individual had been prepared
+in two separate libraries—would not be considered to be PCR duplicates.
 (We should pause here to note what is considered a “library prep.” Basically,
 if a batch of samples were all processed together in the same day with reagents
 from the same kit, that is considered a single “library prep.”)
@@ -656,7 +669,7 @@ them, like this:</p>
 <div id="aligning-reads-with-bwa" class="section level2">
 <h2><span class="header-section-number">19.3</span> Aligning reads with <code>bwa</code></h2>
 <p>There are several programs for aligning reads to a reference genome. We focus on <code>bwa</code> which is
-an industry standard aligner written by Heng Li and Richard Durbin <span class="citation">(Li and Durbin <a href="#ref-liFastAccurateShort2009">2009</a>)</span>. The name
+an industry standard aligner written by Heng Li and Richard Durbin <span class="citation">(Li and Durbin <a href="#ref-liFastAccurateShort2009" role="doc-biblioref">2009</a>)</span>. The name
 stands for “Burrows-Wheeler Aligner.” We won’t go deeply into the guts of this alignment algorithm, but we
 will briefly state that nearly all alignment methods rely on pre-processing the reference genome into a
 data-structure (like a suffix tree) that provides an <em>index</em> which makes it fast to find the place in
@@ -678,9 +691,9 @@ with <code>bwa</code>. This is a step that only needs to be done once, since the
 that is stored on the hard drive alongside the genome. So, after you download a reference genome,
 before you can start aligning sequences to it, you must index it using <code>bwa</code>. The syntax for this
 is very straightforward:</p>
-<div class="sourceCode" id="cb474"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb474-1" data-line-number="1"><span class="ex">bwa</span> index path-to-genome</a></code></pre></div>
+<div class="sourceCode" id="cb507"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb507-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb507-1"></a><span class="ex">bwa</span> index path-to-genome</span></code></pre></div>
 <p>For example:</p>
-<div class="sourceCode" id="cb475"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb475-1" data-line-number="1"><span class="ex">bwa</span> index genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</a></code></pre></div>
+<div class="sourceCode" id="cb508"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb508-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb508-1"></a><span class="ex">bwa</span> index genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz</span></code></pre></div>
 <p>The reference genome must be stored as a FASTA file (Section <a href="bioinformatic-file-formats.html#fasta">17.3</a>), which can
 be compressed using <code>gzip</code>. (In the above example, the <code>.fna.gz</code> prefix means that the
 file is a FASTA file of nucleotides (<code>.fna</code>) and has been gzipped (<code>.gz</code>)).</p>
@@ -715,9 +728,9 @@ the best available <code>bwa</code> algorithm, today, is the <code>mem</code> al
 are many options available to tune the parameters used for alignment, the default values
 usually give good performance. Thus, at its
 simplest, <code>bwa mem</code> simply takes three file arguments:</p>
-<div class="sourceCode" id="cb477"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb477-1" data-line-number="1"><span class="ex">bwa</span> mem   path-to-reference-genome   path-to-read1-fastq-file   path-to-read2-fastq-file</a></code></pre></div>
+<div class="sourceCode" id="cb510"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb510-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb510-1"></a><span class="ex">bwa</span> mem   path-to-reference-genome   path-to-read1-fastq-file   path-to-read2-fastq-file</span></code></pre></div>
 <p>An example might look like:</p>
-<div class="sourceCode" id="cb478"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb478-1" data-line-number="1"><span class="ex">bwa</span> mem genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz fastqs/DPCh_plate1_A01_S1_L1_R1.fq.gz fastqs/DPCh_plate1_A01_S1_L1_R2.fq.gz</a></code></pre></div>
+<div class="sourceCode" id="cb511"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb511-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb511-1"></a><span class="ex">bwa</span> mem genome/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz fastqs/DPCh_plate1_A01_S1_L1_R1.fq.gz fastqs/DPCh_plate1_A01_S1_L1_R2.fq.gz</span></code></pre></div>
 <p><code>bwa mem</code> prints progress messages to <em>stderr</em> and prints its output in SAM format to <em>stdout</em>. The read alignments
 come spewing out in the order they are listed in the FASTQ files, such that each read and its
 paired-end mate appear in adjacent rows in the output. It’s all super simple!</p>
@@ -742,13 +755,13 @@ allow variable substitution (Section <a href="shell-programming.html#quotes-and-
 So, in your own scripts, especially when cycling over very many different pairs of
 FASTQ files, it is extremely useful to be able to define the values of the read group
 tags, and then supply them on the command line. Coarsely this would look like:</p>
-<div class="sourceCode" id="cb479"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb479-1" data-line-number="1"><span class="va">ID=</span>HTYYCBBXX.1.CH_plate1_A01</a>
-<a class="sourceLine" id="cb479-2" data-line-number="2"><span class="va">SM=</span>CH_plate1_A01</a>
-<a class="sourceLine" id="cb479-3" data-line-number="3"><span class="va">LB=</span>Lib-1</a>
-<a class="sourceLine" id="cb479-4" data-line-number="4"><span class="va">PU=</span>HTYYCBBXX.1.TCAATCCG+TTCGCAGT</a>
-<a class="sourceLine" id="cb479-5" data-line-number="5"><span class="va">PL=</span>ILLUMINA</a>
-<a class="sourceLine" id="cb479-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb479-7" data-line-number="7"><span class="ex">bwa</span> mem -R <span class="st">&quot;@RG\tID:</span><span class="va">$ID</span><span class="st">\tSM:</span><span class="va">$SM</span><span class="st">\tLB:</span><span class="va">$LB</span><span class="st">\tPU:</span><span class="va">$PU</span><span class="st">\tPL:</span><span class="va">$PL</span><span class="st">&quot;</span>  genome.fasta  file_R1.fq file_R2.fq</a></code></pre></div>
+<div class="sourceCode" id="cb512"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb512-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb512-1"></a><span class="va">ID=</span>HTYYCBBXX.1.CH_plate1_A01</span>
+<span id="cb512-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb512-2"></a><span class="va">SM=</span>CH_plate1_A01</span>
+<span id="cb512-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb512-3"></a><span class="va">LB=</span>Lib-1</span>
+<span id="cb512-4"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb512-4"></a><span class="va">PU=</span>HTYYCBBXX.1.TCAATCCG+TTCGCAGT</span>
+<span id="cb512-5"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb512-5"></a><span class="va">PL=</span>ILLUMINA</span>
+<span id="cb512-6"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb512-6"></a></span>
+<span id="cb512-7"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb512-7"></a><span class="ex">bwa</span> mem -R <span class="st">&quot;@RG\tID:</span><span class="va">$ID</span><span class="st">\tSM:</span><span class="va">$SM</span><span class="st">\tLB:</span><span class="va">$LB</span><span class="st">\tPU:</span><span class="va">$PU</span><span class="st">\tPL:</span><span class="va">$PL</span><span class="st">&quot;</span>  genome.fasta  file_R1.fq file_R2.fq</span></code></pre></div>
 <p>However, you would probably want some way of assigning the values of the
 shell variables <code>ID</code>, <code>SM</code>, etc., programmatically, perhaps from the spreadsheet
 that holds all that information. The exercise this week shows one example of that
@@ -775,7 +788,7 @@ will need to index it for rapid access by the variant caller program.</li>
 </ol>
 <p>Phew! That is a lot of steps! Fortunately, there is a single “go-to” program (one-stop shopping!)
 that can manage all of that for you. It is the program <code>samtools</code>, brought to you by the
-same people who developed the SAM/BAM formats <span class="citation">(Li et al. <a href="#ref-liSequenceAlignmentMap2009">2009</a>)</span> and the <code>bwa</code> aligner
+same people who developed the SAM/BAM formats <span class="citation">(Li et al. <a href="#ref-liSequenceAlignmentMap2009" role="doc-biblioref">2009</a>)</span> and the <code>bwa</code> aligner
 (and <code>bcftools</code> for that matter). If you want to get anywhere in bioinformatics, it is
 important to become good friends with <code>samtools</code>.</p>
 <p>The program <code>samtools</code> includes a large number of different subcommands.
@@ -788,12 +801,12 @@ two groups:</p>
 <ol style="list-style-type: decimal">
 <li><p>Subcommands that explicitly require an argument that gives the name of an output file.
 These subcommands are usually described like this:</p>
-<div class="sourceCode" id="cb480"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb480-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options] out.bam in.bam</a></code></pre></div>
-where an output file is explicitly called for. These commands
+<div class="sourceCode" id="cb513"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb513-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb513-1"></a><span class="ex">samtools</span> subcommand [options] out.bam in.bam</span></code></pre></div>
+<p>where an output file is explicitly called for. These commands
 <em>do not write output to stdout</em>! They must be given an output file name. It is
-<em>not possible</em> to pipe output from one of these subcommands to another program or utility.</li>
+<em>not possible</em> to pipe output from one of these subcommands to another program or utility.</p></li>
 <li><p>Subcommands that don’t explicitly require an argument giving an output file:</p>
-<div class="sourceCode" id="cb481"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb481-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options] in.bam</a></code></pre></div>
+<div class="sourceCode" id="cb514"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb514-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb514-1"></a><span class="ex">samtools</span> subcommand [options] in.bam</span></code></pre></div>
 <p>These subcommands write their output to stdout, and that output can be piped into other programs or can
 be redirected into a file (some also provide a <code>-o file</code> option to write output to <code>file</code> rather than
 to stdout.)</p></li>
@@ -805,17 +818,17 @@ the next part of your pipeline.</p>
 how you can pipe that into the input for another <code>samtools</code> subcommand. Rejoice! There is a syntactically
 economical and lovely way to do that. Any subcommand which expects a single input file will be described
 like:</p>
-<div class="sourceCode" id="cb482"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb482-1" data-line-number="1"><span class="ex">samtools</span> subcommand [options]  in.bam</a></code></pre></div>
+<div class="sourceCode" id="cb515"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb515-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb515-1"></a><span class="ex">samtools</span> subcommand [options]  in.bam</span></code></pre></div>
 <p>You would typically put the path to the input file in the place of <code>in.bam</code> there.
 However, if you put <code>-</code> in place of <code>in.bam</code> then samtools will take input for
 <code>in.bam</code> from <em>stdin</em>.</p>
 <p>So, for example, you can do something like this:</p>
-<div class="sourceCode" id="cb483"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb483-1" data-line-number="1"><span class="ex">bwa</span> mem genome.fna R1.fq R2.fq <span class="kw">|</span></a>
-<a class="sourceLine" id="cb483-2" data-line-number="2">  <span class="ex">samtools</span> view -b -  <span class="kw">|</span>   # <span class="ex">convert</span> the SAM output from bwa mem into BAM format</a>
-<a class="sourceLine" id="cb483-3" data-line-number="3">  <span class="ex">samtools</span> fixmate -m - output_file  # take stdin as the input and write output to output_file</a></code></pre></div>
+<div class="sourceCode" id="cb516"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb516-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb516-1"></a><span class="ex">bwa</span> mem genome.fna R1.fq R2.fq <span class="kw">|</span></span>
+<span id="cb516-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb516-2"></a>  <span class="ex">samtools</span> view -b -  <span class="kw">|</span>   <span class="co"># convert the SAM output from bwa mem into BAM format</span></span>
+<span id="cb516-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb516-3"></a>  <span class="ex">samtools</span> fixmate -m - output_file  <span class="co"># take stdin as the input and write output to output_file</span></span></code></pre></div>
 <p>You can download an 11 Mb BAM file to play around with <a href="https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam">here</a>.
 If you are on your HPCC and want to download it, you can use:</p>
-<div class="sourceCode" id="cb484"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb484-1" data-line-number="1"><span class="fu">wget</span> https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam</a></code></pre></div>
+<div class="sourceCode" id="cb517"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb517-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb517-1"></a><span class="fu">wget</span> https://eriqande.github.io/eca-bioinf-handbook/downloads/CH_plate1_A01_mkdup.bam</span></code></pre></div>
 <div id="samtools-subcommands" class="section level3">
 <h3><span class="header-section-number">19.4.1</span> <code>samtools</code> subcommands</h3>
 <p>We will go through some of the subcommands used in the exercises, in a
@@ -829,40 +842,40 @@ text…</p>
 <p>These are the commands
 needed to prepare yourself to go through the following in-class exercises. You
 should be doing this <em>on a compute node</em>.</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb485-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb485-2" data-line-number="2"><span class="co"># rclone the file here.  Change the remote name from &quot;gdrive-pers&quot; to whatever</span></a>
-<a class="sourceLine" id="cb485-3" data-line-number="3"><span class="co"># you have named your rclone google drive remote:</span></a>
-<a class="sourceLine" id="cb485-4" data-line-number="4"><span class="ex">rclone</span> copyto -P  --drive-shared-with-me  gdrive-pers:CSU-con-gen-2020/in-class-bam-play-session.tar.gz in-class-bam-play-session.tar.gz</a>
-<a class="sourceLine" id="cb485-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb485-6" data-line-number="6"><span class="co"># extract the contents of the tarball:</span></a>
-<a class="sourceLine" id="cb485-7" data-line-number="7"><span class="fu">gunzip</span> in-class-bam-play-session.tar.gz</a>
-<a class="sourceLine" id="cb485-8" data-line-number="8"><span class="fu">tar</span> -xvf in-class-bam-play-session.tar</a>
-<a class="sourceLine" id="cb485-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb485-10" data-line-number="10"><span class="co"># cd into the directory we will be working in:</span></a>
-<a class="sourceLine" id="cb485-11" data-line-number="11"><span class="bu">cd</span> in-class-bam-play-session</a>
-<a class="sourceLine" id="cb485-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb485-13" data-line-number="13"><span class="co"># make sure you have activated your conda environment that</span></a>
-<a class="sourceLine" id="cb485-14" data-line-number="14"><span class="co"># has samtools</span></a>
-<a class="sourceLine" id="cb485-15" data-line-number="15"><span class="ex">conda</span> activate bioinf</a></code></pre></div>
+<div class="sourceCode" id="cb518"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb518-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-1"></a></span>
+<span id="cb518-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-2"></a><span class="co"># rclone the file here.  Change the remote name from &quot;gdrive-pers&quot; to whatever</span></span>
+<span id="cb518-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-3"></a><span class="co"># you have named your rclone google drive remote:</span></span>
+<span id="cb518-4"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-4"></a><span class="ex">rclone</span> copyto -P  --drive-shared-with-me  gdrive-pers:CSU-con-gen-2020/in-class-bam-play-session.tar.gz in-class-bam-play-session.tar.gz</span>
+<span id="cb518-5"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-5"></a></span>
+<span id="cb518-6"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-6"></a><span class="co"># extract the contents of the tarball:</span></span>
+<span id="cb518-7"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-7"></a><span class="fu">gunzip</span> in-class-bam-play-session.tar.gz</span>
+<span id="cb518-8"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-8"></a><span class="fu">tar</span> -xvf in-class-bam-play-session.tar</span>
+<span id="cb518-9"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-9"></a></span>
+<span id="cb518-10"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-10"></a><span class="co"># cd into the directory we will be working in:</span></span>
+<span id="cb518-11"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-11"></a><span class="bu">cd</span> in-class-bam-play-session</span>
+<span id="cb518-12"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-12"></a></span>
+<span id="cb518-13"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-13"></a><span class="co"># make sure you have activated your conda environment that</span></span>
+<span id="cb518-14"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-14"></a><span class="co"># has samtools</span></span>
+<span id="cb518-15"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb518-15"></a><span class="ex">conda</span> activate bioinf</span></code></pre></div>
 <div id="samtools-view" class="section level4">
 <h4><span class="header-section-number">19.4.1.1</span> <code>samtools view</code></h4>
 <p>The <code>view</code> command is a major <code>samtools</code> workhorse.</p>
 <p>It is primarily used for viewing BAM files (-h/-H), which, you will recall,
 are not otherwise human readable.</p>
 <p>View a BAM (or SAM) file like this:</p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb486-1" data-line-number="1"><span class="co"># from a BAM file</span></a>
-<a class="sourceLine" id="cb486-2" data-line-number="2"><span class="ex">samtools</span> view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">head</span></a>
-<a class="sourceLine" id="cb486-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb486-4" data-line-number="4"><span class="co"># from a SAM file</span></a>
-<a class="sourceLine" id="cb486-5" data-line-number="5"><span class="ex">samtools</span> view sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
+<div class="sourceCode" id="cb519"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb519-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb519-1"></a><span class="co"># from a BAM file</span></span>
+<span id="cb519-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb519-2"></a><span class="ex">samtools</span> view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">head</span></span>
+<span id="cb519-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb519-3"></a></span>
+<span id="cb519-4"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb519-4"></a><span class="co"># from a SAM file</span></span>
+<span id="cb519-5"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb519-5"></a><span class="ex">samtools</span> view sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
 <p>That shows the first 10 lines of output.</p>
 <p>Note that there is no header in that output. To see the header also, you
 use the <code>-h</code> option:</p>
-<div class="sourceCode" id="cb487"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb487-1" data-line-number="1"><span class="ex">samtools</span> view -h bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">head</span></a></code></pre></div>
+<div class="sourceCode" id="cb520"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb520-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb520-1"></a><span class="ex">samtools</span> view -h bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">head</span></span></code></pre></div>
 <p>If all you want to print is the SAM header, then use the <code>-H</code> command:</p>
-<div class="sourceCode" id="cb488"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb488-1" data-line-number="1"><span class="co"># this is a handy way to get the last N (5 in this case) lines of the</span></a>
-<a class="sourceLine" id="cb488-2" data-line-number="2"><span class="co"># SAM header:</span></a>
-<a class="sourceLine" id="cb488-3" data-line-number="3"><span class="ex">samtools</span> view -H bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">tail</span> -n 5</a></code></pre></div>
+<div class="sourceCode" id="cb521"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb521-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb521-1"></a><span class="co"># this is a handy way to get the last N (5 in this case) lines of the</span></span>
+<span id="cb521-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb521-2"></a><span class="co"># SAM header:</span></span>
+<span id="cb521-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb521-3"></a><span class="ex">samtools</span> view -H bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">tail</span> -n 5</span></code></pre></div>
 <p>Check out that read group line!</p>
 <p><code>samtools view</code> is also used for converting from the text-based SAM format
 to BAM format. Whenever processing SAM/BAM files, you want it to be in BAM format
@@ -874,21 +887,21 @@ uncompressed BAM format. If you are not writing output to the disk, the
 <code>-u</code> option is preferred, since it saves the time that would be spent compressing
 and then decompressing the data as it gets piped from one <code>samtools</code> command
 to the next.</p>
-<div class="sourceCode" id="cb489"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb489-1" data-line-number="1"><span class="co"># write SAM output to BAM file</span></a>
-<a class="sourceLine" id="cb489-2" data-line-number="2"><span class="ex">samtools</span> view -1 sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam  <span class="op">&gt;</span> one.bam</a>
-<a class="sourceLine" id="cb489-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb489-4" data-line-number="4"><span class="co"># write it to a file directly, not through redirection</span></a>
-<a class="sourceLine" id="cb489-5" data-line-number="5"><span class="ex">samtools</span> view -1 -o two.bam sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam</a>
-<a class="sourceLine" id="cb489-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb489-7" data-line-number="7"><span class="co"># see that those are the same:</span></a>
-<a class="sourceLine" id="cb489-8" data-line-number="8"><span class="ex">shasum</span> two.bam one.bam</a>
-<a class="sourceLine" id="cb489-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb489-10" data-line-number="10"><span class="co"># do the same with -b instead of -1</span></a>
-<a class="sourceLine" id="cb489-11" data-line-number="11"><span class="ex">samtools</span> view -b -o three.bam sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam</a></code></pre></div>
+<div class="sourceCode" id="cb522"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb522-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb522-1"></a><span class="co"># write SAM output to BAM file</span></span>
+<span id="cb522-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb522-2"></a><span class="ex">samtools</span> view -1 sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam  <span class="op">&gt;</span> one.bam</span>
+<span id="cb522-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb522-3"></a></span>
+<span id="cb522-4"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb522-4"></a><span class="co"># write it to a file directly, not through redirection</span></span>
+<span id="cb522-5"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb522-5"></a><span class="ex">samtools</span> view -1 -o two.bam sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam</span>
+<span id="cb522-6"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb522-6"></a></span>
+<span id="cb522-7"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb522-7"></a><span class="co"># see that those are the same:</span></span>
+<span id="cb522-8"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb522-8"></a><span class="ex">shasum</span> two.bam one.bam</span>
+<span id="cb522-9"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb522-9"></a></span>
+<span id="cb522-10"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb522-10"></a><span class="co"># do the same with -b instead of -1</span></span>
+<span id="cb522-11"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb522-11"></a><span class="ex">samtools</span> view -b -o three.bam sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam</span></code></pre></div>
 <p>Finally, if the you have <em>indexed</em> a BAM file, you can use <code>samtools view</code>
 to retrieve and print all the reads in that indexed BAM file covering one
 or more genomic regions as specified using genomic coordinates:</p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb490-1" data-line-number="1"><span class="ex">samtools</span> view duplicates-marked/DPCh_plate1_A01_mkdup.bam  CM009233.1:11271560-11271570  CM009233.1:1907820-1907830</a></code></pre></div>
+<div class="sourceCode" id="cb523"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb523-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb523-1"></a><span class="ex">samtools</span> view duplicates-marked/DPCh_plate1_A01_mkdup.bam  CM009233.1:11271560-11271570  CM009233.1:1907820-1907830</span></code></pre></div>
 </div>
 <div id="samtools-fixmate" class="section level4">
 <h4><span class="header-section-number">19.4.1.2</span> <code>samtools fixmate</code></h4>
@@ -898,22 +911,22 @@ a “mate-score” field to each alignment. This is used later by <code>samtools
 Mates must be adjacent to one another in the input BAM. This is how mates are arranged
 right after running <code>bwa mem</code>, so it is best to run this right after alignment.</p>
 <p>This subcommand does not write to <em>stdout</em>, so output must be written to a file.</p>
-<div class="sourceCode" id="cb491"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb491-1" data-line-number="1"><span class="co"># run it on the BAM</span></a>
-<a class="sourceLine" id="cb491-2" data-line-number="2"><span class="ex">samtools</span> fixmate -m bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam  fixed.bam</a>
-<a class="sourceLine" id="cb491-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb491-4" data-line-number="4"><span class="co"># do the same, but take input on stdin from the SAM getting coverted</span></a>
-<a class="sourceLine" id="cb491-5" data-line-number="5"><span class="co"># to BAM. Notice the use of &quot;-&quot; in place of the filename for input from stdin.</span></a>
-<a class="sourceLine" id="cb491-6" data-line-number="6"><span class="ex">samtools</span> view -b sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam <span class="kw">|</span> <span class="ex">samtools</span> fixmate -m - fixed2.bam</a>
-<a class="sourceLine" id="cb491-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb491-8" data-line-number="8"><span class="co"># note that both give the same result:</span></a>
-<a class="sourceLine" id="cb491-9" data-line-number="9"><span class="ex">shasum</span> fixed*.bam</a>
-<a class="sourceLine" id="cb491-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb491-11" data-line-number="11"><span class="co"># compare the first alignment in the BAMs before and after running fixmate:</span></a>
-<a class="sourceLine" id="cb491-12" data-line-number="12"><span class="ex">samtools</span> view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">head</span> -n 1</a>
-<a class="sourceLine" id="cb491-13" data-line-number="13"><span class="ex">samtools</span> view fixed.bam <span class="kw">|</span> <span class="fu">head</span> -n 1</a>
-<a class="sourceLine" id="cb491-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb491-15" data-line-number="15"><span class="co"># how do the above two outputs differ?</span></a>
-<a class="sourceLine" id="cb491-16" data-line-number="16"><span class="co"># What new information is in fixed.bam?</span></a></code></pre></div>
+<div class="sourceCode" id="cb524"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb524-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-1"></a><span class="co"># run it on the BAM</span></span>
+<span id="cb524-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-2"></a><span class="ex">samtools</span> fixmate -m bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam  fixed.bam</span>
+<span id="cb524-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-3"></a></span>
+<span id="cb524-4"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-4"></a><span class="co"># do the same, but take input on stdin from the SAM getting coverted</span></span>
+<span id="cb524-5"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-5"></a><span class="co"># to BAM. Notice the use of &quot;-&quot; in place of the filename for input from stdin.</span></span>
+<span id="cb524-6"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-6"></a><span class="ex">samtools</span> view -b sam-from-bwa/DPCh_plate1_A01_S1_L1_R.sam <span class="kw">|</span> <span class="ex">samtools</span> fixmate -m - fixed2.bam</span>
+<span id="cb524-7"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-7"></a></span>
+<span id="cb524-8"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-8"></a><span class="co"># note that both give the same result:</span></span>
+<span id="cb524-9"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-9"></a><span class="ex">shasum</span> fixed*.bam</span>
+<span id="cb524-10"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-10"></a></span>
+<span id="cb524-11"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-11"></a><span class="co"># compare the first alignment in the BAMs before and after running fixmate:</span></span>
+<span id="cb524-12"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-12"></a><span class="ex">samtools</span> view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
+<span id="cb524-13"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-13"></a><span class="ex">samtools</span> view fixed.bam <span class="kw">|</span> <span class="fu">head</span> -n 1</span>
+<span id="cb524-14"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-14"></a></span>
+<span id="cb524-15"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-15"></a><span class="co"># how do the above two outputs differ?</span></span>
+<span id="cb524-16"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb524-16"></a><span class="co"># What new information is in fixed.bam?</span></span></code></pre></div>
 </div>
 <div id="samtools-sort" class="section level4">
 <h4><span class="header-section-number">19.4.1.3</span> <code>samtools sort</code></h4>
@@ -922,21 +935,21 @@ in the reference genome. This must be done for
 most downstream operations—especially for merging and for marking duplicates—so
 it is something that you will always do to alignments from <code>bwa mem</code> or any
 other aligner.</p>
-<div class="sourceCode" id="cb492"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb492-1" data-line-number="1"><span class="co"># first note that, when it comes off the seqencer, it is not sorted</span></a>
-<a class="sourceLine" id="cb492-2" data-line-number="2"><span class="ex">samtools</span> view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $1, $3, $4}&#39;</span> <span class="kw">|</span> <span class="fu">less</span></a>
-<a class="sourceLine" id="cb492-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb492-4" data-line-number="4"><span class="co"># how is it sorted?</span></a>
-<a class="sourceLine" id="cb492-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb492-6" data-line-number="6"><span class="co"># coordinate-sort that file:</span></a>
-<a class="sourceLine" id="cb492-7" data-line-number="7"><span class="ex">samtools</span> sort bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="op">&gt;</span> sorted1.bam</a>
-<a class="sourceLine" id="cb492-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb492-9" data-line-number="9"><span class="co"># rather than redirecting sort&#39;s stdout to a file you can use the -o option</span></a>
-<a class="sourceLine" id="cb492-10" data-line-number="10"><span class="ex">samtools</span> sort -o sorted2.bam bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam</a>
-<a class="sourceLine" id="cb492-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb492-12" data-line-number="12"><span class="co"># check they are the same with shasum (this is left for you to do)</span></a>
-<a class="sourceLine" id="cb492-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb492-14" data-line-number="14"><span class="co"># now, look at the order of the positions in the sorted file</span></a>
-<a class="sourceLine" id="cb492-15" data-line-number="15"><span class="ex">samtools</span> view sorted1.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $3, $4}&#39;</span> <span class="kw">|</span> <span class="fu">less</span></a></code></pre></div>
+<div class="sourceCode" id="cb525"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb525-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-1"></a><span class="co"># first note that, when it comes off the seqencer, it is not sorted</span></span>
+<span id="cb525-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-2"></a><span class="ex">samtools</span> view bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $1, $3, $4}&#39;</span> <span class="kw">|</span> <span class="fu">less</span></span>
+<span id="cb525-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-3"></a></span>
+<span id="cb525-4"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-4"></a><span class="co"># how is it sorted?</span></span>
+<span id="cb525-5"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-5"></a></span>
+<span id="cb525-6"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-6"></a><span class="co"># coordinate-sort that file:</span></span>
+<span id="cb525-7"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-7"></a><span class="ex">samtools</span> sort bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam <span class="op">&gt;</span> sorted1.bam</span>
+<span id="cb525-8"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-8"></a></span>
+<span id="cb525-9"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-9"></a><span class="co"># rather than redirecting sort&#39;s stdout to a file you can use the -o option</span></span>
+<span id="cb525-10"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-10"></a><span class="ex">samtools</span> sort -o sorted2.bam bam-from-sam-from-bwa/DPCh_plate1_A01_S1_L1_R.bam</span>
+<span id="cb525-11"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-11"></a></span>
+<span id="cb525-12"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-12"></a><span class="co"># check they are the same with shasum (this is left for you to do)</span></span>
+<span id="cb525-13"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-13"></a></span>
+<span id="cb525-14"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-14"></a><span class="co"># now, look at the order of the positions in the sorted file</span></span>
+<span id="cb525-15"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb525-15"></a><span class="ex">samtools</span> view sorted1.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;{print $3, $4}&#39;</span> <span class="kw">|</span> <span class="fu">less</span></span></code></pre></div>
 <p><code>samtools sort</code> produces intermediate files when it is sorting large BAM files.
 You will sometimes see them if <code>ls</code>-ing the contents of directories while running
 a sort job.
@@ -976,30 +989,30 @@ individual.)</p>
 followed by all the input file names. If you get the order of the filenames wrong—for
 example putting the output file last, then it will usually bark you an error because
 you are, in effect, asking it to overwrite an existing input file.</p>
-<div class="sourceCode" id="cb494"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb494-1" data-line-number="1"><span class="co"># merge 8 input BAMs into a single BAM</span></a>
-<a class="sourceLine" id="cb494-2" data-line-number="2"><span class="ex">samtools</span> merge merged.bam   8-sorted-bams/*.bam</a>
-<a class="sourceLine" id="cb494-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb494-4" data-line-number="4"><span class="co"># now, look at the read groups in the header of that new, merged file:</span></a>
-<a class="sourceLine" id="cb494-5" data-line-number="5"><span class="ex">samtools</span> view -H merged.bam <span class="kw">|</span> <span class="fu">tail</span> -n 20</a></code></pre></div>
+<div class="sourceCode" id="cb527"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb527-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb527-1"></a><span class="co"># merge 8 input BAMs into a single BAM</span></span>
+<span id="cb527-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb527-2"></a><span class="ex">samtools</span> merge merged.bam   8-sorted-bams/*.bam</span>
+<span id="cb527-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb527-3"></a></span>
+<span id="cb527-4"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb527-4"></a><span class="co"># now, look at the read groups in the header of that new, merged file:</span></span>
+<span id="cb527-5"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb527-5"></a><span class="ex">samtools</span> view -H merged.bam <span class="kw">|</span> <span class="fu">tail</span> -n 20</span></code></pre></div>
 </div>
 <div id="samtools-markdup" class="section level4">
 <h4><span class="header-section-number">19.4.1.5</span> <code>samtools markdup</code></h4>
 <p>Mark PCR (or optical) duplicates. Input must have a mate-score field (obtained
 from running <code>samtools fixmate -m</code>). And, it must be coordinate-sorted. <em>And</em> it must
 include all the alignments from a single sample from a single library prep.</p>
-<div class="sourceCode" id="cb495"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb495-1" data-line-number="1"><span class="co"># mark duplicates in the merged bam</span></a>
-<a class="sourceLine" id="cb495-2" data-line-number="2"><span class="ex">samtools</span> markdup 8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam marked.bam</a></code></pre></div>
+<div class="sourceCode" id="cb528"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb528-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb528-1"></a><span class="co"># mark duplicates in the merged bam</span></span>
+<span id="cb528-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb528-2"></a><span class="ex">samtools</span> markdup 8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam marked.bam</span></code></pre></div>
 <p>How does this file differ now? Well, reads that look like PCR duplicates have
 been marked as such by including the bits 0x400 to its SAM Flag. We can verify
 that by using the <code>-f</code> option to <code>samtools view</code> to print alignments that have the
 0x400 bit set:</p>
-<div class="sourceCode" id="cb496"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb496-1" data-line-number="1"><span class="co"># see the reads marked as PCR duplicates:</span></a>
-<a class="sourceLine" id="cb496-2" data-line-number="2"><span class="ex">samtools</span> view -f 0x400 marked.bam <span class="kw">|</span> <span class="fu">less</span></a>
-<a class="sourceLine" id="cb496-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb496-4" data-line-number="4"><span class="co"># note that there are none before marking duplicates</span></a>
-<a class="sourceLine" id="cb496-5" data-line-number="5"><span class="ex">samtools</span> view -f 0x400 8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam</a>
-<a class="sourceLine" id="cb496-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb496-7" data-line-number="7"><span class="co"># (nothing, nada, zip, goose-eggs...)</span></a></code></pre></div>
+<div class="sourceCode" id="cb529"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb529-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb529-1"></a><span class="co"># see the reads marked as PCR duplicates:</span></span>
+<span id="cb529-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb529-2"></a><span class="ex">samtools</span> view -f 0x400 marked.bam <span class="kw">|</span> <span class="fu">less</span></span>
+<span id="cb529-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb529-3"></a></span>
+<span id="cb529-4"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb529-4"></a><span class="co"># note that there are none before marking duplicates</span></span>
+<span id="cb529-5"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb529-5"></a><span class="ex">samtools</span> view -f 0x400 8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam</span>
+<span id="cb529-6"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb529-6"></a></span>
+<span id="cb529-7"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb529-7"></a><span class="co"># (nothing, nada, zip, goose-eggs...)</span></span></code></pre></div>
 <p>The file produced here (<code>marked.bam</code>) is ready to go for variant calling, but
 you will also want to index it for rapid access to reads aligned to any genomic
 regions. Indexing is required for most variant callers.</p>
@@ -1009,7 +1022,7 @@ regions. Indexing is required for most variant callers.</p>
 <p>Once you have a sorted BAM file that is ready for variant calling, you will want
 to <em>index</em> it. This is also necessary for some other operations, like <code>idxstats</code>.
 The syntax is simple:</p>
-<div class="sourceCode" id="cb497"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb497-1" data-line-number="1"><span class="ex">samtools</span> index duplicates-marked/DPCh_plate1_A01_mkdup.bam</a></code></pre></div>
+<div class="sourceCode" id="cb530"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb530-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb530-1"></a><span class="ex">samtools</span> index duplicates-marked/DPCh_plate1_A01_mkdup.bam</span></code></pre></div>
 <p>The index for file <code>FILE.bam</code> is stored alongside the file in
 <code>FILE.bam.bai</code>. The <code>bai</code> extension means “bam index.”</p>
 <p>Now, your file would be read to go for variant calling!
@@ -1022,21 +1035,21 @@ to the reference genome.</p>
 <p>Provide summary information about the SAM flags of the alignments.
 This is a great utility to assess how many reads mapped, how many didn’t,
 and the nature of their mapping (as relayed by their SAM flags).</p>
-<div class="sourceCode" id="cb498"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb498-1" data-line-number="1"><span class="co"># SAM flag summary for the final dupe-marked file</span></a>
-<a class="sourceLine" id="cb498-2" data-line-number="2"><span class="ex">samtools</span> flagstat duplicates-marked/DPCh_plate1_A01_mkdup.bam</a>
-<a class="sourceLine" id="cb498-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb498-4" data-line-number="4"><span class="co"># Summary for the merged file before dupe-marking</span></a>
-<a class="sourceLine" id="cb498-5" data-line-number="5"><span class="ex">samtools</span> flagstat  8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam</a>
-<a class="sourceLine" id="cb498-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb498-7" data-line-number="7"><span class="co"># how do those two differ?</span></a></code></pre></div>
+<div class="sourceCode" id="cb531"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb531-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb531-1"></a><span class="co"># SAM flag summary for the final dupe-marked file</span></span>
+<span id="cb531-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb531-2"></a><span class="ex">samtools</span> flagstat duplicates-marked/DPCh_plate1_A01_mkdup.bam</span>
+<span id="cb531-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb531-3"></a></span>
+<span id="cb531-4"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb531-4"></a><span class="co"># Summary for the merged file before dupe-marking</span></span>
+<span id="cb531-5"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb531-5"></a><span class="ex">samtools</span> flagstat  8-sorted-bams-merged-into-1/DPCh_plate1_A01.bam</span>
+<span id="cb531-6"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb531-6"></a></span>
+<span id="cb531-7"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb531-7"></a><span class="co"># how do those two differ?</span></span></code></pre></div>
 </div>
 <div id="samtools-idxstats" class="section level4">
 <h4><span class="header-section-number">19.4.1.8</span> <code>samtools idxstats</code></h4>
 <p>From an indexed BAM file, report how many reads map to each
 sequence in the reference genome.</p>
-<div class="sourceCode" id="cb499"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb499-1" data-line-number="1"><span class="co"># see how many reads mapped to each of the &quot;named&quot; chromosomes</span></a>
-<a class="sourceLine" id="cb499-2" data-line-number="2"><span class="co"># in the reference genome (those that start with &quot;CM&quot;)</span></a>
-<a class="sourceLine" id="cb499-3" data-line-number="3"><span class="ex">samtools</span> idxstats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^CM/&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb532"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb532-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb532-1"></a><span class="co"># see how many reads mapped to each of the &quot;named&quot; chromosomes</span></span>
+<span id="cb532-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb532-2"></a><span class="co"># in the reference genome (those that start with &quot;CM&quot;)</span></span>
+<span id="cb532-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb532-3"></a><span class="ex">samtools</span> idxstats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^CM/&#39;</span></span></code></pre></div>
 <p>The columns that come out of this are:</p>
 <ol style="list-style-type: decimal">
 <li>Reference sequence name</li>
@@ -1048,19 +1061,19 @@ sequence in the reference genome.</p>
 <div id="samtools-stats" class="section level4">
 <h4><span class="header-section-number">19.4.1.9</span> <code>samtools stats</code></h4>
 <p>Comprehensive summaries of features of the alignments.</p>
-<div class="sourceCode" id="cb500"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb500-1" data-line-number="1"><span class="co"># check them all out:</span></a>
-<a class="sourceLine" id="cb500-2" data-line-number="2"><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">more</span></a>
-<a class="sourceLine" id="cb500-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb500-4" data-line-number="4"><span class="co"># look at the headers for each of the different sections:</span></a>
-<a class="sourceLine" id="cb500-5" data-line-number="5"><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^#/&#39;</span></a></code></pre></div>
+<div class="sourceCode" id="cb533"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb533-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb533-1"></a><span class="co"># check them all out:</span></span>
+<span id="cb533-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb533-2"></a><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">more</span></span>
+<span id="cb533-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb533-3"></a></span>
+<span id="cb533-4"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb533-4"></a><span class="co"># look at the headers for each of the different sections:</span></span>
+<span id="cb533-5"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb533-5"></a><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^#/&#39;</span></span></code></pre></div>
 <p>Note that, in the headers for each of the different summaries in the output
 from <code>samtools stats</code>, instructions are given on how to extract just that
 summary. For example,</p>
-<div class="sourceCode" id="cb501"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb501-1" data-line-number="1"><span class="co"># extract the Summary Numbers:</span></a>
-<a class="sourceLine" id="cb501-2" data-line-number="2"><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">grep</span> ^SN <span class="kw">|</span> <span class="fu">cut</span> -f 2-</a>
-<a class="sourceLine" id="cb501-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb501-4" data-line-number="4"><span class="co"># extract the distribution of read lengths</span></a>
-<a class="sourceLine" id="cb501-5" data-line-number="5"><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">grep</span> ^RL <span class="kw">|</span> <span class="fu">cut</span> -f 2-</a></code></pre></div>
+<div class="sourceCode" id="cb534"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb534-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb534-1"></a><span class="co"># extract the Summary Numbers:</span></span>
+<span id="cb534-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb534-2"></a><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">grep</span> ^SN <span class="kw">|</span> <span class="fu">cut</span> -f 2-</span>
+<span id="cb534-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb534-3"></a></span>
+<span id="cb534-4"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb534-4"></a><span class="co"># extract the distribution of read lengths</span></span>
+<span id="cb534-5"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb534-5"></a><span class="ex">samtools</span> stats duplicates-marked/DPCh_plate1_A01_mkdup.bam <span class="kw">|</span> <span class="fu">grep</span> ^RL <span class="kw">|</span> <span class="fu">cut</span> -f 2-</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -1077,17 +1090,17 @@ put that in a separate chapter of “preliminaries”</p>
 <div id="quick-notes-to-self-on-chaining-things" class="section level2">
 <h2><span class="header-section-number">19.7</span> Quick notes to self on chaining things:</h2>
 <p>When using samtools markdup you can do like this:</p>
-<div class="sourceCode" id="cb502"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb502-1" data-line-number="1"><span class="co"># first step</span></a>
-<a class="sourceLine" id="cb502-2" data-line-number="2"><span class="ex">bwa</span> mem chinook-play/chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R1.fq chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R2.fq <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb502-3" data-line-number="3">    <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></a>
-<a class="sourceLine" id="cb502-4" data-line-number="4">    <span class="ex">samtools</span> fixmate -m -O BAM - fixed.bam</a>
-<a class="sourceLine" id="cb502-5" data-line-number="5">    </a>
-<a class="sourceLine" id="cb502-6" data-line-number="6"><span class="co"># unfortunately, fixmate can&#39;t write to stdout.</span></a>
-<a class="sourceLine" id="cb502-7" data-line-number="7"><span class="co"># then, after this, we have to sort it into coordinate order and</span></a>
-<a class="sourceLine" id="cb502-8" data-line-number="8"><span class="co"># markdup them.</span></a>
-<a class="sourceLine" id="cb502-9" data-line-number="9"><span class="ex">samtools</span> sort fixed.bam <span class="kw">|</span> <span class="ex">samtools</span> markdup - marked.bam</a>
-<a class="sourceLine" id="cb502-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb502-11" data-line-number="11"><span class="co"># after that, fixed.bam could get tossed.</span></a></code></pre></div>
+<div class="sourceCode" id="cb535"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb535-1"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb535-1"></a><span class="co"># first step</span></span>
+<span id="cb535-2"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb535-2"></a><span class="ex">bwa</span> mem chinook-play/chinook-genome-idx/GCA_002872995.1_Otsh_v1.0_genomic.fna.gz chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R1.fq chr32-160-chinook/laned/DPCh_plate1_A01_S1_L1_R2.fq <span class="kw">|</span> <span class="kw">\</span></span>
+<span id="cb535-3"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb535-3"></a>    <span class="ex">samtools</span> view -b -1 - <span class="kw">|</span> <span class="kw">\</span></span>
+<span id="cb535-4"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb535-4"></a>    <span class="ex">samtools</span> fixmate -m -O BAM - fixed.bam</span>
+<span id="cb535-5"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb535-5"></a>    </span>
+<span id="cb535-6"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb535-6"></a><span class="co"># unfortunately, fixmate can&#39;t write to stdout.</span></span>
+<span id="cb535-7"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb535-7"></a><span class="co"># then, after this, we have to sort it into coordinate order and</span></span>
+<span id="cb535-8"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb535-8"></a><span class="co"># markdup them.</span></span>
+<span id="cb535-9"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb535-9"></a><span class="ex">samtools</span> sort fixed.bam <span class="kw">|</span> <span class="ex">samtools</span> markdup - marked.bam</span>
+<span id="cb535-10"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb535-10"></a></span>
+<span id="cb535-11"><a href="alignment-of-sequence-data-to-a-reference-genome-and-associated-steps.html#cb535-11"></a><span class="co"># after that, fixed.bam could get tossed.</span></span></code></pre></div>
 </div>
 <div id="merging-bam-files" class="section level2">
 <h2><span class="header-section-number">19.8</span> Merging BAM files</h2>

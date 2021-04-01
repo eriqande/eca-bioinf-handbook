@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 20 Variant calling | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics</title>
   <meta name="description" content="A book example for a Chapman &amp; Hall book." />
-  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 20 Variant calling | Practical Computing and Bioinformatics for Conservation and Evolutionary Genomics" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2020-04-23" />
+<meta name="date" content="2021-04-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -50,12 +50,13 @@
 
 
 
+<script src="libs/accessible-code-block/empty-anchor.js"></script>
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 pre.sourceCode { margin: 0; }
@@ -64,14 +65,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +83,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -196,7 +199,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.6" data-path="shell-programming.html"><a href="shell-programming.html#exit-status"><i class="fa fa-check"></i><b>5.6</b> Exit Status</a><ul>
 <li class="chapter" data-level="5.6.1" data-path="shell-programming.html"><a href="shell-programming.html#combinations-of-exit-statuses"><i class="fa fa-check"></i><b>5.6.1</b> Combinations of exit statuses</a></li>
 </ul></li>
-<li class="chapter" data-level="5.7" data-path="shell-programming.html"><a href="shell-programming.html#loops-and-repetition"><i class="fa fa-check"></i><b>5.7</b> Loops and repetition</a></li>
+<li class="chapter" data-level="5.7" data-path="shell-programming.html"><a href="shell-programming.html#unix-for-loops"><i class="fa fa-check"></i><b>5.7</b> Loops and repetition</a></li>
 <li class="chapter" data-level="5.8" data-path="shell-programming.html"><a href="shell-programming.html#more-conditional-evaluation-if-then-else-and-friends"><i class="fa fa-check"></i><b>5.8</b> More Conditional Evaluation: <code>if</code>, <code>then</code>, <code>else</code>, and friends</a></li>
 <li class="chapter" data-level="5.9" data-path="shell-programming.html"><a href="shell-programming.html#finallypositional-parameters"><i class="fa fa-check"></i><b>5.9</b> Finally…positional parameters</a></li>
 <li class="chapter" data-level="5.10" data-path="shell-programming.html"><a href="shell-programming.html#basename-and-dirname-two-useful-little-utilities"><i class="fa fa-check"></i><b>5.10</b> <code>basename</code> and <code>dirname</code> two useful little utilities</a></li>
@@ -289,7 +292,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="13.3" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#bookdown"><i class="fa fa-check"></i><b>13.3</b> Bookdown</a></li>
 <li class="chapter" data-level="13.4" data-path="authoring-reproducibly-with-rmarkdown.html"><a href="authoring-reproducibly-with-rmarkdown.html#google-docs"><i class="fa fa-check"></i><b>13.4</b> Google Docs</a></li>
 </ul></li>
-<li class="chapter" data-level="14" data-path="using-python.html"><a href="using-python.html"><i class="fa fa-check"></i><b>14</b> Using python</a></li>
+<li class="chapter" data-level="14" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html"><i class="fa fa-check"></i><b>14</b> Managing Workflows with Snakemake</a><ul>
+<li class="chapter" data-level="14.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#a-simple-snakemake-example"><i class="fa fa-check"></i><b>14.1</b> A Simple Snakemake Example</a><ul>
+<li class="chapter" data-level="14.1.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-1-a-simple-rule-to-trimmomcawesome-the-files-from-001"><i class="fa fa-check"></i><b>14.1.1</b> Snakefile #1: A simple rule to TrimmoMcAwesome the files from 001</a></li>
+<li class="chapter" data-level="14.1.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-2-a-single-trimmomcawesome-rule-using-wildcards"><i class="fa fa-check"></i><b>14.1.2</b> Snakefile #2: A single TrimmoMcAwesome rule using wildcards</a></li>
+<li class="chapter" data-level="14.1.3" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-3-add-trim_stupendous-in-there"><i class="fa fa-check"></i><b>14.1.3</b> Snakefile #3: Add <code>trim_stupendous</code> in there</a></li>
+</ul></li>
+<li class="chapter" data-level="14.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#ugly-complex-file-namesa-job-for-snakemake-input-functions"><i class="fa fa-check"></i><b>14.2</b> Ugly, complex file names…a job for Snakemake input functions!</a><ul>
+<li class="chapter" data-level="14.2.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#playing-with-pandas"><i class="fa fa-check"></i><b>14.2.1</b> Playing with Pandas</a></li>
+<li class="chapter" data-level="14.2.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#spoofing-a-snakemake-input-function"><i class="fa fa-check"></i><b>14.2.2</b> Spoofing a Snakemake input function</a></li>
+</ul></li>
+</ul></li>
 <li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
 <li class="chapter" data-level="15" data-path="overview-of-bioinformatic-analyses.html"><a href="overview-of-bioinformatic-analyses.html"><i class="fa fa-check"></i><b>15</b> Overview of Bioinformatic Analyses</a></li>
 <li class="chapter" data-level="16" data-path="dna-sequences-and-sequencing.html"><a href="dna-sequences-and-sequencing.html"><i class="fa fa-check"></i><b>16</b> DNA Sequences and Sequencing</a><ul>
@@ -572,11 +585,11 @@ P(B_1=C~|~G=TT, \epsilon_1) = \epsilon_1
 \]</span>
 So, summarizing the information from the first read we have:
 <span class="math display">\[
-\begin{align*} 
+\begin{aligned} 
 L(G=CC | B_1 = C) &amp;=   P(B_1 = C| G=CC, \epsilon_1) &amp;  &amp;=  1 - \epsilon_1 &amp; &amp;= 0.99937 \\ 
 L(G=CT | B_1 = C) &amp;=   P(B_1 = C| G=CT, \epsilon_1) &amp; &amp;=  \frac{1}{2}(1 - \epsilon_1) + \frac{1}{2}\epsilon_1 &amp; &amp;= 0.5 \\ 
 L(G=TT | B_1 = C) &amp;=   P(B_1 = C| G=TT, \epsilon_1) &amp; &amp;=  \epsilon_1 &amp; &amp;= 0.00063
-\end{align*}
+\end{aligned}
 \]</span>
 A higher likelihood implies more support for a hypothesis. So, with that one
 read we have good evidence that the true genotype is not <span class="math inline">\(G=TT\)</span>, and twice
@@ -584,11 +597,11 @@ the likelihood that <span class="math inline">\(G=CC\)</span> compared to <span 
 </ul>
 <p>Now, more quickly, we can consider how much evidence <strong>read 3</strong>, <span class="math inline">\(B_3 = T\)</span> with <span class="math inline">\(\epsilon_3 = 0.00031\)</span> offers:
 <span class="math display">\[
-\begin{align*} 
+\begin{aligned} 
 L(G=CC | B_3 = T) &amp;=   P(B_3 = T| G=CC, \epsilon_3) &amp;  &amp;=   &amp; \epsilon_3 &amp;= 0.00031 \\ 
 L(G=CT | B_3 = T) &amp;=   P(B_3 = T| G=CT, \epsilon_3) &amp; &amp;=  \frac{1}{2}(1 - \epsilon_3) + \frac{1}{2}\epsilon_3 &amp; &amp;= 0.5 \\ 
 L(G=TT | B_3 = T) &amp;=   P(B_3 = T| G=TT, \epsilon_3) &amp; &amp;=  1 - \epsilon_3 &amp; &amp;= 0.99969
-\end{align*}
+\end{aligned}
 \]</span>
 OK, that tells us there is very little support for <span class="math inline">\(G=CC\)</span>, and twice as much support for <span class="math inline">\(G=TT\)</span> as
 there is for <span class="math inline">\(G=CT\)</span>.</p>
@@ -597,11 +610,12 @@ both of those reads. Since we assumed that reads are sampled independently from 
 chromosomes, the joint probability of both reads is merely the product of probabilities for each read.
 So, we have:
 <span class="math display">\[
-\begin{align*} 
+\small
+\begin{aligned} 
 L(G=CC | B_1 = C, B_3 = T) &amp;=   P(B_1 = C| G=CC, \epsilon_1) \times P(B_3 = T| G=CC, \epsilon_3) &amp; &amp;= 0.99937 * 0.00031  &amp; &amp;= 0.00031\\ 
 L(G=CT | B_1 = C, B_3 = T) &amp;=   P(B_1 = C| G=CT, \epsilon_1) \times P(B_3 = T| G=CT, \epsilon_3) &amp; &amp;=  0.5 * 0.5 &amp; &amp;= 0.25\\ 
 L(G=TT | B_1 = C, B_3 = T) &amp;=  P(B_1 = C| G=CT, \epsilon_1) \times P(B_3 = T| G=TT, \epsilon_3) &amp; &amp;=  0.00063 * 0.99969 &amp; &amp;= 0.00063
-\end{align*}
+\end{aligned}
 \]</span>
 So, with only two reads, one of each allele, the likelihood of a heterozygote can be quite high.</p>
 <p>Adding the data from the two remaining reads does not change the likelihood much, apart from
@@ -668,41 +682,41 @@ into <code>bcftools</code>.</p>
 <p>The syntax for using it in this context, to compute genotype likelihoods in a
 20 Kb section of the genome we have mapped is as follows—being sure that you are in the
 <code>chr-32-bioinformatics-username</code> directory:</p>
-<div class="sourceCode" id="cb505"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb505-1" data-line-number="1"><span class="co"># be sure that you are on a compute node</span></a>
-<a class="sourceLine" id="cb505-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb505-3" data-line-number="3"><span class="co"># activate your conda environment that has bcftools</span></a>
-<a class="sourceLine" id="cb505-4" data-line-number="4"><span class="ex">conda</span> activate bioinf</a>
-<a class="sourceLine" id="cb505-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb505-6" data-line-number="6"><span class="co"># do the call.  By default, it outputs in VCF format. Add the AD and DP FORMAT tags</span></a>
-<a class="sourceLine" id="cb505-7" data-line-number="7"><span class="ex">bcftools</span> mpileup \</a>
-<a class="sourceLine" id="cb505-8" data-line-number="8">  -f genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \</a>
-<a class="sourceLine" id="cb505-9" data-line-number="9">  -r CM009233.1:2000000-2020000 \</a>
-<a class="sourceLine" id="cb505-10" data-line-number="10">  -a AD,DP \</a>
-<a class="sourceLine" id="cb505-11" data-line-number="11">  mkdup/*.bam <span class="op">&gt;</span> vcf/geno-likes-from-bcftools.vcf</a>
-<a class="sourceLine" id="cb505-12" data-line-number="12">  </a>
-<a class="sourceLine" id="cb505-13" data-line-number="13"><span class="co"># after that is done, look at the names of the individuals</span></a>
-<a class="sourceLine" id="cb505-14" data-line-number="14"><span class="ex">bcftools</span> query -l vcf/geno-likes-from-bcftools.vcf</a>
-<a class="sourceLine" id="cb505-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb505-16" data-line-number="16"><span class="co"># also check the types of the INFO and FORMAT fields:</span></a>
-<a class="sourceLine" id="cb505-17" data-line-number="17"><span class="ex">bcftools</span> view -h vcf/geno-likes-from-bcftools.vcf  <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/INFO/ || /FORMAT/&#39;</span></a>
-<a class="sourceLine" id="cb505-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb505-19" data-line-number="19"><span class="co"># What is the FORMAT field there?</span></a>
-<a class="sourceLine" id="cb505-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb505-21" data-line-number="21"><span class="co"># Now, look at the first 10 positions:</span></a>
-<a class="sourceLine" id="cb505-22" data-line-number="22"><span class="ex">bcftools</span> view  vcf/geno-likes-from-bcftools.vcf <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^##/ {next} /^#CHROM/ {print; next} {print}&#39;</span> <span class="kw">|</span> <span class="fu">head</span></a>
-<a class="sourceLine" id="cb505-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb505-24" data-line-number="24"><span class="co"># How many rows are in this file?</span></a>
-<a class="sourceLine" id="cb505-25" data-line-number="25"><span class="ex">bcftools</span> view -H  vcf/geno-likes-from-bcftools.vcf <span class="kw">|</span> <span class="fu">wc</span></a></code></pre></div>
+<div class="sourceCode" id="cb538"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb538-1"><a href="variant-calling.html#cb538-1"></a><span class="co"># be sure that you are on a compute node</span></span>
+<span id="cb538-2"><a href="variant-calling.html#cb538-2"></a></span>
+<span id="cb538-3"><a href="variant-calling.html#cb538-3"></a><span class="co"># activate your conda environment that has bcftools</span></span>
+<span id="cb538-4"><a href="variant-calling.html#cb538-4"></a><span class="ex">conda</span> activate bioinf</span>
+<span id="cb538-5"><a href="variant-calling.html#cb538-5"></a></span>
+<span id="cb538-6"><a href="variant-calling.html#cb538-6"></a><span class="co"># do the call.  By default, it outputs in VCF format. Add the AD and DP FORMAT tags</span></span>
+<span id="cb538-7"><a href="variant-calling.html#cb538-7"></a><span class="ex">bcftools</span> mpileup \</span>
+<span id="cb538-8"><a href="variant-calling.html#cb538-8"></a>  -f genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \</span>
+<span id="cb538-9"><a href="variant-calling.html#cb538-9"></a>  -r CM009233.1:2000000-2020000 \</span>
+<span id="cb538-10"><a href="variant-calling.html#cb538-10"></a>  -a AD,DP \</span>
+<span id="cb538-11"><a href="variant-calling.html#cb538-11"></a>  mkdup/*.bam <span class="op">&gt;</span> vcf/geno-likes-from-bcftools.vcf</span>
+<span id="cb538-12"><a href="variant-calling.html#cb538-12"></a>  </span>
+<span id="cb538-13"><a href="variant-calling.html#cb538-13"></a><span class="co"># after that is done, look at the names of the individuals</span></span>
+<span id="cb538-14"><a href="variant-calling.html#cb538-14"></a><span class="ex">bcftools</span> query -l vcf/geno-likes-from-bcftools.vcf</span>
+<span id="cb538-15"><a href="variant-calling.html#cb538-15"></a></span>
+<span id="cb538-16"><a href="variant-calling.html#cb538-16"></a><span class="co"># also check the types of the INFO and FORMAT fields:</span></span>
+<span id="cb538-17"><a href="variant-calling.html#cb538-17"></a><span class="ex">bcftools</span> view -h vcf/geno-likes-from-bcftools.vcf  <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/INFO/ || /FORMAT/&#39;</span></span>
+<span id="cb538-18"><a href="variant-calling.html#cb538-18"></a></span>
+<span id="cb538-19"><a href="variant-calling.html#cb538-19"></a><span class="co"># What is the FORMAT field there?</span></span>
+<span id="cb538-20"><a href="variant-calling.html#cb538-20"></a></span>
+<span id="cb538-21"><a href="variant-calling.html#cb538-21"></a><span class="co"># Now, look at the first 10 positions:</span></span>
+<span id="cb538-22"><a href="variant-calling.html#cb538-22"></a><span class="ex">bcftools</span> view  vcf/geno-likes-from-bcftools.vcf <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^##/ {next} /^#CHROM/ {print; next} {print}&#39;</span> <span class="kw">|</span> <span class="fu">head</span></span>
+<span id="cb538-23"><a href="variant-calling.html#cb538-23"></a></span>
+<span id="cb538-24"><a href="variant-calling.html#cb538-24"></a><span class="co"># How many rows are in this file?</span></span>
+<span id="cb538-25"><a href="variant-calling.html#cb538-25"></a><span class="ex">bcftools</span> view -H  vcf/geno-likes-from-bcftools.vcf <span class="kw">|</span> <span class="fu">wc</span></span></code></pre></div>
 <p>Check that out! It has computed values for almost every single base pair in the 20,000 KB
 genomic region.</p>
 <p>To turn that mpileup VCF into something that has information on variable positions,
 you can “call” genotypes, using <code>bcftools call</code>. The <code>-v</code> option says “keep only
 the variable sites”, and the <code>-m</code> says “use the genotype caller that can deal
 with multiallelic sites.”</p>
-<div class="sourceCode" id="cb506"><pre class="sourceCode sh"><code class="sourceCode bash"><a class="sourceLine" id="cb506-1" data-line-number="1"><span class="ex">bcftools</span> call -v -m vcf/geno-likes-from-bcftools.vcf <span class="op">&gt;</span> vcf/geno-calls-from-bcftools.vcf</a>
-<a class="sourceLine" id="cb506-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb506-3" data-line-number="3"><span class="co"># now look at what we have</span></a>
-<a class="sourceLine" id="cb506-4" data-line-number="4"><span class="ex">bctools</span> view -h vcf/geno-calls-from-bcftools.vcf <span class="kw">|</span> <span class="fu">head</span> </a></code></pre></div>
+<div class="sourceCode" id="cb539"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb539-1"><a href="variant-calling.html#cb539-1"></a><span class="ex">bcftools</span> call -v -m vcf/geno-likes-from-bcftools.vcf <span class="op">&gt;</span> vcf/geno-calls-from-bcftools.vcf</span>
+<span id="cb539-2"><a href="variant-calling.html#cb539-2"></a></span>
+<span id="cb539-3"><a href="variant-calling.html#cb539-3"></a><span class="co"># now look at what we have</span></span>
+<span id="cb539-4"><a href="variant-calling.html#cb539-4"></a><span class="ex">bctools</span> view -h vcf/geno-calls-from-bcftools.vcf <span class="kw">|</span> <span class="fu">head</span> </span></code></pre></div>
 <p>Compare those to the variants found by GATK (listed above)</p>
 </div>
 <div id="angsd" class="section level4">
@@ -775,17 +789,17 @@ are from different populations, but the populations are so similar, genetically,
 expect a Wahlund effect by mixing them into a single sample.</p>
 <p><a href="https://www.dropbox.com/s/5sb7ygwmpgsz09p/raw-fall-late-fall-geno-calls.vcf.gz?dl=1">raw-fall-late-fall-geno-calls.vcf.gz</a>.</p>
 <p>Download that to your laptop, then use R within RStudio to get the ‘whoa’ package from CRAN and then make a plot:</p>
-<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb507-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">&quot;whoa&quot;</span>)</a>
-<a class="sourceLine" id="cb507-2" data-line-number="2"><span class="kw">library</span>(whoa)</a>
-<a class="sourceLine" id="cb507-3" data-line-number="3"><span class="kw">library</span>(vcfR)</a>
-<a class="sourceLine" id="cb507-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb507-5" data-line-number="5"><span class="co"># you might have to change the file location, depending on where</span></a>
-<a class="sourceLine" id="cb507-6" data-line-number="6"><span class="co"># files get downloaded to on your laptop</span></a>
-<a class="sourceLine" id="cb507-7" data-line-number="7">v &lt;-<span class="st"> </span><span class="kw">read.vcfR</span>(<span class="st">&quot;~/Downloads/raw-fall-late-fall-geno-calls.vcf.gz&quot;</span>)</a>
-<a class="sourceLine" id="cb507-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb507-9" data-line-number="9">gfreqs &lt;-<span class="st"> </span><span class="kw">exp_and_obs_geno_freqs</span>(v)</a>
-<a class="sourceLine" id="cb507-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb507-11" data-line-number="11"><span class="kw">geno_freqs_scatter</span>(gfreqs, <span class="dt">alpha =</span> <span class="fl">0.04</span>, <span class="dt">max_plot_loci =</span> <span class="fl">1e15</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb540"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb540-1"><a href="variant-calling.html#cb540-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;whoa&quot;</span>)</span>
+<span id="cb540-2"><a href="variant-calling.html#cb540-2"></a><span class="kw">library</span>(whoa)</span>
+<span id="cb540-3"><a href="variant-calling.html#cb540-3"></a><span class="kw">library</span>(vcfR)</span>
+<span id="cb540-4"><a href="variant-calling.html#cb540-4"></a></span>
+<span id="cb540-5"><a href="variant-calling.html#cb540-5"></a><span class="co"># you might have to change the file location, depending on where</span></span>
+<span id="cb540-6"><a href="variant-calling.html#cb540-6"></a><span class="co"># files get downloaded to on your laptop</span></span>
+<span id="cb540-7"><a href="variant-calling.html#cb540-7"></a>v &lt;-<span class="st"> </span><span class="kw">read.vcfR</span>(<span class="st">&quot;~/Downloads/raw-fall-late-fall-geno-calls.vcf.gz&quot;</span>)</span>
+<span id="cb540-8"><a href="variant-calling.html#cb540-8"></a></span>
+<span id="cb540-9"><a href="variant-calling.html#cb540-9"></a>gfreqs &lt;-<span class="st"> </span><span class="kw">exp_and_obs_geno_freqs</span>(v)</span>
+<span id="cb540-10"><a href="variant-calling.html#cb540-10"></a></span>
+<span id="cb540-11"><a href="variant-calling.html#cb540-11"></a><span class="kw">geno_freqs_scatter</span>(gfreqs, <span class="dt">alpha =</span> <span class="fl">0.04</span>, <span class="dt">max_plot_loci =</span> <span class="fl">1e15</span>)</span></code></pre></div>
 <p>Whoa!</p>
 </div>
 </div>
