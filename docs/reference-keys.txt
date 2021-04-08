@@ -205,7 +205,11 @@ snakefile-2-a-single-trimmomcawesome-rule-using-wildcards
 snakefile-3-add-trim_stupendous-in-there
 ugly-complex-file-namesa-job-for-snakemake-input-functions
 playing-with-pandas
-spoofing-a-snakemake-input-function
+a-quick-sidebar-spoofing-a-snakemake-input-function
+snakefile-4-an-input-function-for-trim_awesome
+input-functions-from-python-dictionaries
+generating-lists-of-files-with-expand
+a-python-primer-for-using-snakemake
 overview-of-bioinformatic-analyses
 dna-sequences-and-sequencing
 dna-stuff

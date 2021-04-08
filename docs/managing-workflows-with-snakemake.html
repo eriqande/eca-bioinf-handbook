@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2021-04-01" />
+<meta name="date" content="2021-04-08" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -300,8 +300,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="14.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#ugly-complex-file-namesa-job-for-snakemake-input-functions"><i class="fa fa-check"></i><b>14.2</b> Ugly, complex file names…a job for Snakemake input functions!</a><ul>
 <li class="chapter" data-level="14.2.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#playing-with-pandas"><i class="fa fa-check"></i><b>14.2.1</b> Playing with Pandas</a></li>
-<li class="chapter" data-level="14.2.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#spoofing-a-snakemake-input-function"><i class="fa fa-check"></i><b>14.2.2</b> Spoofing a Snakemake input function</a></li>
+<li class="chapter" data-level="14.2.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#a-quick-sidebar-spoofing-a-snakemake-input-function"><i class="fa fa-check"></i><b>14.2.2</b> A Quick Sidebar: Spoofing a Snakemake input function</a></li>
+<li class="chapter" data-level="14.2.3" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#snakefile-4-an-input-function-for-trim_awesome"><i class="fa fa-check"></i><b>14.2.3</b> Snakefile #4: an input function for trim_awesome</a></li>
 </ul></li>
+<li class="chapter" data-level="14.3" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#input-functions-from-python-dictionaries"><i class="fa fa-check"></i><b>14.3</b> Input functions from Python Dictionaries</a></li>
+<li class="chapter" data-level="14.4" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#generating-lists-of-files-with-expand"><i class="fa fa-check"></i><b>14.4</b> Generating lists of files with expand()</a></li>
+<li class="chapter" data-level="14.5" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#a-python-primer-for-using-snakemake"><i class="fa fa-check"></i><b>14.5</b> A Python Primer for Using Snakemake</a></li>
 </ul></li>
 <li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
 <li class="chapter" data-level="15" data-path="overview-of-bioinformatic-analyses.html"><a href="overview-of-bioinformatic-analyses.html"><i class="fa fa-check"></i><b>15</b> Overview of Bioinformatic Analyses</a></li>
@@ -587,9 +591,11 @@ for each of 5 samples named <code>001</code> through <code>005</code>. Please cr
 (even though they will be empty) with this Unix command:</p>
 <div class="sourceCode" id="cb409"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb409-1"><a href="managing-workflows-with-snakemake.html#cb409-1"></a><span class="fu">mkdir</span> -p data/raw</span>
 <span id="cb409-2"><a href="managing-workflows-with-snakemake.html#cb409-2"></a><span class="fu">touch</span> data/raw/00<span class="dt">{1..5}</span>_R<span class="dt">{1,2}</span>.fq</span></code></pre></div>
-<p>(Please note that the use of curly braces here is an example of “brace expansion” within
-the Unix shell. You will see lots of curly braces in the upcoming material, and
-most of those are serving a different purpose.)</p>
+<p>Please note that the use of curly braces here is an example of “brace expansion” within
+the Unix shell. You will see lots of curly braces in the upcoming material, and you should
+be aware that the curly braces that you will see in Snakemake code
+(in the <code>Snakefile</code> as it were) are different. Those are typically serving the
+purpose of delimiting wildcards. (Though, they have other roles within Python as well.).</p>
 <p>Once you have done that, use <code>tree</code> to see what the directory structure in
 <code>smk-tut</code> looks like:</p>
 <div class="sourceCode" id="cb410"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb410-1"><a href="managing-workflows-with-snakemake.html#cb410-1"></a><span class="ex">%</span> tree .</span>
@@ -623,9 +629,11 @@ the reads from sample <code>001</code>:</p>
 <span id="cb411-7"><a href="managing-workflows-with-snakemake.html#cb411-7"></a><span class="at">        </span><span class="st">&quot;results/awesome/001_R2.fq&quot;</span></span>
 <span id="cb411-8"><a href="managing-workflows-with-snakemake.html#cb411-8"></a><span class="at">    </span><span class="fu">shell</span><span class="kw">:</span></span>
 <span id="cb411-9"><a href="managing-workflows-with-snakemake.html#cb411-9"></a><span class="at">        </span><span class="st">&quot;TrimmoMcAwesome {input} {output}&quot;</span></span></code></pre></div>
+<p>Notice that this rule takes the raw fastq files as input to TrimmoMcAwesome, and
+puts the trimmed output files into a diretory <code>results/awesome</code>.</p>
 <p>Once you have that Snakefile, you can ask snakemake to show you what it
 would do if you ran it. Give it the <code>-n</code> option (dry run) and the <code>-p</code> option
-(print the shell commands) by putting them together with <code>-np</code>:</p>
+(print the shell commands) by putting them together, preceded by a single dash:</p>
 <div class="sourceCode" id="cb412"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb412-1"><a href="managing-workflows-with-snakemake.html#cb412-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
 <span id="cb412-2"><a href="managing-workflows-with-snakemake.html#cb412-2"></a><span class="ex">snakemake</span> -np</span></code></pre></div>
 <p>The result you get should look like this:</p>
@@ -653,8 +661,8 @@ jobs will run. The second block shows the rule that will be run in the job, and 
 explicitly shows the values of the <code>input</code> and <code>output</code> of the block. The line at the top
 of the third block shows the shell command that would be run. It looks correct. Great!</p>
 <p>Another thing worthy of note: the requested output files in this rule are
-actual file names and they appear in the first block of the Snakefile.
-Because of this, we could just run <code>snakemake -np</code> without
+actual file names and they appear in the first rule of the Snakefile.
+Because of this, we were able simplty to run <code>snakemake -np</code> without
 explicitly requesting any output files on the command line—Snakemake used
 the two outputs from that first rule block.</p>
 <p>Alternatively, we could have explicitly requested those output files on the command line,
@@ -672,7 +680,8 @@ doesn’t tell me how to make that output file!” And that is what it should te
 the rule <code>trim_awesome</code> only gives instructions on how to make the output files
 <code>results/awesome/001_R1.fq</code> and <code>results/awesome/001_R2.fq</code></p>
 <p>So, what if we want a rule to make <code>results/awesome/002_R1.fq</code> and <code>results/awesome/002_R2.fq</code> and
-awesome-trimmed output for all the other samples too. The naive approach would be to
+awesome-trimmed output for all the other samples too. The naive,
+and exceedingly inefficient, approach would be to
 write a new rule block for every sample in your Snakefile till it looked like:</p>
 <div class="sourceCode" id="cb416"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb416-1"><a href="managing-workflows-with-snakemake.html#cb416-1"></a><span class="fu">rule trim_awesome_001</span><span class="kw">:</span></span>
 <span id="cb416-2"><a href="managing-workflows-with-snakemake.html#cb416-2"></a><span class="at">    </span><span class="fu">input</span><span class="kw">:</span><span class="at"> </span></span>
@@ -750,8 +759,8 @@ results/awesome/003_R2.fq</code></pre>
 <p>This shorthand is exactly the way that Snakemake specifies a whole family
 of output files using <em>wildcards</em>. We will call
 <code>"results/awesome/{sample}_R1.fq", "results/awesome/{sample}_R2.fq"</code> the
-<em>wildcard phrase</em>. The wildcards in that wildcard phrase
-is<code>{sample}</code>. Each of those wildcard in a wildcard phrase can take
+<em>wildcard phrase</em>. The wildcard in that wildcard phrase
+is<code>{sample}</code>. Each wildcard in a wildcard phrase can take
 <em>values</em> or <em>instances</em>. When wildcard phrases are used in a Snakemake rule
 block, the values/instances of the wildcards within them are found when an output file is requested
 that <em>matches</em> the wildcard phrase. This will become more clear as we proceed.</p>
@@ -776,7 +785,9 @@ that is a wilcard phrase in which the wildcards do not have explicit values.</p>
 <p>However, if you explicitly ask for certain output files, like:</p>
 <div class="sourceCode" id="cb423"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb423-1"><a href="managing-workflows-with-snakemake.html#cb423-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
 <span id="cb423-2"><a href="managing-workflows-with-snakemake.html#cb423-2"></a><span class="ex">snakemake</span> -np results/awesome/002_R1.fq results/awesome/002_R2.fq</span></code></pre></div>
-<p>This time, Snakemake finds the rule to create those output files and it knows
+<p>then Snakemake finds the rule to create those output files (because
+the requested files match the wildcard phrase with appropriate values
+of the wildcard) and it knows
 what the input files should be because it <em>propagates wildcard values from the
 requested output into the wildcard phrases of the input</em>. Diagrammatically
 that process looks like this:</p>
@@ -787,12 +798,11 @@ that process looks like this:</p>
 </p>
 </div>
 <p>The upshot of this is that we can now easily request all the sample output files
-like this. Again, we note that these curly braces are different from the curly
-braces you have seen in the Snakemake/Python wildcards. These are just
-Unix brace-expansion curly braces.</p>
+like this:</p>
 <div class="sourceCode" id="cb424"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb424-1"><a href="managing-workflows-with-snakemake.html#cb424-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
 <span id="cb424-2"><a href="managing-workflows-with-snakemake.html#cb424-2"></a><span class="ex">snakemake</span> -np results/awesome/00<span class="dt">{1..5}</span>_R<span class="dt">{1,2}</span>.fq</span></code></pre></div>
-<p>Again, we note that these curly braces are different from the curly
+<p>Again, we note that these curly braces in the above shell command line
+are different from the curly
 braces you have seen in the Snakemake/Python wildcards. These are just
 Unix brace-expansion curly braces. They merely expand into <code>results/awesome/001_R1.fq results/awesome/001_R2.fq results/awesome/002_R1.fq results/awesome/002_R2.fq results/awesome/003_R1.fq results/awesome/003_R2.fq results/awesome/004_R1.fq results/awesome/004_R2.fq results/awesome/005_R1.fq results/awesome/005_R2.fq</code></p>
 <p>Cool! Snakemake was able to figure out how to generate all of those output files by
@@ -803,14 +813,15 @@ Try this:</p>
 <div class="sourceCode" id="cb425"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb425-1"><a href="managing-workflows-with-snakemake.html#cb425-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
 <span id="cb425-2"><a href="managing-workflows-with-snakemake.html#cb425-2"></a><span class="ex">snakemake</span> -np results/awesome/006_R1.fq  results/awesome/006_R2.fq</span></code></pre></div>
 <p>From the error message, we see that Snakemake propagated the wildcard
-value <code>{sample} = 002</code> to the input, but didn’t find the appropriate input
+value <code>{sample} = 006</code> to the input, but didn’t find the appropriate input
 files:</p>
 <pre><code>Building DAG of jobs...
 MissingInputException in line 4 of /Users/eriq/Desktop/smk-tut/Snakefile:
 Missing input files for rule trim_awesome:
 data/raw/006_R1.fq
 data/raw/006_R2.fq</code></pre>
-<p>That is good!</p>
+<p>This is good. Snakemake tells us (in the form of an error message before quitting)
+when we are asking for something it can’t produce.</p>
 </div>
 <div id="snakefile-3-add-trim_stupendous-in-there" class="section level3">
 <h3><span class="header-section-number">14.1.3</span> Snakefile #3: Add <code>trim_stupendous</code> in there</h3>
@@ -846,8 +857,16 @@ them as <code>fq1</code> and <code>fq2</code> using this syntax:</p>
 <p>And then we also explicitly put those files into the shell command by accessing
 the <code>input</code> with a <code>.fq1</code> and <code>.fq2</code>, where appropriate, like this:</p>
 <pre><code>&quot;trim_stupendous {input.fq1} {input.fq2} {output}&quot;</code></pre>
-<p>The reason for this is so that we explore the <code>unpack()</code> function later.
-For now, we don’t worry too much about it, except to note that we can
+<p>The reasons for this are twofold:</p>
+<ol style="list-style-type: decimal">
+<li>You should be familiar with the fact that you can give names to particular
+parts of the <code>input</code> or <code>output</code> files (or even the <code>params</code> or <code>log</code> files),
+because this makes it a lot easier to keep track of the inputs when there are many
+of them.</li>
+<li>In a moment, we will be exploring how to use Snakemake’s <code>unpack()</code> function, and naming
+the files this way provides us an opportunity to use it.</li>
+</ol>
+<p>For now, we don’t worry too much about it, except to note that we can
 request all the different TrimmoMcAwesome and trim_stupendous output files
 like this:</p>
 <div class="sourceCode" id="cb430"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb430-1"><a href="managing-workflows-with-snakemake.html#cb430-1"></a><span class="co"># do this on your unix terminal in directory smk-tut</span></span>
@@ -873,7 +892,7 @@ plate2-WIWA67365-L002-HHHGYY_R2.fastq.gz</code></pre>
 <p>where R1 and R2 are obvious parts of the name, <code>885261</code>, <code>896753</code>, and
 <code>WIWA67365</code> are sample IDs
 or field numbers for the animals you are sequencing, and the rest is
-not only short of gibberishy, but also is not consistent across the
+not only a bit gibberishy, but also is not necessarily consistent across the
 different individuals. In this sort of case, you cannot easily
 propagate wildcard values into an input file name that is specified
 by a single, consistent, wildcard phrase. Not only that, but
@@ -887,79 +906,97 @@ a Python function that takes as input some wildcard values, and will map those
 to any arbitrary output values. And, used in conjunction with a simple table that
 gives clean sample names to the complex field_numbers, it is possible to
 keep the whole workflow much cleaner.</p>
+<p>To prepare for this part of the lesson, we are going to want to create
+files with those names, inside a directory called <code>raw_nasty_names</code>. Do that
+by evaluating this code in the shell in your <code>smk-tut</code> directory:</p>
+<div class="sourceCode" id="cb432"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb432-1"><a href="managing-workflows-with-snakemake.html#cb432-1"></a><span class="fu">mkdir</span> -p data/raw_nasty_names</span>
+<span id="cb432-2"><a href="managing-workflows-with-snakemake.html#cb432-2"></a><span class="kw">for</span> <span class="ex">i</span> in kcr-wiwa-885261-L002-HGGXXX_R1.fastq.gz \</span>
+<span id="cb432-3"><a href="managing-workflows-with-snakemake.html#cb432-3"></a>  kcr-wiwa-885261-L002-HGGXXX_R2.fastq.gz \</span>
+<span id="cb432-4"><a href="managing-workflows-with-snakemake.html#cb432-4"></a>  kcr-wiwa-896753-L002-HGGXXX_R1.fastq.gz \</span>
+<span id="cb432-5"><a href="managing-workflows-with-snakemake.html#cb432-5"></a>  kcr-wiwa-896753-L002-HGGXXX_R2.fastq.gz \</span>
+<span id="cb432-6"><a href="managing-workflows-with-snakemake.html#cb432-6"></a>  plate2-WIWA67365-L002-HHHGYY_R1.fastq.gz \</span>
+<span id="cb432-7"><a href="managing-workflows-with-snakemake.html#cb432-7"></a>  plate2-WIWA67365-L002-HHHGYY_R2.fastq.gz<span class="kw">;</span> <span class="kw">do</span></span>
+<span id="cb432-8"><a href="managing-workflows-with-snakemake.html#cb432-8"></a>  <span class="fu">touch</span> data/raw_nasty_names/<span class="va">$i</span><span class="kw">;</span> </span>
+<span id="cb432-9"><a href="managing-workflows-with-snakemake.html#cb432-9"></a><span class="kw">done</span></span></code></pre></div>
 <p>Let’s step back and imagine that we have a CSV file that gives us some
 sample ID’s that go to each of the field_numbers which are also associated with
 the paths to the fastq files. It would look something like this:</p>
-<pre class="csv"><code>sample,field_number,fastq1,fastq2
-s001,885261,data/raw_nasty_names/kcr-wiwa-885261-L002-HGGXXX_R1.fastq.gz,data/raw_nasty_names/kcr-wiwa-885261-L002-HGGXXX_R2.fastq.gz
-s002,896753,data/raw_nasty_names/kcr-wiwa-896753-L002-HGGXXX_R1.fastq.gz,data/raw_nasty_names/kcr-wiwa-896753-L002-HGGXXX_R2.fastq.gz
-s003,WIWA67395,data/raw_nasty_names/plate2-WIWA67365-L002-HHHGYY_R1.fastq.gz,data/raw_nasty_names/plate2-WIWA67365-L002-HHHGYY_R2.fastq.gz</code></pre>
-<p>In fact, this file is super important. It tells you how nice tidy sample names like <code>s001</code> and <code>s002</code> correspond to the
+<div class="sourceCode" id="cb433"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb433-1"><a href="managing-workflows-with-snakemake.html#cb433-1"></a><span class="ex">sample</span>,field_number,fastq1,fastq2</span>
+<span id="cb433-2"><a href="managing-workflows-with-snakemake.html#cb433-2"></a><span class="ex">s001</span>,885261,data/raw_nasty_names/kcr-wiwa-885261-L002-HGGXXX_R1.fastq.gz,data/raw_nasty_names/kcr-wiwa-885261-L002-HGGXXX_R2.fastq.gz</span>
+<span id="cb433-3"><a href="managing-workflows-with-snakemake.html#cb433-3"></a><span class="ex">s002</span>,896753,data/raw_nasty_names/kcr-wiwa-896753-L002-HGGXXX_R1.fastq.gz,data/raw_nasty_names/kcr-wiwa-896753-L002-HGGXXX_R2.fastq.gz</span>
+<span id="cb433-4"><a href="managing-workflows-with-snakemake.html#cb433-4"></a><span class="ex">s003</span>,WIWA67395,data/raw_nasty_names/plate2-WIWA67365-L002-HHHGYY_R1.fastq.gz,data/raw_nasty_names/plate2-WIWA67365-L002-HHHGYY_R2.fastq.gz</span></code></pre></div>
+<p>In fact, this file is super important. It tells you how the nice tidy
+sample names like <code>s001</code> and <code>s002</code> correspond to the
 field numbers of your animals, and also to the paths of the FASTQ files for them.</p>
 <p>The next step is very important. Copy the above contents into a file called <code>samples.csv</code> within your
 <code>smk-tut</code> directory. Once you have done that, we are ready to proceed.</p>
-<p>Here is where we are going: we are going to read the <code>samples.csv</code> table into Python variable that will
+<p>Here is where we are going: we are going to read the <code>samples.csv</code> table
+into aPython variable that will
 be accessible by Snakemake, and which
 can be used by it to translate wildcards like <code>{sample} = s001</code> into paths to FASTQ files.</p>
 <p>In order to easily handle the <code>samples.csv</code> file as a variable in Python we will rely on the Pandas
-package. If you are new to Python, you can think of Pandas as the Python equivalent of R’s ‘dplyr’ package.
+package. If you are new to Python, you can think of Pandas as the
+Python equivalent of R’s ‘dplyr’ and ‘readr’ packages.
 Let’s play with it a little bit to familiarize ourselves with it…</p>
 <div id="playing-with-pandas" class="section level3">
 <h3><span class="header-section-number">14.2.1</span> Playing with Pandas</h3>
-<p>The Pandas package is inluded in your <code>snakemake</code> conda environment, and we are going to play with
-it a little bit, so, open a new terminal window, activate your snakemake conda environment and then
+<p>The Pandas package is included in your <code>snakemake</code> conda environment, and we are going to play with
+it a little bit, so, open a new terminal window, change the directory in it to your
+<code>smk-tut</code> directory, activate your snakemake conda environment and then
 start an interactive python session:</p>
-<div class="sourceCode" id="cb433"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb433-1"><a href="managing-workflows-with-snakemake.html#cb433-1"></a><span class="co"># do this in a new unix terminal in directory smk-tut</span></span>
-<span id="cb433-2"><a href="managing-workflows-with-snakemake.html#cb433-2"></a><span class="ex">conda</span> activate snakemake</span>
-<span id="cb433-3"><a href="managing-workflows-with-snakemake.html#cb433-3"></a><span class="ex">python</span></span></code></pre></div>
-<p>Now, you have an interactive Python session in that terminal window. And you can do this
-to import the Pandas package into the session and read in the CSV file and print it:</p>
-<div class="sourceCode" id="cb434"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb434-1"><a href="managing-workflows-with-snakemake.html#cb434-1"></a><span class="co"># do this in your python interpreter...</span></span>
-<span id="cb434-2"><a href="managing-workflows-with-snakemake.html#cb434-2"></a></span>
-<span id="cb434-3"><a href="managing-workflows-with-snakemake.html#cb434-3"></a><span class="co"># this imports the pandas package functionality in an object named pd</span></span>
-<span id="cb434-4"><a href="managing-workflows-with-snakemake.html#cb434-4"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb434-5"><a href="managing-workflows-with-snakemake.html#cb434-5"></a></span>
-<span id="cb434-6"><a href="managing-workflows-with-snakemake.html#cb434-6"></a><span class="co"># this reads the CSV file and sets an index using the values is the &quot;sample&quot; column.</span></span>
-<span id="cb434-7"><a href="managing-workflows-with-snakemake.html#cb434-7"></a><span class="co"># For R people you can think of this &quot;index&quot; as serving the role of rownames.</span></span>
-<span id="cb434-8"><a href="managing-workflows-with-snakemake.html#cb434-8"></a>samples_table <span class="op">=</span> pd.read_csv(<span class="st">&quot;samples.csv&quot;</span>).set_index(<span class="st">&quot;sample&quot;</span>, drop<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb434-9"><a href="managing-workflows-with-snakemake.html#cb434-9"></a></span>
-<span id="cb434-10"><a href="managing-workflows-with-snakemake.html#cb434-10"></a><span class="co"># now print the table</span></span>
-<span id="cb434-11"><a href="managing-workflows-with-snakemake.html#cb434-11"></a>samples_table</span></code></pre></div>
+<div class="sourceCode" id="cb434"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb434-1"><a href="managing-workflows-with-snakemake.html#cb434-1"></a><span class="co"># do this in a new unix terminal in directory smk-tut</span></span>
+<span id="cb434-2"><a href="managing-workflows-with-snakemake.html#cb434-2"></a><span class="ex">conda</span> activate snakemake</span>
+<span id="cb434-3"><a href="managing-workflows-with-snakemake.html#cb434-3"></a><span class="ex">python</span></span></code></pre></div>
+<p>Now, you have an interactive Python session in that terminal window. And you can do the following
+to import the Pandas package into the session and read in the <code>samples.csv</code> file and print it:</p>
+<div class="sourceCode" id="cb435"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb435-1"><a href="managing-workflows-with-snakemake.html#cb435-1"></a><span class="co"># do this in your python interpreter...</span></span>
+<span id="cb435-2"><a href="managing-workflows-with-snakemake.html#cb435-2"></a></span>
+<span id="cb435-3"><a href="managing-workflows-with-snakemake.html#cb435-3"></a><span class="co"># this imports the pandas package functionality in an object named pd</span></span>
+<span id="cb435-4"><a href="managing-workflows-with-snakemake.html#cb435-4"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb435-5"><a href="managing-workflows-with-snakemake.html#cb435-5"></a></span>
+<span id="cb435-6"><a href="managing-workflows-with-snakemake.html#cb435-6"></a><span class="co"># this reads the CSV file and sets an index using the values in the &quot;sample&quot; column.</span></span>
+<span id="cb435-7"><a href="managing-workflows-with-snakemake.html#cb435-7"></a><span class="co"># For R people you can think of this &quot;index&quot; as serving the role of rownames.</span></span>
+<span id="cb435-8"><a href="managing-workflows-with-snakemake.html#cb435-8"></a>samples_table <span class="op">=</span> pd.read_csv(<span class="st">&quot;samples.csv&quot;</span>).set_index(<span class="st">&quot;sample&quot;</span>, drop<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb435-9"><a href="managing-workflows-with-snakemake.html#cb435-9"></a></span>
+<span id="cb435-10"><a href="managing-workflows-with-snakemake.html#cb435-10"></a><span class="co"># now print the table</span></span>
+<span id="cb435-11"><a href="managing-workflows-with-snakemake.html#cb435-11"></a>samples_table</span></code></pre></div>
 <p>After running the last line, you should have seen something like:</p>
 <pre><code>       sample field_number                                             fastq1                                             fastq2
 sample
 s001     s001       885261  data/raw_nasty_names/kcr-wiwa-885261-L002-HGGX...  data/raw_nasty_names/kcr-wiwa-885261-L002-HGGX...
 s002     s002       896753  data/raw_nasty_names/kcr-wiwa-896753-L002-HGGX...  data/raw_nasty_names/kcr-wiwa-896753-L002-HGGX...
 s003     s003    WIWA67395  data/raw_nasty_names/plate2-WIWA67365-L002-HHH...  data/raw_nasty_names/plate2-WIWA67365-L002-HHH...</code></pre>
-<p>OK, <code>samples_table</code> is just a table of data. Importantly, it is indexed by the sample name (s001, s002, etc.) This
+<p>OK, <code>samples_table</code> is just a table of data. Importantly, it is
+indexed by the sample name (s001, s002, etc.) This
 means that if we want to access values in any particular row, we can find that row according to
 the sample name, and then pick values out of particular columns within that row using this syntax:</p>
-<div class="sourceCode" id="cb436"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb436-1"><a href="managing-workflows-with-snakemake.html#cb436-1"></a><span class="co"># do this in your python interpreter...</span></span>
-<span id="cb436-2"><a href="managing-workflows-with-snakemake.html#cb436-2"></a></span>
-<span id="cb436-3"><a href="managing-workflows-with-snakemake.html#cb436-3"></a><span class="co"># get the field number of sample s002</span></span>
-<span id="cb436-4"><a href="managing-workflows-with-snakemake.html#cb436-4"></a>samples_table.loc[<span class="st">&quot;s002&quot;</span>, <span class="st">&quot;field_number&quot;</span>]</span>
-<span id="cb436-5"><a href="managing-workflows-with-snakemake.html#cb436-5"></a></span>
-<span id="cb436-6"><a href="managing-workflows-with-snakemake.html#cb436-6"></a><span class="co"># get the paths to fastq file 1 for sample s003:</span></span>
-<span id="cb436-7"><a href="managing-workflows-with-snakemake.html#cb436-7"></a>samples_table.loc[<span class="st">&quot;s003&quot;</span>, <span class="st">&quot;fastq1&quot;</span>]</span></code></pre></div>
-<p>That is quite tasty! The <code>.loc</code> is method in Pandas to return the location (i.e., the row)
+<div class="sourceCode" id="cb437"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb437-1"><a href="managing-workflows-with-snakemake.html#cb437-1"></a><span class="co"># do this in your python interpreter...</span></span>
+<span id="cb437-2"><a href="managing-workflows-with-snakemake.html#cb437-2"></a></span>
+<span id="cb437-3"><a href="managing-workflows-with-snakemake.html#cb437-3"></a><span class="co"># get the field number of sample s002</span></span>
+<span id="cb437-4"><a href="managing-workflows-with-snakemake.html#cb437-4"></a>samples_table.loc[<span class="st">&quot;s002&quot;</span>, <span class="st">&quot;field_number&quot;</span>]</span>
+<span id="cb437-5"><a href="managing-workflows-with-snakemake.html#cb437-5"></a></span>
+<span id="cb437-6"><a href="managing-workflows-with-snakemake.html#cb437-6"></a><span class="co"># get the path to fastq file 1 for sample s003:</span></span>
+<span id="cb437-7"><a href="managing-workflows-with-snakemake.html#cb437-7"></a>samples_table.loc[<span class="st">&quot;s003&quot;</span>, <span class="st">&quot;fastq1&quot;</span>]</span></code></pre></div>
+<p>That is quite tasty! The <code>.loc</code> is a method in Pandas to return the location (i.e., the row)
 of a table according to its index. And then if you want to get the value from any particular
 column, you just put the column name in there.</p>
 <p>Note that if you want to get the values in multiple columns as a Python list
 you can do like this:</p>
-<div class="sourceCode" id="cb437"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb437-1"><a href="managing-workflows-with-snakemake.html#cb437-1"></a><span class="co"># do this in your python interpreter...</span></span>
-<span id="cb437-2"><a href="managing-workflows-with-snakemake.html#cb437-2"></a></span>
-<span id="cb437-3"><a href="managing-workflows-with-snakemake.html#cb437-3"></a><span class="co"># get the paths to both fastq files for sample s003 in a list:</span></span>
-<span id="cb437-4"><a href="managing-workflows-with-snakemake.html#cb437-4"></a><span class="bu">list</span>(samples_table.loc[<span class="st">&quot;s003&quot;</span>, [<span class="st">&quot;fastq1&quot;</span>, <span class="st">&quot;fastq2&quot;</span>]])</span></code></pre></div>
+<div class="sourceCode" id="cb438"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb438-1"><a href="managing-workflows-with-snakemake.html#cb438-1"></a><span class="co"># do this in your python interpreter...</span></span>
+<span id="cb438-2"><a href="managing-workflows-with-snakemake.html#cb438-2"></a></span>
+<span id="cb438-3"><a href="managing-workflows-with-snakemake.html#cb438-3"></a><span class="co"># get the paths to both fastq files for sample s003 in a list:</span></span>
+<span id="cb438-4"><a href="managing-workflows-with-snakemake.html#cb438-4"></a><span class="bu">list</span>(samples_table.loc[<span class="st">&quot;s003&quot;</span>, [<span class="st">&quot;fastq1&quot;</span>, <span class="st">&quot;fastq2&quot;</span>]])</span></code></pre></div>
 <p>This is totally sweet! This python code takes a value like <code>s002</code>—which could be the value
 of a wildcard—and it returns another value based on it. In fact, it can return the
-path of a FASTQ file. This is just the sort of thing we need, but we have to wrap it up
-into a Snakemake <em>input function</em>.</p>
+path of a FASTQ file. This is just the sort of thing we need to convert wildcard values
+to FASTQ file pahts in our Snakefile. However, in order to use this type of code
+we have to wrap it up into a Snakemake <em>input function</em>.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p>
 <p>Before we go big and do that in our Snakefile, we are going to spoof
-it in our interactive Python session. This turns out to be a great way to test and develop
+it in our interactive Python session. This turns out to be a great way to develop
 and test your Snakemake input functions.</p>
 </div>
-<div id="spoofing-a-snakemake-input-function" class="section level3">
-<h3><span class="header-section-number">14.2.2</span> Spoofing a Snakemake input function</h3>
+<div id="a-quick-sidebar-spoofing-a-snakemake-input-function" class="section level3">
+<h3><span class="header-section-number">14.2.2</span> A Quick Sidebar: Spoofing a Snakemake input function</h3>
 <p>Snakemake input functions are simply Python functions that take a single
 input which is a Python object called <code>wildcards</code>. This object will have different
 attributes, which are the particular values/instances of the wildcards themselves.
@@ -969,24 +1006,258 @@ match that to the <code>trim_awesome</code> block, knowing that the value of the
 was <code>001</code>. In this case, Snakemake would be carrying around “in its brain” a little variable
 called <code>wildcards</code> such that its <code>sample</code> attribute—accessible as <code>wildcards.sample</code> would be
 <code>001</code>.</p>
-<p>We can use our Python interactive session to create a fictitious <code>wildcards</code> object and give
+<p>In order to start understanding this without actually having to be
+“inside an ongoing Snakemake invocation/session”, we can use our Python interactive session
+to create a fictitious <code>wildcards</code> object and give
 values to its attributes, which will give us a chance to test its use in an input function.</p>
-<div class="sourceCode" id="cb438"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb438-1"><a href="managing-workflows-with-snakemake.html#cb438-1"></a><span class="co"># do this in your python interpreter...</span></span>
-<span id="cb438-2"><a href="managing-workflows-with-snakemake.html#cb438-2"></a></span>
-<span id="cb438-3"><a href="managing-workflows-with-snakemake.html#cb438-3"></a><span class="co"># create a generic object class (called Foo here)</span></span>
-<span id="cb438-4"><a href="managing-workflows-with-snakemake.html#cb438-4"></a><span class="kw">class</span> Foo(<span class="bu">object</span>):</span>
-<span id="cb438-5"><a href="managing-workflows-with-snakemake.html#cb438-5"></a>    <span class="cf">pass</span></span>
-<span id="cb438-6"><a href="managing-workflows-with-snakemake.html#cb438-6"></a></span>
-<span id="cb438-7"><a href="managing-workflows-with-snakemake.html#cb438-7"></a><span class="co"># make a variable, wildcards, which is an object of that class</span></span>
-<span id="cb438-8"><a href="managing-workflows-with-snakemake.html#cb438-8"></a>wildcards <span class="op">=</span> Foo()</span>
-<span id="cb438-9"><a href="managing-workflows-with-snakemake.html#cb438-9"></a></span>
-<span id="cb438-10"><a href="managing-workflows-with-snakemake.html#cb438-10"></a><span class="co"># now, if you want to test specific values for different wildcards you can do like:</span></span>
-<span id="cb438-11"><a href="managing-workflows-with-snakemake.html#cb438-11"></a>wildcards.sample <span class="op">=</span> <span class="st">&quot;s002&quot;</span></span>
-<span id="cb438-12"><a href="managing-workflows-with-snakemake.html#cb438-12"></a></span>
-<span id="cb438-13"><a href="managing-workflows-with-snakemake.html#cb438-13"></a><span class="co"># print that value:</span></span>
-<span id="cb438-14"><a href="managing-workflows-with-snakemake.html#cb438-14"></a>wildcards.sample</span></code></pre></div>
-
+<p>The following is not a formal part of working with Snakemake, and can be omitted; however
+I have found this to be very helpful when writing complex input functions.</p>
+<div class="sourceCode" id="cb439"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb439-1"><a href="managing-workflows-with-snakemake.html#cb439-1"></a><span class="co"># do this in your python interpreter...</span></span>
+<span id="cb439-2"><a href="managing-workflows-with-snakemake.html#cb439-2"></a></span>
+<span id="cb439-3"><a href="managing-workflows-with-snakemake.html#cb439-3"></a><span class="co"># create a generic object class (called Foo here)</span></span>
+<span id="cb439-4"><a href="managing-workflows-with-snakemake.html#cb439-4"></a><span class="kw">class</span> Foo(<span class="bu">object</span>):</span>
+<span id="cb439-5"><a href="managing-workflows-with-snakemake.html#cb439-5"></a>    <span class="cf">pass</span></span>
+<span id="cb439-6"><a href="managing-workflows-with-snakemake.html#cb439-6"></a></span>
+<span id="cb439-7"><a href="managing-workflows-with-snakemake.html#cb439-7"></a><span class="co"># make a variable, wildcards, which is an object of that class</span></span>
+<span id="cb439-8"><a href="managing-workflows-with-snakemake.html#cb439-8"></a>wildcards <span class="op">=</span> Foo()</span>
+<span id="cb439-9"><a href="managing-workflows-with-snakemake.html#cb439-9"></a></span>
+<span id="cb439-10"><a href="managing-workflows-with-snakemake.html#cb439-10"></a><span class="co"># now, if you want to test specific values for different wildcards you can do like:</span></span>
+<span id="cb439-11"><a href="managing-workflows-with-snakemake.html#cb439-11"></a>wildcards.sample <span class="op">=</span> <span class="st">&quot;s002&quot;</span></span>
+<span id="cb439-12"><a href="managing-workflows-with-snakemake.html#cb439-12"></a></span>
+<span id="cb439-13"><a href="managing-workflows-with-snakemake.html#cb439-13"></a><span class="co"># print that value:</span></span>
+<span id="cb439-14"><a href="managing-workflows-with-snakemake.html#cb439-14"></a>wildcards.sample</span></code></pre></div>
+<p>That code has defined an object named <code>wildcards</code> and endowed
+it with an attribute <code>sample</code> whose value is <code>s002</code>.</p>
+<p>Now, let us write a function that will take that <code>wildcards</code>
+object and turn it into the path for a fastq2 for sample <code>s002</code>.
+To define a function in Python: you use the <code>def</code>
+keyword, then follow it by the name of the function and its
+inputs (in this case <code>wildcards</code>), then a colon, and then an
+indented block of code which constitutes the function,
+followed by a non-indented line. Here is the definition for
+a function that returns the path to the fastq2 file from
+a wildcards object (and it uses the previously defined variable
+called <code>samples_table</code>)</p>
+<div class="sourceCode" id="cb440"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb440-1"><a href="managing-workflows-with-snakemake.html#cb440-1"></a><span class="co"># this is the function definition</span></span>
+<span id="cb440-2"><a href="managing-workflows-with-snakemake.html#cb440-2"></a><span class="kw">def</span> fq2_from_sample(wildcards):</span>
+<span id="cb440-3"><a href="managing-workflows-with-snakemake.html#cb440-3"></a>  <span class="cf">return</span> samples_table.loc[wildcards.sample, <span class="st">&quot;fastq2&quot;</span>]</span>
+<span id="cb440-4"><a href="managing-workflows-with-snakemake.html#cb440-4"></a></span>
+<span id="cb440-5"><a href="managing-workflows-with-snakemake.html#cb440-5"></a><span class="co"># here we use it on our spoofed wildcards object</span></span>
+<span id="cb440-6"><a href="managing-workflows-with-snakemake.html#cb440-6"></a>fq2_from_sample(wildcards)</span></code></pre></div>
+<p>Eureka! That is a function that will take a wildcard value
+(stored in a variable <code>wildcards</code>) and return a file path
+that it finds in the <code>samples.csv</code>. We can now put that
+all together in a new Snakefile, as shown in the next
+section.</p>
+<p>Before we leave this section, though, it is important to point
+out that these input functions can be named anything that
+we want. However, it makes sense to use a name that tells
+what the function returns, and also the wildcards or inputs
+that are used to create the return value. (Hence the names
+chosen here).</p>
 </div>
+<div id="snakefile-4-an-input-function-for-trim_awesome" class="section level3">
+<h3><span class="header-section-number">14.2.3</span> Snakefile #4: an input function for trim_awesome</h3>
+<p>Now, that we have experimented with writing input functions in our
+Python interpreter, it is time to incorporate them into our Snakefile
+to turn the wildcards into file paths for the <code>trim_awesome</code> block.
+To do so, we simply have to make sure that <em>within the Snakefile</em>,
+before we do anything else, we define the input functions we need,
+and then use those functions in the <code>input</code> section of the
+<code>trim_awesome</code> block. So we must:</p>
+<ol style="list-style-type: decimal">
+<li>read the <code>samples.csv</code> file into the
+<code>samples_table</code> variable,</li>
+<li>define the functions
+<code>fq1_from_sample</code> and <code>fq2_from_sample</code>.</li>
+<li>Put those functions into the <code>trim_awesome</code> block in place of the input file
+names.</li>
+</ol>
+<p>So, update your Snakefile so that it looks like this:</p>
+<div class="sourceCode" id="cb441"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb441-1"><a href="managing-workflows-with-snakemake.html#cb441-1"></a></span>
+<span id="cb441-2"><a href="managing-workflows-with-snakemake.html#cb441-2"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb441-3"><a href="managing-workflows-with-snakemake.html#cb441-3"></a>samples_table <span class="op">=</span> pd.read_csv(<span class="st">&quot;samples.csv&quot;</span>).set_index(<span class="st">&quot;sample&quot;</span>, drop<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb441-4"><a href="managing-workflows-with-snakemake.html#cb441-4"></a></span>
+<span id="cb441-5"><a href="managing-workflows-with-snakemake.html#cb441-5"></a><span class="co"># fastq1 input function definition</span></span>
+<span id="cb441-6"><a href="managing-workflows-with-snakemake.html#cb441-6"></a><span class="kw">def</span> fq1_from_sample(wildcards):</span>
+<span id="cb441-7"><a href="managing-workflows-with-snakemake.html#cb441-7"></a>  <span class="cf">return</span> samples_table.loc[wildcards.sample, <span class="st">&quot;fastq1&quot;</span>]</span>
+<span id="cb441-8"><a href="managing-workflows-with-snakemake.html#cb441-8"></a></span>
+<span id="cb441-9"><a href="managing-workflows-with-snakemake.html#cb441-9"></a><span class="co"># fastq2 input function definition</span></span>
+<span id="cb441-10"><a href="managing-workflows-with-snakemake.html#cb441-10"></a><span class="kw">def</span> fq2_from_sample(wildcards):</span>
+<span id="cb441-11"><a href="managing-workflows-with-snakemake.html#cb441-11"></a>  <span class="cf">return</span> samples_table.loc[wildcards.sample, <span class="st">&quot;fastq2&quot;</span>]</span>
+<span id="cb441-12"><a href="managing-workflows-with-snakemake.html#cb441-12"></a></span>
+<span id="cb441-13"><a href="managing-workflows-with-snakemake.html#cb441-13"></a></span>
+<span id="cb441-14"><a href="managing-workflows-with-snakemake.html#cb441-14"></a></span>
+<span id="cb441-15"><a href="managing-workflows-with-snakemake.html#cb441-15"></a>rule trim_awesome:</span>
+<span id="cb441-16"><a href="managing-workflows-with-snakemake.html#cb441-16"></a>    <span class="bu">input</span>: </span>
+<span id="cb441-17"><a href="managing-workflows-with-snakemake.html#cb441-17"></a>        fq1_from_sample,   <span class="co"># &lt;--- Note how the function names go here,</span></span>
+<span id="cb441-18"><a href="managing-workflows-with-snakemake.html#cb441-18"></a>        fq2_from_sample    <span class="co"># &lt;--- in place of the file names</span></span>
+<span id="cb441-19"><a href="managing-workflows-with-snakemake.html#cb441-19"></a>    output:</span>
+<span id="cb441-20"><a href="managing-workflows-with-snakemake.html#cb441-20"></a>        <span class="co">&quot;results/awesome/{sample}_R1.fq&quot;</span>,</span>
+<span id="cb441-21"><a href="managing-workflows-with-snakemake.html#cb441-21"></a>        <span class="co">&quot;results/awesome/{sample}_R2.fq&quot;</span></span>
+<span id="cb441-22"><a href="managing-workflows-with-snakemake.html#cb441-22"></a>    shell:</span>
+<span id="cb441-23"><a href="managing-workflows-with-snakemake.html#cb441-23"></a>        <span class="co">&quot;TrimmoMcAwesome {input} {output}&quot;</span></span>
+<span id="cb441-24"><a href="managing-workflows-with-snakemake.html#cb441-24"></a></span>
+<span id="cb441-25"><a href="managing-workflows-with-snakemake.html#cb441-25"></a></span>
+<span id="cb441-26"><a href="managing-workflows-with-snakemake.html#cb441-26"></a>rule trim_stupendous:</span>
+<span id="cb441-27"><a href="managing-workflows-with-snakemake.html#cb441-27"></a>    <span class="bu">input</span>: </span>
+<span id="cb441-28"><a href="managing-workflows-with-snakemake.html#cb441-28"></a>        fq1<span class="op">=</span><span class="st">&quot;data/raw/</span><span class="sc">{sample}</span><span class="st">_R1.fq&quot;</span>,</span>
+<span id="cb441-29"><a href="managing-workflows-with-snakemake.html#cb441-29"></a>        fq2<span class="op">=</span><span class="st">&quot;data/raw/</span><span class="sc">{sample}</span><span class="st">_R2.fq&quot;</span></span>
+<span id="cb441-30"><a href="managing-workflows-with-snakemake.html#cb441-30"></a>    output:</span>
+<span id="cb441-31"><a href="managing-workflows-with-snakemake.html#cb441-31"></a>        <span class="co">&quot;results/stupendous/{sample}_R1.fq&quot;</span>,</span>
+<span id="cb441-32"><a href="managing-workflows-with-snakemake.html#cb441-32"></a>        <span class="co">&quot;results/stupendous/{sample}_R2.fq&quot;</span></span>
+<span id="cb441-33"><a href="managing-workflows-with-snakemake.html#cb441-33"></a>    shell:</span>
+<span id="cb441-34"><a href="managing-workflows-with-snakemake.html#cb441-34"></a>        <span class="co">&quot;trim_stupendous {input.fq1} {input.fq2} {output}&quot;</span></span></code></pre></div>
+<p>Then invoke that new Snakefile with:</p>
+<div class="sourceCode" id="cb442"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb442-1"><a href="managing-workflows-with-snakemake.html#cb442-1"></a><span class="co"># do this in your unix terminal in directory smk-tut</span></span>
+<span id="cb442-2"><a href="managing-workflows-with-snakemake.html#cb442-2"></a><span class="ex">snakemake</span> -np results/awesome/s00<span class="dt">{1..3}</span>_R<span class="dt">{1,2}</span>.fq</span></code></pre></div>
+<p>And, Behold! Look at the shell commands that get scheduled, and
+see that they properly include the raw_nasty_names files. Cool.</p>
+</div>
+</div>
+<div id="input-functions-from-python-dictionaries" class="section level2">
+<h2><span class="header-section-number">14.3</span> Input functions from Python Dictionaries</h2>
+<p>The previous section showed us how to produce input
+files for trim_awesome from the wildcards using the input
+functions <code>fq1_from_sample</code> and <code>fq2_from_sample</code>, and it worked!</p>
+<p>For the <code>trim_stupendous</code> block, however, note that we are using
+<em>named</em> input files:</p>
+<div class="sourceCode" id="cb443"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb443-1"><a href="managing-workflows-with-snakemake.html#cb443-1"></a>rule trim_stupendous:</span>
+<span id="cb443-2"><a href="managing-workflows-with-snakemake.html#cb443-2"></a>    <span class="bu">input</span>: </span>
+<span id="cb443-3"><a href="managing-workflows-with-snakemake.html#cb443-3"></a>        fq1<span class="op">=</span><span class="st">&quot;data/raw/</span><span class="sc">{sample}</span><span class="st">_R1.fq&quot;</span>,</span>
+<span id="cb443-4"><a href="managing-workflows-with-snakemake.html#cb443-4"></a>        fq2<span class="op">=</span><span class="st">&quot;data/raw/</span><span class="sc">{sample}</span><span class="st">_R2.fq&quot;</span></span></code></pre></div>
+<p>and the names get used explicitly in the shell command:</p>
+<div class="sourceCode" id="cb444"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb444-1"><a href="managing-workflows-with-snakemake.html#cb444-1"></a>    shell:</span>
+<span id="cb444-2"><a href="managing-workflows-with-snakemake.html#cb444-2"></a>        <span class="co">&quot;trim_stupendous {input.fq1} {input.fq2} {output}&quot;</span></span></code></pre></div>
+<p>(see the <code>{input.fq1}</code> and <code>{input.fq2}</code>, there). We could
+redefine the <code>trim_stupendous</code> block to use our input functions like this:</p>
+<div class="sourceCode" id="cb445"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb445-1"><a href="managing-workflows-with-snakemake.html#cb445-1"></a>rule trim_stupendous:</span>
+<span id="cb445-2"><a href="managing-workflows-with-snakemake.html#cb445-2"></a>    <span class="bu">input</span>:</span>
+<span id="cb445-3"><a href="managing-workflows-with-snakemake.html#cb445-3"></a>        fq1<span class="op">=</span>fq1_from_sample,</span>
+<span id="cb445-4"><a href="managing-workflows-with-snakemake.html#cb445-4"></a>        fq2<span class="op">=</span>fq2_from_sample</span>
+<span id="cb445-5"><a href="managing-workflows-with-snakemake.html#cb445-5"></a>    output:</span>
+<span id="cb445-6"><a href="managing-workflows-with-snakemake.html#cb445-6"></a>        <span class="co">&quot;results/stupendous/{sample}_R1.fq&quot;</span>,</span>
+<span id="cb445-7"><a href="managing-workflows-with-snakemake.html#cb445-7"></a>        <span class="co">&quot;results/stupendous/{sample}_R2.fq&quot;</span></span>
+<span id="cb445-8"><a href="managing-workflows-with-snakemake.html#cb445-8"></a>    shell:</span>
+<span id="cb445-9"><a href="managing-workflows-with-snakemake.html#cb445-9"></a>        <span class="co">&quot;trim_stupendous {input.fq1} {input.fq2} {output}&quot;</span></span></code></pre></div>
+<p>There would be nothing wrong with that at all!</p>
+<p>However, there is another way to pass inputs to Snakemake rule blocks—by using
+Python <em>Dictionaries</em>. A Python Dictionary, or <em>dict</em> for short, is very much
+like a “named list” in R. The elements of a dictionary can be accessed using their
+names (called “keys” in Python). Let’s go back and evaluate some code in our Python
+interpreter to illustrate this:</p>
+<div class="sourceCode" id="cb446"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb446-1"><a href="managing-workflows-with-snakemake.html#cb446-1"></a><span class="co"># do this in your python interpreter...</span></span>
+<span id="cb446-2"><a href="managing-workflows-with-snakemake.html#cb446-2"></a></span>
+<span id="cb446-3"><a href="managing-workflows-with-snakemake.html#cb446-3"></a><span class="co"># define a dictionary called boing:</span></span>
+<span id="cb446-4"><a href="managing-workflows-with-snakemake.html#cb446-4"></a>boing <span class="op">=</span> {<span class="st">&quot;fq1&quot;</span>: <span class="st">&quot;bing&quot;</span>, <span class="st">&quot;fq2&quot;</span>: <span class="st">&quot;bong&quot;</span>}</span>
+<span id="cb446-5"><a href="managing-workflows-with-snakemake.html#cb446-5"></a></span>
+<span id="cb446-6"><a href="managing-workflows-with-snakemake.html#cb446-6"></a><span class="co"># print it:</span></span>
+<span id="cb446-7"><a href="managing-workflows-with-snakemake.html#cb446-7"></a>boing</span>
+<span id="cb446-8"><a href="managing-workflows-with-snakemake.html#cb446-8"></a></span>
+<span id="cb446-9"><a href="managing-workflows-with-snakemake.html#cb446-9"></a><span class="co"># access the fq2 element from it:</span></span>
+<span id="cb446-10"><a href="managing-workflows-with-snakemake.html#cb446-10"></a>boing[<span class="st">&quot;fq2&quot;</span>]</span></code></pre></div>
+<p>Cool. That just shows us how to define a dictionary in Python.</p>
+<p>Next, let’s make a function that takes <code>wildcards</code> as input and returns
+a dictionary (with keys <code>fq1</code> and <code>fq2</code>) of file paths to the nasty-name
+FASTQs.</p>
+<div class="sourceCode" id="cb447"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb447-1"><a href="managing-workflows-with-snakemake.html#cb447-1"></a><span class="co"># do this in your python interpreter...</span></span>
+<span id="cb447-2"><a href="managing-workflows-with-snakemake.html#cb447-2"></a></span>
+<span id="cb447-3"><a href="managing-workflows-with-snakemake.html#cb447-3"></a><span class="co"># define an input function that returns a dict</span></span>
+<span id="cb447-4"><a href="managing-workflows-with-snakemake.html#cb447-4"></a><span class="kw">def</span> fq_dict_from_sample(wildcards):</span>
+<span id="cb447-5"><a href="managing-workflows-with-snakemake.html#cb447-5"></a>  <span class="cf">return</span> {</span>
+<span id="cb447-6"><a href="managing-workflows-with-snakemake.html#cb447-6"></a>    <span class="st">&quot;fq1&quot;</span>: samples_table.loc[wildcards.sample, <span class="st">&quot;fastq1&quot;</span>], </span>
+<span id="cb447-7"><a href="managing-workflows-with-snakemake.html#cb447-7"></a>    <span class="st">&quot;fq2&quot;</span>: samples_table.loc[wildcards.sample, <span class="st">&quot;fastq2&quot;</span>]</span>
+<span id="cb447-8"><a href="managing-workflows-with-snakemake.html#cb447-8"></a>  }</span>
+<span id="cb447-9"><a href="managing-workflows-with-snakemake.html#cb447-9"></a></span>
+<span id="cb447-10"><a href="managing-workflows-with-snakemake.html#cb447-10"></a><span class="co"># make sure our spoofed wildcards variable is set:</span></span>
+<span id="cb447-11"><a href="managing-workflows-with-snakemake.html#cb447-11"></a>wildcards.sample <span class="op">=</span> <span class="st">&quot;s003&quot;</span></span>
+<span id="cb447-12"><a href="managing-workflows-with-snakemake.html#cb447-12"></a></span>
+<span id="cb447-13"><a href="managing-workflows-with-snakemake.html#cb447-13"></a><span class="co"># Now see what that function returns on that wildcards input:</span></span>
+<span id="cb447-14"><a href="managing-workflows-with-snakemake.html#cb447-14"></a>fq_dict_from_sample(wildcards)</span></code></pre></div>
+<p>OK! It returns a dict object. So, we should be able to use
+that dict to return the proper paths for <code>fq1</code> and <code>fq2</code>.
+<strong>BUT</strong> in order for this to work properly (i.e., the way we
+expect it to) we need to wrap our input function inside
+a special Snakemake function called <code>unpack()</code> which turns the
+dict into a collection of named inputs.</p>
+<p>Replace the contents of your Snakefile with this:</p>
+<div class="sourceCode" id="cb448"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb448-1"><a href="managing-workflows-with-snakemake.html#cb448-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb448-2"><a href="managing-workflows-with-snakemake.html#cb448-2"></a>samples_table <span class="op">=</span> pd.read_csv(<span class="st">&quot;samples.csv&quot;</span>).set_index(<span class="st">&quot;sample&quot;</span>, drop<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb448-3"><a href="managing-workflows-with-snakemake.html#cb448-3"></a></span>
+<span id="cb448-4"><a href="managing-workflows-with-snakemake.html#cb448-4"></a><span class="co"># fastq1 input function definition</span></span>
+<span id="cb448-5"><a href="managing-workflows-with-snakemake.html#cb448-5"></a><span class="kw">def</span> fq1_from_sample(wildcards):</span>
+<span id="cb448-6"><a href="managing-workflows-with-snakemake.html#cb448-6"></a>  <span class="cf">return</span> samples_table.loc[wildcards.sample, <span class="st">&quot;fastq1&quot;</span>]</span>
+<span id="cb448-7"><a href="managing-workflows-with-snakemake.html#cb448-7"></a></span>
+<span id="cb448-8"><a href="managing-workflows-with-snakemake.html#cb448-8"></a><span class="co"># fastq2 input function definition</span></span>
+<span id="cb448-9"><a href="managing-workflows-with-snakemake.html#cb448-9"></a><span class="kw">def</span> fq2_from_sample(wildcards):</span>
+<span id="cb448-10"><a href="managing-workflows-with-snakemake.html#cb448-10"></a>  <span class="cf">return</span> samples_table.loc[wildcards.sample, <span class="st">&quot;fastq2&quot;</span>]</span>
+<span id="cb448-11"><a href="managing-workflows-with-snakemake.html#cb448-11"></a></span>
+<span id="cb448-12"><a href="managing-workflows-with-snakemake.html#cb448-12"></a><span class="co"># function to return both fastqs, keyed by `fq1` and `fq2`, in a dict.</span></span>
+<span id="cb448-13"><a href="managing-workflows-with-snakemake.html#cb448-13"></a><span class="co"># note that the order of the dict elements is not important here.  We</span></span>
+<span id="cb448-14"><a href="managing-workflows-with-snakemake.html#cb448-14"></a><span class="co"># illustrate that by putting key `fq2` first.</span></span>
+<span id="cb448-15"><a href="managing-workflows-with-snakemake.html#cb448-15"></a><span class="kw">def</span> fq_dict_from_sample(wildcards):</span>
+<span id="cb448-16"><a href="managing-workflows-with-snakemake.html#cb448-16"></a>  <span class="cf">return</span> {</span>
+<span id="cb448-17"><a href="managing-workflows-with-snakemake.html#cb448-17"></a>    <span class="st">&quot;fq2&quot;</span>: samples_table.loc[wildcards.sample, <span class="st">&quot;fastq2&quot;</span>],</span>
+<span id="cb448-18"><a href="managing-workflows-with-snakemake.html#cb448-18"></a>    <span class="st">&quot;fq1&quot;</span>: samples_table.loc[wildcards.sample, <span class="st">&quot;fastq1&quot;</span>]</span>
+<span id="cb448-19"><a href="managing-workflows-with-snakemake.html#cb448-19"></a>  }</span>
+<span id="cb448-20"><a href="managing-workflows-with-snakemake.html#cb448-20"></a></span>
+<span id="cb448-21"><a href="managing-workflows-with-snakemake.html#cb448-21"></a></span>
+<span id="cb448-22"><a href="managing-workflows-with-snakemake.html#cb448-22"></a>rule trim_awesome:</span>
+<span id="cb448-23"><a href="managing-workflows-with-snakemake.html#cb448-23"></a>    <span class="bu">input</span>:</span>
+<span id="cb448-24"><a href="managing-workflows-with-snakemake.html#cb448-24"></a>        fq1_from_sample,   <span class="co"># &lt;--- Note how the function names go here,</span></span>
+<span id="cb448-25"><a href="managing-workflows-with-snakemake.html#cb448-25"></a>        fq2_from_sample    <span class="co"># &lt;--- in place of the file names</span></span>
+<span id="cb448-26"><a href="managing-workflows-with-snakemake.html#cb448-26"></a>    output:</span>
+<span id="cb448-27"><a href="managing-workflows-with-snakemake.html#cb448-27"></a>        <span class="co">&quot;results/awesome/{sample}_R1.fq&quot;</span>,</span>
+<span id="cb448-28"><a href="managing-workflows-with-snakemake.html#cb448-28"></a>        <span class="co">&quot;results/awesome/{sample}_R2.fq&quot;</span></span>
+<span id="cb448-29"><a href="managing-workflows-with-snakemake.html#cb448-29"></a>    shell:</span>
+<span id="cb448-30"><a href="managing-workflows-with-snakemake.html#cb448-30"></a>        <span class="co">&quot;TrimmoMcAwesome {input} {output}&quot;</span></span>
+<span id="cb448-31"><a href="managing-workflows-with-snakemake.html#cb448-31"></a></span>
+<span id="cb448-32"><a href="managing-workflows-with-snakemake.html#cb448-32"></a></span>
+<span id="cb448-33"><a href="managing-workflows-with-snakemake.html#cb448-33"></a>rule trim_stupendous:</span>
+<span id="cb448-34"><a href="managing-workflows-with-snakemake.html#cb448-34"></a>    <span class="bu">input</span>:</span>
+<span id="cb448-35"><a href="managing-workflows-with-snakemake.html#cb448-35"></a>        unpack(fq_dict_from_sample)  <span class="co"># &lt;--- see, it is wrapped in unpack()</span></span>
+<span id="cb448-36"><a href="managing-workflows-with-snakemake.html#cb448-36"></a>    output:</span>
+<span id="cb448-37"><a href="managing-workflows-with-snakemake.html#cb448-37"></a>        <span class="co">&quot;results/stupendous/{sample}_R1.fq&quot;</span>,</span>
+<span id="cb448-38"><a href="managing-workflows-with-snakemake.html#cb448-38"></a>        <span class="co">&quot;results/stupendous/{sample}_R2.fq&quot;</span></span>
+<span id="cb448-39"><a href="managing-workflows-with-snakemake.html#cb448-39"></a>    shell:</span>
+<span id="cb448-40"><a href="managing-workflows-with-snakemake.html#cb448-40"></a>        <span class="co">&quot;trim_stupendous {input.fq1} {input.fq2} {output}&quot;</span></span></code></pre></div>
+<p>Then, give it a whirl with:</p>
+<div class="sourceCode" id="cb449"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb449-1"><a href="managing-workflows-with-snakemake.html#cb449-1"></a><span class="co"># do this in your unix terminal in directory smk-tut</span></span>
+<span id="cb449-2"><a href="managing-workflows-with-snakemake.html#cb449-2"></a><span class="ex">snakemake</span> -np results/stupendous/s00<span class="dt">{1..3}</span>_R<span class="dt">{1,2}</span>.fq</span></code></pre></div>
+<p>Booyah! This can be quite helpful if you have a lot of named
+arguments that you wish to create as a dict from a function.
+Note that if you use an input function that returns a dict,
+and you forget to wrap it in the <code>unpack()</code>, then you will typically
+see an error like this:</p>
+<pre><code>Function did not return str or list of str.</code></pre>
+</div>
+<div id="generating-lists-of-files-with-expand" class="section level2">
+<h2><span class="header-section-number">14.4</span> Generating lists of files with expand()</h2>
+</div>
+<div id="a-python-primer-for-using-snakemake" class="section level2">
+<h2><span class="header-section-number">14.5</span> A Python Primer for Using Snakemake</h2>
+<p>Snakefiles are evaluated in a Python context, and any valid Python
+code can be placed within them, and it will be evaluated.</p>
+<p>Stuff to talk about:</p>
+<ul>
+<li>Lists
+<ul>
+<li>Cycling over list elements and testing them</li>
+<li>Building up a list with <code>for</code></li>
+<li>Adding lists together</li>
+<li>Testing if something is in a list.</li>
+<li>Getting the unique values in a list.</li>
+</ul></li>
+<li>Formatting strings.</li>
+<li>The Config variable, an OrderedDict
+<ul>
+<li>Loading it with load_configfile</li>
+<li>Accessing different levels by specific names.</li>
+<li>Cycling over all members of a level and getting a list back</li>
+<li>Getting lists out of the keys() and vals()</li>
+</ul></li>
+</ul>
+
 </div>
 </div>
 
@@ -997,6 +1268,9 @@ values to its attributes, which will give us a chance to test its use in an inpu
 <ol start="1">
 <li id="fn1"><p>The astute reader will note that these names are similar
 to the actual programs <code>Trimmomatic</code> and <code>trim_galore</code>. Just having some fun…<a href="managing-workflows-with-snakemake.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>Note that you can write the
+code in a more “inline” fashion in your Snakefile by using what are called “lambda functions”
+in Python. However, it can be cleaner and easier to understand explicitly written input functions.<a href="managing-workflows-with-snakemake.html#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
             </section>
