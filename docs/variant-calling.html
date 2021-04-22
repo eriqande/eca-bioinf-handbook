@@ -308,6 +308,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.5" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#a-python-primer-for-using-snakemake"><i class="fa fa-check"></i><b>14.5</b> A Python Primer for Using Snakemake</a></li>
 <li class="chapter" data-level="14.6" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#using-snakemake-on-a-computing-cluster"><i class="fa fa-check"></i><b>14.6</b> Using Snakemake on a Computing Cluster</a><ul>
 <li class="chapter" data-level="14.6.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#installing-and-configuring-the-snakemake-slurm-profile"><i class="fa fa-check"></i><b>14.6.1</b> Installing and Configuring the Snakemake SLURM profile</a></li>
+<li class="chapter" data-level="14.6.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#playing-with-our-new-slurm-profile"><i class="fa fa-check"></i><b>14.6.2</b> Playing with our new SLURM profile</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
@@ -689,41 +690,41 @@ into <code>bcftools</code>.</p>
 <p>The syntax for using it in this context, to compute genotype likelihoods in a
 20 Kb section of the genome we have mapped is as follows—being sure that you are in the
 <code>chr-32-bioinformatics-username</code> directory:</p>
-<div class="sourceCode" id="cb553"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb553-1"><a href="variant-calling.html#cb553-1"></a><span class="co"># be sure that you are on a compute node</span></span>
-<span id="cb553-2"><a href="variant-calling.html#cb553-2"></a></span>
-<span id="cb553-3"><a href="variant-calling.html#cb553-3"></a><span class="co"># activate your conda environment that has bcftools</span></span>
-<span id="cb553-4"><a href="variant-calling.html#cb553-4"></a><span class="ex">conda</span> activate bioinf</span>
-<span id="cb553-5"><a href="variant-calling.html#cb553-5"></a></span>
-<span id="cb553-6"><a href="variant-calling.html#cb553-6"></a><span class="co"># do the call.  By default, it outputs in VCF format. Add the AD and DP FORMAT tags</span></span>
-<span id="cb553-7"><a href="variant-calling.html#cb553-7"></a><span class="ex">bcftools</span> mpileup \</span>
-<span id="cb553-8"><a href="variant-calling.html#cb553-8"></a>  -f genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \</span>
-<span id="cb553-9"><a href="variant-calling.html#cb553-9"></a>  -r CM009233.1:2000000-2020000 \</span>
-<span id="cb553-10"><a href="variant-calling.html#cb553-10"></a>  -a AD,DP \</span>
-<span id="cb553-11"><a href="variant-calling.html#cb553-11"></a>  mkdup/*.bam <span class="op">&gt;</span> vcf/geno-likes-from-bcftools.vcf</span>
-<span id="cb553-12"><a href="variant-calling.html#cb553-12"></a>  </span>
-<span id="cb553-13"><a href="variant-calling.html#cb553-13"></a><span class="co"># after that is done, look at the names of the individuals</span></span>
-<span id="cb553-14"><a href="variant-calling.html#cb553-14"></a><span class="ex">bcftools</span> query -l vcf/geno-likes-from-bcftools.vcf</span>
-<span id="cb553-15"><a href="variant-calling.html#cb553-15"></a></span>
-<span id="cb553-16"><a href="variant-calling.html#cb553-16"></a><span class="co"># also check the types of the INFO and FORMAT fields:</span></span>
-<span id="cb553-17"><a href="variant-calling.html#cb553-17"></a><span class="ex">bcftools</span> view -h vcf/geno-likes-from-bcftools.vcf  <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/INFO/ || /FORMAT/&#39;</span></span>
-<span id="cb553-18"><a href="variant-calling.html#cb553-18"></a></span>
-<span id="cb553-19"><a href="variant-calling.html#cb553-19"></a><span class="co"># What is the FORMAT field there?</span></span>
-<span id="cb553-20"><a href="variant-calling.html#cb553-20"></a></span>
-<span id="cb553-21"><a href="variant-calling.html#cb553-21"></a><span class="co"># Now, look at the first 10 positions:</span></span>
-<span id="cb553-22"><a href="variant-calling.html#cb553-22"></a><span class="ex">bcftools</span> view  vcf/geno-likes-from-bcftools.vcf <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^##/ {next} /^#CHROM/ {print; next} {print}&#39;</span> <span class="kw">|</span> <span class="fu">head</span></span>
-<span id="cb553-23"><a href="variant-calling.html#cb553-23"></a></span>
-<span id="cb553-24"><a href="variant-calling.html#cb553-24"></a><span class="co"># How many rows are in this file?</span></span>
-<span id="cb553-25"><a href="variant-calling.html#cb553-25"></a><span class="ex">bcftools</span> view -H  vcf/geno-likes-from-bcftools.vcf <span class="kw">|</span> <span class="fu">wc</span></span></code></pre></div>
+<div class="sourceCode" id="cb573"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb573-1"><a href="variant-calling.html#cb573-1"></a><span class="co"># be sure that you are on a compute node</span></span>
+<span id="cb573-2"><a href="variant-calling.html#cb573-2"></a></span>
+<span id="cb573-3"><a href="variant-calling.html#cb573-3"></a><span class="co"># activate your conda environment that has bcftools</span></span>
+<span id="cb573-4"><a href="variant-calling.html#cb573-4"></a><span class="ex">conda</span> activate bioinf</span>
+<span id="cb573-5"><a href="variant-calling.html#cb573-5"></a></span>
+<span id="cb573-6"><a href="variant-calling.html#cb573-6"></a><span class="co"># do the call.  By default, it outputs in VCF format. Add the AD and DP FORMAT tags</span></span>
+<span id="cb573-7"><a href="variant-calling.html#cb573-7"></a><span class="ex">bcftools</span> mpileup \</span>
+<span id="cb573-8"><a href="variant-calling.html#cb573-8"></a>  -f genome/GCA_002872995.1_Otsh_v1.0_genomic.fna \</span>
+<span id="cb573-9"><a href="variant-calling.html#cb573-9"></a>  -r CM009233.1:2000000-2020000 \</span>
+<span id="cb573-10"><a href="variant-calling.html#cb573-10"></a>  -a AD,DP \</span>
+<span id="cb573-11"><a href="variant-calling.html#cb573-11"></a>  mkdup/*.bam <span class="op">&gt;</span> vcf/geno-likes-from-bcftools.vcf</span>
+<span id="cb573-12"><a href="variant-calling.html#cb573-12"></a>  </span>
+<span id="cb573-13"><a href="variant-calling.html#cb573-13"></a><span class="co"># after that is done, look at the names of the individuals</span></span>
+<span id="cb573-14"><a href="variant-calling.html#cb573-14"></a><span class="ex">bcftools</span> query -l vcf/geno-likes-from-bcftools.vcf</span>
+<span id="cb573-15"><a href="variant-calling.html#cb573-15"></a></span>
+<span id="cb573-16"><a href="variant-calling.html#cb573-16"></a><span class="co"># also check the types of the INFO and FORMAT fields:</span></span>
+<span id="cb573-17"><a href="variant-calling.html#cb573-17"></a><span class="ex">bcftools</span> view -h vcf/geno-likes-from-bcftools.vcf  <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/INFO/ || /FORMAT/&#39;</span></span>
+<span id="cb573-18"><a href="variant-calling.html#cb573-18"></a></span>
+<span id="cb573-19"><a href="variant-calling.html#cb573-19"></a><span class="co"># What is the FORMAT field there?</span></span>
+<span id="cb573-20"><a href="variant-calling.html#cb573-20"></a></span>
+<span id="cb573-21"><a href="variant-calling.html#cb573-21"></a><span class="co"># Now, look at the first 10 positions:</span></span>
+<span id="cb573-22"><a href="variant-calling.html#cb573-22"></a><span class="ex">bcftools</span> view  vcf/geno-likes-from-bcftools.vcf <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;/^##/ {next} /^#CHROM/ {print; next} {print}&#39;</span> <span class="kw">|</span> <span class="fu">head</span></span>
+<span id="cb573-23"><a href="variant-calling.html#cb573-23"></a></span>
+<span id="cb573-24"><a href="variant-calling.html#cb573-24"></a><span class="co"># How many rows are in this file?</span></span>
+<span id="cb573-25"><a href="variant-calling.html#cb573-25"></a><span class="ex">bcftools</span> view -H  vcf/geno-likes-from-bcftools.vcf <span class="kw">|</span> <span class="fu">wc</span></span></code></pre></div>
 <p>Check that out! It has computed values for almost every single base pair in the 20,000 KB
 genomic region.</p>
 <p>To turn that mpileup VCF into something that has information on variable positions,
 you can “call” genotypes, using <code>bcftools call</code>. The <code>-v</code> option says “keep only
 the variable sites”, and the <code>-m</code> says “use the genotype caller that can deal
 with multiallelic sites.”</p>
-<div class="sourceCode" id="cb554"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb554-1"><a href="variant-calling.html#cb554-1"></a><span class="ex">bcftools</span> call -v -m vcf/geno-likes-from-bcftools.vcf <span class="op">&gt;</span> vcf/geno-calls-from-bcftools.vcf</span>
-<span id="cb554-2"><a href="variant-calling.html#cb554-2"></a></span>
-<span id="cb554-3"><a href="variant-calling.html#cb554-3"></a><span class="co"># now look at what we have</span></span>
-<span id="cb554-4"><a href="variant-calling.html#cb554-4"></a><span class="ex">bctools</span> view -h vcf/geno-calls-from-bcftools.vcf <span class="kw">|</span> <span class="fu">head</span> </span></code></pre></div>
+<div class="sourceCode" id="cb574"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb574-1"><a href="variant-calling.html#cb574-1"></a><span class="ex">bcftools</span> call -v -m vcf/geno-likes-from-bcftools.vcf <span class="op">&gt;</span> vcf/geno-calls-from-bcftools.vcf</span>
+<span id="cb574-2"><a href="variant-calling.html#cb574-2"></a></span>
+<span id="cb574-3"><a href="variant-calling.html#cb574-3"></a><span class="co"># now look at what we have</span></span>
+<span id="cb574-4"><a href="variant-calling.html#cb574-4"></a><span class="ex">bctools</span> view -h vcf/geno-calls-from-bcftools.vcf <span class="kw">|</span> <span class="fu">head</span> </span></code></pre></div>
 <p>Compare those to the variants found by GATK (listed above)</p>
 </div>
 <div id="angsd" class="section level4">
@@ -796,17 +797,17 @@ are from different populations, but the populations are so similar, genetically,
 expect a Wahlund effect by mixing them into a single sample.</p>
 <p><a href="https://www.dropbox.com/s/5sb7ygwmpgsz09p/raw-fall-late-fall-geno-calls.vcf.gz?dl=1">raw-fall-late-fall-geno-calls.vcf.gz</a>.</p>
 <p>Download that to your laptop, then use R within RStudio to get the ‘whoa’ package from CRAN and then make a plot:</p>
-<div class="sourceCode" id="cb555"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb555-1"><a href="variant-calling.html#cb555-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;whoa&quot;</span>)</span>
-<span id="cb555-2"><a href="variant-calling.html#cb555-2"></a><span class="kw">library</span>(whoa)</span>
-<span id="cb555-3"><a href="variant-calling.html#cb555-3"></a><span class="kw">library</span>(vcfR)</span>
-<span id="cb555-4"><a href="variant-calling.html#cb555-4"></a></span>
-<span id="cb555-5"><a href="variant-calling.html#cb555-5"></a><span class="co"># you might have to change the file location, depending on where</span></span>
-<span id="cb555-6"><a href="variant-calling.html#cb555-6"></a><span class="co"># files get downloaded to on your laptop</span></span>
-<span id="cb555-7"><a href="variant-calling.html#cb555-7"></a>v &lt;-<span class="st"> </span><span class="kw">read.vcfR</span>(<span class="st">&quot;~/Downloads/raw-fall-late-fall-geno-calls.vcf.gz&quot;</span>)</span>
-<span id="cb555-8"><a href="variant-calling.html#cb555-8"></a></span>
-<span id="cb555-9"><a href="variant-calling.html#cb555-9"></a>gfreqs &lt;-<span class="st"> </span><span class="kw">exp_and_obs_geno_freqs</span>(v)</span>
-<span id="cb555-10"><a href="variant-calling.html#cb555-10"></a></span>
-<span id="cb555-11"><a href="variant-calling.html#cb555-11"></a><span class="kw">geno_freqs_scatter</span>(gfreqs, <span class="dt">alpha =</span> <span class="fl">0.04</span>, <span class="dt">max_plot_loci =</span> <span class="fl">1e15</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb575"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb575-1"><a href="variant-calling.html#cb575-1"></a><span class="kw">install.packages</span>(<span class="st">&quot;whoa&quot;</span>)</span>
+<span id="cb575-2"><a href="variant-calling.html#cb575-2"></a><span class="kw">library</span>(whoa)</span>
+<span id="cb575-3"><a href="variant-calling.html#cb575-3"></a><span class="kw">library</span>(vcfR)</span>
+<span id="cb575-4"><a href="variant-calling.html#cb575-4"></a></span>
+<span id="cb575-5"><a href="variant-calling.html#cb575-5"></a><span class="co"># you might have to change the file location, depending on where</span></span>
+<span id="cb575-6"><a href="variant-calling.html#cb575-6"></a><span class="co"># files get downloaded to on your laptop</span></span>
+<span id="cb575-7"><a href="variant-calling.html#cb575-7"></a>v &lt;-<span class="st"> </span><span class="kw">read.vcfR</span>(<span class="st">&quot;~/Downloads/raw-fall-late-fall-geno-calls.vcf.gz&quot;</span>)</span>
+<span id="cb575-8"><a href="variant-calling.html#cb575-8"></a></span>
+<span id="cb575-9"><a href="variant-calling.html#cb575-9"></a>gfreqs &lt;-<span class="st"> </span><span class="kw">exp_and_obs_geno_freqs</span>(v)</span>
+<span id="cb575-10"><a href="variant-calling.html#cb575-10"></a></span>
+<span id="cb575-11"><a href="variant-calling.html#cb575-11"></a><span class="kw">geno_freqs_scatter</span>(gfreqs, <span class="dt">alpha =</span> <span class="fl">0.04</span>, <span class="dt">max_plot_loci =</span> <span class="fl">1e15</span>)</span></code></pre></div>
 <p>Whoa!</p>
 </div>
 </div>

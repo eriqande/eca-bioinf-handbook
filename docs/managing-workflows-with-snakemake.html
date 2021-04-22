@@ -308,6 +308,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.5" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#a-python-primer-for-using-snakemake"><i class="fa fa-check"></i><b>14.5</b> A Python Primer for Using Snakemake</a></li>
 <li class="chapter" data-level="14.6" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#using-snakemake-on-a-computing-cluster"><i class="fa fa-check"></i><b>14.6</b> Using Snakemake on a Computing Cluster</a><ul>
 <li class="chapter" data-level="14.6.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#installing-and-configuring-the-snakemake-slurm-profile"><i class="fa fa-check"></i><b>14.6.1</b> Installing and Configuring the Snakemake SLURM profile</a></li>
+<li class="chapter" data-level="14.6.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#playing-with-our-new-slurm-profile"><i class="fa fa-check"></i><b>14.6.2</b> Playing with our new SLURM profile</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
@@ -1345,7 +1346,219 @@ out how to explain its role and use a little more clearly.</p>
 grouping jobs.</p>
 <div id="installing-and-configuring-the-snakemake-slurm-profile" class="section level3">
 <h3><span class="header-section-number">14.6.1</span> Installing and Configuring the Snakemake SLURM profile</h3>
-<p>hmmm….</p>
+<p>The SLURM profile for snakemake is packaged up as a <code>cookiecutter</code> template. <code>cookiecutter</code> is
+a Python project that makes it easy to create things like python packages from a template.
+So, the SLURM profile on GitHub at <a href="https://github.com/Snakemake-Profiles/slurm">https://github.com/Snakemake-Profiles/slurm</a> is
+a template for the profile, and <code>cookiecutter</code> makes it easy to download it and customize for
+yourself. <code>cookiecutter</code> will first download the GitHub repo to a directory <code>~/.cookiecutters</code>.
+Once it has the repo there, it will run through a series of questions about how
+you might want to customize the SLURM Snakemake profile. This could be done multiple times
+to make multiple profiles, but we will just do one for now.</p>
+<p>To make all this work, you must have <code>cookiecutter</code> installed on your system.
+And when you run some of the scripts in this profile, it appears that the
+<code>cookiecutter</code> libraries are required, so be sure to add <code>cookiecutter</code> to your
+<code>snakemake</code> conda invironment:</p>
+<div class="sourceCode" id="cb454"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb454-1"><a href="managing-workflows-with-snakemake.html#cb454-1"></a><span class="ex">conda</span> activate snakemake</span>
+<span id="cb454-2"><a href="managing-workflows-with-snakemake.html#cb454-2"></a><span class="ex">conda</span> install -c conda-forge cookiecutter</span></code></pre></div>
+<p>Once that is done, run <code>cookiecutter</code> with:</p>
+<div class="sourceCode" id="cb455"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb455-1"><a href="managing-workflows-with-snakemake.html#cb455-1"></a><span class="ex">cookiecutter</span> https://github.com/Snakemake-Profiles/slurm.git</span></code></pre></div>
+<p>At which point <code>cookiecutter</code> starts asking you questions about how you
+want to customize your profile. I am going to set up a profile for use
+on my favorite cluster, SEDNA. I don’t worry about setting up <code>sbatch_defaults</code>,
+and I don’t worry about <code>cluster_name</code> because SEDNA is not a multi-cluster
+environment. However, I do want to set up a path to a cluster-config file
+that is relative to the slurm profile I will make (This is one of those necessary
+things to have a reasonable system for placing the slurm output and error logs.)
+Here is a transcript of my session:</p>
+<div class="sourceCode" id="cb456"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb456-1"><a href="managing-workflows-with-snakemake.html#cb456-1"></a><span class="ex">profile_name</span> [slurm]: slurm.sedna</span>
+<span id="cb456-2"><a href="managing-workflows-with-snakemake.html#cb456-2"></a><span class="ex">sbatch_defaults</span> []:</span>
+<span id="cb456-3"><a href="managing-workflows-with-snakemake.html#cb456-3"></a><span class="ex">cluster_config</span> []: cluster-config.yaml</span>
+<span id="cb456-4"><a href="managing-workflows-with-snakemake.html#cb456-4"></a><span class="ex">Select</span> advanced_argument_conversion:</span>
+<span id="cb456-5"><a href="managing-workflows-with-snakemake.html#cb456-5"></a><span class="ex">1</span> - no</span>
+<span id="cb456-6"><a href="managing-workflows-with-snakemake.html#cb456-6"></a><span class="ex">2</span> - yes</span>
+<span id="cb456-7"><a href="managing-workflows-with-snakemake.html#cb456-7"></a><span class="ex">Choose</span> from 1, 2 [1]: 1</span>
+<span id="cb456-8"><a href="managing-workflows-with-snakemake.html#cb456-8"></a><span class="ex">cluster_name</span> []:</span></code></pre></div>
+<p>You can do something similar, but you might name the profile something else,
+like <code>slurm.summit</code>, if you are making this for the SUMMIT cluster.</p>
+<p>When that is done, what the hell just happened? If everything went according to plan,
+this should have made a profile that is in a directory named, in my case,
+<code>slurm.sedna</code> in my current working directory. Here is what that directory looks like
+for me:</p>
+<pre><code>slurm.sedna/
+├── config.yaml
+├── CookieCutter.py
+├── settings.json
+├── slurm-jobscript.sh
+├── slurm-status.py
+├── slurm-submit.py
+└── slurm_utils.py</code></pre>
+<p>The file that includes the choices given to <code>cookiecutter</code> are in the file
+<code>settings.json</code>. Here is what mine looks like:</p>
+<div class="sourceCode" id="cb458"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb458-1"><a href="managing-workflows-with-snakemake.html#cb458-1"></a><span class="fu">{</span></span>
+<span id="cb458-2"><a href="managing-workflows-with-snakemake.html#cb458-2"></a>    <span class="dt">&quot;SBATCH_DEFAULTS&quot;</span><span class="fu">:</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb458-3"><a href="managing-workflows-with-snakemake.html#cb458-3"></a>    <span class="dt">&quot;CLUSTER_NAME&quot;</span><span class="fu">:</span> <span class="st">&quot;&quot;</span><span class="fu">,</span></span>
+<span id="cb458-4"><a href="managing-workflows-with-snakemake.html#cb458-4"></a>    <span class="dt">&quot;CLUSTER_CONFIG&quot;</span><span class="fu">:</span> <span class="st">&quot;cluster-config.yaml&quot;</span><span class="fu">,</span></span>
+<span id="cb458-5"><a href="managing-workflows-with-snakemake.html#cb458-5"></a>    <span class="dt">&quot;ADVANCED_ARGUMENT_CONVERSION&quot;</span><span class="fu">:</span> <span class="st">&quot;no&quot;</span></span>
+<span id="cb458-6"><a href="managing-workflows-with-snakemake.html#cb458-6"></a><span class="fu">}</span></span></code></pre></div>
+<p>Meanwhile, the actual config file that Snakemake will read to get a sense
+for how to run in this SLURM context is <code>config.yaml</code> and it looks like this:</p>
+<div class="sourceCode" id="cb459"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb459-1"><a href="managing-workflows-with-snakemake.html#cb459-1"></a><span class="fu">restart-times</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span></span>
+<span id="cb459-2"><a href="managing-workflows-with-snakemake.html#cb459-2"></a><span class="fu">jobscript</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;slurm-jobscript.sh&quot;</span></span>
+<span id="cb459-3"><a href="managing-workflows-with-snakemake.html#cb459-3"></a><span class="fu">cluster</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;slurm-submit.py&quot;</span></span>
+<span id="cb459-4"><a href="managing-workflows-with-snakemake.html#cb459-4"></a><span class="fu">cluster-status</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;slurm-status.py&quot;</span></span>
+<span id="cb459-5"><a href="managing-workflows-with-snakemake.html#cb459-5"></a><span class="fu">max-jobs-per-second</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span>
+<span id="cb459-6"><a href="managing-workflows-with-snakemake.html#cb459-6"></a><span class="fu">max-status-checks-per-second</span><span class="kw">:</span><span class="at"> </span><span class="dv">10</span></span>
+<span id="cb459-7"><a href="managing-workflows-with-snakemake.html#cb459-7"></a><span class="fu">local-cores</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span>
+<span id="cb459-8"><a href="managing-workflows-with-snakemake.html#cb459-8"></a><span class="fu">latency-wait</span><span class="kw">:</span><span class="at"> </span><span class="dv">60</span></span></code></pre></div>
+<p>The items in this YAML file are effectively command line options to Snakemake, in the
+sense that if you call this profile by invoking Snakemake with:</p>
+<div class="sourceCode" id="cb460"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb460-1"><a href="managing-workflows-with-snakemake.html#cb460-1"></a><span class="co"># this line assumes that the profile is in</span></span>
+<span id="cb460-2"><a href="managing-workflows-with-snakemake.html#cb460-2"></a><span class="co"># the current working directory and ./slurm.sedna</span></span>
+<span id="cb460-3"><a href="managing-workflows-with-snakemake.html#cb460-3"></a><span class="co"># is its relative path</span></span>
+<span id="cb460-4"><a href="managing-workflows-with-snakemake.html#cb460-4"></a><span class="ex">snakemake</span> --profile ./slurm.sedna</span></code></pre></div>
+<p>It has the effect of launching Snakemake with these options:</p>
+<div class="sourceCode" id="cb461"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb461-1"><a href="managing-workflows-with-snakemake.html#cb461-1"></a><span class="ex">snakemake</span> --restart-times 3 \</span>
+<span id="cb461-2"><a href="managing-workflows-with-snakemake.html#cb461-2"></a>  --jobscript slurm-jobscript.sh \</span>
+<span id="cb461-3"><a href="managing-workflows-with-snakemake.html#cb461-3"></a>  --cluster slurm-submit.py \</span>
+<span id="cb461-4"><a href="managing-workflows-with-snakemake.html#cb461-4"></a>  --cluster-status slurm-status.py \</span>
+<span id="cb461-5"><a href="managing-workflows-with-snakemake.html#cb461-5"></a>  --max-jobs-per-second  1 \</span>
+<span id="cb461-6"><a href="managing-workflows-with-snakemake.html#cb461-6"></a>  --max-status-checks-per-second 10 \</span>
+<span id="cb461-7"><a href="managing-workflows-with-snakemake.html#cb461-7"></a>  --local-cores 1 \</span>
+<span id="cb461-8"><a href="managing-workflows-with-snakemake.html#cb461-8"></a>  --latency-wait 60</span></code></pre></div>
+<p>It is worth mentioning at this point that you can store Snakemake profiles in a place
+where Snakemake will look for them, so that you can have access to them regardless of
+what directory you are working in. This location varies depending on what kind
+of computer you are using. You can find it in the output from <code>snakemake --help</code>. For
+example, on my Mac, I see:</p>
+<div class="sourceCode" id="cb462"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb462-1"><a href="managing-workflows-with-snakemake.html#cb462-1"></a>  <span class="ex">--profile</span> PROFILE     Name of profile to use for configuring Snakemake. Snakemake will search for a corresponding folder in</span>
+<span id="cb462-2"><a href="managing-workflows-with-snakemake.html#cb462-2"></a>                        <span class="ex">/Library/Application</span> Support/snakemake and /Users/eriq/Library/Application Support/snakemake.</span>
+<span id="cb462-3"><a href="managing-workflows-with-snakemake.html#cb462-3"></a>                        <span class="ex">Alternatively</span>, this can be an absolute or relative path. The profile folder has to contain a file</span>
+<span id="cb462-4"><a href="managing-workflows-with-snakemake.html#cb462-4"></a>                        <span class="st">&#39;config.yaml&#39;</span><span class="bu">.</span> <span class="ex">This</span> file can be used to set default values for command line options in YAML format. For</span>
+<span id="cb462-5"><a href="managing-workflows-with-snakemake.html#cb462-5"></a>                        <span class="ex">example</span>, <span class="st">&#39;--cluster qsub&#39;</span> becomes <span class="st">&#39;cluster: qsub&#39;</span> in the YAML file. Profiles can be obtained from</span>
+<span id="cb462-6"><a href="managing-workflows-with-snakemake.html#cb462-6"></a>                        <span class="ex">https</span>://github.com/snakemake-profiles. (default: None)</span></code></pre></div>
+<p>Whereas, on SEDNA’s Linux operating system, we have:</p>
+<div class="sourceCode" id="cb463"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb463-1"><a href="managing-workflows-with-snakemake.html#cb463-1"></a>  <span class="ex">--profile</span> PROFILE     Name of profile to use for configuring Snakemake. Snakemake will search for a corresponding folder in /etc/xdg/snakemake and</span>
+<span id="cb463-2"><a href="managing-workflows-with-snakemake.html#cb463-2"></a>                        <span class="ex">/home/eanderson/.config/snakemake.</span> Alternatively, this can be an absolute or relative path. The profile folder has to contain a file</span>
+<span id="cb463-3"><a href="managing-workflows-with-snakemake.html#cb463-3"></a>                        <span class="st">&#39;config.yaml&#39;</span><span class="bu">.</span> <span class="ex">This</span> file can be used to set default values for command line options in YAML format. For example, <span class="st">&#39;--cluster qsub&#39;</span> becomes</span>
+<span id="cb463-4"><a href="managing-workflows-with-snakemake.html#cb463-4"></a>                        <span class="st">&#39;cluster: qsub&#39;</span> <span class="kw">in</span> <span class="ex">the</span> YAML file. Profiles can be obtained from https://github.com/snakemake-profiles. (default: None)</span></code></pre></div>
+<p>We won’t put our profile in this search path because we want to play with it and modify it a little
+bit still.</p>
+<p>We have one last thing to do to complete our SLURM profile, we want our slurm output and
+error files to go somewhere reasonable. We put that information into our
+<code>cluster-config.yaml</code> file in the profile:</p>
+<div class="sourceCode" id="cb464"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb464-1"><a href="managing-workflows-with-snakemake.html#cb464-1"></a><span class="fu">__default__ </span><span class="kw">:</span></span>
+<span id="cb464-2"><a href="managing-workflows-with-snakemake.html#cb464-2"></a><span class="at">        </span><span class="fu">ntasks</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span>
+<span id="cb464-3"><a href="managing-workflows-with-snakemake.html#cb464-3"></a><span class="at">        </span><span class="fu">cpus-per-task</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;{threads}&quot;</span></span>
+<span id="cb464-4"><a href="managing-workflows-with-snakemake.html#cb464-4"></a><span class="at">        </span><span class="fu">nodes</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;1&quot;</span></span>
+<span id="cb464-5"><a href="managing-workflows-with-snakemake.html#cb464-5"></a><span class="at">        </span><span class="fu">output</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;slurm_logs/{rule}/{rule}.{wildcards}-%j.out&quot;</span></span>
+<span id="cb464-6"><a href="managing-workflows-with-snakemake.html#cb464-6"></a><span class="at">        </span><span class="fu">error</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;slurm_logs/{rule}/{rule}.{wildcards}-%j.err&quot;</span></span></code></pre></div>
+<p>This file effectively holds command line options that will be passed to
+SLURM’s <code>sbatch</code> command.</p>
+</div>
+<div id="playing-with-our-new-slurm-profile" class="section level3">
+<h3><span class="header-section-number">14.6.2</span> Playing with our new SLURM profile</h3>
+<p>Now, let us make a silly Snakefile to test how Snakemake works (if at all!)
+and behaves when using this SLURM profile.</p>
+<p>Make a directory called <code>slurm-play</code> and put your slurm profile in it.
+Then we will put a Snakefile in it that has a few rules in it that do nothing,
+but which will let us see how things work with SLURM.</p>
+<div class="sourceCode" id="cb465"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb465-1"><a href="managing-workflows-with-snakemake.html#cb465-1"></a></span>
+<span id="cb465-2"><a href="managing-workflows-with-snakemake.html#cb465-2"></a><span class="co"># a rule claiming 1 thread that does nothing for 15 seconds</span></span>
+<span id="cb465-3"><a href="managing-workflows-with-snakemake.html#cb465-3"></a>rule t1s15:</span>
+<span id="cb465-4"><a href="managing-workflows-with-snakemake.html#cb465-4"></a>    <span class="bu">input</span>:</span>
+<span id="cb465-5"><a href="managing-workflows-with-snakemake.html#cb465-5"></a>        <span class="co">&quot;data/{sample}.txt&quot;</span></span>
+<span id="cb465-6"><a href="managing-workflows-with-snakemake.html#cb465-6"></a>    output:</span>
+<span id="cb465-7"><a href="managing-workflows-with-snakemake.html#cb465-7"></a>        <span class="co">&quot;results/t1s15/{sample}.txt&quot;</span></span>
+<span id="cb465-8"><a href="managing-workflows-with-snakemake.html#cb465-8"></a>    threads: <span class="dv">1</span></span>
+<span id="cb465-9"><a href="managing-workflows-with-snakemake.html#cb465-9"></a>    shell:</span>
+<span id="cb465-10"><a href="managing-workflows-with-snakemake.html#cb465-10"></a>        <span class="co">&quot;sleep 15; &quot;</span></span>
+<span id="cb465-11"><a href="managing-workflows-with-snakemake.html#cb465-11"></a>        <span class="co">&quot; echo gratuitous output; &quot;</span></span>
+<span id="cb465-12"><a href="managing-workflows-with-snakemake.html#cb465-12"></a>        <span class="co">&quot; echo gratuitous error output &gt; /dev/stderr; &quot;</span></span>
+<span id="cb465-13"><a href="managing-workflows-with-snakemake.html#cb465-13"></a>        <span class="co">&quot;echo {input} &gt;  {output}&quot;</span></span>
+<span id="cb465-14"><a href="managing-workflows-with-snakemake.html#cb465-14"></a></span>
+<span id="cb465-15"><a href="managing-workflows-with-snakemake.html#cb465-15"></a><span class="co"># a rule claiming 10 threds that does nothing for 15 seconds</span></span>
+<span id="cb465-16"><a href="managing-workflows-with-snakemake.html#cb465-16"></a>rule t10s15:</span>
+<span id="cb465-17"><a href="managing-workflows-with-snakemake.html#cb465-17"></a>    <span class="bu">input</span>:</span>
+<span id="cb465-18"><a href="managing-workflows-with-snakemake.html#cb465-18"></a>        <span class="co">&quot;data/{sample}.txt&quot;</span></span>
+<span id="cb465-19"><a href="managing-workflows-with-snakemake.html#cb465-19"></a>    output:</span>
+<span id="cb465-20"><a href="managing-workflows-with-snakemake.html#cb465-20"></a>        <span class="co">&quot;results/t10s15/{sample}.txt&quot;</span></span>
+<span id="cb465-21"><a href="managing-workflows-with-snakemake.html#cb465-21"></a>    threads: <span class="dv">10</span></span>
+<span id="cb465-22"><a href="managing-workflows-with-snakemake.html#cb465-22"></a>    shell:</span>
+<span id="cb465-23"><a href="managing-workflows-with-snakemake.html#cb465-23"></a>        <span class="co">&quot;sleep 15; &quot;</span></span>
+<span id="cb465-24"><a href="managing-workflows-with-snakemake.html#cb465-24"></a>        <span class="co">&quot;echo {input} &gt; {output} &quot;</span></span></code></pre></div>
+<p>Put some “input” files in there by touching them.</p>
+<div class="sourceCode" id="cb466"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb466-1"><a href="managing-workflows-with-snakemake.html#cb466-1"></a><span class="fu">mkdir</span> data</span>
+<span id="cb466-2"><a href="managing-workflows-with-snakemake.html#cb466-2"></a><span class="fu">touch</span> data/<span class="dt">{0001..0020}</span>.txt</span></code></pre></div>
+<p>Now, if we tell it to produce 20 outputs in the <code>t1s15</code> directory, utilizing
+a single core it will take 15 seconds to produce each one.</p>
+<div class="sourceCode" id="cb467"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb467-1"><a href="managing-workflows-with-snakemake.html#cb467-1"></a><span class="ex">snakemake</span> --cores 1  results/t1s15/<span class="dt">{0001..0020}</span>.txt</span></code></pre></div>
+<p>There is no SLURM happening there. But now, let’s try it with:</p>
+<div class="sourceCode" id="cb468"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb468-1"><a href="managing-workflows-with-snakemake.html#cb468-1"></a><span class="ex">snakemake</span> --profile ./slurm.sedna --jobs 10  results/t1s15/<span class="dt">{0001..0020}</span>.txt</span></code></pre></div>
+<p>Holy smokes! That works! It never has more than 10 jobs going, but it does them all.
+Here is what my queue looks like when it is in action:</p>
+<pre><code>             JOBID PARTITION     NAME                         USER ST       TIME  NODES NODELIST(REASON) CPUS MIN_MEMORY
+             51799      node snakejob                    eanderson  R       0:10      1 node03 1 4700M
+             51800      node snakejob                    eanderson  R       0:10      1 node02 1 4700M
+             51801      node snakejob                    eanderson  R       0:10      1 node02 1 4700M
+             51802      node snakejob                    eanderson  R       0:10      1 node09 1 4700M
+             51803      node snakejob                    eanderson  R       0:08      1 node09 1 4700M
+             51804      node snakejob                    eanderson  R       0:08      1 node09 1 4700M
+             51805      node snakejob                    eanderson  R       0:08      1 node09 1 4700M
+             51806      node snakejob                    eanderson  R       0:08      1 node09 1 4700M
+             51807      node snakejob                    eanderson  R       0:08      1 node09 1 4700M
+             51808      node snakejob                    eanderson  R       0:08      1 node09 1 4700M</code></pre>
+<p>10 jobs are running, and each one is using one core with 4.7 Gb of memory (which is the default
+amount of memory per core on SEDNA).</p>
+<p>Not only that, but all the SLURM logs went where we wanted them to, and contain what they should:</p>
+<div class="sourceCode" id="cb470"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb470-1"><a href="managing-workflows-with-snakemake.html#cb470-1"></a><span class="kw">(</span><span class="ex">snakemake</span><span class="kw">)</span> [<span class="ex">node09</span>: slurm-play]--% tree slurm_logs/</span>
+<span id="cb470-2"><a href="managing-workflows-with-snakemake.html#cb470-2"></a><span class="ex">slurm_logs/</span></span>
+<span id="cb470-3"><a href="managing-workflows-with-snakemake.html#cb470-3"></a>└── <span class="ex">t1s15</span></span>
+<span id="cb470-4"><a href="managing-workflows-with-snakemake.html#cb470-4"></a>    ├── <span class="ex">t1s15.sample</span>=0001-52004.err</span>
+<span id="cb470-5"><a href="managing-workflows-with-snakemake.html#cb470-5"></a>    ├── <span class="ex">t1s15.sample</span>=0001-52004.out</span>
+<span id="cb470-6"><a href="managing-workflows-with-snakemake.html#cb470-6"></a>    ├── <span class="ex">t1s15.sample</span>=0002-51993.err</span>
+<span id="cb470-7"><a href="managing-workflows-with-snakemake.html#cb470-7"></a>    ├── <span class="ex">t1s15.sample</span>=0002-51993.out</span>
+<span id="cb470-8"><a href="managing-workflows-with-snakemake.html#cb470-8"></a>    ├── <span class="ex">t1s15.sample</span>=0003-52001.err</span>
+<span id="cb470-9"><a href="managing-workflows-with-snakemake.html#cb470-9"></a>    ├── <span class="ex">t1s15.sample</span>=0003-52001.out</span>
+<span id="cb470-10"><a href="managing-workflows-with-snakemake.html#cb470-10"></a><span class="ex">...</span></span></code></pre></div>
+<p>Here is what they have in them:</p>
+<div class="sourceCode" id="cb471"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb471-1"><a href="managing-workflows-with-snakemake.html#cb471-1"></a><span class="kw">(</span><span class="ex">snakemake</span><span class="kw">)</span> [<span class="ex">node09</span>: slurm-play]--% head slurm_logs/*/*</span>
+<span id="cb471-2"><a href="managing-workflows-with-snakemake.html#cb471-2"></a>==<span class="op">&gt;</span> <span class="ex">slurm_logs/t1s15</span>/<span class="ex">t1s15.sample</span>=0001-52004.err <span class="op">&lt;</span>==</span>
+<span id="cb471-3"><a href="managing-workflows-with-snakemake.html#cb471-3"></a><span class="ex">gratuitous</span> error output</span>
+<span id="cb471-4"><a href="managing-workflows-with-snakemake.html#cb471-4"></a>[<span class="ex">Thu</span> Apr 22 09:56:23 2021]</span>
+<span id="cb471-5"><a href="managing-workflows-with-snakemake.html#cb471-5"></a><span class="ex">Finished</span> job 0.</span>
+<span id="cb471-6"><a href="managing-workflows-with-snakemake.html#cb471-6"></a><span class="ex">1</span> of 1 steps (100%) <span class="kw">done</span></span>
+<span id="cb471-7"><a href="managing-workflows-with-snakemake.html#cb471-7"></a></span>
+<span id="cb471-8"><a href="managing-workflows-with-snakemake.html#cb471-8"></a>==<span class="op">&gt;</span> <span class="ex">slurm_logs/t1s15</span>/<span class="ex">t1s15.sample</span>=0001-52004.out <span class="op">&lt;</span>==</span>
+<span id="cb471-9"><a href="managing-workflows-with-snakemake.html#cb471-9"></a><span class="ex">gratuitous</span> output</span>
+<span id="cb471-10"><a href="managing-workflows-with-snakemake.html#cb471-10"></a></span>
+<span id="cb471-11"><a href="managing-workflows-with-snakemake.html#cb471-11"></a>==<span class="op">&gt;</span> <span class="ex">slurm_logs/t1s15</span>/<span class="ex">t1s15.sample</span>=0002-51993.err <span class="op">&lt;</span>==</span>
+<span id="cb471-12"><a href="managing-workflows-with-snakemake.html#cb471-12"></a><span class="ex">gratuitous</span> error output</span>
+<span id="cb471-13"><a href="managing-workflows-with-snakemake.html#cb471-13"></a>[<span class="ex">Thu</span> Apr 22 09:56:23 2021]</span>
+<span id="cb471-14"><a href="managing-workflows-with-snakemake.html#cb471-14"></a><span class="ex">Finished</span> job 0.</span>
+<span id="cb471-15"><a href="managing-workflows-with-snakemake.html#cb471-15"></a><span class="ex">1</span> of 1 steps (100%) <span class="kw">done</span></span>
+<span id="cb471-16"><a href="managing-workflows-with-snakemake.html#cb471-16"></a></span>
+<span id="cb471-17"><a href="managing-workflows-with-snakemake.html#cb471-17"></a>==<span class="op">&gt;</span> <span class="ex">slurm_logs/t1s15</span>/<span class="ex">t1s15.sample</span>=0002-51993.out <span class="op">&lt;</span>==</span>
+<span id="cb471-18"><a href="managing-workflows-with-snakemake.html#cb471-18"></a><span class="ex">gratuitous</span> output</span>
+<span id="cb471-19"><a href="managing-workflows-with-snakemake.html#cb471-19"></a><span class="ex">...</span></span></code></pre></div>
+<p>Notice how the nanes of the slurm logs have the name of the rule,
+all the values of the wildcards in <code>key=value</code> format, and
+the SLURM job number on them. RAD!!</p>
+<p>OK, but now, let us try launching some jobs that claim more threads and (because of the way
+we have set up <code>cluster-config.yaml</code>) should request more CPUs per task.</p>
+<p>We particularly want to see what <code>--cores/--jobs</code> restricts.</p>
+<div class="sourceCode" id="cb472"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb472-1"><a href="managing-workflows-with-snakemake.html#cb472-1"></a><span class="ex">snakemake</span> --profile ./slurm.sedna --cores 3  results/t10s15/<span class="dt">{0001..0020}</span>.txt</span></code></pre></div>
+<p>When we do this. Snakemake launches no more than 3 slurm jobs at a time, but each
+one is allocated 10 cores.</p>
+<pre><code>             JOBID PARTITION     NAME                         USER ST       TIME  NODES NODELIST(REASON) CPUS MIN_MEMORY
+             52123      node snakejob                    eanderson  R       0:07      1 node09 10 4700M
+             52124      node snakejob                    eanderson  R       0:07      1 node05 10 4700M
+             52125      node snakejob                    eanderson  R       0:07      1 node05 10 4700M</code></pre>
+<p>So, <code>--cores</code> (which is identical to <code>--jobs</code>) in the cluster context does not do what you might at first think. This
+is super important to understand.</p>
+<p>Dealing with properly allocating resources using Snakemake in the cluster context requires
+a little more discussion. We will want to cover the <code>resources</code> keyword and the “Job Grouping”
+in Snakemake (which would let us send multiple instances of short jobs to a single node to run
+collectively there…).</p>
 
 </div>
 </div>

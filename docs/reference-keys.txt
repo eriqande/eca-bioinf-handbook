@@ -212,6 +212,7 @@ generating-lists-of-files-with-expand
 a-python-primer-for-using-snakemake
 using-snakemake-on-a-computing-cluster
 installing-and-configuring-the-snakemake-slurm-profile
+playing-with-our-new-slurm-profile
 overview-of-bioinformatic-analyses
 dna-sequences-and-sequencing
 dna-stuff
