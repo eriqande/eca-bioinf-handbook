@@ -56,7 +56,7 @@ in the sense that, once you have developed a Snakemake workflow, you get results
 telling Snakemake which output files you
 want to create, and then it "looks backwards" through the workflow to determine which
 input files are needed to create the requested outputs.  Sometimes it has to look backwards
-through several steps before it identifies all the necessary input files.  
+through several steps before it identifies all the necessary input files.
 Once it has found those necessary inputs, it then runs forward through the steps to
 create the output files. In this phase, the workflow looks like it is "forward-marching", in the
 sense that outputs are being created from inputs.  But, in order to get to that
@@ -145,7 +145,7 @@ cd smk-tut
 
 Here is a somewhat make-believe example that will let us grok out the
 basics of Snakemake and the logic of simple workflows without worrying about
-performing actual operations (like trimming or mapping) on files.  This
+performing actual operations (like trimming or mapping) on files.  This is
 a useful excercise because it can also be helpful when you are developing
 your own complex workflows to first make sure that the workflow logic (from
 Snakemake's point of view) is correct, without having to spend a long
@@ -535,7 +535,8 @@ kcr-wiwa-896753-L002-HGGXXX_R2.fastq.gz
 plate2-WIWA67365-L002-HHHGYY_R1.fastq.gz
 plate2-WIWA67365-L002-HHHGYY_R2.fastq.gz
 ```
-where R1 and R2 are obvious parts of the name, `885261`, `896753`, and
+where the R1 and R2 parts of the names are referring to read 1 and 
+read 2 of paired end reads, `885261`, `896753`, and
 `WIWA67365` are sample IDs
 or field numbers for the animals you are sequencing, and the rest is
 not only a bit gibberishy, but also is not necessarily consistent across the
@@ -962,4 +963,103 @@ Stuff to talk about:
     - Getting lists out of the keys() and vals()
 
 
+
+## Using Snakemake on a Computing Cluster
+
+One key advantage of Snakemake is that it can allow intelligent use of the resources on a
+high-performance computing cluster. This is done by supplying customization to Snakemake via its
+`--cluster` command line option. Here we focus on methods for running your Snakemake workflow
+on an HPCC that uses the SLURM scheduler (See Chapter&nbsp;\@ref(chap-HPCC)).  Although getting Snakemake to schedule jobs
+using SLURM's `sbatch` command can be as easy as invoking Snakemake with a command that includes an
+option like `--cluster sbatch`, making such a simple addition to the command line will not bring
+all the Snakemake goodness to SLURM that you might hope.  Rather than just a simple `sbatch` argument
+to the `--cluster` option, the Snakemake documentation notes that you can provide more job-specific information
+to the `--cluster` option.  For example, suppose you have rules that use different numbers of threads, specified
+in the rule blocks like this:
+```yaml
+rule easy:
+  input: 
+    "small_input_{sample}.txt"
+  threads: 1
+  output:
+    "small_output_{sample}.txt"
+
+rule hard:
+  input:
+    "big_input_{sample}.txt"
+  threads: 8
+  output:
+    "big_output_{sample}.txt"
+```
+Here the rule `easy` uses just a single thread, while the rule `hard` is multithreaded, and we
+want to run it with 8 threads.  If we were running this locally on a single workstation, Snakemake
+would automatically supply 8 cores (if available) to instances of rule `hard` that were running.
+However, when running on a cluster, the `--cluster` command argument would need to be
+expanded to instruct `sbatch` to request more cores for rule `hard` than for rule `easy`. 
+A Snakemake command that started like this would work:
+```sh
+snakemake --cluster 'sbatch --cpus-per-task={threads}' 
+```
+In this case, the number of threads for each rule gets substituted for `{threads}`, so that
+it is used to set the `--cpus-per-task` option from `sbatch`.  In this way, jobs scheduled for
+rule `easy` will request 1 CPU (core) from the cluster, while jobs scheduled for the
+`hard` rule will request 8 cores from the cluster.
+
+The argument to the `--cluster` option could be further decorated to allow Snakemake
+to determine other options for `sbatch` like where the slurm output and error files should be
+written, which partition of the cluster to use, how much memory to request, whom should be
+emailed when a job fails, and so forth (see Section&nbsp;\@ref(slurm-batch) for a discussion of the options
+available for `sbatch`).  Clearly, writing all of this additional information on the
+command line for `snakemake` would be a major hassle (and it would be easy to forget what
+to put there).  Who in their right mind would want to write
+```sh
+snakemake --cluster 'sbatch -p highmem --cpus-per-taks={threads} -o slurm_outputs/{rule}/{rule}_{wildcards}_%j.out -e logs_errors/{rule}/{rule}_{wildcards}_%j.err --mail-type=FAIL --mail-user=me@mail.com'
+
+```
+on the command line every time they launched something on the cluster with Snakemake?
+
+Fortunately, Snakemake has a system whereby you can record commonly used options to Snakemake
+in a _profile_.  This profile system is not specific only to using Snakemake on a cluster---it can
+be used to store any Snakemake options that you want to be applied automatically to your
+Snakemake command lines. The profile system is currently recommended for configuring
+Snakemake for use with clusters, and there are some pre-made and curated profiles that are recommended
+by the creators of Snakemake for use on clusters. These profiles are available at
+[https://github.com/snakemake-profiles](https://github.com/snakemake-profiles), a site that includes
+a profile specifically for SLURM, at
+[https://github.com/Snakemake-Profiles/slurm](https://github.com/Snakemake-Profiles/slurm).
+
+
+Here we will explore the use of that profile for using Snakemake on SLURM.
+One advantage of using such pre-built profiles is that they should be well tested, and
+should work well.  Additionally, the SLURM profile is designed to take advantage of
+Snakemake's `--cluster-status` command line option.  This option allows the user to specify
+a script that will allow Snakemake to keep track of the jobs submitted to SLURM, periodically
+checking on them to determine if the job is still running or has failed.  This is an
+important feature when running in a cluster environment.
+
+Unfortunately,
+at the time of writing, it seems that the profile system for interfacing with SLURM
+is not completely mature.  Consequently there are some weird things that we have to deal
+with.  Primarily:
+
+1. The old Snakemake way of dealing with clusters via a "cluster-config" file, has been
+deprecated, but vestiges of it are still used in the SLURM profile to be able to sensibly assign paths to
+SLURM input and output files.
+2. The SLURM snakemake profile is not described or documented in a particularly accessible fashion, and it
+is setup to allow the user to quickly make different versions of the profile using a system
+called "cookiecutter," which might be unfamiliar and daunting to some.
+3. The "Cluster Status" script included in the profile may not work on your SLURM system depending on if `sacct` or `scontrol` are available.
+
+To be honest, because of all this, the SLURM profile for Snakemake
+doesn't yet have the same "super-solid and well-documented" feel that I have come
+to appreciate of core Snakemake universe.  But that may just be a documentation
+issue.  In the following, let's explore this SLURM profile and see if we can't figure
+out how to explain its role and use a little more clearly.
+
+In the process I hope we will get a chance to talk about `resources` and also about
+grouping jobs.
+
+### Installing and Configuring the Snakemake SLURM profile 
+
+hmmm....
 

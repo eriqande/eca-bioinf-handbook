@@ -137,7 +137,7 @@ installing-java-programs
 install-gatk
 vim-its-time-to-get-serious-with-text-editing
 using-neovim-and-nvim-r-and-tmux-to-use-r-well-on-the-cluster
-high-performance-computing-clusters-hpccs
+chap-HPCC
 an-oversimplified-but-useful-view-of-a-computing-cluster
 cluster-computing-and-the-job-scheduler
 slurm-info
@@ -210,6 +210,8 @@ snakefile-4-an-input-function-for-trim_awesome
 input-functions-from-python-dictionaries
 generating-lists-of-files-with-expand
 a-python-primer-for-using-snakemake
+using-snakemake-on-a-computing-cluster
+installing-and-configuring-the-snakemake-slurm-profile
 overview-of-bioinformatic-analyses
 dna-sequences-and-sequencing
 dna-stuff

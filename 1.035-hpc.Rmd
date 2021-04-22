@@ -3,7 +3,7 @@ output:
   pdf_document: default
   html_document: default
 ---
-# High Performance Computing Clusters (HPCC's)
+# High Performance Computing Clusters (HPCC's) {#chap-HPCC}
 
 One interesting aspect of modern next generation sequencing data is simply its
 sheer size:  it is not uncommon to receive a half or a full terabyte of data from
