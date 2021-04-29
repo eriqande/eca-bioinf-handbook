@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2021-04-22" />
+<meta name="date" content="2021-04-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -309,6 +309,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.6" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#using-snakemake-on-a-computing-cluster"><i class="fa fa-check"></i><b>14.6</b> Using Snakemake on a Computing Cluster</a><ul>
 <li class="chapter" data-level="14.6.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#installing-and-configuring-the-snakemake-slurm-profile"><i class="fa fa-check"></i><b>14.6.1</b> Installing and Configuring the Snakemake SLURM profile</a></li>
 <li class="chapter" data-level="14.6.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#playing-with-our-new-slurm-profile"><i class="fa fa-check"></i><b>14.6.2</b> Playing with our new SLURM profile</a></li>
+<li class="chapter" data-level="14.6.3" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#managing-cluster-resources-with-snakemake"><i class="fa fa-check"></i><b>14.6.3</b> Managing cluster resources with Snakemake</a></li>
+<li class="chapter" data-level="14.6.4" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#grouping-short-jobs-to-run-on-a-single-node"><i class="fa fa-check"></i><b>14.6.4</b> Grouping short jobs to run on a single node</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
@@ -483,79 +485,79 @@ everything in NGS analysis, but in many cases people just use the defaults….)<
 <div id="using-lastz-to-align-coho-to-the-chinook-genome" class="section level3">
 <h3><span class="header-section-number">26.2.1</span> Using LASTZ to align coho to the chinook genome</h3>
 <p>First, compile it:</p>
-<div class="sourceCode" id="cb591"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb591-1"><a href="whole-genome-alignment-strategies.html#cb591-1"></a><span class="co"># in: /Users/eriq/Documents/others_code/lastz-1.04.00</span></span>
-<span id="cb591-2"><a href="whole-genome-alignment-strategies.html#cb591-2"></a><span class="fu">make</span></span>
-<span id="cb591-3"><a href="whole-genome-alignment-strategies.html#cb591-3"></a><span class="fu">make</span> install</span>
-<span id="cb591-4"><a href="whole-genome-alignment-strategies.html#cb591-4"></a></span>
-<span id="cb591-5"><a href="whole-genome-alignment-strategies.html#cb591-5"></a><span class="co"># then I linked those (in bin) to myaliases</span></span></code></pre></div>
+<div class="sourceCode" id="cb609"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb609-1"><a href="whole-genome-alignment-strategies.html#cb609-1"></a><span class="co"># in: /Users/eriq/Documents/others_code/lastz-1.04.00</span></span>
+<span id="cb609-2"><a href="whole-genome-alignment-strategies.html#cb609-2"></a><span class="fu">make</span></span>
+<span id="cb609-3"><a href="whole-genome-alignment-strategies.html#cb609-3"></a><span class="fu">make</span> install</span>
+<span id="cb609-4"><a href="whole-genome-alignment-strategies.html#cb609-4"></a></span>
+<span id="cb609-5"><a href="whole-genome-alignment-strategies.html#cb609-5"></a><span class="co"># then I linked those (in bin) to myaliases</span></span></code></pre></div>
 <p>Refreshingly, this has almost no dependencies, and the compilation is super easy.</p>
 <p>Now, let’s find the coho chromomsome that corresponds to omy28 on NCBI. We can get this
 with curl:</p>
-<div class="sourceCode" id="cb592"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb592-1"><a href="whole-genome-alignment-strategies.html#cb592-1"></a><span class="co"># in: /tmp</span></span>
-<span id="cb592-2"><a href="whole-genome-alignment-strategies.html#cb592-2"></a><span class="ex">curl</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/021/735/GCA_002021735.1_Okis_V1/GCA_002021735.1_Okis_V1_assembly_structure/Primary_Assembly/assembled_chromosomes/FASTA/chrLG28.fna.gz -o coho-28.fna.gz</span>
-<span id="cb592-3"><a href="whole-genome-alignment-strategies.html#cb592-3"></a><span class="fu">gunzip</span> coho-28.fna.gz</span></code></pre></div>
+<div class="sourceCode" id="cb610"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb610-1"><a href="whole-genome-alignment-strategies.html#cb610-1"></a><span class="co"># in: /tmp</span></span>
+<span id="cb610-2"><a href="whole-genome-alignment-strategies.html#cb610-2"></a><span class="ex">curl</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/021/735/GCA_002021735.1_Okis_V1/GCA_002021735.1_Okis_V1_assembly_structure/Primary_Assembly/assembled_chromosomes/FASTA/chrLG28.fna.gz -o coho-28.fna.gz</span>
+<span id="cb610-3"><a href="whole-genome-alignment-strategies.html#cb610-3"></a><span class="fu">gunzip</span> coho-28.fna.gz</span></code></pre></div>
 <p>Then, let’s also pull that chromosome out of the chinook genome we have:</p>
-<div class="sourceCode" id="cb593"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb593-1"><a href="whole-genome-alignment-strategies.html#cb593-1"></a><span class="co"># in /tmp</span></span>
-<span id="cb593-2"><a href="whole-genome-alignment-strategies.html#cb593-2"></a><span class="ex">samtools</span> faidx  ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna NC_037124.1 <span class="op">&gt;</span> chinook-28.fna </span></code></pre></div>
+<div class="sourceCode" id="cb611"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb611-1"><a href="whole-genome-alignment-strategies.html#cb611-1"></a><span class="co"># in /tmp</span></span>
+<span id="cb611-2"><a href="whole-genome-alignment-strategies.html#cb611-2"></a><span class="ex">samtools</span> faidx  ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna NC_037124.1 <span class="op">&gt;</span> chinook-28.fna </span></code></pre></div>
 <p>Cool, now we should be able to run that:</p>
-<div class="sourceCode" id="cb594"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb594-1"><a href="whole-genome-alignment-strategies.html#cb594-1"></a><span class="bu">time</span> lastz chinook-28.fna coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=maf <span class="op">&gt;</span> chin28_vs_coho28.maf</span>
-<span id="cb594-2"><a href="whole-genome-alignment-strategies.html#cb594-2"></a></span>
-<span id="cb594-3"><a href="whole-genome-alignment-strategies.html#cb594-3"></a><span class="ex">real</span>    0m14.449s</span>
-<span id="cb594-4"><a href="whole-genome-alignment-strategies.html#cb594-4"></a><span class="ex">user</span>    0m14.198s</span>
-<span id="cb594-5"><a href="whole-genome-alignment-strategies.html#cb594-5"></a><span class="ex">sys</span> 0m0.193s</span></code></pre></div>
+<div class="sourceCode" id="cb612"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb612-1"><a href="whole-genome-alignment-strategies.html#cb612-1"></a><span class="bu">time</span> lastz chinook-28.fna coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=maf <span class="op">&gt;</span> chin28_vs_coho28.maf</span>
+<span id="cb612-2"><a href="whole-genome-alignment-strategies.html#cb612-2"></a></span>
+<span id="cb612-3"><a href="whole-genome-alignment-strategies.html#cb612-3"></a><span class="ex">real</span>    0m14.449s</span>
+<span id="cb612-4"><a href="whole-genome-alignment-strategies.html#cb612-4"></a><span class="ex">user</span>    0m14.198s</span>
+<span id="cb612-5"><a href="whole-genome-alignment-strategies.html#cb612-5"></a><span class="ex">sys</span> 0m0.193s</span></code></pre></div>
 <p>OK, that is ridiculously fast. How about we make a file that we can plot in R?</p>
-<div class="sourceCode" id="cb595"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb595-1"><a href="whole-genome-alignment-strategies.html#cb595-1"></a><span class="bu">time</span> lastz chinook-28.fna coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chin28_vs_coho28.rdp</span></code></pre></div>
+<div class="sourceCode" id="cb613"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb613-1"><a href="whole-genome-alignment-strategies.html#cb613-1"></a><span class="bu">time</span> lastz chinook-28.fna coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chin28_vs_coho28.rdp</span></code></pre></div>
 <p>I copied that to <code>inputs</code> so we can plot it:</p>
-<div class="sourceCode" id="cb596"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb596-1"><a href="whole-genome-alignment-strategies.html#cb596-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chin28_vs_coho28.rdp.gz&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb614"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb614-1"><a href="whole-genome-alignment-strategies.html#cb614-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chin28_vs_coho28.rdp.gz&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## ── Column specification ───────────────────────────────
 ## cols(
 ##   NC_037124.1 = col_double(),
 ##   CM007745.1 = col_double()
 ## )</code></pre>
-<div class="sourceCode" id="cb598"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb598-1"><a href="whole-genome-alignment-strategies.html#cb598-1"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb616"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb616-1"><a href="whole-genome-alignment-strategies.html#cb616-1"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p><img src="eca-bioinf-handbook_files/figure-html/unnamed-chunk-77-1.png" width="672" /></p>
 <p>OK, clearly what we have there is just a bunch of repetitive bits. I think we must not have the same chromosomes in the two species.</p>
 <p>So, let’s put LG28 in coho against the whole chinook genome. Note the use of the
 bracketed “multiple” in there to let it know that there are multiple sequences in there
 that should get catenated together.</p>
-<div class="sourceCode" id="cb599"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb599-1"><a href="whole-genome-alignment-strategies.html#cb599-1"></a><span class="bu">time</span> lastz ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna[multiple]  coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=maf <span class="op">&gt;</span> chin_vs_coho28.maf</span>
-<span id="cb599-2"><a href="whole-genome-alignment-strategies.html#cb599-2"></a></span>
-<span id="cb599-3"><a href="whole-genome-alignment-strategies.html#cb599-3"></a><span class="ex">FAILURE</span>: in load_fasta_sequence for /Users/eriq/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna, sequence length 2,147,437,804+64,310 exceeds maximum (2,147,483,637)</span></code></pre></div>
+<div class="sourceCode" id="cb617"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb617-1"><a href="whole-genome-alignment-strategies.html#cb617-1"></a><span class="bu">time</span> lastz ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna[multiple]  coho-28.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=maf <span class="op">&gt;</span> chin_vs_coho28.maf</span>
+<span id="cb617-2"><a href="whole-genome-alignment-strategies.html#cb617-2"></a></span>
+<span id="cb617-3"><a href="whole-genome-alignment-strategies.html#cb617-3"></a><span class="ex">FAILURE</span>: in load_fasta_sequence for /Users/eriq/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna, sequence length 2,147,437,804+64,310 exceeds maximum (2,147,483,637)</span></code></pre></div>
 <p>No love there. But that chinook genome has a lot of short scaffolds in there too, I think.</p>
 <p>Maybe we could just try LG1. Nope. How about we toss every coho LG against LG1 from chinook…</p>
-<div class="sourceCode" id="cb600"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb600-1"><a href="whole-genome-alignment-strategies.html#cb600-1"></a><span class="co"># let&#39;s get the first 10 linkage groups from coho:</span></span>
-<span id="cb600-2"><a href="whole-genome-alignment-strategies.html#cb600-2"></a><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..10}</span><span class="kw">;</span> <span class="kw">do</span> <span class="ex">curl</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/021/735/GCA_002021735.1_Okis_V1/GCA_002021735.1_Okis_V1_assembly_structure/Primary_Assembly/assembled_chromosomes/FASTA/chrLG<span class="va">${i}</span>.fna.gz -o coho-<span class="va">${i}</span>.fna.gz<span class="kw">;</span> <span class="fu">gunzip</span> coho-<span class="va">${i}</span>.fna.gz<span class="kw">;</span> <span class="bu">echo</span> <span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span> </span>
-<span id="cb600-3"><a href="whole-genome-alignment-strategies.html#cb600-3"></a></span>
-<span id="cb600-4"><a href="whole-genome-alignment-strategies.html#cb600-4"></a><span class="co"># now lets try aligning those to the chinook</span></span>
-<span id="cb600-5"><a href="whole-genome-alignment-strategies.html#cb600-5"></a><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..10}</span><span class="kw">;</span> <span class="kw">do</span> <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;Done with </span><span class="va">$i</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">done</span></span></code></pre></div>
+<div class="sourceCode" id="cb618"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb618-1"><a href="whole-genome-alignment-strategies.html#cb618-1"></a><span class="co"># let&#39;s get the first 10 linkage groups from coho:</span></span>
+<span id="cb618-2"><a href="whole-genome-alignment-strategies.html#cb618-2"></a><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..10}</span><span class="kw">;</span> <span class="kw">do</span> <span class="ex">curl</span> ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/002/021/735/GCA_002021735.1_Okis_V1/GCA_002021735.1_Okis_V1_assembly_structure/Primary_Assembly/assembled_chromosomes/FASTA/chrLG<span class="va">${i}</span>.fna.gz -o coho-<span class="va">${i}</span>.fna.gz<span class="kw">;</span> <span class="fu">gunzip</span> coho-<span class="va">${i}</span>.fna.gz<span class="kw">;</span> <span class="bu">echo</span> <span class="va">$i</span><span class="kw">;</span> <span class="kw">done</span> </span>
+<span id="cb618-3"><a href="whole-genome-alignment-strategies.html#cb618-3"></a></span>
+<span id="cb618-4"><a href="whole-genome-alignment-strategies.html#cb618-4"></a><span class="co"># now lets try aligning those to the chinook</span></span>
+<span id="cb618-5"><a href="whole-genome-alignment-strategies.html#cb618-5"></a><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..10}</span><span class="kw">;</span> <span class="kw">do</span> <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span> <span class="bu">echo</span> <span class="st">&quot;Done with </span><span class="va">$i</span><span class="st">&quot;</span><span class="kw">;</span> <span class="kw">done</span></span></code></pre></div>
 <p>Nothing looked good until I got to coho LG10:</p>
-<div class="sourceCode" id="cb601"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb601-1"><a href="whole-genome-alignment-strategies.html#cb601-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chinook1_vs_coho10.rdp.gz&quot;</span>)</span>
-<span id="cb601-2"><a href="whole-genome-alignment-strategies.html#cb601-2"></a></span>
-<span id="cb601-3"><a href="whole-genome-alignment-strategies.html#cb601-3"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb619"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb619-1"><a href="whole-genome-alignment-strategies.html#cb619-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chinook1_vs_coho10.rdp.gz&quot;</span>)</span>
+<span id="cb619-2"><a href="whole-genome-alignment-strategies.html#cb619-2"></a></span>
+<span id="cb619-3"><a href="whole-genome-alignment-strategies.html#cb619-3"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p>There is clearly a big section that aligns there. But, we clearly are going to need to
 clean up all the repetive crap, etc on these alignments.</p>
 </div>
 <div id="try-on-the-chinook-chromosomes" class="section level3">
 <h3><span class="header-section-number">26.2.2</span> Try on the chinook chromosomes</h3>
 <p>So, it crapped out on the full Chinook fasta. Note that I could modify the code (or compile it with a <code>-D</code>): check this out in sequences.h:</p>
-<div class="sourceCode" id="cb602"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb602-1"><a href="whole-genome-alignment-strategies.html#cb602-1"></a><span class="co">//  Sequence lengths are normally assumed to be small enough to fit into a</span></span>
-<span id="cb602-2"><a href="whole-genome-alignment-strategies.html#cb602-2"></a><span class="co">//  31-bit integer.  This gives a maximum length of about 2.1 billion bp, which</span></span>
-<span id="cb602-3"><a href="whole-genome-alignment-strategies.html#cb602-3"></a><span class="co">//  is half the length of a (hypothetical) monoploid human genome.  The</span></span>
-<span id="cb602-4"><a href="whole-genome-alignment-strategies.html#cb602-4"></a><span class="co">//  programmer can override this at compile time by defining max_sequence_index</span></span>
-<span id="cb602-5"><a href="whole-genome-alignment-strategies.html#cb602-5"></a><span class="co">//  as 32 or 63.</span></span></code></pre></div>
+<div class="sourceCode" id="cb620"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb620-1"><a href="whole-genome-alignment-strategies.html#cb620-1"></a><span class="co">//  Sequence lengths are normally assumed to be small enough to fit into a</span></span>
+<span id="cb620-2"><a href="whole-genome-alignment-strategies.html#cb620-2"></a><span class="co">//  31-bit integer.  This gives a maximum length of about 2.1 billion bp, which</span></span>
+<span id="cb620-3"><a href="whole-genome-alignment-strategies.html#cb620-3"></a><span class="co">//  is half the length of a (hypothetical) monoploid human genome.  The</span></span>
+<span id="cb620-4"><a href="whole-genome-alignment-strategies.html#cb620-4"></a><span class="co">//  programmer can override this at compile time by defining max_sequence_index</span></span>
+<span id="cb620-5"><a href="whole-genome-alignment-strategies.html#cb620-5"></a><span class="co">//  as 32 or 63.</span></span></code></pre></div>
 <p>But, for now, I think I will just go for the assembled chromosomes only:</p>
-<div class="sourceCode" id="cb603"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb603-1"><a href="whole-genome-alignment-strategies.html#cb603-1"></a><span class="co"># just get the well assembled chromosomes (about 1.7 Gb)</span></span>
-<span id="cb603-2"><a href="whole-genome-alignment-strategies.html#cb603-2"></a><span class="co"># in /tmp</span></span>
-<span id="cb603-3"><a href="whole-genome-alignment-strategies.html#cb603-3"></a><span class="ex">samtools</span> faidx ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna <span class="va">$(</span><span class="fu">awk</span> <span class="st">&#39;/^NC/ {printf(&quot;%s &quot;, $1)}&#39;</span>  ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna.fai<span class="va">)</span> <span class="op">&gt;</span> chinook_nc_chroms.fna</span>
-<span id="cb603-4"><a href="whole-genome-alignment-strategies.html#cb603-4"></a></span>
-<span id="cb603-5"><a href="whole-genome-alignment-strategies.html#cb603-5"></a><span class="co"># then try tossing coho 1 against that:</span></span>
-<span id="cb603-6"><a href="whole-genome-alignment-strategies.html#cb603-6"></a><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chin_nc_vs_coho1.rdp</span>
-<span id="cb603-7"><a href="whole-genome-alignment-strategies.html#cb603-7"></a></span>
-<span id="cb603-8"><a href="whole-genome-alignment-strategies.html#cb603-8"></a><span class="co"># that took about 7 minutes</span></span>
-<span id="cb603-9"><a href="whole-genome-alignment-strategies.html#cb603-9"></a><span class="ex">real</span>    6m33.411s</span>
-<span id="cb603-10"><a href="whole-genome-alignment-strategies.html#cb603-10"></a><span class="ex">user</span>    6m28.391s</span>
-<span id="cb603-11"><a href="whole-genome-alignment-strategies.html#cb603-11"></a><span class="ex">sys</span> 0m4.121s</span></code></pre></div>
+<div class="sourceCode" id="cb621"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb621-1"><a href="whole-genome-alignment-strategies.html#cb621-1"></a><span class="co"># just get the well assembled chromosomes (about 1.7 Gb)</span></span>
+<span id="cb621-2"><a href="whole-genome-alignment-strategies.html#cb621-2"></a><span class="co"># in /tmp</span></span>
+<span id="cb621-3"><a href="whole-genome-alignment-strategies.html#cb621-3"></a><span class="ex">samtools</span> faidx ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna <span class="va">$(</span><span class="fu">awk</span> <span class="st">&#39;/^NC/ {printf(&quot;%s &quot;, $1)}&#39;</span>  ~/Documents/UnsyncedData/Otsh_v1.0/Otsh_v1.0_genomic.fna.fai<span class="va">)</span> <span class="op">&gt;</span> chinook_nc_chroms.fna</span>
+<span id="cb621-4"><a href="whole-genome-alignment-strategies.html#cb621-4"></a></span>
+<span id="cb621-5"><a href="whole-genome-alignment-strategies.html#cb621-5"></a><span class="co"># then try tossing coho 1 against that:</span></span>
+<span id="cb621-6"><a href="whole-genome-alignment-strategies.html#cb621-6"></a><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chin_nc_vs_coho1.rdp</span>
+<span id="cb621-7"><a href="whole-genome-alignment-strategies.html#cb621-7"></a></span>
+<span id="cb621-8"><a href="whole-genome-alignment-strategies.html#cb621-8"></a><span class="co"># that took about 7 minutes</span></span>
+<span id="cb621-9"><a href="whole-genome-alignment-strategies.html#cb621-9"></a><span class="ex">real</span>    6m33.411s</span>
+<span id="cb621-10"><a href="whole-genome-alignment-strategies.html#cb621-10"></a><span class="ex">user</span>    6m28.391s</span>
+<span id="cb621-11"><a href="whole-genome-alignment-strategies.html#cb621-11"></a><span class="ex">sys</span> 0m4.121s</span></code></pre></div>
 <p>Here is what the figure looks like. It is clear that the bulk of Chromosome 1
 in coho aligns for long distances to two different chromosomes in Chinoook (likely
 paralogs?). This is complex!</p>
@@ -568,98 +570,98 @@ paralogs?). This is complex!</p>
 <h3><span class="header-section-number">26.2.3</span> Explore the other parameters more</h3>
 <p>I am going to use the chinook chromosome 1 and coho 10 to explore things that will
 clean up the results a little bit.</p>
-<div class="sourceCode" id="cb604"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb604-1"><a href="whole-genome-alignment-strategies.html#cb604-1"></a><span class="co"># in /tmp</span></span>
-<span id="cb604-2"><a href="whole-genome-alignment-strategies.html#cb604-2"></a> <span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></span>
-<span id="cb604-3"><a href="whole-genome-alignment-strategies.html#cb604-3"></a><span class="ex">real</span>    0m29.055s</span>
-<span id="cb604-4"><a href="whole-genome-alignment-strategies.html#cb604-4"></a><span class="ex">user</span>    0m28.497s</span>
-<span id="cb604-5"><a href="whole-genome-alignment-strategies.html#cb604-5"></a><span class="ex">sys</span> 0m0.413s</span></code></pre></div>
+<div class="sourceCode" id="cb622"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb622-1"><a href="whole-genome-alignment-strategies.html#cb622-1"></a><span class="co"># in /tmp</span></span>
+<span id="cb622-2"><a href="whole-genome-alignment-strategies.html#cb622-2"></a> <span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></span>
+<span id="cb622-3"><a href="whole-genome-alignment-strategies.html#cb622-3"></a><span class="ex">real</span>    0m29.055s</span>
+<span id="cb622-4"><a href="whole-genome-alignment-strategies.html#cb622-4"></a><span class="ex">user</span>    0m28.497s</span>
+<span id="cb622-5"><a href="whole-genome-alignment-strategies.html#cb622-5"></a><span class="ex">sys</span> 0m0.413s</span></code></pre></div>
 <p>That is quick enough to explore a few things. Note that we are already doing gap-free extension, because
 “By default seeds are extended to HSPs using x-drop extension, with entropy adjustment.” However, by
 default, chaining is not done, and that is the key step in which a path is found through the
 high-scoring pairs (HSPs). That doesn’t take much (any) extra time and totally cleans things up.</p>
-<div class="sourceCode" id="cb605"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb605-1"><a href="whole-genome-alignment-strategies.html#cb605-1"></a><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></span>
-<span id="cb605-2"><a href="whole-genome-alignment-strategies.html#cb605-2"></a></span>
-<span id="cb605-3"><a href="whole-genome-alignment-strategies.html#cb605-3"></a><span class="ex">real</span>    0m28.704s</span></code></pre></div>
+<div class="sourceCode" id="cb623"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb623-1"><a href="whole-genome-alignment-strategies.html#cb623-1"></a><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></span>
+<span id="cb623-2"><a href="whole-genome-alignment-strategies.html#cb623-2"></a></span>
+<span id="cb623-3"><a href="whole-genome-alignment-strategies.html#cb623-3"></a><span class="ex">real</span>    0m28.704s</span></code></pre></div>
 <p>So, that is greatly improved:</p>
-<div class="sourceCode" id="cb606"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb606-1"><a href="whole-genome-alignment-strategies.html#cb606-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chain-chinook1_vs_coho10.rdp.gz&quot;</span>)</span>
-<span id="cb606-2"><a href="whole-genome-alignment-strategies.html#cb606-2"></a></span>
-<span id="cb606-3"><a href="whole-genome-alignment-strategies.html#cb606-3"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb624-1"><a href="whole-genome-alignment-strategies.html#cb624-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chain-chinook1_vs_coho10.rdp.gz&quot;</span>)</span>
+<span id="cb624-2"><a href="whole-genome-alignment-strategies.html#cb624-2"></a></span>
+<span id="cb624-3"><a href="whole-genome-alignment-strategies.html#cb624-3"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p>So, it would be worth seeing if chaining also cleans up the multi-chrom alignment:</p>
-<div class="sourceCode" id="cb607"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb607-1"><a href="whole-genome-alignment-strategies.html#cb607-1"></a><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain <span class="op">&gt;</span> chin_nc_vs_coho1.rdp</span>
-<span id="cb607-2"><a href="whole-genome-alignment-strategies.html#cb607-2"></a></span>
-<span id="cb607-3"><a href="whole-genome-alignment-strategies.html#cb607-3"></a><span class="ex">real</span>    6m42.835s</span>
-<span id="cb607-4"><a href="whole-genome-alignment-strategies.html#cb607-4"></a><span class="ex">user</span>    6m35.042s</span>
-<span id="cb607-5"><a href="whole-genome-alignment-strategies.html#cb607-5"></a><span class="ex">sys</span> 0m6.207s</span></code></pre></div>
-<div class="sourceCode" id="cb608"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb608-1"><a href="whole-genome-alignment-strategies.html#cb608-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chin_nc_vs_coho1-chain.rdp.gz&quot;</span>)</span>
-<span id="cb608-2"><a href="whole-genome-alignment-strategies.html#cb608-2"></a></span>
-<span id="cb608-3"><a href="whole-genome-alignment-strategies.html#cb608-3"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb625"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb625-1"><a href="whole-genome-alignment-strategies.html#cb625-1"></a><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain <span class="op">&gt;</span> chin_nc_vs_coho1.rdp</span>
+<span id="cb625-2"><a href="whole-genome-alignment-strategies.html#cb625-2"></a></span>
+<span id="cb625-3"><a href="whole-genome-alignment-strategies.html#cb625-3"></a><span class="ex">real</span>    6m42.835s</span>
+<span id="cb625-4"><a href="whole-genome-alignment-strategies.html#cb625-4"></a><span class="ex">user</span>    6m35.042s</span>
+<span id="cb625-5"><a href="whole-genome-alignment-strategies.html#cb625-5"></a><span class="ex">sys</span> 0m6.207s</span></code></pre></div>
+<div class="sourceCode" id="cb626"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb626-1"><a href="whole-genome-alignment-strategies.html#cb626-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;inputs/chin_nc_vs_coho1-chain.rdp.gz&quot;</span>)</span>
+<span id="cb626-2"><a href="whole-genome-alignment-strategies.html#cb626-2"></a></span>
+<span id="cb626-3"><a href="whole-genome-alignment-strategies.html#cb626-3"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p>OK, that shows that it will find crappy chains if given the chance. But if you
 zoom in on that stuff you see that some of the spots are pretty short, and some are super
 robust. So, we will want some further filtering
 to make this work. So, we need to check out the “back-end filtering.” that is possible.
 Back-end filtering does not happen by default.</p>
 <p>Let’s say that we want 70 Kb alignment blocks. That is .001 of the total input sequence.</p>
-<div class="sourceCode" id="cb609"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb609-1"><a href="whole-genome-alignment-strategies.html#cb609-1"></a><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain --coverage=0.1 <span class="op">&gt;</span> chin_nc_vs_coho1-cov-0.1.rdp</span></code></pre></div>
+<div class="sourceCode" id="cb627"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb627-1"><a href="whole-genome-alignment-strategies.html#cb627-1"></a><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain --coverage=0.1 <span class="op">&gt;</span> chin_nc_vs_coho1-cov-0.1.rdp</span></code></pre></div>
 <p>That took 6.5 minutes again. But, it also produced no output whatsoever. We probably
 want to filter on identity first anyway. Because that takes so long, maybe we could
 do it with our single chromosome first.</p>
-<div class="sourceCode" id="cb610"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb610-1"><a href="whole-genome-alignment-strategies.html#cb610-1"></a><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></span></code></pre></div>
-<div class="sourceCode" id="cb611"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb611-1"><a href="whole-genome-alignment-strategies.html#cb611-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95.rdp&quot;</span>)</span>
-<span id="cb611-2"><a href="whole-genome-alignment-strategies.html#cb611-2"></a></span>
-<span id="cb611-3"><a href="whole-genome-alignment-strategies.html#cb611-3"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb628"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb628-1"><a href="whole-genome-alignment-strategies.html#cb628-1"></a><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>.rdp<span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb629-1"><a href="whole-genome-alignment-strategies.html#cb629-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95.rdp&quot;</span>)</span>
+<span id="cb629-2"><a href="whole-genome-alignment-strategies.html#cb629-2"></a></span>
+<span id="cb629-3"><a href="whole-genome-alignment-strategies.html#cb629-3"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p>That keeps things very clean, but the alignment blocks are all pretty short (like 50 to 300
 bp long). So perhaps we need to do gapped extension here to make these things better. This
 turns out to take a good deal longer.</p>
-<div class="sourceCode" id="cb612"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb612-1"><a href="whole-genome-alignment-strategies.html#cb612-1"></a><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=maf --chain --identity=95  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped.maf<span class="kw">;</span></span>
-<span id="cb612-2"><a href="whole-genome-alignment-strategies.html#cb612-2"></a></span>
-<span id="cb612-3"><a href="whole-genome-alignment-strategies.html#cb612-3"></a><span class="ex">real</span>    3m15.575s</span>
-<span id="cb612-4"><a href="whole-genome-alignment-strategies.html#cb612-4"></a><span class="ex">user</span>    3m14.048s</span>
-<span id="cb612-5"><a href="whole-genome-alignment-strategies.html#cb612-5"></a><span class="ex">sys</span> 0m0.936s</span></code></pre></div>
-<div class="sourceCode" id="cb613"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb613-1"><a href="whole-genome-alignment-strategies.html#cb613-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95-gapped.rdp&quot;</span>)</span>
-<span id="cb613-2"><a href="whole-genome-alignment-strategies.html#cb613-2"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb630"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb630-1"><a href="whole-genome-alignment-strategies.html#cb630-1"></a><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=maf --chain --identity=95  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped.maf<span class="kw">;</span></span>
+<span id="cb630-2"><a href="whole-genome-alignment-strategies.html#cb630-2"></a></span>
+<span id="cb630-3"><a href="whole-genome-alignment-strategies.html#cb630-3"></a><span class="ex">real</span>    3m15.575s</span>
+<span id="cb630-4"><a href="whole-genome-alignment-strategies.html#cb630-4"></a><span class="ex">user</span>    3m14.048s</span>
+<span id="cb630-5"><a href="whole-genome-alignment-strategies.html#cb630-5"></a><span class="ex">sys</span> 0m0.936s</span></code></pre></div>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb631-1"><a href="whole-genome-alignment-strategies.html#cb631-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95-gapped.rdp&quot;</span>)</span>
+<span id="cb631-2"><a href="whole-genome-alignment-strategies.html#cb631-2"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p>That is pretty clean and slick.</p>
 <p>Now, this has got me to thinking that maybe I <em>can</em> do this on a chromosome by chromosome basis.</p>
 <p>Check what 97% identity looks like:</p>
-<div class="sourceCode" id="cb614"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb614-1"><a href="whole-genome-alignment-strategies.html#cb614-1"></a><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain --identity=97  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident97-gapped.rdp<span class="kw">;</span></span></code></pre></div>
-<div class="sourceCode" id="cb615"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb615-1"><a href="whole-genome-alignment-strategies.html#cb615-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident97-gapped.rdp&quot;</span>)</span>
-<span id="cb615-2"><a href="whole-genome-alignment-strategies.html#cb615-2"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb632"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb632-1"><a href="whole-genome-alignment-strategies.html#cb632-1"></a><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain --identity=97  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident97-gapped.rdp<span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb633"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb633-1"><a href="whole-genome-alignment-strategies.html#cb633-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident97-gapped.rdp&quot;</span>)</span>
+<span id="cb633-2"><a href="whole-genome-alignment-strategies.html#cb633-2"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p>That looks to have a few more holes in it.</p>
 <p>Final test. Let’s see what happens when we chain it on a chromosome that doesn’t have
 any homology:</p>
-<div class="sourceCode" id="cb616"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb616-1"><a href="whole-genome-alignment-strategies.html#cb616-1"></a><span class="co"># first with no backend filtering</span></span>
-<span id="cb616-2"><a href="whole-genome-alignment-strategies.html#cb616-2"></a><span class="va">i=</span>1; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-gapped.rdp<span class="kw">;</span></span>
-<span id="cb616-3"><a href="whole-genome-alignment-strategies.html#cb616-3"></a></span>
-<span id="cb616-4"><a href="whole-genome-alignment-strategies.html#cb616-4"></a><span class="ex">real</span>    0m35.130s</span>
-<span id="cb616-5"><a href="whole-genome-alignment-strategies.html#cb616-5"></a><span class="ex">user</span>    0m34.642s</span>
-<span id="cb616-6"><a href="whole-genome-alignment-strategies.html#cb616-6"></a><span class="ex">sys</span> 0m0.413s</span>
-<span id="cb616-7"><a href="whole-genome-alignment-strategies.html#cb616-7"></a></span>
-<span id="cb616-8"><a href="whole-genome-alignment-strategies.html#cb616-8"></a><span class="co"># Hey! That is cool.  When there are no HSPs to chain, this doesn&#39;t take very long</span></span>
-<span id="cb616-9"><a href="whole-genome-alignment-strategies.html#cb616-9"></a><span class="va">i=</span>1; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain --identity=95 <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-gapped-ident95.rdp<span class="kw">;</span></span></code></pre></div>
-<div class="sourceCode" id="cb617"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb617-1"><a href="whole-genome-alignment-strategies.html#cb617-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho1-gapped.rdp&quot;</span>)</span>
-<span id="cb617-2"><a href="whole-genome-alignment-strategies.html#cb617-2"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb634"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb634-1"><a href="whole-genome-alignment-strategies.html#cb634-1"></a><span class="co"># first with no backend filtering</span></span>
+<span id="cb634-2"><a href="whole-genome-alignment-strategies.html#cb634-2"></a><span class="va">i=</span>1; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain  <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-gapped.rdp<span class="kw">;</span></span>
+<span id="cb634-3"><a href="whole-genome-alignment-strategies.html#cb634-3"></a></span>
+<span id="cb634-4"><a href="whole-genome-alignment-strategies.html#cb634-4"></a><span class="ex">real</span>    0m35.130s</span>
+<span id="cb634-5"><a href="whole-genome-alignment-strategies.html#cb634-5"></a><span class="ex">user</span>    0m34.642s</span>
+<span id="cb634-6"><a href="whole-genome-alignment-strategies.html#cb634-6"></a><span class="ex">sys</span> 0m0.413s</span>
+<span id="cb634-7"><a href="whole-genome-alignment-strategies.html#cb634-7"></a></span>
+<span id="cb634-8"><a href="whole-genome-alignment-strategies.html#cb634-8"></a><span class="co"># Hey! That is cool.  When there are no HSPs to chain, this doesn&#39;t take very long</span></span>
+<span id="cb634-9"><a href="whole-genome-alignment-strategies.html#cb634-9"></a><span class="va">i=</span>1; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=rdotplot --chain --identity=95 <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-gapped-ident95.rdp<span class="kw">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb635"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb635-1"><a href="whole-genome-alignment-strategies.html#cb635-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho1-gapped.rdp&quot;</span>)</span>
+<span id="cb635-2"><a href="whole-genome-alignment-strategies.html#cb635-2"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p>OK, it finds something nice and crappy there.</p>
 <p>What about if we require 95% identity?</p>
-<div class="sourceCode" id="cb618"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb618-1"><a href="whole-genome-alignment-strategies.html#cb618-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho1-gapped-ident95.rdp&quot;</span>)</span>
-<span id="cb618-2"><a href="whole-genome-alignment-strategies.html#cb618-2"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb636"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb636-1"><a href="whole-genome-alignment-strategies.html#cb636-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho1-gapped-ident95.rdp&quot;</span>)</span>
+<span id="cb636-2"><a href="whole-genome-alignment-strategies.html#cb636-2"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <p>That leaves us with very little.</p>
 <p>Let’s also try interpolation at the end to see how that does. Note that here we also produce the
 rdotplot at the same time as the maf.</p>
-<div class="sourceCode" id="cb619"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb619-1"><a href="whole-genome-alignment-strategies.html#cb619-1"></a><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=maf --rdotplot=chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped-inner1000.rdp --chain --identity=95 --inner=1000 <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped-inner1000.maf<span class="kw">;</span></span>
-<span id="cb619-2"><a href="whole-genome-alignment-strategies.html#cb619-2"></a></span>
-<span id="cb619-3"><a href="whole-genome-alignment-strategies.html#cb619-3"></a><span class="ex">real</span>    4m25.625s</span>
-<span id="cb619-4"><a href="whole-genome-alignment-strategies.html#cb619-4"></a><span class="ex">user</span>    4m22.957s</span>
-<span id="cb619-5"><a href="whole-genome-alignment-strategies.html#cb619-5"></a><span class="ex">sys</span> 0m1.478s</span></code></pre></div>
+<div class="sourceCode" id="cb637"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb637-1"><a href="whole-genome-alignment-strategies.html#cb637-1"></a><span class="va">i=</span>10; <span class="bu">time</span> lastz chinook-1.fna coho-<span class="va">${i}</span>.fna --notransition --step=20 --gapped --ambiguous=iupac --format=maf --rdotplot=chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped-inner1000.rdp --chain --identity=95 --inner=1000 <span class="op">&gt;</span> chinook1_vs_coho<span class="va">${i}</span>-ident95-gapped-inner1000.maf<span class="kw">;</span></span>
+<span id="cb637-2"><a href="whole-genome-alignment-strategies.html#cb637-2"></a></span>
+<span id="cb637-3"><a href="whole-genome-alignment-strategies.html#cb637-3"></a><span class="ex">real</span>    4m25.625s</span>
+<span id="cb637-4"><a href="whole-genome-alignment-strategies.html#cb637-4"></a><span class="ex">user</span>    4m22.957s</span>
+<span id="cb637-5"><a href="whole-genome-alignment-strategies.html#cb637-5"></a><span class="ex">sys</span> 0m1.478s</span></code></pre></div>
 <p>That took an extra minute, but was not so bad.</p>
-<div class="sourceCode" id="cb620"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb620-1"><a href="whole-genome-alignment-strategies.html#cb620-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95-gapped-inner1000.rdp&quot;</span>)</span>
-<span id="cb620-2"><a href="whole-genome-alignment-strategies.html#cb620-2"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb638-1"><a href="whole-genome-alignment-strategies.html#cb638-1"></a>dots &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_tsv</span>(<span class="st">&quot;/tmp/chinook1_vs_coho10-ident95-gapped-inner1000.rdp&quot;</span>)</span>
+<span id="cb638-2"><a href="whole-genome-alignment-strategies.html#cb638-2"></a><span class="kw">plot</span>(dots,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>)</span></code></pre></div>
 <div id="repeat-masking-the-coho-genome" class="section level4">
 <h4><span class="header-section-number">26.2.3.1</span> Repeat Masking the Coho genome</h4>
 <p>Turns out that NCBI site has the repeat masker output in GCF_002021735.1_Okis_V1_rm.out.gz.
 I save that to a shorter name. Now I will make a bed file of the repeat regions. Then I use bedtools maskfasta to softmask that fasta file.</p>
-<div class="sourceCode" id="cb621"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb621-1"><a href="whole-genome-alignment-strategies.html#cb621-1"></a><span class="co"># in: /Users/eriq/Documents/UnsyncedData/Okis_v1</span></span>
-<span id="cb621-2"><a href="whole-genome-alignment-strategies.html#cb621-2"></a><span class="ex">gzcat</span> Okis_V1_rm.out.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;NR&gt;3 {printf(&quot;%s\t%s\t%s\n&quot;, $5, $6, $7)}&#39;</span> <span class="op">&gt;</span> repeat-regions.bed </span>
-<span id="cb621-3"><a href="whole-genome-alignment-strategies.html#cb621-3"></a></span>
-<span id="cb621-4"><a href="whole-genome-alignment-strategies.html#cb621-4"></a><span class="ex">bedtools</span> maskfasta -fi Okis_V1.fna -bed repeat-regions.bed  -fo Okis_V1-soft-masked.fna  -soft</span></code></pre></div>
+<div class="sourceCode" id="cb639"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb639-1"><a href="whole-genome-alignment-strategies.html#cb639-1"></a><span class="co"># in: /Users/eriq/Documents/UnsyncedData/Okis_v1</span></span>
+<span id="cb639-2"><a href="whole-genome-alignment-strategies.html#cb639-2"></a><span class="ex">gzcat</span> Okis_V1_rm.out.gz <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;NR&gt;3 {printf(&quot;%s\t%s\t%s\n&quot;, $5, $6, $7)}&#39;</span> <span class="op">&gt;</span> repeat-regions.bed </span>
+<span id="cb639-3"><a href="whole-genome-alignment-strategies.html#cb639-3"></a></span>
+<span id="cb639-4"><a href="whole-genome-alignment-strategies.html#cb639-4"></a><span class="ex">bedtools</span> maskfasta -fi Okis_V1.fna -bed repeat-regions.bed  -fo Okis_V1-soft-masked.fna  -soft</span></code></pre></div>
 <p>That works great. But it turns out that the coho genome is already softmasked.</p>
 <p>But, it is good to now that I can use a repeat mask output file to toss repeat
 sites if I want to for ANGSD analyses, etc.</p>
@@ -678,8 +680,8 @@ for later analysis in ANGSD.</p>
 bit right now. It looks like when you crank the identity requirement up, the paralogs
 get pretty spotty so they can be easily recognized. For example setting the identity
 at 99.5 makes it clear which is the paralog:</p>
-<div class="sourceCode" id="cb622"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb622-1"><a href="whole-genome-alignment-strategies.html#cb622-1"></a><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain --identity=99.5 <span class="op">&gt;</span> chin_nc_vs_coho1-chain-ident-99.5.rdp</span>
-<span id="cb622-2"><a href="whole-genome-alignment-strategies.html#cb622-2"></a><span class="co"># takes about 6 minutes</span></span></code></pre></div>
+<div class="sourceCode" id="cb640"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb640-1"><a href="whole-genome-alignment-strategies.html#cb640-1"></a><span class="bu">time</span> lastz chinook_nc_chroms.fna[multiple]  coho-1.fna --notransition --step=20 --nogapped --ambiguous=iupac --format=rdotplot --chain --identity=99.5 <span class="op">&gt;</span> chin_nc_vs_coho1-chain-ident-99.5.rdp</span>
+<span id="cb640-2"><a href="whole-genome-alignment-strategies.html#cb640-2"></a><span class="co"># takes about 6 minutes</span></span></code></pre></div>
 <p>And the figure is here.</p>
 <div class="figure">
 <img src="figs/quickie.jpg" alt="" />
@@ -704,14 +706,14 @@ chinook reference are removed from both the chinook reference and the aligned co
 sequence. _Actually, one can just pump each sequence out to a separate file in which
 each site occupies one line. Then paste those and do the comparison…</li>
 </ol>
-<div class="sourceCode" id="cb623"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb623-1"><a href="whole-genome-alignment-strategies.html#cb623-1"></a><span class="ex">2018-10-18</span> 11:15 /tmp/--% time (awk <span class="st">&#39;NR==2&#39;</span> splud <span class="kw">|</span> <span class="ex">fold</span> -w1 <span class="op">&gt;</span> spp1.text)</span>
-<span id="cb623-2"><a href="whole-genome-alignment-strategies.html#cb623-2"></a></span>
-<span id="cb623-3"><a href="whole-genome-alignment-strategies.html#cb623-3"></a><span class="ex">real</span>    0m23.244s</span>
-<span id="cb623-4"><a href="whole-genome-alignment-strategies.html#cb623-4"></a><span class="ex">user</span>    0m22.537s</span>
-<span id="cb623-5"><a href="whole-genome-alignment-strategies.html#cb623-5"></a><span class="ex">sys</span> 0m0.685s</span>
-<span id="cb623-6"><a href="whole-genome-alignment-strategies.html#cb623-6"></a></span>
-<span id="cb623-7"><a href="whole-genome-alignment-strategies.html#cb623-7"></a><span class="co"># then you can use awk easily like this:</span></span>
-<span id="cb623-8"><a href="whole-genome-alignment-strategies.html#cb623-8"></a><span class="ex">paste</span> spp1.text spp2.text <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;BEGIN {SUBSEP = &quot; &quot;} {n[$1,$2]++} END {for(i in n) print i, n[i]}&#39;</span> </span></code></pre></div>
+<div class="sourceCode" id="cb641"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb641-1"><a href="whole-genome-alignment-strategies.html#cb641-1"></a><span class="ex">2018-10-18</span> 11:15 /tmp/--% time (awk <span class="st">&#39;NR==2&#39;</span> splud <span class="kw">|</span> <span class="ex">fold</span> -w1 <span class="op">&gt;</span> spp1.text)</span>
+<span id="cb641-2"><a href="whole-genome-alignment-strategies.html#cb641-2"></a></span>
+<span id="cb641-3"><a href="whole-genome-alignment-strategies.html#cb641-3"></a><span class="ex">real</span>    0m23.244s</span>
+<span id="cb641-4"><a href="whole-genome-alignment-strategies.html#cb641-4"></a><span class="ex">user</span>    0m22.537s</span>
+<span id="cb641-5"><a href="whole-genome-alignment-strategies.html#cb641-5"></a><span class="ex">sys</span> 0m0.685s</span>
+<span id="cb641-6"><a href="whole-genome-alignment-strategies.html#cb641-6"></a></span>
+<span id="cb641-7"><a href="whole-genome-alignment-strategies.html#cb641-7"></a><span class="co"># then you can use awk easily like this:</span></span>
+<span id="cb641-8"><a href="whole-genome-alignment-strategies.html#cb641-8"></a><span class="ex">paste</span> spp1.text spp2.text <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;BEGIN {SUBSEP = &quot; &quot;} {n[$1,$2]++} END {for(i in n) print i, n[i]}&#39;</span> </span></code></pre></div>
 <ol start="7" style="list-style-type: decimal">
 <li>The coho sequence thus obtained will have dashes anywhere there isn’t coho aligned
 to the chinook. So, first, for each chromosome I can count the number of dashes, which

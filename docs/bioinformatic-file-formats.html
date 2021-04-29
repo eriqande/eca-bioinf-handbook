@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2021-04-22" />
+<meta name="date" content="2021-04-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -309,6 +309,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.6" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#using-snakemake-on-a-computing-cluster"><i class="fa fa-check"></i><b>14.6</b> Using Snakemake on a Computing Cluster</a><ul>
 <li class="chapter" data-level="14.6.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#installing-and-configuring-the-snakemake-slurm-profile"><i class="fa fa-check"></i><b>14.6.1</b> Installing and Configuring the Snakemake SLURM profile</a></li>
 <li class="chapter" data-level="14.6.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#playing-with-our-new-slurm-profile"><i class="fa fa-check"></i><b>14.6.2</b> Playing with our new SLURM profile</a></li>
+<li class="chapter" data-level="14.6.3" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#managing-cluster-resources-with-snakemake"><i class="fa fa-check"></i><b>14.6.3</b> Managing cluster resources with Snakemake</a></li>
+<li class="chapter" data-level="14.6.4" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#grouping-short-jobs-to-run-on-a-single-node"><i class="fa fa-check"></i><b>14.6.4</b> Grouping short jobs to run on a single node</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
@@ -586,33 +588,33 @@ data into memory.</p>
 <div id="reading-fastqs-with-read_lines" class="section level4">
 <h4><span class="header-section-number">17.2.3.1</span> Reading FASTQs with <code>read_lines</code></h4>
 <p>Load packages:</p>
-<div class="sourceCode" id="cb485"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb485-1"><a href="bioinformatic-file-formats.html#cb485-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb485-2"><a href="bioinformatic-file-formats.html#cb485-2"></a></span>
-<span id="cb485-3"><a href="bioinformatic-file-formats.html#cb485-3"></a><span class="co"># if you don&#39;t have this package, get it</span></span>
-<span id="cb485-4"><a href="bioinformatic-file-formats.html#cb485-4"></a><span class="co"># install.packages(&quot;viridis&quot;)</span></span>
-<span id="cb485-5"><a href="bioinformatic-file-formats.html#cb485-5"></a><span class="kw">library</span>(viridis)</span></code></pre></div>
+<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb503-1"><a href="bioinformatic-file-formats.html#cb503-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb503-2"><a href="bioinformatic-file-formats.html#cb503-2"></a></span>
+<span id="cb503-3"><a href="bioinformatic-file-formats.html#cb503-3"></a><span class="co"># if you don&#39;t have this package, get it</span></span>
+<span id="cb503-4"><a href="bioinformatic-file-formats.html#cb503-4"></a><span class="co"># install.packages(&quot;viridis&quot;)</span></span>
+<span id="cb503-5"><a href="bioinformatic-file-formats.html#cb503-5"></a><span class="kw">library</span>(viridis)</span></code></pre></div>
 <p>Read the FASTQ, make it a matrix, then make it a tibble</p>
-<div class="sourceCode" id="cb486"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb486-1"><a href="bioinformatic-file-formats.html#cb486-1"></a><span class="co"># use read_lines to read the R1 fastq file line by line;</span></span>
-<span id="cb486-2"><a href="bioinformatic-file-formats.html#cb486-2"></a><span class="co"># then make a 4 column matrix, filling by rows</span></span>
-<span id="cb486-3"><a href="bioinformatic-file-formats.html#cb486-3"></a><span class="co"># then drop column 3, which corresponds to the &quot;+&quot; line</span></span>
-<span id="cb486-4"><a href="bioinformatic-file-formats.html#cb486-4"></a>R1 &lt;-<span class="st"> </span><span class="kw">read_lines</span>(<span class="st">&quot;data/Battle_Creek_01_chinook_R1.fq.gz&quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb486-5"><a href="bioinformatic-file-formats.html#cb486-5"></a><span class="st">  </span><span class="kw">matrix</span>(<span class="dt">ncol =</span> <span class="dv">4</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
-<span id="cb486-6"><a href="bioinformatic-file-formats.html#cb486-6"></a><span class="st">  </span>.[,<span class="op">-</span><span class="dv">3</span>]</span>
-<span id="cb486-7"><a href="bioinformatic-file-formats.html#cb486-7"></a>  </span>
-<span id="cb486-8"><a href="bioinformatic-file-formats.html#cb486-8"></a></span>
-<span id="cb486-9"><a href="bioinformatic-file-formats.html#cb486-9"></a><span class="co"># add colnames</span></span>
-<span id="cb486-10"><a href="bioinformatic-file-formats.html#cb486-10"></a><span class="kw">colnames</span>(R1) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;seq&quot;</span>, <span class="st">&quot;qual&quot;</span>)</span>
-<span id="cb486-11"><a href="bioinformatic-file-formats.html#cb486-11"></a></span>
-<span id="cb486-12"><a href="bioinformatic-file-formats.html#cb486-12"></a><span class="co"># now make a tibble out that.  We will assign</span></span>
-<span id="cb486-13"><a href="bioinformatic-file-formats.html#cb486-13"></a><span class="co"># it back to the variable R1, to note carry</span></span>
-<span id="cb486-14"><a href="bioinformatic-file-formats.html#cb486-14"></a><span class="co"># extra memory around</span></span>
-<span id="cb486-15"><a href="bioinformatic-file-formats.html#cb486-15"></a>R1 &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(R1)</span>
-<span id="cb486-16"><a href="bioinformatic-file-formats.html#cb486-16"></a></span>
-<span id="cb486-17"><a href="bioinformatic-file-formats.html#cb486-17"></a><span class="co"># Look at it:</span></span>
-<span id="cb486-18"><a href="bioinformatic-file-formats.html#cb486-18"></a>R1</span>
-<span id="cb486-19"><a href="bioinformatic-file-formats.html#cb486-19"></a></span>
-<span id="cb486-20"><a href="bioinformatic-file-formats.html#cb486-20"></a></span>
-<span id="cb486-21"><a href="bioinformatic-file-formats.html#cb486-21"></a><span class="co"># OK, 1 million reads.</span></span></code></pre></div>
+<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="bioinformatic-file-formats.html#cb504-1"></a><span class="co"># use read_lines to read the R1 fastq file line by line;</span></span>
+<span id="cb504-2"><a href="bioinformatic-file-formats.html#cb504-2"></a><span class="co"># then make a 4 column matrix, filling by rows</span></span>
+<span id="cb504-3"><a href="bioinformatic-file-formats.html#cb504-3"></a><span class="co"># then drop column 3, which corresponds to the &quot;+&quot; line</span></span>
+<span id="cb504-4"><a href="bioinformatic-file-formats.html#cb504-4"></a>R1 &lt;-<span class="st"> </span><span class="kw">read_lines</span>(<span class="st">&quot;data/Battle_Creek_01_chinook_R1.fq.gz&quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb504-5"><a href="bioinformatic-file-formats.html#cb504-5"></a><span class="st">  </span><span class="kw">matrix</span>(<span class="dt">ncol =</span> <span class="dv">4</span>, <span class="dt">byrow =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
+<span id="cb504-6"><a href="bioinformatic-file-formats.html#cb504-6"></a><span class="st">  </span>.[,<span class="op">-</span><span class="dv">3</span>]</span>
+<span id="cb504-7"><a href="bioinformatic-file-formats.html#cb504-7"></a>  </span>
+<span id="cb504-8"><a href="bioinformatic-file-formats.html#cb504-8"></a></span>
+<span id="cb504-9"><a href="bioinformatic-file-formats.html#cb504-9"></a><span class="co"># add colnames</span></span>
+<span id="cb504-10"><a href="bioinformatic-file-formats.html#cb504-10"></a><span class="kw">colnames</span>(R1) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;ID&quot;</span>, <span class="st">&quot;seq&quot;</span>, <span class="st">&quot;qual&quot;</span>)</span>
+<span id="cb504-11"><a href="bioinformatic-file-formats.html#cb504-11"></a></span>
+<span id="cb504-12"><a href="bioinformatic-file-formats.html#cb504-12"></a><span class="co"># now make a tibble out that.  We will assign</span></span>
+<span id="cb504-13"><a href="bioinformatic-file-formats.html#cb504-13"></a><span class="co"># it back to the variable R1, to note carry</span></span>
+<span id="cb504-14"><a href="bioinformatic-file-formats.html#cb504-14"></a><span class="co"># extra memory around</span></span>
+<span id="cb504-15"><a href="bioinformatic-file-formats.html#cb504-15"></a>R1 &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(R1)</span>
+<span id="cb504-16"><a href="bioinformatic-file-formats.html#cb504-16"></a></span>
+<span id="cb504-17"><a href="bioinformatic-file-formats.html#cb504-17"></a><span class="co"># Look at it:</span></span>
+<span id="cb504-18"><a href="bioinformatic-file-formats.html#cb504-18"></a>R1</span>
+<span id="cb504-19"><a href="bioinformatic-file-formats.html#cb504-19"></a></span>
+<span id="cb504-20"><a href="bioinformatic-file-formats.html#cb504-20"></a></span>
+<span id="cb504-21"><a href="bioinformatic-file-formats.html#cb504-21"></a><span class="co"># OK, 1 million reads.</span></span></code></pre></div>
 <p>Look at the first ID line:</p>
 <pre><code> @E00430:101:HKT7WCCXY:1:1101:6411:1204 1:N:0:NGATGT</code></pre>
 <p>Aha! This is a slightly different format than the above. The part after the
@@ -633,67 +635,67 @@ column.</p>
 columns in a tibble.</p>
 <p>Here we can use it to break the ID into two parts split on the space, and then
 break the first part of the ID into its constituent parts:</p>
-<div class="sourceCode" id="cb489"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb489-1"><a href="bioinformatic-file-formats.html#cb489-1"></a><span class="co"># first we break on the space,</span></span>
-<span id="cb489-2"><a href="bioinformatic-file-formats.html#cb489-2"></a><span class="co"># then we break the ID on the colons, but keep the original &quot;id&quot; for later</span></span>
-<span id="cb489-3"><a href="bioinformatic-file-formats.html#cb489-3"></a>R1 <span class="op">%&gt;%</span></span>
-<span id="cb489-4"><a href="bioinformatic-file-formats.html#cb489-4"></a><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb489-5"><a href="bioinformatic-file-formats.html#cb489-5"></a><span class="st">  </span><span class="kw">separate</span>(</span>
-<span id="cb489-6"><a href="bioinformatic-file-formats.html#cb489-6"></a>    id, </span>
-<span id="cb489-7"><a href="bioinformatic-file-formats.html#cb489-7"></a>    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </span>
-<span id="cb489-8"><a href="bioinformatic-file-formats.html#cb489-8"></a>    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</span>
-<span id="cb489-9"><a href="bioinformatic-file-formats.html#cb489-9"></a>    <span class="dt">remove =</span> <span class="ot">FALSE</span></span>
-<span id="cb489-10"><a href="bioinformatic-file-formats.html#cb489-10"></a>    )</span></code></pre></div>
+<div class="sourceCode" id="cb507"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb507-1"><a href="bioinformatic-file-formats.html#cb507-1"></a><span class="co"># first we break on the space,</span></span>
+<span id="cb507-2"><a href="bioinformatic-file-formats.html#cb507-2"></a><span class="co"># then we break the ID on the colons, but keep the original &quot;id&quot; for later</span></span>
+<span id="cb507-3"><a href="bioinformatic-file-formats.html#cb507-3"></a>R1 <span class="op">%&gt;%</span></span>
+<span id="cb507-4"><a href="bioinformatic-file-formats.html#cb507-4"></a><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb507-5"><a href="bioinformatic-file-formats.html#cb507-5"></a><span class="st">  </span><span class="kw">separate</span>(</span>
+<span id="cb507-6"><a href="bioinformatic-file-formats.html#cb507-6"></a>    id, </span>
+<span id="cb507-7"><a href="bioinformatic-file-formats.html#cb507-7"></a>    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </span>
+<span id="cb507-8"><a href="bioinformatic-file-formats.html#cb507-8"></a>    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</span>
+<span id="cb507-9"><a href="bioinformatic-file-formats.html#cb507-9"></a>    <span class="dt">remove =</span> <span class="ot">FALSE</span></span>
+<span id="cb507-10"><a href="bioinformatic-file-formats.html#cb507-10"></a>    )</span></code></pre></div>
 <p>Wow! That was cool. Now, your mission is to pipe that (with <code>%&gt;%</code>)
 into another <code>separate()</code> command that breaks part2 into
 <code>read</code>, <code>filter</code>, <code>cnum</code>, and <code>barcode</code>, and save that into <code>R1_sep</code></p>
 <p>Here is a starter:</p>
-<div class="sourceCode" id="cb490"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb490-1"><a href="bioinformatic-file-formats.html#cb490-1"></a>R1_sep &lt;-<span class="st"> </span>R1 <span class="op">%&gt;%</span></span>
-<span id="cb490-2"><a href="bioinformatic-file-formats.html#cb490-2"></a><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb490-3"><a href="bioinformatic-file-formats.html#cb490-3"></a><span class="st">  </span><span class="kw">separate</span>(</span>
-<span id="cb490-4"><a href="bioinformatic-file-formats.html#cb490-4"></a>    id, </span>
-<span id="cb490-5"><a href="bioinformatic-file-formats.html#cb490-5"></a>    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </span>
-<span id="cb490-6"><a href="bioinformatic-file-formats.html#cb490-6"></a>    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</span>
-<span id="cb490-7"><a href="bioinformatic-file-formats.html#cb490-7"></a>    <span class="dt">remove =</span> <span class="ot">FALSE</span></span>
-<span id="cb490-8"><a href="bioinformatic-file-formats.html#cb490-8"></a>    ) <span class="op">%&gt;%</span></span>
-<span id="cb490-9"><a href="bioinformatic-file-formats.html#cb490-9"></a><span class="st">    </span>...your code here...</span>
-<span id="cb490-10"><a href="bioinformatic-file-formats.html#cb490-10"></a>    </span>
-<span id="cb490-11"><a href="bioinformatic-file-formats.html#cb490-11"></a><span class="co"># when you are done with that, look at it</span></span>
-<span id="cb490-12"><a href="bioinformatic-file-formats.html#cb490-12"></a>R1_sep</span>
-<span id="cb490-13"><a href="bioinformatic-file-formats.html#cb490-13"></a>    </span></code></pre></div>
+<div class="sourceCode" id="cb508"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb508-1"><a href="bioinformatic-file-formats.html#cb508-1"></a>R1_sep &lt;-<span class="st"> </span>R1 <span class="op">%&gt;%</span></span>
+<span id="cb508-2"><a href="bioinformatic-file-formats.html#cb508-2"></a><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb508-3"><a href="bioinformatic-file-formats.html#cb508-3"></a><span class="st">  </span><span class="kw">separate</span>(</span>
+<span id="cb508-4"><a href="bioinformatic-file-formats.html#cb508-4"></a>    id, </span>
+<span id="cb508-5"><a href="bioinformatic-file-formats.html#cb508-5"></a>    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </span>
+<span id="cb508-6"><a href="bioinformatic-file-formats.html#cb508-6"></a>    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</span>
+<span id="cb508-7"><a href="bioinformatic-file-formats.html#cb508-7"></a>    <span class="dt">remove =</span> <span class="ot">FALSE</span></span>
+<span id="cb508-8"><a href="bioinformatic-file-formats.html#cb508-8"></a>    ) <span class="op">%&gt;%</span></span>
+<span id="cb508-9"><a href="bioinformatic-file-formats.html#cb508-9"></a><span class="st">    </span>...your code here...</span>
+<span id="cb508-10"><a href="bioinformatic-file-formats.html#cb508-10"></a>    </span>
+<span id="cb508-11"><a href="bioinformatic-file-formats.html#cb508-11"></a><span class="co"># when you are done with that, look at it</span></span>
+<span id="cb508-12"><a href="bioinformatic-file-formats.html#cb508-12"></a>R1_sep</span>
+<span id="cb508-13"><a href="bioinformatic-file-formats.html#cb508-13"></a>    </span></code></pre></div>
 <p>Doh! There is one thing to note. Look at the first few columns of that:</p>
-<div class="sourceCode" id="cb491"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb491-1"><a href="bioinformatic-file-formats.html#cb491-1"></a><span class="co"># A tibble: 1,000,000 x 11</span></span>
-<span id="cb491-2"><a href="bioinformatic-file-formats.html#cb491-2"></a>   id          machine run   flow_cell lane  tile  x     y   </span>
-<span id="cb491-3"><a href="bioinformatic-file-formats.html#cb491-3"></a>   <span class="op">&lt;</span>chr<span class="op">&gt;</span><span class="st">       </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">   </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">     </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">      </span></span>
-<span id="cb491-4"><a href="bioinformatic-file-formats.html#cb491-4"></a><span class="st"> </span><span class="dv">1</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">6411</span>  <span class="dv">1204</span></span>
-<span id="cb491-5"><a href="bioinformatic-file-formats.html#cb491-5"></a> <span class="dv">2</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">7324</span>  <span class="dv">1204</span></span>
-<span id="cb491-6"><a href="bioinformatic-file-formats.html#cb491-6"></a> <span class="dv">3</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">8582</span>  <span class="dv">1204</span></span>
-<span id="cb491-7"><a href="bioinformatic-file-formats.html#cb491-7"></a> <span class="dv">4</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">9841</span>  <span class="dv">1204</span></span>
-<span id="cb491-8"><a href="bioinformatic-file-formats.html#cb491-8"></a> <span class="dv">5</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">10186</span> <span class="dv">1204</span> </span></code></pre></div>
+<div class="sourceCode" id="cb509"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb509-1"><a href="bioinformatic-file-formats.html#cb509-1"></a><span class="co"># A tibble: 1,000,000 x 11</span></span>
+<span id="cb509-2"><a href="bioinformatic-file-formats.html#cb509-2"></a>   id          machine run   flow_cell lane  tile  x     y   </span>
+<span id="cb509-3"><a href="bioinformatic-file-formats.html#cb509-3"></a>   <span class="op">&lt;</span>chr<span class="op">&gt;</span><span class="st">       </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">   </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">     </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st"> </span><span class="er">&lt;</span>chr<span class="op">&gt;</span><span class="st">      </span></span>
+<span id="cb509-4"><a href="bioinformatic-file-formats.html#cb509-4"></a><span class="st"> </span><span class="dv">1</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">6411</span>  <span class="dv">1204</span></span>
+<span id="cb509-5"><a href="bioinformatic-file-formats.html#cb509-5"></a> <span class="dv">2</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">7324</span>  <span class="dv">1204</span></span>
+<span id="cb509-6"><a href="bioinformatic-file-formats.html#cb509-6"></a> <span class="dv">3</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">8582</span>  <span class="dv">1204</span></span>
+<span id="cb509-7"><a href="bioinformatic-file-formats.html#cb509-7"></a> <span class="dv">4</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">9841</span>  <span class="dv">1204</span></span>
+<span id="cb509-8"><a href="bioinformatic-file-formats.html#cb509-8"></a> <span class="dv">5</span> <span class="op">@</span>E00430<span class="op">:</span>10… <span class="op">@</span>E00430 <span class="dv">101</span>   HKT7WCCXY <span class="dv">1</span>     <span class="dv">1101</span>  <span class="dv">10186</span> <span class="dv">1204</span> </span></code></pre></div>
 <p>The x- and the y-coordinates are listed as characters (<code>&lt;chr&gt;</code>) but they should
 be numeric. This shows the default behavior of <code>separate()</code>: it just breaks each
 field into a column of strings. However, you can ask <code>separate()</code> to make a good-faith
 guess of the type of each column and convert it to that. This works suitably in this
 situation, so, let’s repeat the last command, but convert types automatically:</p>
-<div class="sourceCode" id="cb492"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb492-1"><a href="bioinformatic-file-formats.html#cb492-1"></a>R1_sep &lt;-<span class="st"> </span>R1 <span class="op">%&gt;%</span></span>
-<span id="cb492-2"><a href="bioinformatic-file-formats.html#cb492-2"></a><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></span>
-<span id="cb492-3"><a href="bioinformatic-file-formats.html#cb492-3"></a><span class="st">  </span><span class="kw">separate</span>(</span>
-<span id="cb492-4"><a href="bioinformatic-file-formats.html#cb492-4"></a>    id, </span>
-<span id="cb492-5"><a href="bioinformatic-file-formats.html#cb492-5"></a>    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </span>
-<span id="cb492-6"><a href="bioinformatic-file-formats.html#cb492-6"></a>    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</span>
-<span id="cb492-7"><a href="bioinformatic-file-formats.html#cb492-7"></a>    <span class="dt">remove =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb492-8"><a href="bioinformatic-file-formats.html#cb492-8"></a>    <span class="dt">convert =</span> <span class="ot">TRUE</span></span>
-<span id="cb492-9"><a href="bioinformatic-file-formats.html#cb492-9"></a>  ) <span class="op">%&gt;%</span></span>
-<span id="cb492-10"><a href="bioinformatic-file-formats.html#cb492-10"></a><span class="st">  </span><span class="kw">separate</span>(part2, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;read&quot;</span>, <span class="st">&quot;filter&quot;</span>, <span class="st">&quot;cnum&quot;</span>, <span class="st">&quot;barcode&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb510"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb510-1"><a href="bioinformatic-file-formats.html#cb510-1"></a>R1_sep &lt;-<span class="st"> </span>R1 <span class="op">%&gt;%</span></span>
+<span id="cb510-2"><a href="bioinformatic-file-formats.html#cb510-2"></a><span class="st">  </span><span class="kw">separate</span>(ID, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;part2&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot; &quot;</span>) <span class="op">%&gt;%</span></span>
+<span id="cb510-3"><a href="bioinformatic-file-formats.html#cb510-3"></a><span class="st">  </span><span class="kw">separate</span>(</span>
+<span id="cb510-4"><a href="bioinformatic-file-formats.html#cb510-4"></a>    id, </span>
+<span id="cb510-5"><a href="bioinformatic-file-formats.html#cb510-5"></a>    <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;machine&quot;</span>, <span class="st">&quot;run&quot;</span>, <span class="st">&quot;flow_cell&quot;</span>, <span class="st">&quot;lane&quot;</span>, <span class="st">&quot;tile&quot;</span>, <span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>), </span>
+<span id="cb510-6"><a href="bioinformatic-file-formats.html#cb510-6"></a>    <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>,</span>
+<span id="cb510-7"><a href="bioinformatic-file-formats.html#cb510-7"></a>    <span class="dt">remove =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb510-8"><a href="bioinformatic-file-formats.html#cb510-8"></a>    <span class="dt">convert =</span> <span class="ot">TRUE</span></span>
+<span id="cb510-9"><a href="bioinformatic-file-formats.html#cb510-9"></a>  ) <span class="op">%&gt;%</span></span>
+<span id="cb510-10"><a href="bioinformatic-file-formats.html#cb510-10"></a><span class="st">  </span><span class="kw">separate</span>(part2, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;read&quot;</span>, <span class="st">&quot;filter&quot;</span>, <span class="st">&quot;cnum&quot;</span>, <span class="st">&quot;barcode&quot;</span>), <span class="dt">sep =</span> <span class="st">&quot;:&quot;</span>, <span class="dt">convert =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="counting-tiles" class="section level4">
 <h4><span class="header-section-number">17.2.3.3</span> Counting tiles</h4>
 <p>Let’s see how many tiles these reads came from. Basically we just want to count the
 number of rows with different values for tile. Read the documentation for
 <code>dplyr::count</code> with</p>
-<div class="sourceCode" id="cb493"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb493-1"><a href="bioinformatic-file-formats.html#cb493-1"></a>?count</span></code></pre></div>
+<div class="sourceCode" id="cb511"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb511-1"><a href="bioinformatic-file-formats.html#cb511-1"></a>?count</span></code></pre></div>
 <p>and when you are done count up the number of reads in each tile:</p>
-<div class="sourceCode" id="cb494"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb494-1"><a href="bioinformatic-file-formats.html#cb494-1"></a>R1_sep <span class="op">%&gt;%</span></span>
-<span id="cb494-2"><a href="bioinformatic-file-formats.html#cb494-2"></a><span class="st">  </span>...your code here...</span></code></pre></div>
+<div class="sourceCode" id="cb512"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb512-1"><a href="bioinformatic-file-formats.html#cb512-1"></a>R1_sep <span class="op">%&gt;%</span></span>
+<span id="cb512-2"><a href="bioinformatic-file-formats.html#cb512-2"></a><span class="st">  </span>...your code here...</span></code></pre></div>
 <p>Turns out they are all from the same tile…</p>
 </div>
 <div id="parsing-quality-scores" class="section level4">
@@ -701,10 +703,10 @@ number of rows with different values for tile. Read the documentation for
 <p>Now, we want to turn the quality-score ASCII-characters into Phred-scaled
 qualities, ultimately taking the average over each sequence of those.</p>
 <p>Check out this function:</p>
-<div class="sourceCode" id="cb495"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb495-1"><a href="bioinformatic-file-formats.html#cb495-1"></a><span class="kw">utf8ToInt</span>(<span class="st">&quot;!*JGH&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb513"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb513-1"><a href="bioinformatic-file-formats.html#cb513-1"></a><span class="kw">utf8ToInt</span>(<span class="st">&quot;!*JGH&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 33 42 74 71 72</code></pre>
 <p>We can use that to get Phred-scaled values by subtracting 33 from the result. Let’s check:</p>
-<div class="sourceCode" id="cb497"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb497-1"><a href="bioinformatic-file-formats.html#cb497-1"></a><span class="kw">utf8ToInt</span>(<span class="st">&quot;!+5?IJ&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="dv">33</span></span></code></pre></div>
+<div class="sourceCode" id="cb515"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb515-1"><a href="bioinformatic-file-formats.html#cb515-1"></a><span class="kw">utf8ToInt</span>(<span class="st">&quot;!+5?IJ&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="dv">33</span></span></code></pre></div>
 <pre><code>## [1]  0 10 20 30 40 41</code></pre>
 <p>Note that <code>J</code> seems to be used for “below 1 in 10,000” as it is the highest I have ever seen.</p>
 <p>So, what we want to do is make a new column called <code>mean_qual</code> that gives the
@@ -715,36 +717,36 @@ in that same row, that is a job for <code>mutate()</code>.</p>
 computing the <code>mean_qual</code> for every row requres using one of the <code>map()</code> family of functions.
 It is a little beyond
 what we want to delve into at the moment. But here is what it looks like:</p>
-<div class="sourceCode" id="cb499"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb499-1"><a href="bioinformatic-file-formats.html#cb499-1"></a>R1_sepq &lt;-<span class="st"> </span>R1_sep <span class="op">%&gt;%</span></span>
-<span id="cb499-2"><a href="bioinformatic-file-formats.html#cb499-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mean_qual =</span> <span class="kw">map_dbl</span>(<span class="dt">.x =</span> qual, <span class="dt">.f =</span> <span class="cf">function</span>(x) <span class="kw">mean</span>(<span class="kw">utf8ToInt</span>(x) <span class="op">-</span><span class="st"> </span><span class="dv">33</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb517"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb517-1"><a href="bioinformatic-file-formats.html#cb517-1"></a>R1_sepq &lt;-<span class="st"> </span>R1_sep <span class="op">%&gt;%</span></span>
+<span id="cb517-2"><a href="bioinformatic-file-formats.html#cb517-2"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">mean_qual =</span> <span class="kw">map_dbl</span>(<span class="dt">.x =</span> qual, <span class="dt">.f =</span> <span class="cf">function</span>(x) <span class="kw">mean</span>(<span class="kw">utf8ToInt</span>(x) <span class="op">-</span><span class="st"> </span><span class="dv">33</span>))</span></code></pre></div>
 <p>Check out the distribution of those mean quality scores:</p>
-<div class="sourceCode" id="cb500"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb500-1"><a href="bioinformatic-file-formats.html#cb500-1"></a><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> mean_qual)) <span class="op">+</span></span>
-<span id="cb500-2"><a href="bioinformatic-file-formats.html#cb500-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb518"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb518-1"><a href="bioinformatic-file-formats.html#cb518-1"></a><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> mean_qual)) <span class="op">+</span></span>
+<span id="cb518-2"><a href="bioinformatic-file-formats.html#cb518-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">binwidth =</span> <span class="dv">1</span>)</span></code></pre></div>
 </div>
 <div id="investigating-the-spatial-distribution-of-reads-and-quality-scores" class="section level4">
 <h4><span class="header-section-number">17.2.3.5</span> Investigating the spatial distribution of reads and quality scores</h4>
 <p>Now, use the above as a template to investigate the distribution of the
 x-values:</p>
-<div class="sourceCode" id="cb501"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb501-1"><a href="bioinformatic-file-formats.html#cb501-1"></a><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(...your code here...)) <span class="op">+</span></span>
-<span id="cb501-2"><a href="bioinformatic-file-formats.html#cb501-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">500</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb519"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb519-1"><a href="bioinformatic-file-formats.html#cb519-1"></a><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(...your code here...)) <span class="op">+</span></span>
+<span id="cb519-2"><a href="bioinformatic-file-formats.html#cb519-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">500</span>)</span></code></pre></div>
 <p>And, do the same for the y-values.</p>
-<div class="sourceCode" id="cb502"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb502-1"><a href="bioinformatic-file-formats.html#cb502-1"></a><span class="co"># Dsn of y</span></span>
-<span id="cb502-2"><a href="bioinformatic-file-formats.html#cb502-2"></a><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> y)) <span class="op">+</span></span>
-<span id="cb502-3"><a href="bioinformatic-file-formats.html#cb502-3"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">500</span>) <span class="op">+</span></span>
-<span id="cb502-4"><a href="bioinformatic-file-formats.html#cb502-4"></a><span class="st">  </span><span class="kw">coord_flip</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb520"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb520-1"><a href="bioinformatic-file-formats.html#cb520-1"></a><span class="co"># Dsn of y</span></span>
+<span id="cb520-2"><a href="bioinformatic-file-formats.html#cb520-2"></a><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> y)) <span class="op">+</span></span>
+<span id="cb520-3"><a href="bioinformatic-file-formats.html#cb520-3"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">bins =</span> <span class="dv">500</span>) <span class="op">+</span></span>
+<span id="cb520-4"><a href="bioinformatic-file-formats.html#cb520-4"></a><span class="st">  </span><span class="kw">coord_flip</span>()</span></code></pre></div>
 <p>Hmm… for fun, make a 2-D hex-bin plot</p>
-<div class="sourceCode" id="cb503"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb503-1"><a href="bioinformatic-file-formats.html#cb503-1"></a><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></span>
-<span id="cb503-2"><a href="bioinformatic-file-formats.html#cb503-2"></a><span class="st">  </span><span class="kw">geom_hex</span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span></span>
-<span id="cb503-3"><a href="bioinformatic-file-formats.html#cb503-3"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb521"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb521-1"><a href="bioinformatic-file-formats.html#cb521-1"></a><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span></span>
+<span id="cb521-2"><a href="bioinformatic-file-formats.html#cb521-2"></a><span class="st">  </span><span class="kw">geom_hex</span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span></span>
+<span id="cb521-3"><a href="bioinformatic-file-formats.html#cb521-3"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>()</span></code></pre></div>
 <p>That is super interesting. It looks like the flowcell or camera must have a mild
 issue where the smears are between y = 20,000 and 30,000.</p>
 <p>It is natural to wonder if the quality scores of the reads that did actually get
 recovered from those regions have lower quality scores. This makes a hexbin plot
 of the mean quality scores:</p>
-<div class="sourceCode" id="cb504"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb504-1"><a href="bioinformatic-file-formats.html#cb504-1"></a><span class="co"># hexbin of the mean quality score</span></span>
-<span id="cb504-2"><a href="bioinformatic-file-formats.html#cb504-2"></a><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">z =</span> mean_qual)) <span class="op">+</span></span>
-<span id="cb504-3"><a href="bioinformatic-file-formats.html#cb504-3"></a><span class="st">  </span><span class="kw">stat_summary_hex</span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span></span>
-<span id="cb504-4"><a href="bioinformatic-file-formats.html#cb504-4"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb522"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb522-1"><a href="bioinformatic-file-formats.html#cb522-1"></a><span class="co"># hexbin of the mean quality score</span></span>
+<span id="cb522-2"><a href="bioinformatic-file-formats.html#cb522-2"></a><span class="kw">ggplot</span>(R1_sepq, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y, <span class="dt">z =</span> mean_qual)) <span class="op">+</span></span>
+<span id="cb522-3"><a href="bioinformatic-file-formats.html#cb522-3"></a><span class="st">  </span><span class="kw">stat_summary_hex</span>(<span class="dt">bins =</span> <span class="dv">100</span>) <span class="op">+</span></span>
+<span id="cb522-4"><a href="bioinformatic-file-formats.html#cb522-4"></a><span class="st">  </span><span class="kw">scale_fill_viridis_c</span>()</span></code></pre></div>
 <p>Cool.</p>
 </div>
 </div>
@@ -854,39 +856,39 @@ specific genomic coordinates, returning them in a new FASTA file with
 identifiers giving the genomic ranges. Here is an example using <code>samtools faidx</code> to
 extract four DNA sequences of length 150 from within the Chinook salmon genome
 excerpted above:</p>
-<div class="sourceCode" id="cb508"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb508-1"><a href="bioinformatic-file-formats.html#cb508-1"></a><span class="co"># assume the working directory is where the fasta file resides</span></span>
-<span id="cb508-2"><a href="bioinformatic-file-formats.html#cb508-2"></a></span>
-<span id="cb508-3"><a href="bioinformatic-file-formats.html#cb508-3"></a><span class="co"># create the index</span></span>
-<span id="cb508-4"><a href="bioinformatic-file-formats.html#cb508-4"></a><span class="ex">samtools</span> faidx GCA_002831465.1_CHI06_genomic.fna</span>
-<span id="cb508-5"><a href="bioinformatic-file-formats.html#cb508-5"></a></span>
-<span id="cb508-6"><a href="bioinformatic-file-formats.html#cb508-6"></a><span class="co"># that created the file: GCA_002831465.1_CHI06_genomic.fna.fai</span></span>
-<span id="cb508-7"><a href="bioinformatic-file-formats.html#cb508-7"></a><span class="co"># which holds four columns that constitute the index</span></span>
-<span id="cb508-8"><a href="bioinformatic-file-formats.html#cb508-8"></a></span>
-<span id="cb508-9"><a href="bioinformatic-file-formats.html#cb508-9"></a><span class="co"># now we extract the four sequences:</span></span>
-<span id="cb508-10"><a href="bioinformatic-file-formats.html#cb508-10"></a><span class="ex">samtools</span> faidx \</span>
-<span id="cb508-11"><a href="bioinformatic-file-formats.html#cb508-11"></a>    GCA_002831465.1_CHI06_genomic.fna \</span>
-<span id="cb508-12"><a href="bioinformatic-file-formats.html#cb508-12"></a>    CM009007.1:3913989-3914138 \</span>
-<span id="cb508-13"><a href="bioinformatic-file-formats.html#cb508-13"></a>    CM009011.1:2392339-2392488 \</span>
-<span id="cb508-14"><a href="bioinformatic-file-formats.html#cb508-14"></a>    CM009013.1:11855194-11855343 \</span>
-<span id="cb508-15"><a href="bioinformatic-file-formats.html#cb508-15"></a>    CM009019.1:1760297-1760446</span>
-<span id="cb508-16"><a href="bioinformatic-file-formats.html#cb508-16"></a>    </span>
-<span id="cb508-17"><a href="bioinformatic-file-formats.html#cb508-17"></a><span class="co"># the output is like so:</span></span>
-<span id="cb508-18"><a href="bioinformatic-file-formats.html#cb508-18"></a><span class="op">&gt;</span><span class="ex">CM009007.1</span>:3913989-3914138</span>
-<span id="cb508-19"><a href="bioinformatic-file-formats.html#cb508-19"></a><span class="ex">TTACCGAtggaacattttgaaaaacacaaCAATAAAGCCTTGTGTCCTATTGTTTGTATT</span></span>
-<span id="cb508-20"><a href="bioinformatic-file-formats.html#cb508-20"></a><span class="ex">TGCTTCGTGCTGTTAATGGTAgttgcacttgattcagcagccgtAGCGCCGGGAAggcag</span></span>
-<span id="cb508-21"><a href="bioinformatic-file-formats.html#cb508-21"></a><span class="ex">tgttcccattttgaaaaaTGTCATGTCTGA</span></span>
-<span id="cb508-22"><a href="bioinformatic-file-formats.html#cb508-22"></a><span class="op">&gt;</span><span class="ex">CM009011.1</span>:2392339-2392488</span>
-<span id="cb508-23"><a href="bioinformatic-file-formats.html#cb508-23"></a><span class="ex">gatgcctctagcactgaggatgccttagaccgctgtgccactcgggaggccttcaGCCTA</span></span>
-<span id="cb508-24"><a href="bioinformatic-file-formats.html#cb508-24"></a><span class="ex">ACTCTAACTGTAAGTAAATTGTGTGTATTTTTGGGTACATTTCGCTGGTCCCCACAAGGG</span></span>
-<span id="cb508-25"><a href="bioinformatic-file-formats.html#cb508-25"></a><span class="ex">GAAAGggctattttaggtttagggttaagg</span></span>
-<span id="cb508-26"><a href="bioinformatic-file-formats.html#cb508-26"></a><span class="op">&gt;</span><span class="ex">CM009013.1</span>:11855194-11855343</span>
-<span id="cb508-27"><a href="bioinformatic-file-formats.html#cb508-27"></a><span class="ex">TGAGGTTTCTGACTTCATTTTCATTCACAGCAGTTACTGTATGCCTCGGTCAAATTGAAA</span></span>
-<span id="cb508-28"><a href="bioinformatic-file-formats.html#cb508-28"></a><span class="ex">GGAAAGTAAAGTAACCATGTGGAGCTGtatggtgtactgtactgtactgtattgtactgt</span></span>
-<span id="cb508-29"><a href="bioinformatic-file-formats.html#cb508-29"></a><span class="ex">attgtgtgGGACGTGAGGCAGGTCCAGATA</span></span>
-<span id="cb508-30"><a href="bioinformatic-file-formats.html#cb508-30"></a><span class="op">&gt;</span><span class="ex">CM009019.1</span>:1760297-1760446</span>
-<span id="cb508-31"><a href="bioinformatic-file-formats.html#cb508-31"></a><span class="ex">ttcccagaatctctatgttaaccaaggtgtttgcaaatgtaacatcagtaggggagagag</span></span>
-<span id="cb508-32"><a href="bioinformatic-file-formats.html#cb508-32"></a><span class="ex">aggaaataaagggggaagaggtatttatgactgtcataaacctacccctcaggccaacgt</span></span>
-<span id="cb508-33"><a href="bioinformatic-file-formats.html#cb508-33"></a><span class="ex">catgacactcccgttaatcacacagactGG</span></span></code></pre></div>
+<div class="sourceCode" id="cb526"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb526-1"><a href="bioinformatic-file-formats.html#cb526-1"></a><span class="co"># assume the working directory is where the fasta file resides</span></span>
+<span id="cb526-2"><a href="bioinformatic-file-formats.html#cb526-2"></a></span>
+<span id="cb526-3"><a href="bioinformatic-file-formats.html#cb526-3"></a><span class="co"># create the index</span></span>
+<span id="cb526-4"><a href="bioinformatic-file-formats.html#cb526-4"></a><span class="ex">samtools</span> faidx GCA_002831465.1_CHI06_genomic.fna</span>
+<span id="cb526-5"><a href="bioinformatic-file-formats.html#cb526-5"></a></span>
+<span id="cb526-6"><a href="bioinformatic-file-formats.html#cb526-6"></a><span class="co"># that created the file: GCA_002831465.1_CHI06_genomic.fna.fai</span></span>
+<span id="cb526-7"><a href="bioinformatic-file-formats.html#cb526-7"></a><span class="co"># which holds four columns that constitute the index</span></span>
+<span id="cb526-8"><a href="bioinformatic-file-formats.html#cb526-8"></a></span>
+<span id="cb526-9"><a href="bioinformatic-file-formats.html#cb526-9"></a><span class="co"># now we extract the four sequences:</span></span>
+<span id="cb526-10"><a href="bioinformatic-file-formats.html#cb526-10"></a><span class="ex">samtools</span> faidx \</span>
+<span id="cb526-11"><a href="bioinformatic-file-formats.html#cb526-11"></a>    GCA_002831465.1_CHI06_genomic.fna \</span>
+<span id="cb526-12"><a href="bioinformatic-file-formats.html#cb526-12"></a>    CM009007.1:3913989-3914138 \</span>
+<span id="cb526-13"><a href="bioinformatic-file-formats.html#cb526-13"></a>    CM009011.1:2392339-2392488 \</span>
+<span id="cb526-14"><a href="bioinformatic-file-formats.html#cb526-14"></a>    CM009013.1:11855194-11855343 \</span>
+<span id="cb526-15"><a href="bioinformatic-file-formats.html#cb526-15"></a>    CM009019.1:1760297-1760446</span>
+<span id="cb526-16"><a href="bioinformatic-file-formats.html#cb526-16"></a>    </span>
+<span id="cb526-17"><a href="bioinformatic-file-formats.html#cb526-17"></a><span class="co"># the output is like so:</span></span>
+<span id="cb526-18"><a href="bioinformatic-file-formats.html#cb526-18"></a><span class="op">&gt;</span><span class="ex">CM009007.1</span>:3913989-3914138</span>
+<span id="cb526-19"><a href="bioinformatic-file-formats.html#cb526-19"></a><span class="ex">TTACCGAtggaacattttgaaaaacacaaCAATAAAGCCTTGTGTCCTATTGTTTGTATT</span></span>
+<span id="cb526-20"><a href="bioinformatic-file-formats.html#cb526-20"></a><span class="ex">TGCTTCGTGCTGTTAATGGTAgttgcacttgattcagcagccgtAGCGCCGGGAAggcag</span></span>
+<span id="cb526-21"><a href="bioinformatic-file-formats.html#cb526-21"></a><span class="ex">tgttcccattttgaaaaaTGTCATGTCTGA</span></span>
+<span id="cb526-22"><a href="bioinformatic-file-formats.html#cb526-22"></a><span class="op">&gt;</span><span class="ex">CM009011.1</span>:2392339-2392488</span>
+<span id="cb526-23"><a href="bioinformatic-file-formats.html#cb526-23"></a><span class="ex">gatgcctctagcactgaggatgccttagaccgctgtgccactcgggaggccttcaGCCTA</span></span>
+<span id="cb526-24"><a href="bioinformatic-file-formats.html#cb526-24"></a><span class="ex">ACTCTAACTGTAAGTAAATTGTGTGTATTTTTGGGTACATTTCGCTGGTCCCCACAAGGG</span></span>
+<span id="cb526-25"><a href="bioinformatic-file-formats.html#cb526-25"></a><span class="ex">GAAAGggctattttaggtttagggttaagg</span></span>
+<span id="cb526-26"><a href="bioinformatic-file-formats.html#cb526-26"></a><span class="op">&gt;</span><span class="ex">CM009013.1</span>:11855194-11855343</span>
+<span id="cb526-27"><a href="bioinformatic-file-formats.html#cb526-27"></a><span class="ex">TGAGGTTTCTGACTTCATTTTCATTCACAGCAGTTACTGTATGCCTCGGTCAAATTGAAA</span></span>
+<span id="cb526-28"><a href="bioinformatic-file-formats.html#cb526-28"></a><span class="ex">GGAAAGTAAAGTAACCATGTGGAGCTGtatggtgtactgtactgtactgtattgtactgt</span></span>
+<span id="cb526-29"><a href="bioinformatic-file-formats.html#cb526-29"></a><span class="ex">attgtgtgGGACGTGAGGCAGGTCCAGATA</span></span>
+<span id="cb526-30"><a href="bioinformatic-file-formats.html#cb526-30"></a><span class="op">&gt;</span><span class="ex">CM009019.1</span>:1760297-1760446</span>
+<span id="cb526-31"><a href="bioinformatic-file-formats.html#cb526-31"></a><span class="ex">ttcccagaatctctatgttaaccaaggtgtttgcaaatgtaacatcagtaggggagagag</span></span>
+<span id="cb526-32"><a href="bioinformatic-file-formats.html#cb526-32"></a><span class="ex">aggaaataaagggggaagaggtatttatgactgtcataaacctacccctcaggccaacgt</span></span>
+<span id="cb526-33"><a href="bioinformatic-file-formats.html#cb526-33"></a><span class="ex">catgacactcccgttaatcacacagactGG</span></span></code></pre></div>
 </div>
 <div id="downloading-reference-genomes-from-ncbi" class="section level3">
 <h3><span class="header-section-number">17.3.3</span> Downloading reference genomes from NCBI</h3>
@@ -1762,13 +1764,13 @@ your contacts’ phone numbers and addresses with.</p>
 <li><a href="https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1">https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1</a></li>
 </ul>
 <p>If you want to download these onto a remote Unix server you can use:</p>
-<div class="sourceCode" id="cb531"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb531-1"><a href="bioinformatic-file-formats.html#cb531-1"></a><span class="fu">wget</span> https://www.dropbox.com/s/dzwixabvy3wwfdr/chinook-32-3Mb.vcf.gz?dl=1</span>
-<span id="cb531-2"><a href="bioinformatic-file-formats.html#cb531-2"></a><span class="fu">wget</span> https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1</span>
-<span id="cb531-3"><a href="bioinformatic-file-formats.html#cb531-3"></a></span>
-<span id="cb531-4"><a href="bioinformatic-file-formats.html#cb531-4"></a><span class="co"># after which you might need to rename them, if wget retained the `?dl=1`</span></span>
-<span id="cb531-5"><a href="bioinformatic-file-formats.html#cb531-5"></a><span class="co"># in the resulting file names:</span></span>
-<span id="cb531-6"><a href="bioinformatic-file-formats.html#cb531-6"></a><span class="fu">mv</span> chinook-32-3Mb.vcf.gz\?dl\=1 chinook-32-3Mb.vcf.gz</span>
-<span id="cb531-7"><a href="bioinformatic-file-formats.html#cb531-7"></a><span class="fu">mv</span> chinook-32-3Mb.vcf.gz.csi\?dl\=1 chinook-32-3Mb.vcf.gz.csi</span></code></pre></div>
+<div class="sourceCode" id="cb549"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb549-1"><a href="bioinformatic-file-formats.html#cb549-1"></a><span class="fu">wget</span> https://www.dropbox.com/s/dzwixabvy3wwfdr/chinook-32-3Mb.vcf.gz?dl=1</span>
+<span id="cb549-2"><a href="bioinformatic-file-formats.html#cb549-2"></a><span class="fu">wget</span> https://www.dropbox.com/s/d303fi7en71p8ug/chinook-32-3Mb.vcf.gz.csi?dl=1</span>
+<span id="cb549-3"><a href="bioinformatic-file-formats.html#cb549-3"></a></span>
+<span id="cb549-4"><a href="bioinformatic-file-formats.html#cb549-4"></a><span class="co"># after which you might need to rename them, if wget retained the `?dl=1`</span></span>
+<span id="cb549-5"><a href="bioinformatic-file-formats.html#cb549-5"></a><span class="co"># in the resulting file names:</span></span>
+<span id="cb549-6"><a href="bioinformatic-file-formats.html#cb549-6"></a><span class="fu">mv</span> chinook-32-3Mb.vcf.gz\?dl\=1 chinook-32-3Mb.vcf.gz</span>
+<span id="cb549-7"><a href="bioinformatic-file-formats.html#cb549-7"></a><span class="fu">mv</span> chinook-32-3Mb.vcf.gz.csi\?dl\=1 chinook-32-3Mb.vcf.gz.csi</span></code></pre></div>
 <p>At their core, VCF files are TAB-delimited text files. Below is a fragment of a VCF file body (and the final header line) holding information
 about 9 variants (in 9 rows below the final header line) and the genotypes at
 those variants carried in four
@@ -1851,52 +1853,52 @@ are encoded in this system, it is helpful to view them in columnar format with
 positions running down the first column, and different alleles in different columns.
 Thus, a simple SNP, such as the first row in the above VCF example
 would appear as:</p>
-<div class="sourceCode" id="cb534"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb534-1"><a href="bioinformatic-file-formats.html#cb534-1"></a><span class="co"># meaning of: NC_037124.1 4001417 .   T   G </span></span>
-<span id="cb534-2"><a href="bioinformatic-file-formats.html#cb534-2"></a></span>
-<span id="cb534-3"><a href="bioinformatic-file-formats.html#cb534-3"></a><span class="ex">pos</span>         Ref  Alt</span>
-<span id="cb534-4"><a href="bioinformatic-file-formats.html#cb534-4"></a><span class="ex">4001417</span>     T      G</span></code></pre></div>
+<div class="sourceCode" id="cb552"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb552-1"><a href="bioinformatic-file-formats.html#cb552-1"></a><span class="co"># meaning of: NC_037124.1 4001417 .   T   G </span></span>
+<span id="cb552-2"><a href="bioinformatic-file-formats.html#cb552-2"></a></span>
+<span id="cb552-3"><a href="bioinformatic-file-formats.html#cb552-3"></a><span class="ex">pos</span>         Ref  Alt</span>
+<span id="cb552-4"><a href="bioinformatic-file-formats.html#cb552-4"></a><span class="ex">4001417</span>     T      G</span></code></pre></div>
 <p>By contrast, an insertion, relative to the reference genome, creates bases that
 don’t have a standard coordinate that they align to. Thus, if we take the
 second-to-last variant in the above example (at position 4007583), and we assume
 that positions 4007582 and 4007584 in the reference sequence are a G and a T,
 respectively, then the first five columns of the row
 indicate that the variation appears as follows:</p>
-<div class="sourceCode" id="cb535"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb535-1"><a href="bioinformatic-file-formats.html#cb535-1"></a><span class="co"># meaning of: NC_037124.1 4007583 .   C   CAA</span></span>
-<span id="cb535-2"><a href="bioinformatic-file-formats.html#cb535-2"></a></span>
-<span id="cb535-3"><a href="bioinformatic-file-formats.html#cb535-3"></a><span class="ex">Pos</span>         Ref  Alt</span>
-<span id="cb535-4"><a href="bioinformatic-file-formats.html#cb535-4"></a><span class="ex">4007582</span>     G    G</span>
-<span id="cb535-5"><a href="bioinformatic-file-formats.html#cb535-5"></a><span class="ex">4007583</span>     C    C</span>
-<span id="cb535-6"><a href="bioinformatic-file-formats.html#cb535-6"></a><span class="bu">.</span>           <span class="ex">-</span>    A</span>
-<span id="cb535-7"><a href="bioinformatic-file-formats.html#cb535-7"></a><span class="bu">.</span>           <span class="ex">-</span>    A</span>
-<span id="cb535-8"><a href="bioinformatic-file-formats.html#cb535-8"></a><span class="ex">4007584</span>     T    T</span></code></pre></div>
+<div class="sourceCode" id="cb553"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb553-1"><a href="bioinformatic-file-formats.html#cb553-1"></a><span class="co"># meaning of: NC_037124.1 4007583 .   C   CAA</span></span>
+<span id="cb553-2"><a href="bioinformatic-file-formats.html#cb553-2"></a></span>
+<span id="cb553-3"><a href="bioinformatic-file-formats.html#cb553-3"></a><span class="ex">Pos</span>         Ref  Alt</span>
+<span id="cb553-4"><a href="bioinformatic-file-formats.html#cb553-4"></a><span class="ex">4007582</span>     G    G</span>
+<span id="cb553-5"><a href="bioinformatic-file-formats.html#cb553-5"></a><span class="ex">4007583</span>     C    C</span>
+<span id="cb553-6"><a href="bioinformatic-file-formats.html#cb553-6"></a><span class="bu">.</span>           <span class="ex">-</span>    A</span>
+<span id="cb553-7"><a href="bioinformatic-file-formats.html#cb553-7"></a><span class="bu">.</span>           <span class="ex">-</span>    A</span>
+<span id="cb553-8"><a href="bioinformatic-file-formats.html#cb553-8"></a><span class="ex">4007584</span>     T    T</span></code></pre></div>
 <p>where the <code>-</code> represents an insertion relative to the reference genome.</p>
 <p>A deletion relative to the reference genome, like that in the third row
 of the above example:
 would appear in columnar format as:</p>
-<div class="sourceCode" id="cb536"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb536-1"><a href="bioinformatic-file-formats.html#cb536-1"></a><span class="co"># meaning of: NC_037124.1 4004574 .   AAAGG   A</span></span>
-<span id="cb536-2"><a href="bioinformatic-file-formats.html#cb536-2"></a></span>
-<span id="cb536-3"><a href="bioinformatic-file-formats.html#cb536-3"></a><span class="ex">Pos</span>         Ref  Alt</span>
-<span id="cb536-4"><a href="bioinformatic-file-formats.html#cb536-4"></a><span class="ex">4004573</span>     C    C</span>
-<span id="cb536-5"><a href="bioinformatic-file-formats.html#cb536-5"></a><span class="ex">4004574</span>     A    A</span>
-<span id="cb536-6"><a href="bioinformatic-file-formats.html#cb536-6"></a><span class="ex">4004575</span>     A    -</span>
-<span id="cb536-7"><a href="bioinformatic-file-formats.html#cb536-7"></a><span class="ex">4004576</span>     A    -</span>
-<span id="cb536-8"><a href="bioinformatic-file-formats.html#cb536-8"></a><span class="ex">4004577</span>     G    -</span>
-<span id="cb536-9"><a href="bioinformatic-file-formats.html#cb536-9"></a><span class="ex">4004578</span>     G    -</span>
-<span id="cb536-10"><a href="bioinformatic-file-formats.html#cb536-10"></a><span class="ex">4004579</span>     T    T</span></code></pre></div>
+<div class="sourceCode" id="cb554"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb554-1"><a href="bioinformatic-file-formats.html#cb554-1"></a><span class="co"># meaning of: NC_037124.1 4004574 .   AAAGG   A</span></span>
+<span id="cb554-2"><a href="bioinformatic-file-formats.html#cb554-2"></a></span>
+<span id="cb554-3"><a href="bioinformatic-file-formats.html#cb554-3"></a><span class="ex">Pos</span>         Ref  Alt</span>
+<span id="cb554-4"><a href="bioinformatic-file-formats.html#cb554-4"></a><span class="ex">4004573</span>     C    C</span>
+<span id="cb554-5"><a href="bioinformatic-file-formats.html#cb554-5"></a><span class="ex">4004574</span>     A    A</span>
+<span id="cb554-6"><a href="bioinformatic-file-formats.html#cb554-6"></a><span class="ex">4004575</span>     A    -</span>
+<span id="cb554-7"><a href="bioinformatic-file-formats.html#cb554-7"></a><span class="ex">4004576</span>     A    -</span>
+<span id="cb554-8"><a href="bioinformatic-file-formats.html#cb554-8"></a><span class="ex">4004577</span>     G    -</span>
+<span id="cb554-9"><a href="bioinformatic-file-formats.html#cb554-9"></a><span class="ex">4004578</span>     G    -</span>
+<span id="cb554-10"><a href="bioinformatic-file-formats.html#cb554-10"></a><span class="ex">4004579</span>     T    T</span></code></pre></div>
 <p>where we are imagining that the reference holds a C at position 4004573 and a T at
 position 4004579, and where the <code>-</code>’s indicate deletions relative to the reference.</p>
 <p>Finally, the multiallelic and complex example on the last row,
 in columnar format, if the reference held an A at position 4007583 and
 a T at position 4007587, would
 show the two possible alternate alleles like:</p>
-<div class="sourceCode" id="cb537"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb537-1"><a href="bioinformatic-file-formats.html#cb537-1"></a><span class="co"># meaning of: NC_037124.1 4007584 .   GCC G,CCC</span></span>
-<span id="cb537-2"><a href="bioinformatic-file-formats.html#cb537-2"></a></span>
-<span id="cb537-3"><a href="bioinformatic-file-formats.html#cb537-3"></a><span class="ex">Pos</span>         Ref   Alt1  Alt2</span>
-<span id="cb537-4"><a href="bioinformatic-file-formats.html#cb537-4"></a><span class="ex">4007583</span>     A     A     A</span>
-<span id="cb537-5"><a href="bioinformatic-file-formats.html#cb537-5"></a><span class="ex">4007584</span>     G     G     C</span>
-<span id="cb537-6"><a href="bioinformatic-file-formats.html#cb537-6"></a><span class="ex">4007585</span>     C     -     C</span>
-<span id="cb537-7"><a href="bioinformatic-file-formats.html#cb537-7"></a><span class="ex">4007586</span>     C     -     C</span>
-<span id="cb537-8"><a href="bioinformatic-file-formats.html#cb537-8"></a><span class="ex">4007587</span>     T     T     T</span></code></pre></div>
+<div class="sourceCode" id="cb555"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb555-1"><a href="bioinformatic-file-formats.html#cb555-1"></a><span class="co"># meaning of: NC_037124.1 4007584 .   GCC G,CCC</span></span>
+<span id="cb555-2"><a href="bioinformatic-file-formats.html#cb555-2"></a></span>
+<span id="cb555-3"><a href="bioinformatic-file-formats.html#cb555-3"></a><span class="ex">Pos</span>         Ref   Alt1  Alt2</span>
+<span id="cb555-4"><a href="bioinformatic-file-formats.html#cb555-4"></a><span class="ex">4007583</span>     A     A     A</span>
+<span id="cb555-5"><a href="bioinformatic-file-formats.html#cb555-5"></a><span class="ex">4007584</span>     G     G     C</span>
+<span id="cb555-6"><a href="bioinformatic-file-formats.html#cb555-6"></a><span class="ex">4007585</span>     C     -     C</span>
+<span id="cb555-7"><a href="bioinformatic-file-formats.html#cb555-7"></a><span class="ex">4007586</span>     C     -     C</span>
+<span id="cb555-8"><a href="bioinformatic-file-formats.html#cb555-8"></a><span class="ex">4007587</span>     T     T     T</span></code></pre></div>
 </div>
 <div id="the-genotype-columns" class="section level4">
 <h4><span class="header-section-number">17.5.1.2</span> The Genotype Columns</h4>
@@ -1922,12 +1924,12 @@ respectively.
 not <em>phased</em>—in other words, it is not known which <em>haplotype</em> they occur on.</p></li>
 <li><p>A <code>|</code> as the separator means that the two gene copies in the individual are recorded
 as being phased. If an indiduals <code>GT</code> field in a series of variants looks like:</p>
-<div class="sourceCode" id="cb539"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb539-1"><a href="bioinformatic-file-formats.html#cb539-1"></a><span class="dv">0</span><span class="op">|</span><span class="dv">1</span></span>
-<span id="cb539-2"><a href="bioinformatic-file-formats.html#cb539-2"></a><span class="dv">1</span><span class="op">|</span><span class="dv">0</span></span>
-<span id="cb539-3"><a href="bioinformatic-file-formats.html#cb539-3"></a><span class="dv">1</span><span class="op">|</span><span class="dv">0</span></span>
-<span id="cb539-4"><a href="bioinformatic-file-formats.html#cb539-4"></a><span class="dv">1</span><span class="op">|</span><span class="dv">1</span></span>
-<span id="cb539-5"><a href="bioinformatic-file-formats.html#cb539-5"></a><span class="dv">0</span><span class="op">|</span><span class="dv">0</span></span>
-<span id="cb539-6"><a href="bioinformatic-file-formats.html#cb539-6"></a><span class="dv">1</span><span class="op">|</span><span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb557"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb557-1"><a href="bioinformatic-file-formats.html#cb557-1"></a><span class="dv">0</span><span class="op">|</span><span class="dv">1</span></span>
+<span id="cb557-2"><a href="bioinformatic-file-formats.html#cb557-2"></a><span class="dv">1</span><span class="op">|</span><span class="dv">0</span></span>
+<span id="cb557-3"><a href="bioinformatic-file-formats.html#cb557-3"></a><span class="dv">1</span><span class="op">|</span><span class="dv">0</span></span>
+<span id="cb557-4"><a href="bioinformatic-file-formats.html#cb557-4"></a><span class="dv">1</span><span class="op">|</span><span class="dv">1</span></span>
+<span id="cb557-5"><a href="bioinformatic-file-formats.html#cb557-5"></a><span class="dv">0</span><span class="op">|</span><span class="dv">0</span></span>
+<span id="cb557-6"><a href="bioinformatic-file-formats.html#cb557-6"></a><span class="dv">1</span><span class="op">|</span><span class="dv">0</span></span></code></pre></div>
 <p>Then this is recording that on one of the (diploid) individual’s two chromosomes, the
 alleles would be strung along like: <code>0-1-1-1-0-1</code>, and the other chromosome would carry
 the alleles strung along like: <code>1-0-0-1-0-1</code>.<br />

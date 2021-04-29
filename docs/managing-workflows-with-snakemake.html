@@ -24,7 +24,7 @@
 <meta name="author" content="Eric C. Anderson" />
 
 
-<meta name="date" content="2021-04-22" />
+<meta name="date" content="2021-04-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -309,6 +309,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="14.6" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#using-snakemake-on-a-computing-cluster"><i class="fa fa-check"></i><b>14.6</b> Using Snakemake on a Computing Cluster</a><ul>
 <li class="chapter" data-level="14.6.1" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#installing-and-configuring-the-snakemake-slurm-profile"><i class="fa fa-check"></i><b>14.6.1</b> Installing and Configuring the Snakemake SLURM profile</a></li>
 <li class="chapter" data-level="14.6.2" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#playing-with-our-new-slurm-profile"><i class="fa fa-check"></i><b>14.6.2</b> Playing with our new SLURM profile</a></li>
+<li class="chapter" data-level="14.6.3" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#managing-cluster-resources-with-snakemake"><i class="fa fa-check"></i><b>14.6.3</b> Managing cluster resources with Snakemake</a></li>
+<li class="chapter" data-level="14.6.4" data-path="managing-workflows-with-snakemake.html"><a href="managing-workflows-with-snakemake.html#grouping-short-jobs-to-run-on-a-single-node"><i class="fa fa-check"></i><b>14.6.4</b> Grouping short jobs to run on a single node</a></li>
 </ul></li>
 </ul></li>
 <li class="part"><span><b>III Part III: Bioinformatic Analyses</b></span></li>
@@ -1310,8 +1312,9 @@ to put there). Who in their right mind would want to write</p>
 <p>on the command line every time they launched something on the cluster with Snakemake?</p>
 <p>Fortunately, Snakemake has a system whereby you can record commonly used options to Snakemake
 in a <em>profile</em>. This profile system is not specific only to using Snakemake on a cluster—it can
-be used to store any Snakemake options that you want to be applied automatically to your
-Snakemake command lines. The profile system is currently recommended for configuring
+be used to store any Snakemake options that you want to be applied to your
+Snakemake command line, when the profile is invoked as the argument to the
+<code>--profile</code> Snakemake option. The profile system is currently recommended for configuring
 Snakemake for use with clusters, and there are some pre-made and curated profiles that are recommended
 by the creators of Snakemake for use on clusters. These profiles are available at
 <a href="https://github.com/snakemake-profiles">https://github.com/snakemake-profiles</a>, a site that includes
@@ -1320,44 +1323,50 @@ a profile specifically for SLURM, at
 <p>Here we will explore the use of that profile for using Snakemake on SLURM.
 One advantage of using such pre-built profiles is that they should be well tested, and
 should work well. Additionally, the SLURM profile is designed to take advantage of
-Snakemake’s <code>--cluster-status</code> command line option. This option allows the user to specify
-a script that will allow Snakemake to keep track of the jobs submitted to SLURM, periodically
+Snakemake’s <code>--cluster-status</code> command line option. This option allows Snakemake to
+use a script to keep track of the jobs submitted to SLURM, periodically
 checking on them to determine if the job is still running or has failed. This is an
 important feature when running in a cluster environment.</p>
-<p>Unfortunately,
-at the time of writing, it seems that the profile system for interfacing with SLURM
-is not completely mature. Consequently there are some weird things that we have to deal
-with. Primarily:</p>
+<p>The profile available at
+<a href="https://github.com/Snakemake-Profiles/slurm">https://github.com/Snakemake-Profiles/slurm</a>
+for interfacing with SLURM is still being tweaked (as evidenced by discourse in the
+GitHub issues) but is quite mature, and, at the time of writing, it is working
+well for me! There are, however, a couple of features of this profile (and the profile
+system) that can be confusing at first glance. Primarily:</p>
 <ol style="list-style-type: decimal">
-<li>The old Snakemake way of dealing with clusters via a “cluster-config” file, has been
-deprecated, but vestiges of it are still used in the SLURM profile to be able to sensibly assign paths to
+<li>The old Snakemake way of dealing with cluster execution via a “cluster-config” file, has been
+deprecated by Snakemake. The cluster-donfig file was a YAML file that you could pass to Snakemake,
+so that Snakemake could supply rule-specific decorations to the <code>sbatch</code> commands used
+to send jobs to the cluster. Now, however, the Snakemake-recommended SLURM profile includes
+the ability to supply a cluster-config file. It is important to understand that this cluster-config
+file is not read and used directly by Snakemake in the deprecated fashion of using the
+<code>--cluster-config</code> command; rather, it is read and used by some Python script within the SLURM
+profile cluster. It is quite important for sensibly assigning paths to
 SLURM input and output files.</li>
-<li>The SLURM snakemake profile is not described or documented in a particularly accessible fashion, and it
-is setup to allow the user to quickly make different versions of the profile using a system
-called “cookiecutter,” which might be unfamiliar and daunting to some.</li>
-<li>The “Cluster Status” script included in the profile may not work on your SLURM system depending on if <code>sacct</code> or <code>scontrol</code> are available.</li>
+<li>The SLURM snakemake profile is set up to allow the user to quickly
+make different versions of the profile using a system
+called “cookiecutter.” You might not be familiar with Cookiecutter, but fear not!
+It is quite straightforward and convenient.</li>
+<li>The “Cluster Status” script included in the profile may not work on your SLURM system depending on if <code>sacct</code> or <code>scontrol</code> are available. Fortunately, one of these commands is typically available
+to typical users on SLURM.</li>
 </ol>
-<p>To be honest, because of all this, the SLURM profile for Snakemake
-doesn’t yet have the same “super-solid and well-documented” feel that I have come
-to appreciate of core Snakemake universe. But that may just be a documentation
-issue. In the following, let’s explore this SLURM profile and see if we can’t figure
-out how to explain its role and use a little more clearly.</p>
-<p>In the process I hope we will get a chance to talk about <code>resources</code> and also about
-grouping jobs.</p>
+<p>In the next section we will focus on configuring the Snakemake SLURM profile for
+yourself. After that, we will have a quick look at <code>resources</code> and at
+<em>grouping</em> jobs in Snakemake.</p>
 <div id="installing-and-configuring-the-snakemake-slurm-profile" class="section level3">
 <h3><span class="header-section-number">14.6.1</span> Installing and Configuring the Snakemake SLURM profile</h3>
 <p>The SLURM profile for snakemake is packaged up as a <code>cookiecutter</code> template. <code>cookiecutter</code> is
 a Python project that makes it easy to create things like python packages from a template.
 So, the SLURM profile on GitHub at <a href="https://github.com/Snakemake-Profiles/slurm">https://github.com/Snakemake-Profiles/slurm</a> is
-a template for the profile, and <code>cookiecutter</code> makes it easy to download it and customize for
-yourself. <code>cookiecutter</code> will first download the GitHub repo to a directory <code>~/.cookiecutters</code>.
+a template for the profile, and <code>cookiecutter</code> makes it easy to download and customize it for
+yourself. <code>cookiecutter</code> will first download the GitHub repo to a directory within <code>~/.cookiecutters</code>.
 Once it has the repo there, it will run through a series of questions about how
 you might want to customize the SLURM Snakemake profile. This could be done multiple times
 to make multiple profiles, but we will just do one for now.</p>
 <p>To make all this work, you must have <code>cookiecutter</code> installed on your system.
 And when you run some of the scripts in this profile, it appears that the
-<code>cookiecutter</code> libraries are required, so be sure to add <code>cookiecutter</code> to your
-<code>snakemake</code> conda invironment:</p>
+<code>cookiecutter</code> libraries might be required. Just to be safe, be sure to add
+<code>cookiecutter</code> to your <code>snakemake</code> conda environment:</p>
 <div class="sourceCode" id="cb454"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb454-1"><a href="managing-workflows-with-snakemake.html#cb454-1"></a><span class="ex">conda</span> activate snakemake</span>
 <span id="cb454-2"><a href="managing-workflows-with-snakemake.html#cb454-2"></a><span class="ex">conda</span> install -c conda-forge cookiecutter</span></code></pre></div>
 <p>Once that is done, run <code>cookiecutter</code> with:</p>
@@ -1367,8 +1376,8 @@ want to customize your profile. I am going to set up a profile for use
 on my favorite cluster, SEDNA. I don’t worry about setting up <code>sbatch_defaults</code>,
 and I don’t worry about <code>cluster_name</code> because SEDNA is not a multi-cluster
 environment. However, I do want to set up a path to a cluster-config file
-that is relative to the slurm profile I will make (This is one of those necessary
-things to have a reasonable system for placing the slurm output and error logs.)
+that is relative to the slurm profile I will make (This is necessary
+to have a reasonable system for placing the slurm output and error logs.)
 Here is a transcript of my session:</p>
 <div class="sourceCode" id="cb456"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb456-1"><a href="managing-workflows-with-snakemake.html#cb456-1"></a><span class="ex">profile_name</span> [slurm]: slurm.sedna</span>
 <span id="cb456-2"><a href="managing-workflows-with-snakemake.html#cb456-2"></a><span class="ex">sbatch_defaults</span> []:</span>
@@ -1400,6 +1409,10 @@ for me:</p>
 <span id="cb458-4"><a href="managing-workflows-with-snakemake.html#cb458-4"></a>    <span class="dt">&quot;CLUSTER_CONFIG&quot;</span><span class="fu">:</span> <span class="st">&quot;cluster-config.yaml&quot;</span><span class="fu">,</span></span>
 <span id="cb458-5"><a href="managing-workflows-with-snakemake.html#cb458-5"></a>    <span class="dt">&quot;ADVANCED_ARGUMENT_CONVERSION&quot;</span><span class="fu">:</span> <span class="st">&quot;no&quot;</span></span>
 <span id="cb458-6"><a href="managing-workflows-with-snakemake.html#cb458-6"></a><span class="fu">}</span></span></code></pre></div>
+<p>Note that if, after using the SLURM profile you decide that you might
+want to add some sbatch defaults, you can easily to that by
+editing the <code>settings.json</code> file in the profile—there is no need
+to run <code>cookiecutter</code> again.</p>
 <p>Meanwhile, the actual config file that Snakemake will read to get a sense
 for how to run in this SLURM context is <code>config.yaml</code> and it looks like this:</p>
 <div class="sourceCode" id="cb459"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb459-1"><a href="managing-workflows-with-snakemake.html#cb459-1"></a><span class="fu">restart-times</span><span class="kw">:</span><span class="at"> </span><span class="dv">3</span></span>
@@ -1425,7 +1438,19 @@ sense that if you call this profile by invoking Snakemake with:</p>
 <span id="cb461-6"><a href="managing-workflows-with-snakemake.html#cb461-6"></a>  --max-status-checks-per-second 10 \</span>
 <span id="cb461-7"><a href="managing-workflows-with-snakemake.html#cb461-7"></a>  --local-cores 1 \</span>
 <span id="cb461-8"><a href="managing-workflows-with-snakemake.html#cb461-8"></a>  --latency-wait 60</span></code></pre></div>
-<p>It is worth mentioning at this point that you can store Snakemake profiles in a place
+<p>In words, this command line says</p>
+<ul>
+<li>If a job fails, try restarting it up to three times. (Note that you can edit this
+in the config.yaml to remove, or comment out, that option, if you are testing scripts
+that you expect might fail…)</li>
+<li>use <code>slurm-jobscript.sh</code> (which is included in the profile you just made)
+as the SLURM jobscript.</li>
+<li>Submit jobs to the cluster using the <code>slurm-submit.py</code> script (which is also
+included in the profile you just made)</li>
+<li>…and so forth</li>
+</ul>
+<p>It is worth mentioning at this point that, by copying or moving the entire
+profile directory (<code>slurm.sedna</code> in our example) you can store Snakemake profiles in a place
 where Snakemake will look for them, so that you can have access to them regardless of
 what directory you are working in. This location varies depending on what kind
 of computer you are using. You can find it in the output from <code>snakemake --help</code>. For
@@ -1443,21 +1468,33 @@ example, on my Mac, I see:</p>
 <span id="cb463-4"><a href="managing-workflows-with-snakemake.html#cb463-4"></a>                        <span class="st">&#39;cluster: qsub&#39;</span> <span class="kw">in</span> <span class="ex">the</span> YAML file. Profiles can be obtained from https://github.com/snakemake-profiles. (default: None)</span></code></pre></div>
 <p>We won’t put our profile in this search path because we want to play with it and modify it a little
 bit still.</p>
-<p>We have one last thing to do to complete our SLURM profile, we want our slurm output and
-error files to go somewhere reasonable. We put that information into our
-<code>cluster-config.yaml</code> file in the profile:</p>
+<p>We have one last thing to do to complete our SLURM profile:
+recall that we told cookiecutter
+that we would have a cluster-config file named <code>cluster-config.yaml</code>. We have to
+actually make that file and use it to make sure our slurm output and
+error files go somewhere reasonable. So, create a
+<code>cluster-config.yaml</code> file in your profile directory with these contents.</p>
 <div class="sourceCode" id="cb464"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb464-1"><a href="managing-workflows-with-snakemake.html#cb464-1"></a><span class="fu">__default__ </span><span class="kw">:</span></span>
 <span id="cb464-2"><a href="managing-workflows-with-snakemake.html#cb464-2"></a><span class="at">        </span><span class="fu">ntasks</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span>
 <span id="cb464-3"><a href="managing-workflows-with-snakemake.html#cb464-3"></a><span class="at">        </span><span class="fu">cpus-per-task</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;{threads}&quot;</span></span>
 <span id="cb464-4"><a href="managing-workflows-with-snakemake.html#cb464-4"></a><span class="at">        </span><span class="fu">nodes</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;1&quot;</span></span>
 <span id="cb464-5"><a href="managing-workflows-with-snakemake.html#cb464-5"></a><span class="at">        </span><span class="fu">output</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;slurm_logs/{rule}/{rule}.{wildcards}-%j.out&quot;</span></span>
 <span id="cb464-6"><a href="managing-workflows-with-snakemake.html#cb464-6"></a><span class="at">        </span><span class="fu">error</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;slurm_logs/{rule}/{rule}.{wildcards}-%j.err&quot;</span></span></code></pre></div>
-<p>This file effectively holds command line options that will be passed to
-SLURM’s <code>sbatch</code> command.</p>
+<p>In the same way that the profiles <code>config.yaml</code> file holds command line options that will be passed to
+Snakemake, this file includes command line options that will be passed (by default in this case)
+to the <code>sbatch</code> command used to submit jobs to SLURM. The super cool thing about this
+however, is that the brace notation can be used to substitute values for the submitted
+jobs, like the rule name, the number of threads requested by the rule, and all the wildcards
+for an instance of a rule.</p>
+<p>For the output files, note that we also use SLURM’s notation of <code>%j</code> to include the
+job number in the name of the log file. This makes it easier to find the logs
+from jobs that failed when you were emailed a fail report with the job number, for instance.</p>
 </div>
 <div id="playing-with-our-new-slurm-profile" class="section level3">
 <h3><span class="header-section-number">14.6.2</span> Playing with our new SLURM profile</h3>
-<p>Now, let us make a silly Snakefile to test how Snakemake works (if at all!)
+<div id="a-first-run" class="section level4">
+<h4><span class="header-section-number">14.6.2.1</span> A First Run</h4>
+<p>Now, let us make a silly Snakefile to test how Snakemake works
 and behaves when using this SLURM profile.</p>
 <p>Make a directory called <code>slurm-play</code> and put your slurm profile in it.
 Then we will put a Snakefile in it that has a few rules in it that do nothing,
@@ -1476,7 +1513,7 @@ but which will let us see how things work with SLURM.</p>
 <span id="cb465-12"><a href="managing-workflows-with-snakemake.html#cb465-12"></a>        <span class="co">&quot; echo gratuitous error output &gt; /dev/stderr; &quot;</span></span>
 <span id="cb465-13"><a href="managing-workflows-with-snakemake.html#cb465-13"></a>        <span class="co">&quot;echo {input} &gt;  {output}&quot;</span></span>
 <span id="cb465-14"><a href="managing-workflows-with-snakemake.html#cb465-14"></a></span>
-<span id="cb465-15"><a href="managing-workflows-with-snakemake.html#cb465-15"></a><span class="co"># a rule claiming 10 threds that does nothing for 15 seconds</span></span>
+<span id="cb465-15"><a href="managing-workflows-with-snakemake.html#cb465-15"></a><span class="co"># a rule claiming 10 threads that does nothing for 15 seconds</span></span>
 <span id="cb465-16"><a href="managing-workflows-with-snakemake.html#cb465-16"></a>rule t10s15:</span>
 <span id="cb465-17"><a href="managing-workflows-with-snakemake.html#cb465-17"></a>    <span class="bu">input</span>:</span>
 <span id="cb465-18"><a href="managing-workflows-with-snakemake.html#cb465-18"></a>        <span class="co">&quot;data/{sample}.txt&quot;</span></span>
@@ -1492,10 +1529,11 @@ but which will let us see how things work with SLURM.</p>
 <p>Now, if we tell it to produce 20 outputs in the <code>t1s15</code> directory, utilizing
 a single core it will take 15 seconds to produce each one.</p>
 <div class="sourceCode" id="cb467"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb467-1"><a href="managing-workflows-with-snakemake.html#cb467-1"></a><span class="ex">snakemake</span> --cores 1  results/t1s15/<span class="dt">{0001..0020}</span>.txt</span></code></pre></div>
-<p>There is no SLURM happening there. But now, let’s try it with:</p>
+<p>There is no SLURM happening there. But now, let’s try running the command
+on the cluster, restricting ourselves to no more than 10 jobs running at once:</p>
 <div class="sourceCode" id="cb468"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb468-1"><a href="managing-workflows-with-snakemake.html#cb468-1"></a><span class="ex">snakemake</span> --profile ./slurm.sedna --jobs 10  results/t1s15/<span class="dt">{0001..0020}</span>.txt</span></code></pre></div>
-<p>Holy smokes! That works! It never has more than 10 jobs going, but it does them all.
-Here is what my queue looks like when it is in action:</p>
+<p>It never has more than 10 jobs going, but it does them all.
+Here is what my jobs look like using <code>squeue</code> (more on that later!)</p>
 <pre><code>             JOBID PARTITION     NAME                         USER ST       TIME  NODES NODELIST(REASON) CPUS MIN_MEMORY
              51799      node snakejob                    eanderson  R       0:10      1 node03 1 4700M
              51800      node snakejob                    eanderson  R       0:10      1 node02 1 4700M
@@ -1520,7 +1558,9 @@ amount of memory per core on SEDNA).</p>
 <span id="cb470-8"><a href="managing-workflows-with-snakemake.html#cb470-8"></a>    ├── <span class="ex">t1s15.sample</span>=0003-52001.err</span>
 <span id="cb470-9"><a href="managing-workflows-with-snakemake.html#cb470-9"></a>    ├── <span class="ex">t1s15.sample</span>=0003-52001.out</span>
 <span id="cb470-10"><a href="managing-workflows-with-snakemake.html#cb470-10"></a><span class="ex">...</span></span></code></pre></div>
-<p>Here is what they have in them:</p>
+<p>Their contents are also just what we expect them to: the have captured
+everythign from the processes that was written to <em>stdout</em> and to
+<em>stderr</em> but was not redirected:</p>
 <div class="sourceCode" id="cb471"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb471-1"><a href="managing-workflows-with-snakemake.html#cb471-1"></a><span class="kw">(</span><span class="ex">snakemake</span><span class="kw">)</span> [<span class="ex">node09</span>: slurm-play]--% head slurm_logs/*/*</span>
 <span id="cb471-2"><a href="managing-workflows-with-snakemake.html#cb471-2"></a>==<span class="op">&gt;</span> <span class="ex">slurm_logs/t1s15</span>/<span class="ex">t1s15.sample</span>=0001-52004.err <span class="op">&lt;</span>==</span>
 <span id="cb471-3"><a href="managing-workflows-with-snakemake.html#cb471-3"></a><span class="ex">gratuitous</span> error output</span>
@@ -1542,23 +1582,293 @@ amount of memory per core on SEDNA).</p>
 <span id="cb471-19"><a href="managing-workflows-with-snakemake.html#cb471-19"></a><span class="ex">...</span></span></code></pre></div>
 <p>Notice how the nanes of the slurm logs have the name of the rule,
 all the values of the wildcards in <code>key=value</code> format, and
-the SLURM job number on them. RAD!!</p>
+the SLURM job number on them. That is RAD!!</p>
+</div>
+<div id="make-the-slurm-job-names-more-informative" class="section level4">
+<h4><span class="header-section-number">14.6.2.2</span> Make the slurm job names more informative</h4>
+<p>The only thing that I am not super happy with is that the name of every
+job is <code>snakejob</code>. That really doesn’t supply me with a lot of intuition
+about what the hell that job is doing. It would be awesome if we could
+change the job name to something that was formed from the rule name and
+the wildcards.</p>
+<p>Keeping in mind that such names could get quite long, we can first write a function
+called <code>myjobs</code> in our <code>~/.bashrc</code> file to make it easy to change how much space is allotted
+to the job name in SLURM’s <code>squeue</code> report. To do this, on your cluster account,
+add the following lines to your <code>~/.bashrc</code> (just above the conda initialization block
+if you have that):</p>
+<div class="sourceCode" id="cb472"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb472-1"><a href="managing-workflows-with-snakemake.html#cb472-1"></a><span class="kw">function</span><span class="fu"> myjobs</span>  <span class="kw">{</span> </span>
+<span id="cb472-2"><a href="managing-workflows-with-snakemake.html#cb472-2"></a>  <span class="kw">if</span><span class="bu"> [</span> <span class="va">$#</span> <span class="ot">-ne</span> 1<span class="bu"> ]</span>; <span class="kw">then</span> </span>
+<span id="cb472-3"><a href="managing-workflows-with-snakemake.html#cb472-3"></a>    <span class="va">JL=</span>10; </span>
+<span id="cb472-4"><a href="managing-workflows-with-snakemake.html#cb472-4"></a>  <span class="kw">else</span> </span>
+<span id="cb472-5"><a href="managing-workflows-with-snakemake.html#cb472-5"></a>    <span class="va">JL=$1</span>;</span>
+<span id="cb472-6"><a href="managing-workflows-with-snakemake.html#cb472-6"></a>  <span class="kw">fi</span>; </span>
+<span id="cb472-7"><a href="managing-workflows-with-snakemake.html#cb472-7"></a>  <span class="ex">squeue</span> -u <span class="va">$(</span><span class="fu">whoami</span><span class="va">)</span> -o  <span class="st">&quot;%.12i %.9P %.</span><span class="va">${JL}</span><span class="st">j %.10u %.2t %.15M %.6D %.18R %.5C %.12m&quot;</span><span class="kw">;</span></span>
+<span id="cb472-8"><a href="managing-workflows-with-snakemake.html#cb472-8"></a><span class="kw">}</span></span></code></pre></div>
+<p>And then source your new <code>~/.bashrc</code> like this:</p>
+<div class="sourceCode" id="cb473"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb473-1"><a href="managing-workflows-with-snakemake.html#cb473-1"></a><span class="bu">source</span> ~/.bashrc</span></code></pre></div>
+<p>With this bash function you can say <code>myjobs</code> to get a list of all your slurm jobs,
+and if you need more space for the job names, you can indicate that with a trailing
+number, like:</p>
+<div class="sourceCode" id="cb474"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb474-1"><a href="managing-workflows-with-snakemake.html#cb474-1"></a><span class="ex">myjobs</span> 50</span></code></pre></div>
+<p>will give you 50 characters for your job names.</p>
+<p>Armed with our new <code>myjobs</code> function, let’s modify our SLURM profile so that
+the job names have the rule name and the wildcards in them. The job name
+can be set using <code>sbatch</code>’s <code>--job-name</code> option. So, we should be able to set
+that in our <code>cluster-config.yaml</code> file in our slurm profile! So, update your
+<code>cluster-config.yaml</code> to add the bottom line in it like this:</p>
+<div class="sourceCode" id="cb475"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb475-1"><a href="managing-workflows-with-snakemake.html#cb475-1"></a><span class="fu">__default__ </span><span class="kw">:</span></span>
+<span id="cb475-2"><a href="managing-workflows-with-snakemake.html#cb475-2"></a><span class="at">        </span><span class="fu">ntasks</span><span class="kw">:</span><span class="at"> </span><span class="dv">1</span></span>
+<span id="cb475-3"><a href="managing-workflows-with-snakemake.html#cb475-3"></a><span class="at">        </span><span class="fu">cpus-per-task</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;{threads}&quot;</span></span>
+<span id="cb475-4"><a href="managing-workflows-with-snakemake.html#cb475-4"></a><span class="at">        </span><span class="fu">nodes</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;1&quot;</span></span>
+<span id="cb475-5"><a href="managing-workflows-with-snakemake.html#cb475-5"></a><span class="at">        </span><span class="fu">output</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;slurm_logs/{rule}/{rule}.{wildcards}-%j.out&quot;</span></span>
+<span id="cb475-6"><a href="managing-workflows-with-snakemake.html#cb475-6"></a><span class="at">        </span><span class="fu">error</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;slurm_logs/{rule}/{rule}.{wildcards}-%j.err&quot;</span></span>
+<span id="cb475-7"><a href="managing-workflows-with-snakemake.html#cb475-7"></a><span class="at">        </span><span class="fu">job-name</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;{rule}.{wildcards}&quot;</span></span></code></pre></div>
+<p>Then we can try running our jobs again:</p>
+<div class="sourceCode" id="cb476"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb476-1"><a href="managing-workflows-with-snakemake.html#cb476-1"></a><span class="fu">rm</span> -r results</span>
+<span id="cb476-2"><a href="managing-workflows-with-snakemake.html#cb476-2"></a><span class="ex">snakemake</span> --profile ./slurm.sedna --jobs 10  results/t1s15/<span class="dt">{0001..0020}</span>.txt</span></code></pre></div>
+<p>And then with a quick <code>myjobs 30</code> we see that our job names are much more informative. Booyah!</p>
+<pre><code>       JOBID PARTITION                           NAME       USER ST            TIME  NODES   NODELIST(REASON)  CPUS   MIN_MEMORY
+       56770      node              t1s15.sample=0009  eanderson  R            0:15      1             node09     1        4700M
+       56771      node              t1s15.sample=0015  eanderson  R            0:15      1             node09     1        4700M
+       56772      node              t1s15.sample=0018  eanderson  R            0:15      1             node09     1        4700M
+       56773      node              t1s15.sample=0001  eanderson  R            0:12      1             node09     1        4700M
+       56774      node              t1s15.sample=0008  eanderson  R            0:12      1             node09     1        4700M
+       56775      node              t1s15.sample=0014  eanderson  R            0:12      1             node09     1        4700M
+       56776      node              t1s15.sample=0004  eanderson  R            0:12      1             node09     1        4700M
+       56777      node              t1s15.sample=0016  eanderson  R            0:12      1             node09     1        4700M
+       56778      node              t1s15.sample=0010  eanderson  R            0:12      1             node09     1        4700M
+       56779      node              t1s15.sample=0003  eanderson  R            0:12      1             node09     1        4700M</code></pre>
+</div>
+<div id="naively-launching-jobs-that-claim-more-threads" class="section level4">
+<h4><span class="header-section-number">14.6.2.3</span> Naively launching jobs that claim more threads</h4>
 <p>OK, but now, let us try launching some jobs that claim more threads and (because of the way
 we have set up <code>cluster-config.yaml</code>) should request more CPUs per task.</p>
 <p>We particularly want to see what <code>--cores/--jobs</code> restricts.</p>
-<div class="sourceCode" id="cb472"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb472-1"><a href="managing-workflows-with-snakemake.html#cb472-1"></a><span class="ex">snakemake</span> --profile ./slurm.sedna --cores 3  results/t10s15/<span class="dt">{0001..0020}</span>.txt</span></code></pre></div>
+<div class="sourceCode" id="cb478"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb478-1"><a href="managing-workflows-with-snakemake.html#cb478-1"></a><span class="ex">snakemake</span> --profile ./slurm.sedna --cores 3  results/t10s15/<span class="dt">{0001..0020}</span>.txt</span></code></pre></div>
 <p>When we do this. Snakemake launches no more than 3 slurm jobs at a time, but each
 one is allocated 10 cores.</p>
-<pre><code>             JOBID PARTITION     NAME                         USER ST       TIME  NODES NODELIST(REASON) CPUS MIN_MEMORY
-             52123      node snakejob                    eanderson  R       0:07      1 node09 10 4700M
-             52124      node snakejob                    eanderson  R       0:07      1 node05 10 4700M
-             52125      node snakejob                    eanderson  R       0:07      1 node05 10 4700M</code></pre>
+<pre><code>       JOBID PARTITION                      NAME       USER ST            TIME  NODES   NODELIST(REASON)  CPUS   MIN_MEMORY
+       56780      node        t10s15.sample=0014  eanderson  R            0:02      1             node09    10        4700M
+       56781      node        t10s15.sample=0019  eanderson  R            0:02      1             node08    10        4700M
+       56782      node        t10s15.sample=0020  eanderson  R            0:02      1             node08    10        4700M</code></pre>
 <p>So, <code>--cores</code> (which is identical to <code>--jobs</code>) in the cluster context does not do what you might at first think. This
-is super important to understand.</p>
-<p>Dealing with properly allocating resources using Snakemake in the cluster context requires
-a little more discussion. We will want to cover the <code>resources</code> keyword and the “Job Grouping”
-in Snakemake (which would let us send multiple instances of short jobs to a single node to run
-collectively there…).</p>
+is super important to understand. If you are launching jobs on a cluster and you don’t want to eat up more
+than X cores/CPUs on the cluster you cannot do that using the <code>--cores</code> option if you have rules
+that use more threads than 1. In order to allow Snakemake to properly control the maximum amount of resources
+that your Snakemake workflow will request at any one time, you need to define the resources used
+by each job and then define the maximum of those resources that you want you workflow to consume at
+any particular time.</p>
+<p>If you are happy to request as many resources as you possibly can and let the SLURM scheduler figure
+out how much to give you, this might not be super relevant. But if you share a cluster with a smallish
+number of people, and you don’t want to completely bomb the resource, it might be important.</p>
+</div>
+</div>
+<div id="managing-cluster-resources-with-snakemake" class="section level3">
+<h3><span class="header-section-number">14.6.3</span> Managing cluster resources with Snakemake</h3>
+<p>Whether or not you are worried about consuming too many resources on the cluster,
+you typically have to inform the SLURM scheduler about how many resources you need
+allocated for any job request. Most of the time, these requests will involve:</p>
+<ul>
+<li>How much time you expect your job to run.</li>
+<li>How much memory you expect your job to require.</li>
+<li>How many CPUs your job might need.</li>
+<li>How many nodes your job will require.</li>
+</ul>
+<p>The SLURM snakemake
+profile appears to be able to handle each of these. With specific resource names
+getting mapped to particular SLURM options in the following manner:</p>
+<div class="sourceCode" id="cb480"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb480-1"><a href="managing-workflows-with-snakemake.html#cb480-1"></a>RESOURCE_MAPPING <span class="op">=</span> {</span>
+<span id="cb480-2"><a href="managing-workflows-with-snakemake.html#cb480-2"></a>    <span class="st">&quot;time&quot;</span>: (<span class="st">&quot;time&quot;</span>, <span class="st">&quot;runtime&quot;</span>, <span class="st">&quot;walltime&quot;</span>),</span>
+<span id="cb480-3"><a href="managing-workflows-with-snakemake.html#cb480-3"></a>    <span class="st">&quot;mem&quot;</span>: (<span class="st">&quot;mem&quot;</span>, <span class="st">&quot;mem_mb&quot;</span>, <span class="st">&quot;ram&quot;</span>, <span class="st">&quot;memory&quot;</span>),</span>
+<span id="cb480-4"><a href="managing-workflows-with-snakemake.html#cb480-4"></a>    <span class="st">&quot;mem-per-cpu&quot;</span>: (<span class="st">&quot;mem-per-cpu&quot;</span>, <span class="st">&quot;mem_per_cpu&quot;</span>, <span class="st">&quot;mem_per_thread&quot;</span>),</span>
+<span id="cb480-5"><a href="managing-workflows-with-snakemake.html#cb480-5"></a>    <span class="st">&quot;nodes&quot;</span>: (<span class="st">&quot;nodes&quot;</span>, <span class="st">&quot;nnodes&quot;</span>),</span>
+<span id="cb480-6"><a href="managing-workflows-with-snakemake.html#cb480-6"></a>}</span></code></pre></div>
+<p>That is to say, that if you specify resources in a block for a rule like this:</p>
+<div class="sourceCode" id="cb481"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb481-1"><a href="managing-workflows-with-snakemake.html#cb481-1"></a>  resources:</span>
+<span id="cb481-2"><a href="managing-workflows-with-snakemake.html#cb481-2"></a>    runtime:<span class="st">&quot;1:00:00&quot;</span></span>
+<span id="cb481-3"><a href="managing-workflows-with-snakemake.html#cb481-3"></a>    mem_per_thread: <span class="dv">4700</span></span></code></pre></div>
+<p>Then, those values should get passed along to SLURM via the <code>--time</code> and <code>--mem-per-cpu</code> options to <code>sbatch</code>.</p>
+</div>
+<div id="grouping-short-jobs-to-run-on-a-single-node" class="section level3">
+<h3><span class="header-section-number">14.6.4</span> Grouping short jobs to run on a single node</h3>
+<p>Within your workflow, you might have a point at which thousands of
+short jobs must be run, with each one only requiring a couple of seconds.
+Sending each one of these jobs to the cluster with a separate <code>sbatch</code> command is a
+<em>very</em> bad idea. There is a lot of overhead involved in scheduling jobs,
+and, so, it is best if each job takes a non-trivial amount of time to run.
+Not only that, but your thousands of jobs might have to wait a long time in the
+queue to start. It would be much better if you could instruct Snakemake to send
+the thousands of short jobs that arise as instances of a rule to a single node where
+they can be run one after another. This way, there is only one job submission to
+SLURM, but thousands of jobs get run.
+Such behavior can be achieved by defining Job Groups within the Snakefile or
+on the command line.</p>
+<p>In its default configuration, job grouping in Snakemake is designed to allow
+fast-running jobs to “hitchhike” onto the same cluster job submission of long-running
+jobs. The idea is that if Rule A runs a long job for each value of sample, and then
+rule B takes the output for Rule A for each sample and runs 1 (or many) short jobs, then
+it might be good to, in effect, “tack the rule B job onto the end of the rule A job for each
+sample.” This is achieved by making rule A and rule B members of the same group.</p>
+<p>Any rule can be assigned to a group by using the <code>group</code> keyword in the
+rule itself. For example, the following rule is considered to be part
+a group called “group1”:</p>
+<div class="sourceCode" id="cb482"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb482-1"><a href="managing-workflows-with-snakemake.html#cb482-1"></a>rule a_rule:</span>
+<span id="cb482-2"><a href="managing-workflows-with-snakemake.html#cb482-2"></a>  <span class="bu">input</span>:</span>
+<span id="cb482-3"><a href="managing-workflows-with-snakemake.html#cb482-3"></a>    <span class="co">&quot;input_{sample}.txt</span></span>
+<span id="cb482-4"><a href="managing-workflows-with-snakemake.html#cb482-4"></a><span class="co">  output:</span></span>
+<span id="cb482-5"><a href="managing-workflows-with-snakemake.html#cb482-5"></a><span class="co">    &quot;</span>output_{sample}.txt</span>
+<span id="cb482-6"><a href="managing-workflows-with-snakemake.html#cb482-6"></a>  group:</span>
+<span id="cb482-7"><a href="managing-workflows-with-snakemake.html#cb482-7"></a>    <span class="co">&quot;group1&quot;</span></span>
+<span id="cb482-8"><a href="managing-workflows-with-snakemake.html#cb482-8"></a>  shell:</span>
+<span id="cb482-9"><a href="managing-workflows-with-snakemake.html#cb482-9"></a>    ...</span></code></pre></div>
+<p>Here we extend our
+example above to a situation like that described above. In the following
+Snakefile our “long-running” jobs (rule t1s15) take 15 seconds, and for each {sample}
+value of that rule, the next rule (rule t1s0) almost instantaneously creates
+an output for each value of {sample} and also for every value of rep. But both
+of these rules have been put into the same group (“some_group”), so we can see
+how this would change the evaluation.</p>
+<div class="sourceCode" id="cb483"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb483-1"><a href="managing-workflows-with-snakemake.html#cb483-1"></a><span class="co"># a rule claiming 1 thread that does nothing for 15 seconds</span></span>
+<span id="cb483-2"><a href="managing-workflows-with-snakemake.html#cb483-2"></a>rule t1s15:</span>
+<span id="cb483-3"><a href="managing-workflows-with-snakemake.html#cb483-3"></a>    <span class="bu">input</span>:</span>
+<span id="cb483-4"><a href="managing-workflows-with-snakemake.html#cb483-4"></a>        <span class="co">&quot;data/{sample}.txt&quot;</span></span>
+<span id="cb483-5"><a href="managing-workflows-with-snakemake.html#cb483-5"></a>    output:</span>
+<span id="cb483-6"><a href="managing-workflows-with-snakemake.html#cb483-6"></a>        <span class="co">&quot;results/t1s15/{sample}.txt&quot;</span></span>
+<span id="cb483-7"><a href="managing-workflows-with-snakemake.html#cb483-7"></a>    threads: <span class="dv">1</span></span>
+<span id="cb483-8"><a href="managing-workflows-with-snakemake.html#cb483-8"></a>    group:</span>
+<span id="cb483-9"><a href="managing-workflows-with-snakemake.html#cb483-9"></a>      <span class="co">&quot;some_group&quot;</span></span>
+<span id="cb483-10"><a href="managing-workflows-with-snakemake.html#cb483-10"></a>    shell:</span>
+<span id="cb483-11"><a href="managing-workflows-with-snakemake.html#cb483-11"></a>        <span class="co">&quot;sleep 15; &quot;</span></span>
+<span id="cb483-12"><a href="managing-workflows-with-snakemake.html#cb483-12"></a>        <span class="co">&quot; echo gratuitous output; &quot;</span></span>
+<span id="cb483-13"><a href="managing-workflows-with-snakemake.html#cb483-13"></a>        <span class="co">&quot; echo gratuitous error output &gt; /dev/stderr; &quot;</span></span>
+<span id="cb483-14"><a href="managing-workflows-with-snakemake.html#cb483-14"></a>        <span class="co">&quot;echo {input} &gt;  {output}&quot;</span></span>
+<span id="cb483-15"><a href="managing-workflows-with-snakemake.html#cb483-15"></a></span>
+<span id="cb483-16"><a href="managing-workflows-with-snakemake.html#cb483-16"></a></span>
+<span id="cb483-17"><a href="managing-workflows-with-snakemake.html#cb483-17"></a><span class="co"># for each sample and rep (of which we will request 10 in the output)</span></span>
+<span id="cb483-18"><a href="managing-workflows-with-snakemake.html#cb483-18"></a><span class="co"># there is a single short job that gets run</span></span>
+<span id="cb483-19"><a href="managing-workflows-with-snakemake.html#cb483-19"></a>rule t1s0:</span>
+<span id="cb483-20"><a href="managing-workflows-with-snakemake.html#cb483-20"></a>  <span class="bu">input</span>:</span>
+<span id="cb483-21"><a href="managing-workflows-with-snakemake.html#cb483-21"></a>    <span class="co">&quot;results/t1s15/{sample}.txt&quot;</span></span>
+<span id="cb483-22"><a href="managing-workflows-with-snakemake.html#cb483-22"></a>  output:</span>
+<span id="cb483-23"><a href="managing-workflows-with-snakemake.html#cb483-23"></a>    <span class="co">&quot;results/t1s0/{sample}_{rep}.txt&quot;</span></span>
+<span id="cb483-24"><a href="managing-workflows-with-snakemake.html#cb483-24"></a>  group:</span>
+<span id="cb483-25"><a href="managing-workflows-with-snakemake.html#cb483-25"></a>    <span class="co">&quot;some_group&quot;</span></span>
+<span id="cb483-26"><a href="managing-workflows-with-snakemake.html#cb483-26"></a>  shell:</span>
+<span id="cb483-27"><a href="managing-workflows-with-snakemake.html#cb483-27"></a>    <span class="co">&quot;echo {input} &gt; {output}&quot;</span></span>
+<span id="cb483-28"><a href="managing-workflows-with-snakemake.html#cb483-28"></a></span></code></pre></div>
+<p>We will pretend that we have 5 reps of rule <code>t1s0</code> for each sample, and
+we can easily specify that by the target output file we want:</p>
+<div class="sourceCode" id="cb484"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb484-1"><a href="managing-workflows-with-snakemake.html#cb484-1"></a><span class="co"># do this on the command line in the directory with the Snakefile</span></span>
+<span id="cb484-2"><a href="managing-workflows-with-snakemake.html#cb484-2"></a><span class="fu">rm</span> -r results</span>
+<span id="cb484-3"><a href="managing-workflows-with-snakemake.html#cb484-3"></a> <span class="ex">snakemake</span>  -np  results/t1s0/<span class="dt">{0001..0020}</span>_r<span class="dt">{01..05}</span>.txt</span></code></pre></div>
+<p>Doing this without any cluster specification shows this for the number of jobs:</p>
+<pre><code>Job counts:
+    count   jobs
+    100 t1s0
+    20  t1s15</code></pre>
+<p>That makes sense, we have 5 reps (r01, r02, …, r05) for each of 20 samples.<br />
+But, we certainly would want to run each of those jobs separately in a cluster
+environment. Let’s do a dry run with our slurm profile. In my case that looks like:</p>
+<div class="sourceCode" id="cb486"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb486-1"><a href="managing-workflows-with-snakemake.html#cb486-1"></a><span class="ex">snakemake</span> --profile slurm.sedna  -np  results/t1s0/<span class="dt">{0001..0020}</span>_r<span class="dt">{01..05}</span>.txt</span></code></pre></div>
+<p>At the bottom, it reports the number of jobs as the same:</p>
+<pre><code>Job counts:
+    count   jobs
+    100 t1s0
+    20  t1s15
+    120</code></pre>
+<p>But if we look at the jobs listed we see groups in it like this (note the second line):</p>
+<pre><code>[Thu Apr 29 08:28:00 2021]
+
+group job some_group (jobs in lexicogr. order):
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s0:
+        input: results/t1s15/0013.txt
+        output: results/t1s0/0013_r04.txt
+        jobid: 92
+        wildcards: sample=0013, rep=r04
+
+    echo results/t1s15/0013.txt &gt; results/t1s0/0013_r04.txt
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s0:
+        input: results/t1s15/0013.txt
+        output: results/t1s0/0013_r05.txt
+        jobid: 90
+        wildcards: sample=0013, rep=r05
+
+    echo results/t1s15/0013.txt &gt; results/t1s0/0013_r05.txt
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s0:
+        input: results/t1s15/0013.txt
+        output: results/t1s0/0013_r03.txt
+        jobid: 8
+        wildcards: sample=0013, rep=r03
+
+    echo results/t1s15/0013.txt &gt; results/t1s0/0013_r03.txt
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s0:
+        input: results/t1s15/0013.txt
+        output: results/t1s0/0013_r02.txt
+        jobid: 116
+        wildcards: sample=0013, rep=r02
+
+    echo results/t1s15/0013.txt &gt; results/t1s0/0013_r02.txt
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s0:
+        input: results/t1s15/0013.txt
+        output: results/t1s0/0013_r01.txt
+        jobid: 66
+        wildcards: sample=0013, rep=r01
+
+    echo results/t1s15/0013.txt &gt; results/t1s0/0013_r01.txt
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s15:
+        input: data/0013.txt
+        output: results/t1s15/0013.txt
+        jobid: 9
+        wildcards: sample=0013
+
+    sleep 15;  echo gratuitous output;  echo gratuitous error output &gt; /dev/stderr; echo data/0013.txt &gt;  results/t1s15/0013.txt
+[Thu Apr 29 08:28:00 2021]
+
+group job some_group (jobs in lexicogr. order):
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s0:
+        input: results/t1s15/0006.txt
+        output: results/t1s0/0006_r02.txt
+        jobid: 74
+        wildcards: sample=0006, rep=r02
+...</code></pre>
+<p>So, all the jobs under a particular group job heading will be run together. Above,
+all the grouped jobs for sample=0013 are shown.</p>
+<p>When we try running that with:</p>
+<div class="sourceCode" id="cb489"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb489-1"><a href="managing-workflows-with-snakemake.html#cb489-1"></a><span class="ex">snakemake</span> --profile slurm.sedna  --jobs 20  results/t1s0/<span class="dt">{0001..0020}</span>_r<span class="dt">{01..05}</span>.txt</span></code></pre></div>
+<p>It sends each group off as a separate job.</p>
+<p>There are some hiccups, however! In the group job context, there is not a single rule that is associated with
+each job submission to SLURM, so these lines in the cluster-config create some serious problems:</p>
+<div class="sourceCode" id="cb490"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb490-1"><a href="managing-workflows-with-snakemake.html#cb490-1"></a><span class="at">        </span><span class="fu">output</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;slurm_logs/{rule}/{rule}.{wildcards}-%j.out&quot;</span></span>
+<span id="cb490-2"><a href="managing-workflows-with-snakemake.html#cb490-2"></a><span class="at">        </span><span class="fu">error</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;slurm_logs/{rule}/{rule}.{wildcards}-%j.err&quot;</span></span>
+<span id="cb490-3"><a href="managing-workflows-with-snakemake.html#cb490-3"></a><span class="at">        </span><span class="fu">job-name</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;{rule}.{wildcards}&quot;</span></span></code></pre></div>
+<p>So, having those in the cluster config file basically caused the job to fail.</p>
+<p>When those lines are removed, all 20 group jobs run (with names like <code>snakejob.some_group.ca961</code>) and they spew their
+output streams to standard slurm output files named like in the current working directory:</p>
+<pre><code>slurm-56801.out  slurm-56804.out  slurm-56807.out  slurm-56810.out  slurm-56813.out  slurm-56816.out  slurm-56819.out
+slurm-56802.out  slurm-56805.out  slurm-56808.out  slurm-56811.out  slurm-56814.out  slurm-56817.out  slurm-56820.out
+slurm-56803.out  slurm-56806.out  slurm-56809.out  slurm-56812.out  slurm-56815.out  slurm-56818.out</code></pre>
+<p>Sigh…Clearly using group jobs requires some care when using the slurm profile the way that
+you might want to.</p>
+<p>To lump multiple connected subgraphs together you can use the `–group-</p>
+<p>There are some subtleties with how job grouping works, however. First
+off, if a group consists of a single rule, then all instances of that
+rule (i.e., all invocations of that rule with different sets of
+wildcards) will be grouped together and sent to a single node
+for evaluation on the cores available to that node.</p>
 
 </div>
 </div>

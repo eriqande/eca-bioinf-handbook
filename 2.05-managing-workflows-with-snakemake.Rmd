@@ -1020,8 +1020,9 @@ on the command line every time they launched something on the cluster with Snake
 
 Fortunately, Snakemake has a system whereby you can record commonly used options to Snakemake
 in a _profile_.  This profile system is not specific only to using Snakemake on a cluster---it can
-be used to store any Snakemake options that you want to be applied automatically to your
-Snakemake command lines. The profile system is currently recommended for configuring
+be used to store any Snakemake options that you want to be applied to your
+Snakemake command line, when the profile is invoked as the argument to the
+`--profile` Snakemake option. The profile system is currently recommended for configuring
 Snakemake for use with clusters, and there are some pre-made and curated profiles that are recommended
 by the creators of Snakemake for use on clusters. These profiles are available at
 [https://github.com/snakemake-profiles](https://github.com/snakemake-profiles), a site that includes
@@ -1032,48 +1033,54 @@ a profile specifically for SLURM, at
 Here we will explore the use of that profile for using Snakemake on SLURM.
 One advantage of using such pre-built profiles is that they should be well tested, and
 should work well.  Additionally, the SLURM profile is designed to take advantage of
-Snakemake's `--cluster-status` command line option.  This option allows the user to specify
-a script that will allow Snakemake to keep track of the jobs submitted to SLURM, periodically
+Snakemake's `--cluster-status` command line option.  This option allows Snakemake to
+use a script to keep track of the jobs submitted to SLURM, periodically
 checking on them to determine if the job is still running or has failed.  This is an
 important feature when running in a cluster environment.
 
-Unfortunately,
-at the time of writing, it seems that the profile system for interfacing with SLURM
-is not completely mature.  Consequently there are some weird things that we have to deal
-with.  Primarily:
+The profile available at
+[https://github.com/Snakemake-Profiles/slurm](https://github.com/Snakemake-Profiles/slurm)
+for interfacing with SLURM is still being tweaked (as evidenced by discourse in the
+GitHub issues) but is quite mature, and, at the time of writing, it is working
+well for me!  There are, however, a couple of features of this profile (and the profile
+system) that can be confusing at first glance. Primarily:
 
-1. The old Snakemake way of dealing with clusters via a "cluster-config" file, has been
-deprecated, but vestiges of it are still used in the SLURM profile to be able to sensibly assign paths to
+1. The old Snakemake way of dealing with cluster execution via a "cluster-config" file, has been
+deprecated by Snakemake.  The cluster-donfig file was a YAML file that you could pass to Snakemake,
+so that Snakemake could supply rule-specific decorations to the `sbatch` commands used
+to send jobs to the cluster.  Now, however, the Snakemake-recommended SLURM profile includes
+the ability to supply a cluster-config file.  It is important to understand that this cluster-config
+file is not read and used directly by Snakemake in the deprecated fashion of using the
+`--cluster-config` command; rather, it is read and used by some Python script within the SLURM
+profile cluster.  It is quite important for sensibly assigning paths to
 SLURM input and output files.
-2. The SLURM snakemake profile is not described or documented in a particularly accessible fashion, and it
-is setup to allow the user to quickly make different versions of the profile using a system
-called "cookiecutter," which might be unfamiliar and daunting to some.
-3. The "Cluster Status" script included in the profile may not work on your SLURM system depending on if `sacct` or `scontrol` are available.
+2. The SLURM snakemake profile is set up to allow the user to quickly
+make different versions of the profile using a system
+called "cookiecutter." You might not be familiar with Cookiecutter, but fear not!
+It is quite straightforward and convenient.
+3. The "Cluster Status" script included in the profile may not work on your SLURM system depending on if `sacct` or `scontrol` are available. Fortunately, one of these commands is typically available
+to typical users on SLURM.
 
-To be honest, because of all this, the SLURM profile for Snakemake
-doesn't yet have the same "super-solid and well-documented" feel that I have come
-to appreciate of core Snakemake universe.  But that may just be a documentation
-issue.  In the following, let's explore this SLURM profile and see if we can't figure
-out how to explain its role and use a little more clearly.
 
-In the process I hope we will get a chance to talk about `resources` and also about
-grouping jobs.
+In the next section we will focus on configuring the Snakemake SLURM profile for
+yourself.  After that, we will have a quick look at `resources` and at
+_grouping_ jobs in Snakemake.
 
 ### Installing and Configuring the Snakemake SLURM profile 
 
 The SLURM profile for snakemake is packaged up as a `cookiecutter` template. `cookiecutter` is
 a Python project that makes it easy to create things like python packages from a template.
 So, the SLURM profile on GitHub at [https://github.com/Snakemake-Profiles/slurm](https://github.com/Snakemake-Profiles/slurm) is
-a template for the profile, and `cookiecutter` makes it easy to download it and customize for
-yourself.  `cookiecutter` will first download the GitHub repo to a directory `~/.cookiecutters`. 
+a template for the profile, and `cookiecutter` makes it easy to download and customize it for
+yourself.  `cookiecutter` will first download the GitHub repo to a directory within `~/.cookiecutters`. 
 Once it has the repo there, it will run through a series of questions about how
 you might want to customize the SLURM Snakemake profile.  This could be done multiple times
 to make multiple profiles, but we will just do one for now.
 
 To make all this work, you must have `cookiecutter` installed on your system.
 And when you run some of the scripts in this profile, it appears that the
-`cookiecutter` libraries are required, so be sure to add `cookiecutter` to your
-`snakemake` conda invironment:
+`cookiecutter` libraries might be required.  Just to be safe, be sure to add
+`cookiecutter` to your `snakemake` conda environment:
 ```sh
 conda activate snakemake
 conda install -c conda-forge cookiecutter
@@ -1087,8 +1094,8 @@ want to customize your profile. I am going to set up a profile for use
 on my favorite cluster, SEDNA. I don't worry about setting up `sbatch_defaults`,
 and I don't worry about `cluster_name` because SEDNA is not a multi-cluster
 environment. However, I do want to set up a path to a cluster-config file 
-that is relative to the slurm profile I will make (This is one of those necessary
-things to have a reasonable system for placing the slurm output and error logs.)
+that is relative to the slurm profile I will make (This is necessary
+to have a reasonable system for placing the slurm output and error logs.)
 Here is a transcript of my session:
 ```sh
 profile_name [slurm]: slurm.sedna
@@ -1127,6 +1134,10 @@ The file that includes the choices given to `cookiecutter` are in the file
     "ADVANCED_ARGUMENT_CONVERSION": "no"
 }
 ```
+Note that if, after using the SLURM profile you decide that you might
+want to add some sbatch defaults, you can easily to that by
+editing the `settings.json` file in the profile---there is no need
+to run `cookiecutter` again.
 
 Meanwhile, the actual config file that Snakemake will read to get a sense
 for how to run in this SLURM context is `config.yaml` and it looks like this:
@@ -1160,7 +1171,19 @@ snakemake --restart-times 3 \
   --latency-wait 60
 ```
 
-It is worth mentioning at this point that you can store Snakemake profiles in a place
+In words, this command line says 
+
+- If a job fails, try restarting it up to three times. (Note that you can edit this 
+in the config.yaml to remove, or comment out, that option, if you are testing scripts
+that you expect might fail...)
+- use `slurm-jobscript.sh` (which is included in the profile you just made)
+as the SLURM jobscript.
+- Submit jobs to the cluster using the `slurm-submit.py` script (which is also
+included in the profile you just made)
+- ...and so forth
+
+It is worth mentioning at this point that, by copying or moving the entire
+profile directory (`slurm.sedna` in our example) you can store Snakemake profiles in a place
 where Snakemake will look for them, so that you can have access to them regardless of
 what directory you are working in.  This location varies depending on what kind
 of computer you are using.  You can find it in the output from `snakemake --help`.  For
@@ -1184,9 +1207,12 @@ Whereas, on SEDNA's Linux operating system, we have:
 We won't put our profile in this search path because we want to play with it and modify it a little
 bit still.
 
-We have one last thing to do to complete our SLURM profile, we want our slurm output and
-error files to go somewhere reasonable.  We put that information into our
-`cluster-config.yaml` file in the profile:
+We have one last thing to do to complete our SLURM profile:
+recall that we told cookiecutter
+that we would have a cluster-config file named `cluster-config.yaml`. We have to
+actually make that file and use it to make sure our slurm output and
+error files go somewhere reasonable.  So, create a 
+`cluster-config.yaml` file in your profile directory with these contents. 
 ```yaml
 __default__ :
         ntasks: 1
@@ -1195,13 +1221,23 @@ __default__ :
         output: "slurm_logs/{rule}/{rule}.{wildcards}-%j.out"
         error: "slurm_logs/{rule}/{rule}.{wildcards}-%j.err"
 ```
-This file effectively holds command line options that will be passed to
-SLURM's `sbatch` command.
+In the same way that the profiles `config.yaml` file holds command line options that will be passed to
+Snakemake, this file includes command line options that will be passed (by default in this case)
+to the `sbatch` command used to submit jobs to SLURM.  The super cool thing about this
+however, is that the brace notation can be used to substitute values for the submitted
+jobs, like the rule name, the number of threads requested by the rule, and all the wildcards
+for an instance of a rule.
+
+For the output files, note that we also use SLURM's notation of `%j` to include the
+job number in the name of the log file.  This makes it easier to find the logs
+from jobs that failed when you were emailed a fail report with the job number, for instance.
 
 
 ### Playing with our new SLURM profile
 
-Now, let us make a silly Snakefile to test how Snakemake works (if at all!)
+#### A First Run
+
+Now, let us make a silly Snakefile to test how Snakemake works
 and behaves when using this SLURM profile.
 
 Make a directory called `slurm-play` and put your slurm profile in it.
@@ -1222,7 +1258,7 @@ rule t1s15:
 		" echo gratuitous error output > /dev/stderr; "
 		"echo {input} >  {output}"
 
-# a rule claiming 10 threds that does nothing for 15 seconds
+# a rule claiming 10 threads that does nothing for 15 seconds
 rule t10s15:
 	input:
 		"data/{sample}.txt"
@@ -1246,12 +1282,13 @@ a single core it will take 15 seconds to produce each one.
 ```sh
 snakemake --cores 1  results/t1s15/{0001..0020}.txt
 ```
-There is no SLURM happening there.  But now, let's try it with:
+There is no SLURM happening there.  But now, let's try running the command
+on the cluster, restricting ourselves to no more than 10 jobs running at once:
 ```sh
 snakemake --profile ./slurm.sedna --jobs 10  results/t1s15/{0001..0020}.txt
 ```
-Holy smokes!  That works!  It never has more than 10 jobs going, but it does them all.
-Here is what my queue looks like when it is in action:
+It never has more than 10 jobs going, but it does them all.
+Here is what my jobs look like using `squeue` (more on that later!)
 ```
              JOBID PARTITION     NAME                         USER ST       TIME  NODES NODELIST(REASON) CPUS MIN_MEMORY
              51799      node snakejob                    eanderson  R       0:10      1 node03 1 4700M
@@ -1281,7 +1318,10 @@ slurm_logs/
     ├── t1s15.sample=0003-52001.out
 ...
 ```
-Here is what they have in them:
+
+Their contents are also just what we expect them to: the have captured
+everythign from the processes that was written to _stdout_ and to 
+_stderr_ but was not redirected:
 ```sh
 (snakemake) [node09: slurm-play]--% head slurm_logs/*/*
 ==> slurm_logs/t1s15/t1s15.sample=0001-52004.err <==
@@ -1305,8 +1345,78 @@ gratuitous output
 ```
 Notice how the nanes of the slurm logs have the name of the rule,
 all the values of the wildcards in `key=value` format, and
-the SLURM job number on them.  RAD!!
+the SLURM job number on them.  That is RAD!!
 
+#### Make the slurm job names more informative
+
+The only thing that I am not super happy with is that the name of every
+job is `snakejob`.  That really doesn't supply me with a lot of intuition
+about what the hell that job is doing.  It would be awesome if we could
+change the job name to something that was formed from the rule name and
+the wildcards.
+
+Keeping in mind that such names could get quite long, we can first write a function
+called `myjobs` in our `~/.bashrc` file to make it easy to change how much space is allotted
+to the job name in SLURM's `squeue` report.  To do this, on your cluster account,
+add the following lines to your `~/.bashrc` (just above the conda initialization block
+if you have that):
+```sh
+function myjobs  { 
+  if [ $# -ne 1 ]; then 
+    JL=10; 
+  else 
+    JL=$1;
+  fi; 
+  squeue -u $(whoami) -o  "%.12i %.9P %.${JL}j %.10u %.2t %.15M %.6D %.18R %.5C %.12m";
+}
+```
+And then source your new `~/.bashrc` like this:
+```sh
+source ~/.bashrc
+```
+With this bash function you can say `myjobs` to get a list of all your slurm jobs,
+and if you need more space for the job names, you can indicate that with a trailing
+number, like:
+```sh
+myjobs 50
+```
+will give you 50 characters for your job names.  
+
+Armed with our new `myjobs` function, let's modify our SLURM profile so that
+the job names have the rule name and the wildcards in them.  The job name
+can be set using `sbatch`'s `--job-name` option.  So, we should be able to set
+that in our `cluster-config.yaml` file in our slurm profile!  So, update your
+`cluster-config.yaml` to add the bottom line in it like this:
+```yaml
+__default__ :
+        ntasks: 1
+        cpus-per-task: "{threads}"
+        nodes: "1"
+        output: "slurm_logs/{rule}/{rule}.{wildcards}-%j.out"
+        error: "slurm_logs/{rule}/{rule}.{wildcards}-%j.err"
+        job-name: "{rule}.{wildcards}"
+```
+Then we can try running our jobs again:
+```sh
+rm -r results
+snakemake --profile ./slurm.sedna --jobs 10  results/t1s15/{0001..0020}.txt
+```
+And then with a quick `myjobs 30` we see that our job names are much more informative.  Booyah!
+```
+       JOBID PARTITION                           NAME       USER ST            TIME  NODES   NODELIST(REASON)  CPUS   MIN_MEMORY
+       56770      node              t1s15.sample=0009  eanderson  R            0:15      1             node09     1        4700M
+       56771      node              t1s15.sample=0015  eanderson  R            0:15      1             node09     1        4700M
+       56772      node              t1s15.sample=0018  eanderson  R            0:15      1             node09     1        4700M
+       56773      node              t1s15.sample=0001  eanderson  R            0:12      1             node09     1        4700M
+       56774      node              t1s15.sample=0008  eanderson  R            0:12      1             node09     1        4700M
+       56775      node              t1s15.sample=0014  eanderson  R            0:12      1             node09     1        4700M
+       56776      node              t1s15.sample=0004  eanderson  R            0:12      1             node09     1        4700M
+       56777      node              t1s15.sample=0016  eanderson  R            0:12      1             node09     1        4700M
+       56778      node              t1s15.sample=0010  eanderson  R            0:12      1             node09     1        4700M
+       56779      node              t1s15.sample=0003  eanderson  R            0:12      1             node09     1        4700M
+```
+
+#### Naively launching jobs that claim more threads
 
 OK, but now, let us try launching some jobs that claim more threads and (because of the way
 we have set up `cluster-config.yaml`) should request more CPUs per task.  
@@ -1318,16 +1428,265 @@ snakemake --profile ./slurm.sedna --cores 3  results/t10s15/{0001..0020}.txt
 When we do this. Snakemake launches no more than 3 slurm jobs at a time, but each
 one is allocated 10 cores.
 ```
-             JOBID PARTITION     NAME                         USER ST       TIME  NODES NODELIST(REASON) CPUS MIN_MEMORY
-             52123      node snakejob                    eanderson  R       0:07      1 node09 10 4700M
-             52124      node snakejob                    eanderson  R       0:07      1 node05 10 4700M
-             52125      node snakejob                    eanderson  R       0:07      1 node05 10 4700M
+       JOBID PARTITION                      NAME       USER ST            TIME  NODES   NODELIST(REASON)  CPUS   MIN_MEMORY
+       56780      node        t10s15.sample=0014  eanderson  R            0:02      1             node09    10        4700M
+       56781      node        t10s15.sample=0019  eanderson  R            0:02      1             node08    10        4700M
+       56782      node        t10s15.sample=0020  eanderson  R            0:02      1             node08    10        4700M
 ```
 So, `--cores` (which is identical to `--jobs`) in the cluster context does not do what you might at first think.  This
-is super important to understand.
+is super important to understand.  If you are launching jobs on a cluster and you don't want to eat up more
+than X cores/CPUs on the cluster you cannot do that using the `--cores` option if you have rules
+that use more threads than 1.  In order to allow Snakemake to properly control the maximum amount of resources
+that your Snakemake workflow will request at any one time, you need to define the resources used
+by each job and then define the maximum of those resources that you want you workflow to consume at
+any particular time.  
 
-Dealing with properly allocating resources using Snakemake in the cluster context requires
-a little more discussion.  We will want to cover the `resources` keyword and the "Job Grouping"
-in Snakemake (which would let us send multiple instances of short jobs to a single node to run
-collectively there...).
+If you are happy to request as many resources as you possibly can and let the SLURM scheduler figure
+out how much to give you, this might not be super relevant.  But if you share a cluster with a smallish
+number of people, and you don't want to completely bomb the resource, it might be important.
 
+### Managing cluster resources with Snakemake
+
+Whether or not you are worried about consuming too many resources on the cluster,
+you typically have to inform the SLURM scheduler about how many resources you need
+allocated for any job request.  Most of the time, these requests will involve:
+
+* How much time you expect your job to run.
+* How much memory you expect your job to require.
+* How many CPUs your job might need.
+* How many nodes your job will require.
+
+The SLURM snakemake
+profile appears to be able to handle each of these.  With specific resource names
+getting mapped to particular SLURM options in the following manner:
+```python
+RESOURCE_MAPPING = {
+    "time": ("time", "runtime", "walltime"),
+    "mem": ("mem", "mem_mb", "ram", "memory"),
+    "mem-per-cpu": ("mem-per-cpu", "mem_per_cpu", "mem_per_thread"),
+    "nodes": ("nodes", "nnodes"),
+}
+```
+That is to say, that if you specify resources in a block for a rule like this:
+```python
+  resources:
+    runtime:"1:00:00"
+    mem_per_thread: 4700
+```
+Then, those values should get passed along to SLURM via the `--time` and `--mem-per-cpu` options to `sbatch`.
+
+
+
+
+### Grouping short jobs to run on a single node
+
+Within your workflow, you might have a point at which thousands of
+short jobs must be run, with each one only requiring a couple of seconds.
+Sending each one of these jobs to the cluster with a separate `sbatch` command is a
+_very_ bad idea.  There is a lot of overhead involved in scheduling jobs,
+and, so, it is best if each job takes a non-trivial amount of time to run. 
+Not only that, but your thousands of jobs might have to wait a long time in the
+queue to start.  It would be much better if you could instruct Snakemake to send
+the thousands of short jobs that arise as instances of a rule to a single node where
+they can be run one after another.  This way, there is only one job submission to
+SLURM, but thousands of jobs get run. 
+Such behavior can be achieved by defining Job Groups within the Snakefile or
+on the command line.
+
+
+In its default configuration, job grouping in Snakemake is designed to allow
+fast-running jobs to "hitchhike" onto the same cluster job submission of long-running
+jobs.  The idea is that if Rule A runs a long job for each value of sample, and then
+rule B takes the output for Rule A for each sample and runs 1 (or many) short jobs, then
+it might be good to, in effect, "tack the rule B job onto the end of the rule A job for each
+sample."  This is achieved by making rule A and rule B members of the same group.
+
+Any rule can be assigned to a group by using the `group` keyword in the
+rule itself.  For example, the following rule is considered to be part
+a group called "group1":
+```python
+rule a_rule:
+  input:
+    "input_{sample}.txt
+  output:
+    "output_{sample}.txt
+  group:
+    "group1"
+  shell:
+    ...
+```
+
+
+Here we extend our
+example above to a situation like that described above.  In the following
+Snakefile our "long-running" jobs (rule t1s15) take 15 seconds, and for each {sample}
+value of that rule, the next rule (rule t1s0) almost instantaneously creates
+an output for each value of {sample} and also for every value of rep.  But both
+of these rules have been put into the same group ("some_group"), so we can see
+how this would change the evaluation.
+```python
+# a rule claiming 1 thread that does nothing for 15 seconds
+rule t1s15:
+	input:
+		"data/{sample}.txt"
+	output:
+		"results/t1s15/{sample}.txt"
+	threads: 1
+	group:
+	  "some_group"
+	shell:
+		"sleep 15; "
+		" echo gratuitous output; "
+		" echo gratuitous error output > /dev/stderr; "
+		"echo {input} >  {output}"
+
+
+# for each sample and rep (of which we will request 10 in the output)
+# there is a single short job that gets run
+rule t1s0:
+  input:
+    "results/t1s15/{sample}.txt"
+  output:
+    "results/t1s0/{sample}_{rep}.txt"
+  group:
+    "some_group"
+  shell:
+    "echo {input} > {output}"
+
+
+```
+
+We will pretend that we have 5 reps of rule `t1s0` for each sample, and
+we can easily specify that by the target output file we want:
+```sh
+# do this on the command line in the directory with the Snakefile
+rm -r results
+ snakemake  -np  results/t1s0/{0001..0020}_r{01..05}.txt
+```
+Doing this without any cluster specification shows this for the number of jobs:
+```
+Job counts:
+	count	jobs
+	100	t1s0
+	20	t1s15
+```
+That makes sense, we have 5 reps (r01, r02, ..., r05) for each of 20 samples.  
+But, we certainly would want to run each of those jobs separately in a cluster
+environment.  Let's do a dry run with our slurm profile. In my case that looks like:
+```sh
+snakemake --profile slurm.sedna  -np  results/t1s0/{0001..0020}_r{01..05}.txt
+```
+At the bottom, it reports the number of jobs as the same:
+```
+Job counts:
+	count	jobs
+	100	t1s0
+	20	t1s15
+	120
+```
+But if we look at the jobs listed we see groups in it like this (note the second line):
+```
+[Thu Apr 29 08:28:00 2021]
+
+group job some_group (jobs in lexicogr. order):
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s0:
+        input: results/t1s15/0013.txt
+        output: results/t1s0/0013_r04.txt
+        jobid: 92
+        wildcards: sample=0013, rep=r04
+
+    echo results/t1s15/0013.txt > results/t1s0/0013_r04.txt
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s0:
+        input: results/t1s15/0013.txt
+        output: results/t1s0/0013_r05.txt
+        jobid: 90
+        wildcards: sample=0013, rep=r05
+
+    echo results/t1s15/0013.txt > results/t1s0/0013_r05.txt
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s0:
+        input: results/t1s15/0013.txt
+        output: results/t1s0/0013_r03.txt
+        jobid: 8
+        wildcards: sample=0013, rep=r03
+
+    echo results/t1s15/0013.txt > results/t1s0/0013_r03.txt
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s0:
+        input: results/t1s15/0013.txt
+        output: results/t1s0/0013_r02.txt
+        jobid: 116
+        wildcards: sample=0013, rep=r02
+
+    echo results/t1s15/0013.txt > results/t1s0/0013_r02.txt
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s0:
+        input: results/t1s15/0013.txt
+        output: results/t1s0/0013_r01.txt
+        jobid: 66
+        wildcards: sample=0013, rep=r01
+
+    echo results/t1s15/0013.txt > results/t1s0/0013_r01.txt
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s15:
+        input: data/0013.txt
+        output: results/t1s15/0013.txt
+        jobid: 9
+        wildcards: sample=0013
+
+    sleep 15;  echo gratuitous output;  echo gratuitous error output > /dev/stderr; echo data/0013.txt >  results/t1s15/0013.txt
+[Thu Apr 29 08:28:00 2021]
+
+group job some_group (jobs in lexicogr. order):
+
+    [Thu Apr 29 08:28:00 2021]
+    rule t1s0:
+        input: results/t1s15/0006.txt
+        output: results/t1s0/0006_r02.txt
+        jobid: 74
+        wildcards: sample=0006, rep=r02
+...
+```
+So, all the jobs under a particular group job heading will be run together.  Above,
+all the grouped jobs for sample=0013 are shown. 
+
+When we try running that with:
+```sh
+snakemake --profile slurm.sedna  --jobs 20  results/t1s0/{0001..0020}_r{01..05}.txt
+```
+It sends each group off as a separate job.  
+
+There are some hiccups, however!  In the group job context, there is not a single rule that is associated with
+each job submission to SLURM, so these lines in the cluster-config create some serious problems:
+```yaml
+        output: "slurm_logs/{rule}/{rule}.{wildcards}-%j.out"
+        error: "slurm_logs/{rule}/{rule}.{wildcards}-%j.err"
+        job-name: "{rule}.{wildcards}"
+```
+So, having those in the cluster config file basically caused the job to fail. 
+
+When those lines are removed, all 20 group jobs run (with names like `snakejob.some_group.ca961`) and they spew their
+output streams to standard slurm output files named like in the current working directory:
+```
+slurm-56801.out  slurm-56804.out  slurm-56807.out  slurm-56810.out  slurm-56813.out  slurm-56816.out  slurm-56819.out
+slurm-56802.out  slurm-56805.out  slurm-56808.out  slurm-56811.out  slurm-56814.out  slurm-56817.out  slurm-56820.out
+slurm-56803.out  slurm-56806.out  slurm-56809.out  slurm-56812.out  slurm-56815.out  slurm-56818.out
+```
+Sigh...Clearly using group jobs requires some care when using the slurm profile the way that
+you might want to.
+
+To lump multiple connected subgraphs together you can use the `--group-
+
+There are some subtleties with how job grouping works, however.  First
+off, if a group consists of a single rule, then all instances of that
+rule (i.e., all invocations of that rule with different sets of
+wildcards) will be grouped together and sent to a single node
+for evaluation on the cores available to that node.

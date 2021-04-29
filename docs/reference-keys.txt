@@ -213,6 +213,11 @@ a-python-primer-for-using-snakemake
 using-snakemake-on-a-computing-cluster
 installing-and-configuring-the-snakemake-slurm-profile
 playing-with-our-new-slurm-profile
+a-first-run
+make-the-slurm-job-names-more-informative
+naively-launching-jobs-that-claim-more-threads
+managing-cluster-resources-with-snakemake
+grouping-short-jobs-to-run-on-a-single-node
 overview-of-bioinformatic-analyses
 dna-sequences-and-sequencing
 dna-stuff
