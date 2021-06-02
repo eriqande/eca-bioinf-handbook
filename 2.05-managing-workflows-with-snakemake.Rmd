@@ -1046,7 +1046,7 @@ well for me!  There are, however, a couple of features of this profile (and the 
 system) that can be confusing at first glance. Primarily:
 
 1. The old Snakemake way of dealing with cluster execution via a "cluster-config" file, has been
-deprecated by Snakemake.  The cluster-donfig file was a YAML file that you could pass to Snakemake,
+deprecated by Snakemake.  The cluster-config file was a YAML file that you could pass to Snakemake,
 so that Snakemake could supply rule-specific decorations to the `sbatch` commands used
 to send jobs to the cluster.  Now, however, the Snakemake-recommended SLURM profile includes
 the ability to supply a cluster-config file.  It is important to understand that this cluster-config
@@ -1571,7 +1571,7 @@ Job counts:
 	20	t1s15
 ```
 That makes sense, we have 5 reps (r01, r02, ..., r05) for each of 20 samples.  
-But, we certainly would want to run each of those jobs separately in a cluster
+But, we certainly would not want to run each of those jobs separately in a cluster
 environment.  Let's do a dry run with our slurm profile. In my case that looks like:
 ```sh
 snakemake --profile slurm.sedna  -np  results/t1s0/{0001..0020}_r{01..05}.txt
@@ -1683,10 +1683,15 @@ slurm-56803.out  slurm-56806.out  slurm-56809.out  slurm-56812.out  slurm-56815.
 Sigh...Clearly using group jobs requires some care when using the slurm profile the way that
 you might want to.
 
-To lump multiple connected subgraphs together you can use the `--group-
+To lump multiple connected subgraphs together you can use the `--group-components` option.
 
 There are some subtleties with how job grouping works, however.  First
 off, if a group consists of a single rule, then all instances of that
 rule (i.e., all invocations of that rule with different sets of
 wildcards) will be grouped together and sent to a single node
 for evaluation on the cores available to that node.
+
+I will write more about this later.  It all comes down to what the connected
+subgraphs of a Snakemake job look like.  I won't write about that until I have
+some pictures I can provide.
+
